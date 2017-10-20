@@ -75,7 +75,6 @@ class BaseController extends Controller
                 $data['list_order'] = $r;
                 $model->where([$pk => $key])->update($data);
             }
-
         }
 
         return true;

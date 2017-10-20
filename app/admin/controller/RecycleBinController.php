@@ -54,12 +54,12 @@ class RecycleBinController extends AdminBaseController
      */
     function restore()
     {
-
         $id     = $this->request->param('id');
         $result = Db::name('recycleBin')->where(['id' => $id])->find();
 
         $tableName = explode('#', $result['table_name']);
         $tableName = $tableName[0];
+
         //还原资源
         if ($result) {
             $res = Db::name($tableName)
@@ -98,7 +98,6 @@ class RecycleBinController extends AdminBaseController
         $result = Db::name('recycleBin')->where(['id' => $id])->find();
         //删除资源
         if ($result) {
-
             //页面没有单独的表.
             if($result['table_name'] === 'portal_post#page'){
                 $re = Db::name('portal_post')->where('id', $result['object_id'])->delete();

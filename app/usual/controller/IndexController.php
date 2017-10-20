@@ -7,7 +7,7 @@ class IndexController extends HomeBaseController
 {
     public function index()
     {
-        echo "Usual index!";
+        return 'usual前台Index';
         return $this->fetch();
     }
 }

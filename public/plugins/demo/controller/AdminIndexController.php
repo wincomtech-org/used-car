@@ -26,6 +26,7 @@ class AdminIndexController extends PluginBaseController
         }
     }
 
+    /*插件演示后台 - 管理*/
     function index()
     {
         $users = Db::name("user")->limit(0, 5)->select();

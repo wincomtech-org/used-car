@@ -3,10 +3,10 @@
 <body>
 	<div class="wrap">
 		<ul class="nav nav-tabs">
-			<li class="active"><a href="{:url('AdminCategory/index')}">分类管理</a></li>
-			<li><a href="{:url('AdminCategory/add')}">添加分类</a></li>
+			<li class="active"><a href="{:url('AdminModels/index')}">车型管理</a></li>
+			<li><a href="{:url('AdminModels/add')}">添加车型</a></li>
 		</ul>
-		<form method="post" class="js-ajax-form" action="{:url('AdminCategory/listOrder')}">
+		<form method="post" class="js-ajax-form" action="{:url('AdminModels/listOrder')}">
 			<div class="table-actions">
 				<button type="submit" class="btn btn-primary btn-sm js-ajax-submit">{:lang('SORT')}</button>
 			</div>
@@ -15,7 +15,8 @@
 					<tr>
 						<th width="50">排序</th>
 						<th width="50">ID</th>
-						<th>分类名称</th>
+						<th>车型名称</th>
+						<th>特定品牌</th>
 						<th>描述</th>
 						<th width="180">操作</th>
 					</tr>
@@ -27,7 +28,8 @@
 					<tr>
 						<th width="50">排序</th>
 						<th width="50">ID</th>
-						<th>分类名称</th>
+						<th>车型名称</th>
+						<th>特定品牌</th>
 						<th>描述</th>
 						<th width="180">操作</th>
 					</tr>

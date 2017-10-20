@@ -20,6 +20,7 @@ class Tree
     public $icon = ['│', '├', '└'];
     public $nbsp = "&nbsp;";
     private $str = '';
+
     /**
      * @access private
      */
@@ -77,7 +78,6 @@ class Tree
         $newArr = [];
         if (is_array($this->arr)) {
             foreach ($this->arr as $id => $a) {
-
                 if ($a['parent_id'] == $myId) {
                     $newArr[$id] = $a;
                 }

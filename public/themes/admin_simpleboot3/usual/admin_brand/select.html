@@ -2,7 +2,7 @@
 </head>
 <body>
 <div class="wrap js-check-wrap">
-    <form method="post" class="js-ajax-form" action="{:url('AdminCategory/listorders')}">
+    <form method="post" class="js-ajax-form" action="{:url('AdminBrand/listorders')}">
         <table class="table table-hover table-bordered table-list">
             <thead>
             <tr>
@@ -12,7 +12,7 @@
                     </label>
                 </th>
                 <th width="50">ID</th>
-                <th>分类名称</th>
+                <th>品牌名称</th>
             </tr>
             </thead>
             <tbody>
@@ -38,7 +38,6 @@
 <script src="__STATIC__/js/admin.js"></script>
 <script>
     $('.data-item-tr').click(function (e) {
-
         console.log(e);
         var $this = $(this);
         if ($(e.target).is('input')) {

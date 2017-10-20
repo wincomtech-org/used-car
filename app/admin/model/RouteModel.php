@@ -136,7 +136,6 @@ class RouteModel extends Model
         $full_url = $this->where('url', $url)->value('full_url');
 
         return empty($full_url) ? '' : $full_url;
-        
     }
 
     public function buildFullUrl($action, $vars)
@@ -149,7 +148,6 @@ class RouteModel extends Model
 
         if (!empty($vars)) {
             ksort($vars);
-
             $fullUrl = $action . '?' . http_build_query($vars);
         } else {
             $fullUrl = $action;

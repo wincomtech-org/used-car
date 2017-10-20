@@ -1,19 +1,269 @@
 <?php
 namespace app\usual\controller;
 
+// use app\admin\model\RouteModel;
 use cmf\controller\AdminBaseController;
+use app\usual\model\UsualItemModel;
+use think\Db;
+// use app\admin\model\ThemeModel;
+
 
 class AdminItemController extends AdminBaseController
 {
+    /**
+     * 车子属性列表
+     * @adminMenu(
+     *     'name'   => '属性管理',
+     *     'parent' => 'usual/AdminItem/default',
+     *     'display'=> true,
+     *     'hasView'=> true,
+     *     'order'  => 10000,
+     *     'icon'   => '',
+     *     'remark' => '车子属性列表',
+     *     'param'  => ''
+     * )
+     */
     public function index()
     {
-        echo "Usual Item!";
-        // return $this->fetch();
+        // dump(CMF_ROOT);die;
+        $UsualItemModel = new UsualItemModel();
+        $categoryTree   = $UsualItemModel->adminCategoryTableTree();
+
+        $this->assign('category_tree', $categoryTree);
+        return $this->fetch();
     }
 
-    public function config()
+    /**
+     * 添加车子属性
+     * @adminMenu(
+     *     'name'   => '添加车子属性',
+     *     'parent' => 'index',
+     *     'display'=> false,
+     *     'hasView'=> true,
+     *     'order'  => 10000,
+     *     'icon'   => '',
+     *     'remark' => '添加车子属性',
+     *     'param'  => ''
+     * )
+     */
+    public function add()
     {
-        echo "Usual Config!";
-        // return $this->fetch();
+        $parentId            = $this->request->param('parent', 0, 'intval');
+        $UsualItemModel = new UsualItemModel();
+        $categoriesTree      = $UsualItemModel->adminCategoryTree($parentId);
+
+        $this->assign('categories_tree', $categoriesTree);
+        return $this->fetch();
+    }
+
+    /**
+     * 添加车子属性提交
+     * @adminMenu(
+     *     'name'   => '添加车子属性提交',
+     *     'parent' => 'index',
+     *     'display'=> false,
+     *     'hasView'=> false,
+     *     'order'  => 10000,
+     *     'icon'   => '',
+     *     'remark' => '添加车子属性提交',
+     *     'param'  => ''
+     * )
+     */
+    public function addPost()
+    {
+
+        $data = $this->request->param();
+
+        // $result = $this->validate($data, 'UsualItem');
+        // if ($result !== true) {
+        //     $this->error($result);
+        // }
+
+        $UsualItemModel = new UsualItemModel();
+        $result = $UsualItemModel->addCategory($data);
+
+        if ($result === false) {
+            $this->error('添加失败!');
+        }
+
+        $this->success('添加成功!', url('AdminItem/index'));
+
+    }
+
+    /**
+     * 编辑车子属性
+     * @adminMenu(
+     *     'name'   => '编辑车子属性',
+     *     'parent' => 'index',
+     *     'display'=> false,
+     *     'hasView'=> true,
+     *     'order'  => 10000,
+     *     'icon'   => '',
+     *     'remark' => '编辑车子属性',
+     *     'param'  => ''
+     * )
+     */
+    public function edit()
+    {
+        $id = $this->request->param('id', 0, 'intval');
+        if ($id > 0) {
+            $category = UsualItemModel::get($id)->toArray();
+
+            $UsualItemModel = new UsualItemModel();
+            $categoriesTree      = $UsualItemModel->adminCategoryTree($category['parent_id'], $id);
+
+            // $routeModel = new RouteModel();
+            // $alias      = $routeModel->getUrl('portal/List/index', ['id' => $id]);
+            // $category['alias'] = $alias;
+
+            $this->assign($category);
+            $this->assign('categories_tree', $categoriesTree);
+            return $this->fetch();
+        } else {
+            $this->error('操作错误!');
+        }
+
+    }
+
+    /**
+     * 编辑车子属性提交
+     * @adminMenu(
+     *     'name'   => '编辑车子属性提交',
+     *     'parent' => 'index',
+     *     'display'=> false,
+     *     'hasView'=> false,
+     *     'order'  => 10000,
+     *     'icon'   => '',
+     *     'remark' => '编辑车子属性提交',
+     *     'param'  => ''
+     * )
+     */
+    public function editPost()
+    {
+        $data = $this->request->param();
+
+        $result = $this->validate($data, 'UsualItem');
+        if ($result !== true) {
+            $this->error($result);
+        }
+
+        $UsualItemModel = new UsualItemModel();
+
+        $result = $UsualItemModel->editCategory($data);
+
+        if ($result === false) {
+            $this->error('保存失败!');
+        }
+
+        $this->success('保存成功!');
+    }
+
+    /**
+     * 车子属性选择对话框
+     * @adminMenu(
+     *     'name'   => '车子属性选择对话框',
+     *     'parent' => 'index',
+     *     'display'=> false,
+     *     'hasView'=> true,
+     *     'order'  => 10000,
+     *     'icon'   => '',
+     *     'remark' => '车子属性选择对话框',
+     *     'param'  => ''
+     * )
+     */
+    public function select()
+    {
+        $ids                 = $this->request->param('ids');
+        $selectedIds         = explode(',', $ids);
+        $UsualItemModel = new UsualItemModel();
+
+        $tpl = <<<tpl
+<tr class='data-item-tr'>
+    <td>
+        <input type='checkbox' class='js-check' data-yid='js-check-y' data-xid='js-check-x' name='ids[]' value='\$id' data-name='\$name' \$checked>
+    </td>
+    <td>\$id</td>
+    <td>\$spacer <a href='\$url' target='_blank'>\$name</a></td>
+</tr>
+tpl;
+
+        $categoryTree = $UsualItemModel->adminCategoryTableTree($selectedIds, $tpl);
+
+        $where      = ['delete_time' => 0];
+        $categories = $UsualItemModel->where($where)->select();
+
+        $this->assign('categories', $categories);
+        $this->assign('selectedIds', $selectedIds);
+        $this->assign('categories_tree', $categoryTree);
+        return $this->fetch();
+    }
+
+    /**
+     * 车子属性排序
+     * @adminMenu(
+     *     'name'   => '车子属性排序',
+     *     'parent' => 'index',
+     *     'display'=> false,
+     *     'hasView'=> false,
+     *     'order'  => 10000,
+     *     'icon'   => '',
+     *     'remark' => '车子属性排序',
+     *     'param'  => ''
+     * )
+     */
+    public function listOrder()
+    {
+        parent::listOrders(Db::name('usual_Item'));
+        $this->success("排序更新成功！", '');
+    }
+
+    /**
+     * 删除车子属性
+     * @adminMenu(
+     *     'name'   => '删除车子属性',
+     *     'parent' => 'index',
+     *     'display'=> false,
+     *     'hasView'=> false,
+     *     'order'  => 10000,
+     *     'icon'   => '',
+     *     'remark' => '删除车子属性',
+     *     'param'  => ''
+     * )
+     */
+    public function delete()
+    {
+        $UsualItemModel = new UsualItemModel();
+        $id = $this->request->param('id');
+        //获取删除的内容
+        $findCategory = $UsualItemModel->where('id', $id)->find();
+        if (empty($findCategory)) {
+            $this->error('属性不存在!');
+        }
+
+        $categoryChildrenCount = $UsualItemModel->where('parent_id', $id)->count();
+        if ($categoryChildrenCount > 0) {
+            $this->error('此属性有子类无法删除!');
+        }
+
+        // $categoryPostCount = Db::name('usual_car')->where('brand_id',$id)->whereOr('serie_id',$id)->count();
+        // if ($categoryPostCount > 0) {
+        //     $this->error('此属性有车子无法删除!');
+        // }
+
+        // $data   = [
+        //     'object_id'   => $findCategory['id'],
+        //     'create_time' => time(),
+        //     'table_name'  => 'usual_item',
+        //     'name'        => $findCategory['name']
+        // ];
+        $result = $UsualItemModel
+            ->where('id', $id)
+            ->update(['delete_time' => time()]);
+        if ($result) {
+            // Db::name('recycleBin')->insert($data);
+            $this->success('删除成功!');
+        } else {
+            $this->error('删除失败');
+        }
     }
 }
