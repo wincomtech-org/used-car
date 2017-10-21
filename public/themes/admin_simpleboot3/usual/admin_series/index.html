@@ -98,10 +98,10 @@
                     <td><b>{$vo.id}</b></td>
                     <td>
                         <notempty name="categoryId">
-                            <a href="{:cmf_url('usual/Article/index',array('id'=>$vo['id'],'cid'=>$vo['brand_id']))}"
+                            <a href="{//:cmf_url('portal/Article/index',array('id'=>$vo['id'],'cid'=>$vo['brand_id']))}"
                                target="_blank">{$vo.name}</a>
                         <else/>
-                            <a href="{:cmf_url('usual/Article/index',array('id'=>$vo['id']))}"
+                            <a href="{//:cmf_url('portal/Article/index',array('id'=>$vo['id']))}"
                                target="_blank">{$vo.name}</a>
                         </notempty>
                     </td>

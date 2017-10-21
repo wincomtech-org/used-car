@@ -184,18 +184,19 @@ class AdminBrandController extends AdminBaseController
         $ids                 = $this->request->param('ids');
         $selectedIds         = explode(',', $ids);
 
+        // $tpl = "<td>\$spacer <a href='\$url' target='_blank'>\$name</a></td>";
         $tpl = <<<tpl
 <tr class='data-item-tr'>
     <td>
-        <input type='checkbox' class='js-check' data-yid='js-check-y' data-xid='js-check-x' name='ids[]' value='\$id' data-name='\$name' \$checked>
+        <input type='radio' class='js-check' data-yid='js-check-y' data-xid='js-check-x' name='ids[]' value='\$id' data-name='\$name' \$checked>
     </td>
     <td>\$id</td>
-    <td>\$spacer <a href='\$url' target='_blank'>\$name</a></td>
+    <td>\$spacer <a style='text-decoration:none;cursor:pointer;'>\$name</a></td>
 </tr>
 tpl;
         $config = [
             'm'=>'AdminBrand',
-            'url'=>'portal/List/index',
+            'url'=>'',
             'add'=>true,
             'add_title'=>'',
             'edit'=>true,

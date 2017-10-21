@@ -140,6 +140,9 @@ class UsualCategoryModel extends Model
             if (!empty($data['more']['thumbnail'])) {
                 $data['more']['thumbnail'] = cmf_asset_relative_url($data['more']['thumbnail']);
             }
+            if ($data['name']) {
+                # code...
+            }
             $this->allowField(true)->save($data);
             $id          = $this->id;
             $parentId    = isset($data['parent_id'])?intval($data['parent_id']):0;
@@ -156,15 +159,15 @@ class UsualCategoryModel extends Model
             $result = false;
         }
 
-        if ($result != false) {
-            //设置别名
-            $routeModel = new RouteModel();
-            if (!empty($data['alias']) && !empty($id)) {
-                $routeModel->setRoute($data['alias'], 'portal/List/index', ['id' => $id], 2, 5000);
-                $routeModel->setRoute($data['alias'] . '/:id', 'portal/Article/index', ['cid' => $id], 2, 4999);
-            }
-            $routeModel->getRoutes(true);
-        }
+        // if ($result != false) {
+        //     //设置别名
+        //     $routeModel = new RouteModel();
+        //     if (!empty($data['alias']) && !empty($id)) {
+        //         $routeModel->setRoute($data['alias'], 'portal/List/index', ['id' => $id], 2, 5000);
+        //         $routeModel->setRoute($data['alias'] . '/:id', 'portal/Article/index', ['cid' => $id], 2, 4999);
+        //     }
+        //     $routeModel->getRoutes(true);
+        // }
 
         return $result;
     }
@@ -215,7 +218,6 @@ class UsualCategoryModel extends Model
                 $routeModel->deleteRoute('portal/List/index', ['id' => $data['id']]);
                 $routeModel->deleteRoute('portal/Article/index', ['cid' => $data['id']]);
             }
-
             $routeModel->getRoutes(true);
         }
 

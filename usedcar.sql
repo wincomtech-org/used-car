@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50540
 File Encoding         : 65001
 
-Date: 2017-10-20 18:08:20
+Date: 2017-10-21 12:40:33
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -921,7 +921,7 @@ CREATE TABLE `cmf_recycle_bin` (
   `table_name` varchar(60) DEFAULT '' COMMENT '删除内容所在表名',
   `name` varchar(255) DEFAULT '' COMMENT '删除内容名称',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COMMENT=' 回收站';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT=' 回收站';
 
 -- ----------------------------
 -- Records of cmf_recycle_bin
@@ -1563,16 +1563,22 @@ CREATE TABLE `cmf_usual_item` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `parent_id` int(11) unsigned NOT NULL COMMENT '父级ID',
   `name` varchar(150) NOT NULL COMMENT '属性名',
+  `path` varchar(255) NOT NULL COMMENT '分类层级关系路径',
   `delete_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '删除时间',
   `remark` varchar(255) NOT NULL COMMENT '备注',
+  `description` varchar(255) NOT NULL,
   `status` tinyint(3) NOT NULL COMMENT '状态：0隐藏 1显示 2禁用',
   `list_order` float unsigned NOT NULL DEFAULT '10000' COMMENT '排序：从小到大',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='属性表';
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COMMENT='属性表';
 
 -- ----------------------------
 -- Records of cmf_usual_item
 -- ----------------------------
+INSERT INTO `cmf_usual_item` VALUES ('1', '0', '排放标准', '0-1', '0', '', '', '0', '10000');
+INSERT INTO `cmf_usual_item` VALUES ('2', '0', '颜色', '0-2', '0', '', '', '0', '10000');
+INSERT INTO `cmf_usual_item` VALUES ('3', '0', '车源类别', '0-3', '0', '', '', '0', '10000');
+INSERT INTO `cmf_usual_item` VALUES ('4', '0', '排放标准', '0-4', '0', '', '', '0', '10000');
 
 -- ----------------------------
 -- Table structure for cmf_usual_models
@@ -1643,7 +1649,7 @@ CREATE TABLE `cmf_usual_series` (
   `seo_keywords` varchar(255) NOT NULL,
   `seo_description` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COMMENT='品牌表';
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COMMENT='品牌表';
 
 -- ----------------------------
 -- Records of cmf_usual_series
@@ -1654,6 +1660,7 @@ INSERT INTO `cmf_usual_series` VALUES ('3', '0', '10', '2', '福睿斯1.5L手动
 INSERT INTO `cmf_usual_series` VALUES ('4', '0', '10', '2', '福睿斯1.5L自动时尚型（幸福版）', '', '', '*', '122300', '1508490464', '1508490464', '1508492216', '0', '', '', '', '', '0', '0', '1', '{\"thumbnail\":\"https:\\/\\/www.ford.com.cn\\/content\\/dam\\/Ford\\/website-assets\\/ap\\/ch\\/nameplate\\/Escort\\/thumbnails\\/escort-170901.jpeg\",\"template\":\"\"}', '', '10000', '', '', '');
 INSERT INTO `cmf_usual_series` VALUES ('6', '0', '19', '5', '短轴低顶5/6座商用车柴油版', '', '', '*', '139800', '1508493233', '1508493251', '1508493060', '0', '', '', '', '', '0', '0', '1', '{\"thumbnail\":\"https:\\/\\/www.ford.com.cn\\/content\\/dam\\/Ford\\/website-assets\\/ap\\/ch\\/nameplate\\/new-transit\\/sucai\\/ns-dd-56.jpg\",\"template\":\"\"}', '', '10000', '', '', '');
 INSERT INTO `cmf_usual_series` VALUES ('7', '0', '18', '4', '热血橙', '', '', '*', '259800', '1508493737', '1508493737', '1508493703', '0', '', '', '', '', '0', '0', '1', '{\"thumbnail\":\"https:\\/\\/www.ford.com.cn\\/content\\/dam\\/Ford\\/website-assets\\/ap\\/ch\\/nameplate\\/focus-st\\/orange\\/orange.png\",\"template\":\"\"}', '', '10000', '', '', '');
+INSERT INTO `cmf_usual_series` VALUES ('8', '0', '14', '9', '宋MAX 1.5TI 舒适型', '', '', '*', '79900', '1508548080', '1508548080', '1508547991', '0', '', '', '', '', '0', '0', '1', '{\"thumbnail\":\"http:\\/\\/www.bydauto.com.cn\\/uploads\\/attach\\/month_1708\\/2017082217321278328.png\",\"template\":\"\"}', '', '10000', '', '', '');
 
 -- ----------------------------
 -- Table structure for cmf_verification_code

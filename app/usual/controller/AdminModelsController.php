@@ -90,7 +90,7 @@ class AdminModelsController extends AdminBaseController
 
         $data = $this->request->param();
 
-        $result = $this->validate($data, 'UsualBrand');
+        $result = $this->validate($data, 'UsualModels');
         if ($result !== true) {
             $this->error($result);
         }
@@ -158,7 +158,7 @@ class AdminModelsController extends AdminBaseController
     {
         $data = $this->request->param();
 
-        $result = $this->validate($data, 'UsualBrand');
+        $result = $this->validate($data, 'UsualModels');
         if ($result !== true) {
             $this->error($result);
         }
@@ -226,7 +226,7 @@ tpl;
      */
     public function listOrder()
     {
-        parent::listOrders(Db::name('usual_models'));
+        parent::listOrders(Db::name('UsualModels'));
         $this->success("排序更新成功！", '');
     }
 
@@ -254,12 +254,12 @@ tpl;
 
         $categoryChildrenCount = $this->UsualModel->where('parent_id', $id)->count();
         if ($categoryChildrenCount > 0) {
-            $this->error('此分类有子类无法删除!');
+            $this->error('此分类有子类无法删除，请改名!');
         }
 
         $categoryPostCount = Db::name('usual_car')->where('brand_id',$id)->whereOr('serie_id',$id)->count();
         if ($categoryPostCount > 0) {
-            $this->error('此分类有车子无法删除!');
+            $this->error('此分类有车子无法删除，请改名!');
         }
 
         // $data   = [
