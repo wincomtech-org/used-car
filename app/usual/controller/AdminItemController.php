@@ -34,12 +34,13 @@ class AdminItemController extends AdminBaseController
     {
         // dump(CMF_ROOT);die;
         $config = [
-            'm'=>'AdminItem',
-            'url'=>'',
-            'add'=>false,
-            'edit'=>true,
-            'delete'=>true,
-            'table2'=>''
+            // 'm'         => request()->controller(),
+            'm'         => 'AdminItem',
+            'url'       => '',
+            'add'       => true,
+            'edit'      => true,
+            'delete'    => false,
+            'table2'    => ''
         ];
         $categoryTree    = $this->UsualModel->adminCategoryTableTree(0,'',$config);
 
@@ -90,7 +91,9 @@ class AdminItemController extends AdminBaseController
         if ($result !== true) {
             $this->error($result);
         }
-
+        if (model('UsualItem')->where('name',$data['name'])->value('id')) {
+            $this->error('此名称已存在！');
+        }
         $result = $this->UsualModel->addCategory($data);
         if ($result === false) {
             $this->error('添加失败!');
@@ -150,18 +153,16 @@ class AdminItemController extends AdminBaseController
     public function editPost()
     {
         $data = $this->request->param();
-
+        // 字段验证
+        // $validate = new \app\usual\validate\UsualItemValidate();
+        // $result = $validate->scene('edit')->check($data);
         $result = $this->validate($data, 'UsualItem');
-dump($result);die;
-        if ($result !== true) {
-            $this->error($result);
-        }
+        // $result = $this->validate($data, ['name'=>'require','parent_id'=>'number|checkParentId']);
+        // 提交结果
         $result = $this->UsualModel->editCategory($data);
-
         if ($result === false) {
             $this->error('保存失败!');
         }
-
         $this->success('保存成功!');
     }
 
@@ -250,10 +251,10 @@ tpl;
             $this->error('此分类有子类无法删除，请改名!');
         }
 
-        $categoryPostCount = Db::name('usual_car')->where('brand_id',$id)->whereOr('serie_id',$id)->count();
-        if ($categoryPostCount > 0) {
-            $this->error('此分类有车子无法删除，请改名!');
-        }
+        // $categoryPostCount = Db::name('usual_car')->where('brand_id',$id)->whereOr('serie_id',$id)->count();
+        // if ($categoryPostCount > 0) {
+        //     $this->error('此分类有车子无法删除，请改名!');
+        // }
 
         // $data   = [
         //     'object_id'   => $findCategory['id'],

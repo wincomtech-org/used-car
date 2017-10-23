@@ -17,15 +17,11 @@ class UsualBrandValidate extends Validate
         'parent_id'     => '超过了2级',
     ];
 
+    // 场景验证 ， 指定场景需要验证的字段
     protected $scene = [
-       // 'add'  => ['user_login,user_pass,user_email'],
-       // 'edit' => ['user_login,user_email'],
+       // 'add'  => ['name,parent_id,alias'],
+       // 'edit' => ['parent_id,alias'],
     ];
-    // protected $scene = [
-    //     'add'  => ['name', 'app', 'controller', 'action', 'parent_id'],
-    //     'edit' => ['name', 'app', 'controller', 'action', 'id', 'parent_id'],
-
-    // ];
 
     // 自定义验证规则
     protected function checkParentId($value)

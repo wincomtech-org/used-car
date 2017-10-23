@@ -2,29 +2,27 @@
 namespace app\usual\controller;
 
 use cmf\controller\AdminBaseController;
-use app\usual\model\UsualCompanyModel;
+use app\usual\model\UsualSeriesModel;
 use app\usual\service\ArticleService;
 use app\usual\model\UsualBrandModel;
+use app\usual\model\UsualModelsModel;
 use think\Db;
 use app\admin\model\ThemeModel;
 
-/**
-* 公司企业模块
-*/
-class AdminCompanyController extends AdminBaseController
+class AdminSeriesController extends AdminBaseController
 {
     function _initialize()
     {
         // parent::_initialize();
         // $data = $this->request->param();
-        $this->UsualModel = new UsualCompanyModel();
+        $this->UsualModel = new UsualSeriesModel();
     }
 
     /**
      * 车系列表
      * @adminMenu(
      *     'name'   => '车系管理',
-     *     'parent' => 'usual/AdminCompany/default',
+     *     'parent' => 'usual/AdminSeries/default',
      *     'display'=> true,
      *     'hasView'=> true,
      *     'order'  => 10000,
@@ -78,6 +76,10 @@ class AdminCompanyController extends AdminBaseController
         $themeModel        = new ThemeModel();
         $articleThemeFiles = $themeModel->getActionThemeFiles('portal/Article/index');
 
+        $CategoryModel  = new UsualModelsModel();
+        $categoriesTree     = $CategoryModel->adminCategoryTree();
+
+        $this->assign('models_tree', $categoriesTree);
         $this->assign('article_theme_files', $articleThemeFiles);
         return $this->fetch();
     }
@@ -100,7 +102,7 @@ class AdminCompanyController extends AdminBaseController
         if ($this->request->isPost()) {
             $data   = $this->request->param();
             $post   = $data['post'];
-            $result = $this->validate($post, 'UsualCompany');
+            $result = $this->validate($post, 'UsualSeries');
             if ($result !== true) {
                 $this->error($result);
             }
@@ -131,7 +133,7 @@ class AdminCompanyController extends AdminBaseController
             // ];
             // hook('portal_admin_after_save_article', $hookParam);
 
-            $this->success('添加成功!', url('AdminCompany/edit', ['id' => $this->UsualModel->id]));
+            $this->success('添加成功!', url('AdminSeries/edit', ['id' => $this->UsualModel->id]));
         }
 
     }
@@ -163,6 +165,10 @@ class AdminCompanyController extends AdminBaseController
         $themeModel        = new ThemeModel();
         $articleThemeFiles = $themeModel->getActionThemeFiles('portal/Article/index');
 
+        $CategoryModel  = new UsualModelsModel();
+        $categoriesTree     = $CategoryModel->adminCategoryTree($post['model_id']);
+
+        $this->assign('models_tree', $categoriesTree);
         $this->assign('article_theme_files', $articleThemeFiles);
         $this->assign('post', $post);
         $this->assign('bname', $postCategories);
@@ -190,7 +196,7 @@ class AdminCompanyController extends AdminBaseController
         if ($this->request->isPost()) {
             $data   = $this->request->param();
             $post   = $data['post'];
-            $result = $this->validate($post, 'UsualCompany');
+            $result = $this->validate($post, 'UsualSeries');
             if ($result !== true) {
                 $this->error($result);
             }
@@ -248,7 +254,7 @@ class AdminCompanyController extends AdminBaseController
             $data         = [
                 'object_id'   => $result['id'],
                 'create_time' => time(),
-                'table_name'  => 'UsualCompany',
+                'table_name'  => 'usual_series',
                 'name'        => $result['name']
             ];
             $resultPortal = $this->UsualModel
@@ -269,7 +275,7 @@ class AdminCompanyController extends AdminBaseController
                     $data = [
                         'object_id'   => $value['id'],
                         'create_time' => time(),
-                        'table_name'  => 'UsualCompany',
+                        'table_name'  => 'usual_series',
                         'name'        => $value['name']
                     ];
                     Db::name('recycleBin')->insert($data);
@@ -385,7 +391,7 @@ class AdminCompanyController extends AdminBaseController
      */
     public function listOrder()
     {
-        parent::listOrders(Db::name('UsualCompany'));
+        parent::listOrders(Db::name('usual_series'));
         $this->success("排序更新成功！", '');
     }
 

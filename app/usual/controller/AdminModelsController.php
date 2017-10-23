@@ -94,7 +94,9 @@ class AdminModelsController extends AdminBaseController
         if ($result !== true) {
             $this->error($result);
         }
-
+        if (Db::name('UsualModels')->where(['name'=>$data['name']])->value('name')) {
+            $this->error('名称重复!');
+        }
         $result = $this->UsualModel->addCategory($data);
 
         if ($result === false) {

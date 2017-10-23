@@ -1,13 +1,12 @@
 <?php
 namespace app\usual\controller;
 
+// use app\admin\model\RouteModel;
 use cmf\controller\AdminBaseController;
 use app\usual\model\UsualSeriesModel;
-use app\usual\service\ArticleService;
-use app\usual\model\UsualBrandModel;
-use app\usual\model\UsualModelsModel;
 use think\Db;
-use app\admin\model\ThemeModel;
+// use app\admin\model\ThemeModel;
+
 
 class AdminSeriesController extends AdminBaseController
 {
@@ -19,390 +18,263 @@ class AdminSeriesController extends AdminBaseController
     }
 
     /**
-     * 车系列表
+     * 车型分类列表
      * @adminMenu(
-     *     'name'   => '车系管理',
+     *     'name'   => '分类管理',
      *     'parent' => 'usual/AdminSeries/default',
      *     'display'=> true,
      *     'hasView'=> true,
      *     'order'  => 10000,
      *     'icon'   => '',
-     *     'remark' => '车系列表',
+     *     'remark' => '车型分类列表',
      *     'param'  => ''
      * )
      */
     public function index()
     {
-        $param = $this->request->param();//接收筛选条件
-        $categoryId = $this->request->param('categoryId', 0, 'intval');
-        // 等同于以下
-        // $categoryId = isset($param['categoryId'])?intval($param['categoryId']):0;
+        // dump(CMF_ROOT);die;
+        $config = [
+            'm'=>'AdminSeries',
+            'url'=>'',
+            'add'=>true,
+            'edit'=>true,
+            'delete'=>true,
+            'table2'=>'usual_brand'
+        ];
+        $categoryTree    = $this->UsualModel->adminCategoryTableTree(0,'',$config);
 
-        $postService = new ArticleService();
-        $data        = $postService->adminArticleList($param);
-        // dump($data);die;
-        // dump($data->items());die;
-        $data->appends($param);
-
-        $CategoryModel  = new UsualBrandModel();
-        $categoryTree   = $CategoryModel->adminCategoryTree($categoryId);
-
-        $this->assign('start_time', isset($param['start_time']) ? $param['start_time'] : '');
-        $this->assign('end_time', isset($param['end_time']) ? $param['end_time'] : '');
-        $this->assign('keyword', isset($param['keyword']) ? $param['keyword'] : '');
-        $this->assign('articles', $data->items());
         $this->assign('category_tree', $categoryTree);
-        $this->assign('categoryId', $categoryId);
-        $this->assign('page', $data->render());
-
         return $this->fetch();
     }
 
     /**
-     * 添加车系
+     * 添加车型分类
      * @adminMenu(
-     *     'name'   => '添加车系',
+     *     'name'   => '添加车型分类',
      *     'parent' => 'index',
      *     'display'=> false,
      *     'hasView'=> true,
      *     'order'  => 10000,
      *     'icon'   => '',
-     *     'remark' => '添加车系',
+     *     'remark' => '添加车型分类',
      *     'param'  => ''
      * )
      */
     public function add()
     {
-        $themeModel        = new ThemeModel();
-        $articleThemeFiles = $themeModel->getActionThemeFiles('portal/Article/index');
+        $parentId           = $this->request->param('parent', 0, 'intval');
+        $categoriesTree     = $this->UsualModel->adminCategoryTree($parentId);
+        $BrandId            = $this->request->param('brand', 0, 'intval');
+        $BrandTree          = $this->UsualModel->adminCategoryTree($BrandId,0,'usual_brand');
 
-        $CategoryModel  = new UsualModelsModel();
-        $categoriesTree     = $CategoryModel->adminCategoryTree();
-
-        $this->assign('models_tree', $categoriesTree);
-        $this->assign('article_theme_files', $articleThemeFiles);
+        $this->assign('categories_tree', $categoriesTree);
+        $this->assign('BrandTree', $BrandTree);
         return $this->fetch();
     }
 
     /**
-     * 添加车系提交
+     * 添加车型分类提交
      * @adminMenu(
-     *     'name'   => '添加车系提交',
+     *     'name'   => '添加车型分类提交',
      *     'parent' => 'index',
      *     'display'=> false,
      *     'hasView'=> false,
      *     'order'  => 10000,
      *     'icon'   => '',
-     *     'remark' => '添加车系提交',
+     *     'remark' => '添加车型分类提交',
      *     'param'  => ''
      * )
      */
     public function addPost()
     {
-        if ($this->request->isPost()) {
-            $data   = $this->request->param();
-            $post   = $data['post'];
-            $result = $this->validate($post, 'UsualSeries');
-            if ($result !== true) {
-                $this->error($result);
-            }
-// dump($data);die;
-            if (!empty($data['photo_names']) && !empty($data['photo_urls'])) {
-                $data['post']['more']['photos'] = [];
-                foreach ($data['photo_urls'] as $key => $url) {
-                    $photoUrl = cmf_asset_relative_url($url);
-                    array_push($data['post']['more']['photos'], ["url" => $photoUrl, "name" => $data['photo_names'][$key]]);
-                }
-            }
 
-            if (!empty($data['file_names']) && !empty($data['file_urls'])) {
-                $data['post']['more']['files'] = [];
-                foreach ($data['file_urls'] as $key => $url) {
-                    $fileUrl = cmf_asset_relative_url($url);
-                    array_push($data['post']['more']['files'], ["url" => $fileUrl, "name" => $data['file_names'][$key]]);
-                }
-            }
-// dump($data);die;
-            $this->UsualModel->adminAddArticle($data['post']);
+        $data = $this->request->param();
 
-            // 钩子
-            // $data['post']['id'] = $this->UsualModel->id;
-            // $hookParam          = [
-            //     'is_add'  => true,
-            //     'article' => $data['post']
-            // ];
-            // hook('portal_admin_after_save_article', $hookParam);
-
-            $this->success('添加成功!', url('AdminSeries/edit', ['id' => $this->UsualModel->id]));
+        $result = $this->validate($data, 'UsualSeries');
+        if ($result !== true) {
+            $this->error($result);
         }
+        if (Db::name('UsualSeries')->where(['name'=>$data['name'],'brand_id'=>$data['brand_id']])->value('name')) {
+            $this->error('名称重复!');
+        }
+        $result = $this->UsualModel->addCategory($data);
+
+        if ($result === false) {
+            $this->error('添加失败!');
+        }
+
+        $this->success('添加成功!', url('AdminSeries/index'));
 
     }
 
     /**
-     * 编辑车系
+     * 编辑车型分类
      * @adminMenu(
-     *     'name'   => '编辑车系',
+     *     'name'   => '编辑车型分类',
      *     'parent' => 'index',
      *     'display'=> false,
      *     'hasView'=> true,
      *     'order'  => 10000,
      *     'icon'   => '',
-     *     'remark' => '编辑车系',
+     *     'remark' => '编辑车型分类',
      *     'param'  => ''
      * )
      */
     public function edit()
     {
         $id = $this->request->param('id', 0, 'intval');
+        if ($id > 0) {
+            $category = UsualSeriesModel::get($id)->toArray();
 
-        $post            = $this->UsualModel->where('id', $id)->find();
+            $categoriesTree      = $this->UsualModel->adminCategoryTree($category['parent_id'], $id);
+            $BrandTree          = $this->UsualModel->adminCategoryTree($category['brand_id'],0,'usual_brand');
 
-        // $postCategories  = $post->categories()->alias('a')->column('a.name', 'a.id');
-        // $postCategoryIds = implode(',', array_keys($postCategories));
-        $postCategories = $this->UsualModel->getBrandName($post['brand_id']);
-        $postCategoryIds = $post['brand_id'];
+            $this->assign($category);
+            $this->assign('categories_tree', $categoriesTree);
+            $this->assign('BrandTree', $BrandTree);
+            return $this->fetch();
+        } else {
+            $this->error('操作错误!');
+        }
 
-        $themeModel        = new ThemeModel();
-        $articleThemeFiles = $themeModel->getActionThemeFiles('portal/Article/index');
-
-        $CategoryModel  = new UsualModelsModel();
-        $categoriesTree     = $CategoryModel->adminCategoryTree($post['model_id']);
-
-        $this->assign('models_tree', $categoriesTree);
-        $this->assign('article_theme_files', $articleThemeFiles);
-        $this->assign('post', $post);
-        $this->assign('bname', $postCategories);
-        $this->assign('category_ids', $postCategoryIds);
-
-        return $this->fetch();
     }
 
     /**
-     * 编辑车系提交
+     * 编辑车型分类提交
      * @adminMenu(
-     *     'name'   => '编辑车系提交',
+     *     'name'   => '编辑车型分类提交',
      *     'parent' => 'index',
      *     'display'=> false,
      *     'hasView'=> false,
      *     'order'  => 10000,
      *     'icon'   => '',
-     *     'remark' => '编辑车系提交',
+     *     'remark' => '编辑车型分类提交',
      *     'param'  => ''
      * )
      */
     public function editPost()
     {
+        $data = $this->request->param();
 
-        if ($this->request->isPost()) {
-            $data   = $this->request->param();
-            $post   = $data['post'];
-            $result = $this->validate($post, 'UsualSeries');
-            if ($result !== true) {
-                $this->error($result);
-            }
-
-            if (!empty($data['photo_names']) && !empty($data['photo_urls'])) {
-                $data['post']['more']['photos'] = [];
-                foreach ($data['photo_urls'] as $key => $url) {
-                    $photoUrl = cmf_asset_relative_url($url);
-                    array_push($data['post']['more']['photos'], ["url" => $photoUrl, "name" => $data['photo_names'][$key]]);
-                }
-            }
-
-            if (!empty($data['file_names']) && !empty($data['file_urls'])) {
-                $data['post']['more']['files'] = [];
-                foreach ($data['file_urls'] as $key => $url) {
-                    $fileUrl = cmf_asset_relative_url($url);
-                    array_push($data['post']['more']['files'], ["url" => $fileUrl, "name" => $data['file_names'][$key]]);
-                }
-            }
-
-            $this->UsualModel->adminEditArticle($data['post']);
-
-            // 钩子
-            // $hookParam = [
-            //     'is_add'  => false,
-            //     'article' => $data['post']
-            // ];
-            // hook('portal_admin_after_save_article', $hookParam);
-
-            $this->success('保存成功!');
-
+        $result = $this->validate($data, 'UsualSeries');
+        if ($result !== true) {
+            $this->error($result);
         }
+
+        $result = $this->UsualModel->editCategory($data);
+
+        if ($result === false) {
+            $this->error('保存失败!');
+        }
+
+        $this->success('保存成功!');
     }
 
     /**
-     * 车系删除
+     * 车型分类选择对话框
      * @adminMenu(
-     *     'name'   => '车系删除',
+     *     'name'   => '车型分类选择对话框',
      *     'parent' => 'index',
      *     'display'=> false,
-     *     'hasView'=> false,
+     *     'hasView'=> true,
      *     'order'  => 10000,
      *     'icon'   => '',
-     *     'remark' => '车系删除',
+     *     'remark' => '车型分类选择对话框',
      *     'param'  => ''
      * )
      */
-    public function delete()
+    public function select()
     {
-        $param           = $this->request->param();
+        $ids                 = $this->request->param('ids');
+        $selectedIds         = explode(',', $ids);
 
-        if (isset($param['id'])) {
-            $id           = $this->request->param('id', 0, 'intval');
-            $result       = $this->UsualModel->where(['id' => $id])->find();
-            $data         = [
-                'object_id'   => $result['id'],
-                'create_time' => time(),
-                'table_name'  => 'usual_series',
-                'name'        => $result['name']
-            ];
-            $resultPortal = $this->UsualModel
-                ->where(['id' => $id])
-                ->update(['delete_time' => time()]);
-            if ($resultPortal) {
-                Db::name('recycleBin')->insert($data);
-            }
-            $this->success("删除成功！", '');
-        }
+        $tpl = <<<tpl
+<tr class='data-item-tr'>
+    <td>
+        <input type='checkbox' class='js-check' data-yid='js-check-y' data-xid='js-check-x' name='ids[]' value='\$id' data-name='\$name' \$checked>
+    </td>
+    <td>\$id</td>
+    <td>\$spacer <a href='\$url' target='_blank'>\$name</a></td>
+</tr>
+tpl;
 
-        if (isset($param['ids'])) {
-            $ids     = $this->request->param('ids/a');
-            $recycle = $this->UsualModel->where(['id' => ['in', $ids]])->select();
-            $result  = $this->UsualModel->where(['id' => ['in', $ids]])->update(['delete_time' => time()]);
-            if ($result) {
-                foreach ($recycle as $value) {
-                    $data = [
-                        'object_id'   => $value['id'],
-                        'create_time' => time(),
-                        'table_name'  => 'usual_series',
-                        'name'        => $value['name']
-                    ];
-                    Db::name('recycleBin')->insert($data);
-                }
-                $this->success("删除成功！", '');
-            }
-        }
+        $categoryTree = $this->UsualModel->adminCategoryTableTree($selectedIds, $tpl);
+
+        $where      = ['delete_time' => 0];
+        $categories = $this->UsualModel->where($where)->select();
+
+        $this->assign('categories', $categories);
+        $this->assign('selectedIds', $selectedIds);
+        $this->assign('categories_tree', $categoryTree);
+        return $this->fetch();
     }
 
     /**
-     * 车系发布
+     * 车型分类排序
      * @adminMenu(
-     *     'name'   => '车系发布',
+     *     'name'   => '车型分类排序',
      *     'parent' => 'index',
      *     'display'=> false,
      *     'hasView'=> false,
      *     'order'  => 10000,
      *     'icon'   => '',
-     *     'remark' => '车系发布',
-     *     'param'  => ''
-     * )
-     */
-    public function publish()
-    {
-        $param           = $this->request->param();
-
-        if (isset($param['ids']) && isset($param["yes"])) {
-            $ids = $this->request->param('ids/a');
-            $this->UsualModel->where(['id' => ['in', $ids]])->update(['status' => 1, 'published_time' => time()]);
-            $this->success("发布成功！", '');
-        }
-
-        if (isset($param['ids']) && isset($param["no"])) {
-            $ids = $this->request->param('ids/a');
-            $this->UsualModel->where(['id' => ['in', $ids]])->update(['status' => 0]);
-            $this->success("隐藏成功！", '');
-        }
-
-    }
-
-    /**
-     * 车系置顶
-     * @adminMenu(
-     *     'name'   => '车系置顶',
-     *     'parent' => 'index',
-     *     'display'=> false,
-     *     'hasView'=> false,
-     *     'order'  => 10000,
-     *     'icon'   => '',
-     *     'remark' => '车系置顶',
-     *     'param'  => ''
-     * )
-     */
-    public function top()
-    {
-        $param           = $this->request->param();
-        if (isset($param['ids']) && isset($param["yes"])) {
-            $ids = $this->request->param('ids/a');
-            $this->UsualModel->where(['id' => ['in', $ids]])->update(['is_top' => 1]);
-            $this->success("置顶成功！", '');
-
-        }
-        if (isset($_POST['ids']) && isset($param["no"])) {
-            $ids = $this->request->param('ids/a');
-            $this->UsualModel->where(['id' => ['in', $ids]])->update(['is_top' => 0]);
-            $this->success("取消置顶成功！", '');
-        }
-    }
-
-    /**
-     * 车系推荐
-     * @adminMenu(
-     *     'name'   => '车系推荐',
-     *     'parent' => 'index',
-     *     'display'=> false,
-     *     'hasView'=> false,
-     *     'order'  => 10000,
-     *     'icon'   => '',
-     *     'remark' => '车系推荐',
-     *     'param'  => ''
-     * )
-     */
-    public function recommend()
-    {
-        $param           = $this->request->param();
-
-        if (isset($param['ids']) && isset($param["yes"])) {
-            $ids = $this->request->param('ids/a');
-            $this->UsualModel->where(['id' => ['in', $ids]])->update(['is_rec' => 1]);
-            $this->success("推荐成功！", '');
-
-        }
-        if (isset($param['ids']) && isset($param["no"])) {
-            $ids = $this->request->param('ids/a');
-            $this->UsualModel->where(['id' => ['in', $ids]])->update(['is_rec' => 0]);
-            $this->success("取消推荐成功！", '');
-
-        }
-    }
-
-    /**
-     * 车系排序
-     * @adminMenu(
-     *     'name'   => '车系排序',
-     *     'parent' => 'index',
-     *     'display'=> false,
-     *     'hasView'=> false,
-     *     'order'  => 10000,
-     *     'icon'   => '',
-     *     'remark' => '车系排序',
+     *     'remark' => '车型分类排序',
      *     'param'  => ''
      * )
      */
     public function listOrder()
     {
-        parent::listOrders(Db::name('usual_series'));
+        parent::listOrders(Db::name('UsualSeries'));
         $this->success("排序更新成功！", '');
     }
 
-    public function move()
+    /**
+     * 删除车型分类
+     * @adminMenu(
+     *     'name'   => '删除车型分类',
+     *     'parent' => 'index',
+     *     'display'=> false,
+     *     'hasView'=> false,
+     *     'order'  => 10000,
+     *     'icon'   => '',
+     *     'remark' => '删除车型分类',
+     *     'param'  => ''
+     * )
+     */
+    public function delete()
     {
+        $id = $this->request->param('id');
+        //获取删除的内容
+        $findCategory = $this->UsualModel->where('id', $id)->find();
+        if (empty($findCategory)) {
+            $this->error('分类不存在!');
+        }
 
+        $categoryChildrenCount = $this->UsualModel->where('parent_id', $id)->count();
+        if ($categoryChildrenCount > 0) {
+            $this->error('此车系有子类无法删除，请改名!');
+        }
+
+        $categoryPostCount = Db::name('usual_car')->where('serie_id',$id)->count();
+        if ($categoryPostCount > 0) {
+            $this->error('此车系有车子无法删除，请改名!');
+        }
+
+        // $data   = [
+        //     'object_id'   => $findCategory['id'],
+        //     'create_time' => time(),
+        //     'table_name'  => 'usual_brand',
+        //     'name'        => $findCategory['name']
+        // ];
+        $result = $this->UsualModel
+            ->where('id', $id)
+            ->delete();
+            // ->update(['delete_time' => time()]);
+        if ($result) {
+            // Db::name('recycleBin')->insert($data);
+            $this->success('删除成功!');
+        } else {
+            $this->error('删除失败');
+        }
     }
-
-    public function copy()
-    {
-
-    }
-
 }

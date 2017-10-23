@@ -21,18 +21,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <foreach name="categories" item="vo">
-                    <tr>
-                        <td><input name="list_orders[{$vo.id}]" type="text" size="3" value="{$vo.list_order}" class="input-order"></td>
-                        <td>{$vo.id}</td>
-                        <td><a>{$vo.name}</a></td>
-                        <td>{$vo.description}</td>
-                        <td>
-                            <a href="{:url('AdminBrand/edit', ['id'=>$vo['id']])}">编辑</a>&nbsp;&nbsp;
-                            <a class="js-ajax-delete" href="{:url('AdminBrand/delete', ['id'=>$vo['id']])}">删除</a>
-                        </td>
-                    </tr>
-                    </foreach>
+                    {$category_tree}
                 </tbody>
                 <tfoot>
                     <tr>
@@ -47,7 +36,6 @@
             <div class="table-actions">
                 <button type="submit" class="btn btn-primary btn-sm js-ajax-submit">{:lang('SORT')}</button>
             </div>
-            <ul class="pagination">{$page|default=''}</ul>
         </form>
     </div>
     <script src="__STATIC__/js/admin.js"></script>

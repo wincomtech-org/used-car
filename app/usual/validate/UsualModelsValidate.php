@@ -13,8 +13,8 @@ class UsualModelsValidate extends Validate
     ];
 
     protected $scene = [
-       // 'add'  => ['user_login,user_pass,user_email'],
-       // 'edit' => ['user_login,user_email'],
+       // 'add'  => ['name,parent_id'],
+       // 'edit' => ['parent_id'],
     ];
 
 }

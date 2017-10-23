@@ -429,7 +429,6 @@ function cmf_set_option($key, $data, $replace = false)
     }
 
     cache('cmf_options_' . $key, null);//删除缓存
-
     return true;
 }
 

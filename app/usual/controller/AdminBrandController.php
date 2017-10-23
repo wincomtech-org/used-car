@@ -33,18 +33,23 @@ class AdminBrandController extends AdminBaseController
     public function index()
     {
         // dump(CMF_ROOT);die;
-        $config = [
-            'm'=>'AdminBrand',
-            'url'=>'portal/List/index',
-            'add'=>true,
-            'add_title'=>'添加车系',
-            'edit'=>true,
-            'delete'=>true,
-            'table2'=>''
-        ];
-        $categoryTree    = $this->UsualModel->adminCategoryTableTree(0,'',$config);
+        // $config = [
+        //     'm'=>'AdminBrand',
+        //     'url'=>'portal/List/index',
+        //     'add'=>false,
+        //     'add_title'=>'',
+        //     'edit'=>true,
+        //     'delete'=>true,
+        //     'table2'=>''
+        // ];
+        // $categoryTree    = $this->UsualModel->adminCategoryTableTree(0,'',$config);
+        $param = $this->request->param();//接收筛选条件
+        $categories = $this->UsualModel->get_list($param);
 
-        $this->assign('category_tree', $categoryTree);
+        $categories->appends($param);//添加URL参数
+        $this->assign('categories', $categories->items());// 获取查询数据并赋到模板
+        $this->assign('page', $categories->render());// 获取分页代码并赋到模板
+        // $this->assign('category_tree', $categoryTree);
         return $this->fetch();
     }
 
@@ -92,7 +97,9 @@ class AdminBrandController extends AdminBaseController
         if ($result !== true) {
             $this->error($result);
         }
-
+        // if (Db::name('UsualBrand')->where('name'=>$data['name']])->value('name')) {
+        //     $this->error('名称重复!');
+        // }
         $result = $this->UsualModel->addCategory($data);
         if ($result === false) {
             $this->error('添加失败!');
@@ -252,17 +259,18 @@ tpl;
         //获取删除的内容
         $findCategory = $this->UsualModel->where('id', $id)->find();
         if (empty($findCategory)) {
-            $this->error('分类不存在!');
+            $this->error('品牌不存在!');
         }
 
-        $categoryChildrenCount = $this->UsualModel->where('parent_id', $id)->count();
-        if ($categoryChildrenCount > 0) {
-            $this->error('此分类有子类无法删除!');
-        }
+        // $categoryChildrenCount = $this->UsualModel->where('parent_id', $id)->count();
+        // if ($categoryChildrenCount > 0) {
+        //     $this->error('此品牌有子类无法删除!');
+        // }
 
-        $categoryPostCount = Db::name('usual_car')->where('brand_id',$id)->whereOr('serie_id',$id)->count();
+        // $categoryPostCount = Db::name('usual_car')->where('brand_id',$id)->whereOr('serie_id',$id)->count();
+        $categoryPostCount = Db::name('usual_car')->where('brand_id',$id)->count();
         if ($categoryPostCount > 0) {
-            $this->error('此分类有车子无法删除!');
+            $this->error('此品牌有车子无法删除!');
         }
 
         // $data   = [
@@ -273,7 +281,8 @@ tpl;
         // ];
         $result = $this->UsualModel
             ->where('id', $id)
-            ->update(['delete_time' => time()]);
+            ->delete();
+            // ->update(['delete_time' => time()]);
         if ($result) {
             // Db::name('recycleBin')->insert($data);
             $this->success('删除成功!');

@@ -18,25 +18,22 @@
                 <div class="tab-content">
                     <div class="tab-pane active" id="A">
                         <div class="form-group">
-                            <label for="input-parent"><span class="form-required">*</span>上级</label>
-                            <div>
-                                <select class="form-control" name="parent_id" id="input-parent">
-                                    <option value="0">作为一级分类</option>
-                                    {$categories_tree}
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="input-name"><span class="form-required">*</span><if $parentId>车系<else/>品牌</if>名称</label>
+                            <label for="input-name"><span class="form-required">*</span>品牌名称</label>
                             <div>
                                 <input type="text" class="form-control" id="input-name" name="name">
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label for="input-name"><if $parentId>车系<else/>品牌</if>别名</label>
+                            <label for="input-name">品牌别名</label>
                             <div>
                                 <input type="text" class="form-control" id="input-alias" name="alias">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="input-name">索引</label>
+                            <div>
+                                <input type="text" class="form-control" id="input-index" name="index">
                             </div>
                         </div>
 

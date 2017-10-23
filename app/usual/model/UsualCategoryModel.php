@@ -5,6 +5,7 @@ use app\admin\model\RouteModel;
 use think\Model;
 use tree\Tree;
 use think\Db;
+use think\Request;
 
 class UsualCategoryModel extends Model
 {
@@ -55,6 +56,18 @@ class UsualCategoryModel extends Model
      */
     public function adminCategoryTableTree($currentIds = 0, $tpl = '', $config = null)
     {
+        if (!isset($config)) {
+            $request = Request::instance();
+            $config = [
+                'm'         => $request->controller(),
+                'url'       => '',
+                'add'       => true,
+                'edit'      => true,
+                'delete'    => true,
+                'table2'    => ''
+            ];
+        }
+
         // if (!empty($currentCid)) {
         //     $where['id'] = ['neq', $currentCid];
         // }
@@ -85,15 +98,15 @@ class UsualCategoryModel extends Model
         $newCategories = [];
         foreach ($categories as $item) {
             $item['checked'] = in_array($item['id'], $currentIds) ? "checked" : "";
-            $item['url']     = isset($config['url']) ? '<a href="'. cmf_url($config['url'], ['id' => $item['id']]) .'">'. $item['name'] .'</a>' : $item['name'];
+            $item['url']     = $config['url'] ? '<a href="'. cmf_url($config['url'], ['id' => $item['id']]) .'">'. $item['name'] .'</a>' : $item['name'];
             $item['str_action'] = '';
-            if (isset($config['add'])) {
+            if ($config['add']) {
                 $item['str_action'] .= '<a href="'. url($config['m'].'/add', ["parent" => $item['id']]) .'">'.$config['add_title'].'</a>&nbsp;&nbsp;';
             }
-            if (isset($config['edit'])) {
+            if ($config['edit']) {
                 $item['str_action'] .= '<a href="'. url($config['m'].'/edit', ["id" => $item['id']]) .'">'. lang('EDIT') .'</a>&nbsp;&nbsp;';
             }
-            if (isset($config['delete'])) {
+            if ($config['delete']) {
                 $item['str_action'] .= '<a class="js-ajax-delete" href="' . url($config['m'].'/delete', ["id" => $item['id']]) . '">' . lang('DELETE') . '</a>';
             }
             array_push($newCategories, $item);
@@ -140,9 +153,6 @@ class UsualCategoryModel extends Model
             if (!empty($data['more']['thumbnail'])) {
                 $data['more']['thumbnail'] = cmf_asset_relative_url($data['more']['thumbnail']);
             }
-            if ($data['name']) {
-                # code...
-            }
             $this->allowField(true)->save($data);
             $id          = $this->id;
             $parentId    = isset($data['parent_id'])?intval($data['parent_id']):0;
@@ -151,7 +161,6 @@ class UsualCategoryModel extends Model
             } else {
                 $parentPath = $this->where('id', $parentId)->value('path');
                 $this->where( ['id' => $id])->update(['path' => "$parentPath-$id"]);
-
             }
             self::commit();
         } catch (\Exception $e) {
