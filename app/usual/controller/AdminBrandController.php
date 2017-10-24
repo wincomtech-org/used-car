@@ -44,7 +44,8 @@ class AdminBrandController extends AdminBaseController
         // ];
         // $categoryTree    = $this->UsualModel->adminCategoryTableTree(0,'',$config);
         $param = $this->request->param();//接收筛选条件
-        $categories = $this->UsualModel->get_list($param);
+        $categories = $this->UsualModel->getLists($param);
+        // $categories = model('UsualBrand')->getLists($param);
 
         $categories->appends($param);//添加URL参数
         $this->assign('categories', $categories->items());// 获取查询数据并赋到模板

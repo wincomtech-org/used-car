@@ -8,7 +8,7 @@ use cmf\controller\AdminBaseController;
 /**
 * 认证模块
 */
-class AdminAuthController extends AdminBaseController
+class AdminNewsController extends AdminBaseController
 {
     // function _initialize()
     // {
@@ -17,9 +17,7 @@ class AdminAuthController extends AdminBaseController
 
     public function index()
     {
-        $id = $this->request->param('id',0,'intval');
-        $data = model('usual_company')->where('id',$id)->value('name');
-        return $data.'的认证模块： 认证项目';
+        return '消息模块';
         return $this->fetch();
     }
 }

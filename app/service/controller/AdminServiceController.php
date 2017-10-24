@@ -3,7 +3,7 @@ namespace app\service\controller;
 
 use cmf\controller\AdminBaseController;
 // use app\service\model\ServiceModel;
-// use think\Db;
+use think\Db;
 
 class AdminServiceController extends AdminBaseController
 {
@@ -14,7 +14,9 @@ class AdminServiceController extends AdminBaseController
 
     public function index()
     {
-        return "车辆业务 - 业务单子模块";
+        $id = $this->request->param('id',0,'intval');
+        $data = Db::name('usual_company')->where('id',$id)->value('name');
+        return $data.'的车辆业务：';
         return $this->fetch();
     }
 }

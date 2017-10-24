@@ -14,7 +14,7 @@ class UsualBrandModel extends UsualCategoryModel
         //TODO:自定义的初始化
     }
 
-    public function get_list($filter, $isPage = false)
+    public function getLists($filter, $isPage = false)
     {
         $where = ['delete_time' => 0];
         // $categories = $this->field('id,name,description,list_order')->order("list_order ASC")->where($where)->select()->toArray();

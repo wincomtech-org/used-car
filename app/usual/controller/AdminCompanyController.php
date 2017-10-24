@@ -3,8 +3,7 @@ namespace app\usual\controller;
 
 use cmf\controller\AdminBaseController;
 use app\usual\model\UsualCompanyModel;
-use app\usual\service\ArticleService;
-use app\usual\model\UsualBrandModel;
+// use app\usual\model\UsualBrandModel;
 use think\Db;
 use app\admin\model\ThemeModel;
 
@@ -36,25 +35,20 @@ class AdminCompanyController extends AdminBaseController
     public function index()
     {
         $param = $this->request->param();//接收筛选条件
-        $categoryId = $this->request->param('categoryId', 0, 'intval');
-        // 等同于以下
-        // $categoryId = isset($param['categoryId'])?intval($param['categoryId']):0;
 
-        $postService = new ArticleService();
-        $data        = $postService->adminArticleList($param);
+        $data        = $this->UsualModel->getLists($param);
         // dump($data);die;
         // dump($data->items());die;
         $data->appends($param);
 
-        $CategoryModel  = new UsualBrandModel();
-        $categoryTree   = $CategoryModel->adminCategoryTree($categoryId);
+        // $CategoryModel  = new UsualBrandModel();
+        // $categoryTree   = $CategoryModel->adminCategoryTree($categoryId);
 
         $this->assign('start_time', isset($param['start_time']) ? $param['start_time'] : '');
         $this->assign('end_time', isset($param['end_time']) ? $param['end_time'] : '');
         $this->assign('keyword', isset($param['keyword']) ? $param['keyword'] : '');
         $this->assign('articles', $data->items());
-        $this->assign('category_tree', $categoryTree);
-        $this->assign('categoryId', $categoryId);
+        // $this->assign('category_tree', $categoryTree);
         $this->assign('page', $data->render());
 
         return $this->fetch();
@@ -75,10 +69,10 @@ class AdminCompanyController extends AdminBaseController
      */
     public function add()
     {
-        $themeModel        = new ThemeModel();
-        $articleThemeFiles = $themeModel->getActionThemeFiles('portal/Article/index');
+        // $themeModel        = new ThemeModel();
+        // $articleThemeFiles = $themeModel->getActionThemeFiles('portal/Article/index');
 
-        $this->assign('article_theme_files', $articleThemeFiles);
+        // $this->assign('article_theme_files', $articleThemeFiles);
         return $this->fetch();
     }
 
@@ -100,34 +94,36 @@ class AdminCompanyController extends AdminBaseController
         if ($this->request->isPost()) {
             $data   = $this->request->param();
             $post   = $data['post'];
-            $result = $this->validate($post, 'UsualCompany');
+            $result = $this->validate($post, 'Company');
             if ($result !== true) {
                 $this->error($result);
             }
-// dump($data);die;
+            if (Db::name('UsualCompany')->where('name',$post['name'])->value('id')) {
+                $this->error('公司名已存在！');
+            }
             if (!empty($data['photo_names']) && !empty($data['photo_urls'])) {
-                $data['post']['more']['photos'] = [];
+                $post['more']['photos'] = [];
                 foreach ($data['photo_urls'] as $key => $url) {
                     $photoUrl = cmf_asset_relative_url($url);
-                    array_push($data['post']['more']['photos'], ["url" => $photoUrl, "name" => $data['photo_names'][$key]]);
+                    array_push($post['more']['photos'], ["url" => $photoUrl, "name" => $data['photo_names'][$key]]);
                 }
             }
 
             if (!empty($data['file_names']) && !empty($data['file_urls'])) {
-                $data['post']['more']['files'] = [];
+                $post['more']['files'] = [];
                 foreach ($data['file_urls'] as $key => $url) {
                     $fileUrl = cmf_asset_relative_url($url);
-                    array_push($data['post']['more']['files'], ["url" => $fileUrl, "name" => $data['file_names'][$key]]);
+                    array_push($post['more']['files'], ["url" => $fileUrl, "name" => $data['file_names'][$key]]);
                 }
             }
 // dump($data);die;
-            $this->UsualModel->adminAddArticle($data['post']);
+            $this->UsualModel->adminAddArticle($post);
 
             // 钩子
-            // $data['post']['id'] = $this->UsualModel->id;
+            // $post['id'] = $this->UsualModel->id;
             // $hookParam          = [
             //     'is_add'  => true,
-            //     'article' => $data['post']
+            //     'article' => $post
             // ];
             // hook('portal_admin_after_save_article', $hookParam);
 
@@ -152,22 +148,13 @@ class AdminCompanyController extends AdminBaseController
     public function edit()
     {
         $id = $this->request->param('id', 0, 'intval');
-
         $post            = $this->UsualModel->where('id', $id)->find();
 
-        // $postCategories  = $post->categories()->alias('a')->column('a.name', 'a.id');
-        // $postCategoryIds = implode(',', array_keys($postCategories));
-        $postCategories = $this->UsualModel->getBrandName($post['brand_id']);
-        $postCategoryIds = $post['brand_id'];
+        // $themeModel        = new ThemeModel();
+        // $articleThemeFiles = $themeModel->getActionThemeFiles('portal/Article/index');
 
-        $themeModel        = new ThemeModel();
-        $articleThemeFiles = $themeModel->getActionThemeFiles('portal/Article/index');
-
-        $this->assign('article_theme_files', $articleThemeFiles);
+        // $this->assign('article_theme_files', $articleThemeFiles);
         $this->assign('post', $post);
-        $this->assign('bname', $postCategories);
-        $this->assign('category_ids', $postCategoryIds);
-
         return $this->fetch();
     }
 
@@ -190,33 +177,33 @@ class AdminCompanyController extends AdminBaseController
         if ($this->request->isPost()) {
             $data   = $this->request->param();
             $post   = $data['post'];
-            $result = $this->validate($post, 'UsualCompany');
+            $result = $this->validate($post, 'Company');
             if ($result !== true) {
                 $this->error($result);
             }
 
             if (!empty($data['photo_names']) && !empty($data['photo_urls'])) {
-                $data['post']['more']['photos'] = [];
+                $post['more']['photos'] = [];
                 foreach ($data['photo_urls'] as $key => $url) {
                     $photoUrl = cmf_asset_relative_url($url);
-                    array_push($data['post']['more']['photos'], ["url" => $photoUrl, "name" => $data['photo_names'][$key]]);
+                    array_push($post['more']['photos'], ["url" => $photoUrl, "name" => $data['photo_names'][$key]]);
                 }
             }
 
             if (!empty($data['file_names']) && !empty($data['file_urls'])) {
-                $data['post']['more']['files'] = [];
+                $post['more']['files'] = [];
                 foreach ($data['file_urls'] as $key => $url) {
                     $fileUrl = cmf_asset_relative_url($url);
-                    array_push($data['post']['more']['files'], ["url" => $fileUrl, "name" => $data['file_names'][$key]]);
+                    array_push($post['more']['files'], ["url" => $fileUrl, "name" => $data['file_names'][$key]]);
                 }
             }
 
-            $this->UsualModel->adminEditArticle($data['post']);
+            $this->UsualModel->adminEditArticle($post);
 
             // 钩子
             // $hookParam = [
             //     'is_add'  => false,
-            //     'article' => $data['post']
+            //     'article' => $post
             // ];
             // hook('portal_admin_after_save_article', $hookParam);
 

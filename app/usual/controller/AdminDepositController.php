@@ -2,13 +2,12 @@
 namespace app\usual\controller;
 
 use cmf\controller\AdminBaseController;
-// use app\usual\model\UsualModel;
 // use think\Db;
 
 /**
-* 认证模块
+* 寄存点设置
 */
-class AdminAuthController extends AdminBaseController
+class AdminDepositController extends AdminBaseController
 {
     // function _initialize()
     // {
@@ -19,7 +18,7 @@ class AdminAuthController extends AdminBaseController
     {
         $id = $this->request->param('id',0,'intval');
         $data = model('usual_company')->where('id',$id)->value('name');
-        return $data.'的认证模块： 认证项目';
+        return $data.'的寄存点：';
         return $this->fetch();
     }
 }

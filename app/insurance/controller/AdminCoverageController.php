@@ -3,9 +3,9 @@ namespace app\insurance\controller;
 
 use cmf\controller\AdminBaseController;
 // use app\insurance\model\InsuranceModel;
-use think\Db;
+// use think\Db;
 
-class AdminInsuranceController extends AdminBaseController
+class AdminCoverageController extends AdminBaseController
 {
     // function _initialize()
     // {
@@ -14,9 +14,7 @@ class AdminInsuranceController extends AdminBaseController
 
     public function index()
     {
-        $id = $this->request->param('id',0,'intval');
-        $data = Db::name('usual_company')->where('id',$id)->value('name');
-        return $data.'的车险服务：保险业务模块';
+        return "车险服务 - 险种管理";
         return $this->fetch();
     }
 }
