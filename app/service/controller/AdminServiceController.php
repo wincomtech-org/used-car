@@ -14,8 +14,8 @@ class AdminServiceController extends AdminBaseController
 
     public function index()
     {
-        $id = $this->request->param('id',0,'intval');
-        $data = Db::name('usual_company')->where('id',$id)->value('name');
+        $companyId = $this->request->param('companyId',0,'intval');
+        $data = Db::name('usual_company')->where('id',$companyId)->value('name');
         return $data.'的车辆业务：';
         return $this->fetch();
     }

@@ -29,13 +29,8 @@
 <body>
 <div class="wrap js-check-wrap">
     <ul class="nav nav-tabs">
-        <li><a href="{:url('AdminCompany/index')}">公司管理</a></li>
-        <li><a href="{:url('AdminCompany/add')}">添加公司</a></li>
-        <li class="active"><a href="#">编辑公司</a></li>
-        <li><a href="{:url('AdminAuth/index',['id'=>$post.id])}">认证资料</a></li>
-        <li><a href="{:url('insurance/AdminInsurance/index',['id'=>$post.id])}">公司保险</a></li>
-        <li><a href="{:url('service/AdminService/index',['id'=>$post.id])}">公司服务</a></li>
-        <li><a href="{:url('AdminDeposit/index',['id'=>$post.id])}">服务网点</a></li>
+        <li><a href="{:url('AdminCompany/index')}">保单管理</a></li>
+        <li class="active"><a href="#">编辑保单</a></li>
     </ul>
     <form action="{:url('AdminCompany/editPost')}" method="post" class="form-horizontal js-ajax-form margin-top-20">
         <div class="row">

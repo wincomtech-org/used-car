@@ -78,24 +78,30 @@ class UsualModel extends Model
     public function adminAddArticle($data, $categories=null)
     {
         // $data['user_id'] = cmf_get_current_admin_id();
-
+        if (!empty($data['content'])) {
+            $data['content'] = htmlspecialchars(cmf_replace_content_file_url(htmlspecialchars_decode($data['content']),true));
+        }
+        if (!empty($data['information'])) {
+            $data['information'] = htmlspecialchars(cmf_replace_content_file_url(htmlspecialchars_decode($data['information']),true));
+        }
         if (!empty($data['more']['thumbnail'])) {
             $data['more']['thumbnail'] = cmf_asset_relative_url($data['more']['thumbnail']);
         }
+        // dump($data);die;
         $this->allowField(true)->data($data, true)->isUpdate(false)->save();
 
-        if (isset($categories)) {
-            if (is_string($categories)) {
-                $categories = explode(',', $categories);
-            }
-            $this->categories()->save($categories);
-        }
+        // if (isset($categories)) {
+        //     if (is_string($categories)) {
+        //         $categories = explode(',', $categories);
+        //     }
+        //     $this->categories()->save($categories);
+        // }
 
-        if (isset($data['post_keywords'])) {
-            $data['post_keywords'] = str_replace('，', ',', $data['post_keywords']);
-            $keywords = explode(',', $data['post_keywords']);
-            $this->addTags($keywords, $this->id);
-        }
+        // if (isset($data['post_keywords'])) {
+        //     $data['post_keywords'] = str_replace('，', ',', $data['post_keywords']);
+        //     $keywords = explode(',', $data['post_keywords']);
+        //     $this->addTags($keywords, $this->id);
+        // }
 
         return $this;
     }
@@ -108,13 +114,22 @@ class UsualModel extends Model
      */
     public function adminEditArticle($data, $categories = null)
     {
+        if (!empty($data['content'])) {
+            $data['content'] = htmlspecialchars(cmf_replace_content_file_url(htmlspecialchars_decode($data['content']),true));
+        }
+        if (!empty($data['information'])) {
+            $data['information'] = htmlspecialchars(cmf_replace_content_file_url(htmlspecialchars_decode($data['information']),true));
+        }
         if (!empty($data['more']['thumbnail'])) {
             $data['more']['thumbnail'] = cmf_asset_relative_url($data['more']['thumbnail']);
         }
 
         $data['status'] = empty($data['status']) ? 0 : 1;
-        $data['is_top']      = empty($data['is_top']) ? 0 : 1;
+        $data['is_top'] = empty($data['is_top']) ? 0 : 1;
         $data['is_rec'] = empty($data['is_rec']) ? 0 : 1;
+        $data['identi_status'] = empty($data['identi_status']) ? 0 : 1;
+        $data['is_baoxian'] = empty($data['is_baoxian']) ? 0 : 1;
+        $data['is_yewu'] = empty($data['is_yewu']) ? 0 : 1;
 
         $this->allowField(true)->isUpdate(true)->data($data, true)->save();
 

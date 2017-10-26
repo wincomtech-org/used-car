@@ -20,15 +20,15 @@ class AdminCompanyController extends AdminBaseController
     }
 
     /**
-     * 车系列表
+     * 公司列表
      * @adminMenu(
-     *     'name'   => '车系管理',
+     *     'name'   => '公司管理',
      *     'parent' => 'usual/AdminCompany/default',
      *     'display'=> true,
      *     'hasView'=> true,
      *     'order'  => 10000,
      *     'icon'   => '',
-     *     'remark' => '车系列表',
+     *     'remark' => '公司列表',
      *     'param'  => ''
      * )
      */
@@ -37,8 +37,6 @@ class AdminCompanyController extends AdminBaseController
         $param = $this->request->param();//接收筛选条件
 
         $data        = $this->UsualModel->getLists($param);
-        // dump($data);die;
-        // dump($data->items());die;
         $data->appends($param);
 
         // $CategoryModel  = new UsualBrandModel();
@@ -55,15 +53,15 @@ class AdminCompanyController extends AdminBaseController
     }
 
     /**
-     * 添加车系
+     * 添加公司
      * @adminMenu(
-     *     'name'   => '添加车系',
+     *     'name'   => '添加公司',
      *     'parent' => 'index',
      *     'display'=> false,
      *     'hasView'=> true,
      *     'order'  => 10000,
      *     'icon'   => '',
-     *     'remark' => '添加车系',
+     *     'remark' => '添加公司',
      *     'param'  => ''
      * )
      */
@@ -77,15 +75,15 @@ class AdminCompanyController extends AdminBaseController
     }
 
     /**
-     * 添加车系提交
+     * 添加公司提交
      * @adminMenu(
-     *     'name'   => '添加车系提交',
+     *     'name'   => '添加公司提交',
      *     'parent' => 'index',
      *     'display'=> false,
      *     'hasView'=> false,
      *     'order'  => 10000,
      *     'icon'   => '',
-     *     'remark' => '添加车系提交',
+     *     'remark' => '添加公司提交',
      *     'param'  => ''
      * )
      */
@@ -99,7 +97,7 @@ class AdminCompanyController extends AdminBaseController
                 $this->error($result);
             }
             if (Db::name('UsualCompany')->where('name',$post['name'])->value('id')) {
-                $this->error('公司名已存在！');
+                $this->error('公司名已存在！','add');
             }
             if (!empty($data['photo_names']) && !empty($data['photo_urls'])) {
                 $post['more']['photos'] = [];
@@ -116,7 +114,6 @@ class AdminCompanyController extends AdminBaseController
                     array_push($post['more']['files'], ["url" => $fileUrl, "name" => $data['file_names'][$key]]);
                 }
             }
-// dump($data);die;
             $this->UsualModel->adminAddArticle($post);
 
             // 钩子
@@ -133,22 +130,22 @@ class AdminCompanyController extends AdminBaseController
     }
 
     /**
-     * 编辑车系
+     * 编辑公司
      * @adminMenu(
-     *     'name'   => '编辑车系',
+     *     'name'   => '编辑公司',
      *     'parent' => 'index',
      *     'display'=> false,
      *     'hasView'=> true,
      *     'order'  => 10000,
      *     'icon'   => '',
-     *     'remark' => '编辑车系',
+     *     'remark' => '编辑公司',
      *     'param'  => ''
      * )
      */
     public function edit()
     {
         $id = $this->request->param('id', 0, 'intval');
-        $post            = $this->UsualModel->where('id', $id)->find();
+        $post = $this->UsualModel->getPost($id);
 
         // $themeModel        = new ThemeModel();
         // $articleThemeFiles = $themeModel->getActionThemeFiles('portal/Article/index');
@@ -159,15 +156,15 @@ class AdminCompanyController extends AdminBaseController
     }
 
     /**
-     * 编辑车系提交
+     * 编辑公司提交
      * @adminMenu(
-     *     'name'   => '编辑车系提交',
+     *     'name'   => '编辑公司提交',
      *     'parent' => 'index',
      *     'display'=> false,
      *     'hasView'=> false,
      *     'order'  => 10000,
      *     'icon'   => '',
-     *     'remark' => '编辑车系提交',
+     *     'remark' => '编辑公司提交',
      *     'param'  => ''
      * )
      */
@@ -181,7 +178,7 @@ class AdminCompanyController extends AdminBaseController
             if ($result !== true) {
                 $this->error($result);
             }
-
+// dump($post);die;
             if (!empty($data['photo_names']) && !empty($data['photo_urls'])) {
                 $post['more']['photos'] = [];
                 foreach ($data['photo_urls'] as $key => $url) {
@@ -213,15 +210,15 @@ class AdminCompanyController extends AdminBaseController
     }
 
     /**
-     * 车系删除
+     * 公司删除
      * @adminMenu(
-     *     'name'   => '车系删除',
+     *     'name'   => '公司删除',
      *     'parent' => 'index',
      *     'display'=> false,
      *     'hasView'=> false,
      *     'order'  => 10000,
      *     'icon'   => '',
-     *     'remark' => '车系删除',
+     *     'remark' => '公司删除',
      *     'param'  => ''
      * )
      */
@@ -267,15 +264,15 @@ class AdminCompanyController extends AdminBaseController
     }
 
     /**
-     * 车系发布
+     * 公司发布
      * @adminMenu(
-     *     'name'   => '车系发布',
+     *     'name'   => '公司发布',
      *     'parent' => 'index',
      *     'display'=> false,
      *     'hasView'=> false,
      *     'order'  => 10000,
      *     'icon'   => '',
-     *     'remark' => '车系发布',
+     *     'remark' => '公司发布',
      *     'param'  => ''
      * )
      */
@@ -294,19 +291,18 @@ class AdminCompanyController extends AdminBaseController
             $this->UsualModel->where(['id' => ['in', $ids]])->update(['status' => 0]);
             $this->success("隐藏成功！", '');
         }
-
     }
 
     /**
-     * 车系置顶
+     * 公司置顶
      * @adminMenu(
-     *     'name'   => '车系置顶',
+     *     'name'   => '公司置顶',
      *     'parent' => 'index',
      *     'display'=> false,
      *     'hasView'=> false,
      *     'order'  => 10000,
      *     'icon'   => '',
-     *     'remark' => '车系置顶',
+     *     'remark' => '公司置顶',
      *     'param'  => ''
      * )
      */
@@ -327,15 +323,15 @@ class AdminCompanyController extends AdminBaseController
     }
 
     /**
-     * 车系推荐
+     * 公司推荐
      * @adminMenu(
-     *     'name'   => '车系推荐',
+     *     'name'   => '公司推荐',
      *     'parent' => 'index',
      *     'display'=> false,
      *     'hasView'=> false,
      *     'order'  => 10000,
      *     'icon'   => '',
-     *     'remark' => '车系推荐',
+     *     'remark' => '公司推荐',
      *     'param'  => ''
      * )
      */
@@ -355,6 +351,24 @@ class AdminCompanyController extends AdminBaseController
             $this->success("取消推荐成功！", '');
 
         }
+    }
+
+    /**
+     * 公司认证
+     * @adminMenu(
+     *     'name'   => '公司认证',
+     *     'parent' => 'index',
+     *     'display'=> false,
+     *     'hasView'=> false,
+     *     'order'  => 10000,
+     *     'icon'   => '',
+     *     'remark' => '公司认证',
+     *     'param'  => ''
+     * )
+     */
+    public function audit()
+    {
+        # code...
     }
 
     /**

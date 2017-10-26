@@ -3,8 +3,7 @@
 <body>
 <div class="wrap js-check-wrap">
     <ul class="nav nav-tabs">
-        <li class="active"><a href="javascript:;">所有公司</a></li>
-        <li><a href="{:url('AdminCompany/add')}">添加公司</a></li>
+        <li class="active"><a href="javascript:;">所有保单</a></li>
     </ul>
     <form class="well form-inline margin-top-20" method="post" action="{:url('AdminCompany/index')}">
         分类:
@@ -26,7 +25,29 @@
         <a class="btn btn-danger" href="{:url('AdminCompany/index')}">清空</a>
     </form>
     <form class="js-ajax-form" action="" method="post">
-        <include file="admin_company/table-actions" />
+        <div class="table-actions">
+            <notempty name="categoryId_no">
+                <button class="btn btn-primary btn-sm js-ajax-submit" type="submit"
+                        data-action="{:url('AdminCompany/listOrder')}">{:lang('SORT')}
+                </button>
+            </notempty>
+            <button class="btn btn-primary btn-sm js-ajax-submit" type="submit"
+                    data-action="{:url('AdminCompany/publish',array('yes'=>1))}" data-subcheck="true">发布
+            </button>
+            <button class="btn btn-primary btn-sm js-ajax-submit" type="submit"
+                    data-action="{:url('AdminCompany/publish',array('no'=>1))}" data-subcheck="true">取消发布
+            </button>
+            <!--
+            <notempty name="categoryId">
+                <button class="btn btn-primary btn-sm js-articles-move" type="button">批量移动</button>
+            </notempty>
+            <button class="btn btn-primary btn-sm js-articles-copy" type="button">批量复制</button>
+            -->
+            <button class="btn btn-danger btn-sm js-ajax-submit" type="submit"
+                    data-action="{:url('AdminCompany/delete')}" data-subcheck="true" data-msg="您确定删除吗？">
+                {:lang('DELETE')}
+            </button>
+        </div>
         <table class="table table-hover table-bordered table-list">
             <thead>
             <tr>
@@ -36,14 +57,14 @@
                     </label>
                 </th>
                 <th width="50">ID</th>
-                <th>名称</th>
-                <th>服务点</th>
-                <th>保险业务</th>
-                <th>服务业务</th>
-                <th width="160">LOGO</th>
+                <th>订单号</th>
+                <th>业务代号</th>
+                <th>车代号</th>
+                <th>投保人</th>
+                <th width="130">创建时间</th>
                 <th width="130">更新时间</th>
                 <th width="70">状态</th>
-                <th width="90">操作</th>
+                <th width="100">操作</th>
             </tr>
             </thead>
             <foreach name="articles" item="vo">
@@ -63,9 +84,9 @@
                         </notempty>
                     </td>
 
-                    <td><a href="{:url('AdminDeposit/index',['companyId'=>$vo['id']])}">查看寄存点</a></td>
-                    <td><eq name='vo.is_baoxian' value='1'><a href="{:url('insurance/AdminInsurance/index',['companyId'=>$vo['id']])}">查看保险</a></eq></td>
-                    <td><eq name="vo.is_yewu" value="1"><a href="{:url('service/AdminService/index',['companyId'=>$vo['id']])}">查看服务</a></eq></td>
+                    <td><a href="{:url('AdminDeposit/index',['id'=>$vo['id']])}">查看寄存点</a></td>
+                    <td><a href="{:url('insurance/AdminInsurance/index',['id'=>$vo['id']])}">查看保险</a></td>
+                    <td><a href="{:url('service/AdminService/index',['id'=>$vo['id']])}">查看服务</a></td>
                     <td>
                         <notempty name="vo.more.thumbnail">
                             <a href="javascript:parent.imagePreviewDialog('{:cmf_get_image_preview_url($vo.more.thumbnail)}');">
@@ -94,18 +115,40 @@
                     <th width="50">{:lang('SORT')}</th>
                 </notempty>
                 <th width="50">ID</th>
-                <th>名称</th>
-                <th>服务点</th>
-                <th>保险业务</th>
-                <th>服务业务</th>
-                <th width="160">LOGO</th>
+                <th>订单号</th>
+                <th>业务代号</th>
+                <th>车代号</th>
+                <th>投保人</th>
+                <th width="130">创建时间</th>
                 <th width="130">更新时间</th>
                 <th width="70">状态</th>
-                <th width="90">操作</th>
+                <th width="100">操作</th>
             </tr>
             </tfoot>
         </table>
-        <include file="admin_company/table-actions" />
+        <div class="table-actions">
+            <notempty name="categoryId_no">
+                <button class="btn btn-primary btn-sm js-ajax-submit" type="submit"
+                        data-action="{:url('AdminCompany/listOrder')}">{:lang('SORT')}
+                </button>
+            </notempty>
+            <button class="btn btn-primary btn-sm js-ajax-submit" type="submit"
+                    data-action="{:url('AdminCompany/publish',array('yes'=>1))}" data-subcheck="true">发布
+            </button>
+            <button class="btn btn-primary btn-sm js-ajax-submit" type="submit"
+                    data-action="{:url('AdminCompany/publish',array('no'=>1))}" data-subcheck="true">取消发布
+            </button>
+            <!--
+            <notempty name="categoryId">
+                <button class="btn btn-primary btn-sm js-articles-move" type="button">批量移动</button>
+            </notempty>
+            <button class="btn btn-primary btn-sm js-articles-copy" type="button">批量复制</button>
+            -->
+            <button class="btn btn-danger btn-sm js-ajax-submit" type="submit"
+                    data-action="{:url('AdminCompany/delete')}" data-subcheck="true" data-msg="您确定删除吗？">
+                {:lang('DELETE')}
+            </button>
+        </div>
         <ul class="pagination">{$page|default=''}</ul>
     </form>
 </div>

@@ -15,7 +15,7 @@ class UsualCompanyModel extends UsualModel
         // $field = 'a.*,m.name mname';
         // array_push($join, ['__USUAL_BRAND__ b', 'a.brand_id = b.id']);
         // $field .= ',b.id AS bid,b.name bname';
-        $field = 'id,name,province_id,city_id,brief,content,update_time,published_time,more,status,list_order';
+        $field = 'id,name,province_id,city_id,brief,content,update_time,published_time,more,is_baoxian,is_yewu,status,list_order';
 
         $where = [
             'a.delete_time' => 0
@@ -40,10 +40,23 @@ class UsualCompanyModel extends UsualModel
 
         $series = $this->alias('a')->field($field)
             ->where($where)
-            ->order('update_time DESC,list_order')
+            ->order('update_time DESC')
             ->paginate(5);
 
         return $series;
+    }
+
+    public function getPost($id)
+    {
+        $post = $this->get($id)->toArray();
+        // $post = model('UsualCompany')->where('id', $id)->find();
+        if (isset($post['content'])) {
+            $post['content'] = cmf_replace_content_file_url(htmlspecialchars_decode($post['content']));
+        }
+        if (isset($post['information'])) {
+            $post['information'] = cmf_replace_content_file_url(htmlspecialchars_decode($post['information']));
+        }
+        return $post;
     }
 
 }

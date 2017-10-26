@@ -29,78 +29,69 @@
 <body>
 <div class="wrap js-check-wrap">
     <ul class="nav nav-tabs">
-        <li><a href="{:url('AdminCompany/index')}">公司管理</a></li>
-        <li class="active"><a href="{:url('AdminCompany/add')}">添加公司</a></li>
+        <li><a href="{:url('AdminCoverage/index')}">险种管理</a></li>
+        <li class="active"><a href="{:url('AdminCoverage/add')}">添加险种</a></li>
     </ul>
-    <form action="{:url('AdminCompany/addPost')}" method="post" class="form-horizontal js-ajax-form margin-top-20">
+    <form action="{:url('AdminCoverage/addPost')}" method="post" class="form-horizontal js-ajax-form margin-top-20">
         <div class="row">
             <div class="col-md-9">
                 <table class="table table-bordered">
+                    <tr>
+                        <th>所属保险</th>
+                        <td>
+                            <select class="form-control" name="post[insurance_id]" style="width:300px;float:left;">
+                                <option value="0">通用</option>
+                                {$insurances|default=''}
+                            </select>
+                            <empty name="categoryId">
+                            <span style="float:left;line-height:34px;margin-left:25px;margin-right:5px"><b>所属公司</b></span>
+                            <select class="form-control" name="company_id" style="width:300px;">
+                                <option value="0">通用</option>
+                                {$companys|default=''}
+                            </select>
+                            </empty>
+                        </td>
+                    </tr>
+
                     <tr>
                         <th width="100">名称<span class="form-required">*</span></th>
                         <td>
                             <input class="form-control" type="text" name="post[name]" id="title" required value="" placeholder="请输入名称"/>
                         </td>
                     </tr>
-
                     <tr>
-                        <th>总部地址</th>
+                        <th>参考价</th>
                         <td>
-                            <select class="form-control" style="width:300px;float:left;" name="post[province_id]" id="input-province">
-                                <option value="0">--请选择--</option>
-                                <option value="10" selected>河北</option>
-                                <option value="3">安徽</option>
-                                <option value="2">北京</option>
-                            </select>
-                            <select class="form-control" style="width:300px;" name="post[city_id]" id="input-city">
-                                <option value="0">--请选择--</option>
-                                <option value="138">石家庄</option>
-                                <option value="139">保定</option>
-                                <option value="140">沧州</option>
-                                <option value="141">承德</option>
-                                <option value="142">邯郸</option>
-                                <option value="143">衡水</option>
-                                <option value="144">廊坊</option>
-                                <option value="145">秦皇岛</option>
-                                <option value="146" selected>唐山</option>
-                                <option value="147">邢台</option>
-                                <option value="148">张家口</option>
-                            </select>
+                            <input class="form-control" type="number" name="post[price]" value="0"/>
+                            <p class="help-block">不作为最终价格</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>险种类型</th>
+                        <td>
+                            <label><input class="" type="radio" name="post[type]" value="1"/> 强险</label>
+                            <label><input class="" type="radio" name="post[type]" value="2" checked/> 商业险</label>
                         </td>
                     </tr>
 
                     <tr>
-                        <th>简介</th>
+                        <th>描述</th>
                         <td>
-                            <textarea class="form-control" name="post[brief]" style="height:50px;" placeholder="请填写简介"></textarea>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>详情</th>
-                        <td>
-                            <script type="text/plain" id="content" name="post[content]"></script>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>相册</th>
-                        <td>
-                            <ul id="photos" class="pic-list list-unstyled form-inline"></ul>
-                            <a href="javascript:uploadMultiImage('图片上传','#photos','photos-item-tpl');"
-                               class="btn btn-default btn-sm">选择图片</a>
+                            <textarea class="form-control" name="post[description]" style="height:200px;" placeholder="请填写描述"></textarea>
                         </td>
                     </tr>
                 </table>
                 <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-10">
                         <button type="submit" class="btn btn-primary js-ajax-submit">{:lang('ADD')}</button>
-                        <a class="btn btn-default" href="{:url('AdminCompany/index')}">{:lang('BACK')}</a>
+                        <a class="btn btn-default" href="{:url('AdminCoverage/index')}">{:lang('BACK')}</a>
                     </div>
                 </div>
             </div>
             <div class="col-md-3">
                 <table class="table table-bordered">
                     <tr>
-                        <th><b>LOGO</b></th>
+                        <th><b>图标</b></th>
                     </tr>
                     <tr>
                         <td>
@@ -116,7 +107,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <th><b>发布时间</b></th>
+                        <th><b>启用时间</b></th>
                     </tr>
                     <tr>
                         <td>
@@ -130,30 +121,9 @@
                     <tr>
                         <td>
                             <div class="checkbox">
-                                <label><input type="checkbox" name="post[status]" value="1" checked>发布</label>&nbsp;&nbsp;&nbsp;&nbsp;
+                                <label><input type="checkbox" name="post[status]" value="1" checked>启用</label>&nbsp;&nbsp;&nbsp;&nbsp;
                                 <label><input type="checkbox" name="post[is_top]" value="1">置顶</label>&nbsp;&nbsp;&nbsp;&nbsp;
                                 <label><input type="checkbox" name="post[is_rec]" value="1">推荐</label>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th><b>所属类别</b></th>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="checkbox">
-                                <label><input type="checkbox" name="post[is_baoxian]" value="1" checked>保险</label>&nbsp;&nbsp;&nbsp;&nbsp;
-                                <label><input type="checkbox" name="post[is_yewu]" value="1" checked>服务</label>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th><b>认证状态</b></th>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="checkbox">
-                                <label><input type="checkbox" name="post[identi_status]" value="1" checked>认证通过</label>
                             </div>
                         </td>
                     </tr>
@@ -164,20 +134,7 @@
 </div>
 <script type="text/javascript" src="__STATIC__/js/admin.js"></script>
 <script type="text/javascript">
-    //编辑器路径定义
-    var editorURL = GV.WEB_ROOT;
-</script>
-<script type="text/javascript" src="__STATIC__/js/ueditor/ueditor.config.js"></script>
-<script type="text/javascript" src="__STATIC__/js/ueditor/ueditor.all.min.js"></script>
-<script type="text/javascript">
-    $(function () {
-        editorcontent = new baidu.editor.ui.Editor();
-        editorcontent.render('content');
-        try {
-            editorcontent.sync();
-        } catch (err) {
-        }
-
+    $(function(){
         $('.btn-cancel-thumbnail').click(function () {
             $('#thumbnail-preview').attr('src', '__TMPL__/public/assets/images/default-thumbnail.png');
             $('#thumbnail').val('');
