@@ -8,22 +8,31 @@ use think\Validate;
 class UsualBrandValidate extends Validate
 {
     protected $rule = [
-        'name'  => 'require',
+        'name'  => 'require|checkName',
         'parent_id'  => 'checkParentId',
         'alias' => 'checkAlias',
     ];
     protected $message = [
         'name.require'  => '名称不能为空',
+        'name.checkName'=> '名称已存在',
         'parent_id'     => '超过了2级',
     ];
 
     // 场景验证 ， 指定场景需要验证的字段
     protected $scene = [
-       // 'add'  => ['name,parent_id,alias'],
-       // 'edit' => ['parent_id,alias'],
+       'add'  => ['name','parent_id','alias'],
+       'edit' => ['name'=>'require','parent_id','alias'],
     ];
 
     // 自定义验证规则
+    // 检查名称是否存在
+    protected function checkName($value)
+    {
+        $find = model('UsualBrand')->where('name',$value)->value('id');
+        if ($find) {return false;}
+        return true;
+    }
+
     protected function checkParentId($value)
     {
         $find = model('UsualBrand')->where(["id" => $value])->value('parent_id');
@@ -42,9 +51,7 @@ class UsualBrandValidate extends Validate
 
     protected function checkAlias($value, $rule, $data)
     {
-        if (empty($value)) {
-            return true;
-        }
+        if (empty($value)) {return true;}
 
         $routeModel = new RouteModel();
         if (isset($data['id']) && $data['id'] > 0){
@@ -57,7 +64,6 @@ class UsualBrandValidate extends Validate
         } else {
             return "别名已经存在!";
         }
-
         return true;
     }
 }

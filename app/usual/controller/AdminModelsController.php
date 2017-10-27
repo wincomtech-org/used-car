@@ -90,15 +90,12 @@ class AdminModelsController extends AdminBaseController
 
         $data = $this->request->param();
 
-        $result = $this->validate($data, 'UsualModels');
+        $result = $this->validate($data, 'UsualModels.add');
         if ($result !== true) {
             $this->error($result);
         }
-        if (Db::name('UsualModels')->where(['name'=>$data['name']])->value('name')) {
-            $this->error('名称重复!');
-        }
-        $result = $this->UsualModel->addCategory($data);
 
+        $result = $this->UsualModel->addCategory($data);
         if ($result === false) {
             $this->error('添加失败!');
         }
@@ -160,13 +157,12 @@ class AdminModelsController extends AdminBaseController
     {
         $data = $this->request->param();
 
-        $result = $this->validate($data, 'UsualModels');
+        $result = $this->validate($data, 'UsualModels.edit');
         if ($result !== true) {
             $this->error($result);
         }
 
         $result = $this->UsualModel->editCategory($data);
-
         if ($result === false) {
             $this->error('保存失败!');
         }

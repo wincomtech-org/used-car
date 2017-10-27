@@ -39,8 +39,10 @@ class AdminInsuranceController extends AdminBaseController
     public function add()
     {
         $companys = model('Insurance')->getCompany();
+        $coverages = model('InsuranceCoverage')->getCoverage();
 
         $this->assign('companys', $companys);
+        $this->assign('coverages', $coverages);
         return $this->fetch();
     }
     public function addPost()
@@ -48,12 +50,9 @@ class AdminInsuranceController extends AdminBaseController
         if ($this->request->isPost()) {
             $data   = $this->request->param();
             $post   = $data['post'];
-            $result = $this->validate($post,'Insurance');
+            $result = $this->validate($post,'Insurance.add');
             if ($result !== true) {
                 $this->error($result);
-            }
-            if (Db::name('Insurance')->where('name',$post['name'])->value('id')) {
-                $this->error('名称已存在！','add');
             }
             model('Insurance')->adminAddArticle($post);
 
@@ -75,8 +74,11 @@ class AdminInsuranceController extends AdminBaseController
         $post = model('Insurance')->getPost($id);
         // $post = model('Insurance')->where('id', $id)->find();
         $companys = model('Insurance')->getCompany($post['company_id']);
+        $coverageIds = empty($post['more']['coverage'])?[]:$post['more']['coverage'];
+        $coverages = model('InsuranceCoverage')->getCoverage($coverageIds);
 
         $this->assign('companys', $companys);
+        $this->assign('coverages', $coverages);
         $this->assign('post', $post);
         return $this->fetch();
     }
@@ -86,7 +88,7 @@ class AdminInsuranceController extends AdminBaseController
             $data   = $this->request->param();
             // dump($data);die;
             $post   = $data['post'];
-            $result = $this->validate($post, 'Insurance');
+            $result = $this->validate($post, 'Insurance.edit');
             if ($result !== true) {
                 $this->error($result);
             }

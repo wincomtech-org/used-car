@@ -72,4 +72,21 @@ class InsuranceModel extends UsualModel
 
         return $options;
     }
+
+    /*
+     * 获取 险种
+     * ."\r\n"
+    */
+    public function getCoverage($checkedIds=[], $excludeIds=[])
+    {
+        $where = ['delete_time' => 0, 'insurance_id' => 0];
+        $categories = model('InsuranceCoverage')->field('id,name')->order("list_order ASC")->where($where)->select()->toArray();
+
+        $options = '';
+        foreach ($categories as $v) {
+            $options .= '<label><input type="checkbox" name="post[more][coverage][]" value="'.$v['id'].'" '.(in_array($v['id'],$checkedIds)?'checked':'').'>'. $v['name'] .'</label> &nbsp; &nbsp; ';
+        }
+
+        return $options;
+    }
 }

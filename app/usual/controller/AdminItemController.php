@@ -87,7 +87,7 @@ class AdminItemController extends AdminBaseController
     {
         $data = $this->request->param();
 
-        $result = $this->validate($data, 'UsualItem');
+        $result = $this->validate($data, 'UsualItem.add');
         if ($result !== true) {
             $this->error($result);
         }
@@ -154,10 +154,7 @@ class AdminItemController extends AdminBaseController
     {
         $data = $this->request->param();
         // 字段验证
-        // $validate = new \app\usual\validate\UsualItemValidate();
-        // $result = $validate->scene('edit')->check($data);
-        $result = $this->validate($data, 'UsualItem');
-        // $result = $this->validate($data, ['name'=>'require','parent_id'=>'number|checkParentId']);
+        $result = $this->validate($data, 'UsualItem.edit');
         // 提交结果
         $result = $this->UsualModel->editCategory($data);
         if ($result === false) {

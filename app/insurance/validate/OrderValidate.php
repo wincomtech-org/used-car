@@ -12,8 +12,8 @@ class OrderValidate extends Validate
         'dead_time.require' => '失效时间不能为空'
     ];
     protected $scene = [
-       // 'add'  => ['name,parent_id'],
-       // 'edit' => ['parent_id'],
+       // 'add'  => ['order_sn,dead_time'],
+       // 'edit' => ['dead_time'],
     ];
 
 }

@@ -6,18 +6,18 @@ use think\Validate;
 class UsualItemValidate extends Validate
 {
     protected $rule = [
-        'name'  => 'require',
+        'name'  => 'require|checkName',
         'parent_id'  => 'checkParentId',
     ];
     protected $message = [
-        'name.require' => '名称不能为空',
+        'name.require'  => '名称不能为空',
+        'name.checkName'=> '名称已存在',
         'parent_id'     => '超过了2级',
     ];
 
     protected $scene = [
-       'add'  => ['parent_id'],
-       'edit' => ['name,parent_id'],
-       // 'edit' => ['name'=>'require','parent_id'],
+       'add'  => ['parent_id','name'],
+       'edit' => ['parent_id','name'=>'require'],
     ];
 
     // 自定义验证规则
@@ -39,10 +39,8 @@ class UsualItemValidate extends Validate
 
     protected function checkName($value)
     {
-        $find = model('UsualItem')->where(['name'=>$value])->value('name');
-        if ($value==$find) {
-            return false;
-        }
-        // return true;
+        $find = model('UsualItem')->where(['name'=>$value])->value('id');
+        if ($find) {return false;}
+        return true;
     }
 }

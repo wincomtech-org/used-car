@@ -92,7 +92,7 @@ class AdminCompanyController extends AdminBaseController
         if ($this->request->isPost()) {
             $data   = $this->request->param();
             $post   = $data['post'];
-            $result = $this->validate($post, 'Company');
+            $result = $this->validate($post, 'Company.add');
             if ($result !== true) {
                 $this->error($result);
             }
@@ -174,7 +174,7 @@ class AdminCompanyController extends AdminBaseController
         if ($this->request->isPost()) {
             $data   = $this->request->param();
             $post   = $data['post'];
-            $result = $this->validate($post, 'Company');
+            $result = $this->validate($post, 'Company.edit');
             if ($result !== true) {
                 $this->error($result);
             }

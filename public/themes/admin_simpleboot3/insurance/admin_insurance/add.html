@@ -41,6 +41,7 @@
                         <th>所属公司<span class="form-required">*</span></th>
                         <td>
                             <select class="form-control" name="post[company_id]" style="width:300px;">
+                                <option value="0">--请选择--</option>
                                 {$companys|default=''}
                             </select>
                         </td>
@@ -54,8 +55,11 @@
                     </tr>
 
                     <tr>
-                        <th>应用公共模型</th>
-                        <td></td>
+                        <th>公用险种模型</th>
+                        <td>
+                            {$coverages}
+                            <p class="help-block">勾选表明在前台 显示该险种</p>
+                        </td>
                     </tr>
 
                     <tr>

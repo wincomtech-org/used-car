@@ -64,7 +64,8 @@ class AdminSeriesController extends AdminBaseController
     {
         $parentId           = $this->request->param('parent', 0, 'intval');
         $categoriesTree     = $this->UsualModel->adminCategoryTree($parentId);
-        $BrandId            = $this->request->param('brand', 0, 'intval');
+        $brand_id = $this->UsualModel->where('id',$parentId)->value('brand_id');
+        $BrandId            = !empty($brand_id) ? $brand_id : $this->request->param('brand', 0, 'intval');
         $BrandTree          = $this->UsualModel->adminCategoryTree($BrandId,0,'usual_brand');
 
         $this->assign('categories_tree', $categoriesTree);
@@ -87,18 +88,14 @@ class AdminSeriesController extends AdminBaseController
      */
     public function addPost()
     {
-
         $data = $this->request->param();
 
-        $result = $this->validate($data, 'UsualSeries');
+        $result = $this->validate($data, 'UsualSeries.add');
         if ($result !== true) {
             $this->error($result);
         }
-        if (Db::name('UsualSeries')->where(['name'=>$data['name'],'brand_id'=>$data['brand_id']])->value('name')) {
-            $this->error('名称重复!');
-        }
-        $result = $this->UsualModel->addCategory($data);
 
+        $result = $this->UsualModel->addCategory($data);
         if ($result === false) {
             $this->error('添加失败!');
         }
@@ -127,7 +124,7 @@ class AdminSeriesController extends AdminBaseController
             $category = UsualSeriesModel::get($id)->toArray();
 
             $categoriesTree      = $this->UsualModel->adminCategoryTree($category['parent_id'], $id);
-            $BrandTree          = $this->UsualModel->adminCategoryTree($category['brand_id'],0,'usual_brand');
+            $BrandTree           = $this->UsualModel->adminCategoryTree($category['brand_id'],0,'usual_brand');
 
             $this->assign($category);
             $this->assign('categories_tree', $categoriesTree);
@@ -156,13 +153,12 @@ class AdminSeriesController extends AdminBaseController
     {
         $data = $this->request->param();
 
-        $result = $this->validate($data, 'UsualSeries');
+        $result = $this->validate($data, 'UsualSeries.edit');
         if ($result !== true) {
             $this->error($result);
         }
 
         $result = $this->UsualModel->editCategory($data);
-
         if ($result === false) {
             $this->error('保存失败!');
         }

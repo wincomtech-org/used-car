@@ -94,13 +94,11 @@ class AdminBrandController extends AdminBaseController
     {
         $data = $this->request->param();
 
-        $result = $this->validate($data, 'UsualBrand');
+        $result = $this->validate($data, 'UsualBrand.add');
         if ($result !== true) {
             $this->error($result);
         }
-        // if (Db::name('UsualBrand')->where('name'=>$data['name']])->value('name')) {
-        //     $this->error('名称重复!');
-        // }
+
         $result = $this->UsualModel->addCategory($data);
         if ($result === false) {
             $this->error('添加失败!');
@@ -161,7 +159,7 @@ class AdminBrandController extends AdminBaseController
     {
         $data = $this->request->param();
 
-        $result = $this->validate($data, 'UsualBrand');
+        $result = $this->validate($data, 'UsualBrand.edit');
         if ($result !== true) {
             $this->error($result);
         }

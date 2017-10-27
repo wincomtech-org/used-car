@@ -43,6 +43,7 @@
                         <th>所属公司<span class="form-required">*</span></th>
                         <td>
                             <select class="form-control" name="post[company_id]" style="width:300px;">
+                                <option value="0" {$post.company_id?'':'selected'}>--请选择--</option>
                                 {$companys|default=''}
                             </select>
                         </td>
@@ -52,6 +53,14 @@
                         <th width="100">名称<span class="form-required">*</span></th>
                         <td>
                             <input class="form-control" type="text" name="post[name]" required value="{$post.name}" placeholder="请输入名称"/>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th>公用险种模型</th>
+                        <td>
+                            {$coverages}
+                            <p class="help-block">勾选表明在前台 显示该险种</p>
                         </td>
                     </tr>
 
@@ -139,7 +148,7 @@
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
                 <input type="hidden" name="post[id]" value="{$post.id}">
-                <button type="submit" class="btn btn-primary js-ajax-submit1">{:lang('SAVE')}</button>
+                <button type="submit" class="btn btn-primary js-ajax-submit">{:lang('SAVE')}</button>
                 <a class="btn btn-default" href="javascript:history.back(-1);">{:lang('BACK')}</a>
             </div>
         </div>

@@ -55,7 +55,7 @@ class AdminCoverageController extends AdminBaseController
         if ($this->request->isPost()) {
             $data   = $this->request->param();
             $post   = $data['post'];
-            $result = $this->validate($post,'Insurance');
+            $result = $this->validate($post,'Coverage.add');
             if ($result !== true) {
                 $this->error($result);
             }
@@ -99,7 +99,7 @@ class AdminCoverageController extends AdminBaseController
             $data   = $this->request->param();
             // dump($data);die;
             $post   = $data['post'];
-            $result = $this->validate($post, 'Insurance');
+            $result = $this->validate($post, 'Coverage.edit');
             if ($result !== true) {
                 $this->error($result);
             }
