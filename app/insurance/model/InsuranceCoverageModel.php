@@ -1,8 +1,6 @@
 <?php
 namespace app\insurance\model;
 
-// use think\Model;
-use think\Db;
 use app\insurance\model\InsuranceModel;
 
 class InsuranceCoverageModel extends InsuranceModel
@@ -54,20 +52,4 @@ class InsuranceCoverageModel extends InsuranceModel
         return $series;
     }
 
-    public function getInsurance($selectId = 0, $companyID)
-    {
-        $where = ['delete_time' => 0];
-        if (isset($companyID)&&$companyID>0) {
-            $where = ['company_id'=>$companyID];
-        }
-        $categories = Db::name('insurance')->field('id,name')->order("list_order ASC")->where($where)->select()->toArray();
-        $options = '';
-        foreach ($categories as $item) {
-            $options .= '<option value="'.$item['id'].'" '.($selectId==$item['id']?'selected':'').'>'.$item['name'].'</option>';
-        }
-
-        return $options;
-    }
-
 }
-

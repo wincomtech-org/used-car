@@ -1,11 +1,11 @@
 <?php
 namespace app\usual\model;
 
-use app\admin\model\RouteModel;
+use think\Db;
 use think\Model;
 use tree\Tree;
-use think\Db;
 use think\Request;
+use app\admin\model\RouteModel;
 
 class UsualCategoryModel extends Model
 {

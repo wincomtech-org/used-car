@@ -3,21 +3,16 @@
 <body>
 <div class="wrap js-check-wrap">
     <ul class="nav nav-tabs">
-        <li class="active"><a href="javascript:;">所有险种</a></li>
-        <li><a href="{:url('AdminCoverage/add',['cid'=>$insuranceId])}">添加险种</a></li>
+        <li class="active"><a href="javascript:;">所有车辆</a></li>
+        <li><a href="{:url('AdminCompany/add')}">添加车辆</a></li>
     </ul>
-    <form class="well form-inline margin-top-20" method="post" action="{:url('AdminCoverage/index')}">
-        所属保险:
-        <select class="form-control" name="insuranceId" style="width: 140px;">
-            <option value='0' {$insuranceId==0?='selected'}>全部</option>
-            {$insurances|default=''}
+    <form class="well form-inline margin-top-20" method="post" action="{:url('AdminCompany/index')}">
+        分类:
+        <select class="form-control" name="categoryId" style="width: 140px;">
+            <option value='0'>全部</option>
+            {$category_tree|default=''}
         </select> &nbsp;&nbsp;
-        所属公司:
-        <select class="form-control" name="companyId" style="width: 140px;">
-            <option value='0' {$companyId==0?='selected'}>全部</option>
-            {$companys|default=''}
-        </select> &nbsp;&nbsp;
-        启用时间:
+        时间:
         <input type="text" class="form-control js-bootstrap-datetime" name="start_time"
                value="{$start_time|default=''}"
                style="width: 140px;" autocomplete="off">-
@@ -28,27 +23,13 @@
         <input type="text" class="form-control" name="keyword" style="width: 200px;"
                value="{$keyword|default=''}" placeholder="请输入关键字...">
         <input type="submit" class="btn btn-primary" value="搜索"/>
-        <a class="btn btn-danger" href="{:url('AdminCoverage/index')}">清空</a>
+        <a class="btn btn-danger" href="{:url('AdminCompany/index')}">清空</a>
     </form>
     <form class="js-ajax-form" action="" method="post">
-        <include file="admin_insurance/table-actions" />
+        <include file="admin_company/table-actions" />
         <table class="table table-hover table-bordered table-list">
             <thead>
-            <tr>
-                <th width="15">
-                    <label>
-                        <input type="checkbox" class="js-check-all" data-direction="x" data-checklist="js-check-x">
-                    </label>
-                </th>
-                <th width="50">ID</th>
-                <th>名称</th>
-                <th>所属保险</th>
-                <th>所属公司</th>
-                <th width="160">图标</th>
-                <th width="130">更新时间</th>
-                <th width="70">状态</th>
-                <th width="90">操作</th>
-            </tr>
+                <include file="admin_company/table-th" />
             </thead>
             <foreach name="articles" item="vo">
                 <tr>
@@ -58,18 +39,13 @@
                     </td>
                     <td><b>{$vo.id}</b></td>
                     <td>
-                        <notempty name="insuranceId">
-                            <a href="{//:cmf_url('portal/Article/index',array('id'=>$vo['id'],'cid'=>$vo['brand_id']))}"
-                               target="_blank">{$vo.name}</a>
-                        <else/>
-                            <a href="{//:cmf_url('portal/Article/index',array('id'=>$vo['id']))}"
-                               target="_blank">{$vo.name}</a>
-                        </notempty>
+                        <a href="{//:cmf_url('portal/Article/index',array('id'=>$vo['id']))}" target="_blank">{$vo.name}</a>
                     </td>
 
-                    <td><a href="{:url('usual/AdminCompany/index',['keyword'=>$vo['bname']])}">{$vo.bname}</a></td>
-                    <td><a href="{:url('AdminCoverage/index',array('cid'=>$vo.id))}">{$vo.cname}</a></td>
-
+                    <td><a href="{:url('AdminBrand/edit',['id'=>$vo['brand_id']])}">{$vo.brand_id}</a></td>
+                    <td><a href="{:url('AdminSeries/edit',['id'=>$vo['serie_id']])}">{$vo.serie_id}</a></td>
+                    <td><a href="{:url('AdminModels/edit',['id'=>$vo['model_id']])}">{$vo.model_id}</a></td>
+                    <td><a href="{:url('user/AdminIndex/index',['uid'=>$vo['user_id']])}">{$vo.user_id}</a></td>
                     <td>
                         <notempty name="vo.more.thumbnail">
                             <a href="javascript:parent.imagePreviewDialog('{:cmf_get_image_preview_url($vo.more.thumbnail)}');">
@@ -78,42 +54,35 @@
                         </notempty>
                     </td>
                     <td>
+                        <notempty name="vo.published_time">
+                            {:date('Y-m-d H:i',$vo['published_time'])}
+                        </notempty>
+                    </td>
+                    <td>
                         <notempty name="vo.update_time">
                             {:date('Y-m-d H:i',$vo['update_time'])}
                         </notempty>
                     </td>
                     <td>
-                        <empty name="vo.status">禁用<else/>启用</empty>
+                        <empty name="vo.status">不发布<else/>发布</empty>
                     </td>
                     <td>
-                        <a href="{:url('AdminCoverage/edit',array('id'=>$vo['id']))}">{:lang('EDIT')}</a>
-                        <a href="{:url('AdminCoverage/delete',array('id'=>$vo['id']))}" class="js-ajax-delete">{:lang('DELETE')}</a>
+                        <a href="{:url('AdminCompany/edit',array('id'=>$vo['id']))}">{:lang('EDIT')}</a>
+                        <a href="{:url('AdminCompany/delete',array('id'=>$vo['id']))}" class="js-ajax-delete">{:lang('DELETE')}</a>
                     </td>
                 </tr>
             </foreach>
             <tfoot>
-            <tr>
-                <th width="15"><label><input type="checkbox" class="js-check-all" data-direction="x" data-checklist="js-check-x"></label></th>
-                <notempty name="insuranceId_no">
-                    <th width="50">{:lang('SORT')}</th>
-                </notempty>
-                <th width="50">ID</th>
-                <th>名称</th>
-                <th>所属保险</th>
-                <th>所属公司</th>
-                <th width="160">图标</th>
-                <th width="130">更新时间</th>
-                <th width="70">状态</th>
-                <th width="90">操作</th>
-            </tr>
+                <include file="admin_company/table-th" />
             </tfoot>
         </table>
-        <include file="admin_insurance/table-actions" />
+        <include file="admin_company/table-actions" />
         <ul class="pagination">{$page|default=''}</ul>
     </form>
 </div>
 <script src="__STATIC__/js/admin.js"></script>
 <script>
+
     function reloadPage(win) {
         win.location.reload();
     }
@@ -142,7 +111,7 @@
                 }
 
                 ids = ids.join(',');
-                art.dialog.open("__ROOT__/index.php?g=usual&m=AdminCoverage&a=copy&ids=" + ids, {
+                art.dialog.open("__ROOT__/index.php?g=usual&m=AdminCompany&a=copy&ids=" + ids, {
                     title: "批量复制",
                     width: "300px"
                 });
@@ -168,7 +137,7 @@
                 }
 
                 ids = ids.join(',');
-                art.dialog.open("__ROOT__/index.php?g=usual&m=AdminCoverage&a=move&old_term_id={$term.term_id|default=0}&ids=" + ids, {
+                art.dialog.open("__ROOT__/index.php?g=usual&m=AdminCompany&a=move&old_term_id={$term.term_id|default=0}&ids=" + ids, {
                     title: "批量移动",
                     width: "300px"
                 });

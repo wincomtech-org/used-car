@@ -29,67 +29,54 @@
 <body>
 <div class="wrap js-check-wrap">
     <ul class="nav nav-tabs">
-        <li><a href="{:url('AdminCompany/index')}">公司管理</a></li>
-        <li class="active"><a href="{:url('AdminCompany/add')}">添加公司</a></li>
+        <li><a href="{:url('AdminCompany/index')}">车辆管理</a></li>
+        <li class="active"><a href="{:url('AdminCompany/add')}">添加车辆</a></li>
     </ul>
     <form action="{:url('AdminCompany/addPost')}" method="post" class="form-horizontal js-ajax-form margin-top-20">
         <div class="row">
             <div class="col-md-9">
                 <table class="table table-bordered">
                     <tr>
-                        <th width="100">分类<span class="form-required">*</span></th>
+                        <th width="100">名称<span class="form-required">*</span></th>
                         <td>
-                            <input class="form-control" type="text" style="width:400px;" required value=""
-                                   placeholder="请选择分类" onclick="doSelectCategory();" id="js-categories-name-input"
-                                   readonly/>
-                            <input class="form-control" type="hidden" value="" name="post[brand_id]"
-                                   id="js-categories-id-input"/>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>名称<span class="form-required">*</span></th>
-                        <td>
-                            <input class="form-control" type="text" name="post[name]"
-                                   id="title" required value="" placeholder="请输入名称"/>
+                            <input class="form-control" type="text" name="post[name]" id="title" required value="" placeholder="请输入名称"/>
                         </td>
                     </tr>
 
                     <tr>
-                        <th>车型</th>
+                        <th>总部地址</th>
                         <td>
-                            <select class="form-control" name="post[model_id]" id="input-parent">
-                                <option value="0">无车型</option>
-                                {$models_tree}
+                            <select class="form-control" style="width:300px;float:left;" name="post[province_id]" id="input-province">
+                                <option value="0">--请选择--</option>
+                                <option value="10" selected>河北</option>
+                                <option value="3">安徽</option>
+                                <option value="2">北京</option>
+                            </select>
+                            <select class="form-control" style="width:300px;" name="post[city_id]" id="input-city">
+                                <option value="0">--请选择--</option>
+                                <option value="138">石家庄</option>
+                                <option value="139">保定</option>
+                                <option value="140">沧州</option>
+                                <option value="141">承德</option>
+                                <option value="142">邯郸</option>
+                                <option value="143">衡水</option>
+                                <option value="144">廊坊</option>
+                                <option value="145">秦皇岛</option>
+                                <option value="146" selected>唐山</option>
+                                <option value="147">邢台</option>
+                                <option value="148">张家口</option>
                             </select>
                         </td>
-                        <!-- <td><input class="form-control" type="text" name="post[model_id]" id="source" value="" placeholder="请输入公司来源"></td> -->
                     </tr>
 
                     <tr>
-                        <th>建议零售价</th>
+                        <th>简介</th>
                         <td>
-                            <input class="form-control" type="text" name="post[price]">
-                            <p class="help-block">单位：元。</p>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <th>关键词</th>
-                        <td>
-                            <input class="form-control" type="text" name="post[seo_keywords]" id="keywords" value=""
-                                   placeholder="请输入关键字">
-                            <p class="help-block">多关键词之间用英文逗号隔开</p>
+                            <textarea class="form-control" name="post[brief]" style="height:50px;" placeholder="请填写简介"></textarea>
                         </td>
                     </tr>
                     <tr>
-                        <th>摘要</th>
-                        <td>
-                            <textarea class="form-control" name="post[brief]" style="height: 50px;"
-                                      placeholder="请填写摘要"></textarea>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>内容</th>
+                        <th>详情</th>
                         <td>
                             <script type="text/plain" id="content" name="post[content]"></script>
                         </td>
@@ -100,15 +87,6 @@
                             <ul id="photos" class="pic-list list-unstyled form-inline"></ul>
                             <a href="javascript:uploadMultiImage('图片上传','#photos','photos-item-tpl');"
                                class="btn btn-default btn-sm">选择图片</a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>附件</th>
-                        <td>
-                            <ul id="files" class="pic-list list-unstyled form-inline">
-                            </ul>
-                            <a href="javascript:uploadMultiFile('附件上传','#files','files-item-tpl');"
-                               class="btn btn-sm btn-default">选择文件</a>
                         </td>
                     </tr>
                 </table>
@@ -122,7 +100,7 @@
             <div class="col-md-3">
                 <table class="table table-bordered">
                     <tr>
-                        <th><b>缩略图</b></th>
+                        <th><b>LOGO</b></th>
                     </tr>
                     <tr>
                         <td>
@@ -152,36 +130,31 @@
                     <tr>
                         <td>
                             <div class="checkbox">
-                                <label><input type="checkbox" name="post[status]" value="1" checked>发布</label>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="checkbox">
-                                <label><input type="checkbox" name="post[is_top]" value="1">置顶</label>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="checkbox">
+                                <label><input type="checkbox" name="post[status]" value="1" checked>发布</label>&nbsp;&nbsp;&nbsp;&nbsp;
+                                <label><input type="checkbox" name="post[is_top]" value="1">置顶</label>&nbsp;&nbsp;&nbsp;&nbsp;
                                 <label><input type="checkbox" name="post[is_rec]" value="1">推荐</label>
                             </div>
                         </td>
                     </tr>
                     <tr>
-                        <th>公司模板</th>
+                        <th><b>所属类别</b></th>
                     </tr>
                     <tr>
                         <td>
-                            <select class="form-control" name="post[more][template]" id="more-template-select">
-                                <option value="">请选择模板</option>
-                                <foreach name="article_theme_files" item="vo">
-                                    <php>$value=preg_replace('/^portal\//','',$vo['file']);</php>
-                                    <option value="{$value}">{$vo.name} {$vo.file}.html</option>
-                                </foreach>
-                            </select>
+                            <div class="checkbox">
+                                <label><input type="checkbox" name="post[is_baoxian]" value="1" checked>保险</label>&nbsp;&nbsp;&nbsp;&nbsp;
+                                <label><input type="checkbox" name="post[is_yewu]" value="1" checked>服务</label>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th><b>认证状态</b></th>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="checkbox">
+                                <label><input type="checkbox" name="post[identi_status]" value="1" checked>认证通过</label>
+                            </div>
                         </td>
                     </tr>
                 </table>
@@ -198,7 +171,6 @@
 <script type="text/javascript" src="__STATIC__/js/ueditor/ueditor.all.min.js"></script>
 <script type="text/javascript">
     $(function () {
-
         editorcontent = new baidu.editor.ui.Editor();
         editorcontent.render('content');
         try {
@@ -210,7 +182,6 @@
             $('#thumbnail-preview').attr('src', '__TMPL__/public/assets/images/default-thumbnail.png');
             $('#thumbnail').val('');
         });
-
     });
 
     function doSelectCategory() {
@@ -219,8 +190,6 @@
             area: ['700px', '400px'],
             btn: ['确定', '取消'],
             yes: function (index, layero) {
-                //do something
-
                 var iframeWin          = window[layero.find('iframe')[0]['name']];
                 var selectedCategories = iframeWin.confirm();
                 if (selectedCategories.selectedCategoriesId.length == 0) {

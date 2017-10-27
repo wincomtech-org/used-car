@@ -29,22 +29,7 @@
         <include file="admin_company/table-actions" />
         <table class="table table-hover table-bordered table-list">
             <thead>
-            <tr>
-                <th width="15">
-                    <label>
-                        <input type="checkbox" class="js-check-all" data-direction="x" data-checklist="js-check-x">
-                    </label>
-                </th>
-                <th width="50">ID</th>
-                <th>名称</th>
-                <th>服务点</th>
-                <th>保险业务</th>
-                <th>服务业务</th>
-                <th width="160">LOGO</th>
-                <th width="130">更新时间</th>
-                <th width="70">状态</th>
-                <th width="90">操作</th>
-            </tr>
+                <include file="admin_company/table-th" />
             </thead>
             <foreach name="articles" item="vo">
                 <tr>
@@ -88,21 +73,7 @@
                 </tr>
             </foreach>
             <tfoot>
-            <tr>
-                <th width="15"><label><input type="checkbox" class="js-check-all" data-direction="x" data-checklist="js-check-x"></label></th>
-                <notempty name="categoryId_no">
-                    <th width="50">{:lang('SORT')}</th>
-                </notempty>
-                <th width="50">ID</th>
-                <th>名称</th>
-                <th>服务点</th>
-                <th>保险业务</th>
-                <th>服务业务</th>
-                <th width="160">LOGO</th>
-                <th width="130">更新时间</th>
-                <th width="70">状态</th>
-                <th width="90">操作</th>
-            </tr>
+                <include file="admin_company/table-th" />
             </tfoot>
         </table>
         <include file="admin_company/table-actions" />

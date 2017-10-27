@@ -2,7 +2,7 @@
 namespace app\insurance\controller;
 
 use cmf\controller\AdminBaseController;
-use app\insurance\model\InsuranceCoverageModel;
+// use app\insurance\model\InsuranceCoverageModel;
 use think\Db;
 
 class AdminCoverageController extends AdminBaseController
@@ -44,10 +44,10 @@ class AdminCoverageController extends AdminBaseController
         $insurances = model('InsuranceCoverage')->getInsurance($categoryId,$companyId);
         $companys = model('InsuranceCoverage')->getCompany($companyId);
 
-        $this->assign('insurances', $insurances);
-        $this->assign('companys', $companys);
         $this->assign('categoryId', $categoryId);
         $this->assign('companyId', $companyId);
+        $this->assign('insurances', $insurances);
+        $this->assign('companys', $companys);
         return $this->fetch();
     }
     public function addPost()
@@ -63,7 +63,7 @@ class AdminCoverageController extends AdminBaseController
             model('InsuranceCoverage')->adminAddArticle($post);
 
             // 钩子
-            // $post['id'] = $this->UsualModel->id;
+            // $post['id'] = model('InsuranceOrder')->id;
             // $hookParam          = [
             //     'is_add'  => true,
             //     'article' => $post
@@ -140,8 +140,8 @@ class AdminCoverageController extends AdminBaseController
 
         if (isset($param['ids'])) {
             $ids     = $this->request->param('ids/a');
-            $recycle = $this->UsualModel->where(['id' => ['in', $ids]])->select();
-            $result  = $this->UsualModel->where(['id' => ['in', $ids]])->update(['delete_time' => time()]);
+            $recycle = model('InsuranceCoverage')->where(['id' => ['in', $ids]])->select();
+            $result  = model('InsuranceCoverage')->where(['id' => ['in', $ids]])->update(['delete_time' => time()]);
             if ($result) {
                 foreach ($recycle as $value) {
                     $data = [
@@ -163,13 +163,13 @@ class AdminCoverageController extends AdminBaseController
 
         if (isset($param['ids']) && isset($param["yes"])) {
             $ids = $this->request->param('ids/a');
-            $this->UsualModel->where(['id' => ['in', $ids]])->update(['status' => 1, 'published_time' => time()]);
+            model('InsuranceCoverage')->where(['id' => ['in', $ids]])->update(['status' => 1, 'published_time' => time()]);
             $this->success("启用成功！", '');
         }
 
         if (isset($param['ids']) && isset($param["no"])) {
             $ids = $this->request->param('ids/a');
-            $this->UsualModel->where(['id' => ['in', $ids]])->update(['status' => 0]);
+            model('InsuranceCoverage')->where(['id' => ['in', $ids]])->update(['status' => 0]);
             $this->success("禁用成功！", '');
         }
     }
@@ -178,13 +178,13 @@ class AdminCoverageController extends AdminBaseController
         $param           = $this->request->param();
         if (isset($param['ids']) && isset($param["yes"])) {
             $ids = $this->request->param('ids/a');
-            $this->UsualModel->where(['id' => ['in', $ids]])->update(['is_top' => 1]);
+            model('InsuranceCoverage')->where(['id' => ['in', $ids]])->update(['is_top' => 1]);
             $this->success("置顶成功！", '');
 
         }
         if (isset($_POST['ids']) && isset($param["no"])) {
             $ids = $this->request->param('ids/a');
-            $this->UsualModel->where(['id' => ['in', $ids]])->update(['is_top' => 0]);
+            model('InsuranceCoverage')->where(['id' => ['in', $ids]])->update(['is_top' => 0]);
             $this->success("取消置顶成功！", '');
         }
     }
@@ -194,13 +194,13 @@ class AdminCoverageController extends AdminBaseController
 
         if (isset($param['ids']) && isset($param["yes"])) {
             $ids = $this->request->param('ids/a');
-            $this->UsualModel->where(['id' => ['in', $ids]])->update(['is_rec' => 1]);
+            model('InsuranceCoverage')->where(['id' => ['in', $ids]])->update(['is_rec' => 1]);
             $this->success("推荐成功！", '');
 
         }
         if (isset($param['ids']) && isset($param["no"])) {
             $ids = $this->request->param('ids/a');
-            $this->UsualModel->where(['id' => ['in', $ids]])->update(['is_rec' => 0]);
+            model('InsuranceCoverage')->where(['id' => ['in', $ids]])->update(['is_rec' => 0]);
             $this->success("取消推荐成功！", '');
 
         }
@@ -209,7 +209,7 @@ class AdminCoverageController extends AdminBaseController
 
     public function listOrder()
     {
-        parent::listOrders(Db::name('Insurance'));
+        parent::listOrders(Db::name('InsuranceCoverage'));
         $this->success("排序更新成功！", '');
     }
 

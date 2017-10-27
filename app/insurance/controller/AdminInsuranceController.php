@@ -2,7 +2,7 @@
 namespace app\insurance\controller;
 
 use cmf\controller\AdminBaseController;
-use app\insurance\model\InsuranceModel;
+// use app\insurance\model\InsuranceModel;
 // use app\usual\model\UsualCategoryModel;
 use think\Db;
 
@@ -58,7 +58,7 @@ class AdminInsuranceController extends AdminBaseController
             model('Insurance')->adminAddArticle($post);
 
             // 钩子
-            // $post['id'] = $this->UsualModel->id;
+            // $post['id'] = model('Insurance')->id;
             // $hookParam          = [
             //     'is_add'  => true,
             //     'article' => $post
@@ -90,7 +90,7 @@ class AdminInsuranceController extends AdminBaseController
             if ($result !== true) {
                 $this->error($result);
             }
-            model('Insurance')->adminEditArticle($post);
+            $p=model('Insurance')->adminEditArticle($post);
 
             // 钩子
             // $hookParam = [
@@ -127,8 +127,8 @@ class AdminInsuranceController extends AdminBaseController
 
         if (isset($param['ids'])) {
             $ids     = $this->request->param('ids/a');
-            $recycle = $this->UsualModel->where(['id' => ['in', $ids]])->select();
-            $result  = $this->UsualModel->where(['id' => ['in', $ids]])->update(['delete_time' => time()]);
+            $recycle = model('Insurance')->where(['id' => ['in', $ids]])->select();
+            $result  = model('Insurance')->where(['id' => ['in', $ids]])->update(['delete_time' => time()]);
             if ($result) {
                 foreach ($recycle as $value) {
                     $data = [
@@ -150,13 +150,13 @@ class AdminInsuranceController extends AdminBaseController
 
         if (isset($param['ids']) && isset($param["yes"])) {
             $ids = $this->request->param('ids/a');
-            $this->UsualModel->where(['id' => ['in', $ids]])->update(['status' => 1, 'published_time' => time()]);
+            model('Insurance')->where(['id' => ['in', $ids]])->update(['status' => 1, 'published_time' => time()]);
             $this->success("启用成功！", '');
         }
 
         if (isset($param['ids']) && isset($param["no"])) {
             $ids = $this->request->param('ids/a');
-            $this->UsualModel->where(['id' => ['in', $ids]])->update(['status' => 0]);
+            model('Insurance')->where(['id' => ['in', $ids]])->update(['status' => 0]);
             $this->success("禁用成功！", '');
         }
     }
@@ -165,13 +165,13 @@ class AdminInsuranceController extends AdminBaseController
         $param           = $this->request->param();
         if (isset($param['ids']) && isset($param["yes"])) {
             $ids = $this->request->param('ids/a');
-            $this->UsualModel->where(['id' => ['in', $ids]])->update(['is_top' => 1]);
+            model('Insurance')->where(['id' => ['in', $ids]])->update(['is_top' => 1]);
             $this->success("置顶成功！", '');
 
         }
         if (isset($_POST['ids']) && isset($param["no"])) {
             $ids = $this->request->param('ids/a');
-            $this->UsualModel->where(['id' => ['in', $ids]])->update(['is_top' => 0]);
+            model('Insurance')->where(['id' => ['in', $ids]])->update(['is_top' => 0]);
             $this->success("取消置顶成功！", '');
         }
     }
@@ -181,13 +181,13 @@ class AdminInsuranceController extends AdminBaseController
 
         if (isset($param['ids']) && isset($param["yes"])) {
             $ids = $this->request->param('ids/a');
-            $this->UsualModel->where(['id' => ['in', $ids]])->update(['is_rec' => 1]);
+            model('Insurance')->where(['id' => ['in', $ids]])->update(['is_rec' => 1]);
             $this->success("推荐成功！", '');
 
         }
         if (isset($param['ids']) && isset($param["no"])) {
             $ids = $this->request->param('ids/a');
-            $this->UsualModel->where(['id' => ['in', $ids]])->update(['is_rec' => 0]);
+            model('Insurance')->where(['id' => ['in', $ids]])->update(['is_rec' => 0]);
             $this->success("取消推荐成功！", '');
 
         }

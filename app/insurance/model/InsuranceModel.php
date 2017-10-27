@@ -1,7 +1,6 @@
 <?php
 namespace app\insurance\model;
 
-// use think\Model;
 use think\Db;
 use app\usual\model\UsualModel;
 
@@ -46,24 +45,26 @@ class InsuranceModel extends UsualModel
         return $series;
     }
 
-    public function getPost($id)
-    {
-        $post = $this->get($id)->toArray();
-        // $post = model('Insurance')->where('id', $id)->find();
-        if (isset($post['content'])) {
-            $post['content'] = cmf_replace_content_file_url(htmlspecialchars_decode($post['content']));
-        }
-        if (isset($post['information'])) {
-            $post['information'] = cmf_replace_content_file_url(htmlspecialchars_decode($post['information']));
-        }
-        return $post;
-    }
-
     public function getCompany($selectId = 0)
     {
         $where = ['delete_time' => 0];
         $categories = Db::name('usual_company')->field('id,name')->order("list_order ASC")->where($where)->select()->toArray();
 
+        $options = '';
+        foreach ($categories as $item) {
+            $options .= '<option value="'.$item['id'].'" '.($selectId==$item['id']?'selected':'').'>'.$item['name'].'</option>';
+        }
+
+        return $options;
+    }
+
+    public function getInsurance($selectId=0, $companyId=0)
+    {
+        $where = ['delete_time' => 0];
+        if ($companyId>0) {
+            $where = ['company_id'=>$companyId];
+        }
+        $categories = Db::name('insurance')->field('id,name')->order("list_order ASC")->where($where)->select()->toArray();
         $options = '';
         foreach ($categories as $item) {
             $options .= '<option value="'.$item['id'].'" '.($selectId==$item['id']?'selected':'').'>'.$item['name'].'</option>';

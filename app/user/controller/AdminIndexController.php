@@ -56,20 +56,20 @@ class AdminIndexController extends AdminBaseController
      */
     public function index()
     {
-        $where   = [];
-        $request = input('request.');
+        // $request = input('request.');
+        $request = $this->request->param();
 
+        $where = [];
         if (!empty($request['uid'])) {
             $where['id'] = intval($request['uid']);
         }
         $keywordComplex = [];
         if (!empty($request['keyword'])) {
             $keyword = $request['keyword'];
-
-            $keywordComplex['user_login|user_nickname|user_email']    = ['like', "%$keyword%"];
+            $keywordComplex['user_login|user_nickname|user_email'] = ['like', "%$keyword%"];
         }
-        $usersQuery = Db::name('user');
 
+        $usersQuery = Db::name('user');
         $list = $usersQuery->whereOr($keywordComplex)->where($where)->order("create_time DESC")->paginate(10);
         // 获取分页显示
         $page = $list->render();

@@ -3,20 +3,16 @@ namespace app\usual\model;
 
 use app\usual\model\UsualModel;
 
-class UsualCompanyModel extends UsualModel
+class UsualCarModel extends UsualModel
 {
     public function getLists($filter)
     {
-        // $join = [
-        //     ['__USUAL_MODELS__ m', 'a.model_id = m.id']
-        // ];
-        // $field = 'a.*,m.name mname';
-        // array_push($join, ['__USUAL_BRAND__ b', 'a.brand_id = b.id']);
-        // $field .= ',b.id AS bid,b.name bname';
-        $field = 'id,name,province_id,city_id,brief,content,update_time,published_time,more,is_baoxian,is_yewu,status,list_order';
-
-        $where = [
-            'a.delete_time' => 0
+        $field = 'a.*';
+        $where = ['a.delete_time' => 0];
+        $join = [
+            ['insurance b','a.insurance_id=b.id'],
+            ['usual_car c','a.car_id=c.id'],
+            ['user AS d','a.user_id=d.id']
         ];
         $startTime = empty($filter['start_time']) ? 0 : strtotime($filter['start_time']);
         $endTime   = empty($filter['end_time']) ? 0 : strtotime($filter['end_time']);
@@ -37,10 +33,12 @@ class UsualCompanyModel extends UsualModel
         }
 
         $series = $this->alias('a')->field($field)
+            ->join($join)
             ->where($where)
             ->order('update_time DESC')
             ->paginate(5);
 
         return $series;
     }
+
 }

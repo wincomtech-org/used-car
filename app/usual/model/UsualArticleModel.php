@@ -1,9 +1,6 @@
 <?php
 namespace app\usual\model;
 
-// use think\Model;
-// use think\Db;
-// use app\admin\model\RouteModel;
 use app\usual\model\UsualModel;
 
 class UsualArticleModel extends UsualModel

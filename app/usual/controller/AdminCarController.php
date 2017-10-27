@@ -2,28 +2,26 @@
 namespace app\usual\controller;
 
 use cmf\controller\AdminBaseController;
-use app\usual\model\UsualCompanyModel;
-// use app\usual\model\UsualBrandModel;
+use app\usual\model\UsualCarModel;
 use think\Db;
-use app\admin\model\ThemeModel;
 
 /**
 * 公司企业模块
 */
-class AdminCompanyController extends AdminBaseController
+class AdminCarController extends AdminBaseController
 {
     function _initialize()
     {
         // parent::_initialize();
         // $data = $this->request->param();
-        $this->UsualModel = new UsualCompanyModel();
+        $this->UsualModel = new UsualCarModel();
     }
 
     /**
      * 公司列表
      * @adminMenu(
      *     'name'   => '公司管理',
-     *     'parent' => 'usual/AdminCompany/default',
+     *     'parent' => 'usual/AdminCar/default',
      *     'display'=> true,
      *     'hasView'=> true,
      *     'order'  => 10000,
@@ -96,7 +94,7 @@ class AdminCompanyController extends AdminBaseController
             if ($result !== true) {
                 $this->error($result);
             }
-            if (Db::name('UsualCompany')->where('name',$post['name'])->value('id')) {
+            if (Db::name('UsualCar')->where('name',$post['name'])->value('id')) {
                 $this->error('公司名已存在！','add');
             }
             if (!empty($data['photo_names']) && !empty($data['photo_urls'])) {
@@ -124,7 +122,7 @@ class AdminCompanyController extends AdminBaseController
             // ];
             // hook('portal_admin_after_save_article', $hookParam);
 
-            $this->success('添加成功!', url('AdminCompany/edit', ['id' => $this->UsualModel->id]));
+            $this->success('添加成功!', url('AdminCar/edit', ['id' => $this->UsualModel->id]));
         }
 
     }
@@ -178,7 +176,7 @@ class AdminCompanyController extends AdminBaseController
             if ($result !== true) {
                 $this->error($result);
             }
-
+// dump($post);die;
             if (!empty($data['photo_names']) && !empty($data['photo_urls'])) {
                 $post['more']['photos'] = [];
                 foreach ($data['photo_urls'] as $key => $url) {
@@ -232,7 +230,7 @@ class AdminCompanyController extends AdminBaseController
             $data         = [
                 'object_id'   => $result['id'],
                 'create_time' => time(),
-                'table_name'  => 'UsualCompany',
+                'table_name'  => 'UsualCar',
                 'name'        => $result['name']
             ];
             $resultPortal = $this->UsualModel
@@ -253,7 +251,7 @@ class AdminCompanyController extends AdminBaseController
                     $data = [
                         'object_id'   => $value['id'],
                         'create_time' => time(),
-                        'table_name'  => 'UsualCompany',
+                        'table_name'  => 'UsualCar',
                         'name'        => $value['name']
                     ];
                     Db::name('recycleBin')->insert($data);
@@ -386,7 +384,7 @@ class AdminCompanyController extends AdminBaseController
      */
     public function listOrder()
     {
-        parent::listOrders(Db::name('UsualCompany'));
+        parent::listOrders(Db::name('UsualCar'));
         $this->success("排序更新成功！", '');
     }
 

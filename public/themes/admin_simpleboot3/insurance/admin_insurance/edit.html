@@ -32,6 +32,7 @@
         <li><a href="{:url('AdminInsurance/index')}">保险管理</a></li>
         <li><a href="{:url('AdminInsurance/add')}">添加保险</a></li>
         <li class="active"><a href="#">编辑保险</a></li>
+        <li><a href="{:url('AdminCoverage/index',array('insuranceId'=>$post.id))}">管理自定义险种</a></li>
     </ul>
     <form action="{:url('AdminInsurance/editPost')}" method="post" class="form-horizontal js-ajax-form margin-top-20">
         <div class="row">
@@ -138,7 +139,7 @@
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
                 <input type="hidden" name="post[id]" value="{$post.id}">
-                <button type="submit" class="btn btn-primary js-ajax-submit">{:lang('SAVE')}</button>
+                <button type="submit" class="btn btn-primary js-ajax-submit1">{:lang('SAVE')}</button>
                 <a class="btn btn-default" href="javascript:history.back(-1);">{:lang('BACK')}</a>
             </div>
         </div>

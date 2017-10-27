@@ -1,7 +1,6 @@
 <?php
 namespace app\usual\model;
 
-use think\Model;
 use app\usual\model\UsualCategoryModel;
 
 class UsualItemModel extends UsualCategoryModel
