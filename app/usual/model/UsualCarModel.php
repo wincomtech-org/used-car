@@ -10,20 +10,22 @@ class UsualCarModel extends UsualModel
         $field = 'a.*';
         $where = ['a.delete_time' => 0];
         $join = [
-            ['insurance b','a.insurance_id=b.id'],
-            ['usual_car c','a.car_id=c.id'],
-            ['user AS d','a.user_id=d.id']
+            ['usual_brand b','a.brand_id=b.id','LEFT'],
+            ['usual_series c','a.serie_id=c.id','LEFT'],
+            ['usual_models d','a.model_id=d.id','LEFT'],
+            ['district e','a.model_id=e.id','LEFT'],
+            ['user f','a.user_id=f.id','LEFT']
         ];
         $startTime = empty($filter['start_time']) ? 0 : strtotime($filter['start_time']);
         $endTime   = empty($filter['end_time']) ? 0 : strtotime($filter['end_time']);
         if (!empty($startTime) && !empty($endTime)) {
-            $where['a.published_time'] = [['>= time', $startTime], ['<= time', $endTime]];
+            $where['a.create_time'] = [['>= time', $startTime], ['<= time', $endTime]];
         } else {
             if (!empty($startTime)) {
-                $where['a.published_time'] = ['>= time', $startTime];
+                $where['a.create_time'] = ['>= time', $startTime];
             }
             if (!empty($endTime)) {
-                $where['a.published_time'] = ['<= time', $endTime];
+                $where['a.create_time'] = ['<= time', $endTime];
             }
         }
 

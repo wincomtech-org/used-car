@@ -20,7 +20,7 @@ class InsuranceValidate extends Validate
 
     protected $scene = [
        'add'  => ['name'=>['require','checkName'],'company_id'],
-       'edit' => ['id','name'=>'require','name'=>'checkNameEdit','company_id'],
+       'edit' => ['id','name'=>'require','company_id'],
     ];
 
     // 检查名称是否存在

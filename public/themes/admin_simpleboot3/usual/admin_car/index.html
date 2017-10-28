@@ -4,9 +4,9 @@
 <div class="wrap js-check-wrap">
     <ul class="nav nav-tabs">
         <li class="active"><a href="javascript:;">所有车辆</a></li>
-        <li><a href="{:url('AdminCompany/add')}">添加车辆</a></li>
+        <li><a href="{:url('AdminCar/add')}">添加车辆</a></li>
     </ul>
-    <form class="well form-inline margin-top-20" method="post" action="{:url('AdminCompany/index')}">
+    <form class="well form-inline margin-top-20" method="post" action="{:url('AdminCar/index')}">
         分类:
         <select class="form-control" name="categoryId" style="width: 140px;">
             <option value='0'>全部</option>
@@ -23,7 +23,7 @@
         <input type="text" class="form-control" name="keyword" style="width: 200px;"
                value="{$keyword|default=''}" placeholder="请输入关键字...">
         <input type="submit" class="btn btn-primary" value="搜索"/>
-        <a class="btn btn-danger" href="{:url('AdminCompany/index')}">清空</a>
+        <a class="btn btn-danger" href="{:url('AdminCar/index')}">清空</a>
     </form>
     <form class="js-ajax-form" action="" method="post">
         <include file="admin_company/table-actions" />
@@ -67,8 +67,8 @@
                         <empty name="vo.status">不发布<else/>发布</empty>
                     </td>
                     <td>
-                        <a href="{:url('AdminCompany/edit',array('id'=>$vo['id']))}">{:lang('EDIT')}</a>
-                        <a href="{:url('AdminCompany/delete',array('id'=>$vo['id']))}" class="js-ajax-delete">{:lang('DELETE')}</a>
+                        <a href="{:url('AdminCar/edit',array('id'=>$vo['id']))}">{:lang('EDIT')}</a>
+                        <a href="{:url('AdminCar/delete',array('id'=>$vo['id']))}" class="js-ajax-delete">{:lang('DELETE')}</a>
                     </td>
                 </tr>
             </foreach>
@@ -111,7 +111,7 @@
                 }
 
                 ids = ids.join(',');
-                art.dialog.open("__ROOT__/index.php?g=usual&m=AdminCompany&a=copy&ids=" + ids, {
+                art.dialog.open("__ROOT__/index.php?g=usual&m=AdminCar&a=copy&ids=" + ids, {
                     title: "批量复制",
                     width: "300px"
                 });
@@ -137,7 +137,7 @@
                 }
 
                 ids = ids.join(',');
-                art.dialog.open("__ROOT__/index.php?g=usual&m=AdminCompany&a=move&old_term_id={$term.term_id|default=0}&ids=" + ids, {
+                art.dialog.open("__ROOT__/index.php?g=usual&m=AdminCar&a=move&old_term_id={$term.term_id|default=0}&ids=" + ids, {
                     title: "批量移动",
                     width: "300px"
                 });

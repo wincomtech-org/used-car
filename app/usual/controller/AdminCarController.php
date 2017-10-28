@@ -33,7 +33,7 @@ class AdminCarController extends AdminBaseController
     public function index()
     {
         $param = $this->request->param();//接收筛选条件
-
+// dump(11);die;
         $data        = $this->UsualModel->getLists($param);
         $data->appends($param);
 
@@ -90,13 +90,15 @@ class AdminCarController extends AdminBaseController
         if ($this->request->isPost()) {
             $data   = $this->request->param();
             $post   = $data['post'];
-            $result = $this->validate($post, 'Company');
+            $result = $this->validate($post, 'Car');
             if ($result !== true) {
                 $this->error($result);
             }
             if (Db::name('UsualCar')->where('name',$post['name'])->value('id')) {
                 $this->error('公司名已存在！','add');
             }
+
+            $post['more']['photos'] = $this->UsualModel->dealFiles();
             if (!empty($data['photo_names']) && !empty($data['photo_urls'])) {
                 $post['more']['photos'] = [];
                 foreach ($data['photo_urls'] as $key => $url) {
@@ -104,7 +106,13 @@ class AdminCarController extends AdminBaseController
                     array_push($post['more']['photos'], ["url" => $photoUrl, "name" => $data['photo_names'][$key]]);
                 }
             }
-
+            if (!empty($data['identity_card_names']) && !empty($data['identity_card_urls'])) {
+                $post['identi']['identity_card'] = [];
+                foreach ($data['identity_card_urls'] as $key => $url) {
+                    $photoUrl = cmf_asset_relative_url($url);
+                    array_push($post['identi']['identity_card'], ["url" => $photoUrl, "name" => $data['identity_card_names'][$key]]);
+                }
+            }
             if (!empty($data['file_names']) && !empty($data['file_urls'])) {
                 $post['more']['files'] = [];
                 foreach ($data['file_urls'] as $key => $url) {
@@ -172,7 +180,7 @@ class AdminCarController extends AdminBaseController
         if ($this->request->isPost()) {
             $data   = $this->request->param();
             $post   = $data['post'];
-            $result = $this->validate($post, 'Company');
+            $result = $this->validate($post, 'Car');
             if ($result !== true) {
                 $this->error($result);
             }
@@ -184,7 +192,13 @@ class AdminCarController extends AdminBaseController
                     array_push($post['more']['photos'], ["url" => $photoUrl, "name" => $data['photo_names'][$key]]);
                 }
             }
-
+            if (!empty($data['identity_card_names']) && !empty($data['identity_card_urls'])) {
+                $post['identi']['identity_card'] = [];
+                foreach ($data['identity_card_urls'] as $key => $url) {
+                    $photoUrl = cmf_asset_relative_url($url);
+                    array_push($post['identi']['identity_card'], ["url" => $photoUrl, "name" => $data['identity_card_names'][$key]]);
+                }
+            }
             if (!empty($data['file_names']) && !empty($data['file_urls'])) {
                 $post['more']['files'] = [];
                 foreach ($data['file_urls'] as $key => $url) {

@@ -396,7 +396,6 @@
                         return true;
                     },
                     ok: function () {
-
                         $.ajax({
                             url: href,
                             type: 'post',

@@ -10,14 +10,6 @@ use app\admin\model\RouteModel;
 */
 class UsualModel extends Model
 {
-    //自定义初始化
-    // protected function initialize()
-    // {
-    //     //需要调用`Model`的`initialize`方法
-    //     parent::initialize();
-    //     //TODO:自定义的初始化
-    // }
-
     protected $type = [
         'more' => 'array',
     ];
@@ -44,36 +36,30 @@ class UsualModel extends Model
      * content 自动转化
      * @param $value
      * @return string
-     */
-    public function getContentAttr($value)
-    {
-        return cmf_replace_content_file_url(htmlspecialchars_decode($value));
-    }
-    /**
-     * content 自动转化
-     * @param $value
-     * @return string
-     */
+    */
     public function setContentAttr($value)
     {
         return htmlspecialchars(cmf_replace_content_file_url(htmlspecialchars_decode($value), true));
     }
-
-    // information 自动转化
-    public function getInformationAttr($value)
+    public function getContentAttr($value)
     {
         return cmf_replace_content_file_url(htmlspecialchars_decode($value));
     }
+    // information 自动转化
     public function setInformationAttr($value)
     {
-        return htmlspecialchars(cmf_replace_content_file_url(htmlspecialchars_decode($value), true));
+        return $this->setContentAttr($value);
+    }
+    public function getInformationAttr($value)
+    {
+        return $this->getContentAttr($value);
     }
 
     /**
      * published_time 发布时间 自动完成
      * @param $value
      * @return false|int
-     */
+    */
     public function setPublishedTimeAttr($value)
     {
         return strtotime($value);
@@ -90,11 +76,43 @@ class UsualModel extends Model
     }
 
     /**
+     * status 状态 自动完成
+     * @param $value
+     * @return int
+    */
+    public function setStatusAttr($value)
+    {
+        return empty($value) ? 0 : 1;
+    }
+    public function setIsTopAttr($value)
+    {
+        return $this->setStatusAttr($value);
+    }
+    public function setIsRecAttr($value)
+    {
+        return $this->setStatusAttr($value);
+    }
+    public function setIdentiStatusAttr($value)
+    {
+        return $this->setStatusAttr($value);
+    }
+    public function setIsBaoxianAttr($value)
+    {
+        return $this->setStatusAttr($value);
+    }
+    public function setIsYewuAttr($value)
+    {
+        return $this->setStatusAttr($value);
+    }
+
+
+
+    /**
      * 后台管理添加文章
      * @param array $data 文章数据
      * @param array|string $categories 文章分类 id
      * @return $this
-     */
+    */
     public function adminAddArticle($data, $categories=null)
     {
         // $data['user_id'] = cmf_get_current_admin_id();
@@ -131,12 +149,6 @@ class UsualModel extends Model
         if (!empty($data['more']['thumbnail'])) {
             $data['more']['thumbnail'] = cmf_asset_relative_url($data['more']['thumbnail']);
         }
-        $data['status'] = empty($data['status']) ? 0 : 1;
-        $data['is_top'] = empty($data['is_top']) ? 0 : 1;
-        $data['is_rec'] = empty($data['is_rec']) ? 0 : 1;
-        $data['identi_status'] = empty($data['identi_status']) ? 0 : 1;
-        $data['is_baoxian'] = empty($data['is_baoxian']) ? 0 : 1;
-        $data['is_yewu'] = empty($data['is_yewu']) ? 0 : 1;
 
         $this->allowField(true)->isUpdate(true)->data($data, true)->save();
 
@@ -165,6 +177,7 @@ class UsualModel extends Model
         return $this;
     }
 
+    /*文章标签*/
     public function addTags($keywords, $articleId)
     {
         $portalTagModel = new PortalTagModel();
@@ -209,6 +222,7 @@ class UsualModel extends Model
         }
     }
 
+    /*删除*/
     public function adminDeletePage($data)
     {
         if (isset($data['id'])) {
@@ -343,6 +357,18 @@ class UsualModel extends Model
         // if (isset($post['information'])) {
         //     $post['information'] = cmf_replace_content_file_url(htmlspecialchars_decode($post['information']));
         // }
+        return $post;
+    }
+
+    public function dealFiles($names=[], $urls=[], $pk='')
+    {
+        $post = [];
+        if (!empty($names) && !empty($urls)) {
+            foreach ($urls as $key => $url) {
+                $photoUrl = cmf_asset_relative_url($url);
+                array_push($post, ["url" => $photoUrl, "name" => $data['photo_names'][$key]]);
+            }
+        }
         return $post;
     }
 }
