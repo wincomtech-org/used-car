@@ -1,0 +1,67 @@
+<include file="public@header"/>
+</head>
+<body>
+<div class="wrap js-check-wrap">
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="{:url('DbBackup/index')}">数据备份列表</a></li>
+        <li><a href="{:url('DbBackup/export')}">备份数据</a></li>
+    </ul>
+    <form method="post" class="js-ajax-form margin-top-20" action="{:url('DbBackup/delete')}">
+        <div class="table-actions">
+            <button class="btn btn-primary btn-sm js-ajax-submit" type="submit">批量删除</button>
+        </div>
+        <table class="table table-hover table-bordered table-list">
+            <thead>
+            <tr>
+                <th width="16">
+                    <label><input type="checkbox" class="js-check-all" data-direction="x" data-checklist="js-check-x"></label>
+                </th>
+                <th width="50">序号</th>
+                <th>{:lang('NAME')}</th>
+                <th width="130">备份日期</th>
+                <th >{:lang('ACTIONS')}</th>
+            </tr>
+            </thead>
+            <tbody>
+            <foreach name="list" item="vo" key="k">
+                <tr>
+                    <td>
+                    	<input type="checkbox" class="js-check" data-yid="js-check-y" data-xid="js-check-x" name="fnames[]" value="{$vo}">
+                    </td>
+                    <td>
+                    	<span>{$k+1}</span>
+                    </td>
+                    <td>{$vo}</td>
+                    <td>{:date('Y-m-d')}</td>
+                    <td>
+                        <a href="{:url('DbBackup/import',array('fname'=>$vo))}">还原备份</a> &nbsp; &nbsp;
+                        <a href="{:url('DbBackup/down',array('fname'=>$vo))}" target="_blank">下载</a> &nbsp; &nbsp;
+                        <a href="{:url('DbBackup/delete',array('fname'=>$vo))}" class="js-ajax-delete">
+                            {:lang('DELETE')}
+                        </a>
+                    </td>
+                </tr>
+            </foreach>
+            </tbody>
+            <tfoot>
+            <tr>
+                <th>
+                    <label>
+                        <input type="checkbox" class="js-check-all" data-direction="x" data-checklist="js-check-x">
+                    </label>
+                </th>
+                <th>序号</th>
+                <th>{:lang('NAME')}</th>
+                <th>备份日期</th>
+                <th>{:lang('ACTIONS')}</th>
+            </tr>
+            </tfoot>
+        </table>
+        <div class="table-actions">
+            <button class="btn btn-primary btn-sm js-ajax-submit" type="submit">批量删除</button>
+        </div>
+    </form>
+</div>
+<script src="__STATIC__/js/admin.js"></script>
+</body>
+</html>

@@ -26,8 +26,8 @@ define('CMF_PATH', CMF_ROOT . 'simplewind/cmf/');
 define('PLUGINS_PATH', __DIR__ . '/plugins/');
 
 // 定义扩展目录
-define('EXTEND_PATH', CMF_ROOT . 'simplewind/extend/');
-define('VENDOR_PATH', CMF_ROOT . 'simplewind/vendor/');
+define('EXTEND_PATH', CMF_ROOT . 'simplewind/extend/');// 手动制作
+define('VENDOR_PATH', CMF_ROOT . 'simplewind/vendor/');// 通过composer
 
 // 定义应用的运行时目录
 define('RUNTIME_PATH', CMF_ROOT . 'data/runtime/');

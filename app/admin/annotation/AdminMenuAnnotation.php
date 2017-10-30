@@ -36,7 +36,7 @@ class AdminMenuAnnotation extends Annotation
     public $hasView = true;
 
     /**
-     * Initialize the annotation.
+     * Initialize the annotation(注解).
      * @param array $properties
      */
     public function initAnnotation(array $properties)
