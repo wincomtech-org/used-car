@@ -178,7 +178,7 @@ class AdminSeriesController extends AdminBaseController
      *     'remark' => '车型分类选择对话框',
      *     'param'  => ''
      * )
-     */
+    */
     public function select()
     {
         $ids                 = $this->request->param('ids');
@@ -271,6 +271,14 @@ tpl;
             $this->success('删除成功!');
         } else {
             $this->error('删除失败');
+        }
+    }
+
+    public function getSecondSeries()
+    {
+        if ($this->request->isAjax()) {
+            $parentId = $this->request->post('parentId',0,'intval');
+            return model()->getSeries(0,$parentId);
         }
     }
 }

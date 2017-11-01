@@ -163,6 +163,31 @@ class AdminItemController extends AdminBaseController
         $this->success('保存成功!');
     }
 
+    public function lists()
+    {
+        return 'lists';
+    }
+
+    public function addItem()
+    {
+        return 'addItem';
+    }
+
+    public function addItemPost()
+    {
+        return 'addItemPost';
+    }
+
+    public function editItem()
+    {
+        return 'editItem';
+    }
+
+    public function editItemPost()
+    {
+        return 'editItemPost';
+    }
+
     /**
      * 车型分类选择对话框
      * @adminMenu(

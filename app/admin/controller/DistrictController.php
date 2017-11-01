@@ -6,7 +6,7 @@ use cmf\controller\AdminBaseController;
 use think\Db;
 
 /**
- * Class DistrictController 地区类别管理控制器
+ * Class DistrictController 地区管理控制器
  * @package app\admin\controller
  */
 class DistrictController extends AdminBaseController
@@ -33,5 +33,22 @@ class DistrictController extends AdminBaseController
     {
         return '地区管理';
         $this->fetch();
+    }
+
+    public function getCitys()
+    {
+        if ($this->request->isAjax()) {
+            $parentId = $this->request->param('parentId',0,'intval');
+            return model('District')->getDistricts($parentId,0,true);
+        }
+
+
+        // $parentId = request();
+        // $parentId = $this->request->param();
+        // return $parentId['parentId'];
+        // return request('parentId',0,'intval');
+        // return $this->request->param('parentId',0,'intval');
+        // echo "kill2";die;
+        // echo $this->request->param('parentId');die;
     }
 }

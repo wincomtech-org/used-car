@@ -71,27 +71,44 @@
                         </tr>
 
                         <tr>
+                            <th>所属品牌</th>
+                            <td>
+                                <select class="form-control" style="width:300px;" name="post[brand_id]" id="input-brand">
+                                    <option value="0" selected>--请选择--</option>
+                                    {$Brands}
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>所属车系</th>
+                            <td>
+                                <select class="form-control" style="width:300px;float:left;" name="post[serie_pid]" id="input-series">
+                                    <option value="0" selected>--请选择--</option>
+                                    {$Series}
+                                </select>
+                                <select class="form-control" style="width:300px;" name="post[serie_id]" id="input-serie">
+                                    <option value="0">--请选择--</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>车型</th>
+                            <td>
+                                <select class="form-control" style="width:300px;" name="post[model_id]" id="input-model">
+                                    <option value="0" selected>--请选择--</option>
+                                    {$Models}
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
                             <th>所在城市</th>
                             <td>
                                 <select class="form-control" style="width:300px;float:left;" name="post[province_id]" id="input-province">
-                                    <option value="0">--请选择--</option>
-                                    <option value="10" selected>河北</option>
-                                    <option value="3">安徽</option>
-                                    <option value="2">北京</option>
+                                    <option value="0" selected>--请选择--</option>
+                                    {$provinces}
                                 </select>
                                 <select class="form-control" style="width:300px;" name="post[city_id]" id="input-city">
                                     <option value="0">--请选择--</option>
-                                    <option value="138">石家庄</option>
-                                    <option value="139">保定</option>
-                                    <option value="140">沧州</option>
-                                    <option value="141">承德</option>
-                                    <option value="142">邯郸</option>
-                                    <option value="143">衡水</option>
-                                    <option value="144">廊坊</option>
-                                    <option value="145">秦皇岛</option>
-                                    <option value="146" selected>唐山</option>
-                                    <option value="147">邢台</option>
-                                    <option value="148">张家口</option>
                                 </select>
                             </td>
                         </tr>
@@ -361,6 +378,35 @@
             $('#thumbnail-preview').attr('src', '__TMPL__/public/assets/images/default-thumbnail.png');
             $('#thumbnail').val('');
         });
+
+        $('#input-province').change(function() {
+            var Id = $(this).val();
+            // alert(proId)
+            $.ajax({
+                url: '{:url("admin/District/getCitys")}',
+                type: 'POST',
+                // dataType: 'json',
+                data: {parentId: Id},
+            })
+            .done(function(data) {
+                console.log("success");
+                $('#input-city').html(data);
+            })
+            .fail(function() {
+                console.log("error");
+            })
+            .always(function() {
+                console.log("complete");
+            });
+        });
+
+        $('#input-series').change(function() {
+            var Id = $(this).val();
+            $.post('{:url("AdminSeries/getSecondSeries")}', {parentId: Id}, function(data) {
+                $('#input-serie').html(data);
+            });
+        });
+
     });
 
     function doSelectCategory() {

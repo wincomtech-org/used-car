@@ -5,8 +5,8 @@
 .idea
 composer.lock
 /api
-/public/api
 /data/
 !/data/index.html
+/public/api
 /public/upload/
 !/public/upload/index.html

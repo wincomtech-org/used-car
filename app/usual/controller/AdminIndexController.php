@@ -2,8 +2,9 @@
 namespace app\usual\controller;
 
 use cmf\controller\AdminBaseController;
-// use app\usual\model\UsualModel;
-// use think\Db;
+use think\Db;
+// use think\Model;
+use app\usual\model\DistrictModel;
 
 /**
  * Class AdminIndexController

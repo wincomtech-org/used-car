@@ -6,7 +6,7 @@ use think\Validate;
 class CarValidate extends Validate
 {
     protected $rule = [
-        'name' => 'require',
+        'name' => 'require|checkName',
         'brand_id' => 'require',
         'serie_id' => 'require',
         'model_id' => 'require',
@@ -19,7 +19,8 @@ class CarValidate extends Validate
     ];
 
     protected $message = [
-        'name'  => '标题不能为空',
+        'name.require'  => '标题不能为空',
+        'name.checkName'  => '车标题已存在！',
         'brand_id' => '请选择所属品牌',
         'serie_id' => '请选择所属车系',
         'model_id' => '请选择车型',
@@ -36,8 +37,17 @@ class CarValidate extends Validate
         'edit' => ['name'=>'require','brand_id','serie_id','model_id','user_id','car_vin','car_plate_number','car_mileage','car_license','city_id']
     ];
 
+    // 检查名称是否存在
     protected function checkName($value)
     {
-        # code...
+        $find = model('UsualCar')->where('name',$value)->value('id');
+        if ($find) {return false;}
+        return true;
+    }
+    protected function checkNameEdit($value)
+    {
+        $find = model('UsualCar')->where('name',$value)->value('id');
+        if ($find) {return true;}
+        return false;
     }
 }

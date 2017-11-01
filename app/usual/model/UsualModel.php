@@ -365,8 +365,8 @@ class UsualModel extends Model
         $post = [];
         if (!empty($names) && !empty($urls)) {
             foreach ($urls as $key => $url) {
-                $photoUrl = cmf_asset_relative_url($url);
-                array_push($post, ["url" => $photoUrl, "name" => $data['photo_names'][$key]]);
+                $relative_url = cmf_asset_relative_url($url);
+                array_push($post, ["url"=>$relative_url, "name"=>$names[$key]]);
             }
         }
         return $post;
