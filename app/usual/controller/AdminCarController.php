@@ -34,7 +34,7 @@ class AdminCarController extends AdminBaseController
     public function index()
     {
         $param = $this->request->param();//接收筛选条件
-// dump(11);die;
+
         $data        = $this->UsualModel->getLists($param);
         $data->appends($param);
 
@@ -66,20 +66,31 @@ class AdminCarController extends AdminBaseController
      */
     public function add()
     {
-        $proId = $this->request->param('proId',1,'intval');
-        $provinces = model('admin/District')->getDistricts($proId);
         $Brands = model('UsualBrand')->getBrands();
         $Models = model('UsualModels')->getModels();
         $Series = model('UsualSeries')->getSeries();
-// dump($Brands);die;
+        $proId = $this->request->param('proId',1,'intval');
+        $provinces = model('admin/District')->getDistricts(0,$proId);
+        // 车源类别
+        // $types = model('UsualItem')->getItems(0,1);
+        // 颜色
+        $colors = model('UsualItem')->getItems(0,2);
+        // 燃料类型
+        $fuels = model('UsualItem')->getItems(0,3);
+        // 排放标准
+        $effluents = model('UsualItem')->getItems(0,4);
+
         // $themeModel        = new ThemeModel();
         // $articleThemeFiles = $themeModel->getActionThemeFiles('portal/Article/index');
 
         // $this->assign('article_theme_files', $articleThemeFiles);
-        $this->assign('provinces', $provinces);
         $this->assign('Brands', $Brands);
         $this->assign('Models', $Models);
         $this->assign('Series', $Series);
+        $this->assign('provinces', $provinces);
+        $this->assign('colors', $colors);
+        $this->assign('fuels', $fuels);
+        $this->assign('effluents', $effluents);
         return $this->fetch();
     }
 
@@ -100,15 +111,22 @@ class AdminCarController extends AdminBaseController
     {
         if ($this->request->isPost()) {
             $data   = $this->request->param();
+            $data['post']['user_id'] = cmf_get_current_admin_id();
             $post   = $data['post'];
+
             $result = $this->validate($post, 'Car.add');
             if ($result !== true) {
                 $this->error($result);
             }
-
-            $post['more']['photos'] = $this->UsualModel->dealFiles($data['photo_names'], $data['photo_urls']);
-            $post['identi']['identity_card'] = $this->UsualModel->dealFiles($data['identity_card_names'], $data['identity_card_urls']);
-            $post['more']['files'] = $this->UsualModel->dealFiles($data['file_names'], $data['file_urls']);
+            if (!empty($data['photo'])) {
+                $post['more']['photos'] = $this->UsualModel->dealFiles($data['photo']);
+            }
+            if (!empty($data['identity_card'])) {
+                $post['identi']['identity_card'] = $this->UsualModel->dealFiles($data['identity_card']);
+            }
+            if (!empty($data['file'])) {
+                $post['more']['files'] = $this->UsualModel->dealFiles($data['file']);
+            }
 
             $this->UsualModel->adminAddArticle($post);
 
@@ -122,7 +140,6 @@ class AdminCarController extends AdminBaseController
 
             $this->success('添加成功!', url('AdminCar/edit', ['id' => $this->UsualModel->id]));
         }
-
     }
 
     /**
@@ -142,6 +159,35 @@ class AdminCarController extends AdminBaseController
     {
         $id = $this->request->param('id', 0, 'intval');
         $post = $this->UsualModel->getPost($id);
+
+        $Brands = model('UsualBrand')->getBrands($post['brand_id']);
+        $Models = model('UsualModels')->getModels($post['model_id']);
+        $Series = model('UsualSeries')->getSeries($post['serie_id']);
+        $Series2 = model('UsualSeries')->getSeries($post['serie_id'],0,2);
+        $provinces = model('admin/District')->getDistricts($post['province_id']);
+        $citys = model('admin/District')->getDistricts($post['city_id'],$post['province_id']);
+        // 车源类别
+        // $types = model('UsualItem')->getItems($post['type'],1);
+        // 颜色
+        $colors = model('UsualItem')->getItems($post['car_color'],2);
+        // 燃料类型
+        $fuels = model('UsualItem')->getItems($post['car_fuel'],3);
+        // 排放标准
+        $effluents = model('UsualItem')->getItems($post['car_effluent'],4);
+
+        // $themeModel        = new ThemeModel();
+        // $articleThemeFiles = $themeModel->getActionThemeFiles('portal/Article/index');
+
+        // $this->assign('article_theme_files', $articleThemeFiles);
+        $this->assign('Brands', $Brands);
+        $this->assign('Models', $Models);
+        $this->assign('Series', $Series);
+        $this->assign('Series2', $Series2);
+        $this->assign('provinces', $provinces);
+        $this->assign('citys', $citys);
+        $this->assign('colors', $colors);
+        $this->assign('fuels', $fuels);
+        $this->assign('effluents', $effluents);
 
         // $themeModel        = new ThemeModel();
         // $articleThemeFiles = $themeModel->getActionThemeFiles('portal/Article/index');
@@ -166,35 +212,22 @@ class AdminCarController extends AdminBaseController
      */
     public function editPost()
     {
-
         if ($this->request->isPost()) {
             $data   = $this->request->param();
             $post   = $data['post'];
+
             $result = $this->validate($post, 'Car.edit');
             if ($result !== true) {
                 $this->error($result);
             }
-// dump($post);die;
-            if (!empty($data['photo_names']) && !empty($data['photo_urls'])) {
-                $post['more']['photos'] = [];
-                foreach ($data['photo_urls'] as $key => $url) {
-                    $photoUrl = cmf_asset_relative_url($url);
-                    array_push($post['more']['photos'], ["url" => $photoUrl, "name" => $data['photo_names'][$key]]);
-                }
+            if (!empty($data['photo'])) {
+                $post['more']['photos'] = $this->UsualModel->dealFiles($data['photo']);
             }
-            if (!empty($data['identity_card_names']) && !empty($data['identity_card_urls'])) {
-                $post['identi']['identity_card'] = [];
-                foreach ($data['identity_card_urls'] as $key => $url) {
-                    $photoUrl = cmf_asset_relative_url($url);
-                    array_push($post['identi']['identity_card'], ["url" => $photoUrl, "name" => $data['identity_card_names'][$key]]);
-                }
+            if (!empty($data['identity_card'])) {
+                $post['identi']['identity_card'] = $this->UsualModel->dealFiles($data['identity_card']);
             }
-            if (!empty($data['file_names']) && !empty($data['file_urls'])) {
-                $post['more']['files'] = [];
-                foreach ($data['file_urls'] as $key => $url) {
-                    $fileUrl = cmf_asset_relative_url($url);
-                    array_push($post['more']['files'], ["url" => $fileUrl, "name" => $data['file_names'][$key]]);
-                }
+            if (!empty($data['file'])) {
+                $post['more']['files'] = $this->UsualModel->dealFiles($data['file']);
             }
 
             $this->UsualModel->adminEditArticle($post);
@@ -207,7 +240,6 @@ class AdminCarController extends AdminBaseController
             // hook('portal_admin_after_save_article', $hookParam);
 
             $this->success('保存成功!');
-
         }
     }
 
@@ -340,7 +372,6 @@ class AdminCarController extends AdminBaseController
     public function recommend()
     {
         $param           = $this->request->param();
-
         if (isset($param['ids']) && isset($param["yes"])) {
             $ids = $this->request->param('ids/a');
             $this->UsualModel->where(['id' => ['in', $ids]])->update(['is_rec' => 1]);

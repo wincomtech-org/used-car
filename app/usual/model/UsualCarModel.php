@@ -7,7 +7,7 @@ class UsualCarModel extends UsualModel
 {
     public function getLists($filter)
     {
-        $field = 'a.*';
+        $field = 'a.*,b.name AS bname,c.name AS cname,d.name AS dname,e.name ename,f.user_nickname,f.user_login';
         $where = ['a.delete_time' => 0];
         $join = [
             ['usual_brand b','a.brand_id=b.id','LEFT'],

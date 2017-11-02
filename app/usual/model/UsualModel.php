@@ -12,6 +12,7 @@ class UsualModel extends Model
 {
     protected $type = [
         'more' => 'array',
+        'identi' => 'array',
     ];
     // 开启自动写入时间戳字段
     protected $autoWriteTimestamp = true;
@@ -146,11 +147,16 @@ class UsualModel extends Model
      */
     public function adminEditArticle($data, $categories = null)
     {
+        $data['user_id'] = cmf_get_current_admin_id();
         if (!empty($data['more']['thumbnail'])) {
             $data['more']['thumbnail'] = cmf_asset_relative_url($data['more']['thumbnail']);
         }
+        if (!empty($data['identi']['driving_license'])) {
+            $data['identi']['driving_license'] = cmf_asset_relative_url($data['identi']['driving_license']);
+        }
 
         $this->allowField(true)->isUpdate(true)->data($data, true)->save();
+        // $this->allowField(true)->isUpdate(true)->save($data, ['id' => $id]);
 
         if (isset($categories)) {
             if (is_string($categories)) {
@@ -360,15 +366,17 @@ class UsualModel extends Model
         return $post;
     }
 
-    public function dealFiles($names=[], $urls=[], $pk='')
+    public function dealFiles($files=['names'=>[],'urls'=>[]], $pk='')
     {
         $post = [];
+        $names = $files['names']; $urls = $files['urls'];
         if (!empty($names) && !empty($urls)) {
             foreach ($urls as $key => $url) {
                 $relative_url = cmf_asset_relative_url($url);
                 array_push($post, ["url"=>$relative_url, "name"=>$names[$key]]);
             }
         }
+
         return $post;
     }
 }

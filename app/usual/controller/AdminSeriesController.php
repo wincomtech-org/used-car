@@ -278,7 +278,7 @@ tpl;
     {
         if ($this->request->isAjax()) {
             $parentId = $this->request->post('parentId',0,'intval');
-            return model()->getSeries(0,$parentId);
+            return model('UsualSeries')->getSeries(0,$parentId,2,true);
         }
     }
 }

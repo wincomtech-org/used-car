@@ -31,6 +31,7 @@ class ProfileController extends UserBaseController
     public function center()
     {
         $user = cmf_get_current_user();
+        // dump($user);
         $this->assign($user);
         return $this->fetch();
     }

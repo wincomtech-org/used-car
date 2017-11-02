@@ -10,7 +10,6 @@ class CarValidate extends Validate
         'brand_id' => 'require',
         'serie_id' => 'require',
         'model_id' => 'require',
-        'user_id' => 'require',
         'car_vin' => 'require',
         'car_plate_number' => 'require',
         'car_mileage' => 'require',
@@ -24,7 +23,6 @@ class CarValidate extends Validate
         'brand_id' => '请选择所属品牌',
         'serie_id' => '请选择所属车系',
         'model_id' => '请选择车型',
-        'user_id' => '车主丢失',
         'car_vin' => '请输入车架号',
         'car_plate_number' => '请输入车牌号',
         'car_mileage' => '请输入里程数',
@@ -33,8 +31,8 @@ class CarValidate extends Validate
     ];
 
     protected $scene = [
-        'add' => ['name','brand_id','serie_id','model_id','user_id','car_vin','car_plate_number','car_mileage','car_license','city_id'],
-        'edit' => ['name'=>'require','brand_id','serie_id','model_id','user_id','car_vin','car_plate_number','car_mileage','car_license','city_id']
+        'add' => ['name','brand_id','serie_id','model_id','car_vin','car_plate_number','car_mileage','car_license','city_id'],
+        'edit' => ['name'=>'require','brand_id','serie_id','model_id','car_vin','car_plate_number','car_mileage','car_license','city_id']
     ];
 
     // 检查名称是否存在

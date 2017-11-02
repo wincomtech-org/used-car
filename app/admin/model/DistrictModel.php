@@ -8,7 +8,7 @@ use think\Model;
 */
 class DistrictModel extends Model
 {
-    public function getdistricts($parentId=1, $selectId=0, $default_option=false, $level=1)
+    public function getDistricts($selectId=0, $parentId=1, $level=1, $default_option=false)
     {
         // $districts = $this->all()->toArray();
         $districts = $this->field('id,name')->where('parent_id',$parentId)->select()->toArray();

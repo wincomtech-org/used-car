@@ -26,10 +26,10 @@
         <a class="btn btn-danger" href="{:url('AdminCar/index')}">清空</a>
     </form>
     <form class="js-ajax-form" action="" method="post">
-        <include file="admin_company/table-actions" />
+        <include file="admin_car/table-actions" />
         <table class="table table-hover table-bordered table-list">
             <thead>
-                <include file="admin_company/table-th" />
+                <include file="admin_car/table-th" />
             </thead>
             <foreach name="articles" item="vo">
                 <tr>
@@ -42,10 +42,10 @@
                         <a href="{//:cmf_url('portal/Article/index',array('id'=>$vo['id']))}" target="_blank">{$vo.name}</a>
                     </td>
 
-                    <td><a href="{:url('AdminBrand/edit',['id'=>$vo['brand_id']])}">{$vo.brand_id}</a></td>
-                    <td><a href="{:url('AdminSeries/edit',['id'=>$vo['serie_id']])}">{$vo.serie_id}</a></td>
-                    <td><a href="{:url('AdminModels/edit',['id'=>$vo['model_id']])}">{$vo.model_id}</a></td>
-                    <td><a href="{:url('user/AdminIndex/index',['uid'=>$vo['user_id']])}">{$vo.user_id}</a></td>
+                    <td><a href="{:url('AdminBrand/edit',['id'=>$vo['brand_id']])}">{$vo.bname}</a></td>
+                    <td><a href="{:url('AdminSeries/edit',['id'=>$vo['serie_id']])}">{$vo.cname}</a></td>
+                    <td><a href="{:url('AdminModels/edit',['id'=>$vo['model_id']])}">{$vo.dname}</a></td>
+                    <td><a href="{:url('user/AdminIndex/index',['uid'=>$vo['user_id']])}"><empty name="vo.user_nickname">{$vo.user_nickname}<else />{$vo.user_login}</empty></a></td>
                     <td>
                         <notempty name="vo.more.thumbnail">
                             <a href="javascript:parent.imagePreviewDialog('{:cmf_get_image_preview_url($vo.more.thumbnail)}');">
@@ -67,16 +67,16 @@
                         <empty name="vo.status">不发布<else/>发布</empty>
                     </td>
                     <td>
-                        <a href="{:url('AdminCar/edit',array('id'=>$vo['id']))}">{:lang('EDIT')}</a>
+                        <a href="{:url('AdminCar/edit',array('id'=>$vo['id']))}">{:lang('EDIT')}</a> &nbsp;
                         <a href="{:url('AdminCar/delete',array('id'=>$vo['id']))}" class="js-ajax-delete">{:lang('DELETE')}</a>
                     </td>
                 </tr>
             </foreach>
             <tfoot>
-                <include file="admin_company/table-th" />
+                <include file="admin_car/table-th" />
             </tfoot>
         </table>
-        <include file="admin_company/table-actions" />
+        <include file="admin_car/table-actions" />
         <ul class="pagination">{$page|default=''}</ul>
     </form>
 </div>
