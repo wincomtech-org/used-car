@@ -4,9 +4,9 @@ namespace app\trade\model;
 use think\Model;
 
 /**
-* 
+* 店铺模型 trade_shop
 */
-class TradeModel extends Model
+class TradeShopModel extends Model
 {
 
 }

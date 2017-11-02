@@ -83,7 +83,7 @@ class UsualModel extends Model
     */
     public function setStatusAttr($value)
     {
-        return empty($value) ? 0 : 1;
+        return empty($value) ? 0 : $value;
     }
     public function setIsTopAttr($value)
     {
@@ -106,6 +106,20 @@ class UsualModel extends Model
         return $this->setStatusAttr($value);
     }
 
+    /**
+     * status 用户名 自动完成
+     * @param $value
+     * @return int
+    */
+    // public function setBuyerUidAttr($value)
+    // {
+    //     return Db::name('user')->whereOr(['user_login|user_nickname|user_email'=>['like', "%$value%"]])->value('id');
+    // }
+    // public function setSellerUidAttr($value)
+    // {
+    //     return $this->setBuyerUidAttr($value);
+    // }
+
 
 
     /**
@@ -119,6 +133,13 @@ class UsualModel extends Model
         // $data['user_id'] = cmf_get_current_admin_id();
         if (!empty($data['more']['thumbnail'])) {
             $data['more']['thumbnail'] = cmf_asset_relative_url($data['more']['thumbnail']);
+        }
+
+        if (!empty($data['buyer_username'])) {
+            $data['buyer_uid'] = Db::name('user')->whereOr(['user_login|user_nickname|user_email'=>['eq', $data['buyer_username']]])->value('id');
+        }
+        if (!empty($data['seller_username'])) {
+            $data['seller_uid'] = Db::name('user')->whereOr(['user_login|user_nickname|user_email'=>['eq', $data['seller_username']]])->value('id');
         }
 
         $this->allowField(true)->data($data, true)->isUpdate(false)->save();
@@ -158,27 +179,27 @@ class UsualModel extends Model
         $this->allowField(true)->isUpdate(true)->data($data, true)->save();
         // $this->allowField(true)->isUpdate(true)->save($data, ['id' => $id]);
 
-        if (isset($categories)) {
-            if (is_string($categories)) {
-                $categories = explode(',', $categories);
-            }
-            $oldCategoryIds        = $this->categories()->column('category_id');
-            $sameCategoryIds       = array_intersect($categories, $oldCategoryIds);
-            $needDeleteCategoryIds = array_diff($oldCategoryIds, $sameCategoryIds);
-            $newCategoryIds        = array_diff($categories, $sameCategoryIds);
-            if (!empty($needDeleteCategoryIds)) {
-                $this->categories()->detach($needDeleteCategoryIds);
-            }
-            if (!empty($newCategoryIds)) {
-                $this->categories()->attach(array_values($newCategoryIds));
-            }
-        }
+        // if (isset($categories)) {
+        //     if (is_string($categories)) {
+        //         $categories = explode(',', $categories);
+        //     }
+        //     $oldCategoryIds        = $this->categories()->column('category_id');
+        //     $sameCategoryIds       = array_intersect($categories, $oldCategoryIds);
+        //     $needDeleteCategoryIds = array_diff($oldCategoryIds, $sameCategoryIds);
+        //     $newCategoryIds        = array_diff($categories, $sameCategoryIds);
+        //     if (!empty($needDeleteCategoryIds)) {
+        //         $this->categories()->detach($needDeleteCategoryIds);
+        //     }
+        //     if (!empty($newCategoryIds)) {
+        //         $this->categories()->attach(array_values($newCategoryIds));
+        //     }
+        // }
 
-        if (isset($data['post_keywords'])) {
-            $data['post_keywords'] = str_replace('，', ',', $data['post_keywords']);
-            $keywords = explode(',', $data['post_keywords']);
-            $this->addTags($keywords, $data['id']);
-        }
+        // if (isset($data['post_keywords'])) {
+        //     $data['post_keywords'] = str_replace('，', ',', $data['post_keywords']);
+        //     $keywords = explode(',', $data['post_keywords']);
+        //     $this->addTags($keywords, $data['id']);
+        // }
 
         return $this;
     }

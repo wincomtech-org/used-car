@@ -1,38 +1,28 @@
 <?php
-namespace app\insurance\model;
+namespace app\trade\model;
 
-use think\Db;
-use app\insurance\model\InsuranceModel;
+// use think\Model;
+use app\usual\model\UsualModel;
 
-class InsuranceOrderModel extends InsuranceModel
+/**
+* 订单模型 trade_order
+*/
+class TradeOrderModel extends UsualModel
 {
-    //自定义初始化
-   /* protected function initialize()
-    {
-        //需要调用`Model`的`initialize`方法
-        // parent::initialize();
-        //TODO:自定义的初始化
-        $this->field = 'a.*,b.name insurance_name,c.name car_name,d.user_login';
-        $this->join = [
-            ['insurance b','a.insurance_id=b.id','LEFT'],
-            ['usual_car c','a.car_id=c.id','LEFT'],
-            ['user d','a.user_id=d.id','LEFT']
-        ];
-    }*/
-
     public function getLists($filter, $isPage = false)
     {
-        $field = 'a.*,b.name insurance_name,c.name car_name,d.user_login';
+        $field = 'a.*,b.name car_name,c.user_nickname buyer_nickname,d.user_nickname seller_nickname,e.title pay_name';
         $where = ['a.delete_time' => 0];
         $join = [
-            ['insurance b','a.insurance_id=b.id','LEFT'],
-            ['usual_car c','a.car_id=c.id','LEFT'],
-            ['user d','a.user_id=d.id','LEFT']
+            ['usual_car b','a.car_id=b.id','LEFT'],
+            ['user c','a.buyer_uid=c.id','LEFT'],
+            ['user d','a.seller_uid=d.id','LEFT'],
+            ['plugin e','a.pay_id=e.name','LEFT']
         ];
 
-        // 所属保险
-        if (!empty($filter['insuranceId'])) {
-            $where['a.insurance_id'] = intval($filter['insuranceId']);
+        // 支付方式
+        if (!empty($filter['payId'])) {
+            $where['a.pay_id'] = $filter['payId'];
         }
         // 创建时间
         $startTime = empty($filter['start_time']) ? 0 : strtotime($filter['start_time']);
@@ -47,7 +37,7 @@ class InsuranceOrderModel extends InsuranceModel
                 $where['a.create_time'] = ['<= time', $endTime];
             }
         }
-        // 用户
+        // 买家
         $uname = empty($filter['uname']) ? '' : $filter['uname'];
         if (!empty($uname)) {
             $uid = intval($uname);
@@ -55,9 +45,9 @@ class InsuranceOrderModel extends InsuranceModel
                 $uid = Db::name('user')->where('user_nickname',$uname)->whereOr('user_login',$uname)->value('id');
                 $uid = intval($uid);
             }
-            $where['a.user_id'] = $uid;
+            $where['a.buyer_uid'] = $uid;
         }
-        // 保单号
+        // 订单号
         $sn = empty($filter['sn']) ? '' : $filter['sn'];
         if (!empty($sn)) {
             $where['a.order_sn'] = ['like', "%$sn%"];
@@ -75,21 +65,21 @@ class InsuranceOrderModel extends InsuranceModel
     public function getPost($id)
     {
         // $post = $this->get($id)->toArray();
-        $field = 'a.*,b.name insurance_name,c.name car_name,d.user_login';
+        $field = 'a.*,b.name car_name,c.user_nickname buyer_nickname,d.user_nickname seller_nickname,e.title pay_name';
         // $where = ['a.id' => $id];
         $join = [
-            ['insurance b','a.insurance_id=b.id','LEFT'],
-            ['usual_car c','a.car_id=c.id','LEFT'],
-            ['user d','a.user_id=d.id','LEFT']
+            ['usual_car b','a.car_id=b.id','LEFT'],
+            ['user c','a.buyer_uid=c.id','LEFT'],
+            ['user d','a.seller_uid=d.id','LEFT'],
+            ['plugin e','a.pay_id=e.name','LEFT']
         ];
         $post = $this->alias('a')
             ->field($field)
             ->join($join)
             ->where('a.id',$id)
             ->find();
-
+        $post['buyer_username'] = $post['buyer_nickname'] ? $post['buyer_nickname'] : $post['buyer_username'];
+        $post['seller_username'] = $post['seller_nickname'] ? $post['seller_nickname'] : $post['seller_username'];
         return $post;
     }
-
-
 }

@@ -31,7 +31,7 @@
             <thead>
                 <include file="admin_order/table-th" />
             </thead>
-            <foreach name="articles" item="vo">
+            <foreach name="lists" item="vo">
                 <tr>
                     <td>
                         <input name="ids[]" type="checkbox" class="js-check" data-yid="js-check-y" data-xid="js-check-x"
@@ -44,7 +44,7 @@
 
                     <td><a href="{:url('AdminInsurance/edit',['id'=>$vo['insurance_id']])}">{$vo.insurance_name}</a></td>
                     <td><a href="{:url('user/AdminIndex/index',array('uid'=>$vo.user_id))}">{$vo.user_login}</a></td>
-                    <td><a href="{:url('user/AdminIndex/edit',array('id'=>$vo.car_id))}">{$vo.car_name}</a></td>
+                    <td><a href="{:url('usual/AdminCar/edit',array('id'=>$vo.car_id))}">{$vo.car_name}</a></td>
 
                     <td>
                         <notempty name="vo.create_time">
@@ -63,12 +63,13 @@
                     </td>
 
                     <td>
-                        <switch name="vo.status">
+                        <php>echo config('insurance_order_status')[$vo['status']]</php>
+                        <!-- <switch name="vo.status">
                             <case value="1">已支付</case>
                             <case value="2">取消/关闭</case>
                             <case value="11">过期失效</case>
                             <default />未支付
-                        </switch>
+                        </switch> -->
                     </td>
                     <td>
                         <a href="{:url('AdminOrder/edit',array('id'=>$vo['id']))}">{:lang('EDIT')}</a> &nbsp;

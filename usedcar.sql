@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50540
 File Encoding         : 65001
 
-Date: 2017-11-01 10:05:52
+Date: 2017-11-02 17:12:00
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -4144,11 +4144,11 @@ CREATE TABLE `cmf_insurance_order` (
 -- Records of cmf_insurance_order
 -- ----------------------------
 INSERT INTO `cmf_insurance_order` VALUES ('1', '0', '0', '1', 'abc1111111', '', '0.00', '', '0', '0', '0', '0', '0', '', '', '', '0', '10000');
-INSERT INTO `cmf_insurance_order` VALUES ('2', '0', '0', '2', 'abc2222222222', '', '0.00', '', '0', '0', '0', '0', '0', '', '', '', '0', '10000');
-INSERT INTO `cmf_insurance_order` VALUES ('3', '0', '0', '3', 'abc3333333333', '', '0.00', '', '0', '0', '0', '0', '0', '', '', '', '0', '10000');
-INSERT INTO `cmf_insurance_order` VALUES ('4', '0', '0', '0', 'abc44444444444444', '', '0.00', '', '0', '0', '0', '1540261200', '0', '', '', '', '0', '10000');
-INSERT INTO `cmf_insurance_order` VALUES ('5', '1', '0', '0', 'abc5555555555', '', '0.00', '', '0', '0', '0', '0', '0', '', '', '', '0', '10000');
-INSERT INTO `cmf_insurance_order` VALUES ('6', '2', '0', '0', 'abc66666666666', '', '1000.00', '', '0', '1477531500', '0', '1509067440', '0', '{\"plateNo\":\"皖A158578\",\"name\":\"王华\",\"contact\":\"13369852147\",\"driving_license\":\"\"}', '', '', '1', '10000');
+INSERT INTO `cmf_insurance_order` VALUES ('2', '0', '2', '2', 'abc2222222222', '', '0.00', '', '0', '0', '0', '0', '0', '', '', '', '0', '10000');
+INSERT INTO `cmf_insurance_order` VALUES ('3', '0', '3', '3', 'abc3333333333', '', '0.00', '', '0', '0', '0', '0', '0', '', '', '', '0', '10000');
+INSERT INTO `cmf_insurance_order` VALUES ('4', '0', '4', '0', 'abc44444444444444', '', '0.00', '', '0', '0', '0', '1540261200', '0', '', '', '', '0', '10000');
+INSERT INTO `cmf_insurance_order` VALUES ('5', '1', '5', '0', 'abc5555555555', '', '0.00', '', '0', '0', '0', '0', '0', '', '', '', '0', '10000');
+INSERT INTO `cmf_insurance_order` VALUES ('6', '2', '1', '3', 'abc66666666666', '', '1000.00', '', '0', '1477531500', '0', '1509067440', '0', '{\"plateNo\":\"皖A158578\",\"name\":\"王华\",\"contact\":\"13369852147\",\"driving_license\":\"\"}', '', '', '1', '10000');
 
 -- ----------------------------
 -- Table structure for cmf_link
@@ -4688,6 +4688,7 @@ CREATE TABLE `cmf_third_party_user` (
 DROP TABLE IF EXISTS `cmf_trade_order`;
 CREATE TABLE `cmf_trade_order` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '订单编号',
+  `car_id` int(11) unsigned NOT NULL COMMENT '车子ID',
   `order_sn` varchar(150) NOT NULL COMMENT '订单号',
   `order_name` varchar(150) NOT NULL COMMENT '订单名称',
   `buyer_uid` int(11) unsigned NOT NULL COMMENT '买家编号',
@@ -4696,16 +4697,21 @@ CREATE TABLE `cmf_trade_order` (
   `seller_uid` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '卖家编号',
   `seller_username` varchar(30) NOT NULL COMMENT '卖家用户名',
   `pay_id` varchar(30) NOT NULL COMMENT '支付标识',
-  `shipping_id` varchar(30) NOT NULL COMMENT '快递标识',
-  `tracking_no` varchar(30) NOT NULL COMMENT '快递单号',
-  `product_amount` decimal(10,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '产品金额',
+  `bargain_money` decimal(10,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '订金、预约金',
   `nums` tinyint(3) unsigned NOT NULL DEFAULT '1' COMMENT '数量',
+  `product_amount` decimal(10,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '产品金额',
+  `shipping_id` varchar(30) NOT NULL COMMENT '快递标识',
   `shipping_fee` decimal(10,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '快递费',
+  `tracking_no` varchar(30) NOT NULL COMMENT '快递单号',
   `order_amount` decimal(10,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '总价',
+  `refund` decimal(10,2) NOT NULL COMMENT '退款',
   `remark` varchar(255) NOT NULL COMMENT '备注，给管理员区分记录类型用',
   `description` varchar(255) NOT NULL COMMENT '描述，给前台用户用',
+  `more` text NOT NULL COMMENT '扩展数据',
   `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '下单时间',
+  `pay_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '支付时间',
   `end_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '完成时间',
+  `delete_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '删除时间',
   `status` tinyint(3) NOT NULL DEFAULT '0' COMMENT '状态：0未支付订金 1预约中 2买家取消 3卖家取消 4管理员取消 5买家取消失败 6卖家取消失败 8支付全部 10完成(确认收货、取消成功)',
   `audit_data` varchar(255) NOT NULL COMMENT '审核资料：上传票据照片',
   PRIMARY KEY (`id`),
@@ -4713,11 +4719,12 @@ CREATE TABLE `cmf_trade_order` (
   KEY `idx2` (`buyer_uid`),
   KEY `idx3` (`seller_uid`),
   KEY `idx4` (`status`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='车辆买卖订单表';
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COMMENT='车辆买卖订单表';
 
 -- ----------------------------
 -- Records of cmf_trade_order
 -- ----------------------------
+INSERT INTO `cmf_trade_order` VALUES ('1', '1', 'DSC20171025-f5re4e', '', '3', 'lothar', '', '1', 'admin', 'alipay', '0.00', '1', '0.00', '', '0.00', '', '100.00', '0.00', '订单测试', '', '{\"uname\":\"\",\"contact\":\"\",\"driving_license\":\"\"}', '1509613450', '0', '0', '0', '8', '');
 
 -- ----------------------------
 -- Table structure for cmf_trade_order_detail
@@ -4804,9 +4811,9 @@ CREATE TABLE `cmf_user` (
 -- ----------------------------
 -- Records of cmf_user
 -- ----------------------------
-INSERT INTO `cmf_user` VALUES ('1', '1', 'admin', 'admin', '###b0b5b1441fcc40910db4b7d99d049ddf', 'admin@admin.com', '', 'avatar/20171017/4356606a071829d0a566386a422d9bc7.png', '0', '0', '0', '0', '', '', '1507865317', '1509182144', '127.0.0.1', '1', '', '');
+INSERT INTO `cmf_user` VALUES ('1', '1', 'admin', 'admin', '###b0b5b1441fcc40910db4b7d99d049ddf', 'admin@admin.com', '', 'avatar/20171017/4356606a071829d0a566386a422d9bc7.png', '0', '0', '0', '0', '', '', '1507865317', '1509518009', '127.0.0.1', '1', '', '');
 INSERT INTO `cmf_user` VALUES ('2', '1', '超人不会飞', 'super', '###797fe4d0d1b299ac9b581f4fa4025dbb', 'super@qq.com', '', '', '0', '0', '0', '0', '', '', '0', '0', '', '1', '', '');
-INSERT INTO `cmf_user` VALUES ('3', '1', '洛萨', 'lothar', '###797fe4d0d1b299ac9b581f4fa4025dbb', 'lothar@qq.com', '', '', '0', '0', '0', '0', '', '', '0', '1509181491', '127.0.0.1', '1', '', '');
+INSERT INTO `cmf_user` VALUES ('3', '1', '洛萨', 'lothar', '###797fe4d0d1b299ac9b581f4fa4025dbb', 'lothar@qq.com', '', '', '0', '0', '0', '0', '', '', '0', '1509517880', '127.0.0.1', '1', '', '');
 
 -- ----------------------------
 -- Table structure for cmf_user_action
@@ -4925,7 +4932,7 @@ CREATE TABLE `cmf_user_token` (
 -- ----------------------------
 -- Records of cmf_user_token
 -- ----------------------------
-INSERT INTO `cmf_user_token` VALUES ('3', '1', '1524734144', '1509182144', 'eaa3e1c18c3a6bc3e7bc188f3a9f59ffeaa3e1c18c3a6bc3e7bc188f3a9f59ff', 'web');
+INSERT INTO `cmf_user_token` VALUES ('3', '1', '1525070009', '1509518009', '379e04a08a498a5a434af4779573f4fb379e04a08a498a5a434af4779573f4fb', 'web');
 
 -- ----------------------------
 -- Table structure for cmf_usual_brand
@@ -5002,6 +5009,7 @@ CREATE TABLE `cmf_usual_car` (
   `remark` varchar(255) NOT NULL COMMENT '备注',
   `description` varchar(255) NOT NULL COMMENT '描述',
   `content` text NOT NULL COMMENT '内容x详情',
+  `more` text NOT NULL COMMENT '扩展属性',
   `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '状态：-1禁用 0隐藏 1显示 ',
   `identi_status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '认证审核状态： -1审核不通过 0未审核 1审核通过 2禁止操作',
   `identi` text NOT NULL COMMENT '认证体系',
@@ -5018,11 +5026,12 @@ CREATE TABLE `cmf_usual_car` (
   `inventory` smallint(6) unsigned NOT NULL DEFAULT '1' COMMENT '库存',
   `old_user` varchar(255) NOT NULL COMMENT '以前的车主',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='车辆表';
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COMMENT='车辆表';
 
 -- ----------------------------
 -- Records of cmf_usual_car
 -- ----------------------------
+INSERT INTO `cmf_usual_car` VALUES ('1', '2', '2', '2', '1', '大众 CC 2015款 3.0 自动 V6', '', '', 'eq123456789875463', '1234567', '2', '33.00', '313213123', '20', '3213', '1', '0', '13', '21', '0', '3', '3401', '1509519662', '1509590521', '0', '0', '0', '0', '', '', '', '{\"thumbnail\":\"\"}', '1', '1', '{\"username\":\"111\",\"contact\":\"烦烦烦\",\"car_plate_number\":\"\",\"driving_license\":\"\"}', '', '', '', '10000', '0', '1509590656', '107800.00', '0', '0.00', '0.00', '1', '');
 
 -- ----------------------------
 -- Table structure for cmf_usual_company
@@ -5096,14 +5105,14 @@ CREATE TABLE `cmf_usual_item` (
   `status` tinyint(3) NOT NULL COMMENT '状态：0隐藏 1显示 2禁用',
   `list_order` float unsigned NOT NULL DEFAULT '10000' COMMENT '排序：从小到大',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COMMENT='属性表';
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb4 COMMENT='属性表';
 
 -- ----------------------------
 -- Records of cmf_usual_item
 -- ----------------------------
 INSERT INTO `cmf_usual_item` VALUES ('1', '0', '车源类别', '0', '0-1', '', '', '0', '10000');
 INSERT INTO `cmf_usual_item` VALUES ('2', '0', '颜色', '0', '0-2', '', '', '0', '10000');
-INSERT INTO `cmf_usual_item` VALUES ('3', '0', '变速箱', '0', '0-3', '', '', '0', '10000');
+INSERT INTO `cmf_usual_item` VALUES ('3', '0', '燃料类型', '0', '0-3', '', '', '0', '10000');
 INSERT INTO `cmf_usual_item` VALUES ('4', '0', '排放标准', '0', '0-4', '', '', '0', '10000');
 INSERT INTO `cmf_usual_item` VALUES ('5', '0', '三星', '1508727557', '0-5', '', '', '0', '10000');
 INSERT INTO `cmf_usual_item` VALUES ('6', '0', '价格区间', '0', '0-6', '', '单位：万。\r\n在A以下：&lt;A。\r\n在A到B之间：A-B。\r\n在B以上：&gt;B。', '0', '10000');
@@ -5120,7 +5129,10 @@ INSERT INTO `cmf_usual_item` VALUES ('16', '1', '大通认证', '0', '0-1-16', '
 INSERT INTO `cmf_usual_item` VALUES ('17', '1', '商家质保', '0', '0-1-17', '', '', '0', '10000');
 INSERT INTO `cmf_usual_item` VALUES ('18', '1', '本地车源', '0', '0-1-18', '', '', '0', '10000');
 INSERT INTO `cmf_usual_item` VALUES ('19', '4', '国四以上', '0', '0-4-19', '', '', '0', '10000');
-INSERT INTO `cmf_usual_item` VALUES ('20', '4', '国5', '0', '0-4-20', '', '', '0', '10000');
+INSERT INTO `cmf_usual_item` VALUES ('20', '4', '国五', '0', '0-4-20', '', '', '0', '10000');
+INSERT INTO `cmf_usual_item` VALUES ('21', '3', '汽油', '0', '0-3-21', '', '', '0', '10000');
+INSERT INTO `cmf_usual_item` VALUES ('22', '3', '柴油', '0', '0-3-22', '', '', '0', '10000');
+INSERT INTO `cmf_usual_item` VALUES ('23', '3', '纯电动', '0', '0-3-23', '', '', '0', '10000');
 
 -- ----------------------------
 -- Table structure for cmf_usual_models

@@ -26,7 +26,7 @@ class AdminOrderController extends AdminBaseController
         $this->assign('sn', isset($param['sn']) ? $param['sn'] : '');
         $this->assign('insuranceId', $insuranceId);
         $this->assign('insurances', $insurances);
-        $this->assign('articles', $data->items());
+        $this->assign('lists', $data->items());
         $this->assign('page', $data->render());
 
         return $this->fetch();
@@ -41,12 +41,9 @@ class AdminOrderController extends AdminBaseController
         if ($this->request->isPost()) {
             $data   = $this->request->param();
             $post   = $data['post'];
-            $result = $this->validate($post,'Order');
+            $result = $this->validate($post,'Order.add');
             if ($result !== true) {
                 $this->error($result);
-            }
-            if (Db::name('InsuranceOrder')->where('order_sn',$post['order_sn'])->value('id')) {
-                $this->error('保单号已存在！','add');
             }
             model('InsuranceOrder')->adminAddArticle($post);
 
@@ -67,6 +64,7 @@ class AdminOrderController extends AdminBaseController
         $id = $this->request->param('id', 0, 'intval');
         $post = model('InsuranceOrder')->getPost($id);
 
+        $this->assign('order_status', config('insurance_order_status'));
         $this->assign('post', $post);
         return $this->fetch();
     }
@@ -76,7 +74,7 @@ class AdminOrderController extends AdminBaseController
             $data   = $this->request->param();
 
             $post   = $data['post'];
-            $result = $this->validate($post, 'Order');
+            $result = $this->validate($post, 'Order.edit');
             if ($result !== true) {
                 $this->error($result);
             }
@@ -187,7 +185,7 @@ class AdminOrderController extends AdminBaseController
     }
     public function recommend()
     {
-        $param           = $this->request->param();
+        $param  = $this->request->param();
 
         if (isset($param['ids']) && isset($param["yes"])) {
             $ids = $this->request->param('ids/a');
@@ -200,6 +198,15 @@ class AdminOrderController extends AdminBaseController
             model('InsuranceOrder')->where(['id' => ['in', $ids]])->update(['is_rec' => 0]);
             $this->success("取消推荐成功！", '');
 
+        }
+    }
+    public function status()
+    {
+        $ids = $this->request->param('ids/a');
+        $s = $this->request->param('s/d');
+        if (!empty($ids) && isset($s)) {
+            model('InsuranceOrder')->where(['id'=>['in',$ids]])->update(['status'=>$s]);
+            $this->success('状态修改成功');
         }
     }
 

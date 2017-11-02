@@ -29,59 +29,71 @@
 <body>
 <div class="wrap js-check-wrap">
     <ul class="nav nav-tabs">
-        <li><a href="{:url('AdminOrder/index')}">保单管理</a></li>
-        <!-- <li><a href="{//:url('AdminOrder/add')}">添加保单</a></li> -->
-        <li class="active"><a href="#">编辑保单</a></li>
+        <li><a href="{:url('AdminOrder/index')}">订单管理</a></li>
+        <li><a href="{:url('AdminOrder/add')}">添加订单</a></li>
+        <li class="active"><a href="#">编辑订单</a></li>
     </ul>
     <form action="{:url('AdminOrder/editPost')}" method="post" class="form-horizontal js-ajax-form margin-top-20">
         <div class="row">
             <div class="col-md-9">
                 <table class="table table-bordered">
                     <tr>
-                        <th width="100">保单号<span class="form-required">*</span></th>
+                        <th width="100">订单号<span class="form-required">*</span></th>
                         <td>
-                            <input class="form-control" value="{$post.order_sn}" readonly required placeholder="请输入保单号"/>
+                            <input class="form-control" value="{$post.order_sn}" readonly required placeholder="请输入订单号"/>
                         </td>
                     </tr>
 
                     <tr>
-                        <th>投保金额</th>
+                        <th>订金</th>
                         <td>
-                            <input type="number" name="post[amount]" value="{$post.amount}">
+                            <input class="form-control" type="text" name="post[bargain_money]" value="{$post.bargain_money|default='10.00'}">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>全额</th>
+                        <td>
+                            <input type="text" name="post[order_amount]" value="{$post.order_amount|default='0.00'}">
                         </td>
                     </tr>
 
                     <tr>
-                        <th>保险业务名</th>
-                        <td><a href="{:url('AdminInsurance/edit',['id'=>$post['insurance_id']])}"><span>{$post.insurance_name}</span></a></td>
+                        <th>支付方式</th>
+                        <td><a ><span>{$post.pay_id}</span></a></td>
                     </tr>
                     <tr>
-                        <th>用户</th>
-                        <td><a href="{:url('user/AdminIndex/index',array('uid'=>$post.user_id))}"><span>{$post.user_login}</span></a></td>
+                        <th>买家</th>
+                        <td><a href="{:url('user/AdminIndex/index',array('uid'=>$post.buyer_uid))}"><span>{$post.buyer_username}</span></a></td>
                     </tr>
                     <tr>
-                        <th>车代号</th>
-                        <td><a href="{:url('usual/AdminCar/edit',array('id'=>$post.car_id))}"><span>{$post.car_name}</span></a></td>
+                        <th>卖家</th>
+                        <td><a href="{:url('user/AdminIndex/index',array('uid'=>$post.seller_uid))}"><span>{$post.seller_username}</span></a></td>
+                    </tr>
+                    <tr>
+                        <th>车子标题</th>
+                        <td><a href="{:url('usual/AdminCar/edit',['id'=>$post.car_id])}"><span>{$post.car_name}</span></a></td>
                     </tr>
 
+                    <tr>
+                        <th>备注</th>
+                        <td>
+                            <textarea class="form-control" name="post[remark]" style="height:50px;" placeholder="备注，给管理员区分记录类型用">{$post.remark|default=''}</textarea>
+                        </td>
+                    </tr>
                     <tr>
                         <th>描述</th>
                         <td>
-                            <textarea class="form-control" name="post[description]" style="height:50px;" placeholder="请填写描述">{$post.description}</textarea>
+                            <textarea class="form-control" name="post[description]" style="height:50px;" placeholder="描述，给前台用户用">{$post.description|default=''}</textarea>
                         </td>
                     </tr>
 
                     <tr>
                         <th></th>
-                        <td align="center"><b style="color:#F00">以下是审核资料</b></td>
+                        <td align="center"><b style="color:#F00">以下是预约资料</b></td>
                     </tr>
                     <tr>
-                        <th>车牌号码</th>
-                        <td><input class="form-control" type="text" name="post[more][plateNo]" value="{$post.more.plateNo|default=''}"></td>
-                    </tr>
-                    <tr>
-                        <th>车主</th>
-                        <td><input class="form-control" type="text" name="post[more][name]" value="{$post.more.name|default=''}"></td>
+                        <th>买主</th>
+                        <td><input class="form-control" type="text" name="post[more][uname]" value="{$post.more.uname|default=''}"></td>
                     </tr>
                     <tr>
                         <th>联系方式</th>
@@ -137,6 +149,10 @@
             <div class="col-md-3">
                 <table class="table table-bordered">
                     <tr>
+                        <th width="100">下单时间</th>
+                        <td>{$post.create_time?=date('Y-m-d H:i',$post['create_time'])}</td>
+                    </tr>
+                    <tr>
                         <th>支付时间</th>
                     </tr>
                     <tr>
@@ -150,8 +166,8 @@
                     </tr>
                     <tr>
                         <td>
-                            <input class="form-control js-bootstrap-datetime" type="text" name="post[dead_time]"
-                                   value="{$post.dead_time?=date('Y-m-d H:i',$post['dead_time'])}">
+                            <input class="form-control js-bootstrap-datetime" type="text" name="post[end_time]"
+                                   value="{$post.end_time?=date('Y-m-d H:i',$post['end_time'])}">
                         </td>
                     </tr>
                     <tr>
@@ -161,8 +177,8 @@
                         <td>
                             <div class="checkbox">
                                 <select class="form-control" name="post[status]" style="width:140px;">
-                                    <foreach name="order_status" item="vo" key="k">
-                                        <option value="{$k}" {$post.status==$k?='selected'}>{$vo}</option>
+                                    <foreach name="order_status" item="v" key="k">
+                                    <option value="{$k}" {$post.status==$k?='selected'}>{$v}</option>
                                     </foreach>
                                 </select>
                             </div>
