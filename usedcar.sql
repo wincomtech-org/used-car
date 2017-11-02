@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50540
 File Encoding         : 65001
 
-Date: 2017-11-02 17:12:00
+Date: 2017-11-02 18:07:51
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -4505,8 +4505,8 @@ INSERT INTO `cmf_route` VALUES ('27', '4999', '1', '2', 'portal/Article/index?ci
 DROP TABLE IF EXISTS `cmf_service`;
 CREATE TABLE `cmf_service` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `cate_id` varchar(20) NOT NULL COMMENT '业务代号',
-  `company_id` varchar(20) NOT NULL COMMENT '服务公司ID ',
+  `model_id` smallint(6) unsigned NOT NULL COMMENT '业务模型代号',
+  `company_id` mediumint(8) unsigned NOT NULL COMMENT '服务公司ID ',
   `car_vin` char(17) NOT NULL COMMENT '车架号',
   `car_plate_number` char(7) NOT NULL COMMENT '车牌号',
   `appoint_time` int(10) NOT NULL COMMENT '预约时间',
@@ -4515,11 +4515,12 @@ CREATE TABLE `cmf_service` (
   `address` varchar(255) NOT NULL COMMENT '服务地址',
   `coordinate` varchar(50) NOT NULL COMMENT '位置坐标',
   `fix_history` text NOT NULL COMMENT '维修历史',
-  `create_time` int(10) unsigned NOT NULL COMMENT '创建时间',
-  `end_time` int(10) unsigned NOT NULL COMMENT '结束时间',
   `remark` varchar(255) NOT NULL COMMENT '备注，给管理员区分记录类型用',
   `description` text NOT NULL COMMENT '描述给前台用户用',
   `more` text NOT NULL COMMENT '扩展属性',
+  `create_time` int(10) unsigned NOT NULL COMMENT '创建时间',
+  `end_time` int(10) unsigned NOT NULL COMMENT '结束时间',
+  `delete_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '删除时间',
   `status` tinyint(4) NOT NULL DEFAULT '0' COMMENT '状态：0预约中 1预约成功 2取消 10结束',
   `list_order` float unsigned NOT NULL DEFAULT '10000' COMMENT '默认值10000，默认排序按从小到大',
   PRIMARY KEY (`id`)
@@ -4540,12 +4541,12 @@ CREATE TABLE `cmf_service_category` (
   `dir` varchar(20) NOT NULL COMMENT '业务文件夹',
   `type` char(10) NOT NULL COMMENT '业务类型(task,shop)',
   `dev` varchar(20) NOT NULL COMMENT '开发者',
-  `status` tinyint(4) NOT NULL COMMENT '业务开启状态',
-  `brief` varchar(255) NOT NULL COMMENT '简介',
-  `desc` text NOT NULL COMMENT '业务描述',
+  `remark` varchar(255) NOT NULL COMMENT '备注',
+  `description` text NOT NULL COMMENT '业务描述',
+  `more` text NOT NULL COMMENT '业务扩展配置',
   `indus_bid` text NOT NULL COMMENT '绑定行业',
   `create_time` int(10) unsigned NOT NULL COMMENT '安装时间',
-  `more` text NOT NULL COMMENT '业务扩展配置',
+  `status` tinyint(4) NOT NULL COMMENT '业务开启状态： 0关闭 1开启',
   `open_custom` tinyint(4) NOT NULL COMMENT '是否开启自定义字段',
   `list_order` float unsigned NOT NULL DEFAULT '10000' COMMENT '默认值10000，默认排序按从小到大',
   PRIMARY KEY (`id`)

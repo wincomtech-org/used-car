@@ -1,0 +1,24 @@
+
+        <div class="table-actions">
+            <notempty name="categoryId_no">
+                <button class="btn btn-primary btn-sm js-ajax-submit" type="submit"
+                        data-action="{:url('AdminService/listOrder')}">{:lang('SORT')}
+                </button>
+            </notempty>
+            <button class="btn btn-primary btn-sm js-ajax-submit" type="submit"
+                    data-action="{:url('AdminService/status',array('s'=>0))}" data-subcheck="true">未付款
+            </button>
+            <button class="btn btn-primary btn-sm js-ajax-submit" type="submit"
+                    data-action="{:url('AdminService/status',array('s'=>1))}" data-subcheck="true">已付款
+            </button>
+            <button class="btn btn-primary btn-sm js-ajax-submit" type="submit"
+                    data-action="{:url('AdminService/status',array('s'=>2))}" data-subcheck="true">取消
+            </button>
+            <button class="btn btn-primary btn-sm js-ajax-submit" type="submit"
+                    data-action="{:url('AdminService/status',array('s'=>11))}" data-subcheck="true">已失效
+            </button>
+            <button class="btn btn-danger btn-sm js-ajax-submit" type="submit"
+                    data-action="{:url('AdminService/delete')}" data-subcheck="true" data-msg="您确定删除吗？">
+                {:lang('DELETE')}
+            </button>
+        </div>
