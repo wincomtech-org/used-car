@@ -9,7 +9,6 @@ use app\admin\model\RouteModel;
 
 class UsualCategoryModel extends Model
 {
-
     protected $type = [
         'more' => 'array',
     ];

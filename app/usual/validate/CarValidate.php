@@ -13,7 +13,7 @@ class CarValidate extends Validate
         'car_vin' => 'require',
         'car_plate_number' => 'require',
         'car_mileage' => 'require',
-        'car_license' => 'require',
+        'car_license_time' => 'require',
         'city_id' => 'require',
     ];
 
@@ -26,13 +26,13 @@ class CarValidate extends Validate
         'car_vin' => '请输入车架号',
         'car_plate_number' => '请输入车牌号',
         'car_mileage' => '请输入里程数',
-        'car_license' => '请输入上牌时间',
+        'car_license_time' => '请输入上牌时间',
         'city_id' => '请输入所在城市',
     ];
 
     protected $scene = [
-        'add' => ['name','brand_id','serie_id','model_id','car_vin','car_plate_number','car_mileage','car_license','city_id'],
-        'edit' => ['name'=>'require','brand_id','serie_id','model_id','car_vin','car_plate_number','car_mileage','car_license','city_id']
+        'add' => ['name','brand_id','serie_id','model_id','car_vin','car_plate_number','car_mileage','car_license_time','city_id'],
+        'edit' => ['name'=>'require','brand_id','serie_id','model_id','car_vin','car_plate_number','car_mileage','car_license_time','city_id']
     ];
 
     // 检查名称是否存在

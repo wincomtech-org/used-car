@@ -82,21 +82,8 @@ class AdminOrderController extends AdminBaseController
                 $this->error('支付时间不能为空 <br>或者 支付状态不能为未支付、取消！');
             }
 
-            if (!empty($data['photo_names']) && !empty($data['photo_urls'])) {
-                $post['more']['identity_card'] = [];
-                foreach ($data['photo_urls'] as $key => $url) {
-                    $photoUrl = cmf_asset_relative_url($url);
-                    array_push($post['more']['identity_card'], ["url" => $photoUrl, "name" => $data['photo_names'][$key]]);
-                }
-            }
-
-            if (!empty($data['file_names']) && !empty($data['file_urls'])) {
-                $post['more']['files'] = [];
-                foreach ($data['file_urls'] as $key => $url) {
-                    $fileUrl = cmf_asset_relative_url($url);
-                    array_push($post['more']['files'], ["url" => $fileUrl, "name" => $data['file_names'][$key]]);
-                }
-            }
+            $post['more']['identity_card'] = model('Service')->dealFiles(['names'=>$data['photo_names'],'urls'=>$data['photo_urls']]);
+            $post['more']['files'] = model('Service')->dealFiles(['names'=>$data['file_names'],'urls'=>$data['file_urls']]);
 
             model('InsuranceOrder')->adminEditArticle($post);
 

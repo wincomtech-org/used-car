@@ -13,6 +13,7 @@ class UsualModel extends Model
     protected $type = [
         'more' => 'array',
         'identi' => 'array',
+        'define_data' => 'array',
     ];
     // 开启自动写入时间戳字段
     protected $autoWriteTimestamp = true;
@@ -168,7 +169,7 @@ class UsualModel extends Model
      */
     public function adminEditArticle($data, $categories = null)
     {
-        $data['user_id'] = cmf_get_current_admin_id();
+        $data['user_id'] = $data['user_id'] ? $data['user_id'] : cmf_get_current_admin_id();
         if (!empty($data['more']['thumbnail'])) {
             $data['more']['thumbnail'] = cmf_asset_relative_url($data['more']['thumbnail']);
         }
@@ -372,7 +373,7 @@ class UsualModel extends Model
     /**
      * 后台管理编辑显示页面
      * @param int $id 唯一ID
-     * @return $post 一条数据
+     * @return $post 获取一条数据
     */
     public function getPost($id)
     {

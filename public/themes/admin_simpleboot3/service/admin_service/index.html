@@ -3,17 +3,16 @@
 <body>
 <div class="wrap js-check-wrap">
     <ul class="nav nav-tabs">
-        <li class="active"><a href="javascript:;">所有订单</a></li>
-        <li><a href="{:url('AdminService/add')}">添加订单</a></li>
+        <li class="active"><a href="javascript:;">所有预约单</a></li>
+        <li><a href="{:url('AdminService/add')}">添加预约单</a></li>
     </ul>
     <form class="well form-inline margin-top-20" method="post" action="{:url('AdminService/index')}">
-        支付方式:
-        <select class="form-control" name="payId" style="width: 140px;">
+        业务模型:
+        <select class="form-control" name="modelId" style="width: 140px;">
             <option value='0'>全部</option>
-            <option value="alipay">支付宝</option>
-            <option value="weixin">微信</option>
+            {$category_tree}
         </select> &nbsp;&nbsp;
-        时间:
+        预约时间:
         <input type="text" class="form-control js-bootstrap-datetime" name="start_time"
                value="{$start_time|default=''}"
                style="width: 140px;" autocomplete="off">-
@@ -23,9 +22,9 @@
         用户:
         <input type="text" class="form-control" name="uname" style="width:200px;"
                value="{$uname|default=''}" placeholder="请输入关键字..."> &nbsp; &nbsp;
-        订单号:
-        <input type="text" class="form-control" name="sn" style="width:200px;"
-               value="{$sn|default=''}" placeholder="请输入关键字...">
+        关键词:
+        <input type="text" class="form-control" name="keyword" style="width:200px;"
+               value="{$keyword|default=''}" placeholder="请输入关键字...">
         <input type="submit" class="btn btn-primary" value="搜索"/>
         <a class="btn btn-danger" href="{:url('AdminService/index')}">清空</a>
     </form>
@@ -42,28 +41,33 @@
                                value="{$vo.id}" title="ID:{$vo.id}">
                     </td>
                     <td><b>{$vo.id}</b></td>
-                    <td>
-                        <a href="{//:cmf_url('portal/Article/index',array('id'=>$vo['id']))}" target="_blank">{$vo.order_sn}</a>
-                    </td>
 
-                    <td><a href="{:url('usual/AdminCar/edit',array('id'=>$vo.car_id))}">{$vo.car_name}</a></td>
-                    <td>{$vo.bargain_money}</td>
-                    <td>{$vo.order_amount}</td>
-                    <td><a href="{:url('admin/plugin/index')}">{$vo.pay_name} >></a></td>
-                    <td><a href="{:url('user/AdminIndex/index',array('uid'=>$vo.buyer_uid))}">{$vo.buyer_nickname ? $vo.buyer_nickname : $vo.buyer_username}</a></td>
-                    <td><a href="{:url('user/AdminIndex/index',array('uid'=>$vo.seller_uid))}">{$vo.seller_nickname ? $vo.seller_nickname : $vo.seller_username}</a></td>
+                    <td>
+                        <a href="{:cmf_url('AdminServiceCategory/edit',array('id'=>$vo['model_id']))}" target="_blank">{$vo.model_name}</a>
+                    </td>
+                    <td><a href="{:url('usual/AdminCompany/edit',array('id'=>$vo.company_id))}">{$vo.company_name}</a></td>
+
+                    <!-- <td><a href="{//:url('user/AdminIndex/index',array('uid'=>$vo.seller_uid))}">{//$vo.seller_nickname ? $vo.seller_nickname : $vo.seller_login}</a></td> -->
+                    <td><a href="{:url('user/AdminIndex/index',array('uid'=>$vo.user_id))}">{$vo.buyer_nickname ? $vo.buyer_nickname : $vo.buyer_login}</a></td>
+
                     <td>
                         <notempty name="vo.create_time">
                             {:date('Y-m-d H:i',$vo['create_time'])}
                         </notempty>
                     </td>
                     <td>
-                        <notempty name="vo.pay_time">
-                            {:date('Y-m-d H:i',$vo['pay_time'])}
+                        <notempty name="vo.appoint_time">
+                            {:date('Y-m-d H:i',$vo['appoint_time'])}
                         </notempty>
                     </td>
                     <td>
-                        <php>echo config('trade_order_status')[$vo['status']]</php>
+                        <notempty name="vo.end_time">
+                            {:date('Y-m-d H:i',$vo['end_time'])}
+                        </notempty>
+                    </td>
+                    <td>{$vo.remark}</td>
+                    <td>
+                        <php>echo config('service_status')[$vo['status']]</php>
                     </td>
                     <td>
                         <a href="{:url('AdminService/edit',array('id'=>$vo['id']))}">{:lang('EDIT')}</a>

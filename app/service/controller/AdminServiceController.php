@@ -21,15 +21,18 @@ class AdminServiceController extends AdminBaseController
     public function index()
     {
         $param = $this->request->param();//接收筛选条件
+        $modelId = $this->request->param('modelId', 0, 'intval');
 
         $data = model('Service')->getLists($param);
         $data->appends($param);
+        $categoryTree = model('usual/UsualCategory')->adminCategoryTree($modelId,0,'service_category');
 
-        $this->assign('payId', isset($param['payId']) ? $param['payId'] : '');
         $this->assign('start_time', isset($param['start_time']) ? $param['start_time'] : '');
         $this->assign('end_time', isset($param['end_time']) ? $param['end_time'] : '');
         $this->assign('uname', isset($param['uname']) ? $param['uname'] : '');
-        $this->assign('sn', isset($param['sn']) ? $param['sn'] : '');
+        $this->assign('keyword', isset($param['keyword']) ? $param['keyword'] : '');
+        $this->assign('modelId', $modelId);
+        $this->assign('category_tree', $categoryTree);
         $this->assign('lists', $data->items());
         $this->assign('page', $data->render());
 
@@ -38,20 +41,28 @@ class AdminServiceController extends AdminBaseController
 
     public function add()
     {
+        $categoryTree = model('usual/UsualCategory')->adminCategoryTree(0,0,'service_category');
+        $companyTree = model('usual/UsualCompany')->getCompanys(0,0,0,true);
+
+        $this->assign('category_tree', $categoryTree);
+        $this->assign('company_tree', $companyTree);
+        $this->assign('service_status', model('Service')->getServiceStatus());
         return $this->fetch();
     }
     public function addPost()
     {
         if ($this->request->isPost()) {
             $data   = $this->request->param();
-            $car_title = $this->request->param('car_name/s');
-            $car_id = Db::name('usual_car')->where(['name'=>['like', "%$car_title%"]])->value('id');
-            if (empty($car_id)) {
-                $this->error('车子标题不存在！');
+            $username = $this->request->param('username/s');
+            $user_id = Db::name('user')->whereOr(['user_nickname|user_login|user_email|mobile'=>['eq', $username]])->value('id');
+            if (empty($user_id)) {
+                $this->error('系统未检测到该用户');
             }
+
             $post   = $data['post'];
-            $post['car_id'] = intval($car_id);
-            $result = $this->validate($post,'Order.add');
+            $post['user_id'] = intval($user_id);
+
+            $result = $this->validate($post,'Service.add');
             if ($result !== true) {
                 $this->error($result);
             }
@@ -73,8 +84,12 @@ class AdminServiceController extends AdminBaseController
     {
         $id = $this->request->param('id', 0, 'intval');
         $post = model('Service')->getPost($id);
+        $categoryTree = model('usual/UsualCategory')->adminCategoryTree($post['model_id'],0,'service_category');
+        $companyTree = model('usual/UsualCompany')->getCompanys($post['company_id'],0,0,true);
 
-        $this->assign('order_status', config('service_status'));
+        $this->assign('category_tree', $categoryTree);
+        $this->assign('company_tree', $companyTree);
+        $this->assign('service_status', model('Service')->getServiceStatus($post['status']));
         $this->assign('post', $post);
         return $this->fetch();
     }
@@ -82,30 +97,21 @@ class AdminServiceController extends AdminBaseController
     {
         if ($this->request->isPost()) {
             $data   = $this->request->param();
+            $username = $this->request->param('username/s');
+            $user_id = Db::name('user')->whereOr(['user_nickname|user_login|user_email|mobile'=>['eq', $username]])->value('id');
+            if (empty($user_id)) {
+                $this->error('系统未检测到该用户');
+            }
 
             $post   = $data['post'];
-            $result = $this->validate($post, 'Order.edit');
+            $post['user_id'] = intval($user_id);
+            $result = $this->validate($post, 'Service.edit');
             if ($result !== true) {
                 $this->error($result);
             }
-            if ($post['status']==1 && empty($post['pay_time'])) {
-                $this->error('支付时间不能为空 <br>或者 支付状态不能为未支付、取消！');
-            }
 
-            if (!empty($data['photo_names']) && !empty($data['photo_urls'])) {
-                $post['more']['identity_card'] = [];
-                foreach ($data['photo_urls'] as $key => $url) {
-                    $photoUrl = cmf_asset_relative_url($url);
-                    array_push($post['more']['identity_card'], ["url" => $photoUrl, "name" => $data['photo_names'][$key]]);
-                }
-            }
-            if (!empty($data['file_names']) && !empty($data['file_urls'])) {
-                $post['more']['files'] = [];
-                foreach ($data['file_urls'] as $key => $url) {
-                    $fileUrl = cmf_asset_relative_url($url);
-                    array_push($post['more']['files'], ["url" => $fileUrl, "name" => $data['file_names'][$key]]);
-                }
-            }
+            // $post['more']['photos'] = model('Service')->dealFiles(['names'=>$data['photo_names'],'urls'=>$data['photo_urls']]);
+            // $post['more']['files'] = model('Service')->dealFiles(['names'=>$data['file_names'],'urls'=>$data['file_urls']]);
 
             model('Service')->adminEditArticle($post);
 

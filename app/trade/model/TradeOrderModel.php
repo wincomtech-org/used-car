@@ -57,7 +57,7 @@ class TradeOrderModel extends UsualModel
             ->join($join)
             ->where($where)
             ->order('a.id DESC')
-            ->paginate(5);
+            ->paginate(config('pagerset.pagesize'));
 
         return $series;
     }
@@ -81,5 +81,17 @@ class TradeOrderModel extends UsualModel
         $post['buyer_username'] = $post['buyer_nickname'] ? $post['buyer_nickname'] : $post['buyer_username'];
         $post['seller_username'] = $post['seller_nickname'] ? $post['seller_nickname'] : $post['seller_username'];
         return $post;
+    }
+
+    public function getOrderStatus($status='')
+    {
+        $status = intval($status);
+        $order_status = config('trade_order_status');
+        $options = '';
+        foreach ($order_status as $key => $vo) {
+            $options .= '<option value="'.$key.'" '.($status==$key?'selected':'').'>'.$vo.'</option>';
+        }
+
+        return $options;
     }
 }

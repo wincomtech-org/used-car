@@ -14,7 +14,7 @@ class CategoryValidate extends Validate
     ];
     protected $scene = [
        'add'  => ['name'],
-       'edit' => ['name'],
+       'edit' => ['name'=>'require'],
     ];
     protected function checkName($value)
     {

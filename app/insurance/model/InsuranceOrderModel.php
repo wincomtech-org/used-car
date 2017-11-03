@@ -67,7 +67,7 @@ class InsuranceOrderModel extends InsuranceModel
             ->join($join)
             ->where($where)
             ->order('a.id DESC')
-            ->paginate(5);
+            ->paginate(config('pagerset.pagesize'));
 
         return $series;
     }

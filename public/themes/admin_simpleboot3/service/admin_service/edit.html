@@ -29,51 +29,80 @@
 <body>
 <div class="wrap js-check-wrap">
     <ul class="nav nav-tabs">
-        <li><a href="{:url('AdminService/index')}">订单管理</a></li>
-        <li><a href="{:url('AdminService/add')}">添加订单</a></li>
-        <li class="active"><a href="#">编辑订单</a></li>
+        <li><a href="{:url('AdminService/index')}">预约单管理</a></li>
+        <li><a href="{:url('AdminService/add')}">添加预约单</a></li>
+        <li class="active"><a href="#">编辑预约单</a></li>
     </ul>
     <form action="{:url('AdminService/editPost')}" method="post" class="form-horizontal js-ajax-form margin-top-20">
         <div class="row">
             <div class="col-md-9">
                 <table class="table table-bordered">
                     <tr>
-                        <th width="100">订单号<span class="form-required">*</span></th>
+                        <th width="100">业务模型<span class="form-required">*</span></th>
                         <td>
-                            <input class="form-control" value="{$post.order_sn}" readonly required placeholder="请输入订单号"/>
+                            <select class="form-control" style="width:140px" name="post[model_id]" required>
+                                <option value="0">--请选择--</option>
+                                {$category_tree}
+                            </select>
                         </td>
                     </tr>
-
-                    <tr>
-                        <th>订金</th>
-                        <td>
-                            <input class="form-control" type="text" name="post[bargain_money]" value="{$post.bargain_money|default='10.00'}">
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>全额</th>
-                        <td>
-                            <input type="text" name="post[order_amount]" value="{$post.order_amount|default='0.00'}">
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <th>支付方式</th>
-                        <td><a ><span>{$post.pay_id}</span></a></td>
-                    </tr>
-                    <tr>
-                        <th>买家</th>
-                        <td><a href="{:url('user/AdminIndex/index',array('uid'=>$post.buyer_uid))}"><span>{$post.buyer_username}</span></a></td>
-                    </tr>
-                    <tr>
+                    <!-- <tr>
                         <th>卖家</th>
-                        <td><a href="{:url('user/AdminIndex/index',array('uid'=>$post.seller_uid))}"><span>{$post.seller_username}</span></a></td>
+                        <td><input class="form-control" type="text" name="post[seller_username]" value="{$post.seller_uid|default=''}"></td>
+                    </tr> -->
+
+                    <tr>
+                        <th>客户<span class="form-required">*</span></th>
+                        <td>
+                            <input class="form-control" type="text" name="username" value="{$post.buyer_username|default=''}">
+                        </td>
                     </tr>
                     <tr>
-                        <th>车子标题</th>
-                        <td><a href="{:url('usual/AdminCar/edit',['id'=>$post.car_id])}"><span>{$post.car_name}</span></a></td>
+                        <th>联系方式</th>
+                        <td>
+                            <textarea class="form-control" name="post[contact]" style="height:50px;" placeholder="客户的联系方式">{$post.contact|default=''}</textarea>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>客户地址</th>
+                        <td>
+                            <textarea class="form-control" name="post[address]" style="height:50px;" placeholder="客户的地址">{$post.address|default=''}</textarea>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>车架号</th>
+                        <td><input class="form-control" type="text" name="post[car_vin]" value="{$post.car_vin|default=''}"></td>
+                    </tr>
+                    <tr>
+                        <th>车牌号</th>
+                        <td><input class="form-control" type="text" name="post[car_plate_number]" value="{$post.car_plate_number|default=''}"></td>
                     </tr>
 
+                    <tr>
+                        <th>预约公司<span class="form-required">*</span></th>
+                        <td>
+                            <select class="form-control" style="width:140px" name="post[company_id]" required>
+                                {$company_tree}
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>服务地址</th>
+                        <td>
+                            <textarea class="form-control" name="post[service_address]" style="height:50px;" placeholder="预约公司的服务点">{$post.service_address|default=''}</textarea>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>服务点坐标</th>
+                        <td><input class="form-control" type="text" name="post[coordinate]" value="{$post.coordinate|default='0,0'}" placeholder="预约公司的服务点坐标"></td>
+                    </tr>
+
+                    <tr>
+                        <th>维修历史</th>
+                        <td>
+                            <textarea class="form-control" name="post[fix_history]" style="height:150px;" placeholder="">{$post.fix_history|default=''}</textarea>
+                        </td>
+                    </tr>
                     <tr>
                         <th>备注</th>
                         <td>
@@ -86,79 +115,50 @@
                             <textarea class="form-control" name="post[description]" style="height:50px;" placeholder="描述，给前台用户用">{$post.description|default=''}</textarea>
                         </td>
                     </tr>
-
-                    <tr>
-                        <th></th>
-                        <td align="center"><b style="color:#F00">以下是预约资料</b></td>
-                    </tr>
-                    <tr>
-                        <th>买主</th>
-                        <td><input class="form-control" type="text" name="post[more][uname]" value="{$post.more.uname|default=''}"></td>
-                    </tr>
-                    <tr>
-                        <th>联系方式</th>
-                        <td>
-                            <textarea class="form-control" name="post[more][contact]" style="height:50px;" placeholder="手机号、QQ、微信">{$post.more.contact|default=''}</textarea>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>身份证</th>
-                        <td>
-                            <ul id="photos" class="pic-list list-unstyled form-inline">
-                                <notempty name="post.more.identity_card">
-                                    <foreach name="post.more.identity_card" item="vo">
-                                        <php>$img_url=cmf_get_image_preview_url($vo['url']);</php>
-                                        <li id="saved-image{$key}">
-                                            <input id="photo-{$key}" type="hidden" name="photo_urls[]"
-                                                   value="{$vo.url}">
-                                            <input class="form-control" id="photo-{$key}-name" type="text"
-                                                   name="photo_names[]"
-                                                   value="{$vo.name|default=''}" style="width: 200px;" title="图片名称">
-                                            <img id="photo-{$key}-preview"
-                                                 src="{:cmf_get_image_preview_url($vo['url'])}"
-                                                 style="height:36px;width: 36px;"
-                                                 onclick="parent.imagePreviewDialog(this.src);">
-                                            <a href="javascript:uploadOneImage('图片上传','#photo-{$key}');">替换</a>
-                                            <a href="javascript:(function(){$('#saved-image{$key}').remove();})();">移除</a>
-                                        </li>
-                                    </foreach>
-                                </notempty>
-                            </ul>
-                            <a href="javascript:uploadMultiImage('图片上传','#photos','photos-item-tpl');"
-                               class="btn btn-sm btn-default">选择图片</a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>行驶证</th>
-                        <td>
-                            <div>
-                                <input type="hidden" name="post[more][driving_license]" id="driving_license" value="{$post.more.driving_license|default=''}">
-                                <a href="javascript:uploadOneImage('图片上传','#driving_license');">
-                                    <empty name="post.more.driving_license">
-                                        <img src="__TMPL__/public/assets/images/default-thumbnail.png" id="driving_license-preview" width="135" style="cursor: pointer"/>
-                                    <else/>
-                                        <img src="{:cmf_get_image_preview_url($post.more.driving_license)}" id="driving_license-preview" width="135" style="cursor: pointer"/>
-                                    </empty>
-                                </a>
-                                <input type="button" class="btn btn-sm btn-cancel-driving_license" value="取消图片">
-                            </div>
-                        </td>
-                    </tr>
                 </table>
             </div>
             <div class="col-md-3">
                 <table class="table table-bordered">
-                    <tr>
-                        <th width="100">下单时间</th>
-                        <td>{$post.create_time?=date('Y-m-d H:i',$post['create_time'])}</td>
-                    </tr>
-                    <tr>
-                        <th>支付时间</th>
+                    <!-- <tr>
+                        <th>客户头像</th>
                     </tr>
                     <tr>
                         <td>
-                            <input class="form-control js-bootstrap-datetime" type="text" name="post[pay_time]"
-                                   value="{$post.pay_time?=date('Y-m-d H:i',$post['pay_time'])}">
+                            <div style="text-align: center;">
+                                <input type="hidden" name="post[more][thumbnail]" id="thumbnail"
+                                       value="{//$post.more.thumbnail|default=''}">
+                                <a href="javascript:uploadOneImage('图片上传','#thumbnail');">
+                                    <if condition="empty($post.more.thumbnail)">
+                                        <img src="__TMPL__/public/assets/images/default-thumbnail.png"
+                                             id="thumbnail-preview"
+                                             width="135" style="cursor: pointer"/>
+                                        <else/>
+                                        <img src="{:cmf_get_image_preview_url($post.more.thumbnail)}"
+                                             id="thumbnail-preview"
+                                             width="135" style="cursor: pointer"/>
+                                    </if>
+                                </a>
+                                <input type="button" class="btn btn-sm btn-cancel-thumbnail" value="取消图片">
+                            </div>
+                        </td>
+                    </tr> -->
+
+                    <tr>
+                        <th><b>创建时间</b></th>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input class="form-control js-bootstrap-datetime" type="text" name="post[create_time]"
+                                   value="{$post.create_time?=date('Y-m-d H:i',$post['create_time'])}">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th><b>预约时间</b></th>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input class="form-control js-bootstrap-datetime" type="text" name="post[appoint_time]"
+                                   value="{$post.appoint_time?=date('Y-m-d H:i',$post['appoint_time'])}">
                         </td>
                     </tr>
                     <tr>
@@ -171,15 +171,20 @@
                         </td>
                     </tr>
                     <tr>
-                        <th>状态</th>
+                        <th><b>状态</b></th>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="checkbox">
+                                <label><input type="checkbox" name="post[is_top]" value="1">置顶</label>
+                            </div>
+                        </td>
                     </tr>
                     <tr>
                         <td>
                             <div class="checkbox">
                                 <select class="form-control" name="post[status]" style="width:140px;">
-                                    <foreach name="order_status" item="v" key="k">
-                                    <option value="{$k}" {$post.status==$k?='selected'}>{$v}</option>
-                                    </foreach>
+                                    {$service_status|default=''}
                                 </select>
                             </div>
                         </td>

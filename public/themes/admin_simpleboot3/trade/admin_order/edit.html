@@ -63,15 +63,15 @@
                     </tr>
                     <tr>
                         <th>买家</th>
-                        <td><a href="{:url('user/AdminIndex/index',array('uid'=>$post.buyer_uid))}"><span>{$post.buyer_username}</span></a></td>
+                        <td><a href="{:url('user/AdminIndex/index',array('uid'=>$post.buyer_uid))}"><span>{$post.buyer_username|default=''}</span></a></td>
                     </tr>
                     <tr>
                         <th>卖家</th>
-                        <td><a href="{:url('user/AdminIndex/index',array('uid'=>$post.seller_uid))}"><span>{$post.seller_username}</span></a></td>
+                        <td><a href="{:url('user/AdminIndex/index',array('uid'=>$post.seller_uid))}"><span>{$post.seller_username|default=''}</span></a></td>
                     </tr>
                     <tr>
                         <th>车子标题</th>
-                        <td><a href="{:url('usual/AdminCar/edit',['id'=>$post.car_id])}"><span>{$post.car_name}</span></a></td>
+                        <td><a href="{:url('usual/AdminCar/edit',['id'=>$post.car_id])}"><span>{$post.car_name|default=''}</span></a></td>
                     </tr>
 
                     <tr>
@@ -177,9 +177,7 @@
                         <td>
                             <div class="checkbox">
                                 <select class="form-control" name="post[status]" style="width:140px;">
-                                    <foreach name="order_status" item="v" key="k">
-                                    <option value="{$k}" {$post.status==$k?='selected'}>{$v}</option>
-                                    </foreach>
+                                    {$order_status|default=''}
                                 </select>
                             </div>
                         </td>

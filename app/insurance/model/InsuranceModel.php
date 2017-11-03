@@ -40,7 +40,7 @@ class InsuranceModel extends UsualModel
             ->join('__USUAL_COMPANY__ b','a.company_id=b.id','LEFT')
             ->where($where)
             ->order('a.update_time DESC')
-            ->paginate(5);
+            ->paginate(config('pagerset.pagesize'));
 
         return $series;
     }

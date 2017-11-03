@@ -99,21 +99,10 @@ class AdminCompanyController extends AdminBaseController
             if (Db::name('UsualCompany')->where('name',$post['name'])->value('id')) {
                 $this->error('公司名已存在！','add');
             }
-            if (!empty($data['photo_names']) && !empty($data['photo_urls'])) {
-                $post['more']['photos'] = [];
-                foreach ($data['photo_urls'] as $key => $url) {
-                    $photoUrl = cmf_asset_relative_url($url);
-                    array_push($post['more']['photos'], ["url" => $photoUrl, "name" => $data['photo_names'][$key]]);
-                }
-            }
 
-            if (!empty($data['file_names']) && !empty($data['file_urls'])) {
-                $post['more']['files'] = [];
-                foreach ($data['file_urls'] as $key => $url) {
-                    $fileUrl = cmf_asset_relative_url($url);
-                    array_push($post['more']['files'], ["url" => $fileUrl, "name" => $data['file_names'][$key]]);
-                }
-            }
+            $post['more']['photos'] = model('Service')->dealFiles(['names'=>$data['photo_names'],'urls'=>$data['photo_urls']]);
+            $post['more']['files'] = model('Service')->dealFiles(['names'=>$data['file_names'],'urls'=>$data['file_urls']]);
+
             $this->UsualModel->adminAddArticle($post);
 
             // 钩子

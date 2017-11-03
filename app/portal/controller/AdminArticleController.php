@@ -35,12 +35,10 @@ class AdminArticleController extends AdminBaseController
     public function index()
     {
         $param = $this->request->param();
-
         $categoryId = $this->request->param('category', 0, 'intval');
 
         $postService = new PostService();
         $data        = $postService->adminArticleList($param);
-
         $data->appends($param);
 
         $portalCategoryModel = new PortalCategoryModel();

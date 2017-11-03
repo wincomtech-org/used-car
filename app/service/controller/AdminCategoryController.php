@@ -2,10 +2,10 @@
 namespace app\service\controller;
 
 use cmf\controller\AdminBaseController;
-// use app\service\model\ServiceCategoryModel;
 use think\Db;
+// use app\service\model\ServiceCategoryModel;
 // use app\admin\model\ThemeModel;
-
+// use think\Env;
 
 class AdminCategoryController extends AdminBaseController
 {
@@ -18,7 +18,7 @@ class AdminCategoryController extends AdminBaseController
     {
         $param = $this->request->param();//接收筛选条件
         $categories = model('ServiceCategory')->getLists($param);
-die;
+
         $categories->appends($param);//添加URL参数
         $this->assign('categories', $categories->items());// 获取查询数据并赋到模板
         $this->assign('page', $categories->render());// 获取分页代码并赋到模板
@@ -28,24 +28,20 @@ die;
 
     public function add()
     {
-        $parentId           = $this->request->param('parent', 0, 'intval');
-        $categoriesTree     = model('ServiceCategory')->adminCategoryTree($parentId);
-
-        $this->assign('categories_tree', $categoriesTree);
-        $this->assign('parentId', $parentId);
+        // 没有上级
+        $this->assign('define_data',model('ServiceCategory')->getDefineData());
         return $this->fetch();
     }
-
     public function addPost()
     {
         $data = $this->request->param();
-
-        $result = $this->validate($data, 'Category.add');
+        $cate = $data['cate'];
+        $result = $this->validate($cate, 'Category.add');
         if ($result !== true) {
             $this->error($result);
         }
-
-        $result = model('ServiceCategory')->addCategory($data);
+        $data['define_data'] = empty($data['define_data'])?[]:$data['define_data'];
+        $result = model('ServiceCategory')->addCategory($cate,$data['define_data']);
         if ($result === false) {
             $this->error('添加失败!');
         }
@@ -57,30 +53,24 @@ die;
     {
         $id = $this->request->param('id', 0, 'intval');
         if ($id > 0) {
-            $category = ServiceCategoryModel::get($id)->toArray();
-
-            $categoriesTree      = model('ServiceCategory')->adminCategoryTree($category['parent_id'], $id);
-
+            $category = model('ServiceCategory')->getPost($id);
             $this->assign($category);
-            $this->assign('categories_tree', $categoriesTree);
-            $this->assign('parentId', $category['parent_id']);
+            $this->assign('define_data',model('ServiceCategory')->getDefineData($category['define_data']));
             return $this->fetch();
         } else {
             $this->error('操作错误!');
         }
-
     }
-
     public function editPost()
     {
         $data = $this->request->param();
-
-        $result = $this->validate($data, 'Category.edit');
+        $cate = $data['cate'];
+        $result = $this->validate($cate, 'Category.edit');
         if ($result !== true) {
             $this->error($result);
         }
 
-        $result = model('ServiceCategory')->editCategory($data);
+        $result = model('ServiceCategory')->editCategory($cate,$data['define_data']);
         if ($result === false) {
             $this->error('保存失败!');
         }
@@ -92,34 +82,14 @@ die;
     {
         $ids                 = $this->request->param('ids');
         $selectedIds         = explode(',', $ids);
+        $categoryTree = model('ServiceCategory')->createCategoryTableTree($selectedIds);
 
-        // $tpl = "<td>\$spacer <a href='\$url' target='_blank'>\$name</a></td>";
-        $tpl = <<<tpl
-<tr class='data-item-tr'>
-    <td>
-        <input type='radio' class='js-check' data-yid='js-check-y' data-xid='js-check-x' name='ids[]' value='\$id' data-name='\$name' \$checked>
-    </td>
-    <td>\$id</td>
-    <td>\$spacer <a style='text-decoration:none;cursor:pointer;'>\$name</a></td>
-</tr>
-tpl;
-        $config = [
-            'm'=>'AdminCategory',
-            'url'=>'',
-            'add'=>true,
-            'add_title'=>'',
-            'edit'=>true,
-            'delete'=>true,
-            'table2'=>''
-        ];
-        $categoryTree = model('ServiceCategory')->adminCategoryTableTree($selectedIds, $tpl, $config);
-
-        $where      = ['delete_time' => 0];
+        $where      = ['status' => 1];
         $categories = model('ServiceCategory')->where($where)->select();
 
         $this->assign('categories', $categories);
         $this->assign('selectedIds', $selectedIds);
-        $this->assign('categories_tree', $categoryTree);
+        $this->assign('categoryTree', $categoryTree);
         return $this->fetch();
     }
 
@@ -133,27 +103,19 @@ tpl;
     {
         $id = $this->request->param('id');
         //获取删除的内容
-        $findCategory = model('ServiceCategory')->where('id', $id)->find();
-        if (empty($findCategory)) {
+        $find = model('ServiceCategory')->where('id', $id)->find();
+        if (empty($find)) {
             $this->error('模型不存在!');
         }
-
-        // $categoryChildrenCount = model('ServiceCategory')->where('parent_id', $id)->count();
-        // if ($categoryChildrenCount > 0) {
-        //     $this->error('此品牌有子类无法删除!');
-        // }
-
-        // $categoryPostCount = Db::name('usual_car')->where('model_id',$id)->whereOr('serie_id',$id)->count();
-        $categoryPostCount = Db::name('service')->where('model_id',$id)->count();
-        if ($categoryPostCount > 0) {
+        if (model('Service')->where('model_id',$id)->count() > 0) {
             $this->error('此模型下有业务，无法删除!');
         }
 
         // $data   = [
-        //     'object_id'   => $findCategory['id'],
+        //     'object_id'   => $find['id'],
         //     'create_time' => time(),
         //     'table_name'  => 'ServiceCategory',
-        //     'name'        => $findCategory['name']
+        //     'name'        => $find['name']
         // ];
         $result = model('ServiceCategory')
             ->where('id', $id)

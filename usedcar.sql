@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50540
 File Encoding         : 65001
 
-Date: 2017-11-02 18:07:51
+Date: 2017-11-03 17:50:29
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -4019,12 +4019,13 @@ CREATE TABLE `cmf_hook_plugin` (
   `hook` varchar(50) NOT NULL DEFAULT '' COMMENT '钩子名',
   `plugin` varchar(30) NOT NULL DEFAULT '' COMMENT '插件',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COMMENT='系统钩子插件表';
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COMMENT='系统钩子插件表';
 
 -- ----------------------------
 -- Records of cmf_hook_plugin
 -- ----------------------------
-INSERT INTO `cmf_hook_plugin` VALUES ('1', '10000', '1', 'footer_start', 'Demo');
+INSERT INTO `cmf_hook_plugin` VALUES ('2', '10000', '1', 'send_mobile_verification_code', 'MobileCodeDemo');
+INSERT INTO `cmf_hook_plugin` VALUES ('3', '10000', '1', 'admin_dashboard', 'SystemInfo');
 
 -- ----------------------------
 -- Table structure for cmf_insurance
@@ -4260,7 +4261,7 @@ CREATE TABLE `cmf_option` (
 -- ----------------------------
 INSERT INTO `cmf_option` VALUES ('7', '1', 'site_info', '{\"site_name\":\"\\u5927\\u901a\\u8f66\\u670d\",\"site_seo_title\":\"\\u5927\\u901a\\u8f66\\u670d\",\"site_seo_keywords\":\"\\u4e8c\\u624b\\u8f66\",\"site_seo_description\":\"\\u4e8c\\u624b\\u8f66\\u4ea4\\u6613\"}');
 INSERT INTO `cmf_option` VALUES ('8', '1', 'smtp_setting', '{\"from_name\":\"admin\",\"from\":\"wowlothar@foxmail.com\",\"host\":\"smtp.qq.com\",\"smtp_secure\":\"\",\"port\":\"25\",\"username\":\"wowlothar@foxmail.com\",\"password\":\"opqzaolxpbbjbdcf\"}');
-INSERT INTO `cmf_option` VALUES ('9', '1', 'admin_dashboard_widgets', '[{\"name\":\"CmfHub\",\"is_system\":1},{\"name\":\"MainContributors\",\"is_system\":1},{\"name\":\"Contributors\",\"is_system\":1},{\"name\":\"Custom1\",\"is_system\":1},{\"name\":\"Custom2\",\"is_system\":1},{\"name\":\"Custom3\",\"is_system\":1},{\"name\":\"Custom4\",\"is_system\":1},{\"name\":\"Custom5\",\"is_system\":1}]');
+INSERT INTO `cmf_option` VALUES ('9', '1', 'admin_dashboard_widgets', '[{\"name\":\"SystemInfo\",\"is_system\":0},{\"name\":\"Contributors\",\"is_system\":1},{\"name\":\"MainContributors\",\"is_system\":1},{\"name\":\"Custom1\",\"is_system\":1},{\"name\":\"CmfHub\",\"is_system\":1},{\"name\":\"Custom3\",\"is_system\":1},{\"name\":\"Custom4\",\"is_system\":1},{\"name\":\"Custom5\",\"is_system\":1},{\"name\":\"Custom2\",\"is_system\":1}]');
 
 -- ----------------------------
 -- Table structure for cmf_plugin
@@ -4282,12 +4283,13 @@ CREATE TABLE `cmf_plugin` (
   `description` varchar(255) NOT NULL COMMENT '插件描述',
   `config` text COMMENT '插件配置',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COMMENT='插件表';
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COMMENT='插件表';
 
 -- ----------------------------
 -- Records of cmf_plugin
 -- ----------------------------
-INSERT INTO `cmf_plugin` VALUES ('1', '1', '1', '1', '0', 'Demo', '插件演示', 'http://demo.thinkcmf.com', '', 'ThinkCMF', 'http://www.thinkcmf.com', '1.0', '插件演示', '{\"text\":\"hello,ThinkCMF!\",\"password\":\"123456\",\"number\":\"4\",\"select\":\"1\",\"checkbox\":[\"1\"],\"radio\":\"2\",\"radio2\":\"2\",\"textarea\":\"\\u8fd9\\u91cc\\u662f\\u4f60\\u8981\\u586b\\u5199\\u7684\\u5185\\u5bb9\",\"date\":\"2017-05-03\",\"datetime\":\"2017-05-26 18:30\",\"color\":\"#318c84\",\"image\":\"\",\"location\":\"117.15254,31.837379\"}');
+INSERT INTO `cmf_plugin` VALUES ('2', '1', '0', '1', '0', 'MobileCodeDemo', '手机验证码演示插件', '', '', 'ThinkCMF', '', '1.0', '手机验证码演示插件', '{\"account_sid\":\"\",\"auth_token\":\"\",\"app_id\":\"\",\"template_id\":\"\",\"expire_minute\":\"30\"}');
+INSERT INTO `cmf_plugin` VALUES ('3', '1', '0', '1', '0', 'SystemInfo', '系统信息', '', '', 'ThinkCMF', '', '1.0', '系统信息', '[]');
 
 -- ----------------------------
 -- Table structure for cmf_portal_category
@@ -4505,56 +4507,70 @@ INSERT INTO `cmf_route` VALUES ('27', '4999', '1', '2', 'portal/Article/index?ci
 DROP TABLE IF EXISTS `cmf_service`;
 CREATE TABLE `cmf_service` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `model_id` smallint(6) unsigned NOT NULL COMMENT '业务模型代号',
+  `model_id` smallint(6) unsigned NOT NULL COMMENT '业务模型ID',
   `company_id` mediumint(8) unsigned NOT NULL COMMENT '服务公司ID ',
+  `seller_uid` int(11) unsigned NOT NULL COMMENT '卖家ID',
+  `user_id` int(11) unsigned NOT NULL COMMENT '用户、联系人',
+  `contact` varchar(255) NOT NULL COMMENT '联系方式',
+  `address` varchar(255) NOT NULL DEFAULT '' COMMENT '客户地址',
   `car_vin` char(17) NOT NULL COMMENT '车架号',
   `car_plate_number` char(7) NOT NULL COMMENT '车牌号',
-  `appoint_time` int(10) NOT NULL COMMENT '预约时间',
-  `user_id` int(11) NOT NULL COMMENT '联系人',
-  `user_contact` varchar(255) NOT NULL COMMENT '联系方式',
-  `address` varchar(255) NOT NULL COMMENT '服务地址',
+  `service_address` varchar(255) NOT NULL DEFAULT '' COMMENT '服务地址',
   `coordinate` varchar(50) NOT NULL COMMENT '位置坐标',
   `fix_history` text NOT NULL COMMENT '维修历史',
   `remark` varchar(255) NOT NULL COMMENT '备注，给管理员区分记录类型用',
   `description` text NOT NULL COMMENT '描述给前台用户用',
   `more` text NOT NULL COMMENT '扩展属性',
   `create_time` int(10) unsigned NOT NULL COMMENT '创建时间',
+  `appoint_time` int(10) NOT NULL COMMENT '预约时间',
   `end_time` int(10) unsigned NOT NULL COMMENT '结束时间',
   `delete_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '删除时间',
-  `status` tinyint(4) NOT NULL DEFAULT '0' COMMENT '状态：0预约中 1预约成功 2取消 10结束',
+  `is_top` tinyint(1) unsigned NOT NULL COMMENT '是否置顶：0否 1是',
+  `status` tinyint(4) NOT NULL DEFAULT '0' COMMENT '状态：0预约中 1预约成功 2取消 10结束 11过期',
   `list_order` float unsigned NOT NULL DEFAULT '10000' COMMENT '默认值10000，默认排序按从小到大',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='业务表';
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COMMENT='业务表';
 
 -- ----------------------------
 -- Records of cmf_service
 -- ----------------------------
+INSERT INTO `cmf_service` VALUES ('1', '1', '2', '0', '3', '915273694', '栋', '123456', '654321', '无', '0,0', 'w ', '', '', '', '1970', '1970', '0', '0', '0', '0', '10000');
 
 -- ----------------------------
 -- Table structure for cmf_service_category
 -- ----------------------------
 DROP TABLE IF EXISTS `cmf_service_category`;
 CREATE TABLE `cmf_service_category` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `code` varchar(20) NOT NULL COMMENT '业务代码',
-  `name` varchar(20) NOT NULL COMMENT '业务中文名',
-  `dir` varchar(20) NOT NULL COMMENT '业务文件夹',
-  `type` char(10) NOT NULL COMMENT '业务类型(task,shop)',
-  `dev` varchar(20) NOT NULL COMMENT '开发者',
-  `remark` varchar(255) NOT NULL COMMENT '备注',
-  `description` text NOT NULL COMMENT '业务描述',
+  `id` smallint(6) unsigned NOT NULL AUTO_INCREMENT,
+  `parent_id` smallint(6) unsigned NOT NULL DEFAULT '0' COMMENT '父级ID',
+  `name` varchar(20) NOT NULL DEFAULT '' COMMENT '业务中文名',
+  `code` varchar(20) NOT NULL DEFAULT '' COMMENT '业务代码',
+  `dir` varchar(20) NOT NULL DEFAULT '' COMMENT '业务文件夹',
+  `type` char(10) NOT NULL DEFAULT 'service' COMMENT '业务类型（service，shop）',
+  `dev` varchar(20) NOT NULL DEFAULT '' COMMENT '开发者',
+  `remark` varchar(255) NOT NULL DEFAULT '' COMMENT '备注',
+  `description` varchar(255) NOT NULL DEFAULT '' COMMENT '业务描述',
   `more` text NOT NULL COMMENT '业务扩展配置',
-  `indus_bid` text NOT NULL COMMENT '绑定行业',
-  `create_time` int(10) unsigned NOT NULL COMMENT '安装时间',
-  `status` tinyint(4) NOT NULL COMMENT '业务开启状态： 0关闭 1开启',
-  `open_custom` tinyint(4) NOT NULL COMMENT '是否开启自定义字段',
+  `indus_bid` tinytext NOT NULL COMMENT '绑定行业',
+  `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '安装时间',
+  `delete_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '删除时间',
+  `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '业务开启状态： 0关闭 1开启',
+  `open_define` tinyint(1) NOT NULL DEFAULT '1' COMMENT '是否开启自定义客户资料',
+  `define_data` varchar(255) NOT NULL DEFAULT '' COMMENT '自定义客户资料',
   `list_order` float unsigned NOT NULL DEFAULT '10000' COMMENT '默认值10000，默认排序按从小到大',
+  `seo_title` varchar(100) NOT NULL DEFAULT '' COMMENT 'SEO标题',
+  `seo_keywords` varchar(255) NOT NULL DEFAULT '' COMMENT 'SEO关键字',
+  `seo_description` varchar(255) NOT NULL DEFAULT '' COMMENT 'SEO描述',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Records of cmf_service_category
 -- ----------------------------
+INSERT INTO `cmf_service_category` VALUES ('1', '0', '菜鸟验车', 'noob', '', 'service', 'admin', '', '', '{\"thumbnail\":\"\"}', '', '1509688955', '0', '1', '1', '[\"plateNo\",\"uname\",\"contact\",\"identity_card\",\"driving_license\",\"appoint_time\",\"service_point\"]', '10', '下下下', '上上上', '中转站');
+INSERT INTO `cmf_service_category` VALUES ('2', '0', '预约检车', 'inspectcar', '', 'service', 'admin', '', '', '{\"thumbnail\":\"\"}', '', '1509692112', '0', '1', '1', '[\"plateNo\",\"uname\",\"contact\",\"identity_card\",\"driving_license\",\"appoint_time\",\"reg_time\",\"service_point\"]', '20', '', '', '');
+INSERT INTO `cmf_service_category` VALUES ('3', '0', '上牌预约', 'applylicense', '', 'service', 'admin', '', '', '{\"thumbnail\":\"\"}', '', '1509692503', '0', '1', '1', '[\"plateNo\"]', '30', '', '', '');
+INSERT INTO `cmf_service_category` VALUES ('4', '0', '过户申请', 'assigned', '', 'service', 'admin', '', '', '{\"thumbnail\":\"\"}', '', '1509692779', '0', '1', '1', '', '40', '', '', '');
 
 -- ----------------------------
 -- Table structure for cmf_slide
@@ -4991,7 +5007,7 @@ CREATE TABLE `cmf_usual_car` (
   `car_plate_number` char(7) NOT NULL COMMENT '车牌号',
   `car_age` tinyint(3) unsigned NOT NULL DEFAULT '1' COMMENT '车龄',
   `car_mileage` decimal(10,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '里程',
-  `car_license` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '上牌时间',
+  `car_license_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '上牌时间',
   `car_effluent` tinyint(2) unsigned NOT NULL DEFAULT '0' COMMENT '排放标准',
   `car_displacement` float unsigned NOT NULL DEFAULT '0' COMMENT '排量：单位L',
   `car_gearbox` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '变速箱：0不限 1自动 2手动',

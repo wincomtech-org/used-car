@@ -7,16 +7,18 @@ class ServiceValidate extends Validate
 {
     protected $rule = [
         'model_id' => 'require',
-        'user_id' => 'checkUid',
+        'company_id' => 'gt:0',
     ];
     protected $message = [
-        'model_id' => '请选择模型！',
-        'user_id' => '系统未检测到该用户！',
+        'model_id' => '请选择模型',
+        'company_id' => '请选择公司',
+        // 'user_id' => '系统未检测到该用户！',
     ];
     protected $scene = [
-       'add'  => ['model_id','user_id'],
-       'edit' => [],
+       'add'  => ['model_id','company_id'],
+       'edit' => ['model_id','company_id'],
     ];
+
     protected function checkUid($value)
     {
         if (model('Service')->where('id',$value)->count()) {

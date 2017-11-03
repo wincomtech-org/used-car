@@ -39,7 +39,7 @@ class UsualCompanyModel extends UsualModel
         $series = $this->alias('a')->field($field)
             ->where($where)
             ->order('update_time DESC')
-            ->paginate(5);
+            ->paginate(config('pagerset.pagesize'));
 
         return $series;
     }

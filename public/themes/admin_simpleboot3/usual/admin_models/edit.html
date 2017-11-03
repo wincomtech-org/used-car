@@ -27,9 +27,9 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="input-parent">专属品牌</label>
+                            <label for="input-brand">专属品牌</label>
                             <div>
-                                <select class="form-control" name="brand_id" id="input-parent">
+                                <select class="form-control" name="brand_id" id="input-brand">
                                     <option value="0">无特定品牌</option>
                                     {$BrandTree}
                                 </select>
@@ -49,7 +49,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="input-description">缩略图</label>
+                            <label for="js-thumbnail-input">缩略图</label>
                             <div>
                                 <input type="hidden" name="more[thumbnail]" class="form-control" value="{$more.thumbnail|default=''}" id="js-thumbnail-input">
                                 <div>

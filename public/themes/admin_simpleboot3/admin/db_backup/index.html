@@ -34,7 +34,7 @@
                     <td>{$vo}</td>
                     <td>{:date('Y-m-d')}</td>
                     <td>
-                        <a href="{:url('DbBackup/import',array('fname'=>$vo))}">还原备份</a> &nbsp; &nbsp;
+                        <a href="{:url('DbBackup/import',array('fname'=>$vo))}">还原</a> &nbsp; &nbsp;
                         <a href="{:url('DbBackup/down',array('fname'=>$vo))}" target="_blank">下载</a> &nbsp; &nbsp;
                         <a href="{:url('DbBackup/delete',array('fname'=>$vo))}" class="js-ajax-delete">
                             {:lang('DELETE')}

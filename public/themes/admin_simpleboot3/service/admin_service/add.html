@@ -29,55 +29,79 @@
 <body>
 <div class="wrap js-check-wrap">
     <ul class="nav nav-tabs">
-        <li><a href="{:url('AdminService/index')}">订单管理</a></li>
-        <li class="active"><a href="{:url('AdminService/add')}">添加订单</a></li>
+        <li><a href="{:url('AdminService/index')}">预约单管理</a></li>
+        <li class="active"><a href="{:url('AdminService/add')}">添加预约单</a></li>
     </ul>
     <form action="{:url('AdminService/addPost')}" method="post" class="form-horizontal js-ajax-form margin-top-20">
         <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-9">
                 <table class="table table-bordered">
                     <tr>
-                        <th width="100">订单号<span class="form-required">*</span></th>
+                        <th width="100">业务模型<span class="form-required">*</span></th>
                         <td>
-                            <input class="form-control" type="text" name="post[order_sn]" required placeholder="请输入订单号"/>
+                            <select class="form-control" style="width:140px" name="post[model_id]" required>
+                                <option value="0">--请选择--</option>
+                                {$category_tree}
+                            </select>
                         </td>
+                    </tr>
+                    <!-- <tr>
+                        <th>卖家</th>
+                        <td><input class="form-control" type="text" name="post[seller_username]"></td>
+                    </tr> -->
+
+                    <tr>
+                        <th>客户<span class="form-required">*</span></th>
+                        <td>
+                            <input class="form-control" type="text" name="username" value="">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>联系方式</th>
+                        <td>
+                            <textarea class="form-control" name="post[contact]" style="height:50px;" placeholder="客户的联系方式"></textarea>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>客户地址</th>
+                        <td>
+                            <textarea class="form-control" name="post[address]" style="height:50px;" placeholder="客户的地址"></textarea>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>车架号</th>
+                        <td><input class="form-control" type="text" name="post[car_vin]"></td>
+                    </tr>
+                    <tr>
+                        <th>车牌号</th>
+                        <td><input class="form-control" type="text" name="post[car_plate_number]"></td>
                     </tr>
 
                     <tr>
-                        <th>订金</th>
+                        <th>预约公司<span class="form-required">*</span></th>
                         <td>
-                            <input class="form-control" type="text" name="post[bargain_money]" value="10.00">
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>全额</th>
-                        <td>
-                            <input class="form-control" type="text" name="post[order_amount]" value="0.00">
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <th>支付方式</th>
-                        <td>
-                            <select class="form-control" name="post[pay_id]" style="width:140px;">
-                                <option value="weixin">微信支付</option>
-                                <option value="alipay">支付宝支付</option>
+                            <select class="form-control" style="width:140px" name="post[company_id]" required>
+                                {$company_tree}
                             </select>
                         </td>
                     </tr>
                     <tr>
-                        <th>买家</th>
-                        <td><input class="form-control" type="text" name="post[buyer_username]"></td>
+                        <th>服务地址</th>
+                        <td>
+                            <textarea class="form-control" name="post[service_address]" style="height:50px;" placeholder="预约公司的服务点"></textarea>
+                        </td>
                     </tr>
                     <tr>
-                        <th>卖家</th>
-                        <td><input class="form-control" type="text" name="post[seller_username]"></td>
-                    </tr>
-                    <tr>
-                        <th>车子标题</th>
-                        <td><input class="form-control" type="text" name="car_name"></td>
+                        <th>服务点坐标</th>
+                        <td><input class="form-control" type="text" name="post[coordinate]" value="0,0" placeholder="预约公司的服务点坐标"></td>
                     </tr>
 
+                    <tr>
+                        <th>维修历史</th>
+                        <td>
+                            <textarea class="form-control" name="post[fix_history]" style="height:150px;" placeholder=""></textarea>
+                        </td>
+                    </tr>
                     <tr>
                         <th>备注</th>
                         <td>
@@ -98,6 +122,47 @@
                     </div>
                 </div>
             </div>
+            <div class="col-md-3">
+                <table class="table table-bordered">
+                    <tr>
+                        <th><b>创建时间</b></th>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input class="form-control js-bootstrap-datetime" type="text" name="post[create_time]"
+                                   value="{:date('Y-m-d H:i:s',time())}">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th><b>预约时间</b></th>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input class="form-control js-bootstrap-datetime" type="text" name="post[appoint_time]"
+                                   value="{:date('Y-m-d H:i:s',time())}">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th><b>状态</b></th>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="checkbox">
+                                <label><input type="checkbox" name="post[is_top]" value="1">置顶</label>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="checkbox">
+                                <select class="form-control" name="post[status]" style="width:140px;">
+                                    {$service_status|default=''}
+                                </select>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
         </div>
     </form>
 </div>
@@ -111,10 +176,8 @@
 <script type="text/javascript">
     $(function(){
         var ue = UE.getEditor('content');
-        var ue = UE.getEditor('information');
         // editorcontent = new baidu.editor.ui.Editor();
         // editorcontent.render('content');
-        // editorcontent.render('information');
         // try {
         //     editorcontent.sync();
         // } catch (err) {
@@ -126,25 +189,6 @@
         });
     });
 
-    function doSelectCategory() {
-        var selectedCategoriesId = $('#js-categories-id-input').val();
-        openIframeLayer("{:url('AdminBrand/select')}?ids=" + selectedCategoriesId, '请选择分类', {
-            area: ['700px', '400px'],
-            btn: ['确定', '取消'],
-            yes: function (index, layero) {
-                var iframeWin          = window[layero.find('iframe')[0]['name']];
-                var selectedCategories = iframeWin.confirm();
-                if (selectedCategories.selectedCategoriesId.length == 0) {
-                    layer.msg('请选择分类');
-                    return;
-                }
-                $('#js-categories-id-input').val(selectedCategories.selectedCategoriesId.join(','));
-                $('#js-categories-name-input').val(selectedCategories.selectedCategoriesName.join(' '));
-                //console.log(layer.getFrameIndex(index));
-                layer.close(index); //如果设定了yes回调，需进行手工关闭
-            }
-        });
-    }
 </script>
 </body>
 </html>
