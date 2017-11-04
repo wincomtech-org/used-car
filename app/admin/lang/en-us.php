@@ -24,6 +24,7 @@ return [
     "YES"                     => 'Yes',
     "NO"                      => 'No',
     "EDIT"                    => 'Edit',
+    "VIEW"                    => 'View',
     "ADD"                     => 'Add',
     "BACK"                    => 'Back',
     'LOGIN'                   => 'Login',

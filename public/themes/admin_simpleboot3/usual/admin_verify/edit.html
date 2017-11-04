@@ -1,0 +1,213 @@
+<include file="public@header"/>
+<style type="text/css">
+    .pic-list li {
+        margin-bottom: 5px;
+    }
+</style>
+<script type="text/html" id="photos-item-tpl">
+    <li id="saved-image{id}">
+        <input id="photo-{id}" type="hidden" name="photo_urls[]" value="{filepath}">
+        <input class="form-control" id="photo-{id}-name" type="text" name="photo_names[]" value="{name}"
+               style="width: 200px;" title="图片名称">
+        <img id="photo-{id}-preview" src="{url}" style="height:36px;width: 36px;"
+             onclick="imagePreviewDialog(this.src);">
+        <a href="javascript:uploadOneImage('图片上传','#photo-{id}');">替换</a>
+        <a href="javascript:(function(){$('#saved-image{id}').remove();})();">移除</a>
+    </li>
+</script>
+<script type="text/html" id="files-item-tpl">
+    <li id="saved-file{id}">
+        <input id="file-{id}" type="hidden" name="file_urls[]" value="{filepath}">
+        <input class="form-control" id="file-{id}-name" type="text" name="file_names[]" value="{name}"
+               style="width: 200px;" title="文件名称">
+        <a id="file-{id}-preview" href="{preview_url}" target="_blank">下载</a>
+        <a href="javascript:uploadOne('图片上传','#file-{id}','file');">替换</a>
+        <a href="javascript:(function(){$('#saved-file{id}').remove();})();">移除</a>
+    </li>
+</script>
+</head>
+<body>
+<div class="wrap js-check-wrap">
+    <ul class="nav nav-tabs">
+        <li><a href="{:url('AdminVerify/index')}">认证资料管理</a></li>
+        <!-- <li><a href="{:url('AdminVerify/add')}">添加认证资料</a></li> -->
+        <li class="active"><a href="#">查看认证资料</a></li>
+        <li style="margin-left:150px"><a href="{:url('AdminVerifym/index')}">管理认证模型</a></li>
+    </ul>
+    <form action="{:url('AdminVerify/editPost')}" method="post" class="form-horizontal js-ajax-form margin-top-20">
+        <div class="row">
+            <div class="col-md-9">
+                <table class="table table-bordered">
+                    <tr>
+                        <th width="100">认证模型<span class="form-required">*</span></th>
+                        <td>
+                            <select class="form-control" style="width:140px" name="post[model_id]" required>
+                                {$category_tree}
+                            </select>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th>用户ID<span class="form-required">*</span></th>
+                        <td>
+                            <input class="form-control" type="text" name="post[user_id]" value="{$post.user_id|default=''}">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>用户<span class="form-required">*</span></th>
+                        <td>
+                            <input class="form-control" type="text" name="username" value="{$post.username|default=''}">
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th></th>
+                        <td style="color:#F00;font-weight:700">以下是用户自填资料：</td>
+                    </tr>
+                    <foreach name="define_data" item="vo" key="k">
+                    <tr>
+                        <th>{$vo}</th>
+                        <td>
+                            <switch name="k">
+                                <case value="1"><select class="form-control" style="width:140px" name="post[more][{$k}]"></select></case>
+                                <case value="2"><textarea class="form-control" style="height:50px;" placeholder="请填写{$vo}" name="post[more][{$k}]"></textarea></case>
+                                <default /><input class="form-control" type="text" name="post[more][{$k}]" value="{$post.more.$k|default=''}" placeholder="请填写{$vo}">
+                            </switch>
+                        </td>
+                    </tr>
+                    </foreach>
+                </table>
+            </div>
+            <div class="col-md-3">
+                <table class="table table-bordered">
+                    <!-- <tr>
+                        <th>客户头像</th>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div style="text-align: center;">
+                                <input type="hidden" name="post[more][thumbnail]" id="thumbnail"
+                                       value="{//$post.more.thumbnail|default=''}">
+                                <a href="javascript:uploadOneImage('图片上传','#thumbnail');">
+                                    <if condition="empty($post.more.thumbnail)">
+                                        <img src="__TMPL__/public/assets/images/default-thumbnail.png"
+                                             id="thumbnail-preview"
+                                             width="135" style="cursor: pointer"/>
+                                        <else/>
+                                        <img src="{:cmf_get_image_preview_url($post.more.thumbnail)}"
+                                             id="thumbnail-preview"
+                                             width="135" style="cursor: pointer"/>
+                                    </if>
+                                </a>
+                                <input type="button" class="btn btn-sm btn-cancel-thumbnail" value="取消图片">
+                            </div>
+                        </td>
+                    </tr> -->
+
+                    <tr>
+                        <th><b>创建时间</b></th>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input class="form-control js-bootstrap-datetime" type="text" name="post[create_time]"
+                                   value="{$post.create_time?=date('Y-m-d H:i',$post['create_time'])}">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th><b>预约时间</b></th>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input class="form-control js-bootstrap-datetime" type="text" name="post[appoint_time]"
+                                   value="{$post.appoint_time?=date('Y-m-d H:i',$post['appoint_time'])}">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>失效时间</th>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input class="form-control js-bootstrap-datetime" type="text" name="post[end_time]"
+                                   value="{$post.end_time?=date('Y-m-d H:i',$post['end_time'])}">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th><b>状态</b></th>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="checkbox">
+                                <label><input type="checkbox" name="post[is_top]" value="1">置顶</label>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="checkbox">
+                                <select class="form-control" name="post[status]" style="width:140px;">
+                                    {$status_tree|default=''}
+                                </select>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <input type="hidden" name="post[id]" value="{$post.id}">
+                <button type="submit" class="btn btn-primary js-ajax-submit1">{:lang('SAVE')}</button>
+                <a class="btn btn-default" href="javascript:history.back(-1);">{:lang('BACK')}</a>
+            </div>
+        </div>
+    </form>
+</div>
+<script type="text/javascript" src="__STATIC__/js/admin.js"></script>
+<script type="text/javascript">
+    //编辑器路径定义
+    var editorURL = GV.WEB_ROOT;
+</script>
+<script type="text/javascript" src="__STATIC__/js/ueditor/ueditor.config.js"></script>
+<script type="text/javascript" src="__STATIC__/js/ueditor/ueditor.all.min.js"></script>
+<script type="text/javascript">
+    $(function(){
+        var ue = UE.getEditor('content');
+        var ue = UE.getEditor('information');
+        // editorcontent = new baidu.editor.ui.Editor();
+        // editorcontent.render('content');
+        // editorcontent.render('information');
+        // try {
+        //     editorcontent.sync();
+        // } catch (err) {
+        // }
+
+        $('.btn-cancel-driving_license').click(function () {
+            $('#driving_license-preview').attr('src', '__TMPL__/public/assets/images/default-thumbnail.png');
+            $('#driving_license').val('');
+        });
+
+        $('#more-template-select').val("{$post.more.template|default=''}");
+    });
+
+    function doSelectCategory() {
+        var selectedCategoriesId = $('#js-categories-id-input').val();
+        openIframeLayer("{:url('AdminInsurance/select')}?ids=" + selectedCategoriesId, '请选择分类', {
+            area: ['700px', '400px'],
+            btn: ['确定', '取消'],
+            yes: function (index, layero) {
+                var iframeWin          = window[layero.find('iframe')[0]['name']];
+                var selectedCategories = iframeWin.confirm();
+                if (selectedCategories.selectedCategoriesId.length == 0) {
+                    layer.msg('请选择分类');
+                    return;
+                }
+                $('#js-categories-id-input').val(selectedCategories.selectedCategoriesId.join(','));
+                $('#js-categories-name-input').val(selectedCategories.selectedCategoriesName.join(' '));
+                //console.log(layer.getFrameIndex(index));
+                layer.close(index); //如果设定了yes回调，需进行手工关闭
+            }
+        });
+    }
+</script>
+</body>
+</html>

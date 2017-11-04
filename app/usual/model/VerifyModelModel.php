@@ -1,5 +1,5 @@
 <?php
-namespace app\service\model;
+namespace app\usual\model;
 
 // use think\Db;
 // use think\Model;
@@ -8,7 +8,7 @@ namespace app\service\model;
 // use app\admin\model\RouteModel;
 use app\usual\model\UsualModel;
 
-class ServiceCategoryModel extends UsualModel
+class VerifyModelModel extends UsualModel
 {
     function _initialize()
     {
@@ -18,19 +18,19 @@ class ServiceCategoryModel extends UsualModel
     // 获取列表数据
     public function getLists($filter, $isPage = false)
     {
-        // $categories = $this->field('id,name,description,list_order')->order("list_order ASC")->where($where)->select()->toArray();
-        $categories = $this->field('id,name,code,description,list_order')->order("list_order ASC,id DESC")->paginate(config('pagerset.pagesize'));
+        // $categories = $this->field('id,name,list_order')->order("list_order ASC")->where($where)->select()->toArray();
+        $categories = $this->order("list_order ASC,id DESC")->paginate(config('pagerset.pagesize'));
         return $categories;
     }
 
     public function getOptions($selectId=0, $parentId=0, $level=1, $default_option=false)
     {
         // $data = $this->all()->toArray();
-        $data = $this->field(['id','name'])->select()->toArray();
-        $options = $default_option ?'<option value="0">--请选择--</option>':'';
+        $data = $this->field(['code','name'])->select()->toArray();
+        $options = $default_option ?'<option value="">--请选择--</option>':'';
         if (is_array($data)) {
             foreach ($data as $v) {
-                $options .= '<option value="'.$v['id'].'" '.($selectId==$v['id']?'selected':'').' >'.$v['name'].'</option>';
+                $options .= '<option value="'.$v['code'].'" '.($selectId==$v['code']?'selected':'').' >'.$v['name'].'</option>';
             }
         }
         return $options;
@@ -38,11 +38,11 @@ class ServiceCategoryModel extends UsualModel
 
     public function getDefineData($selectIds=[], $freestyle='checkbox', $default_option=false)
     {
-        $define_data = config('service_define_data');
+        $define_data = config('verify_define_data');
         $html = '';
         if ($freestyle=='checkbox') {
             foreach ($define_data as $key => $vo) {
-                $html .= '<label class="define_label"><input class="define_input" type="checkbox" name="define_data[]" value="'.$key.'" '.(in_array($key,$selectIds)?'checked':'').'><span> &nbsp;'.$vo.'</span></label>';
+                $html .= '<label class="define_label"><input class="define_input" type="checkbox" name="cate[more]['.$key.']" value="'.$key.'" '.(in_array($key,$selectIds)?'checked':'').'><span> &nbsp;'.$vo.'</span></label>';
             }
         } elseif ($freestyle=='select') {
             $html = $default_option ?'<option value="0">--请选择--</option>':'';
@@ -63,19 +63,16 @@ class ServiceCategoryModel extends UsualModel
      * @param $extra
      * @return bool
     */
-    public function addCategory($data,$extra=[])
+    public function addCategory($data)
     {
         $data['create_time'] = time();
-        $data['dev'] = session('?name')?session('name'):'';
+        $data['code'] = strtolower(trim($data['code']));
 
         $result = true;
         self::startTrans();
         try {
             if (!empty($data['more']['thumbnail'])) {
                 $data['more']['thumbnail'] = cmf_asset_relative_url($data['more']['thumbnail']);
-            }
-            if (!empty($extra)) {
-                $data['define_data'] = $extra;
             }
             $this->allowField(true)->save($data);
             // $id          = $this->id;
@@ -94,19 +91,17 @@ class ServiceCategoryModel extends UsualModel
      * @param $extra
      * @return bool
     */
-    public function editCategory($data,$extra=[])
+    public function editCategory($data)
     {
-        $result = true;
-        $id          = intval($data['id']);
-        $data['dev'] = session('?name')?session('name'):'';
+        $id = intval($data['id']);
+        $data['code'] = strtolower(trim($data['code']));
 
+        $result = true;
         if (!empty($data['more']['thumbnail'])) {
             $data['more']['thumbnail'] = cmf_asset_relative_url($data['more']['thumbnail']);
         }
-        if (!empty($extra)) {
-            $data['define_data'] = $extra;
-        }
-        $this->isUpdate(true)->allowField(true)->save($data, ['id' => $id]);
+
+        $this->isUpdate(true)->allowField(true)->save($data,['id'=>$id]);
 
         return $result;
     }
