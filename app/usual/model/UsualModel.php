@@ -62,59 +62,13 @@ class UsualModel extends Model
      * @param $value
      * @return false|int
     */
-    public function setPublishedTimeAttr($value)
-    {
-        return strtotime($value);
-    }
+    public function setPublishedTimeAttr($value){ return strtotime($value);}
     // pay_time 支付时间、生效时间
-    public function setPayTimeAttr($value)
-    {
-        return strtotime($value);
-    }
+    public function setPayTimeAttr($value){ return strtotime($value);}
     // dead_time 失效时间
-    public function setDeadTimeAttr($value)
-    {
-        return strtotime($value);
-    }
+    public function setDeadTimeAttr($value){ return strtotime($value);}
     // car_license_time 上牌时间
-    public function setCarLicenseTimeAttr($value)
-    {
-        return strtotime($value);
-    }
-
-    /**
-     * status 状态 自动完成
-     * @param $value
-     * @return int
-    */
-    public function setStatusAttr($value)
-    {
-        return empty($value) ? 0 : $value;
-    }
-    public function setIsTopAttr($value)
-    {
-        return $this->setStatusAttr($value);
-    }
-    public function setIsRecAttr($value)
-    {
-        return $this->setStatusAttr($value);
-    }
-    public function setSellStatusAttr($value)
-    {
-        return $this->setStatusAttr($value);
-    }
-    public function setIdentiStatusAttr($value)
-    {
-        return $this->setStatusAttr($value);
-    }
-    public function setIsBaoxianAttr($value)
-    {
-        return $this->setStatusAttr($value);
-    }
-    public function setIsYewuAttr($value)
-    {
-        return $this->setStatusAttr($value);
-    }
+    public function setCarLicenseTimeAttr($value){ return strtotime($value);}
 
     /**
      * status 用户名 自动完成
@@ -185,6 +139,14 @@ class UsualModel extends Model
         if (!empty($data['identi']['driving_license'])) {
             $data['identi']['driving_license'] = cmf_asset_relative_url($data['identi']['driving_license']);
         }
+
+        $data['status']         = empty($data['status']) ? 0 : 1;
+        $data['is_top']         = empty($data['is_top']) ? 0 : 1;
+        $data['is_rec']         = empty($data['is_rec']) ? 0 : 1;
+        $data['sell_status']    = empty($data['sell_status']) ? 0 : 1;
+        $data['identi_status']  = empty($data['identi_status']) ? 0 : 1;
+        $data['is_baoxian']     = empty($data['is_baoxian']) ? 0 : 1;
+        $data['is_yewu']        = empty($data['is_yewu']) ? 0 : 1;
 
         $this->allowField(true)->isUpdate(true)->data($data, true)->save();
         // $this->allowField(true)->isUpdate(true)->save($data, ['id' => $id]);

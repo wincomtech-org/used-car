@@ -77,7 +77,7 @@
                     <tr>
                         <th>描述</th>
                         <td>
-                            <textarea class="form-control" name="post[description]" style="height: 200px;" placeholder="请填写描述">{$post.description}</textarea>
+                            <textarea class="form-control" name="post[description]" style="height:100px;" placeholder="请填写描述">{$post.description}</textarea>
                         </td>
                     </tr>
                 </table>
@@ -113,18 +113,12 @@
                     </tr>
                     <tr>
                         <th>状态</th>
-                        <php>
-                            $status_yes=$post['status']==1?"checked":"";
-                            $is_top_yes=$post['is_top']==1?"checked":"";
-                            $is_rec_yes=$post['is_rec']==1?"checked":"";
-                        </php>
-                    </tr>
                     <tr>
                         <td>
                             <div class="checkbox">
-                                <label><input type="checkbox" name="post[status]" value="1" {$status_yes}>启用</label>&nbsp;&nbsp;&nbsp;&nbsp;
-                                <label><input type="checkbox" name="post[is_top]" value="1" {$is_top_yes}>置顶</label>&nbsp;&nbsp;&nbsp;&nbsp;
-                                <label><input type="checkbox" name="post[is_rec]" value="1" {$is_rec_yes}>推荐</label>
+                                <label><input type="checkbox" name="post[status]" value="1" {$post.status?='checked'}>启用</label>&nbsp;&nbsp;&nbsp;&nbsp;
+                                <label><input type="checkbox" name="post[is_top]" value="1" {$post.is_top?='checked'}>置顶</label>&nbsp;&nbsp;&nbsp;&nbsp;
+                                <label><input type="checkbox" name="post[is_rec]" value="1" {$post.is_rec?='checked'}>推荐</label>
                             </div>
                         </td>
                     </tr>

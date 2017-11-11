@@ -3,9 +3,9 @@
 <body>
 <div class="wrap js-check-wrap">
     <ul class="nav nav-tabs">
-        <li class="active"><a href="javascript:;">所有属性</a></li>
-        <li><a href="{:url('AdminItem/add',['cid'=>$cateId])}">添加属性</a></li>
-        <li><a style="margin-left:150px" href="{:url('AdminItemCate/index')}">分类管理</a></li>
+        <li class="active"><a href="javascript:;">所有属性值</a></li>
+        <li><a href="{:url('AdminItem/add',['cid'=>$cateId])}">添加属性值</a></li>
+        <li><a style="margin-left:150px" href="{:url('AdminItemCate/index')}">属性分类管理</a></li>
     </ul>
     <form class="well form-inline margin-top-20" method="post" action="{:url('AdminItem/index')}">
         分类:
@@ -38,9 +38,9 @@
                                value="{$vo.id}" title="ID:{$vo.id}">
                     </td>
                     <td><b>{$vo.id}</b></td>
-                    <td><a href="" target="_blank">{$vo.name}</a></td>
-
                     <td><a href="{:url('usual/AdminItemCate/edit',['id'=>$vo['cate_id']])}">{$vo.bname}</a></td>
+
+                    <td><a href="" target="_blank">{$vo.name}</a></td>
                     <td>{$vo.description}</td>
 
                     <td>

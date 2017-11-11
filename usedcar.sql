@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50540
 File Encoding         : 65001
 
-Date: 2017-11-08 18:11:29
+Date: 2017-11-11 10:29:51
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -4517,8 +4517,6 @@ CREATE TABLE `cmf_route` (
 -- ----------------------------
 -- Records of cmf_route
 -- ----------------------------
-INSERT INTO `cmf_route` VALUES ('16', '5000', '1', '2', 'portal/List/index?id=1', 'bmw');
-INSERT INTO `cmf_route` VALUES ('17', '4999', '1', '2', 'portal/Article/index?cid=1', 'bmw/:id');
 INSERT INTO `cmf_route` VALUES ('26', '5000', '1', '2', 'portal/List/index?id=14', 'byd');
 INSERT INTO `cmf_route` VALUES ('27', '4999', '1', '2', 'portal/Article/index?cid=14', 'byd/:id');
 INSERT INTO `cmf_route` VALUES ('28', '5000', '1', '2', 'portal/List/index?id=10', 'service');
@@ -5069,10 +5067,10 @@ CREATE TABLE `cmf_usual_car` (
   `seo_keywords` varchar(255) NOT NULL DEFAULT '' COMMENT 'SEO关键字',
   `seo_description` varchar(255) NOT NULL DEFAULT '' COMMENT 'SEO描述',
   `list_order` float unsigned NOT NULL DEFAULT '10000' COMMENT '排序：从小到大',
-  `sell_status` tinyint(3) NOT NULL DEFAULT '-1' COMMENT '售卖状态： -11售罄 -2禁止出售 -1下架 0初始态 1上架(出售) 2已付款 3已下单 10完成(最终确认) ',
+  `sell_status` tinyint(3) NOT NULL DEFAULT '0' COMMENT '售卖状态： -11售罄 -2禁止出售 -1下架 0初始态 1上架(售卖中) 2已下单 3已付款 10完成(最终确认) ',
   `published_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '上架时间',
   `price` decimal(10,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '原价',
-  `type` tinyint(4) unsigned NOT NULL COMMENT '车源类别:准新车、练手车、分期购',
+  `type` tinyint(4) unsigned NOT NULL DEFAULT '0' COMMENT '车源类别：0未分类 1准新车、2练手车、3分期购',
   `market_price` decimal(10,2) unsigned NOT NULL COMMENT '市场价',
   `shop_price` decimal(10,2) unsigned NOT NULL COMMENT '店铺价',
   `inventory` smallint(6) unsigned NOT NULL DEFAULT '1' COMMENT '库存',
@@ -5083,7 +5081,7 @@ CREATE TABLE `cmf_usual_car` (
 -- ----------------------------
 -- Records of cmf_usual_car
 -- ----------------------------
-INSERT INTO `cmf_usual_car` VALUES ('1', '2', '2', '2', '1', '大众 CC 2015款 3.0 自动 V6', '', '', 'eq123456789875463', '1234567', '2', '33.00', '313213123', '20', '3213', '1', '0', '13', '21', '0', '3', '3401', '1509519662', '1509590521', '0', '0', '0', '0', '', '', '', '{\"thumbnail\":\"\"}', '1', '1', '{\"username\":\"111\",\"contact\":\"烦烦烦\",\"car_plate_number\":\"\",\"driving_license\":\"\"}', '', '', '', '10000', '1', '1509590656', '107800.00', '0', '0.00', '0.00', '1', '');
+INSERT INTO `cmf_usual_car` VALUES ('1', '2', '2', '2', '1', '大众 CC 2015款 3.0 自动 V6', '', '', 'eq123456789875463', '1234567', '2', '33.00', '1510287840', '0', '3213', '1', '5', '0', '0', '0', '3', '3401', '1970', '1510287848', '0', '0', '0', '0', '', '', '', '{\"thumbnail\":\"\"}', '1', '1', '{\"username\":\"111\",\"contact\":\"烦烦烦\",\"car_plate_number\":\"\",\"driving_license\":\"\"}', '', '', '', '10000', '1', '1509590656', '107800.00', '0', '0.00', '0.00', '1', '');
 
 -- ----------------------------
 -- Table structure for cmf_usual_company
@@ -5150,44 +5148,48 @@ CREATE TABLE `cmf_usual_item` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `cate_id` int(11) unsigned NOT NULL COMMENT '分类ID',
   `name` varchar(150) NOT NULL COMMENT '属性值的名称',
-  `update_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
-  `delete_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '删除时间',
+  `exch` varchar(255) NOT NULL DEFAULT '' COMMENT '替换规则',
   `remark` varchar(255) NOT NULL DEFAULT '' COMMENT '备注',
   `description` varchar(255) NOT NULL DEFAULT '' COMMENT '描述',
   `more` text NOT NULL COMMENT '扩展属性：',
+  `update_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
+  `delete_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '删除时间',
   `is_top` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '是否置顶：1是 0否',
   `status` tinyint(3) NOT NULL DEFAULT '1' COMMENT '状态：-1禁用 0隐藏 1显示',
   `list_order` float unsigned NOT NULL DEFAULT '10000' COMMENT '排序：从小到大',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb4 COMMENT='属性表';
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8mb4 COMMENT='属性值表';
 
 -- ----------------------------
 -- Records of cmf_usual_item
 -- ----------------------------
-INSERT INTO `cmf_usual_item` VALUES ('1', '0', '车源类别', '0', '0', '', '', '', '0', '0', '10000');
-INSERT INTO `cmf_usual_item` VALUES ('2', '0', '颜色', '0', '0', '', '', '', '0', '0', '10000');
-INSERT INTO `cmf_usual_item` VALUES ('3', '0', '燃料类型', '0', '0', '', '', '', '0', '0', '10000');
-INSERT INTO `cmf_usual_item` VALUES ('4', '0', '排放标准', '0', '0', '', '', '', '0', '0', '10000');
-INSERT INTO `cmf_usual_item` VALUES ('5', '0', '三星', '0', '1508727557', '', '', '', '0', '0', '10000');
-INSERT INTO `cmf_usual_item` VALUES ('6', '0', '价格区间', '0', '0', '', '单位：万。\r\n在A以下：&lt;A。\r\n在A到B之间：A-B。\r\n在B以上：&gt;B。', '', '0', '0', '10000');
-INSERT INTO `cmf_usual_item` VALUES ('7', '6', '&lt;3', '0', '0', '', '3万以下', '', '0', '0', '10000');
-INSERT INTO `cmf_usual_item` VALUES ('8', '6', '3-5', '0', '0', '', '', '', '0', '0', '10000');
-INSERT INTO `cmf_usual_item` VALUES ('9', '6', '5-8', '0', '0', '', '', '', '0', '0', '10000');
-INSERT INTO `cmf_usual_item` VALUES ('10', '6', '8-10', '0', '0', '', '', '', '0', '0', '10000');
-INSERT INTO `cmf_usual_item` VALUES ('11', '4', '国三以上', '0', '0', '', '', '', '0', '0', '10000');
-INSERT INTO `cmf_usual_item` VALUES ('12', '2', '黑色', '0', '0', '', '', '', '0', '0', '10000');
-INSERT INTO `cmf_usual_item` VALUES ('13', '2', '白色', '0', '0', '', '', '', '0', '0', '10000');
-INSERT INTO `cmf_usual_item` VALUES ('14', '2', '红色', '0', '0', '', '', '', '0', '0', '10000');
-INSERT INTO `cmf_usual_item` VALUES ('15', '2', '黄色', '0', '0', '', '', '', '0', '0', '10000');
-INSERT INTO `cmf_usual_item` VALUES ('16', '1', '大通认证', '0', '0', '', '', '', '0', '0', '10000');
-INSERT INTO `cmf_usual_item` VALUES ('17', '1', '商家质保', '0', '0', '', '', '', '0', '0', '10000');
-INSERT INTO `cmf_usual_item` VALUES ('18', '1', '本地车源', '0', '0', '', '', '', '0', '0', '10000');
-INSERT INTO `cmf_usual_item` VALUES ('19', '4', '国四以上', '0', '0', '', '', '', '0', '0', '10000');
-INSERT INTO `cmf_usual_item` VALUES ('20', '4', '国五', '0', '0', '', '', '', '0', '0', '10000');
-INSERT INTO `cmf_usual_item` VALUES ('21', '3', '汽油', '0', '0', '', '', '', '0', '0', '10000');
-INSERT INTO `cmf_usual_item` VALUES ('22', '3', '柴油', '0', '0', '', '', '', '0', '0', '10000');
-INSERT INTO `cmf_usual_item` VALUES ('23', '3', '纯电动', '0', '0', '', '', '', '0', '0', '10000');
-INSERT INTO `cmf_usual_item` VALUES ('24', '2', '43242', '1510135152', '0', '', '', '{\"thumbnail\":\"\"}', '0', '1', '10000');
+INSERT INTO `cmf_usual_item` VALUES ('1', '22', '2', '', '', '', '{\"thumbnail\":\"\"}', '1510281005', '0', '0', '1', '10000');
+INSERT INTO `cmf_usual_item` VALUES ('2', '22', '4', '', '', '', '{\"thumbnail\":\"\"}', '1510281034', '0', '0', '1', '10000');
+INSERT INTO `cmf_usual_item` VALUES ('3', '22', '5', '', '', '', '', '1510281639', '0', '0', '1', '10000');
+INSERT INTO `cmf_usual_item` VALUES ('4', '22', '7', '', '', '', '', '1510281698', '0', '0', '1', '10000');
+INSERT INTO `cmf_usual_item` VALUES ('5', '22', '&gt;7', '', '', '7座以上', '', '1510281865', '0', '0', '1', '10000');
+INSERT INTO `cmf_usual_item` VALUES ('6', '20', '白色', '', '', '', '', '1510282112', '0', '0', '1', '10000');
+INSERT INTO `cmf_usual_item` VALUES ('7', '20', '黑色', '', '', '', '', '1510282132', '0', '0', '1', '10000');
+INSERT INTO `cmf_usual_item` VALUES ('8', '20', '灰色', '', '', '', '{\"thumbnail\":\"\"}', '1510282514', '0', '0', '1', '10000');
+INSERT INTO `cmf_usual_item` VALUES ('9', '20', '黄色', '', '', '', '{\"thumbnail\":\"\"}', '1510282530', '0', '0', '1', '10000');
+INSERT INTO `cmf_usual_item` VALUES ('10', '20', '红色', '', '', '', '{\"thumbnail\":\"\"}', '1510282541', '0', '0', '1', '10000');
+INSERT INTO `cmf_usual_item` VALUES ('11', '20', '彩色', '', '', '', '{\"thumbnail\":\"\"}', '1510282562', '0', '0', '1', '10000');
+INSERT INTO `cmf_usual_item` VALUES ('12', '18', '&gt;=国三', '', '', '国三以上', '{\"thumbnail\":\"\"}', '1510282610', '0', '0', '1', '10000');
+INSERT INTO `cmf_usual_item` VALUES ('13', '18', '&gt;=国四', '', '', '国四以上', '{\"thumbnail\":\"\"}', '1510282646', '0', '0', '1', '10000');
+INSERT INTO `cmf_usual_item` VALUES ('14', '18', '国五', '', '', '', '{\"thumbnail\":\"\"}', '1510282662', '0', '0', '1', '10000');
+INSERT INTO `cmf_usual_item` VALUES ('15', '19', '汽油', '', '', '', '{\"thumbnail\":\"\"}', '1510282687', '0', '0', '1', '10000');
+INSERT INTO `cmf_usual_item` VALUES ('16', '19', '柴油', '', '', '', '{\"thumbnail\":\"\"}', '1510282700', '0', '0', '1', '10000');
+INSERT INTO `cmf_usual_item` VALUES ('17', '19', '纯电动', '', '', '', '{\"thumbnail\":\"\"}', '1510282734', '0', '0', '1', '10000');
+INSERT INTO `cmf_usual_item` VALUES ('18', '19', '油电混合', '', '', '', '{\"thumbnail\":\"\"}', '1510282752', '0', '0', '1', '10000');
+INSERT INTO `cmf_usual_item` VALUES ('19', '21', '&lt;1', '', '', '1.0L以下', '{\"thumbnail\":\"\"}', '1510283163', '0', '0', '1', '10000');
+INSERT INTO `cmf_usual_item` VALUES ('20', '21', '1.0~1.6', '', '', '1.1L-1.6L', '{\"thumbnail\":\"\"}', '1510283479', '0', '0', '1', '10000');
+INSERT INTO `cmf_usual_item` VALUES ('21', '21', '1.7~2', '', '', '1.7L-2.0L', '{\"thumbnail\":\"\"}', '1510283465', '0', '0', '1', '10000');
+INSERT INTO `cmf_usual_item` VALUES ('22', '21', '2.1~2.5', '', '', '2.1L-2.5L', '{\"thumbnail\":\"\"}', '1510283449', '0', '0', '1', '10000');
+INSERT INTO `cmf_usual_item` VALUES ('23', '21', '2.5~3', '', '', '2.6L-3.0L', '{\"thumbnail\":\"\"}', '1510283514', '0', '0', '1', '10000');
+INSERT INTO `cmf_usual_item` VALUES ('24', '21', '3~4', '', '', '3.0L-4.0L', '{\"thumbnail\":\"\"}', '1510283540', '0', '0', '1', '10000');
+INSERT INTO `cmf_usual_item` VALUES ('25', '21', '&gt;4', '', '', '4.0L以上', '{\"thumbnail\":\"\"}', '1510283564', '0', '0', '1', '10000');
+INSERT INTO `cmf_usual_item` VALUES ('26', '17', '自动', '', '', '', '{\"thumbnail\":\"\"}', '1510283596', '0', '0', '1', '10000');
+INSERT INTO `cmf_usual_item` VALUES ('27', '17', '手动', '', '', '', '{\"thumbnail\":\"\"}', '1510283609', '0', '0', '1', '10000');
 
 -- ----------------------------
 -- Table structure for cmf_usual_item_cate
@@ -5195,43 +5197,48 @@ INSERT INTO `cmf_usual_item` VALUES ('24', '2', '43242', '1510135152', '0', '', 
 DROP TABLE IF EXISTS `cmf_usual_item_cate`;
 CREATE TABLE `cmf_usual_item_cate` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `parent_id` int(11) unsigned NOT NULL COMMENT '父级ID',
+  `parent_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '父级ID',
   `name` varchar(150) NOT NULL COMMENT '属性名',
-  `delete_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '删除时间',
+  `unit` varchar(10) NOT NULL DEFAULT '' COMMENT '单位：',
+  `code` varchar(50) NOT NULL DEFAULT '' COMMENT '字段码',
+  `code_type` varchar(10) NOT NULL DEFAULT 'text' COMMENT '字段码类型',
   `path` varchar(255) NOT NULL DEFAULT '' COMMENT '分类层级关系路径',
   `remark` varchar(255) NOT NULL DEFAULT '' COMMENT '备注',
   `description` varchar(255) NOT NULL DEFAULT '' COMMENT '描述',
+  `more` text NOT NULL COMMENT '扩展属性',
+  `delete_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '删除时间',
+  `is_top` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '是否置顶',
+  `is_rec` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '是否推荐：1是 0否',
   `status` tinyint(3) NOT NULL DEFAULT '1' COMMENT '状态：-1禁用 0隐藏 1显示',
   `list_order` float unsigned NOT NULL DEFAULT '10000' COMMENT '排序：从小到大',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb4 COMMENT='属性表';
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb4 COMMENT='属性(分类)表';
 
 -- ----------------------------
 -- Records of cmf_usual_item_cate
 -- ----------------------------
-INSERT INTO `cmf_usual_item_cate` VALUES ('1', '0', '车源类别', '0', '0-1', '', '', '0', '10000');
-INSERT INTO `cmf_usual_item_cate` VALUES ('2', '0', '颜色', '0', '0-2', '', '', '0', '10000');
-INSERT INTO `cmf_usual_item_cate` VALUES ('3', '0', '燃料类型', '0', '0-3', '', '', '0', '10000');
-INSERT INTO `cmf_usual_item_cate` VALUES ('4', '0', '排放标准', '0', '0-4', '', '', '0', '10000');
-INSERT INTO `cmf_usual_item_cate` VALUES ('5', '0', '三星', '1508727557', '0-5', '', '', '0', '10000');
-INSERT INTO `cmf_usual_item_cate` VALUES ('6', '0', '价格区间', '0', '0-6', '', '单位：万。\r\n在A以下：&lt;A。\r\n在A到B之间：A-B。\r\n在B以上：&gt;B。', '0', '10000');
-INSERT INTO `cmf_usual_item_cate` VALUES ('7', '6', '&lt;3', '0', '0-6-7', '', '3万以下', '0', '10000');
-INSERT INTO `cmf_usual_item_cate` VALUES ('8', '6', '3-5', '0', '0-6-8', '', '', '0', '10000');
-INSERT INTO `cmf_usual_item_cate` VALUES ('9', '6', '5-8', '0', '0-6-9', '', '', '0', '10000');
-INSERT INTO `cmf_usual_item_cate` VALUES ('10', '6', '8-10', '0', '0-6-10', '', '', '0', '10000');
-INSERT INTO `cmf_usual_item_cate` VALUES ('11', '4', '国三以上', '0', '0-4-11', '', '', '0', '10000');
-INSERT INTO `cmf_usual_item_cate` VALUES ('12', '2', '黑色', '0', '0-2-12', '', '', '0', '10000');
-INSERT INTO `cmf_usual_item_cate` VALUES ('13', '2', '白色', '0', '0-2-13', '', '', '0', '10000');
-INSERT INTO `cmf_usual_item_cate` VALUES ('14', '2', '红色', '0', '0-2-14', '', '', '0', '10000');
-INSERT INTO `cmf_usual_item_cate` VALUES ('15', '2', '黄色', '0', '0-2-15', '', '', '0', '10000');
-INSERT INTO `cmf_usual_item_cate` VALUES ('16', '1', '大通认证', '0', '0-1-16', '', '', '0', '10000');
-INSERT INTO `cmf_usual_item_cate` VALUES ('17', '1', '商家质保', '0', '0-1-17', '', '', '0', '10000');
-INSERT INTO `cmf_usual_item_cate` VALUES ('18', '1', '本地车源', '0', '0-1-18', '', '', '0', '10000');
-INSERT INTO `cmf_usual_item_cate` VALUES ('19', '4', '国四以上', '0', '0-4-19', '', '', '0', '10000');
-INSERT INTO `cmf_usual_item_cate` VALUES ('20', '4', '国五', '0', '0-4-20', '', '', '0', '10000');
-INSERT INTO `cmf_usual_item_cate` VALUES ('21', '3', '汽油', '0', '0-3-21', '', '', '0', '10000');
-INSERT INTO `cmf_usual_item_cate` VALUES ('22', '3', '柴油', '0', '0-3-22', '', '', '0', '10000');
-INSERT INTO `cmf_usual_item_cate` VALUES ('23', '3', '纯电动', '0', '0-3-23', '', '', '0', '10000');
+INSERT INTO `cmf_usual_item_cate` VALUES ('1', '0', '车身', '', 'carbody', 'select', '0-1', '', '', '{\"thumbnail\":\"\"}', '0', '0', '0', '1', '10000');
+INSERT INTO `cmf_usual_item_cate` VALUES ('2', '0', '发动机', '', 'engine', 'select', '0-2', '', '', '{\"thumbnail\":\"\"}', '0', '0', '0', '1', '10000');
+INSERT INTO `cmf_usual_item_cate` VALUES ('3', '0', '变速箱', '', 'gearbox', 'select', '0-3', '', '', '{\"thumbnail\":\"\"}', '0', '0', '0', '1', '10000');
+INSERT INTO `cmf_usual_item_cate` VALUES ('4', '0', '底盘转向', '', 'chassis-steering', 'text', '0-4', '', '', '{\"thumbnail\":\"\"}', '0', '0', '0', '1', '10000');
+INSERT INTO `cmf_usual_item_cate` VALUES ('5', '0', '车轮制动', '', 'wheel_brake', 'text', '0-5', '', '', '{\"thumbnail\":\"\"}', '0', '0', '0', '1', '10000');
+INSERT INTO `cmf_usual_item_cate` VALUES ('6', '0', '主动安全配置', '', 'security_config', 'text', '0-6', '', '', '{\"thumbnail\":\"\"}', '0', '0', '0', '1', '10000');
+INSERT INTO `cmf_usual_item_cate` VALUES ('7', '0', '被动安全配置', '', 'Passive_safety_features', 'text', '0-7', '', '', '{\"thumbnail\":\"\"}', '0', '0', '0', '1', '10000');
+INSERT INTO `cmf_usual_item_cate` VALUES ('8', '0', '防盗配置', '', 'VTD', 'text', '0-8', '', '', '{\"thumbnail\":\"\"}', '0', '0', '0', '1', '10000');
+INSERT INTO `cmf_usual_item_cate` VALUES ('9', '0', '操控配置', '', 'control_config', 'text', '0-9', '', '', '{\"thumbnail\":\"\"}', '0', '0', '0', '1', '10000');
+INSERT INTO `cmf_usual_item_cate` VALUES ('10', '0', '外部配置', '', 'EXTERIOR_SPECIFICATION', 'text', '0-10', '', '', '{\"thumbnail\":\"\"}', '0', '0', '0', '1', '10000');
+INSERT INTO `cmf_usual_item_cate` VALUES ('11', '0', '内部配置', '', 'INTERIOR_SPECIFICATION', 'text', '0-11', '', '', '{\"thumbnail\":\"\"}', '0', '0', '0', '1', '10000');
+INSERT INTO `cmf_usual_item_cate` VALUES ('12', '0', '座椅配置', '', 'seat_config', 'text', '0-12', '', '', '{\"thumbnail\":\"\"}', '0', '0', '0', '1', '10000');
+INSERT INTO `cmf_usual_item_cate` VALUES ('13', '0', '空调配置', '', 'air-conditioned', 'text', '0-13', '', '', '{\"thumbnail\":\"\"}', '0', '0', '0', '1', '10000');
+INSERT INTO `cmf_usual_item_cate` VALUES ('14', '0', '灯光配置', '', 'LightingCollocation', 'text', '0-14', '', '', '{\"thumbnail\":\"\"}', '0', '0', '0', '1', '10000');
+INSERT INTO `cmf_usual_item_cate` VALUES ('15', '0', '多媒体配置', '', 'multi_config', 'text', '0-15', '', '', '{\"thumbnail\":\"\"}', '0', '0', '0', '1', '10000');
+INSERT INTO `cmf_usual_item_cate` VALUES ('16', '0', '驾驶辅助配置', '', 'Pilot_config', 'text', '0-16', '', '', '{\"thumbnail\":\"\"}', '0', '0', '0', '1', '10000');
+INSERT INTO `cmf_usual_item_cate` VALUES ('17', '3', '变速箱', '', 'car_gearbox', 'select', '0-3-17', '', '', '{\"thumbnail\":\"\"}', '0', '0', '1', '1', '10000');
+INSERT INTO `cmf_usual_item_cate` VALUES ('18', '2', '排放标准', '', 'car_effluent', 'select', '0-2-18', '', '', '{\"thumbnail\":\"\"}', '0', '0', '0', '1', '10000');
+INSERT INTO `cmf_usual_item_cate` VALUES ('19', '2', '燃料类型', '', 'car_fuel', 'select', '0-2-19', '', '', '{\"thumbnail\":\"\"}', '0', '0', '1', '1', '10000');
+INSERT INTO `cmf_usual_item_cate` VALUES ('20', '1', '颜色', '', 'car_color', 'select', '0-1-20', '', '', '{\"thumbnail\":\"\"}', '0', '0', '0', '1', '10000');
+INSERT INTO `cmf_usual_item_cate` VALUES ('21', '2', '排量', 'L', 'car_displacement', 'select', '0-2-21', '', '', '{\"thumbnail\":\"\"}', '0', '0', '1', '1', '10000');
+INSERT INTO `cmf_usual_item_cate` VALUES ('22', '1', '座位数', '座', 'car_seating', 'select', '0-1-22', '', '', '{\"thumbnail\":\"\"}', '0', '0', '0', '1', '100');
 
 -- ----------------------------
 -- Table structure for cmf_usual_models
