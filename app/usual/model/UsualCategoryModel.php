@@ -99,10 +99,10 @@ class UsualCategoryModel extends Model
             $item['checked'] = in_array($item['id'], $currentIds) ? "checked" : "";
             $item['url']     = $config['url'] ? '<a href="'. cmf_url($config['url'], ['id' => $item['id']]) .'">'. $item['name'] .'</a>' : $item['name'];
             if (isset($extra['code_type'])) {
-                $item['code_type'] = config('usual_item_cate_codetype')[$item['code_type']];
+                $item['code_type'] = ($item['code_type']=='all') ? '<font color="#FCA005">默认</font>' : config('usual_item_cate_codetype')[$item['code_type']] ;
             }
             if (isset($extra['is_rec'])) {
-                $item['is_rec'] = $item['is_rec']?'<font style="color:#F00">是</font>':'否';
+                $item['is_rec'] = $item['is_rec']?'<font color="#F00">是</font>':'否';
             }
             $item['str_action'] = '';
             if ($config['add']) {
@@ -127,7 +127,7 @@ class UsualCategoryModel extends Model
             $tpl .= "<td>\$spacer \$url</td>";
             $tpl .= isset($extra['code']) ? "<td>\$code</td>" : '';
             $tpl .= isset($extra['code_type']) ? "<td>\$code_type</td>" : '';
-            $tpl .= isset($extra['unit']) ? "<td><font style='color:blue'>\$unit</font></td>" : '';
+            $tpl .= isset($extra['unit']) ? "<td><font color='#041DFA'>\$unit</font></td>" : '';
             $tpl .= isset($extra['is_rec']) ? "<td>\$is_rec</td>" : '';
             if (isset($config['table2']) && $config['table2']=='usual_brand') $tpl .= "<td>\$bname</td>";
             $tpl .= "<td>\$description</td>";

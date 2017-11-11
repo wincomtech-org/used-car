@@ -71,12 +71,13 @@ class AdminCarController extends AdminBaseController
         $Models = model('UsualModels')->getModels();
         $Series = model('UsualSeries')->getSeries();
         $proId = $this->request->param('proId',1,'intval');
-        $provinces = model('admin/District')->getDistricts(0,$proId);
+        $Provinces = model('admin/District')->getDistricts(0,$proId);
         // 车源类别
-        $types = $this->Model->getCarType();
+        $Citys = $this->Model->getCarType();
 
         // 用于前台车辆条件筛选且与属性表name同值的字段码
         $searchCode = model('UsualItem')->getItemSearch();
+        // dump($searchCode);die;
         // 从属性表里被推荐的
         $recItems = model('UsualItem')->getItemTable('is_rec',1);
         // 属性表里所有属性（不包含推荐的）
@@ -88,8 +89,8 @@ class AdminCarController extends AdminBaseController
         $this->assign('Brands', $Brands);
         $this->assign('Models', $Models);
         $this->assign('Series', $Series);
-        $this->assign('Types', $types);
-        $this->assign('Provinces', $provinces);
+        $this->assign('Types', $Citys);
+        $this->assign('Provinces', $Provinces);
 
         $this->assign('searchCode', $searchCode);
         $this->assign('recItems', $recItems);
@@ -119,9 +120,13 @@ class AdminCarController extends AdminBaseController
             $data   = $this->request->param();
             $data['post']['user_id'] = cmf_get_current_admin_id();
             $post   = $data['post'];
+            if (empty($post['serie_id'])) {
+                $post['serie_id'] = $post['serie_pid'];
+            }
             $more   = $data['post']['more'];
-            $postadd= $this->Model->ItemMulti($post,$more);
-            $post   = array_merge($post,$postadd);
+            $post   = model('UsualItem')->ItemMulti($post,$more);
+            // $postadd= model('UsualItem')->ItemMulti($post,$more);
+            // $post   = array_merge($post,$postadd);
 
             $result = $this->validate($post, 'Car.add');
             if ($result !== true) {
@@ -173,17 +178,17 @@ class AdminCarController extends AdminBaseController
         $Models = model('UsualModels')->getModels($post['model_id']);
         $Series = model('UsualSeries')->getSeries($post['serie_id']);
         $Series2 = model('UsualSeries')->getSeries($post['serie_id'],0,2);
-        $provinces = model('admin/District')->getDistricts($post['province_id']);
-        $citys = model('admin/District')->getDistricts($post['city_id'],$post['province_id']);
+        $Provinces = model('admin/District')->getDistricts($post['province_id']);
+        $Citys = model('admin/District')->getDistricts($post['city_id'],$post['province_id']);
         // 车源类别
-        $types = $this->Model->getCarType($post['type']);
+        $Types = $this->Model->getCarType($post['type']);
 
         // 用于前台车辆条件筛选且与属性表name同值的字段码
         $searchCode = model('UsualItem')->getItemSearch();
         // 从属性表里被推荐的
         $recItems = model('UsualItem')->getItemTable('is_rec',1);
         // 属性表里所有属性（不包含推荐的）
-        $allItems = model('UsualItem')->getItemTable('is_rec',0,true);
+        $allItems = model('UsualItem')->getItemTable('','',true);
 
         // 售卖状态
         $sell_status = $this->Model->getSellStatus($post['sell_status']);
@@ -191,14 +196,17 @@ class AdminCarController extends AdminBaseController
         $this->assign('Brands', $Brands);
         $this->assign('Models', $Models);
         $this->assign('Series', $Series);
-        $this->assign('Types', $types);
-        $this->assign('Provinces', $provinces);
+        $this->assign('Series2', $Series2);
+        $this->assign('Provinces', $Provinces);
+        $this->assign('Citys', $Citys);
+        $this->assign('Types', $Types);
 
         $this->assign('searchCode', $searchCode);
         $this->assign('recItems', $recItems);
         $this->assign('allItems', $allItems);
 
         $this->assign('sell_status', $sell_status);
+        $this->assign('post', $post);
 
         return $this->fetch();
     }
@@ -221,8 +229,13 @@ class AdminCarController extends AdminBaseController
         if ($this->request->isPost()) {
             $data   = $this->request->param();
             $post   = $data['post'];
+            $more   = $data['post']['more'];
+            if (empty($post['serie_id'])) {
+                $post['serie_id'] = $post['serie_pid'];
+            }
+            $post   = model('UsualItem')->ItemMulti($post,$more);
 
-            $result = $this->validate($post, 'Car.edit');
+            $result = $this->validate($post,'Car.edit');
             if ($result !== true) {
                 $this->error($result);
             }

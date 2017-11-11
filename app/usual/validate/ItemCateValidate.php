@@ -10,6 +10,7 @@ class ItemCateValidate extends Validate
         'parent_id'  => 'checkParentId',
         'name'  => 'require|checkName',
         'code|字段码'  => 'require|alphaDash|checkCode',
+        'code_type' => 'checkCodeType',
     ];
     protected $message = [
         'parent_id.checkParentId'     => '超过了2级',
@@ -18,11 +19,12 @@ class ItemCateValidate extends Validate
         'code.require'  => '字段码不能为空',
         // 'code.alphaDash'  => '字段码只能是以字母开头的字母、数字、下划线(_)及破折号(-)组合',
         'code.checkCode'  => '字段码已存在！',
+        'code_type.checkCodeType' => '一级字段码类型只能选默认，二级的不能选默认',
     ];
 
     protected $scene = [
-       'add'  => ['parent_id','name','code'],
-       'edit' => ['id','parent_id'],
+       'add'  => ['parent_id','name','code','code_type'],
+       'edit' => ['id','parent_id','code_type'],
     ];
 
     // 自定义验证规则
@@ -42,13 +44,17 @@ class ItemCateValidate extends Validate
     protected function checkName($value,$rule,$data)
     {
         $find = model('UsualItemCate')->where(['parent_id'=>$data['parent_id'],'name'=>$value])->count();
-        if ($find) return false; return true;
+        if ($find>0) return false; return true;
     }
 
     protected function checkCode($value)
     {
         $find = model('UsualItemCate')->where(['code'=>$value])->count();
-        if ($find) {return false;}
-        return true;
+        if ($find>0) return false;return true;
+    }
+
+    protected function checkCodeType($value,$rule,$data)
+    {
+        if ($data['parent_id']==0 && $value=='all' or $data['parent_id']>0 && $value!='all') return true;return false;
     }
 }

@@ -60,7 +60,7 @@ class UsualItemModel extends UsualModel
     public function ItemMulti($post=[], $more=[])
     {
         $filters = explode(',',$this->filter_var);
-        $newArr = [];
+        $newArr = $post;
         if (!empty($post['id'])) {
             $data = model('UsualCar')->field($this->filter_var)->where('id',$post['id'])->find();
         }
@@ -123,19 +123,16 @@ class UsualItemModel extends UsualModel
         // 以下整个都可以改成用 Tree 类解决
         if (is_array($itemCate)) {
             foreach ($itemCate as $key=>$cate) {
-                if ($recursive===true) {
-                    $itemCateTree = [];
-                    if (!empty($itemCate)) {
-                        $tree = new Tree();
-                        // model('admin/NavMenu')->parseNavMenu4Home($itemCate);
-                        $tree->init($itemCate);
-                        $itemCateTree = $tree->getTreeArray(0);
-                    }
-                    return $itemCateTree;
-                } else {
-                    $item = $this->getItems(0,$cate['id'],false);
-                    $itemCate[$key]['form_element'] = $item;
-                }
+                $item = $this->getItems(0,$cate['id'],false);
+                $itemCate[$key]['form_element'] = $item;
+            }
+            if ($recursive===true) {
+                $itemCateTree = [];
+                $tree = new Tree();
+                // model('admin/NavMenu')->parseNavMenu4Home($itemCate);
+                $tree->init($itemCate);
+                $itemCateTree = $tree->getTreeArray(0);
+                return $itemCateTree;
             }
         } else {
             return [];
@@ -149,14 +146,8 @@ class UsualItemModel extends UsualModel
     */
     public function getItems($selectId=0, $cateId=0, $option='default')
     {
-        // $data = $this->alias('a')
-        //         ->field('a.id,a.name')
-        //         ->join(['__USUAL_ITEM_CATE__ b','a.cate_id=b.id','LEFT'])
-        //         ->where(['status'=>1])
-        //         ->order('is_top desc,list_order')
-        //         ->select()->toArray();
-        $where = ['cate_id'=>$cateId];
-        $data = $this->field('name,description')->where($where)->select()->toArray();
+        $where = ['cate_id'=>$cateId,'status'=>1];
+        $data = $this->field('name,description')->where($where)->order('is_top','desc')->select()->toArray();
 
         if ($option===false) {
             return $data;

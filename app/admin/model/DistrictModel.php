@@ -10,6 +10,9 @@ class DistrictModel extends Model
 {
     public function getDistricts($selectId=0, $parentId=1, $level=1, $default_option=false)
     {
+        // if (!empty($selectId)) {
+        //     $parentId = $this->where('id',$selectId)->value('parent_id');
+        // }
         // $districts = $this->all()->toArray();
         $districts = $this->field('id,name')->where('parent_id',$parentId)->select()->toArray();
         $options = $default_option ?'<option value="0">--请选择--</option>':'';

@@ -39,7 +39,7 @@ class DistrictController extends AdminBaseController
     {
         if ($this->request->isAjax()) {
             $parentId = $this->request->param('parentId',0,'intval');
-            return model('District')->getDistricts($parentId,0,true);
+            return model('District')->getDistricts(0,$parentId,true);
         }
 
 

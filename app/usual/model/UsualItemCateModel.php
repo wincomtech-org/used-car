@@ -24,7 +24,7 @@ class UsualItemCateModel extends UsualCategoryModel
             $where['id'] = ['neq', $currentCid];
         }
         if ($codeType===true) {
-            $where['code_type'] = ['like',['select','radio','checkbox'],'OR'];
+            $where['code_type'] = ['like',['all','select','radio','checkbox'],'OR'];
         }
         $categories = $this->order("list_order ASC")->where($where)->select()->toArray();
         if (empty($categories)) return;
@@ -52,10 +52,10 @@ class UsualItemCateModel extends UsualCategoryModel
         return $treeStr;
     }
 
-    public function getCodeType($selectId=null, $tpl='')
+    public function getCodeType($selectId=null, $parentId=0, $default_option=true, $tpl='')
     {
         $type = config('usual_item_cate_codetype');
-
+        $tpl = $default_option ? '<option value="all">默认</option>':'';
         foreach ($type as $key => $v) {
             $tpl .= '<option value="'.$key.'" '.(empty($selectId)&&$key=='text'?'selected':($selectId==$key?'selected':'')).'>'.$v.'</option>';
         }

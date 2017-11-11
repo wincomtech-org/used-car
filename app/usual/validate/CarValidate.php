@@ -10,8 +10,8 @@ class CarValidate extends Validate
         'brand_id' => 'require',
         'serie_id' => 'require',
         'model_id' => 'require',
-        'car_vin' => 'require',
-        'car_plate_number' => 'require',
+        'car_vin' => 'checkVin',
+        'car_plate_number' => 'require|checkPlateNum',
         'car_mileage' => 'require',
         'car_license_time' => 'require',
         'city_id' => 'require',
@@ -23,8 +23,9 @@ class CarValidate extends Validate
         'brand_id' => '请选择所属品牌',
         'serie_id' => '请选择所属车系',
         'model_id' => '请选择车型',
-        'car_vin' => '请输入车架号',
-        'car_plate_number' => '请输入车牌号',
+        'car_vin.checkVin' => '车架号已存在！',
+        'car_plate_number.require' => '请输入车牌号',
+        'car_plate_number.checkPlateNum' => '车牌号码已存在！',
         'car_mileage' => '请输入里程数',
         'car_license_time' => '请输入上牌时间',
         'city_id' => '请输入所在城市',
@@ -32,20 +33,36 @@ class CarValidate extends Validate
 
     protected $scene = [
         'add' => ['name','brand_id','serie_id','model_id','car_vin','car_plate_number','car_mileage','car_license_time','city_id'],
-        'edit' => ['name'=>'require','brand_id','serie_id','model_id','car_vin','car_plate_number','car_mileage','car_license_time','city_id']
+        'edit' => ['name'=>'require','brand_id','serie_id','model_id','car_plate_number'=>'require','car_mileage','car_license_time','city_id']
     ];
 
     // 检查名称是否存在
     protected function checkName($value)
     {
-        $find = model('UsualCar')->where('name',$value)->value('id');
-        if ($find) {return false;}
+        $find = model('UsualCar')->where('name',$value)->count();
+        if ($find>0) {return false;}
         return true;
     }
     protected function checkNameEdit($value)
     {
-        $find = model('UsualCar')->where('name',$value)->value('id');
-        if ($find) {return true;}
+        $find = model('UsualCar')->where('name',$value)->count();
+        if ($find>0) {return true;}
         return false;
+    }
+    protected function checkVin($value)
+    {
+        $find = model('UsualCar')->where('car_vin',$value)->count();
+        if ($find>0) {
+            return false;
+        }
+        return true;
+    }
+    protected function checkPlateNum($value)
+    {
+        $find = model('UsualCar')->where('car_plate_number',$value)->count();
+        if ($find>0) {
+            return false;
+        }
+        return true;
     }
 }
