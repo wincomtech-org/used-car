@@ -12,6 +12,7 @@ namespace cmf\controller;
 
 use think\Db;
 use app\admin\model\ThemeModel;
+use app\admin\model\NavMenuModel;
 use think\View;
 
 class HomeBaseController extends BaseController
@@ -23,7 +24,11 @@ class HomeBaseController extends BaseController
         hook('home_init');
         parent::_initialize();
         $siteInfo = cmf_get_site_info();
+        $navMenuModel = new NavMenuModel();
+        $menus = $navMenuModel->navMenusTreeArray(null,2);
+
         View::share('site_info', $siteInfo);
+        View::share('menus', $menus);
     }
 
     public function _initializeView()
@@ -66,8 +71,6 @@ class HomeBaseController extends BaseController
         if (file_exists_case($themeSuccessTmpl)) {
             config('dispatch_success_tmpl', $themeSuccessTmpl);
         }
-
-
     }
 
     /**

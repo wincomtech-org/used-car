@@ -6,6 +6,20 @@
             <li class="active"><a href="{:url('AdminCategory/index')}">业务模型管理</a></li>
             <li><a href="{:url('AdminCategory/add')}">添加业务模型</a></li>
         </ul>
+        <form class="well form-inline margin-top-20" method="post" action="{:url('AdminCategory/index')}">
+            分类:
+            <select class="form-control" name="cateType" style="width:140px;">
+                <option value='0'>全部</option>
+                <option value="service" {$cateType=='service'?'selected':''}>业务</option>
+                <option value="shop" {$cateType=='shop'?'selected':''}>店铺</option>
+                <option value="flow" {$cateType=='flow'?'selected':''}>流程</option>
+            </select> &nbsp;&nbsp;
+            关键字:
+            <input type="text" class="form-control" name="keyword" style="width: 200px;"
+                   value="{$keyword|default=''}" placeholder="请输入关键字...">
+            <input type="submit" class="btn btn-primary" value="搜索"/>
+            <a class="btn btn-danger" href="{:url('AdminCategory/index')}">清空</a>
+        </form>
         <form method="post" class="js-ajax-form" action="{:url('AdminCategory/listOrder')}">
             <div class="table-actions">
                 <button type="submit" class="btn btn-primary btn-sm js-ajax-submit">{:lang('SORT')}</button>
@@ -16,6 +30,7 @@
                         <th width="50">排序</th>
                         <th width="50">ID</th>
                         <th>业务模型名称</th>
+                        <th>业务类型</th>
                         <th>业务代码</th>
                         <th>描述</th>
                         <th width="180">操作</th>
@@ -27,6 +42,7 @@
                         <td><input name="list_orders[{$vo.id}]" type="text" size="3" value="{$vo.list_order}" class="input-order"></td>
                         <td>{$vo.id}</td>
                         <td><a>{$vo.name|default=''}</a></td>
+                        <td>{$vo.type|default=''}</td>
                         <td>{$vo.code|default=''}</td>
                         <td>{$vo.description|default=''}</td>
                         <td>
@@ -41,6 +57,7 @@
                         <th width="50">排序</th>
                         <th width="50">ID</th>
                         <th>业务模型名称</th>
+                        <th>业务类型</th>
                         <th>业务代码</th>
                         <th>描述</th>
                         <th width="180">操作</th>

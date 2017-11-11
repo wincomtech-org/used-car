@@ -67,7 +67,7 @@ class InsuranceOrderModel extends InsuranceModel
             ->join($join)
             ->where($where)
             ->order('a.id DESC')
-            ->paginate(config('pagerset.pagesize'));
+            ->paginate(config('pagerset.size'));
 
         return $series;
     }
@@ -89,6 +89,11 @@ class InsuranceOrderModel extends InsuranceModel
             ->find();
 
         return $post;
+    }
+
+    public function getOrderStatus($status='')
+    {
+        return $this->getStatus($status,'insurance_order_status');
     }
 
 

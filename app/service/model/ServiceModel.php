@@ -56,7 +56,7 @@ class ServiceModel extends UsualModel
             ->join($join)
             ->where($where)
             ->order('a.is_top DESC,a.id DESC')
-            ->paginate(config('pagerset.pagesize'));
+            ->paginate(config('pagerset.size'));
 
         return $series;
     }
@@ -86,13 +86,6 @@ class ServiceModel extends UsualModel
 
     public function getServiceStatus($status='')
     {
-        $status = intval($status);
-        $service_status = config('service_status');
-        $options = '';
-        foreach ($service_status as $key => $vo) {
-            $options .= '<option value="'.$key.'" '.($status==$key?'selected':'').'>'.$vo.'</option>';
-        }
-
-        return $options;
+        return $this->getStatus($status,'service_status');
     }
 }

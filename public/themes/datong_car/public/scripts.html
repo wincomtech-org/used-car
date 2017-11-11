@@ -1,0 +1,71 @@
+<!-- Le javascript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="__TMPL__/public/assets/simpleboot3/bootstrap/js/bootstrap.min.js"></script>
+<script src="__STATIC__/js/frontend.js"></script>
+<script>
+$(function(){
+	/*导航 不知道怎么样导航标签
+		<navigation ></navigation>
+	*/
+	// $("#main-head li.dropdown").hover(function(){
+	// 	$(this).addClass("open");
+	// },function(){
+	// 	$(this).removeClass("open");
+	// });
+
+	// $("#main-head a").each(function() {
+	// 	if ($(this)[0].href == String(window.location)) {
+	// 		$(this).parentsUntil("#main-head>ul>li").addClass("active");
+	// 	}
+	// });
+
+	$.post("{:url('user/index/isLogin')}",{},function(data){
+	    // console.log(data);
+		if(data.code==1){
+			if(data.data.user.avatar){
+			}
+			$("#main-head-user span.user-nickname").text(data.data.user.user_nickname?data.data.user.user_nickname:data.data.user.user_login);
+			$("#main-head-user li.logining").show();
+            $("#main-head-user li.offline").hide();
+		}
+		if(data.code==0){
+            $("#main-head-user li.logining").hide();
+			$("#main-head-user li.offline").show();
+		}
+	});
+
+	// ;(function($){
+	// 	$.fn.totop=function(opt){
+	// 		var scrolling=false;
+	// 		return this.each(function(){
+	// 			var $this=$(this);
+	// 			$(window).scroll(function(){
+	// 				if(!scrolling){
+	// 					var sd=$(window).scrollTop();
+	// 					if(sd>100){
+	// 						$this.fadeIn();
+	// 					}else{
+	// 						$this.fadeOut();
+	// 					}
+	// 				}
+	// 			});
+
+	// 			$this.click(function(){
+	// 				scrolling=true;
+	// 				$('html, body').animate({
+	// 					scrollTop : 0
+	// 				}, 500,function(){
+	// 					scrolling=false;
+	// 					$this.fadeOut();
+	// 				});
+	// 			});
+	// 		});
+	// 	};
+	// })(jQuery);
+	// $("#backtotop").totop();
+
+
+
+});
+</script>

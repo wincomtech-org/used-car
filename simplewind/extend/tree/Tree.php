@@ -1,12 +1,10 @@
 <?php
-
 namespace tree;
 /**
  * 通用的树型类，可以生成任何树型结构
  */
 class Tree
 {
-
     /**
      * 生成树型结构所需要的2维数组
      * @var array
@@ -165,20 +163,17 @@ class Tree
     public function getTreeArray($myId, $maxLevel = 0, $level = 1)
     {
         $returnArray = [];
-
         //一级数组
         $children = $this->getChild($myId);
 
         if (is_array($children)) {
             foreach ($children as $child) {
-                $child['_level']           = $level;
+                $child['_level'] = $level;
                 $returnArray[$child['id']] = $child;
                 if ($maxLevel === 0 || ($maxLevel !== 0 && $maxLevel > $level)) {
-
-                    $mLevel                                = $level + 1;
+                    $mLevel = $level + 1;
                     $returnArray[$child['id']]["children"] = $this->getTreeArray($child['id'], $maxLevel, $mLevel);
                 }
-
             }
         }
 

@@ -46,16 +46,19 @@
     <div class="row margin-top-20">
         <div class="col-md-1">
             <div class="list-group">
-                <a class="list-group-item" href="#A" data-toggle="tab">基本属性</a>
-                <a class="list-group-item" href="#B" data-toggle="tab">属性设置</a>
-                <a class="list-group-item" href="#C" data-toggle="tab">审核资料</a>
-                <a class="list-group-item" href="#D" data-toggle="tab">SEO设置</a>
+                <a class="list-group-item" href="#BASE_" data-toggle="tab">基本属性</a>
+                <a class="list-group-item" href="#REC_" data-toggle="tab">优化属性</a>
+                <!-- 与下面的扩展属性  -->
+                <a class="list-group-item" href="#EXT_" data-toggle="tab">扩展属性</a>
+                <a class="list-group-item" href="#AUDIT_" data-toggle="tab">审核资料</a>
+                <a class="list-group-item" href="#SHOP_" data-toggle="tab">店铺相关</a>
+                <a class="list-group-item" href="#SEO_" data-toggle="tab">SEO设置</a>
             </div>
         </div>
         <form class="js-ajax-form" action="{:url('AdminCar/addPost')}" method="post">
         <div class="col-md-6">
             <div class="tab-content">
-                <div class="tab-pane active" id="A">
+                <div class="tab-pane active" id="BASE_">
                     <table class="table table-bordered">
                     <tr>
                         <th width="100">名称<span class="form-required">*</span></th>
@@ -73,7 +76,7 @@
                     <tr>
                         <th>所属品牌</th>
                         <td>
-                            <select class="form-control" style="width:300px;" name="post[brand_id]" id="input-brand">
+                            <select class="form-control" style="width:150px;" name="post[brand_id]" id="input-brand">
                                 <option value="0" selected>--请选择--</option>
                                 {$Brands}
                             </select>
@@ -82,11 +85,11 @@
                     <tr>
                         <th>所属车系</th>
                         <td>
-                            <select class="form-control" style="width:300px;float:left;" name="post[serie_pid]" id="input-series">
+                            <select class="form-control" style="width:150px;float:left;" name="post[serie_pid]" id="input-series">
                                 <option value="0" selected>--请选择--</option>
                                 {$Series}
                             </select>
-                            <select class="form-control" style="width:300px;display:none" name="post[serie_id]" id="input-serie">
+                            <select class="form-control" style="width:150px;display:none" name="post[serie_id]" id="input-serie">
                                 <option value="0">--请选择--</option>
                             </select>
                         </td>
@@ -94,7 +97,7 @@
                     <tr>
                         <th>车型</th>
                         <td>
-                            <select class="form-control" style="width:300px;" name="post[model_id]" id="input-model">
+                            <select class="form-control" style="width:150px;" name="post[model_id]" id="input-model">
                                 <option value="0" selected>--请选择--</option>
                                 {$Models}
                             </select>
@@ -103,11 +106,11 @@
                     <tr>
                         <th>所在城市</th>
                         <td>
-                            <select class="form-control" style="width:300px;float:left;" name="post[province_id]" id="input-province">
+                            <select class="form-control" style="width:150px;float:left;" name="post[province_id]" id="input-province">
                                 <option value="0" selected>--请选择--</option>
-                                {$provinces}
+                                {$Provinces}
                             </select>
-                            <select class="form-control" style="width:300px;display:none" name="post[city_id]" id="input-city">
+                            <select class="form-control" style="width:150px;display:none" name="post[city_id]" id="input-city">
                                 <option value="0">--请选择--</option>
                             </select>
                         </td>
@@ -135,7 +138,60 @@
                     </tr>
                     </table>
                 </div>
-                <div class="tab-pane" id="B">
+                <!-- 所有属性S -->
+                <div class="tab-pane" id="EXT_">
+                    <table class="table table-bordered">
+                    <foreach name="allItems" item="pa">
+                    <tr>
+                        <th width="160"></th>
+                        <td align="center">
+                            <big><b>{$pa.name}</b></big>
+                            <p class="help-block">描述：{$pa.description}</p>
+                        </td>
+                    </tr>
+                        <foreach name="pa.children" item="vo">
+                        <tr>
+                            <th>{$vo.name}</th>
+                            <td>
+                                <switch name="vo.code_type">
+                                    <case value="select">
+                                        <select class="form-control" style="width:140px;" name="post[more][{$vo.code}]">
+                                            <option value="">--请选择--</option>
+                                            <notempty name="vo.form_element">
+                                            <foreach name="vo.form_element" item="it">
+                                            <option value="{$it.name}">{$it.description?$it.description:$it.name}</option>
+                                            </foreach>
+                                            </notempty>
+                                        </select>
+                                    </case>
+                                    <case value="radio">
+                                        <foreach name="vo.form_element" item="it">
+                                        <input type="radio" name="post[more][{$vo.code}]" value="{$it.name}"> {$it.description?$it.description:$it.name} &nbsp; &nbsp;
+                                        </foreach>
+                                    </case>
+                                    <case value="checkbox">
+                                        <foreach name="vo.form_element" item="it">
+                                        <input type="checkbox" name="post[more][{$vo.code}][]" value="{$it.name}"> {$it.description?$it.description:$it.name} &nbsp; &nbsp;
+                                        </foreach>
+                                    </case>
+                                    <case value="number">
+                                        <input class="form-control" placeholder="{$vo.description}" type="number" name="post[more][{$vo.code}]">
+                                    </case>
+                                    <case value="hidden">
+                                        <input class="form-control" type="hidden" name="post[more][{$vo.code}]" value="{$it.name}">
+                                    </case>
+                                    <default /><input class="form-control" placeholder="{$vo.description}" type="text" name="post[more][{$vo.code}]">
+                                </switch>
+                                <p class="help-block">{$vo.description|default=''} <notempty name="vo.unit">单位：{$vo.unit}</notempty></p>
+                            </td>
+                        </tr>
+                        </foreach>
+                    </foreach>
+                    </table>
+                </div>
+                <!-- 所有属性E -->
+                <!-- 优化属性S -->
+                <div class="tab-pane" id="REC_">
                     <table class="table table-bordered">
                     <tr>
                         <th width="100">车架号<span class="form-required">*</span></th>
@@ -165,62 +221,97 @@
                     <tr>
                         <th>上牌时间</th>
                         <td>
-                            <input class="form-control" placeholder="" type="text" name="post[car_license_time]">
+                            <input class="form-control js-bootstrap-datetime" placeholder="" type="text" name="post[car_license_time]" value="{:date('Y-m-d H:i:s',time())}">
                         </td>
                     </tr>
+
                     <tr>
-                        <th>座位数</th>
-                        <td>
-                            <input class="form-control" placeholder="" type="text" name="post[car_seating]">
-                        </td>
+                        <th></th>
+                        <td align="center"><big><b>以下仍作为前台筛选项</b></big></td>
                     </tr>
+                    <foreach name="searchCode" item="vo">
                     <tr>
-                        <th>排量</th>
+                        <th>{$vo.name}</th>
                         <td>
-                            <input class="form-control" placeholder="单位：升（L）" type="text" name="post[car_displacement]">
-                            <p class="help-block">单位：升（L）</p>
+                            <switch name="vo.code_type">
+                                <case value="select">
+                                    <select class="form-control" style="width:140px;" name="post[{$vo.code}]">
+                                        <option value="">--请选择--</option>
+                                        <notempty name="vo.form_element">
+                                        <foreach name="vo.form_element" item="it">
+                                        <option value="{$it.name}">{$it.description?$it.description:$it.name}</option>
+                                        </foreach>
+                                        </notempty>
+                                    </select>
+                                </case>
+                                <case value="radio">
+                                    <foreach name="vo.form_element" item="it">
+                                    <input type="radio" name="post[{$vo.code}]" value="{$it.name}"> {$it.description?$it.description:$it.name} &nbsp; &nbsp;
+                                    </foreach>
+                                </case>
+                                <case value="checkbox">
+                                    <foreach name="vo.form_element" item="it">
+                                    <input type="checkbox" name="post[{$vo.code}][]" value="{$it.name}"> {$it.description?$it.description:$it.name} &nbsp; &nbsp;
+                                    </foreach>
+                                </case>
+                                <case value="number">
+                                    <input class="form-control" placeholder="{$vo.description}" type="number" name="post[{$vo.code}]">
+                                </case>
+                                <case value="hidden">
+                                    <input class="form-control" type="hidden" name="post[{$vo.code}]" value="{$it.name}">
+                                </case>
+                                <default /><input class="form-control" placeholder="{$vo.description}" type="text" name="post[{$vo.code}]">
+                            </switch>
+                            <p class="help-block">{$vo.description|default=''} <notempty name="vo.unit">单位：{$vo.unit}</notempty></p>
                         </td>
                     </tr>
+                    </foreach>
                     <tr>
-                        <th>排放标准</th>
-                        <td>
-                            <select class="form-control" style="width:300px;" name="post[car_effluent]">
-                                <option value="0" selected>--请选择--</option>
-                                {$effluents}
-                            </select>
-                        </td>
+                        <th></th>
+                        <td align="center"><big><b>以下是属性分类推荐项</b></big></td>
                     </tr>
+                    <foreach name="recItems" item="vo">
                     <tr>
-                        <th>燃料类型</th>
+                        <th>{$vo.name}</th>
                         <td>
-                            <select class="form-control" style="width:300px;" name="post[car_fuel]">
-                                <option value="0" selected>--请选择--</option>
-                                {$fuels}
-                            </select>
+                            <switch name="vo.code_type">
+                                <case value="select">
+                                    <select class="form-control" style="width:140px;" name="post[more][{$vo.code}]">
+                                        <option value="">--请选择--</option>
+                                        <notempty name="vo.form_element">
+                                        <foreach name="vo.form_element" item="it">
+                                        <option value="{$it.name}">{$it.description?$it.description:$it.name}</option>
+                                        </foreach>
+                                        </notempty>
+                                    </select>
+                                </case>
+                                <case value="radio">
+                                    <foreach name="vo.form_element" item="it">
+                                    <input type="radio" name="post[more][{$vo.code}]" value="{$it.name}"> {$it.description?$it.description:$it.name} &nbsp; &nbsp;
+                                    </foreach>
+                                </case>
+                                <case value="checkbox">
+                                    <foreach name="vo.form_element" item="it">
+                                    <input type="checkbox" name="post[more][{$vo.code}][]" value="{$it.name}"> {$it.description?$it.description:$it.name} &nbsp; &nbsp;
+                                    </foreach>
+                                </case>
+                                <case value="number">
+                                    <input class="form-control" placeholder="{$vo.description}" type="number" name="post[more][{$vo.code}]">
+                                </case>
+                                <case value="hidden">
+                                    <input class="form-control" type="hidden" name="post[more][{$vo.code}]" value="{$it.name}">
+                                </case>
+                                <default /><input class="form-control" placeholder="{$vo.description}" type="text" name="post[more][{$vo.code}]">
+                            </switch>
+                            <p class="help-block">{$vo.description|default=''} <notempty name="vo.unit">单位：{$vo.unit}</notempty></p>
                         </td>
                     </tr>
-                    <tr>
-                        <th>变速箱</th>
-                        <td>
-                            <select class="form-control" style="width:300px;" name="post[car_gearbox]">
-                                <option value="0" selected>--请选择--</option>
-                                <option value="1">自动</option>
-                                <option value="2">手动</option>
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>颜色</th>
-                        <td>
-                            <select class="form-control" style="width:300px;" name="post[car_color]">
-                                <option value="0" selected>--请选择--</option>
-                                {$colors}
-                            </select>
-                        </td>
-                    </tr>
+                    </foreach>
                     </table>
                 </div>
-                <div class="tab-pane" id="C">
+                <!-- 优化属性E -->
+                <!-- 审核资料S -->
+                <div class="tab-pane" id="AUDIT_">
                     <table class="table table-bordered">
                     <tr>
                         <th width="100">姓名（车主）<span class="form-required">*</span></th>
@@ -264,7 +355,42 @@
                     </tr>
                     </table>
                 </div>
-                <div class="tab-pane" id="D">
+                <!-- 审核资料E -->
+                <!-- 店铺相关S -->
+                <div class="tab-pane" id="SHOP_">
+                    <table class="table table-bordered">
+                    <tr>
+                        <th width="100">车源类别<span class="form-required">*</span></th>
+                        <td>
+                            <select class="form-control" style="width:150px;" name="post[type]">
+                                <option value="">--请选择--</option>
+                                {$Types}
+                            </select>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th>市场价</th>
+                        <td>
+                            <input class="form-control" placeholder="" name="post[market_price]" value="0.00">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>店铺价</th>
+                        <td>
+                            <input class="form-control" placeholder="" name="post[shop_price]" value="0.00">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>库存</th>
+                        <td>
+                            <input class="form-control" placeholder="" name="post[inventory]" value="1">
+                        </td>
+                    </tr>
+                    </table>
+                </div>
+                <!-- 店铺相关E -->
+                <div class="tab-pane" id="SEO_">
                     <div class="form-group">
                         <label for="input-seo_title">SEO标题</label>
                         <div>
@@ -339,12 +465,7 @@
                     <td>
                         <div class="checkbox">
                             <select class="form-control" style="width:140px;" name="post[sell_status]">
-                                <option value="0">不出售</option>
-                                <option value="1">售卖中</option>
-                                <option value="2">已付款</option>
-                                <option value="3">已下单</option>
-                                <option value="10">完成</option>
-                                <option value="11">售罄</option>
+                                {$sell_status}
                             </select>
                         </div>
                     </td>

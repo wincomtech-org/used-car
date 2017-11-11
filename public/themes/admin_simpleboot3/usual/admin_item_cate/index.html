@@ -1,0 +1,32 @@
+<include file="public@header" />
+</head>
+<body>
+	<div class="wrap">
+		<ul class="nav nav-tabs">
+			<li class="active"><a href="{:url('AdminItemCate/index')}">分类管理</a></li>
+			<li><a href="{:url('AdminItemCate/add')}">添加分类</a></li>
+        	<li><a style="margin-left:150px" href="{:url('AdminItem/index')}">属性列表</a></li>
+		</ul>
+		<form method="post" class="js-ajax-form" action="{:url('AdminItemCate/listOrder')}">
+			<div class="table-actions">
+				<button type="submit" class="btn btn-primary btn-sm js-ajax-submit">{:lang('SORT')}</button>
+			</div>
+			<table class="table table-hover table-bordered table-list">
+				<thead>
+					<include file="admin_item_cate/table-th" />
+				</thead>
+				<tbody>
+					{$category_tree}
+				</tbody>
+				<tfoot>
+					<include file="admin_item_cate/table-th" />
+				</tfoot>
+			</table>
+			<div class="table-actions">
+				<button type="submit" class="btn btn-primary btn-sm js-ajax-submit">{:lang('SORT')}</button>
+			</div>
+		</form>
+	</div>
+	<script src="__STATIC__/js/admin.js"></script>
+</body>
+</html>

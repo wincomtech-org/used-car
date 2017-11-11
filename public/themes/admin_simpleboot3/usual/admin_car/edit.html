@@ -47,16 +47,17 @@
     <div class="row margin-top-20">
         <div class="col-md-1">
             <div class="list-group">
-                <a class="list-group-item" href="#A" data-toggle="tab">基本属性</a>
-                <a class="list-group-item" href="#B" data-toggle="tab">属性设置</a>
-                <a class="list-group-item" href="#C" data-toggle="tab">审核资料</a>
-                <a class="list-group-item" href="#D" data-toggle="tab">SEO设置</a>
+                <a class="list-group-item" href="#BASE" data-toggle="tab">基本属性</a>
+                <a class="list-group-item" href="#REC" data-toggle="tab">推荐属性</a>
+                <a class="list-group-item" href="#AUDIT" data-toggle="tab">审核资料</a>
+                <a class="list-group-item" href="#SHOP" data-toggle="tab">店铺相关</a>
+                <a class="list-group-item" href="#SEO" data-toggle="tab">SEO设置</a>
             </div>
         </div>
         <form class="form-horizontal js-ajax-form" action="{:url('AdminCar/editPost')}" method="post">
         <div class="col-md-6">
             <div class="tab-content">
-                <div class="tab-pane active" id="A">
+                <div class="tab-pane active" id="BASE">
                     <table class="table table-bordered">
                     <tr>
                         <th width="100">名称<span class="form-required">*</span></th>
@@ -74,7 +75,7 @@
                     <tr>
                         <th>所属品牌</th>
                         <td>
-                            <select class="form-control" style="width:300px;" name="post[brand_id]" id="input-brand">
+                            <select class="form-control" style="width:150px;" name="post[brand_id]" id="input-brand">
                                 <option value="0" selected>--请选择--</option>
                                 {$Brands}
                             </select>
@@ -83,11 +84,11 @@
                     <tr>
                         <th>所属车系</th>
                         <td>
-                            <select class="form-control" style="width:300px;float:left;" name="post[serie_pid]" id="input-series">
+                            <select class="form-control" style="width:150px;float:left;" name="post[serie_pid]" id="input-series">
                                 <option value="0" selected>--请选择--</option>
                                 {$Series}
                             </select>
-                            <select class="form-control" style="width:300px;" name="post[serie_id]" id="input-serie">
+                            <select class="form-control" style="width:150px;" name="post[serie_id]" id="input-serie">
                                 <option value="0">--请选择--</option>
                                 {$Series2}
                             </select>
@@ -96,20 +97,29 @@
                     <tr>
                         <th>车型</th>
                         <td>
-                            <select class="form-control" style="width:300px;" name="post[model_id]" id="input-model">
+                            <select class="form-control" style="width:150px;" name="post[model_id]" id="input-model">
                                 <option value="0" selected>--请选择--</option>
                                 {$Models}
                             </select>
                         </td>
                     </tr>
                     <tr>
+                        <th>车源类型</th>
+                        <td>
+                            <select class="form-control" style="width:150px;" name="post[type]">
+                                <option value="0" selected>--请选择--</option>
+                                {$Types}
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
                         <th>所在城市</th>
                         <td>
-                            <select class="form-control" style="width:300px;float:left;" name="post[province_id]" id="input-province">
+                            <select class="form-control" style="width:150px;float:left;" name="post[province_id]" id="input-province">
                                 <option value="0" selected>--请选择--</option>
-                                {$provinces}
+                                {$Provinces}
                             </select>
-                            <select class="form-control" style="width:300px;" name="post[city_id]" id="input-city">
+                            <select class="form-control" style="width:150px;" name="post[city_id]" id="input-city">
                                 <option value="0">--请选择--</option>
                                 {$citys}
                             </select>
@@ -157,7 +167,7 @@
                     </tr>
                     </table>
                 </div>
-                <div class="tab-pane" id="B">
+                <div class="tab-pane" id="REC">
                     <table class="table table-bordered">
                     <tr>
                         <th width="100">车架号<span class="form-required">*</span></th>
@@ -187,7 +197,7 @@
                     <tr>
                         <th>上牌时间</th>
                         <td>
-                            <input class="form-control" placeholder="" type="text" name="post[car_license_time]" value="{$post.car_license_time|default=''}">
+                            <input class="form-control js-bootstrap-datetime" placeholder="" type="text" name="post[car_license_time]" value="{:date('Y-m-d',$post.car_license_time)}">
                         </td>
                     </tr>
                     <tr>
@@ -206,7 +216,7 @@
                     <tr>
                         <th>排放标准</th>
                         <td>
-                            <select class="form-control" style="width:300px;" name="post[car_effluent]">
+                            <select class="form-control" style="width:150px;" name="post[car_effluent]">
                                 <option value="0" selected>--请选择--</option>
                                 {$effluents}
                             </select>
@@ -215,7 +225,7 @@
                     <tr>
                         <th>燃料类型</th>
                         <td>
-                            <select class="form-control" style="width:300px;" name="post[car_fuel]">
+                            <select class="form-control" style="width:150px;" name="post[car_fuel]">
                                 <option value="0" selected>--请选择--</option>
                                 {$fuels}
                             </select>
@@ -224,7 +234,7 @@
                     <tr>
                         <th>变速箱</th>
                         <td>
-                            <select class="form-control" style="width:300px;" name="post[car_gearbox]">
+                            <select class="form-control" style="width:150px;" name="post[car_gearbox]">
                                 <option value="0" {$post.car_gearbox?'':'selected'}>--请选择--</option>
                                 <option value="1" {$post.car_gearbox==1?='selected'}>自动</option>
                                 <option value="2" {$post.car_gearbox==2?='selected'}>手动</option>
@@ -234,7 +244,7 @@
                     <tr>
                         <th>颜色</th>
                         <td>
-                            <select class="form-control" style="width:300px;" name="post[car_color]">
+                            <select class="form-control" style="width:150px;" name="post[car_color]">
                                 <option value="0" selected>--请选择--</option>
                                 {$colors}
                             </select>
@@ -242,7 +252,7 @@
                     </tr>
                     </table>
                 </div>
-                <div class="tab-pane" id="C">
+                <div class="tab-pane" id="AUDIT">
                     <div>审核时必填项</div>
                     <table class="table table-bordered">
                     <tr>
@@ -310,7 +320,40 @@
                     </tr>
                     </table>
                 </div>
-                <div class="tab-pane" id="D">
+                <div class="tab-pane" id="SHOP">
+                    <table class="table table-bordered">
+                    <tr>
+                        <th width="100">车源类别<span class="form-required">*</span></th>
+                        <td>
+                            <select class="form-control" name="post[type]">
+                                <option value="0">--请选择--</option>
+                                <option value="1">准新车</option>
+                                <option value="2">练手车</option>
+                                <option value="3">分期购</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>市场价</th>
+                        <td>
+                            <input class="form-control" placeholder="" name="post[market_price]" value="0.00">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>店铺价</th>
+                        <td>
+                            <input class="form-control" placeholder="" name="post[shop_price]" value="0.00">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>库存</th>
+                        <td>
+                            <input class="form-control" placeholder="" name="post[inventory]" value="1">
+                        </td>
+                    </tr>
+                    </table>
+                </div>
+                <div class="tab-pane" id="SEO">
                     <div class="form-group">
                         <label for="input-seo_title">SEO标题</label>
                         <div>
@@ -358,12 +401,20 @@
                     </td>
                 </tr>
                 <tr>
+                    <th><b>创建时间</b></th>
+                </tr>
+                <tr>
+                    <td>
+                        <input class="form-control js-bootstrap-datetime" type="text" name="post[create_time]" value="{:date('Y-m-d H:i:s',$post.create_time)}">
+                    </td>
+                </tr>
+                <tr>
                     <th><b>认证状态</b></th>
                 </tr>
                 <tr>
                     <td>
                         <div class="checkbox">
-                            <label><input type="checkbox" name="post[identi_status]" value="1" checked>审核通过</label>
+                            <label><input type="checkbox" name="post[identi_status]" value="1" {$post.identi_status?='checked'}>审核通过</label>
                         </div>
                     </td>
                 </tr>
@@ -374,9 +425,9 @@
                 <tr>
                     <td>
                         <div class="checkbox">
-                            <label><input type="checkbox" name="post[status]" value="1" checked>启用</label>&nbsp;&nbsp;&nbsp;&nbsp;
-                            <label><input type="checkbox" name="post[is_top]" value="1">置顶</label>&nbsp;&nbsp;&nbsp;&nbsp;
-                            <label><input type="checkbox" name="post[is_rec]" value="1">推荐</label>
+                            <label><input type="checkbox" name="post[status]" value="1" {$post.status?='checked'}>启用</label>&nbsp;&nbsp;&nbsp;&nbsp;
+                            <label><input type="checkbox" name="post[is_top]" value="1" {$post.is_top?='checked'}>置顶</label>&nbsp;&nbsp;&nbsp;&nbsp;
+                            <label><input type="checkbox" name="post[is_rec]" value="1" {$post.is_rec?='checked'}>推荐</label>
                         </div>
                     </td>
                 </tr>
@@ -388,12 +439,7 @@
                     <td>
                         <div class="checkbox">
                             <select class="form-control" style="width:140px;" name="post[sell_status]">
-                                <option value="0">不出售</option>
-                                <option value="1">售卖中</option>
-                                <option value="2">已付款</option>
-                                <option value="3">已下单</option>
-                                <option value="10">完成</option>
-                                <option value="11">售罄</option>
+                                {$sell_status}
                             </select>
                         </div>
                     </td>
@@ -403,7 +449,7 @@
                 </tr>
                 <tr>
                     <td>
-                        <input class="form-control js-bootstrap-datetime" type="text" name="post[published_time]" value="{:date('Y-m-d H:i:s',time())}">
+                        <input class="form-control js-bootstrap-datetime" type="text" name="post[published_time]" value="{:date('Y-m-d H:i:s',$post.published_time)}">
                     </td>
                 </tr>
             </table>

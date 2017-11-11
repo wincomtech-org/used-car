@@ -38,9 +38,55 @@ class UsualCarModel extends UsualModel
             ->join($join)
             ->where($where)
             ->order('update_time DESC')
-            ->paginate(config('pagerset.pagesize'));
+            ->paginate(config('pagerset.size'));
 
         return $series;
+    }
+
+    // 获取车源类型
+    public function getCarType($status='')
+    {
+        return $this->getStatus($status,'usual_car_type');
+    }
+    // 售卖状态
+    public function getSellStatus($status='')
+    {
+        return $this->getStatus($status,'usual_car_sell_status');
+    }
+
+
+
+// 前台
+    /*首页*/
+    public function getIndexCarList($limit=6)
+    {
+        $ckey = 'gicarl'.$limit;
+        if (session('?'.$ckey)) {
+            $cars = cache($ckey);
+        } else {
+            // $cars = $this->all(function($query){
+            //     $query->alias('a')
+            //           ->field('a.id,a.name,a.more,a.car_mileage,a.car_license_time,a.shop_price,a.price,b.name AS city_name')
+            //           // ->join('district b','a.city_id=b.id','LEFT')
+            //           ->join('__DISTRICT__ b','a.city_id=b.id','LEFT')
+            //           ->where('a.sell_status',1)
+            //           ->limit($limit)
+            //           ->order('a.published_time','desc')
+            //           ->select()->toArray();
+            // });
+
+            $cars = $this->alias('a')
+                  ->field('a.id,a.name,a.more,a.car_mileage,a.car_license_time,a.shop_price,a.price,b.name AS city_name')
+                  // ->join('district b','a.city_id=b.id','LEFT')
+                  ->join('__DISTRICT__ b','a.city_id=b.id','LEFT')
+                  ->where('a.sell_status',1)
+                  ->limit($limit)
+                  ->order(['a.is_rec'=>'desc','a.published_time'=>'desc'])
+                  ->select()->toArray();
+            cache($ckey, $cars, 3600);
+        }
+
+        return $cars;
     }
 
 }

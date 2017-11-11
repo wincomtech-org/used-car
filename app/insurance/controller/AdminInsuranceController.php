@@ -23,7 +23,7 @@ class AdminInsuranceController extends AdminBaseController
         // dump($data->items());die;
         $data->appends($param);
 
-        $companys = model('Insurance')->getCompany($companyId);
+        $companys = model('usual/UsualCompany')->getCompanys($companyId);
 
         $this->assign('start_time', isset($param['start_time']) ? $param['start_time'] : '');
         $this->assign('end_time', isset($param['end_time']) ? $param['end_time'] : '');
@@ -38,7 +38,7 @@ class AdminInsuranceController extends AdminBaseController
 
     public function add()
     {
-        $companys = model('Insurance')->getCompany();
+        $companys = model('usual/UsualCompany')->getCompanys();
         $coverages = model('InsuranceCoverage')->getCoverage();
 
         $this->assign('companys', $companys);
@@ -73,7 +73,7 @@ class AdminInsuranceController extends AdminBaseController
         $id = $this->request->param('id', 0, 'intval');
         $post = model('Insurance')->getPost($id);
         // $post = model('Insurance')->where('id', $id)->find();
-        $companys = model('Insurance')->getCompany($post['company_id']);
+        $companys = model('usual/UsualCompany')->getCompanys($post['company_id']);
         $coverageIds = empty($post['more']['coverage'])?[]:$post['more']['coverage'];
         $coverages = model('InsuranceCoverage')->getCoverage($coverageIds);
 

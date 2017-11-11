@@ -17,7 +17,7 @@ class UsualBrandModel extends UsualCategoryModel
     {
         $where = ['delete_time' => 0];
         // $categories = $this->field('id,name,description,list_order')->order("list_order ASC")->where($where)->select()->toArray();
-        $categories = $this->field('id,name,description,list_order')->order("list_order ASC,id DESC")->where($where)->paginate(config('pagerset.pagesize'));
+        $categories = $this->field('id,name,description,list_order')->order("list_order ASC,id DESC")->where($where)->paginate(config('pagerset.size'));
         return $categories;
     }
 

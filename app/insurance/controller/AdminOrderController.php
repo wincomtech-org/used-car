@@ -34,6 +34,7 @@ class AdminOrderController extends AdminBaseController
 
     public function add()
     {
+        $this->assign('order_status', model('InsuranceOrder')->getOrderStatus());
         return $this->fetch();
     }
     public function addPost()
@@ -64,7 +65,7 @@ class AdminOrderController extends AdminBaseController
         $id = $this->request->param('id', 0, 'intval');
         $post = model('InsuranceOrder')->getPost($id);
 
-        $this->assign('order_status', config('insurance_order_status'));
+        $this->assign('order_status', model('InsuranceOrder')->getOrderStatus($post['status']));
         $this->assign('post', $post);
         return $this->fetch();
     }

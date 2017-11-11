@@ -1,13 +1,4 @@
 <?php
-// +----------------------------------------------------------------------
-// | ThinkCMF [ WE CAN DO IT MORE SIMPLE ]
-// +----------------------------------------------------------------------
-// | Copyright (c) 2013-2017 http://www.thinkcmf.com All rights reserved.
-// +----------------------------------------------------------------------
-// | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
-// +----------------------------------------------------------------------
-// | Author: 老猫 <thinkcmf@126.com>
-// +----------------------------------------------------------------------
 namespace app\portal\model;
 
 use app\admin\model\RouteModel;
@@ -16,7 +7,6 @@ use think\Db;
 
 class PortalPostModel extends Model
 {
-
     protected $type = [
         'more' => 'array',
     ];
@@ -87,20 +77,20 @@ class PortalPostModel extends Model
 
         $this->allowField(true)->data($data, true)->isUpdate(false)->save();
 
-        if (is_string($categories)) {
-            $categories = explode(',', $categories);
+        if (isset($categories)) {
+            if (is_string($categories)) {
+                $categories = explode(',', $categories);
+            }
+            $this->categories()->save($categories);
         }
 
-        $this->categories()->save($categories);
-
-        $data['post_keywords'] = str_replace('，', ',', $data['post_keywords']);
-
-        $keywords = explode(',', $data['post_keywords']);
-
-        $this->addTags($keywords, $this->id);
+        if (!empty($data['post_keywords'])) {
+            $data['post_keywords'] = str_replace('，', ',', $data['post_keywords']);
+            $keywords = explode(',', $data['post_keywords']);
+            $this->addTags($keywords, $this->id);
+        }
 
         return $this;
-
     }
 
     /**
@@ -111,7 +101,6 @@ class PortalPostModel extends Model
      */
     public function adminEditArticle($data, $categories)
     {
-
         unset($data['user_id']);
 
         if (!empty($data['more']['thumbnail'])) {
@@ -124,44 +113,40 @@ class PortalPostModel extends Model
 
         $this->allowField(true)->isUpdate(true)->data($data, true)->save();
 
-        if (is_string($categories)) {
-            $categories = explode(',', $categories);
+        if (isset($categories)) {
+            if (is_string($categories)) {
+                $categories = explode(',', $categories);
+            }
+
+            $oldCategoryIds        = $this->categories()->column('category_id');
+            $sameCategoryIds       = array_intersect($categories, $oldCategoryIds);
+            $needDeleteCategoryIds = array_diff($oldCategoryIds, $sameCategoryIds);
+            $newCategoryIds        = array_diff($categories, $sameCategoryIds);
+
+            if (!empty($needDeleteCategoryIds)) {
+                $this->categories()->detach($needDeleteCategoryIds);
+            }
+            if (!empty($newCategoryIds)) {
+                $this->categories()->attach(array_values($newCategoryIds));
+            }
         }
 
-        $oldCategoryIds        = $this->categories()->column('category_id');
-        $sameCategoryIds       = array_intersect($categories, $oldCategoryIds);
-        $needDeleteCategoryIds = array_diff($oldCategoryIds, $sameCategoryIds);
-        $newCategoryIds        = array_diff($categories, $sameCategoryIds);
-
-        if (!empty($needDeleteCategoryIds)) {
-            $this->categories()->detach($needDeleteCategoryIds);
+        if (!empty($data['post_keywords'])) {
+            $data['post_keywords'] = str_replace('，', ',', $data['post_keywords']);
+            $keywords = explode(',', $data['post_keywords']);
+            $this->addTags($keywords, $data['id']);
         }
-
-        if (!empty($newCategoryIds)) {
-            $this->categories()->attach(array_values($newCategoryIds));
-        }
-
-
-        $data['post_keywords'] = str_replace('，', ',', $data['post_keywords']);
-
-        $keywords = explode(',', $data['post_keywords']);
-
-        $this->addTags($keywords, $data['id']);
 
         return $this;
-
     }
 
     public function addTags($keywords, $articleId)
     {
         $portalTagModel = new PortalTagModel();
-
         $tagIds = [];
-
         $data = [];
 
         if (!empty($keywords)) {
-
             $oldTagIds = Db::name('portal_tag_post')->where('post_id', $articleId)->column('tag_id');
 
             foreach ($keywords as $keyword) {
@@ -185,15 +170,12 @@ class PortalPostModel extends Model
                 }
             }
 
-
             if (empty($tagIds) && !empty($oldTagIds)) {
                 Db::name('portal_tag_post')->where('post_id', $articleId)->delete();
             }
 
             $sameTagIds = array_intersect($oldTagIds, $tagIds);
-
             $shouldDeleteTagIds = array_diff($oldTagIds, $sameTagIds);
-
             if (!empty($shouldDeleteTagIds)) {
                 Db::name('portal_tag_post')->where(['post_id' => $articleId, 'tag_id' => ['in', $shouldDeleteTagIds]])->delete();
             }
@@ -201,8 +183,6 @@ class PortalPostModel extends Model
             if (!empty($data)) {
                 Db::name('portal_tag_post')->insertAll($data);
             }
-
-
         } else {
             Db::name('portal_tag_post')->where('post_id', $articleId)->delete();
         }
@@ -210,15 +190,12 @@ class PortalPostModel extends Model
 
     public function adminDeletePage($data)
     {
-
         if (isset($data['id'])) {
             $id = $data['id']; //获取删除id
-
             $res = $this->where(['id' => $id])->find();
 
             if ($res) {
                 $res = json_decode(json_encode($res), true); //转换为数组
-
                 $recycleData = [
                     'object_id'   => $res['id'],
                     'create_time' => time(),
@@ -244,17 +221,13 @@ class PortalPostModel extends Model
                     Db::rollback();
                 }
                 return $transStatus;
-
-
             } else {
                 return false;
             }
         } elseif (isset($data['ids'])) {
             $ids = $data['ids'];
-
             $res = $this->where(['id' => ['in', $ids]])
                 ->select();
-
             if ($res) {
                 $res = json_decode(json_encode($res), true);
                 foreach ($res as $key => $value) {
@@ -262,7 +235,6 @@ class PortalPostModel extends Model
                     $recycleData[$key]['create_time'] = time();
                     $recycleData[$key]['table_name']  = 'portal_post';
                     $recycleData[$key]['name']        = $value['post_title'];
-
                 }
 
                 Db::startTrans(); //开启事务
@@ -272,28 +244,18 @@ class PortalPostModel extends Model
                         ->update([
                             'delete_time' => time()
                         ]);
-
-
                     Db::name('recycle_bin')->insertAll($recycleData);
-
                     $transStatus = true;
                     // 提交事务
                     Db::commit();
-
                 } catch (\Exception $e) {
-
                     // 回滚事务
                     Db::rollback();
-
-
                 }
                 return $transStatus;
-
-
             } else {
                 return false;
             }
-
         } else {
             return false;
         }
@@ -317,7 +279,6 @@ class PortalPostModel extends Model
         $this->allowField(true)->data($data, true)->save();
 
         return $this;
-
     }
 
     /**
@@ -342,6 +303,39 @@ class PortalPostModel extends Model
 
         $routeModel->getRoutes(true);
         return $this;
+    }
+
+
+
+// 前台
+    /*首页*/
+    public function getIndexPortalList($cateId=1, $order='DESC', $limit=9)
+    {
+        $ckey = 'giportall'.$cateId.$order.$limit;
+        if (session('?'.$ckey)) {
+            $lists = cache($ckey);
+        } else {
+            $field = 'a.id,a.post_title,a.post_excerpt,a.more';
+            $join = [
+                ['__PORTAL_CATEGORY_POST__ b', 'a.id=b.post_id']
+            ];
+            $where = [
+                'a.delete_time' => 0,
+                'a.post_status' => 1,
+                'a.post_type' => 1,
+                'b.category_id' => ['eq', $cateId],
+            ];
+            $lists = $this->alias('a')
+                    ->field($field)
+                    ->join($join)
+                    ->where($where)
+                    ->order('recommended DESC,id '.$order)
+                    ->limit($limit)
+                    ->select()->toArray();
+            cache($ckey, $lists, 3600);
+        }
+
+        return $lists;
     }
 
 }

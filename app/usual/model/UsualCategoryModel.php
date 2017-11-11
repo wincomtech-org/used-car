@@ -53,7 +53,7 @@ class UsualCategoryModel extends Model
      * @param string $tpl
      * @return string
      */
-    public function adminCategoryTableTree($currentIds = 0, $tpl = '', $config = null)
+    public function adminCategoryTableTree($currentIds=0, $tpl='', $config=null,$extra=null)
     {
         if (!isset($config)) {
             $request = Request::instance();
@@ -98,9 +98,15 @@ class UsualCategoryModel extends Model
         foreach ($categories as $item) {
             $item['checked'] = in_array($item['id'], $currentIds) ? "checked" : "";
             $item['url']     = $config['url'] ? '<a href="'. cmf_url($config['url'], ['id' => $item['id']]) .'">'. $item['name'] .'</a>' : $item['name'];
+            if (isset($extra['code_type'])) {
+                $item['code_type'] = config('usual_item_cate_codetype')[$item['code_type']];
+            }
+            if (isset($extra['is_rec'])) {
+                $item['is_rec'] = $item['is_rec']?'<font style="color:#F00">是</font>':'否';
+            }
             $item['str_action'] = '';
             if ($config['add']) {
-                $item['str_action'] .= '<a href="'. url($config['m'].'/add', ["parent" => $item['id']]) .'">'.$config['add_title'].'</a>&nbsp;&nbsp;';
+                $item['str_action'] .= '<a href="'. url($config['m'].'/add', ["parent" => $item['id']]) .'">'.$config['add_title'].'</a> &nbsp; &nbsp;';
             }
             if ($config['edit']) {
                 $item['str_action'] .= '<a href="'. url($config['m'].'/edit', ["id" => $item['id']]) .'">'. lang('EDIT') .'</a>&nbsp;&nbsp;';
@@ -119,6 +125,10 @@ class UsualCategoryModel extends Model
             $tpl .= "<td><input name='list_orders[\$id]' type='text' size='3' value='\$list_order' class='input-order'></td>";
             $tpl .= "<td>\$id</td>";
             $tpl .= "<td>\$spacer \$url</td>";
+            $tpl .= isset($extra['code']) ? "<td>\$code</td>" : '';
+            $tpl .= isset($extra['code_type']) ? "<td>\$code_type</td>" : '';
+            $tpl .= isset($extra['unit']) ? "<td><font style='color:blue'>\$unit</font></td>" : '';
+            $tpl .= isset($extra['is_rec']) ? "<td>\$is_rec</td>" : '';
             if (isset($config['table2']) && $config['table2']=='usual_brand') $tpl .= "<td>\$bname</td>";
             $tpl .= "<td>\$description</td>";
             $tpl .= "<td>\$str_action</td>";

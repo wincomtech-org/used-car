@@ -24,18 +24,17 @@ class NavMenuModel extends Model
      * @param int $maxLevel 最大获取层级,默认不限制
      * @return array
      */
-    public function navMenusTreeArray($navId = 0, $maxLevel = 0)
+    public function navMenusTreeArray($navId=0, $maxLevel=0, $currentId=0)
     {
         if (empty($navId)) {
             $navId = Db::name('nav')->where('is_main', 1)->value('id');
         }
-        $navMenus     = $this->where('nav_id', $navId)->where('status', 1)->order('list_order ASC')->select()->toArray();
+        $navMenus = $this->where('nav_id', $navId)->where('status', 1)->order('list_order ASC')->select()->toArray();
         $navMenusTree = [];
         if (!empty($navMenus)) {
             $tree = new Tree();
             $this->parseNavMenu4Home($navMenus);
             $tree->init($navMenus);
-
             $navMenusTree = $tree->getTreeArray(0, $maxLevel);
         }
 
@@ -63,7 +62,7 @@ class NavMenuModel extends Model
             $tree = new Tree();
 
             $this->parseNavMenu4Home($navMenus);
-            $tree->init($navMenus);
+            $tree->init($navMenus);//引用指针，$navMenus 值改变
 
             $navMenusTree = $tree->getTreeArray($menuId);
         }
@@ -97,7 +96,6 @@ class NavMenuModel extends Model
      */
     public function selectNavs()
     {
-
         $tree       = new Tree();
         $tree->icon = ['&nbsp;│ ', '&nbsp;├─ ', '&nbsp;└─ '];
         $tree->nbsp = '&nbsp;';
@@ -112,7 +110,6 @@ class NavMenuModel extends Model
         }
 
         return $navs;
-
     }
 
     /**
@@ -124,16 +121,17 @@ class NavMenuModel extends Model
         $apps = cmf_scan_dir(APP_PATH . "*");
         $navs = [];
         foreach ($apps as $app) {
-
             if (is_dir(APP_PATH . $app)) {
+
                 if (!(strpos($app, ".") === 0)) {
                     $navConfigFile = APP_PATH . $app . "/nav.php";
+
                     if (file_exists($navConfigFile)) {
                         $navApis = include $navConfigFile;
 
                         if (is_array($navApis) && !empty($navApis)) {
-                            foreach ($navApis as $navApi) {
 
+                            foreach ($navApis as $navApi) {
                                 if (!empty($navApi['api'])) {
                                     try {
                                         $navData = action($app . '/' . $navApi['api'], [], 'api');
@@ -148,15 +146,10 @@ class NavMenuModel extends Model
                                             array_push($navs, $navData);
                                         }
                                     }
-
-
                                 }
-
                             }
                         }
-
                     }
-
                 }
             }
         }
@@ -174,9 +167,7 @@ class NavMenuModel extends Model
         if (!empty($navData) && !empty($navData['rule']) && count($navData['items']) > 0) {
             $navData['name'] = $navApi['name'];
             $urlRule         = $navData['rule'];
-
             $items = $navData['items'];
-
             $navData['items'] = [];
 
             if ($items instanceof \think\Collection) {
@@ -192,7 +183,6 @@ class NavMenuModel extends Model
                         $rule['param'][$key] = $item[$val];
                     }
                 }
-
                 array_push($navData['items'], [
                     "name"      => $item['name'],
                     "url"       => url($rule['action'], $rule['param']),
@@ -200,9 +190,7 @@ class NavMenuModel extends Model
                     "parent_id" => empty($item['parent_id']) ? 0 : $item['parent_id'],
                     "id"        => $item['id'],
                 ]);
-
             }
-
         }
     }
 

@@ -1,13 +1,4 @@
 <?php
-// +----------------------------------------------------------------------
-// | ThinkCMF [ WE CAN DO IT MORE SIMPLE ]
-// +----------------------------------------------------------------------
-// | Copyright (c) 2013-2017 http://www.thinkcmf.com All rights reserved.
-// +----------------------------------------------------------------------
-// | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
-// +---------------------------------------------------------------------
-// | Author: Dean <zxxjjforever@163.com>
-// +----------------------------------------------------------------------
 use think\Config;
 use think\Db;
 use think\Url;
@@ -43,6 +34,20 @@ function cmf_is_user_login()
 }
 
 /**
+ * 获取当前登录前台用户id
+ * @return int
+ */
+function cmf_get_current_user_id()
+{
+    $sessionUserId = session('user.id');
+    if (empty($sessionUserId)) {
+        return 0;
+    }
+
+    return $sessionUserId;
+}
+
+/**
  * 获取当前登录的前台用户的信息，未登录时，返回false
  * @return array|boolean
  */
@@ -66,17 +71,26 @@ function cmf_update_current_user($user)
 }
 
 /**
- * 获取当前登录前台用户id
- * @return int
+ * 获取用户头像地址
+ * @param $avatar 用户头像文件路径,相对于 upload 目录
+ * @return string
  */
-function cmf_get_current_user_id()
+function cmf_get_user_avatar_url($avatar)
 {
-    $sessionUserId = session('user.id');
-    if (empty($sessionUserId)) {
-        return 0;
-    }
+    if (!empty($avatar)) {
+        if (strpos($avatar, "http") === 0) {
+            return $avatar;
+        } else {
+            if (strpos($avatar, 'avatar/') === false) {
+                $avatar = 'avatar/' . $avatar;
+            }
 
-    return $sessionUserId;
+            return cmf_get_image_url($avatar, 'avatar');
+        }
+
+    } else {
+        return $avatar;
+    }
 }
 
 /**
@@ -103,82 +117,6 @@ function cmf_get_root()
     }
 
     return $root;
-}
-
-/**
- * 获取当前主题名
- * @return string
- */
-function cmf_get_current_theme()
-{
-    static $_currentTheme;
-
-    if (!empty($_currentTheme)) {
-        return $_currentTheme;
-    }
-
-    $t     = 't';
-    $theme = config('cmf_default_theme');
-
-    $cmfDetectTheme = config('cmf_detect_theme');
-    if ($cmfDetectTheme) {
-        if (isset($_GET[$t])) {
-            $theme = $_GET[$t];
-            cookie('cmf_template', $theme, 864000);
-        } elseif (cookie('cmf_template')) {
-            $theme = cookie('cmf_template');
-        }
-    }
-
-    $hookTheme = hook_one('switch_theme');
-
-    if ($hookTheme) {
-        $theme = $hookTheme;
-    }
-
-    $_currentTheme = $theme;
-
-    return $theme;
-}
-
-/**
- * 获取前台模板根目录
- * @param string $theme
- * @return string 前台模板根目录
- */
-function cmf_get_theme_path($theme = null)
-{
-    $themePath = config('cmf_theme_path');
-    if ($theme === null) {
-        // 获取当前主题名称
-        $theme = cmf_get_current_theme();
-    }
-
-    return './' . $themePath . $theme;
-}
-
-/**
- * 获取用户头像地址
- * @param $avatar 用户头像文件路径,相对于 upload 目录
- * @return string
- */
-function cmf_get_user_avatar_url($avatar)
-{
-    if (!empty($avatar)) {
-        if (strpos($avatar, "http") === 0) {
-            return $avatar;
-        } else {
-            if (strpos($avatar, 'avatar/') === false) {
-                $avatar = 'avatar/' . $avatar;
-            }
-
-            return cmf_get_image_url($avatar, 'avatar');
-        }
-
-    } else {
-        return $avatar;
-    }
-
 }
 
 /**
@@ -226,35 +164,64 @@ function cmf_compare_password($password, $passwordInDb)
 /**
  * 文件日志
  * @param $content 要写入的内容
- * @param string $file 日志文件,在web 入口目录
+ * @param string $file 日志文件,在 web 入口目录
  */
 function cmf_log($content, $file = "log.txt")
 {
     file_put_contents($file, $content, FILE_APPEND);
 }
+/**
+ * 消息记录
+ * @param $data 要写入的数据
+ * @param string $file 消息文件,在 web 入口目录
+ * @return bool
+ */
+function cmf_put_news($data, $file = null)
+{
+    // file_put_contents($file, $content, FILE_APPEND);
+    $data['create_time'] = time();
+    if (empty($data['action'])) {
+        $request    = request();
+        $module     = $request->module();
+        $controller = $request->controller();
+        $action     = $request->action();
+        $data['action']       = strtolower($module .'/'. $controller .'/'. $action);
+    }
+    if (empty($data['app'])) {
+        $data['app'] = request()->module();
+    }
+
+    return Db::name('news')->insertGetId($data);
+    // Db::name('news')->insert($data);
+    // return Db::name('news')->getLastInsID();
+}
 
 /**
- * 随机字符串生成
- * @param int $len 生成的字符串长度
- * @return string
+ * 判断是否为手机访问
+ * @return  boolean
  */
-function cmf_random_string($len = 6)
+function cmf_is_mobile()
 {
-    $chars    = [
-        "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k",
-        "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v",
-        "w", "x", "y", "z", "A", "B", "C", "D", "E", "F", "G",
-        "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R",
-        "S", "T", "U", "V", "W", "X", "Y", "Z", "0", "1", "2",
-        "3", "4", "5", "6", "7", "8", "9"
-    ];
-    $charsLen = count($chars) - 1;
-    shuffle($chars);    // 将数组打乱
-    $output = "";
-    for ($i = 0; $i < $len; $i++) {
-        $output .= $chars[mt_rand(0, $charsLen)];
+    static $cmf_is_mobile;
+
+    if (isset($cmf_is_mobile))
+        return $cmf_is_mobile;
+
+    $cmf_is_mobile = Request::instance()->isMobile();
+
+    return $cmf_is_mobile;
+}
+
+/**
+ * 判断是否为微信访问
+ * @return boolean
+ */
+function cmf_is_wechat()
+{
+    if (strpos($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger') !== false) {
+        return true;
     }
-    return $output;
+    return false;
 }
 
 /**
@@ -296,15 +263,54 @@ function cmf_clear_cache()
 }
 
 /**
- * 保存数组变量到php文件
- * @param string $path 保存路径
- * @param mixed $var 要保存的变量
- * @return boolean 保存成功返回true,否则false
+ * 获取当前主题名
+ * @return string
  */
-function cmf_save_var($path, $var)
+function cmf_get_current_theme()
 {
-    $result = file_put_contents($path, "<?php\treturn " . var_export($var, true) . ";?>");
-    return $result;
+    static $_currentTheme;
+
+    if (!empty($_currentTheme)) {
+        return $_currentTheme;
+    }
+
+    $t     = 't';
+    $theme = config('cmf_default_theme');
+
+    $cmfDetectTheme = config('cmf_detect_theme');
+    if ($cmfDetectTheme) {
+        if (isset($_GET[$t])) {
+            $theme = $_GET[$t];
+            cookie('cmf_template', $theme, 864000);
+        } elseif (cookie('cmf_template')) {
+            $theme = cookie('cmf_template');
+        }
+    }
+
+    $hookTheme = hook_one('switch_theme');
+    if ($hookTheme) {
+        $theme = $hookTheme;
+    }
+
+    $_currentTheme = $theme;
+
+    return $theme;
+}
+
+/**
+ * 获取前台模板根目录
+ * @param string $theme
+ * @return string 前台模板根目录
+ */
+function cmf_get_theme_path($theme = null)
+{
+    $themePath = config('cmf_theme_path');
+    if ($theme === null) {
+        // 获取当前主题名称
+        $theme = cmf_get_current_theme();
+    }
+
+    return './' . $themePath . $theme;
 }
 
 /**
@@ -314,7 +320,6 @@ function cmf_save_var($path, $var)
  */
 function cmf_set_dynamic_config($data)
 {
-
     if (!is_array($data)) {
         return false;
     }
@@ -325,11 +330,26 @@ function cmf_set_dynamic_config($data)
     } else {
         $configs = [];
     }
-
     $configs = array_merge($configs, $data);
-    $result  = file_put_contents($configFile, "<?php\treturn " . var_export($configs, true) . ";");
+
+    $configs = var_export($configs, true);
+    // $configs = str_replace(['array (','),',');'], ['[','],','];'], $configs);
+    $configs = str_replace(['array (',')'], ['[',']'], $configs);
+    $result  = file_put_contents($configFile, "<?php\t\r\nreturn ". $configs .';');
 
     cmf_clear_cache();
+    return $result;
+}
+
+/**
+ * 保存数组变量到php文件
+ * @param string $path 保存路径
+ * @param mixed $var 要保存的变量
+ * @return boolean 保存成功返回true,否则false
+ */
+function cmf_save_var($path, $var)
+{
+    $result = file_put_contents($path, "<?php\treturn " . var_export($var, true) . ";?>");
     return $result;
 }
 
@@ -355,44 +375,6 @@ function cmf_param_lable($tag = '')
         }
     }
     return $param;
-}
-
-/**
- * 获取后台管理设置的网站信息，此类信息一般用于前台
- * @return array
- */
-function cmf_get_site_info()
-{
-    $siteInfo = cmf_get_option('site_info');
-
-    if (isset($siteInfo['site_analytics'])) {
-        $siteInfo['site_analytics'] = htmlspecialchars_decode($siteInfo['site_analytics']);
-    }
-
-    return $siteInfo;
-}
-
-/**
- * 获取CMF系统的设置，此类设置用于全局
- * @return array
- */
-function cmf_get_cmf_setting()
-{
-    return cmf_get_option('cmf_setting');
-}
-
-/**
- * 更新CMF系统的设置，此类设置用于全局
- * @param array $data
- * @return boolean
- */
-function cmf_set_cmf_setting($data)
-{
-    if (!is_array($data) || empty($data)) {
-        return false;
-    }
-
-    return cmf_set_option('cmf_setting', $data);
 }
 
 /**
@@ -470,7 +452,50 @@ function cmf_get_option($key)
 }
 
 /**
+ * 更新CMF系统的设置，此类设置用于全局
+ * @param array $data
+ * @return boolean
+ */
+function cmf_set_cmf_setting($data)
+{
+    if (!is_array($data) || empty($data)) {
+        return false;
+    }
+    return cmf_set_option('cmf_setting', $data);
+}
+
+/**
+ * 获取后台管理设置的网站信息，此类信息一般用于前台
+ * @return array
+ */
+function cmf_get_site_info()
+{
+    $siteInfo = cmf_get_option('site_info');
+
+    if (isset($siteInfo['site_analytics'])) {
+        $siteInfo['site_analytics'] = htmlspecialchars_decode($siteInfo['site_analytics']);
+    }
+    if (!empty($siteInfo['site_logo'])) {
+        $siteInfo['site_logo_preview'] = cmf_get_image_preview_url($siteInfo['site_logo']);
+    } else {
+        $siteInfo['site_logo_preview'] = '';
+    }
+
+    return $siteInfo;
+}
+
+/**
+ * 获取CMF系统的设置，此类设置用于全局
+ * @return array
+ */
+function cmf_get_cmf_setting()
+{
+    return cmf_get_option('cmf_setting');
+}
+
+/**
  * 获取CMF上传配置
+ * 怎么没有路径设置？
  */
 function cmf_get_upload_setting()
 {
@@ -518,38 +543,6 @@ function cmf_get_upload_setting()
     }
 
     return $uploadSetting;
-}
-
-/**
- * 获取html文本里的img
- * @param string $content html 内容
- * @return array 图片列表 数组item格式<pre>
- * [
- *  "src"=>'图片链接',
- *  "title"=>'图片标签的 title 属性',
- *  "alt"=>'图片标签的 alt 属性'
- * ]
- * </pre>
- */
-function cmf_get_content_images($content)
-{
-    import('phpQuery.phpQuery', EXTEND_PATH);
-    \phpQuery::newDocumentHTML($content);
-    $pq         = pq(null);
-    $images     = $pq->find("img");
-    $imagesData = [];
-    if ($images->length) {
-        foreach ($images as $img) {
-            $img            = pq($img);
-            $image          = [];
-            $image['src']   = $img->attr("src");
-            $image['title'] = $img->attr("title");
-            $image['alt']   = $img->attr("alt");
-            array_push($imagesData, $image);
-        }
-    }
-    \phpQuery::$documents = null;
-    return $imagesData;
 }
 
 /**
@@ -694,6 +687,38 @@ function cmf_get_file_download_url($file, $expires = 3600)
 }
 
 /**
+ * 获取html文本里的img
+ * @param string $content html 内容
+ * @return array 图片列表 数组item格式<pre>
+ * [
+ *  "src"=>'图片链接',
+ *  "title"=>'图片标签的 title 属性',
+ *  "alt"=>'图片标签的 alt 属性'
+ * ]
+ * </pre>
+ */
+function cmf_get_content_images($content)
+{
+    import('phpQuery.phpQuery', EXTEND_PATH);
+    \phpQuery::newDocumentHTML($content);
+    $pq         = pq(null);
+    $images     = $pq->find("img");
+    $imagesData = [];
+    if ($images->length) {
+        foreach ($images as $img) {
+            $img            = pq($img);
+            $image          = [];
+            $image['src']   = $img->attr("src");
+            $image['title'] = $img->attr("title");
+            $image['alt']   = $img->attr("alt");
+            array_push($imagesData, $image);
+        }
+    }
+    \phpQuery::$documents = null;
+    return $imagesData;
+}
+
+/**
  * 解密用cmf_str_encode加密的字符串
  * @param $string 要解密的字符串
  * @param string $key 加密时salt
@@ -749,7 +774,6 @@ function cmf_str_decode($string, $key = '', $expiry = 0, $operation = 'DECODE')
     } else {
         return $keyc . str_replace('=', '', base64_encode($result));
     }
-
 }
 
 /**
@@ -762,100 +786,6 @@ function cmf_str_decode($string, $key = '', $expiry = 0, $operation = 'DECODE')
 function cmf_str_encode($string, $key = '', $expiry = 0)
 {
     return cmf_str_decode($string, $key, $expiry, "ENCODE");
-}
-
-/**
- * 获取文件相对路径
- * @param string $assetUrl 文件的URL
- * @return string
- */
-function cmf_asset_relative_url($assetUrl)
-{
-    if (strpos($assetUrl, "http") === 0) {
-        return $assetUrl;
-    } else {
-        return str_replace('/upload/', '', $assetUrl);
-    }
-}
-
-/**
- * 检查用户对某个url内容的可访问性，用于记录如是否赞过，是否访问过等等;开发者可以自由控制，对于没有必要做的检查可以不做，以减少服务器压力
- * @param string $object 访问对象的id,格式：不带前缀的表名+id;如post1表示xx_post表里id为1的记录;如果object为空，表示只检查对某个url访问的合法性
- * @param int $countLimit 访问次数限制,如1，表示只能访问一次
- * @param boolean $ipLimit ip限制,false为不限制，true为限制
- * @param int $expire 距离上次访问的最小时间单位s，0表示不限制，大于0表示最后访问$expire秒后才可以访问
- * @return true 可访问，false不可访问
- */
-function cmf_check_user_action($object = "", $countLimit = 1, $ipLimit = false, $expire = 0)
-{
-    $request = request();
-    $action  = $request->module() . "/" . $request->controller() . "/" . $request->action();
-    $userId  = cmf_get_current_user_id();
-
-    $ip = get_client_ip(0, true);//修复ip获取
-
-    $where = ["user_id" => $userId, "action" => $action, "object" => $object];
-
-    if ($ipLimit) {
-        $where['ip'] = $ip;
-    }
-
-    $findLog = Db::name('user_action_log')->where($where)->find();
-
-    $time = time();
-    if ($findLog) {
-        Db::name('user_action_log')->where($where)->update([
-            "count"           => ["exp", "count+1"],
-            "last_visit_time" => $time,
-            "ip"              => $ip
-        ]);
-
-        if ($findLog['count'] >= $countLimit) {
-            return false;
-        }
-
-        if ($expire > 0 && ($time - $findLog['last_visit_time']) < $expire) {
-            return false;
-        }
-    } else {
-        Db::name('user_action_log')->insert([
-            "user_id"         => $userId,
-            "action"          => $action,
-            "object"          => $object,
-            "count"           => ["exp", "count+1"],
-            "last_visit_time" => $time, "ip" => $ip
-        ]);
-    }
-
-    return true;
-}
-
-/**
- * 判断是否为手机访问
- * @return  boolean
- */
-function cmf_is_mobile()
-{
-    static $cmf_is_mobile;
-
-    if (isset($cmf_is_mobile))
-        return $cmf_is_mobile;
-
-    $cmf_is_mobile = Request::instance()->isMobile();
-
-    return $cmf_is_mobile;
-}
-
-/**
- * 判断是否为微信访问
- * @return boolean
- */
-function cmf_is_wechat()
-{
-    if (strpos($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger') !== false) {
-        return true;
-    }
-    return false;
 }
 
 /**
@@ -913,6 +843,38 @@ function cmf_get_plugin_config($name)
 }
 
 /**
+ * 生成访问插件的url
+ * @param string $url url格式：插件名://控制器名/方法
+ * @param array $param 参数
+ * @param bool $domain 是否显示域名 或者直接传入域名
+ * @return string
+ */
+function cmf_plugin_url($url, $param = [], $domain = false)
+{
+    $url              = parse_url($url);
+    $case_insensitive = true;
+    $plugin           = $case_insensitive ? Loader::parseName($url['scheme']) : $url['scheme'];
+    $controller       = $case_insensitive ? Loader::parseName($url['host']) : $url['host'];
+    $action           = trim($case_insensitive ? strtolower($url['path']) : $url['path'], '/');
+
+    /* 解析URL带的参数 */
+    if (isset($url['query'])) {
+        parse_str($url['query'], $query);
+        $param = array_merge($query, $param);
+    }
+
+    /* 基础参数 */
+    $params = [
+        '_plugin'     => $plugin,
+        '_controller' => $controller,
+        '_action'     => $action,
+    ];
+    $params = array_merge($params, $param); //添加额外参数
+
+    return url('\\cmf\\controller\\PluginController@index', $params, true, $domain);
+}
+
+/**
  * 替代scan_dir的方法
  * @param string $pattern 检索模式 搜索模式 *.txt,*.doc; (同glog方法)
  * @param int $flags
@@ -956,35 +918,45 @@ function cmf_sub_dirs($dir)
 }
 
 /**
- * 生成访问插件的url
- * @param string $url url格式：插件名://控制器名/方法
- * @param array $param 参数
- * @param bool $domain 是否显示域名 或者直接传入域名
+ * 区分大小写的文件存在判断
+ * @param string $filename 文件地址
+ * @return boolean
+ */
+function file_exists_case($filename)
+{
+    if (is_file($filename)) {
+        if (IS_WIN && APP_DEBUG) {
+            if (basename(realpath($filename)) != basename($filename))
+                return false;
+        }
+        return true;
+    }
+    return false;
+}
+
+/**
+ * 获取文件相对路径
+ * @param string $assetUrl 文件的URL
  * @return string
  */
-function cmf_plugin_url($url, $param = [], $domain = false)
+function cmf_asset_relative_url($assetUrl)
 {
-    $url              = parse_url($url);
-    $case_insensitive = true;
-    $plugin           = $case_insensitive ? Loader::parseName($url['scheme']) : $url['scheme'];
-    $controller       = $case_insensitive ? Loader::parseName($url['host']) : $url['host'];
-    $action           = trim($case_insensitive ? strtolower($url['path']) : $url['path'], '/');
-
-    /* 解析URL带的参数 */
-    if (isset($url['query'])) {
-        parse_str($url['query'], $query);
-        $param = array_merge($query, $param);
+    if (strpos($assetUrl, "http") === 0) {
+        return $assetUrl;
+    } else {
+        return str_replace('/upload/', '', $assetUrl);
     }
+}
 
-    /* 基础参数 */
-    $params = [
-        '_plugin'     => $plugin,
-        '_controller' => $controller,
-        '_action'     => $action,
-    ];
-    $params = array_merge($params, $param); //添加额外参数
-
-    return url('\\cmf\\controller\\PluginController@index', $params, true, $domain);
+/**
+ * 获取文件扩展名
+ * @param string $filename 文件名
+ * @return string 文件扩展名
+ */
+function cmf_get_file_extension($filename)
+{
+    $pathinfo = pathinfo($filename);
+    return strtolower($pathinfo['extension']);
 }
 
 /**
@@ -1015,6 +987,118 @@ function cmf_auth_check($userId, $name = null, $relation = 'or')
     return $authObj->check($userId, $name, $relation);
 }
 
+/**
+ * 检查用户对某个url内容的可访问性，用于记录如是否赞过，是否访问过等等;开发者可以自由控制，对于没有必要做的检查可以不做，以减少服务器压力
+ * @param string $object 访问对象的id,格式：不带前缀的表名+id;如post1表示xx_post表里id为1的记录;如果object为空，表示只检查对某个url访问的合法性
+ * @param int $countLimit 访问次数限制,如1，表示只能访问一次
+ * @param boolean $ipLimit ip限制,false为不限制，true为限制
+ * @param int $expire 距离上次访问的最小时间单位s，0表示不限制，大于0表示最后访问$expire秒后才可以访问
+ * @return true 可访问，false不可访问
+ */
+function cmf_check_user_action($object = "", $countLimit = 1, $ipLimit = false, $expire = 0)
+{
+    $request = request();
+    $action  = $request->module() . "/" . $request->controller() . "/" . $request->action();
+    $userId  = cmf_get_current_user_id();
+
+    $ip = get_client_ip(0, true);//修复ip获取
+
+    $where = ["user_id" => $userId, "action" => $action, "object" => $object];
+
+    if ($ipLimit) {
+        $where['ip'] = $ip;
+    }
+
+    $findLog = Db::name('user_action_log')->where($where)->find();
+
+    $time = time();
+    if ($findLog) {
+        Db::name('user_action_log')->where($where)->update([
+            "count"           => ["exp", "count+1"],
+            "last_visit_time" => $time,
+            "ip"              => $ip
+        ]);
+
+        if ($findLog['count'] >= $countLimit) {
+            return false;
+        }
+
+        if ($expire > 0 && ($time - $findLog['last_visit_time']) < $expire) {
+            return false;
+        }
+    } else {
+        Db::name('user_action_log')->insert([
+            "user_id"         => $userId,
+            "action"          => $action,
+            "object"          => $object,
+            "count"           => ["exp", "count+1"],
+            "last_visit_time" => $time, "ip" => $ip
+        ]);
+    }
+
+    return true;
+}
+
+/**
+ * 切分SQL文件成多个可以单独执行的sql语句
+ * @param $file sql文件路径
+ * @param $tablePre 表前缀
+ * @param string $charset 字符集
+ * @param string $defaultTablePre 默认表前缀
+ * @param string $defaultCharset 默认字符集
+ * @return array
+ */
+function cmf_split_sql($file, $tablePre, $charset = 'utf8mb4', $defaultTablePre = 'cmf_', $defaultCharset = 'utf8mb4')
+{
+    if (file_exists($file)) {
+        //读取SQL文件
+        $sql = file_get_contents($file);
+        $sql = str_replace("\r", "\n", $sql);
+        $sql = str_replace("BEGIN;\n", '', $sql);//兼容 navicat 导出的 insert 语句
+        $sql = str_replace("COMMIT;\n", '', $sql);//兼容 navicat 导出的 insert 语句
+        $sql = str_replace($defaultCharset, $charset, $sql);
+        $sql = trim($sql);
+        //替换表前缀
+        $sql  = str_replace(" `{$defaultTablePre}", " `{$tablePre}", $sql);
+        $sqls = explode(";\n", $sql);
+        return $sqls;
+    }
+
+    return [];
+}
+
+/**
+ * 随机字符串生成
+ * @param int $len 生成的字符串长度
+ * @return string
+ */
+function cmf_random_string($len = 6)
+{
+    $chars    = [
+        "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k",
+        "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v",
+        "w", "x", "y", "z", "A", "B", "C", "D", "E", "F", "G",
+        "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R",
+        "S", "T", "U", "V", "W", "X", "Y", "Z", "0", "1", "2",
+        "3", "4", "5", "6", "7", "8", "9"
+    ];
+    $charsLen = count($chars) - 1;
+    shuffle($chars);    // 将数组打乱
+    $output = "";
+    for ($i = 0; $i < $len; $i++) {
+        $output .= $chars[mt_rand(0, $charsLen)];
+    }
+    return $output;
+}
+
+/**
+ * 
+ * @param string $in
+ * @param boolean $to_num
+ * @param int $pad_up
+ * @param null $passKey
+ * @return string
+ */
 function cmf_alpha_id($in, $to_num = false, $pad_up = 4, $passKey = null)
 {
     $index = "aBcDeFgHiJkLmNoPqRsTuVwXyZAbCdEfGhIjKlMnOpQrStUvWxYz0123456789";
@@ -1075,43 +1159,14 @@ function cmf_alpha_id($in, $to_num = false, $pad_up = 4, $passKey = null)
 }
 
 /**
- * 验证码检查，验证完后销毁验证码
- * @param string $value
- * @param string $id
- * @return bool
+ * 获取客户端IP地址
+ * @param integer $type 返回类型 0 返回IP地址 1 返回IPV4地址数字
+ * @param boolean $adv 是否进行高级模式获取（有可能被伪装）
+ * @return string
  */
-function cmf_captcha_check($value, $id = "")
+function get_client_ip($type = 0, $adv = false)
 {
-    $captcha = new \think\captcha\Captcha();
-    return $captcha->check($value, $id);
-}
-
-/**
- * 切分SQL文件成多个可以单独执行的sql语句
- * @param $file sql文件路径
- * @param $tablePre 表前缀
- * @param string $charset 字符集
- * @param string $defaultTablePre 默认表前缀
- * @param string $defaultCharset 默认字符集
- * @return array
- */
-function cmf_split_sql($file, $tablePre, $charset = 'utf8mb4', $defaultTablePre = 'cmf_', $defaultCharset = 'utf8mb4')
-{
-    if (file_exists($file)) {
-        //读取SQL文件
-        $sql = file_get_contents($file);
-        $sql = str_replace("\r", "\n", $sql);
-        $sql = str_replace("BEGIN;\n", '', $sql);//兼容 navicat 导出的 insert 语句
-        $sql = str_replace("COMMIT;\n", '', $sql);//兼容 navicat 导出的 insert 语句
-        $sql = str_replace($defaultCharset, $charset, $sql);
-        $sql = trim($sql);
-        //替换表前缀
-        $sql  = str_replace(" `{$defaultTablePre}", " `{$tablePre}", $sql);
-        $sqls = explode(";\n", $sql);
-        return $sqls;
-    }
-
-    return [];
+    return request()->ip($type, $adv);
 }
 
 /**
@@ -1133,14 +1188,15 @@ function cmf_get_order_sn()
 }
 
 /**
- * 获取文件扩展名
- * @param string $filename 文件名
- * @return string 文件扩展名
+ * 验证码检查，验证完后销毁验证码
+ * @param string $value
+ * @param string $id
+ * @return bool
  */
-function cmf_get_file_extension($filename)
+function cmf_captcha_check($value, $id = "")
 {
-    $pathinfo = pathinfo($filename);
-    return strtolower($pathinfo['extension']);
+    $captcha = new \think\captcha\Captcha();
+    return $captcha->check($value, $id);
 }
 
 /**
@@ -1275,23 +1331,6 @@ function cmf_clear_verification_code($account)
 }
 
 /**
- * 区分大小写的文件存在判断
- * @param string $filename 文件地址
- * @return boolean
- */
-function file_exists_case($filename)
-{
-    if (is_file($filename)) {
-        if (IS_WIN && APP_DEBUG) {
-            if (basename(realpath($filename)) != basename($filename))
-                return false;
-        }
-        return true;
-    }
-    return false;
-}
-
-/**
  * 生成用户 token
  * @param $userId
  * @param $deviceType
@@ -1352,20 +1391,6 @@ function cmf_is_serialized($str)
 }
 
 /**
- * 判断是否SSL协议
- * @return boolean
- */
-function cmf_is_ssl()
-{
-    if (isset($_SERVER['HTTPS']) && ('1' == $_SERVER['HTTPS'] || 'on' == strtolower($_SERVER['HTTPS']))) {
-        return true;
-    } elseif (isset($_SERVER['SERVER_PORT']) && ('443' == $_SERVER['SERVER_PORT'])) {
-        return true;
-    }
-    return false;
-}
-
-/**
  * 获取CMF系统的设置，此类设置用于全局
  * @param string $key 设置key，为空时返回所有配置信息
  * @return mixed
@@ -1396,6 +1421,20 @@ function cmf_get_cmf_settings($key = "")
 }
 
 /**
+ * 判断是否SSL协议
+ * @return boolean
+ */
+function cmf_is_ssl()
+{
+    if (isset($_SERVER['HTTPS']) && ('1' == $_SERVER['HTTPS'] || 'on' == strtolower($_SERVER['HTTPS']))) {
+        return true;
+    } elseif (isset($_SERVER['SERVER_PORT']) && ('443' == $_SERVER['SERVER_PORT'])) {
+        return true;
+    }
+    return false;
+}
+
+/**
  * 判读是否sae环境
  * @return bool
  */
@@ -1406,17 +1445,6 @@ function cmf_is_sae()
     } else {
         return false;
     }
-}
-
-/**
- * 获取客户端IP地址
- * @param integer $type 返回类型 0 返回IP地址 1 返回IPV4地址数字
- * @param boolean $adv 是否进行高级模式获取（有可能被伪装）
- * @return string
- */
-function get_client_ip($type = 0, $adv = false)
-{
-    return request()->ip($type, $adv);
 }
 
 /**
@@ -1588,12 +1616,9 @@ function cmf_replace_content_file_url($content, $isForDbSave = false)
     }
 
     $content = $pq->html();
-
     \phpQuery::$documents = null;
 
-
     return $content;
-
 }
 
 /**
@@ -1604,30 +1629,6 @@ function cmf_get_admin_style()
 {
     $adminSettings = cmf_get_option('admin_settings');
     return empty($adminSettings['admin_style']) ? 'flatadmin' : $adminSettings['admin_style'];
-}
-
-/**
- * curl get 请求
- * @param $url
- * @return mixed
- */
-function cmf_curl_get($url)
-{
-    $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, $url);
-    curl_setopt($ch, CURLOPT_FAILONERROR, true);
-    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-    curl_setopt($ch, CURLOPT_AUTOREFERER, true);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_TIMEOUT, 5);
-    $SSL = substr($url, 0, 8) == "https://" ? true : false;
-    if ($SSL) {
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // 信任任何证书
-        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2); // 检查证书中是否设置域名
-    }
-    $content = curl_exec($ch);
-    curl_close($ch);
-    return $content;
 }
 
 /**
@@ -1709,10 +1710,31 @@ function cmf_user_action($action)
         }
 
         Db::name('user')->where('id', $userId)->update($data);
-
     }
+}
 
-
+/**
+ * curl get 请求
+ * @param $url
+ * @return mixed
+ */
+function cmf_curl_get($url)
+{
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_FAILONERROR, true);
+    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+    curl_setopt($ch, CURLOPT_AUTOREFERER, true);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_TIMEOUT, 5);
+    $SSL = substr($url, 0, 8) == "https://" ? true : false;
+    if ($SSL) {
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // 信任任何证书
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2); // 检查证书中是否设置域名
+    }
+    $content = curl_exec($ch);
+    curl_close($ch);
+    return $content;
 }
 
 function cmf_api_request($url, $params = [])
@@ -1747,7 +1769,6 @@ function cmf_api_request($url, $params = [])
  */
 function cmf_is_open_registration()
 {
-
     $cmfSettings = cmf_get_option('cmf_settings');
 
     return empty($cmfSettings['open_registration']) ? false : true;

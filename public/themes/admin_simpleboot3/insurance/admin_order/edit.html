@@ -161,9 +161,7 @@
                         <td>
                             <div class="checkbox">
                                 <select class="form-control" name="post[status]" style="width:140px;">
-                                    <foreach name="order_status" item="vo" key="k">
-                                        <option value="{$k}" {$post.status==$k?='selected'}>{$vo}</option>
-                                    </foreach>
+                                    {$order_status}
                                 </select>
                             </div>
                         </td>

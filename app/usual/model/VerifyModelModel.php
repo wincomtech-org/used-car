@@ -19,7 +19,7 @@ class VerifyModelModel extends UsualModel
     public function getLists($filter, $isPage = false)
     {
         // $categories = $this->field('id,name,list_order')->order("list_order ASC")->where($where)->select()->toArray();
-        $categories = $this->order("list_order ASC,id DESC")->paginate(config('pagerset.pagesize'));
+        $categories = $this->order("list_order ASC,id DESC")->paginate(config('pagerset.size'));
         return $categories;
     }
 

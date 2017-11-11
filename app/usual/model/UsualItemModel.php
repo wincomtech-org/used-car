@@ -1,29 +1,175 @@
 <?php
 namespace app\usual\model;
 
-use app\usual\model\UsualCategoryModel;
+use app\usual\model\UsualModel;
+use app\usual\model\UsualItemCateModel;
+use tree\Tree;
 
-class UsualItemModel extends UsualCategoryModel
+class UsualItemModel extends UsualModel
 {
-    //自定义初始化
-    // protected function initialize()
+    protected $filter_var = 'car_seating,car_color,car_effluent,car_fuel,car_displacement,car_gearbox';
+
+    // function _initialize()
     // {
-    //     //需要调用`Model`的`initialize`方法
-    //     // parent::initialize();
-    //     //TODO:自定义的初始化
+    //     parent::_initialize();
     // }
 
-    public function getItems($selectId=0, $parentId=0, $level=1, $default_option=false)
+    public function getLists($filter)
     {
-        $pid = $parentId;
-        // $data = $this->all()->toArray();
-        $data = $this->field(['id','name'])->where(['parent_id'=>$pid])->select()->toArray();
-        $options = $default_option ?'<option value="0">--请选择--</option>':'';
-        if (is_array($data)) {
-            foreach ($data as $v) {
-                $options .= '<option value="'.$v['id'].'" '.($selectId==$v['id']?'selected':'').' >'.$v['name'].'</option>';
+        $field = 'a.*,b.name AS bname';
+        $where = [
+            'a.delete_time' => 0
+        ];
+        $join = [
+            ['__USUAL_ITEM_CATE__ b','a.cate_id=b.id','LEFT'],
+        ];
+
+        $cateId = empty($filter['cateId']) ? 0 : intval($filter['cateId']);
+        if (!empty($cateId)) {
+            $where['a.cate_id'] = ['eq', $cateId];
+        }
+
+        $startTime = empty($filter['start_time']) ? 0 : strtotime($filter['start_time']);
+        $endTime   = empty($filter['end_time']) ? 0 : strtotime($filter['end_time']);
+        if (!empty($startTime) && !empty($endTime)) {
+            $where['a.update_time'] = [['>= time', $startTime], ['<= time', $endTime]];
+        } else {
+            if (!empty($startTime)) {
+                $where['a.update_time'] = ['>= time', $startTime];
+            }
+            if (!empty($endTime)) {
+                $where['a.update_time'] = ['<= time', $endTime];
             }
         }
-        return $options;
+
+        $keyword = empty($filter['keyword']) ? '' : $filter['keyword'];
+        if (!empty($keyword)) {
+            $where['a.name'] = ['like', "%$keyword%"];
+        }
+
+        $series = $this->alias('a')->field($field)
+            ->join($join)
+            ->where($where)
+            ->order('is_top DESC,id DESC')
+            ->paginate(config('pagerset.size'));
+
+        return $series;
     }
+
+    // 合并项  筛选属性和拓展属性同时修改，以筛选属性为主，否则哪个被修改就用哪个。
+    public function ItemMulti($post=[], $more=[])
+    {
+        $filters = explode(',',$this->filter_var);
+        $newArr = [];
+        if (!empty($post['id'])) {
+            $data = model('UsualCar')->field($this->filter_var)->where('id',$post['id'])->find();
+        }
+        foreach ($filters as $xx) {
+            if (!empty($post[$xx]) && empty($more[$xx])) {
+                $newArr['more'][$xx] = $post[$xx];
+            } elseif (!empty($more[$xx]) && empty($post[$xx])) {
+                $newArr[$xx] = $more[$xx];
+            } elseif (!empty($more[$xx]) && !empty($post[$xx])) {
+                if (!empty($post['id'])) {
+                    if ($data->$xx==$post[$xx] && $data->$xx!=$more[$xx]) {
+                        $newArr[$xx] = $more[$xx];
+                    } else {
+                        $newArr['more'][$xx] = $post[$xx];
+                    }
+                } else {
+                    $newArr['more'][$xx] = $post[$xx];
+                }
+            }
+        }
+        return $newArr;
+    }
+
+    // 用于前台车辆条件筛选且与属性表name同值的字段码
+    public function getItemSearch($filter='')
+    {
+        $filter = $this->filter_var?$this->filter_var:$filter;
+        // $filter = str_replace(',','|',$filter);
+        $filter = '\''.str_replace(',','\',\'',$filter).'\'';
+        // $filter = explode('|',$filter);
+
+        // 'code'=>[$filter,'OR']
+        return $this->ItemBaseData(['code'=>['exp','in('.$filter.')']]);
+    }
+
+    // 获取属性表数据及关联属性值表的属性值
+    public function getItemTable($key='', $var='', $recursive=false)
+    {
+        $filter = [];
+        if (!empty($key)) {
+            $filter[$key] = $var;
+        }
+        return $this->ItemBaseData($filter, $recursive);
+    }
+
+    public function ItemBaseData($filter=[], $recursive=false)
+    {
+        $where = [
+            'delete_time'=>0,
+            'status'=>1,
+        ];
+        if (!empty($filter)) {
+            $where = array_merge($where,$filter);
+        }
+        $itemCateModel = new UsualItemCateModel();
+        $itemCate = $itemCateModel->field('id,parent_id,name,unit,code,code_type,description')
+                ->where($where)
+                ->order('list_order')
+                ->select()->toArray();
+        // 以下整个都可以改成用 Tree 类解决
+        if (is_array($itemCate)) {
+            foreach ($itemCate as $key=>$cate) {
+                if ($recursive===true) {
+                    $itemCateTree = [];
+                    if (!empty($itemCate)) {
+                        $tree = new Tree();
+                        // model('admin/NavMenu')->parseNavMenu4Home($itemCate);
+                        $tree->init($itemCate);
+                        $itemCateTree = $tree->getTreeArray(0);
+                    }
+                    return $itemCateTree;
+                } else {
+                    $item = $this->getItems(0,$cate['id'],false);
+                    $itemCate[$key]['form_element'] = $item;
+                }
+            }
+        } else {
+            return [];
+        }
+        return $itemCate;
+    }
+
+    /*
+     * 获取 属性
+     * ."\r\n"
+    */
+    public function getItems($selectId=0, $cateId=0, $option='default')
+    {
+        // $data = $this->alias('a')
+        //         ->field('a.id,a.name')
+        //         ->join(['__USUAL_ITEM_CATE__ b','a.cate_id=b.id','LEFT'])
+        //         ->where(['status'=>1])
+        //         ->order('is_top desc,list_order')
+        //         ->select()->toArray();
+        $where = ['cate_id'=>$cateId];
+        $data = $this->field('name,description')->where($where)->select()->toArray();
+
+        if ($option===false) {
+            return $data;
+        } else {
+            $options = ($option=='default') ? '<option value="">--请选择--</option>':'';
+            if (is_array($data)) {
+                foreach ($data as $v) {
+                    $options .= '<option value="'.$v['id'].'" '.($selectId==$v['id']?'selected':'').' >'.$v['name'].'</option>';
+                }
+            }
+            return $options;
+        }
+    }
+
+
 }

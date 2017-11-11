@@ -19,9 +19,14 @@ class AdminCategoryController extends AdminBaseController
         $param = $this->request->param();//接收筛选条件
         $categories = model('ServiceCategory')->getLists($param);
 
+        $cateType = isset($param['cateType']) ? $param['cateType'] : '';
+        $keyword = isset($param['keyword']) ? $param['keyword'] : '';
+
         $categories->appends($param);//添加URL参数
         $this->assign('categories', $categories->items());// 获取查询数据并赋到模板
         $this->assign('page', $categories->render());// 获取分页代码并赋到模板
+        $this->assign('cateType',$cateType);
+        $this->assign('keyword',$keyword);
 
         return $this->fetch();
     }
@@ -70,6 +75,7 @@ class AdminCategoryController extends AdminBaseController
             $this->error($result);
         }
 
+        $data['define_data'] = empty($data['define_data'])?[]:$data['define_data'];
         $result = model('ServiceCategory')->editCategory($cate,$data['define_data']);
         if ($result === false) {
             $this->error('保存失败!');

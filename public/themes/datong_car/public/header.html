@@ -1,0 +1,79 @@
+<header  class="headerPc">
+    <div class="header_top">
+        <div class="main ">
+            <p class="top_article lf">你好！欢迎您进入{$site_info.site_name}官网！</p>
+            <div class="top_person rt">
+                <ul id="main-head-user">
+                    <!-- 登陆后 -->
+                    <li class="logining">
+                        <php>$user=cmf_get_current_user();</php>
+                        <a href="{:cmf_url('user/Profile/center')}">
+                            <!-- <if condition="empty($user['avatar'])">
+                                <img src="__TMPL__/public/assets/images/headicon.png" class="headicon">
+                                <else/>
+                                <img src="{:cmf_get_user_avatar_url($user['avatar'])}" class="headicon" width="30"/>
+                            </if> -->
+                            <span class="user-nickname"></span>
+                            <!-- <a class="dropdown-toggle notifactions" href="{:cmf_url('user/Notification/index')}"><i class="fa fa-envelope"></i> <span class="count">0</span></a> -->
+                        </a>
+                        <a href="{:cmf_url('user/Profile/center')}" class="">个人中心</a>
+                        <a href="{:cmf_url('user/Index/logout')}" class="">退出</a>
+                    </li>
+                    <!-- 登录/注册 -->
+                    <li class="offline">
+                        <a href="{:cmf_url('user/Login/index')}" class="login">登录</a>
+                        <a href="{:cmf_url('user/Register/index')}" class="register">注册</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="clear"></div>
+        </div>
+    </div>
+    <div class="header_search">
+        <div class=" main">
+            <div class="logo lf">
+                <h1><a href="__ROOT__/"><img src="{$site_info.site_logo_preview}" alt="{$site_info.site_name}" title="{$site_info.site_name}"></a></h1>
+            </div>
+            <div class="search">
+                <form action="{:cmf_url('portal/Search/index')}" method="post">
+                <label>
+                    <input class="ser_input" type="text" name="keyword" value="{:input('param.keyword','')}" placeholder="请输入感兴趣的品牌、车系">
+                    <input class="ser_button" type="submit" value="立刻搜索">
+                </label>
+                </form>
+            </div>
+            <div class="iphone rt">
+                <div class="left">
+                    <img src="__TMPL__/public/assets/images/example/icon_phone.png" alt="">
+                </div>
+                <div class="right">
+                    <p class="i1"><span class="red">24</span>小时服务热线</p>
+                    <p class="i2">{$site_info.site_tel}</p>
+                </div>
+            </div>
+            <div class="clear"></div>
+        </div>
+    </div>
+</header><!-- /header -->
+
+<!-- 手机头 本来在nav下面 -->
+<header class="headerM">
+    <div class="main">
+        <div class="header_top">
+            <div class="logo "><h1><a href="__ROOT__/"><img src="{$site_info.site_logo_preview}" alt="{$site_info.site_name}" title="{$site_info.site_name}"></a></h1></div>
+            <div class="menu"><span class="icon"></span></div>
+        </div>
+        <div class="header_search">
+            <div class="search">
+                <label>
+                    <input type="text" name="ser_input" class="ser_input" value="请输入感兴趣的品牌，车系">
+                    <input type="submit" name="ser_button" class="ser_button" value="立刻搜索">
+                </label>
+            </div>
+            <div class="user_m">
+                <a href="{:cmf_url('user/Profile/center')}" class="icon"></a>
+            </div>
+        </div>
+    </div>
+</header><!-- /header -->
+

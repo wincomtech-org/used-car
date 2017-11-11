@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50540
 File Encoding         : 65001
 
-Date: 2017-11-03 17:50:29
+Date: 2017-11-08 18:11:29
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -206,9 +206,9 @@ INSERT INTO `cmf_admin_menu` VALUES ('162', '0', '1', '1', '40', 'insurance', 'A
 INSERT INTO `cmf_admin_menu` VALUES ('163', '0', '1', '1', '50', 'trade', 'AdminIndex', 'default', '', '车辆买卖', 'car', '');
 INSERT INTO `cmf_admin_menu` VALUES ('164', '0', '1', '1', '60', 'service', 'AdminIndex', 'default', '', '车辆业务', 'cubes', '');
 INSERT INTO `cmf_admin_menu` VALUES ('165', '0', '1', '1', '70', 'usual', 'AdminIndex', 'default', '', '车辆统配', 'cogs', '');
-INSERT INTO `cmf_admin_menu` VALUES ('166', '165', '1', '1', '5', 'usual', 'AdminItem', 'index', '', '车辆属性', '', '');
+INSERT INTO `cmf_admin_menu` VALUES ('166', '165', '1', '1', '5', 'usual', 'AdminItemCate', 'index', '', '车辆属性', '', '');
 INSERT INTO `cmf_admin_menu` VALUES ('167', '165', '1', '1', '2', 'usual', 'AdminBrand', 'index', '', '品牌管理', '', '');
-INSERT INTO `cmf_admin_menu` VALUES ('168', '165', '1', '1', '15', 'usual', 'AdminAuth', 'index', '', '认证管理', '', '');
+INSERT INTO `cmf_admin_menu` VALUES ('168', '165', '1', '1', '15', 'usual', 'AdminVerify', 'index', '', '认证管理', '', '');
 INSERT INTO `cmf_admin_menu` VALUES ('169', '165', '1', '1', '10', 'usual', 'AdminCompany', 'index', 'id=1', '公司企业管理', '', '');
 INSERT INTO `cmf_admin_menu` VALUES ('170', '162', '1', '1', '2', 'insurance', 'AdminInsurance', 'index', '', '保险业务', '', '');
 INSERT INTO `cmf_admin_menu` VALUES ('171', '162', '1', '1', '1', 'insurance', 'AdminOrder', 'index', '', '保单管理', '', '');
@@ -244,7 +244,7 @@ CREATE TABLE `cmf_asset` (
   `suffix` varchar(10) NOT NULL DEFAULT '' COMMENT '文件后缀名,不包括点',
   `more` text COMMENT '其它详细信息,JSON格式',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COMMENT='资源表';
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COMMENT='资源表';
 
 -- ----------------------------
 -- Records of cmf_asset
@@ -254,26 +254,9 @@ INSERT INTO `cmf_asset` VALUES ('6', '1', '155573', '1508306191', '1', '0', 'c4c
 INSERT INTO `cmf_asset` VALUES ('7', '1', '171184', '1508306248', '1', '0', '2183130e2d9cb4c8c47c79b59ac3b3792214b79b04d2b771af0987c53c99e096', 'img.png', 'usual/20171018/01dd16f7a785b54c5bd05e1b19384873.png', '2183130e2d9cb4c8c47c79b59ac3b379', '1db53eab32655f134cd19c9e863db1c24d272672', 'png', '');
 INSERT INTO `cmf_asset` VALUES ('8', '1', '161061', '1508306570', '1', '0', 'a5a346a9a01395d74941914c7f73d2de49dd71a5d9885887f476091eaca80de9', 'img.png', 'usual/20171018/310eaec8a9afafd7a5a3ae95a127f863.png', 'a5a346a9a01395d74941914c7f73d2de', '8d544bfffc5caf482d3719c74359107a2fb6a52c', 'png', '');
 INSERT INTO `cmf_asset` VALUES ('9', '1', '7859', '1509075164', '1', '0', 'a50feb855bd4915314c848468de98fdfdb1ed7a3d5a9c12c664a1db3a249d40f', 'head_99.jpg', 'insurance/20171027/3e1d07a86364dd96885569ae00d729cc.jpg', 'a50feb855bd4915314c848468de98fdf', 'e191406e2b58133a72e91fa6cf554b3fe05360c7', 'jpg', '');
-
--- ----------------------------
--- Table structure for cmf_auth
--- ----------------------------
-DROP TABLE IF EXISTS `cmf_auth`;
-CREATE TABLE `cmf_auth` (
-  `id` int(11) NOT NULL,
-  `auth_code` char(20) NOT NULL COMMENT '认证项目code',
-  `user_id` int(11) NOT NULL COMMENT '认证用户ID',
-  `create_time` int(10) unsigned NOT NULL COMMENT '创建时间',
-  `end_time` int(10) unsigned NOT NULL COMMENT '结束时间',
-  `table_name` varchar(64) NOT NULL COMMENT '表名',
-  `more` text NOT NULL COMMENT '扩展数据：认证数据',
-  `auth_status` tinyint(1) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
-
--- ----------------------------
--- Records of cmf_auth
--- ----------------------------
+INSERT INTO `cmf_asset` VALUES ('10', '1', '39588', '1509929328', '1', '0', '477ef8d1e046aa9b0da65f2bb5db80e2ea10966e0e9ec0e2838100178c982ea7', 'banner2_670x346.jpg', 'trade/20171106/83f4c5fe678dff4615acaa85dd48ecbb.jpg', '477ef8d1e046aa9b0da65f2bb5db80e2', '1283204ff81d96470ea1ec0f2ed2b0f4b36e988d', 'jpg', null);
+INSERT INTO `cmf_asset` VALUES ('11', '1', '7654', '1509929637', '1', '0', '12cba80f5d18e01a3c4ca22c06def54c77ba600fcc8740db53fddd0c3fe6c615', 'cropped.jpg', 'trade/20171106/86c7411ecf320aeb7148c619fcd3e3b6.jpg', '12cba80f5d18e01a3c4ca22c06def54c', '67726060b746b4c063c2e44a3b88c29b012c663b', 'jpg', null);
+INSERT INTO `cmf_asset` VALUES ('12', '1', '20585', '1509929645', '1', '0', 'ba395fbff213314b85659ddd35b0529589d63722269af665c599b07485688e62', 'fmsprite.png', 'trade/20171106/08757f0af85f0a9182b1b922effa0212.png', 'ba395fbff213314b85659ddd35b05295', '72c759917b1c231908930a40a29cca9d680aaf59', 'png', null);
 
 -- ----------------------------
 -- Table structure for cmf_auth_access
@@ -479,9 +462,9 @@ INSERT INTO `cmf_auth_rule` VALUES ('162', '1', 'insurance', 'admin_url', 'insur
 INSERT INTO `cmf_auth_rule` VALUES ('163', '1', 'trade', 'admin_url', 'trade/AdminIndex/default', '', '车辆买卖', '');
 INSERT INTO `cmf_auth_rule` VALUES ('164', '1', 'service', 'admin_url', 'service/AdminIndex/default', '', '车辆业务', '');
 INSERT INTO `cmf_auth_rule` VALUES ('165', '1', 'usual', 'admin_url', 'usual/AdminIndex/default', '', '车辆统配', '');
-INSERT INTO `cmf_auth_rule` VALUES ('166', '1', 'usual', 'admin_url', 'usual/AdminItem/index', '', '车辆属性', '');
+INSERT INTO `cmf_auth_rule` VALUES ('166', '1', 'usual', 'admin_url', 'usual/AdminItemCate/index', '', '车辆属性', '');
 INSERT INTO `cmf_auth_rule` VALUES ('167', '1', 'usual', 'admin_url', 'usual/AdminBrand/index', '', '品牌管理', '');
-INSERT INTO `cmf_auth_rule` VALUES ('168', '1', 'usual', 'admin_url', 'usual/Adminauth/index', '', '认证管理', '');
+INSERT INTO `cmf_auth_rule` VALUES ('168', '1', 'usual', 'admin_url', 'usual/AdminVerify/index', '', '认证管理', '');
 INSERT INTO `cmf_auth_rule` VALUES ('169', '1', 'usual', 'admin_url', 'usual/AdminCompany/index', 'id=1', '公司企业管理', '');
 INSERT INTO `cmf_auth_rule` VALUES ('170', '1', 'insurance', 'admin_url', 'insurance/AdminInsurance/index', '', '保险业务', '');
 INSERT INTO `cmf_auth_rule` VALUES ('171', '1', 'insurance', 'admin_url', 'insurance/AdminOrder/index', '', '保单管理', '');
@@ -544,7 +527,7 @@ CREATE TABLE `cmf_district` (
   PRIMARY KEY (`id`),
   KEY `parent_id` (`parent_id`),
   KEY `level` (`level`)
-) ENGINE=MyISAM AUTO_INCREMENT=3409 DEFAULT CHARSET=utf8 COMMENT='地区表';
+) ENGINE=InnoDB AUTO_INCREMENT=3409 DEFAULT CHARSET=utf8 COMMENT='地区表';
 
 -- ----------------------------
 -- Records of cmf_district
@@ -4019,13 +4002,13 @@ CREATE TABLE `cmf_hook_plugin` (
   `hook` varchar(50) NOT NULL DEFAULT '' COMMENT '钩子名',
   `plugin` varchar(30) NOT NULL DEFAULT '' COMMENT '插件',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COMMENT='系统钩子插件表';
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COMMENT='系统钩子插件表';
 
 -- ----------------------------
 -- Records of cmf_hook_plugin
 -- ----------------------------
 INSERT INTO `cmf_hook_plugin` VALUES ('2', '10000', '1', 'send_mobile_verification_code', 'MobileCodeDemo');
-INSERT INTO `cmf_hook_plugin` VALUES ('3', '10000', '1', 'admin_dashboard', 'SystemInfo');
+INSERT INTO `cmf_hook_plugin` VALUES ('4', '10000', '1', 'footer_start', 'Demo');
 
 -- ----------------------------
 -- Table structure for cmf_insurance
@@ -4048,19 +4031,20 @@ CREATE TABLE `cmf_insurance` (
   `description` varchar(255) NOT NULL COMMENT '描述',
   `is_top` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '是否置顶',
   `is_rec` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '是否推荐',
-  `identi_status` tinyint(2) NOT NULL COMMENT '认证状态：-1禁止认证 0未认证 1已认证',
+  `identi_status` tinyint(2) NOT NULL DEFAULT '1' COMMENT '认证状态：-1禁止认证 0未认证 1已认证',
   `status` tinyint(2) NOT NULL COMMENT '状态：-1禁用 0隐藏 1显示',
   `list_order` float unsigned NOT NULL DEFAULT '10000' COMMENT '排序：从小到大',
   PRIMARY KEY (`id`),
   KEY `company_id` (`company_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COMMENT='保险业务表';
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COMMENT='保险业务表';
 
 -- ----------------------------
 -- Records of cmf_insurance
 -- ----------------------------
-INSERT INTO `cmf_insurance` VALUES ('1', '2', '太平洋保险', '', '', '1508904236', '1509085773', '1508904120', '0', '&lt;p&gt;发个方法好的&lt;/p&gt;', '&lt;p&gt;正确&lt;/p&gt;', '{\"coverage\":[\"1\",\"4\",\"6\",\"7\",\"8\"],\"thumbnail\":\"http:\\/\\/pimg1.4008000000.com\\/app_images\\/4008000000\\/v20\\/index_b\\/logo.png\"}', '', '', '0', '0', '1', '1', '10000');
-INSERT INTO `cmf_insurance` VALUES ('2', '1', '尊享e生', '', '', '1508917303', '1509068473', '1508917200', '0', '&lt;p&gt;12321&lt;/p&gt;', '&lt;p&gt;456&lt;/p&gt;', '{\"thumbnail\":\"http:\\/\\/pimg1.4008000000.com\\/app_images\\/4008000000\\/v20\\/index_b\\/logo.png\"}', '', '', '0', '0', '0', '1', '10000');
-INSERT INTO `cmf_insurance` VALUES ('3', '1', '全程无忧', '', '', '1509085896', '1509151537', '1509085860', '0', '', '', '{\"coverage\":[\"1\",\"2\",\"3\",\"4\",\"5\",\"6\",\"7\",\"8\",\"9\"],\"thumbnail\":\"\"}', '', '', '0', '0', '1', '1', '10000');
+INSERT INTO `cmf_insurance` VALUES ('1', '2', '太平洋保险', '', '', '1508904236', '1510039212', '1508904120', '0', '&lt;p&gt;发个方法好的&lt;/p&gt;', '&lt;p&gt;正确&lt;/p&gt;', '{\"coverage\":[\"1\",\"4\",\"6\",\"7\",\"8\"],\"thumbnail\":\"\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/insurance01.png\"}', '', '老品牌，全国通赔\r\n舒心投保体验', '0', '0', '1', '1', '10000');
+INSERT INTO `cmf_insurance` VALUES ('2', '1', '安盛天平', '', '', '1508917303', '1510039259', '1508917200', '0', '&lt;p&gt;12321&lt;/p&gt;', '&lt;p&gt;456&lt;/p&gt;', '{\"thumbnail\":\"\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/insurance02.png\"}', '', '好保险省更多\r\n理赔省心', '0', '0', '1', '1', '10000');
+INSERT INTO `cmf_insurance` VALUES ('3', '1', '阳光保险', '', '', '1509085896', '1510039292', '1509085860', '0', '', '', '{\"coverage\":[\"1\",\"2\",\"3\",\"4\",\"5\",\"6\",\"7\",\"8\",\"9\"],\"thumbnail\":\"\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/insurance03.png\"}', '', '一对一专项顾问\r\n服务新升级', '0', '0', '1', '1', '10000');
+INSERT INTO `cmf_insurance` VALUES ('4', '0', '中华保险', '', '', '1510039164', '1510039164', '1510039059', '0', '', '', '{\"thumbnail\":\"\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/insurance04.png\"}', '', '快易免服务\r\n24小时极速闪赔', '0', '0', '1', '1', '10000');
 
 -- ----------------------------
 -- Table structure for cmf_insurance_compensation
@@ -4090,25 +4074,26 @@ CREATE TABLE `cmf_insurance_coverage` (
   `delete_time` int(10) unsigned NOT NULL COMMENT '删除时间',
   `remark` varchar(255) NOT NULL COMMENT '备注',
   `description` tinytext NOT NULL COMMENT '描述',
+  `more` text NOT NULL COMMENT '扩展属性',
   `is_top` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '置顶',
   `is_rec` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '推荐',
   `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '状态：-1禁用 0未启用 1启用',
   `list_order` float unsigned NOT NULL DEFAULT '10000' COMMENT '排序：从小到大',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Records of cmf_insurance_coverage
 -- ----------------------------
-INSERT INTO `cmf_insurance_coverage` VALUES ('1', '0', '1', '车辆损失险', '0', '1508979864', '1508923020', '0', '', '', '0', '0', '1', '10000');
-INSERT INTO `cmf_insurance_coverage` VALUES ('2', '0', '1', '第三责任险', '111', '1508979907', '1508924100', '0', '', '', '0', '0', '1', '10000');
-INSERT INTO `cmf_insurance_coverage` VALUES ('3', '0', '2', '全车盗抢险', '0', '1508980005', '1508979900', '0', '', '', '0', '0', '1', '10000');
-INSERT INTO `cmf_insurance_coverage` VALUES ('4', '0', '2', '车上座位责任险', '0', '1508980030', '1508980013', '0', '', '', '0', '0', '1', '10000');
-INSERT INTO `cmf_insurance_coverage` VALUES ('5', '0', '2', '玻璃单独破碎险', '0', '1508980049', '1508980033', '0', '', '', '0', '0', '1', '10000');
-INSERT INTO `cmf_insurance_coverage` VALUES ('6', '0', '2', '自燃险', '0', '1508980059', '1508980053', '0', '', '', '0', '0', '1', '10000');
-INSERT INTO `cmf_insurance_coverage` VALUES ('7', '0', '2', '划痕险', '0', '1508980171', '1508980063', '0', '', '', '0', '0', '1', '10000');
-INSERT INTO `cmf_insurance_coverage` VALUES ('8', '0', '2', '责任险率', '0', '1508980194', '1508980174', '0', '', '', '0', '0', '1', '10000');
-INSERT INTO `cmf_insurance_coverage` VALUES ('9', '0', '2', '不计免额险', '0', '1508981415', '1508980140', '0', '', '', '0', '0', '1', '10000');
+INSERT INTO `cmf_insurance_coverage` VALUES ('1', '0', '1', '车辆损失险', '0', '1510040660', '1508923020', '0', '', '提供各大车险公司服务\r\n为您的安全保驾护航', '{\"thumbnail\":\"\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/service1.jpg\"}', '0', '0', '1', '10000');
+INSERT INTO `cmf_insurance_coverage` VALUES ('2', '0', '1', '第三责任险', '111', '1510040611', '1508924100', '0', '', '提供各大车险公司服务\r\n为您的安全保驾护航', '{\"thumbnail\":\"\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/service3.jpg\"}', '0', '0', '1', '10000');
+INSERT INTO `cmf_insurance_coverage` VALUES ('3', '0', '2', '全车盗抢险', '0', '1510040644', '1508979900', '0', '', '提供各大车险公司服务\r\n为您的安全保驾护航', '{\"thumbnail\":\"\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/service2.jpg\"}', '0', '0', '1', '10000');
+INSERT INTO `cmf_insurance_coverage` VALUES ('4', '0', '2', '车上座位责任险', '0', '1508980030', '1508980013', '0', '', '', '{\"thumbnail\":\"\"}', '0', '0', '1', '10000');
+INSERT INTO `cmf_insurance_coverage` VALUES ('5', '0', '2', '玻璃单独破碎险', '0', '1508980049', '1508980033', '0', '', '', '{\"thumbnail\":\"\"}', '0', '0', '1', '10000');
+INSERT INTO `cmf_insurance_coverage` VALUES ('6', '0', '2', '自燃险', '0', '1508980059', '1508980053', '0', '', '', '{\"thumbnail\":\"\"}', '0', '0', '1', '10000');
+INSERT INTO `cmf_insurance_coverage` VALUES ('7', '0', '2', '划痕险', '0', '1508980171', '1508980063', '0', '', '', '{\"thumbnail\":\"\"}', '0', '0', '1', '10000');
+INSERT INTO `cmf_insurance_coverage` VALUES ('8', '0', '2', '责任险率', '0', '1508980194', '1508980174', '0', '', '', '{\"thumbnail\":\"\"}', '0', '0', '1', '10000');
+INSERT INTO `cmf_insurance_coverage` VALUES ('9', '0', '2', '不计免额险', '0', '1508981415', '1508980140', '0', '', '', '{\"thumbnail\":\"\"}', '0', '0', '1', '10000');
 
 -- ----------------------------
 -- Table structure for cmf_insurance_order
@@ -4209,7 +4194,7 @@ CREATE TABLE `cmf_nav_menu` (
   `icon` varchar(20) NOT NULL DEFAULT '' COMMENT '图标',
   `path` varchar(255) NOT NULL DEFAULT '' COMMENT '层级关系',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb4 COMMENT='前台导航菜单表';
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb4 COMMENT='前台导航菜单表';
 
 -- ----------------------------
 -- Records of cmf_nav_menu
@@ -4221,6 +4206,8 @@ INSERT INTO `cmf_nav_menu` VALUES ('19', '1', '0', '1', '40', '车辆买卖', ''
 INSERT INTO `cmf_nav_menu` VALUES ('20', '1', '0', '1', '50', '检车预约', '', 'service', '', '');
 INSERT INTO `cmf_nav_menu` VALUES ('21', '1', '0', '1', '60', '最新活动推荐', '', '{\"action\":\"portal\\/List\\/index\",\"param\":{\"id\":9}}', '', '');
 INSERT INTO `cmf_nav_menu` VALUES ('22', '1', '0', '1', '70', '新闻资讯', '', '{\"action\":\"portal\\/List\\/index\",\"param\":{\"id\":8}}', '', '');
+INSERT INTO `cmf_nav_menu` VALUES ('23', '1', '19', '1', '10000', '新车', '', '/', '', '');
+INSERT INTO `cmf_nav_menu` VALUES ('24', '1', '19', '1', '10000', '二手车', '', '/', '', '');
 
 -- ----------------------------
 -- Table structure for cmf_news
@@ -4237,7 +4224,7 @@ CREATE TABLE `cmf_news` (
   `ip` char(15) NOT NULL DEFAULT '' COMMENT '用户ip',
   `status` tinyint(1) NOT NULL COMMENT '状态：0未读 1已读',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Records of cmf_news
@@ -4254,14 +4241,17 @@ CREATE TABLE `cmf_option` (
   `option_value` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci COMMENT '配置值',
   PRIMARY KEY (`id`),
   UNIQUE KEY `option_name` (`option_name`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT COMMENT='全站配置表';
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT COMMENT='全站配置表';
 
 -- ----------------------------
 -- Records of cmf_option
 -- ----------------------------
-INSERT INTO `cmf_option` VALUES ('7', '1', 'site_info', '{\"site_name\":\"\\u5927\\u901a\\u8f66\\u670d\",\"site_seo_title\":\"\\u5927\\u901a\\u8f66\\u670d\",\"site_seo_keywords\":\"\\u4e8c\\u624b\\u8f66\",\"site_seo_description\":\"\\u4e8c\\u624b\\u8f66\\u4ea4\\u6613\"}');
+INSERT INTO `cmf_option` VALUES ('7', '1', 'site_info', '{\"site_name\":\"\\u5927\\u901a\\u8f66\\u670d\\u6709\\u9650\\u8d23\\u4efb\\u516c\\u53f8\",\"site_seo_title\":\"\\u5927\\u901a\\u8f66\\u670d\",\"site_seo_keywords\":\"\\u4e8c\\u624b\\u8f66\",\"site_seo_description\":\"\\u4e8c\\u624b\\u8f66\\u4ea4\\u6613\",\"site_icp\":\"\\u4eacICP\\u590716017208\\u53f7-1\",\"site_admin_email\":\"admin@admin.com\",\"site_analytics\":\"\",\"site_copyright\":\"\\u5927\\u901a\\u8f66\\u670dxxxx\\u670d\\u52a1\\u6709\\u9650\\u516c\\u53f8\\u7248\\u6743\\u6240\\u6709\",\"site_tel\":\"186-9666-4008\",\"site_addr\":\"xx\\u5e02xx\\u533a\\uff0cxxx\\u533a\\uff0cxxx\\u533a\",\"site_logo\":\"portal\\/20171013\\/1f661e0d9d9f0c97b17a50e6e06580c0.png\"}');
 INSERT INTO `cmf_option` VALUES ('8', '1', 'smtp_setting', '{\"from_name\":\"admin\",\"from\":\"wowlothar@foxmail.com\",\"host\":\"smtp.qq.com\",\"smtp_secure\":\"\",\"port\":\"25\",\"username\":\"wowlothar@foxmail.com\",\"password\":\"opqzaolxpbbjbdcf\"}');
-INSERT INTO `cmf_option` VALUES ('9', '1', 'admin_dashboard_widgets', '[{\"name\":\"SystemInfo\",\"is_system\":0},{\"name\":\"Contributors\",\"is_system\":1},{\"name\":\"MainContributors\",\"is_system\":1},{\"name\":\"Custom1\",\"is_system\":1},{\"name\":\"CmfHub\",\"is_system\":1},{\"name\":\"Custom3\",\"is_system\":1},{\"name\":\"Custom4\",\"is_system\":1},{\"name\":\"Custom5\",\"is_system\":1},{\"name\":\"Custom2\",\"is_system\":1}]');
+INSERT INTO `cmf_option` VALUES ('9', '1', 'admin_dashboard_widgets', '[{\"name\":\"CmfHub\",\"is_system\":1},{\"name\":\"MainContributors\",\"is_system\":1},{\"name\":\"Contributors\",\"is_system\":1},{\"name\":\"Custom1\",\"is_system\":1},{\"name\":\"SystemInfo\",\"is_system\":0},{\"name\":\"Custom3\",\"is_system\":1},{\"name\":\"Custom4\",\"is_system\":1},{\"name\":\"Custom5\",\"is_system\":1},{\"name\":\"Custom2\",\"is_system\":1}]');
+INSERT INTO `cmf_option` VALUES ('10', '1', 'cmf_settings', '{\"open_registration\":\"0\",\"banned_usernames\":\"\"}');
+INSERT INTO `cmf_option` VALUES ('11', '1', 'cdn_settings', '{\"cdn_static_root\":\"\"}');
+INSERT INTO `cmf_option` VALUES ('12', '1', 'admin_settings', '{\"admin_password\":\"\",\"admin_style\":\"flatadmin\"}');
 
 -- ----------------------------
 -- Table structure for cmf_plugin
@@ -4283,13 +4273,13 @@ CREATE TABLE `cmf_plugin` (
   `description` varchar(255) NOT NULL COMMENT '插件描述',
   `config` text COMMENT '插件配置',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COMMENT='插件表';
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COMMENT='插件表';
 
 -- ----------------------------
 -- Records of cmf_plugin
 -- ----------------------------
 INSERT INTO `cmf_plugin` VALUES ('2', '1', '0', '1', '0', 'MobileCodeDemo', '手机验证码演示插件', '', '', 'ThinkCMF', '', '1.0', '手机验证码演示插件', '{\"account_sid\":\"\",\"auth_token\":\"\",\"app_id\":\"\",\"template_id\":\"\",\"expire_minute\":\"30\"}');
-INSERT INTO `cmf_plugin` VALUES ('3', '1', '0', '1', '0', 'SystemInfo', '系统信息', '', '', 'ThinkCMF', '', '1.0', '系统信息', '[]');
+INSERT INTO `cmf_plugin` VALUES ('4', '1', '1', '1', '0', 'Demo', '插件演示', 'http://demo.thinkcmf.com', '', 'ThinkCMF', 'http://www.thinkcmf.com', '1.0', '插件演示', '{\"text\":\"hello,ThinkCMF!\",\"password\":\"\",\"number\":\"1.0\",\"select\":\"1\",\"checkbox\":1,\"radio\":\"1\",\"radio2\":\"1\",\"textarea\":\"\\u8fd9\\u91cc\\u662f\\u4f60\\u8981\\u586b\\u5199\\u7684\\u5185\\u5bb9\",\"date\":\"2017-05-20\",\"datetime\":\"2017-05-20\",\"color\":\"#103633\",\"image\":\"\",\"location\":\"\"}');
 
 -- ----------------------------
 -- Table structure for cmf_portal_category
@@ -4312,13 +4302,15 @@ CREATE TABLE `cmf_portal_category` (
   `one_tpl` varchar(50) NOT NULL DEFAULT '' COMMENT '分类文章页模板',
   `more` text COMMENT '扩展属性',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COMMENT='portal应用 文章分类表';
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COMMENT='portal应用 文章分类表';
 
 -- ----------------------------
 -- Records of cmf_portal_category
 -- ----------------------------
-INSERT INTO `cmf_portal_category` VALUES ('8', '0', '0', '1', '0', '10000', '新闻资讯', '新闻', '0-8', '大通车服新闻', '大通车服,新闻', '大通车服新闻资讯', 'list', 'article', '{\"thumbnail\":\"\"}');
-INSERT INTO `cmf_portal_category` VALUES ('9', '0', '0', '1', '0', '10000', '活动推荐', '活动', '0-9', '大通车服活动', '大通车服，活动', '大通车服活动推荐', 'list', 'article', '{\"thumbnail\":\"\"}');
+INSERT INTO `cmf_portal_category` VALUES ('1', '0', '0', '1', '0', '10000', '新闻资讯', '新闻', '0-1', '大通车服新闻', '大通车服,新闻', '大通车服新闻资讯', 'list', 'article', '{\"thumbnail\":\"\"}');
+INSERT INTO `cmf_portal_category` VALUES ('2', '0', '0', '1', '0', '10000', '活动推荐', '活动', '0-2', '大通车服活动', '大通车服，活动', '大通车服活动推荐', 'list', 'article', '{\"thumbnail\":\"\"}');
+INSERT INTO `cmf_portal_category` VALUES ('3', '0', '0', '1', '0', '10000', '车辆服务', '', '0-3', '', '', '', 'list', 'article', '{\"thumbnail\":\"\"}');
+INSERT INTO `cmf_portal_category` VALUES ('4', '3', '0', '1', '0', '10000', '买车流程', '', '0-3-4', '', '', '', 'list', 'article', '{\"thumbnail\":\"\"}');
 
 -- ----------------------------
 -- Table structure for cmf_portal_category_post
@@ -4328,18 +4320,33 @@ CREATE TABLE `cmf_portal_category_post` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `post_id` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT '文章id',
   `category_id` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT '分类id',
-  `list_order` float NOT NULL DEFAULT '10000' COMMENT '排序',
+  `list_order` float unsigned NOT NULL DEFAULT '10000' COMMENT '排序',
   `status` tinyint(3) unsigned NOT NULL DEFAULT '1' COMMENT '状态,1:发布;0:不发布',
   PRIMARY KEY (`id`),
   KEY `term_taxonomy_id` (`category_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=120 DEFAULT CHARSET=utf8 COMMENT='portal应用 分类文章对应表';
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8 COMMENT='portal应用 分类文章对应表';
 
 -- ----------------------------
 -- Records of cmf_portal_category_post
 -- ----------------------------
-INSERT INTO `cmf_portal_category_post` VALUES ('117', '33', '8', '10000', '1');
-INSERT INTO `cmf_portal_category_post` VALUES ('118', '34', '9', '10000', '1');
-INSERT INTO `cmf_portal_category_post` VALUES ('119', '34', '8', '10000', '1');
+INSERT INTO `cmf_portal_category_post` VALUES ('1', '1', '1', '10000', '1');
+INSERT INTO `cmf_portal_category_post` VALUES ('2', '2', '2', '10000', '1');
+INSERT INTO `cmf_portal_category_post` VALUES ('3', '3', '1', '10000', '1');
+INSERT INTO `cmf_portal_category_post` VALUES ('4', '4', '3', '10000', '1');
+INSERT INTO `cmf_portal_category_post` VALUES ('5', '5', '3', '10000', '1');
+INSERT INTO `cmf_portal_category_post` VALUES ('6', '6', '3', '10000', '1');
+INSERT INTO `cmf_portal_category_post` VALUES ('7', '7', '3', '10000', '1');
+INSERT INTO `cmf_portal_category_post` VALUES ('8', '8', '3', '10000', '1');
+INSERT INTO `cmf_portal_category_post` VALUES ('9', '9', '3', '10000', '1');
+INSERT INTO `cmf_portal_category_post` VALUES ('10', '10', '3', '10000', '1');
+INSERT INTO `cmf_portal_category_post` VALUES ('11', '11', '1', '10000', '1');
+INSERT INTO `cmf_portal_category_post` VALUES ('12', '12', '1', '10000', '1');
+INSERT INTO `cmf_portal_category_post` VALUES ('13', '13', '1', '10000', '1');
+INSERT INTO `cmf_portal_category_post` VALUES ('14', '14', '1', '10000', '1');
+INSERT INTO `cmf_portal_category_post` VALUES ('15', '15', '4', '10000', '1');
+INSERT INTO `cmf_portal_category_post` VALUES ('16', '16', '4', '10000', '1');
+INSERT INTO `cmf_portal_category_post` VALUES ('17', '17', '4', '10000', '1');
+INSERT INTO `cmf_portal_category_post` VALUES ('18', '18', '4', '10000', '1');
 
 -- ----------------------------
 -- Table structure for cmf_portal_post
@@ -4374,14 +4381,29 @@ CREATE TABLE `cmf_portal_post` (
   KEY `post_parent` (`parent_id`),
   KEY `post_author` (`user_id`),
   KEY `post_date` (`create_time`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT COMMENT='portal应用 文章表';
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT COMMENT='portal应用 文章表';
 
 -- ----------------------------
 -- Records of cmf_portal_post
 -- ----------------------------
-INSERT INTO `cmf_portal_post` VALUES ('32', '0', '2', '1', '1', '1', '1', '0', '0', '0', '0', '0', '1507875360', '1507875360', '1507875240', '0', '关于我们', '', '', '', '&lt;p&gt;大通车服致力于打造最强车业服务。&lt;br&gt;&lt;/p&gt;', '', '{\"thumbnail\":\"\",\"template\":\"page\"}');
-INSERT INTO `cmf_portal_post` VALUES ('33', '0', '1', '1', '1', '1', '1', '0', '0', '5', '0', '0', '1507876048', '1507876101', '1507875960', '0', '上线通知', '', '上线摘要', '', '&lt;p&gt;上线内容：本站将于2017年上线。&lt;/p&gt;', '', '{\"thumbnail\":\"\",\"template\":\"\",\"photos\":[{\"url\":\"portal\\/20171013\\/1f661e0d9d9f0c97b17a50e6e06580c0.png\",\"name\":\"大通车服logo.png\"}]}');
-INSERT INTO `cmf_portal_post` VALUES ('34', '0', '1', '1', '1', '1', '1', '0', '0', '8', '0', '0', '1507876137', '1508913587', '1507876080', '0', '活动1', '', '', '', '&lt;p&gt;最新活动极简出&lt;/p&gt;', '', '{\"thumbnail\":\"\",\"template\":\"\"}');
+INSERT INTO `cmf_portal_post` VALUES ('1', '0', '2', '1', '1', '1', '1', '0', '0', '0', '0', '0', '1507875360', '1507875360', '1507875240', '0', '关于我们', '', '', '', '&lt;p&gt;大通车服致力于打造最强车业服务。&lt;br&gt;&lt;/p&gt;', '', '{\"thumbnail\":\"\",\"template\":\"page\"}');
+INSERT INTO `cmf_portal_post` VALUES ('2', '0', '1', '1', '1', '1', '1', '0', '0', '7', '0', '0', '1507876048', '1507876101', '1507875960', '0', '上线通知', '', '上线摘要', '', '&lt;p&gt;上线内容：本站将于2017年上线。&lt;/p&gt;', '', '{\"thumbnail\":\"\",\"template\":\"\",\"photos\":[{\"url\":\"portal\\/20171013\\/1f661e0d9d9f0c97b17a50e6e06580c0.png\",\"name\":\"大通车服logo.png\"}]}');
+INSERT INTO `cmf_portal_post` VALUES ('3', '0', '1', '1', '1', '1', '1', '0', '0', '9', '0', '0', '1507876137', '1508913587', '1507876080', '0', '活动1', '', '', '', '&lt;p&gt;最新活动极简出&lt;/p&gt;', '', '{\"thumbnail\":\"\",\"template\":\"\"}');
+INSERT INTO `cmf_portal_post` VALUES ('4', '0', '1', '1', '1', '1', '1', '0', '0', '0', '0', '0', '1510050010', '1510050289', '1510049940', '0', '尾气检测', '', '交检测费，等候上线。检测前会有工作人员进行初检，由检测员开车上线，拿...', '', null, null, '{\"thumbnail\":\"\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/car_service01.jpg\",\"template\":\"\"}');
+INSERT INTO `cmf_portal_post` VALUES ('5', '0', '1', '1', '1', '1', '1', '0', '0', '0', '0', '0', '1510050404', '1510050404', '1510050372', '0', '查违章', '', '查询窗口领取并填写“机动车定期检验登记表”，可凭行驶证领取。填好表中事...', '', null, null, '{\"thumbnail\":\"\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/c4e37762e79866a2f10d3c5926bbd188924ddbd3_m.jpg\",\"template\":\"\"}');
+INSERT INTO `cmf_portal_post` VALUES ('6', '0', '1', '1', '1', '1', '1', '0', '0', '0', '0', '0', '1510050437', '1510050437', '1510050412', '0', '交押金', '', '押金窗口缴押金，拿好押金条，领取并填写外观检验单。', '', null, null, '{\"thumbnail\":\"\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/c4e37762e79866a2f10d3c5926bbd188924ddbd3_m.jpg\",\"template\":\"\"}');
+INSERT INTO `cmf_portal_post` VALUES ('7', '0', '1', '1', '1', '1', '1', '0', '0', '0', '0', '0', '1510050472', '1510050472', '1510050445', '0', '外观检测', '', '持外观检验单到外观工位，先查相关手续，核验第三者保险（强制性保险）是否', '', null, null, '{\"thumbnail\":\"\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/8a37e5af175db41e06004dc098e9c173aee70116_m.jpg\",\"template\":\"\"}');
+INSERT INTO `cmf_portal_post` VALUES ('8', '0', '1', '1', '1', '1', '1', '0', '0', '0', '0', '0', '1510050503', '1510050503', '1510050480', '0', '上线检测', '', '外观检验没问题，排队等候上线检测。检测线负责刹车、大灯（远光）、底盘', '', null, null, '{\"thumbnail\":\"\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/61f4d9a7eb72c52d84b7d86abe75a85b96b52da8_m.jpg\",\"template\":\"\"}');
+INSERT INTO `cmf_portal_post` VALUES ('9', '0', '1', '1', '1', '1', '1', '0', '0', '0', '0', '0', '1510050534', '1510050534', '1510050510', '0', '总监审核', '', '准备一张身份证复印件，到大厅总检处签字盖章。', '', null, null, '{\"thumbnail\":\"thumbnail\\\\&quot;:\\\\&quot;\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/b74aaf555eb970c3a1fdd6e7b2b5dd2a7a971286_m.jpg\",\"template\":\"\"}');
+INSERT INTO `cmf_portal_post` VALUES ('10', '0', '1', '1', '1', '1', '1', '0', '0', '0', '0', '0', '1510050567', '1510050567', '1510050545', '0', '交费，领标', '', '各窗口交相关费用，退回押金，交工本费领“机动车检验合格标志”，标后', '', null, null, '{\"thumbnail\":\"\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/156c2157ea31033cd8d2ae8431be8497387e5db0_m.jpg\",\"template\":\"\"}');
+INSERT INTO `cmf_portal_post` VALUES ('11', '0', '1', '1', '1', '1', '1', '0', '0', '0', '0', '0', '1510108023', '1510108023', '1510107844', '0', '三年血泪史分享 二手车寄售骗局揭秘编辑', '', '', '', null, null, '{\"thumbnail\":\"\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/news_img.jpg\",\"template\":\"\"}');
+INSERT INTO `cmf_portal_post` VALUES ('12', '0', '1', '1', '1', '1', '1', '0', '0', '0', '0', '0', '1510108075', '1510108075', '1510108030', '0', '汽车的老祖宗德国人是如何玩转二手车', '', '', '', null, null, '{\"thumbnail\":\"\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/news_img.jpg\",\"template\":\"\"}');
+INSERT INTO `cmf_portal_post` VALUES ('13', '0', '1', '1', '1', '1', '1', '0', '0', '0', '0', '0', '1510108957', '1510108957', '1510108845', '0', '汽车新闻1', '', '', '', null, null, '{\"thumbnail\":\"http:\\/\\/tx.car\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/news_img.jpg\",\"template\":\"\"}');
+INSERT INTO `cmf_portal_post` VALUES ('14', '0', '1', '1', '1', '1', '1', '0', '0', '0', '0', '0', '1510112081', '1510112081', '1510111848', '0', '新闻资讯花花', '', '', '', null, null, '{\"thumbnail\":\"\",\"template\":\"\"}');
+INSERT INTO `cmf_portal_post` VALUES ('15', '0', '1', '1', '1', '1', '1', '0', '0', '0', '0', '0', '1510112771', '1510112771', '1510112401', '0', '预约交谈', '', '及时交谈，预约时间确定', '', null, null, '{\"thumbnail\":\"\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/icon_07_01.png\",\"template\":\"\"}');
+INSERT INTO `cmf_portal_post` VALUES ('16', '0', '1', '1', '1', '1', '1', '0', '0', '0', '0', '0', '1510112820', '1510121332', '1510112760', '0', '预约看车', '', '专人带看\r\n安排售车顾问陪同您看车', '', null, null, '{\"thumbnail\":\"\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/icon_08.png\",\"template\":\"\"}');
+INSERT INTO `cmf_portal_post` VALUES ('17', '0', '1', '1', '1', '1', '1', '0', '0', '0', '0', '0', '1510113114', '1510113114', '1510113010', '0', '签订协议', '', '安排顾问指导您完成协议合同签订', '', null, null, '{\"thumbnail\":\"\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/icon_09.png\",\"template\":\"\"}');
+INSERT INTO `cmf_portal_post` VALUES ('18', '0', '1', '1', '1', '1', '1', '0', '0', '0', '0', '0', '1510113167', '1510113167', '1510113123', '0', '售后服务', '', 'GV预估个人', '', null, null, '{\"thumbnail\":\"\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/icon_10.png\",\"template\":\"\"}');
 
 -- ----------------------------
 -- Table structure for cmf_portal_tag
@@ -4450,13 +4472,14 @@ CREATE TABLE `cmf_role` (
   PRIMARY KEY (`id`),
   KEY `parentId` (`parent_id`),
   KEY `status` (`status`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COMMENT='角色表';
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COMMENT='角色表';
 
 -- ----------------------------
 -- Records of cmf_role
 -- ----------------------------
 INSERT INTO `cmf_role` VALUES ('1', '0', '1', '1329633709', '1329633709', '0', '超级管理员', '拥有网站最高管理员权限！');
 INSERT INTO `cmf_role` VALUES ('2', '0', '1', '1329633709', '1329633709', '0', '普通管理员', '权限由最高管理员分配！');
+INSERT INTO `cmf_role` VALUES ('3', '0', '1', '0', '0', '0', '客服', '消息处理');
 
 -- ----------------------------
 -- Table structure for cmf_role_user
@@ -4489,17 +4512,17 @@ CREATE TABLE `cmf_route` (
   `full_url` varchar(255) NOT NULL DEFAULT '' COMMENT '完整url',
   `url` varchar(255) NOT NULL DEFAULT '' COMMENT '实际显示的url',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8mb4 COMMENT='url路由表';
+) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8mb4 COMMENT='url路由表';
 
 -- ----------------------------
 -- Records of cmf_route
 -- ----------------------------
 INSERT INTO `cmf_route` VALUES ('16', '5000', '1', '2', 'portal/List/index?id=1', 'bmw');
 INSERT INTO `cmf_route` VALUES ('17', '4999', '1', '2', 'portal/Article/index?cid=1', 'bmw/:id');
-INSERT INTO `cmf_route` VALUES ('22', '5000', '1', '2', 'portal/List/index?id=4', 'Ford');
-INSERT INTO `cmf_route` VALUES ('23', '4999', '1', '2', 'portal/Article/index?cid=4', 'Ford/:id');
 INSERT INTO `cmf_route` VALUES ('26', '5000', '1', '2', 'portal/List/index?id=14', 'byd');
 INSERT INTO `cmf_route` VALUES ('27', '4999', '1', '2', 'portal/Article/index?cid=14', 'byd/:id');
+INSERT INTO `cmf_route` VALUES ('28', '5000', '1', '2', 'portal/List/index?id=10', 'service');
+INSERT INTO `cmf_route` VALUES ('29', '4999', '1', '2', 'portal/Article/index?cid=10', 'service/:id');
 
 -- ----------------------------
 -- Table structure for cmf_service
@@ -4534,7 +4557,7 @@ CREATE TABLE `cmf_service` (
 -- ----------------------------
 -- Records of cmf_service
 -- ----------------------------
-INSERT INTO `cmf_service` VALUES ('1', '1', '2', '0', '3', '915273694', '栋', '123456', '654321', '无', '0,0', 'w ', '', '', '', '1970', '1970', '0', '0', '0', '0', '10000');
+INSERT INTO `cmf_service` VALUES ('1', '1', '2', '0', '3', '915273694', '栋', '123456', '654321', '无', '0,0', 'w ', '', '', '{\"thumbnail\":\"\"}', '1970', '1970', '0', '0', '0', '0', '10000');
 
 -- ----------------------------
 -- Table structure for cmf_service_category
@@ -4546,7 +4569,7 @@ CREATE TABLE `cmf_service_category` (
   `name` varchar(20) NOT NULL DEFAULT '' COMMENT '业务中文名',
   `code` varchar(20) NOT NULL DEFAULT '' COMMENT '业务代码',
   `dir` varchar(20) NOT NULL DEFAULT '' COMMENT '业务文件夹',
-  `type` char(10) NOT NULL DEFAULT 'service' COMMENT '业务类型（service，shop）',
+  `type` char(10) NOT NULL DEFAULT 'service' COMMENT '业务类型（service，shop，flow）',
   `dev` varchar(20) NOT NULL DEFAULT '' COMMENT '开发者',
   `remark` varchar(255) NOT NULL DEFAULT '' COMMENT '备注',
   `description` varchar(255) NOT NULL DEFAULT '' COMMENT '业务描述',
@@ -4554,6 +4577,7 @@ CREATE TABLE `cmf_service_category` (
   `indus_bid` tinytext NOT NULL COMMENT '绑定行业',
   `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '安装时间',
   `delete_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '删除时间',
+  `is_top` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '是否置顶： 0否 1是',
   `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '业务开启状态： 0关闭 1开启',
   `open_define` tinyint(1) NOT NULL DEFAULT '1' COMMENT '是否开启自定义客户资料',
   `define_data` varchar(255) NOT NULL DEFAULT '' COMMENT '自定义客户资料',
@@ -4567,10 +4591,10 @@ CREATE TABLE `cmf_service_category` (
 -- ----------------------------
 -- Records of cmf_service_category
 -- ----------------------------
-INSERT INTO `cmf_service_category` VALUES ('1', '0', '菜鸟验车', 'noob', '', 'service', 'admin', '', '', '{\"thumbnail\":\"\"}', '', '1509688955', '0', '1', '1', '[\"plateNo\",\"uname\",\"contact\",\"identity_card\",\"driving_license\",\"appoint_time\",\"service_point\"]', '10', '下下下', '上上上', '中转站');
-INSERT INTO `cmf_service_category` VALUES ('2', '0', '预约检车', 'inspectcar', '', 'service', 'admin', '', '', '{\"thumbnail\":\"\"}', '', '1509692112', '0', '1', '1', '[\"plateNo\",\"uname\",\"contact\",\"identity_card\",\"driving_license\",\"appoint_time\",\"reg_time\",\"service_point\"]', '20', '', '', '');
-INSERT INTO `cmf_service_category` VALUES ('3', '0', '上牌预约', 'applylicense', '', 'service', 'admin', '', '', '{\"thumbnail\":\"\"}', '', '1509692503', '0', '1', '1', '[\"plateNo\"]', '30', '', '', '');
-INSERT INTO `cmf_service_category` VALUES ('4', '0', '过户申请', 'assigned', '', 'service', 'admin', '', '', '{\"thumbnail\":\"\"}', '', '1509692779', '0', '1', '1', '', '40', '', '', '');
+INSERT INTO `cmf_service_category` VALUES ('1', '0', '菜鸟验车', 'noob', '', 'service', 'admin', '', '专业验车', '{\"thumbnail\":\"\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/service1.jpg\"}', '', '2017', '0', '0', '1', '1', '[\"plateNo\",\"uname\",\"contact\",\"identity_card\",\"driving_license\",\"appoint_time\",\"service_point\"]', '10', '下下下', '上上上', '中转站');
+INSERT INTO `cmf_service_category` VALUES ('2', '0', '预约检车', 'inspectcar', '', 'service', 'admin', '', '提供各大车险公司服务\r\n为您的安全保驾护航', '{\"thumbnail\":\"\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/service2.jpg\"}', '', '2017', '0', '0', '1', '1', '[\"plateNo\",\"uname\",\"contact\",\"identity_card\",\"driving_license\",\"appoint_time\",\"reg_time\",\"service_point\"]', '20', '', '', '');
+INSERT INTO `cmf_service_category` VALUES ('3', '0', '上牌预约', 'applylicense', '', 'service', 'admin', '', '', '{\"thumbnail\":\"\"}', '', '1509692503', '0', '0', '1', '1', '[\"plateNo\"]', '30', '', '', '');
+INSERT INTO `cmf_service_category` VALUES ('4', '0', '过户申请', 'assigned', '', 'service', 'admin', '', '', '{\"thumbnail\":\"\"}', '', '1509692779', '0', '0', '1', '1', '', '40', '', '', '');
 
 -- ----------------------------
 -- Table structure for cmf_slide
@@ -4583,11 +4607,12 @@ CREATE TABLE `cmf_slide` (
   `name` varchar(50) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '幻灯片分类',
   `remark` varchar(255) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '分类备注',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='幻灯片表';
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COMMENT='幻灯片表';
 
 -- ----------------------------
 -- Records of cmf_slide
 -- ----------------------------
+INSERT INTO `cmf_slide` VALUES ('1', '1', '0', '首页Banner', '暂时仅支持  一张');
 
 -- ----------------------------
 -- Table structure for cmf_slide_item
@@ -4607,11 +4632,12 @@ CREATE TABLE `cmf_slide_item` (
   `more` text COMMENT '链接打开方式',
   PRIMARY KEY (`id`),
   KEY `slide_cid` (`slide_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='幻灯片子项表';
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COMMENT='幻灯片子项表';
 
 -- ----------------------------
 -- Records of cmf_slide_item
 -- ----------------------------
+INSERT INTO `cmf_slide_item` VALUES ('1', '1', '1', '10000', 'banner1', '/themes/datong_car/public/assets/images/example/banner.jpg', 'www.wincomtech.cn', '', '', '', null);
 
 -- ----------------------------
 -- Table structure for cmf_theme
@@ -4634,12 +4660,13 @@ CREATE TABLE `cmf_theme` (
   `keywords` varchar(50) NOT NULL DEFAULT '' COMMENT '主题关键字',
   `description` varchar(100) NOT NULL DEFAULT '' COMMENT '主题描述',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of cmf_theme
 -- ----------------------------
-INSERT INTO `cmf_theme` VALUES ('19', '0', '0', '0', '0', 'simpleboot3', 'simpleboot3', '1.0.2', 'http://demo.thinkcmf.com', '', 'ThinkCMF', 'http://www.thinkcmf.com', 'zh-cn', 'ThinkCMF模板', 'ThinkCMF默认模板');
+INSERT INTO `cmf_theme` VALUES ('1', '0', '0', '0', '0', 'simpleboot3', 'simpleboot3', '1.0.2', 'http://demo.thinkcmf.com', '', 'ThinkCMF', 'http://www.thinkcmf.com', 'zh-cn', 'ThinkCMF模板', 'ThinkCMF默认模板');
+INSERT INTO `cmf_theme` VALUES ('2', '0', '0', '0', '0', 'datong_car', 'datong_car', '1.0.0', 'http://www.wowlothar.cn', '', 'Lothar', 'http://www.wowlothar.cn', 'zh-cn', '大通车服模板', '大通车服默认模板');
 
 -- ----------------------------
 -- Table structure for cmf_theme_file
@@ -4658,7 +4685,7 @@ CREATE TABLE `cmf_theme_file` (
   `config_more` text COMMENT '模板更多配置,来源模板的配置文件',
   `draft_more` text COMMENT '模板更多配置,用户临时保存的配置',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=113 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=121 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of cmf_theme_file
@@ -4671,6 +4698,14 @@ INSERT INTO `cmf_theme_file` VALUES ('109', '0', '10', 'simpleboot3', '单页面
 INSERT INTO `cmf_theme_file` VALUES ('110', '0', '10', 'simpleboot3', '搜索页面', 'portal/search/index', 'portal/search', '搜索模板文件', '{\"vars\":{\"varName1\":{\"title\":\"\\u70ed\\u95e8\\u641c\\u7d22\",\"value\":\"1\",\"type\":\"text\",\"tip\":\"\\u8fd9\\u662f\\u4e00\\u4e2atext\",\"rule\":{\"require\":true}}}}', '{\"vars\":{\"varName1\":{\"title\":\"\\u70ed\\u95e8\\u641c\\u7d22\",\"value\":\"1\",\"type\":\"text\",\"tip\":\"\\u8fd9\\u662f\\u4e00\\u4e2atext\",\"rule\":{\"require\":true}}}}', '');
 INSERT INTO `cmf_theme_file` VALUES ('111', '1', '0', 'simpleboot3', '模板全局配置', 'public/Config', 'public/config', '模板全局配置文件', '{\"vars\":{\"enable_mobile\":{\"title\":\"\\u624b\\u673a\\u6ce8\\u518c\",\"value\":1,\"type\":\"select\",\"options\":{\"1\":\"\\u5f00\\u542f\",\"0\":\"\\u5173\\u95ed\"},\"tip\":\"\"}}}', '{\"vars\":{\"enable_mobile\":{\"title\":\"\\u624b\\u673a\\u6ce8\\u518c\",\"value\":1,\"type\":\"select\",\"options\":{\"1\":\"\\u5f00\\u542f\",\"0\":\"\\u5173\\u95ed\"},\"tip\":\"\"}}}', '');
 INSERT INTO `cmf_theme_file` VALUES ('112', '1', '1', 'simpleboot3', '导航条', 'public/Nav', 'public/nav', '导航条模板文件', '{\"vars\":{\"company_name\":{\"title\":\"\\u516c\\u53f8\\u540d\\u79f0\",\"name\":\"company_name\",\"value\":\"\\u5927\\u901a\\u8f66\\u670d\",\"type\":\"text\",\"tip\":\"\",\"rule\":[]}}}', '{\"vars\":{\"company_name\":{\"title\":\"\\u516c\\u53f8\\u540d\\u79f0\",\"name\":\"company_name\",\"value\":\"ThinkCMF\",\"type\":\"text\",\"tip\":\"\",\"rule\":[]}}}', '');
+INSERT INTO `cmf_theme_file` VALUES ('113', '0', '10', 'datong_car', '文章页', 'portal/Article/index', 'portal/article', '文章页模板文件', '{\"vars\":{\"hot_articles_category_id\":{\"title\":\"Hot Articles\\u5206\\u7c7bID\",\"name\":\"hot_articles_category_id\",\"value\":\"1\",\"type\":\"text\",\"tip\":\"\",\"rule\":[]}}}', '{\"vars\":{\"hot_articles_category_id\":{\"title\":\"Hot Articles\\u5206\\u7c7bID\",\"name\":\"hot_articles_category_id\",\"value\":\"1\",\"type\":\"text\",\"tip\":\"\",\"rule\":[]}}}', null);
+INSERT INTO `cmf_theme_file` VALUES ('114', '0', '10', 'datong_car', '联系我们页', 'portal/Page/index', 'portal/contact', '联系我们页模板文件', '{\"vars\":{\"baidu_map_info_window_text\":{\"title\":\"\\u767e\\u5ea6\\u5730\\u56fe\\u6807\\u6ce8\\u6587\\u5b57\",\"name\":\"baidu_map_info_window_text\",\"value\":\"ThinkCMF<br\\/><span class=\'\'>\\u5730\\u5740\\uff1a\\u4e0a\\u6d77\\u5e02\\u5f90\\u6c47\\u533a\\u659c\\u571f\\u8def2601\\u53f7<\\/span>\",\"type\":\"text\",\"tip\":\"\\u767e\\u5ea6\\u5730\\u56fe\\u6807\\u6ce8\\u6587\\u5b57,\\u652f\\u6301\\u7b80\\u5355html\\u4ee3\\u7801\",\"rule\":[]},\"company_location\":{\"title\":\"\\u516c\\u53f8\\u5750\\u6807\",\"value\":\"\",\"type\":\"location\",\"tip\":\"\",\"rule\":{\"require\":true}},\"address_cn\":{\"title\":\"\\u516c\\u53f8\\u5730\\u5740\",\"value\":\"\\u4e0a\\u6d77\\u5e02\\u5f90\\u6c47\\u533a\\u659c\\u571f\\u8def0001\\u53f7\",\"type\":\"text\",\"tip\":\"\",\"rule\":{\"require\":true}},\"address_en\":{\"title\":\"\\u516c\\u53f8\\u5730\\u5740\\uff08\\u82f1\\u6587\\uff09\",\"value\":\"NO.0001 Xie Tu Road, Shanghai China\",\"type\":\"text\",\"tip\":\"\",\"rule\":{\"require\":true}},\"email\":{\"title\":\"\\u516c\\u53f8\\u90ae\\u7bb1\",\"value\":\"catman@thinkcmf.com\",\"type\":\"text\",\"tip\":\"\",\"rule\":{\"require\":true}},\"phone_cn\":{\"title\":\"\\u516c\\u53f8\\u7535\\u8bdd\",\"value\":\"021 1000 0001\",\"type\":\"text\",\"tip\":\"\",\"rule\":{\"require\":true}},\"phone_en\":{\"title\":\"\\u516c\\u53f8\\u7535\\u8bdd\\uff08\\u82f1\\u6587\\uff09\",\"value\":\"+8621 1000 0001\",\"type\":\"text\",\"tip\":\"\",\"rule\":{\"require\":true}},\"qq\":{\"title\":\"\\u8054\\u7cfbQQ\",\"value\":\"478519726\",\"type\":\"text\",\"tip\":\"\\u591a\\u4e2a QQ\\u4ee5\\u82f1\\u6587\\u9017\\u53f7\\u9694\\u5f00\",\"rule\":{\"require\":true}}}}', '{\"vars\":{\"baidu_map_info_window_text\":{\"title\":\"\\u767e\\u5ea6\\u5730\\u56fe\\u6807\\u6ce8\\u6587\\u5b57\",\"name\":\"baidu_map_info_window_text\",\"value\":\"ThinkCMF<br\\/><span class=\'\'>\\u5730\\u5740\\uff1a\\u4e0a\\u6d77\\u5e02\\u5f90\\u6c47\\u533a\\u659c\\u571f\\u8def2601\\u53f7<\\/span>\",\"type\":\"text\",\"tip\":\"\\u767e\\u5ea6\\u5730\\u56fe\\u6807\\u6ce8\\u6587\\u5b57,\\u652f\\u6301\\u7b80\\u5355html\\u4ee3\\u7801\",\"rule\":[]},\"company_location\":{\"title\":\"\\u516c\\u53f8\\u5750\\u6807\",\"value\":\"\",\"type\":\"location\",\"tip\":\"\",\"rule\":{\"require\":true}},\"address_cn\":{\"title\":\"\\u516c\\u53f8\\u5730\\u5740\",\"value\":\"\\u4e0a\\u6d77\\u5e02\\u5f90\\u6c47\\u533a\\u659c\\u571f\\u8def0001\\u53f7\",\"type\":\"text\",\"tip\":\"\",\"rule\":{\"require\":true}},\"address_en\":{\"title\":\"\\u516c\\u53f8\\u5730\\u5740\\uff08\\u82f1\\u6587\\uff09\",\"value\":\"NO.0001 Xie Tu Road, Shanghai China\",\"type\":\"text\",\"tip\":\"\",\"rule\":{\"require\":true}},\"email\":{\"title\":\"\\u516c\\u53f8\\u90ae\\u7bb1\",\"value\":\"catman@thinkcmf.com\",\"type\":\"text\",\"tip\":\"\",\"rule\":{\"require\":true}},\"phone_cn\":{\"title\":\"\\u516c\\u53f8\\u7535\\u8bdd\",\"value\":\"021 1000 0001\",\"type\":\"text\",\"tip\":\"\",\"rule\":{\"require\":true}},\"phone_en\":{\"title\":\"\\u516c\\u53f8\\u7535\\u8bdd\\uff08\\u82f1\\u6587\\uff09\",\"value\":\"+8621 1000 0001\",\"type\":\"text\",\"tip\":\"\",\"rule\":{\"require\":true}},\"qq\":{\"title\":\"\\u8054\\u7cfbQQ\",\"value\":\"478519726\",\"type\":\"text\",\"tip\":\"\\u591a\\u4e2a QQ\\u4ee5\\u82f1\\u6587\\u9017\\u53f7\\u9694\\u5f00\",\"rule\":{\"require\":true}}}}', null);
+INSERT INTO `cmf_theme_file` VALUES ('115', '0', '5', 'datong_car', '首页', 'portal/Index/index', 'portal/index', '首页模板文件', '{\"vars\":{\"top_slide\":{\"title\":\"\\u9876\\u90e8\\u5e7b\\u706f\\u7247\",\"value\":\"\",\"type\":\"text\",\"dataSource\":{\"api\":\"admin\\/Slide\\/index\",\"multi\":false},\"placeholder\":\"\\u8bf7\\u9009\\u62e9\\u9876\\u90e8\\u5e7b\\u706f\\u7247\",\"tip\":\"\",\"rule\":{\"require\":true}}},\"widgets\":{\"features\":{\"title\":\"\\u5feb\\u901f\\u4e86\\u89e3ThinkCMF\",\"display\":\"1\",\"vars\":{\"sub_title\":{\"title\":\"\\u526f\\u6807\\u9898\",\"value\":\"Quickly understand the ThinkCMF\",\"type\":\"text\",\"placeholder\":\"\\u8bf7\\u8f93\\u5165\\u526f\\u6807\\u9898\",\"tip\":\"\",\"rule\":{\"require\":true}},\"features\":{\"title\":\"\\u7279\\u6027\\u4ecb\\u7ecd\",\"value\":[{\"title\":\"MVC\\u5206\\u5c42\\u6a21\\u5f0f\",\"icon\":\"bars\",\"content\":\"\\u4f7f\\u7528MVC\\u5e94\\u7528\\u7a0b\\u5e8f\\u88ab\\u5206\\u6210\\u4e09\\u4e2a\\u6838\\u5fc3\\u90e8\\u4ef6\\uff1a\\u6a21\\u578b\\uff08M\\uff09\\u3001\\u89c6\\u56fe\\uff08V\\uff09\\u3001\\u63a7\\u5236\\u5668\\uff08C\\uff09\\uff0c\\u4ed6\\u4e0d\\u662f\\u4e00\\u4e2a\\u65b0\\u7684\\u6982\\u5ff5\\uff0c\\u53ea\\u662fThinkCMF\\u5c06\\u5176\\u53d1\\u6325\\u5230\\u4e86\\u6781\\u81f4\\u3002\"},{\"title\":\"\\u7528\\u6237\\u7ba1\\u7406\",\"icon\":\"group\",\"content\":\"ThinkCMF\\u5185\\u7f6e\\u4e86\\u7075\\u6d3b\\u7684\\u7528\\u6237\\u7ba1\\u7406\\u65b9\\u5f0f\\uff0c\\u5e76\\u53ef\\u76f4\\u63a5\\u4e0e\\u7b2c\\u4e09\\u65b9\\u7ad9\\u70b9\\u8fdb\\u884c\\u4e92\\u8054\\u4e92\\u901a\\uff0c\\u5982\\u679c\\u4f60\\u613f\\u610f\\u751a\\u81f3\\u53ef\\u4ee5\\u5bf9\\u5355\\u4e2a\\u7528\\u6237\\u6216\\u7fa4\\u4f53\\u7528\\u6237\\u7684\\u884c\\u4e3a\\u8fdb\\u884c\\u8bb0\\u5f55\\u53ca\\u5206\\u4eab\\uff0c\\u4e3a\\u60a8\\u7684\\u8fd0\\u8425\\u51b3\\u7b56\\u63d0\\u4f9b\\u6709\\u6548\\u53c2\\u8003\\u6570\\u636e\\u3002\"},{\"title\":\"\\u4e91\\u7aef\\u90e8\\u7f72\",\"icon\":\"cloud\",\"content\":\"\\u901a\\u8fc7\\u9a71\\u52a8\\u7684\\u65b9\\u5f0f\\u53ef\\u4ee5\\u8f7b\\u677e\\u652f\\u6301\\u4e91\\u5e73\\u53f0\\u7684\\u90e8\\u7f72\\uff0c\\u8ba9\\u4f60\\u7684\\u7f51\\u7ad9\\u65e0\\u7f1d\\u8fc1\\u79fb\\uff0c\\u5185\\u7f6e\\u5df2\\u7ecf\\u652f\\u6301SAE\\u3001BAE\\uff0c\\u6b63\\u5f0f\\u7248\\u5c06\\u5bf9\\u4e91\\u7aef\\u90e8\\u7f72\\u8fdb\\u884c\\u8fdb\\u4e00\\u6b65\\u4f18\\u5316\\u3002\"},{\"title\":\"\\u5b89\\u5168\\u7b56\\u7565\",\"icon\":\"heart\",\"content\":\"\\u63d0\\u4f9b\\u7684\\u7a33\\u5065\\u7684\\u5b89\\u5168\\u7b56\\u7565\\uff0c\\u5305\\u62ec\\u5907\\u4efd\\u6062\\u590d\\uff0c\\u5bb9\\u9519\\uff0c\\u9632\\u6cbb\\u6076\\u610f\\u653b\\u51fb\\u767b\\u9646\\uff0c\\u7f51\\u9875\\u9632\\u7be1\\u6539\\u7b49\\u591a\\u9879\\u5b89\\u5168\\u7ba1\\u7406\\u529f\\u80fd\\uff0c\\u4fdd\\u8bc1\\u7cfb\\u7edf\\u5b89\\u5168\\uff0c\\u53ef\\u9760\\uff0c\\u7a33\\u5b9a\\u7684\\u8fd0\\u884c\\u3002\"},{\"title\":\"\\u5e94\\u7528\\u6a21\\u5757\\u5316\",\"icon\":\"cubes\",\"content\":\"\\u63d0\\u51fa\\u5168\\u65b0\\u7684\\u5e94\\u7528\\u6a21\\u5f0f\\u8fdb\\u884c\\u6269\\u5c55\\uff0c\\u4e0d\\u7ba1\\u662f\\u4f60\\u5f00\\u53d1\\u4e00\\u4e2a\\u5c0f\\u529f\\u80fd\\u8fd8\\u662f\\u4e00\\u4e2a\\u5168\\u65b0\\u7684\\u7ad9\\u70b9\\uff0c\\u5728ThinkCMF\\u4e2d\\u4f60\\u53ea\\u662f\\u589e\\u52a0\\u4e86\\u4e00\\u4e2aAPP\\uff0c\\u6bcf\\u4e2a\\u72ec\\u7acb\\u8fd0\\u884c\\u4e92\\u4e0d\\u5f71\\u54cd\\uff0c\\u4fbf\\u4e8e\\u7075\\u6d3b\\u6269\\u5c55\\u548c\\u4e8c\\u6b21\\u5f00\\u53d1\\u3002\"},{\"title\":\"\\u514d\\u8d39\\u5f00\\u6e90\",\"icon\":\"certificate\",\"content\":\"\\u4ee3\\u7801\\u9075\\u5faaApache2\\u5f00\\u6e90\\u534f\\u8bae\\uff0c\\u514d\\u8d39\\u4f7f\\u7528\\uff0c\\u5bf9\\u5546\\u4e1a\\u7528\\u6237\\u4e5f\\u65e0\\u4efb\\u4f55\\u9650\\u5236\\u3002\"}],\"type\":\"array\",\"item\":{\"title\":{\"title\":\"\\u6807\\u9898\",\"value\":\"\",\"type\":\"text\",\"rule\":{\"require\":true}},\"icon\":{\"title\":\"\\u56fe\\u6807\",\"value\":\"\",\"type\":\"text\"},\"content\":{\"title\":\"\\u63cf\\u8ff0\",\"value\":\"\",\"type\":\"textarea\"}},\"tip\":\"\"}}},\"last_news\":{\"title\":\"\\u6700\\u65b0\\u8d44\\u8baf\",\"display\":\"1\",\"vars\":{\"last_news_category_id\":{\"title\":\"\\u6587\\u7ae0\\u5206\\u7c7bID\",\"value\":\"\",\"type\":\"text\",\"dataSource\":{\"api\":\"portal\\/category\\/index\",\"multi\":true},\"placeholder\":\"\\u8bf7\\u9009\\u62e9\\u5206\\u7c7b\",\"tip\":\"\",\"rule\":{\"require\":true}}}}}}', '{\"vars\":{\"top_slide\":{\"title\":\"\\u9876\\u90e8\\u5e7b\\u706f\\u7247\",\"value\":\"\",\"type\":\"text\",\"dataSource\":{\"api\":\"admin\\/Slide\\/index\",\"multi\":false},\"placeholder\":\"\\u8bf7\\u9009\\u62e9\\u9876\\u90e8\\u5e7b\\u706f\\u7247\",\"tip\":\"\",\"rule\":{\"require\":true}}},\"widgets\":{\"features\":{\"title\":\"\\u5feb\\u901f\\u4e86\\u89e3ThinkCMF\",\"display\":\"1\",\"vars\":{\"sub_title\":{\"title\":\"\\u526f\\u6807\\u9898\",\"value\":\"Quickly understand the ThinkCMF\",\"type\":\"text\",\"placeholder\":\"\\u8bf7\\u8f93\\u5165\\u526f\\u6807\\u9898\",\"tip\":\"\",\"rule\":{\"require\":true}},\"features\":{\"title\":\"\\u7279\\u6027\\u4ecb\\u7ecd\",\"value\":[{\"title\":\"MVC\\u5206\\u5c42\\u6a21\\u5f0f\",\"icon\":\"bars\",\"content\":\"\\u4f7f\\u7528MVC\\u5e94\\u7528\\u7a0b\\u5e8f\\u88ab\\u5206\\u6210\\u4e09\\u4e2a\\u6838\\u5fc3\\u90e8\\u4ef6\\uff1a\\u6a21\\u578b\\uff08M\\uff09\\u3001\\u89c6\\u56fe\\uff08V\\uff09\\u3001\\u63a7\\u5236\\u5668\\uff08C\\uff09\\uff0c\\u4ed6\\u4e0d\\u662f\\u4e00\\u4e2a\\u65b0\\u7684\\u6982\\u5ff5\\uff0c\\u53ea\\u662fThinkCMF\\u5c06\\u5176\\u53d1\\u6325\\u5230\\u4e86\\u6781\\u81f4\\u3002\"},{\"title\":\"\\u7528\\u6237\\u7ba1\\u7406\",\"icon\":\"group\",\"content\":\"ThinkCMF\\u5185\\u7f6e\\u4e86\\u7075\\u6d3b\\u7684\\u7528\\u6237\\u7ba1\\u7406\\u65b9\\u5f0f\\uff0c\\u5e76\\u53ef\\u76f4\\u63a5\\u4e0e\\u7b2c\\u4e09\\u65b9\\u7ad9\\u70b9\\u8fdb\\u884c\\u4e92\\u8054\\u4e92\\u901a\\uff0c\\u5982\\u679c\\u4f60\\u613f\\u610f\\u751a\\u81f3\\u53ef\\u4ee5\\u5bf9\\u5355\\u4e2a\\u7528\\u6237\\u6216\\u7fa4\\u4f53\\u7528\\u6237\\u7684\\u884c\\u4e3a\\u8fdb\\u884c\\u8bb0\\u5f55\\u53ca\\u5206\\u4eab\\uff0c\\u4e3a\\u60a8\\u7684\\u8fd0\\u8425\\u51b3\\u7b56\\u63d0\\u4f9b\\u6709\\u6548\\u53c2\\u8003\\u6570\\u636e\\u3002\"},{\"title\":\"\\u4e91\\u7aef\\u90e8\\u7f72\",\"icon\":\"cloud\",\"content\":\"\\u901a\\u8fc7\\u9a71\\u52a8\\u7684\\u65b9\\u5f0f\\u53ef\\u4ee5\\u8f7b\\u677e\\u652f\\u6301\\u4e91\\u5e73\\u53f0\\u7684\\u90e8\\u7f72\\uff0c\\u8ba9\\u4f60\\u7684\\u7f51\\u7ad9\\u65e0\\u7f1d\\u8fc1\\u79fb\\uff0c\\u5185\\u7f6e\\u5df2\\u7ecf\\u652f\\u6301SAE\\u3001BAE\\uff0c\\u6b63\\u5f0f\\u7248\\u5c06\\u5bf9\\u4e91\\u7aef\\u90e8\\u7f72\\u8fdb\\u884c\\u8fdb\\u4e00\\u6b65\\u4f18\\u5316\\u3002\"},{\"title\":\"\\u5b89\\u5168\\u7b56\\u7565\",\"icon\":\"heart\",\"content\":\"\\u63d0\\u4f9b\\u7684\\u7a33\\u5065\\u7684\\u5b89\\u5168\\u7b56\\u7565\\uff0c\\u5305\\u62ec\\u5907\\u4efd\\u6062\\u590d\\uff0c\\u5bb9\\u9519\\uff0c\\u9632\\u6cbb\\u6076\\u610f\\u653b\\u51fb\\u767b\\u9646\\uff0c\\u7f51\\u9875\\u9632\\u7be1\\u6539\\u7b49\\u591a\\u9879\\u5b89\\u5168\\u7ba1\\u7406\\u529f\\u80fd\\uff0c\\u4fdd\\u8bc1\\u7cfb\\u7edf\\u5b89\\u5168\\uff0c\\u53ef\\u9760\\uff0c\\u7a33\\u5b9a\\u7684\\u8fd0\\u884c\\u3002\"},{\"title\":\"\\u5e94\\u7528\\u6a21\\u5757\\u5316\",\"icon\":\"cubes\",\"content\":\"\\u63d0\\u51fa\\u5168\\u65b0\\u7684\\u5e94\\u7528\\u6a21\\u5f0f\\u8fdb\\u884c\\u6269\\u5c55\\uff0c\\u4e0d\\u7ba1\\u662f\\u4f60\\u5f00\\u53d1\\u4e00\\u4e2a\\u5c0f\\u529f\\u80fd\\u8fd8\\u662f\\u4e00\\u4e2a\\u5168\\u65b0\\u7684\\u7ad9\\u70b9\\uff0c\\u5728ThinkCMF\\u4e2d\\u4f60\\u53ea\\u662f\\u589e\\u52a0\\u4e86\\u4e00\\u4e2aAPP\\uff0c\\u6bcf\\u4e2a\\u72ec\\u7acb\\u8fd0\\u884c\\u4e92\\u4e0d\\u5f71\\u54cd\\uff0c\\u4fbf\\u4e8e\\u7075\\u6d3b\\u6269\\u5c55\\u548c\\u4e8c\\u6b21\\u5f00\\u53d1\\u3002\"},{\"title\":\"\\u514d\\u8d39\\u5f00\\u6e90\",\"icon\":\"certificate\",\"content\":\"\\u4ee3\\u7801\\u9075\\u5faaApache2\\u5f00\\u6e90\\u534f\\u8bae\\uff0c\\u514d\\u8d39\\u4f7f\\u7528\\uff0c\\u5bf9\\u5546\\u4e1a\\u7528\\u6237\\u4e5f\\u65e0\\u4efb\\u4f55\\u9650\\u5236\\u3002\"}],\"type\":\"array\",\"item\":{\"title\":{\"title\":\"\\u6807\\u9898\",\"value\":\"\",\"type\":\"text\",\"rule\":{\"require\":true}},\"icon\":{\"title\":\"\\u56fe\\u6807\",\"value\":\"\",\"type\":\"text\"},\"content\":{\"title\":\"\\u63cf\\u8ff0\",\"value\":\"\",\"type\":\"textarea\"}},\"tip\":\"\"}}},\"last_news\":{\"title\":\"\\u6700\\u65b0\\u8d44\\u8baf\",\"display\":\"1\",\"vars\":{\"last_news_category_id\":{\"title\":\"\\u6587\\u7ae0\\u5206\\u7c7bID\",\"value\":\"\",\"type\":\"text\",\"dataSource\":{\"api\":\"portal\\/category\\/index\",\"multi\":true},\"placeholder\":\"\\u8bf7\\u9009\\u62e9\\u5206\\u7c7b\",\"tip\":\"\",\"rule\":{\"require\":true}}}}}}', null);
+INSERT INTO `cmf_theme_file` VALUES ('116', '0', '10', 'datong_car', '文章列表页', 'portal/List/index', 'portal/list', '文章列表模板文件', '{\"vars\":[],\"widgets\":{\"hottest_articles\":{\"title\":\"\\u70ed\\u95e8\\u6587\\u7ae0\",\"display\":\"1\",\"vars\":{\"hottest_articles_category_id\":{\"title\":\"\\u6587\\u7ae0\\u5206\\u7c7bID\",\"value\":\"\",\"type\":\"text\",\"dataSource\":{\"api\":\"portal\\/category\\/index\",\"multi\":true},\"placeholder\":\"\\u8bf7\\u9009\\u62e9\\u5206\\u7c7b\",\"tip\":\"\",\"rule\":{\"require\":true}}}},\"last_articles\":{\"title\":\"\\u6700\\u65b0\\u53d1\\u5e03\",\"display\":\"1\",\"vars\":{\"last_articles_category_id\":{\"title\":\"\\u6587\\u7ae0\\u5206\\u7c7bID\",\"value\":\"\",\"type\":\"text\",\"dataSource\":{\"api\":\"portal\\/category\\/index\",\"multi\":true},\"placeholder\":\"\\u8bf7\\u9009\\u62e9\\u5206\\u7c7b\",\"tip\":\"\",\"rule\":{\"require\":true}}}}}}', '{\"vars\":[],\"widgets\":{\"hottest_articles\":{\"title\":\"\\u70ed\\u95e8\\u6587\\u7ae0\",\"display\":\"1\",\"vars\":{\"hottest_articles_category_id\":{\"title\":\"\\u6587\\u7ae0\\u5206\\u7c7bID\",\"value\":\"\",\"type\":\"text\",\"dataSource\":{\"api\":\"portal\\/category\\/index\",\"multi\":true},\"placeholder\":\"\\u8bf7\\u9009\\u62e9\\u5206\\u7c7b\",\"tip\":\"\",\"rule\":{\"require\":true}}}},\"last_articles\":{\"title\":\"\\u6700\\u65b0\\u53d1\\u5e03\",\"display\":\"1\",\"vars\":{\"last_articles_category_id\":{\"title\":\"\\u6587\\u7ae0\\u5206\\u7c7bID\",\"value\":\"\",\"type\":\"text\",\"dataSource\":{\"api\":\"portal\\/category\\/index\",\"multi\":true},\"placeholder\":\"\\u8bf7\\u9009\\u62e9\\u5206\\u7c7b\",\"tip\":\"\",\"rule\":{\"require\":true}}}}}}', null);
+INSERT INTO `cmf_theme_file` VALUES ('117', '0', '10', 'datong_car', '单页面', 'portal/Page/index', 'portal/page', '单页面模板文件', '{\"widgets\":{\"hottest_articles\":{\"title\":\"\\u70ed\\u95e8\\u6587\\u7ae0\",\"display\":\"1\",\"vars\":{\"hottest_articles_category_id\":{\"title\":\"\\u6587\\u7ae0\\u5206\\u7c7bID\",\"value\":\"\",\"type\":\"text\",\"dataSource\":{\"api\":\"portal\\/category\\/index\",\"multi\":true},\"placeholder\":\"\\u8bf7\\u9009\\u62e9\\u5206\\u7c7b\",\"tip\":\"\",\"rule\":{\"require\":true}}}},\"last_articles\":{\"title\":\"\\u6700\\u65b0\\u53d1\\u5e03\",\"display\":\"1\",\"vars\":{\"last_articles_category_id\":{\"title\":\"\\u6587\\u7ae0\\u5206\\u7c7bID\",\"value\":\"\",\"type\":\"text\",\"dataSource\":{\"api\":\"portal\\/category\\/index\",\"multi\":true},\"placeholder\":\"\\u8bf7\\u9009\\u62e9\\u5206\\u7c7b\",\"tip\":\"\",\"rule\":{\"require\":true}}}}}}', '{\"widgets\":{\"hottest_articles\":{\"title\":\"\\u70ed\\u95e8\\u6587\\u7ae0\",\"display\":\"1\",\"vars\":{\"hottest_articles_category_id\":{\"title\":\"\\u6587\\u7ae0\\u5206\\u7c7bID\",\"value\":\"\",\"type\":\"text\",\"dataSource\":{\"api\":\"portal\\/category\\/index\",\"multi\":true},\"placeholder\":\"\\u8bf7\\u9009\\u62e9\\u5206\\u7c7b\",\"tip\":\"\",\"rule\":{\"require\":true}}}},\"last_articles\":{\"title\":\"\\u6700\\u65b0\\u53d1\\u5e03\",\"display\":\"1\",\"vars\":{\"last_articles_category_id\":{\"title\":\"\\u6587\\u7ae0\\u5206\\u7c7bID\",\"value\":\"\",\"type\":\"text\",\"dataSource\":{\"api\":\"portal\\/category\\/index\",\"multi\":true},\"placeholder\":\"\\u8bf7\\u9009\\u62e9\\u5206\\u7c7b\",\"tip\":\"\",\"rule\":{\"require\":true}}}}}}', null);
+INSERT INTO `cmf_theme_file` VALUES ('118', '0', '10', 'datong_car', '搜索页面', 'portal/search/index', 'portal/search', '搜索模板文件', '{\"vars\":{\"varName1\":{\"title\":\"\\u70ed\\u95e8\\u641c\\u7d22\",\"value\":\"1\",\"type\":\"text\",\"tip\":\"\\u8fd9\\u662f\\u4e00\\u4e2atext\",\"rule\":{\"require\":true}}}}', '{\"vars\":{\"varName1\":{\"title\":\"\\u70ed\\u95e8\\u641c\\u7d22\",\"value\":\"1\",\"type\":\"text\",\"tip\":\"\\u8fd9\\u662f\\u4e00\\u4e2atext\",\"rule\":{\"require\":true}}}}', null);
+INSERT INTO `cmf_theme_file` VALUES ('119', '1', '0', 'datong_car', '模板全局配置', 'public/Config', 'public/config', '模板全局配置文件', '{\"vars\":{\"enable_mobile\":{\"title\":\"\\u624b\\u673a\\u6ce8\\u518c\",\"value\":1,\"type\":\"select\",\"options\":{\"1\":\"\\u5f00\\u542f\",\"0\":\"\\u5173\\u95ed\"},\"tip\":\"\"}}}', '{\"vars\":{\"enable_mobile\":{\"title\":\"\\u624b\\u673a\\u6ce8\\u518c\",\"value\":1,\"type\":\"select\",\"options\":{\"1\":\"\\u5f00\\u542f\",\"0\":\"\\u5173\\u95ed\"},\"tip\":\"\"}}}', null);
+INSERT INTO `cmf_theme_file` VALUES ('120', '1', '1', 'datong_car', '导航条', 'public/Nav', 'public/nav', '导航条模板文件', '{\"vars\":{\"company_name\":{\"title\":\"\\u516c\\u53f8\\u540d\\u79f0\",\"name\":\"company_name\",\"value\":\"ThinkCMF\",\"type\":\"text\",\"tip\":\"\",\"rule\":[]}}}', '{\"vars\":{\"company_name\":{\"title\":\"\\u516c\\u53f8\\u540d\\u79f0\",\"name\":\"company_name\",\"value\":\"ThinkCMF\",\"type\":\"text\",\"tip\":\"\",\"rule\":[]}}}', null);
 
 -- ----------------------------
 -- Table structure for cmf_third_party_user
@@ -4828,9 +4863,9 @@ CREATE TABLE `cmf_user` (
 -- ----------------------------
 -- Records of cmf_user
 -- ----------------------------
-INSERT INTO `cmf_user` VALUES ('1', '1', 'admin', 'admin', '###b0b5b1441fcc40910db4b7d99d049ddf', 'admin@admin.com', '', 'avatar/20171017/4356606a071829d0a566386a422d9bc7.png', '0', '0', '0', '0', '', '', '1507865317', '1509518009', '127.0.0.1', '1', '', '');
+INSERT INTO `cmf_user` VALUES ('1', '1', 'admin', 'admin', '###b0b5b1441fcc40910db4b7d99d049ddf', 'admin@admin.com', '', 'avatar/20171017/4356606a071829d0a566386a422d9bc7.png', '0', '0', '0', '0', '', '', '1507865317', '1509948972', '127.0.0.1', '1', '', '');
 INSERT INTO `cmf_user` VALUES ('2', '1', '超人不会飞', 'super', '###797fe4d0d1b299ac9b581f4fa4025dbb', 'super@qq.com', '', '', '0', '0', '0', '0', '', '', '0', '0', '', '1', '', '');
-INSERT INTO `cmf_user` VALUES ('3', '1', '洛萨', 'lothar', '###797fe4d0d1b299ac9b581f4fa4025dbb', 'lothar@qq.com', '', '', '0', '0', '0', '0', '', '', '0', '1509517880', '127.0.0.1', '1', '', '');
+INSERT INTO `cmf_user` VALUES ('3', '1', '洛萨', 'lothar', '###797fe4d0d1b299ac9b581f4fa4025dbb', 'lothar@qq.com', '', '', '0', '0', '0', '0', '', '', '0', '1510021825', '127.0.0.1', '1', '', '');
 
 -- ----------------------------
 -- Table structure for cmf_user_action
@@ -4949,7 +4984,7 @@ CREATE TABLE `cmf_user_token` (
 -- ----------------------------
 -- Records of cmf_user_token
 -- ----------------------------
-INSERT INTO `cmf_user_token` VALUES ('3', '1', '1525070009', '1509518009', '379e04a08a498a5a434af4779573f4fb379e04a08a498a5a434af4779573f4fb', 'web');
+INSERT INTO `cmf_user_token` VALUES ('3', '1', '1525500972', '1509948972', '45e80c2b47b0dede98e691b9b8e6374f45e80c2b47b0dede98e691b9b8e6374f', 'web');
 
 -- ----------------------------
 -- Table structure for cmf_usual_brand
@@ -5034,11 +5069,11 @@ CREATE TABLE `cmf_usual_car` (
   `seo_keywords` varchar(255) NOT NULL DEFAULT '' COMMENT 'SEO关键字',
   `seo_description` varchar(255) NOT NULL DEFAULT '' COMMENT 'SEO描述',
   `list_order` float unsigned NOT NULL DEFAULT '10000' COMMENT '排序：从小到大',
-  `sell_status` tinyint(3) NOT NULL DEFAULT '-1' COMMENT '售卖状态： -1不出售 0售卖中 1已付款 2已下单 10完成(最终确认) 11售罄',
+  `sell_status` tinyint(3) NOT NULL DEFAULT '-1' COMMENT '售卖状态： -11售罄 -2禁止出售 -1下架 0初始态 1上架(出售) 2已付款 3已下单 10完成(最终确认) ',
   `published_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '上架时间',
   `price` decimal(10,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '原价',
   `type` tinyint(4) unsigned NOT NULL COMMENT '车源类别:准新车、练手车、分期购',
-  `selling_price` decimal(10,2) unsigned NOT NULL COMMENT '售价',
+  `market_price` decimal(10,2) unsigned NOT NULL COMMENT '市场价',
   `shop_price` decimal(10,2) unsigned NOT NULL COMMENT '店铺价',
   `inventory` smallint(6) unsigned NOT NULL DEFAULT '1' COMMENT '库存',
   `old_user` varchar(255) NOT NULL COMMENT '以前的车主',
@@ -5048,7 +5083,7 @@ CREATE TABLE `cmf_usual_car` (
 -- ----------------------------
 -- Records of cmf_usual_car
 -- ----------------------------
-INSERT INTO `cmf_usual_car` VALUES ('1', '2', '2', '2', '1', '大众 CC 2015款 3.0 自动 V6', '', '', 'eq123456789875463', '1234567', '2', '33.00', '313213123', '20', '3213', '1', '0', '13', '21', '0', '3', '3401', '1509519662', '1509590521', '0', '0', '0', '0', '', '', '', '{\"thumbnail\":\"\"}', '1', '1', '{\"username\":\"111\",\"contact\":\"烦烦烦\",\"car_plate_number\":\"\",\"driving_license\":\"\"}', '', '', '', '10000', '0', '1509590656', '107800.00', '0', '0.00', '0.00', '1', '');
+INSERT INTO `cmf_usual_car` VALUES ('1', '2', '2', '2', '1', '大众 CC 2015款 3.0 自动 V6', '', '', 'eq123456789875463', '1234567', '2', '33.00', '313213123', '20', '3213', '1', '0', '13', '21', '0', '3', '3401', '1509519662', '1509590521', '0', '0', '0', '0', '', '', '', '{\"thumbnail\":\"\"}', '1', '1', '{\"username\":\"111\",\"contact\":\"烦烦烦\",\"car_plate_number\":\"\",\"driving_license\":\"\"}', '', '', '', '10000', '1', '1509590656', '107800.00', '0', '0.00', '0.00', '1', '');
 
 -- ----------------------------
 -- Table structure for cmf_usual_company
@@ -5101,7 +5136,7 @@ CREATE TABLE `cmf_usual_coordinate` (
   `ucs_y` char(10) NOT NULL COMMENT '纵坐标',
   `city_id` int(11) unsigned NOT NULL COMMENT '对应的城市ID',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Records of cmf_usual_coordinate
@@ -5113,43 +5148,90 @@ CREATE TABLE `cmf_usual_coordinate` (
 DROP TABLE IF EXISTS `cmf_usual_item`;
 CREATE TABLE `cmf_usual_item` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `cate_id` int(11) unsigned NOT NULL COMMENT '分类ID',
+  `name` varchar(150) NOT NULL COMMENT '属性值的名称',
+  `update_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
+  `delete_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '删除时间',
+  `remark` varchar(255) NOT NULL DEFAULT '' COMMENT '备注',
+  `description` varchar(255) NOT NULL DEFAULT '' COMMENT '描述',
+  `more` text NOT NULL COMMENT '扩展属性：',
+  `is_top` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '是否置顶：1是 0否',
+  `status` tinyint(3) NOT NULL DEFAULT '1' COMMENT '状态：-1禁用 0隐藏 1显示',
+  `list_order` float unsigned NOT NULL DEFAULT '10000' COMMENT '排序：从小到大',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb4 COMMENT='属性表';
+
+-- ----------------------------
+-- Records of cmf_usual_item
+-- ----------------------------
+INSERT INTO `cmf_usual_item` VALUES ('1', '0', '车源类别', '0', '0', '', '', '', '0', '0', '10000');
+INSERT INTO `cmf_usual_item` VALUES ('2', '0', '颜色', '0', '0', '', '', '', '0', '0', '10000');
+INSERT INTO `cmf_usual_item` VALUES ('3', '0', '燃料类型', '0', '0', '', '', '', '0', '0', '10000');
+INSERT INTO `cmf_usual_item` VALUES ('4', '0', '排放标准', '0', '0', '', '', '', '0', '0', '10000');
+INSERT INTO `cmf_usual_item` VALUES ('5', '0', '三星', '0', '1508727557', '', '', '', '0', '0', '10000');
+INSERT INTO `cmf_usual_item` VALUES ('6', '0', '价格区间', '0', '0', '', '单位：万。\r\n在A以下：&lt;A。\r\n在A到B之间：A-B。\r\n在B以上：&gt;B。', '', '0', '0', '10000');
+INSERT INTO `cmf_usual_item` VALUES ('7', '6', '&lt;3', '0', '0', '', '3万以下', '', '0', '0', '10000');
+INSERT INTO `cmf_usual_item` VALUES ('8', '6', '3-5', '0', '0', '', '', '', '0', '0', '10000');
+INSERT INTO `cmf_usual_item` VALUES ('9', '6', '5-8', '0', '0', '', '', '', '0', '0', '10000');
+INSERT INTO `cmf_usual_item` VALUES ('10', '6', '8-10', '0', '0', '', '', '', '0', '0', '10000');
+INSERT INTO `cmf_usual_item` VALUES ('11', '4', '国三以上', '0', '0', '', '', '', '0', '0', '10000');
+INSERT INTO `cmf_usual_item` VALUES ('12', '2', '黑色', '0', '0', '', '', '', '0', '0', '10000');
+INSERT INTO `cmf_usual_item` VALUES ('13', '2', '白色', '0', '0', '', '', '', '0', '0', '10000');
+INSERT INTO `cmf_usual_item` VALUES ('14', '2', '红色', '0', '0', '', '', '', '0', '0', '10000');
+INSERT INTO `cmf_usual_item` VALUES ('15', '2', '黄色', '0', '0', '', '', '', '0', '0', '10000');
+INSERT INTO `cmf_usual_item` VALUES ('16', '1', '大通认证', '0', '0', '', '', '', '0', '0', '10000');
+INSERT INTO `cmf_usual_item` VALUES ('17', '1', '商家质保', '0', '0', '', '', '', '0', '0', '10000');
+INSERT INTO `cmf_usual_item` VALUES ('18', '1', '本地车源', '0', '0', '', '', '', '0', '0', '10000');
+INSERT INTO `cmf_usual_item` VALUES ('19', '4', '国四以上', '0', '0', '', '', '', '0', '0', '10000');
+INSERT INTO `cmf_usual_item` VALUES ('20', '4', '国五', '0', '0', '', '', '', '0', '0', '10000');
+INSERT INTO `cmf_usual_item` VALUES ('21', '3', '汽油', '0', '0', '', '', '', '0', '0', '10000');
+INSERT INTO `cmf_usual_item` VALUES ('22', '3', '柴油', '0', '0', '', '', '', '0', '0', '10000');
+INSERT INTO `cmf_usual_item` VALUES ('23', '3', '纯电动', '0', '0', '', '', '', '0', '0', '10000');
+INSERT INTO `cmf_usual_item` VALUES ('24', '2', '43242', '1510135152', '0', '', '', '{\"thumbnail\":\"\"}', '0', '1', '10000');
+
+-- ----------------------------
+-- Table structure for cmf_usual_item_cate
+-- ----------------------------
+DROP TABLE IF EXISTS `cmf_usual_item_cate`;
+CREATE TABLE `cmf_usual_item_cate` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `parent_id` int(11) unsigned NOT NULL COMMENT '父级ID',
   `name` varchar(150) NOT NULL COMMENT '属性名',
   `delete_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '删除时间',
-  `path` varchar(255) NOT NULL COMMENT '分类层级关系路径',
-  `remark` varchar(255) NOT NULL COMMENT '备注',
-  `description` varchar(255) NOT NULL,
-  `status` tinyint(3) NOT NULL COMMENT '状态：0隐藏 1显示 2禁用',
+  `path` varchar(255) NOT NULL DEFAULT '' COMMENT '分类层级关系路径',
+  `remark` varchar(255) NOT NULL DEFAULT '' COMMENT '备注',
+  `description` varchar(255) NOT NULL DEFAULT '' COMMENT '描述',
+  `status` tinyint(3) NOT NULL DEFAULT '1' COMMENT '状态：-1禁用 0隐藏 1显示',
   `list_order` float unsigned NOT NULL DEFAULT '10000' COMMENT '排序：从小到大',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb4 COMMENT='属性表';
 
 -- ----------------------------
--- Records of cmf_usual_item
+-- Records of cmf_usual_item_cate
 -- ----------------------------
-INSERT INTO `cmf_usual_item` VALUES ('1', '0', '车源类别', '0', '0-1', '', '', '0', '10000');
-INSERT INTO `cmf_usual_item` VALUES ('2', '0', '颜色', '0', '0-2', '', '', '0', '10000');
-INSERT INTO `cmf_usual_item` VALUES ('3', '0', '燃料类型', '0', '0-3', '', '', '0', '10000');
-INSERT INTO `cmf_usual_item` VALUES ('4', '0', '排放标准', '0', '0-4', '', '', '0', '10000');
-INSERT INTO `cmf_usual_item` VALUES ('5', '0', '三星', '1508727557', '0-5', '', '', '0', '10000');
-INSERT INTO `cmf_usual_item` VALUES ('6', '0', '价格区间', '0', '0-6', '', '单位：万。\r\n在A以下：&lt;A。\r\n在A到B之间：A-B。\r\n在B以上：&gt;B。', '0', '10000');
-INSERT INTO `cmf_usual_item` VALUES ('7', '6', '&lt;3', '0', '0-6-7', '', '3万以下', '0', '10000');
-INSERT INTO `cmf_usual_item` VALUES ('8', '6', '3-5', '0', '0-6-8', '', '', '0', '10000');
-INSERT INTO `cmf_usual_item` VALUES ('9', '6', '5-8', '0', '0-6-9', '', '', '0', '10000');
-INSERT INTO `cmf_usual_item` VALUES ('10', '6', '8-10', '0', '0-6-10', '', '', '0', '10000');
-INSERT INTO `cmf_usual_item` VALUES ('11', '4', '国三以上', '0', '0-4-11', '', '', '0', '10000');
-INSERT INTO `cmf_usual_item` VALUES ('12', '2', '黑色', '0', '0-2-12', '', '', '0', '10000');
-INSERT INTO `cmf_usual_item` VALUES ('13', '2', '白色', '0', '0-2-13', '', '', '0', '10000');
-INSERT INTO `cmf_usual_item` VALUES ('14', '2', '红色', '0', '0-2-14', '', '', '0', '10000');
-INSERT INTO `cmf_usual_item` VALUES ('15', '2', '黄色', '0', '0-2-15', '', '', '0', '10000');
-INSERT INTO `cmf_usual_item` VALUES ('16', '1', '大通认证', '0', '0-1-16', '', '', '0', '10000');
-INSERT INTO `cmf_usual_item` VALUES ('17', '1', '商家质保', '0', '0-1-17', '', '', '0', '10000');
-INSERT INTO `cmf_usual_item` VALUES ('18', '1', '本地车源', '0', '0-1-18', '', '', '0', '10000');
-INSERT INTO `cmf_usual_item` VALUES ('19', '4', '国四以上', '0', '0-4-19', '', '', '0', '10000');
-INSERT INTO `cmf_usual_item` VALUES ('20', '4', '国五', '0', '0-4-20', '', '', '0', '10000');
-INSERT INTO `cmf_usual_item` VALUES ('21', '3', '汽油', '0', '0-3-21', '', '', '0', '10000');
-INSERT INTO `cmf_usual_item` VALUES ('22', '3', '柴油', '0', '0-3-22', '', '', '0', '10000');
-INSERT INTO `cmf_usual_item` VALUES ('23', '3', '纯电动', '0', '0-3-23', '', '', '0', '10000');
+INSERT INTO `cmf_usual_item_cate` VALUES ('1', '0', '车源类别', '0', '0-1', '', '', '0', '10000');
+INSERT INTO `cmf_usual_item_cate` VALUES ('2', '0', '颜色', '0', '0-2', '', '', '0', '10000');
+INSERT INTO `cmf_usual_item_cate` VALUES ('3', '0', '燃料类型', '0', '0-3', '', '', '0', '10000');
+INSERT INTO `cmf_usual_item_cate` VALUES ('4', '0', '排放标准', '0', '0-4', '', '', '0', '10000');
+INSERT INTO `cmf_usual_item_cate` VALUES ('5', '0', '三星', '1508727557', '0-5', '', '', '0', '10000');
+INSERT INTO `cmf_usual_item_cate` VALUES ('6', '0', '价格区间', '0', '0-6', '', '单位：万。\r\n在A以下：&lt;A。\r\n在A到B之间：A-B。\r\n在B以上：&gt;B。', '0', '10000');
+INSERT INTO `cmf_usual_item_cate` VALUES ('7', '6', '&lt;3', '0', '0-6-7', '', '3万以下', '0', '10000');
+INSERT INTO `cmf_usual_item_cate` VALUES ('8', '6', '3-5', '0', '0-6-8', '', '', '0', '10000');
+INSERT INTO `cmf_usual_item_cate` VALUES ('9', '6', '5-8', '0', '0-6-9', '', '', '0', '10000');
+INSERT INTO `cmf_usual_item_cate` VALUES ('10', '6', '8-10', '0', '0-6-10', '', '', '0', '10000');
+INSERT INTO `cmf_usual_item_cate` VALUES ('11', '4', '国三以上', '0', '0-4-11', '', '', '0', '10000');
+INSERT INTO `cmf_usual_item_cate` VALUES ('12', '2', '黑色', '0', '0-2-12', '', '', '0', '10000');
+INSERT INTO `cmf_usual_item_cate` VALUES ('13', '2', '白色', '0', '0-2-13', '', '', '0', '10000');
+INSERT INTO `cmf_usual_item_cate` VALUES ('14', '2', '红色', '0', '0-2-14', '', '', '0', '10000');
+INSERT INTO `cmf_usual_item_cate` VALUES ('15', '2', '黄色', '0', '0-2-15', '', '', '0', '10000');
+INSERT INTO `cmf_usual_item_cate` VALUES ('16', '1', '大通认证', '0', '0-1-16', '', '', '0', '10000');
+INSERT INTO `cmf_usual_item_cate` VALUES ('17', '1', '商家质保', '0', '0-1-17', '', '', '0', '10000');
+INSERT INTO `cmf_usual_item_cate` VALUES ('18', '1', '本地车源', '0', '0-1-18', '', '', '0', '10000');
+INSERT INTO `cmf_usual_item_cate` VALUES ('19', '4', '国四以上', '0', '0-4-19', '', '', '0', '10000');
+INSERT INTO `cmf_usual_item_cate` VALUES ('20', '4', '国五', '0', '0-4-20', '', '', '0', '10000');
+INSERT INTO `cmf_usual_item_cate` VALUES ('21', '3', '汽油', '0', '0-3-21', '', '', '0', '10000');
+INSERT INTO `cmf_usual_item_cate` VALUES ('22', '3', '柴油', '0', '0-3-22', '', '', '0', '10000');
+INSERT INTO `cmf_usual_item_cate` VALUES ('23', '3', '纯电动', '0', '0-3-23', '', '', '0', '10000');
 
 -- ----------------------------
 -- Table structure for cmf_usual_models
@@ -5249,3 +5331,47 @@ CREATE TABLE `cmf_verification_code` (
 -- ----------------------------
 -- Records of cmf_verification_code
 -- ----------------------------
+
+-- ----------------------------
+-- Table structure for cmf_verify
+-- ----------------------------
+DROP TABLE IF EXISTS `cmf_verify`;
+CREATE TABLE `cmf_verify` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) unsigned NOT NULL COMMENT '认证用户ID',
+  `auth_code` char(20) NOT NULL COMMENT '认证项目code，注意这里没有根据ID来做',
+  `auth_count` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '认证次数',
+  `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
+  `end_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '结束时间',
+  `more` text NOT NULL COMMENT '扩展数据：认证数据',
+  `is_top` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '置顶：0否 1是',
+  `auth_status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '认证状态：-1禁止认证 0未认证 1已认证 2取消 3认证失败',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
+
+-- ----------------------------
+-- Records of cmf_verify
+-- ----------------------------
+INSERT INTO `cmf_verify` VALUES ('1', '3', 'mobile', '0', '2017', '2017', '{\"mobile\":\"133654987\",\"email\":\"\",\"identity_card\":\"\",\"driving_license\":\"\",\"real_name\":\"\",\"gender\":\"\",\"birthday\":\"\",\"telephone\":\"\",\"alipay\":\"\",\"weixin\":\"\",\"ID_Type\":\"\",\"ID_No\":\"\",\"booklet\":\"\",\"house_certificate\":\"\",\"marriage_lines\":\"\",\"birthcity\":\"\",\"residecity\":\"\",\"diploma\":\"\",\"graduateschool\":\"\",\"education\":\"\",\"business_license\":\"\",\"work_occupation\":\"\",\"work_company\":\"\",\"work_position\":\"\",\"work_experience\":\"\"}', '0', '0');
+
+-- ----------------------------
+-- Table structure for cmf_verify_model
+-- ----------------------------
+DROP TABLE IF EXISTS `cmf_verify_model`;
+CREATE TABLE `cmf_verify_model` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(20) NOT NULL DEFAULT '' COMMENT '认证项目名称',
+  `code` varchar(20) NOT NULL DEFAULT '' COMMENT '认证项目code',
+  `more` text NOT NULL COMMENT '扩展数据：选择相关认证内容',
+  `status` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT '状态：0关闭 1开启',
+  `list_order` float unsigned NOT NULL DEFAULT '10000' COMMENT '排序：从小到大',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4;
+
+-- ----------------------------
+-- Records of cmf_verify_model
+-- ----------------------------
+INSERT INTO `cmf_verify_model` VALUES ('1', '手机认证', 'mobile', '{\"thumbnail\":\"\",\"mobile\":\"mobile\"}', '1', '10');
+INSERT INTO `cmf_verify_model` VALUES ('2', '邮箱认证', 'email', '{\"thumbnail\":\"\",\"email\":\"email\"}', '1', '20');
+INSERT INTO `cmf_verify_model` VALUES ('3', '实名认证', 'certification', '{\"thumbnail\":\"\",\"identity_card\":\"identity_card\",\"real_name\":\"real_name\"}', '1', '30');
+INSERT INTO `cmf_verify_model` VALUES ('4', '企业资格认证', 'enterprise', '{\"thumbnail\":\"\",\"business_license\":\"business_license\",\"work_company\":\"work_company\"}', '1', '40');

@@ -16,10 +16,17 @@ class ServiceCategoryModel extends UsualModel
     }
 
     // 获取列表数据
-    public function getLists($filter, $isPage = false)
+    public function getLists($filter=[], $isPage = false)
     {
+        $where = [];
+        if (!empty($filter['cateType'])) {
+            $where['type'] = $filter['cateType'];
+        }
+        if (!empty($filter['keyword'])) {
+            $where['name'] = ['like',"%$filter[keyword]%"];
+        }
         // $categories = $this->field('id,name,description,list_order')->order("list_order ASC")->where($where)->select()->toArray();
-        $categories = $this->field('id,name,code,description,list_order')->order("list_order ASC,id DESC")->paginate(config('pagerset.pagesize'));
+        $categories = $this->field('id,name,code,type,description,list_order')->where($where)->order("list_order ASC,id DESC")->paginate(config('pagerset.size'));
         return $categories;
     }
 
@@ -74,9 +81,7 @@ class ServiceCategoryModel extends UsualModel
             if (!empty($data['more']['thumbnail'])) {
                 $data['more']['thumbnail'] = cmf_asset_relative_url($data['more']['thumbnail']);
             }
-            if (!empty($extra)) {
-                $data['define_data'] = $extra;
-            }
+            $data['define_data'] = empty($extra) ? [] : $extra;
             $this->allowField(true)->save($data);
             // $id          = $this->id;
             self::commit();
@@ -103,9 +108,7 @@ class ServiceCategoryModel extends UsualModel
         if (!empty($data['more']['thumbnail'])) {
             $data['more']['thumbnail'] = cmf_asset_relative_url($data['more']['thumbnail']);
         }
-        if (!empty($extra)) {
-            $data['define_data'] = $extra;
-        }
+        $data['define_data'] = empty($extra) ? [] : $extra;
         $this->isUpdate(true)->allowField(true)->save($data, ['id' => $id]);
 
         return $result;

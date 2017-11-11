@@ -57,7 +57,7 @@ class TradeOrderModel extends UsualModel
             ->join($join)
             ->where($where)
             ->order('a.id DESC')
-            ->paginate(config('pagerset.pagesize'));
+            ->paginate(config('pagerset.size'));
 
         return $series;
     }
@@ -85,13 +85,6 @@ class TradeOrderModel extends UsualModel
 
     public function getOrderStatus($status='')
     {
-        $status = intval($status);
-        $order_status = config('trade_order_status');
-        $options = '';
-        foreach ($order_status as $key => $vo) {
-            $options .= '<option value="'.$key.'" '.($status==$key?'selected':'').'>'.$vo.'</option>';
-        }
-
-        return $options;
+        return $this->getStatus($status);
     }
 }

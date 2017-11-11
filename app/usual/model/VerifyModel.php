@@ -52,7 +52,7 @@ class VerifyModel extends UsualModel
             ->join($join)
             ->where($where)
             ->order('a.is_top DESC,a.id DESC')
-            ->paginate(config('pagerset.pagesize'));
+            ->paginate(config('pagerset.size'));
 
         return $series;
     }

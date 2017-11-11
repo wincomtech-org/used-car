@@ -164,7 +164,6 @@ class AdminCategoryController extends AdminBaseController
         $data = $this->request->param();
 
         $result = $this->validate($data, 'PortalCategory');
-
         if ($result !== true) {
             $this->error($result);
         }

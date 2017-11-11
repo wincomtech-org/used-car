@@ -14,7 +14,6 @@ use app\portal\model\PortalPostModel;
 
 class PostService
 {
-
     public function adminArticleList($filter)
     {
         return $this->adminPostList($filter);
@@ -27,7 +26,6 @@ class PostService
 
     public function adminPostList($filter, $isPage = false)
     {
-
         $where = [
             'a.create_time' => ['>=', 0],
             'a.delete_time' => 0
@@ -75,7 +73,7 @@ class PostService
             ->join($join)
             ->where($where)
             ->order('update_time', 'DESC')
-            ->paginate(10);
+            ->paginate(12);
 
         return $articles;
 
@@ -117,7 +115,6 @@ class PostService
                 ->find();
         }
 
-
         return $article;
     }
 
@@ -127,7 +124,6 @@ class PostService
         $portalPostModel = new PortalPostModel();
 
         if (empty($categoryId)) {
-
             $where = [
                 'post.post_type'      => 1,
                 'post.published_time' => [['< time', time()], ['> time', 0]],
@@ -161,7 +157,6 @@ class PostService
                 ->find();
         }
 
-
         return $article;
     }
 
@@ -169,7 +164,6 @@ class PostService
     public function publishedNextArticle($postId, $categoryId = 0)
     {
         $portalPostModel = new PortalPostModel();
-
         if (empty($categoryId)) {
 
             $where = [
@@ -204,13 +198,11 @@ class PostService
                 ->find();
         }
 
-
         return $article;
     }
 
     public function publishedPage($pageId)
     {
-
         $where = [
             'post_type'      => 2,
             'published_time' => [['< time', time()], ['> time', 0]],

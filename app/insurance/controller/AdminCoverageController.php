@@ -21,7 +21,7 @@ class AdminCoverageController extends AdminBaseController
         $data = model('InsuranceCoverage')->getLists($param);
         $data->appends($param);
         $insurances = model('InsuranceCoverage')->getInsurance($insuranceId,$companyId);
-        $companys = model('InsuranceCoverage')->getCompany($companyId);
+        $companys = model('usual/UsualCompany')->getCompanys($companyId);
 
         $this->assign('start_time', isset($param['start_time']) ? $param['start_time'] : '');
         $this->assign('end_time', isset($param['end_time']) ? $param['end_time'] : '');
@@ -42,7 +42,7 @@ class AdminCoverageController extends AdminBaseController
         $companyId = $this->request->param('comid',0,'intval');
 
         $insurances = model('InsuranceCoverage')->getInsurance($categoryId,$companyId);
-        $companys = model('InsuranceCoverage')->getCompany($companyId);
+        $companys = model('usual/UsualCompany')->getCompanys($companyId);
 
         $this->assign('categoryId', $categoryId);
         $this->assign('companyId', $companyId);
@@ -84,7 +84,7 @@ class AdminCoverageController extends AdminBaseController
         // $post = model('InsuranceCoverage')->where('id', $id)->find();
         $company_id = model('Insurance')->where('id',$post['insurance_id'])->value('company_id');
         $insurances = model('InsuranceCoverage')->getInsurance($post['insurance_id'],$companyId);
-        $companys = model('InsuranceCoverage')->getCompany($company_id);
+        $companys = model('usual/UsualCompany')->getCompanys($company_id);
 
         $this->assign('post', $post);
         $this->assign('insurances', $insurances);
@@ -97,7 +97,6 @@ class AdminCoverageController extends AdminBaseController
     {
         if ($this->request->isPost()) {
             $data   = $this->request->param();
-            // dump($data);die;
             $post   = $data['post'];
             $result = $this->validate($post, 'Coverage.edit');
             if ($result !== true) {

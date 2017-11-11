@@ -77,7 +77,7 @@ class Upload
 
         /**
          * 断点续传 need
-         */
+        */
         header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
         header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
         header("Cache-Control: no-store, no-cache, must-revalidate");
@@ -92,10 +92,9 @@ class Upload
         @set_time_limit(10 * 60);
         $cleanupTargetDir = true; // Remove old files
         $maxFileAge       = 5 * 3600; // Temp file age in seconds
-
         /**
          * 断点续传 end
-         */
+        */
 
         $app = $this->request->post('app');
         if (!file_exists(APP_PATH . $app)) {
@@ -106,9 +105,7 @@ class Upload
         $originalName = $fileImage->getInfo('name');
 
         $arrAllowedExtensions = explode(',', $arrFileTypes[$fileType]['extensions']);
-
         $strFileExtension = strtolower(cmf_get_file_extension($originalName));
-
         if (!in_array($strFileExtension, $arrAllowedExtensions)) {
             $this->error = "非法文件类型！";
             return false;
@@ -132,7 +129,7 @@ class Upload
 
         /**
          * 断点续传 need
-         */
+        */
         $strFilePath = md5($originalName);
         $chunk       = $this->request->param("chunk", 0, "intval");// isset($_REQUEST["chunk"]) ? intval($_REQUEST["chunk"]) : 0;
         $chunks      = $this->request->param("chunks", 1, "intval");//isset($_REQUEST["chunks"]) ? intval($_REQUEST["chunks"]) : 1;
@@ -233,10 +230,9 @@ class Upload
 
         $fileImage->setSaveName($fileSaveName);
         $fileImage->setUploadInfo($arrInfo);
-
         /**
          * 断点续传 end
-         */
+        */
 
         if (!$fileImage->validate(['size' => $fileUploadMaxFileSize])->check()) {
             $error = $fileImage->getError();
@@ -300,11 +296,11 @@ class Upload
             $assetModel->data($arrInfo)->allowField(true)->save();
         }
 
-        //删除临时文件
-//        for ($index = 0; $index < $chunks; $index++) {
-//            // echo $targetDir . "{$strFilePath}_{$index}.part";
-//            @unlink($targetDir . "{$strFilePath}_{$index}.part");
-//        }
+        // 删除临时文件
+        // for ($index = 0; $index < $chunks; $index++) {
+        //     // echo $targetDir . "{$strFilePath}_{$index}.part";
+        //     @unlink($targetDir . "{$strFilePath}_{$index}.part");
+        // }
         @rmdir($targetDir);
 
         $storage = cmf_get_option('storage');

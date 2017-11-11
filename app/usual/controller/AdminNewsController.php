@@ -6,7 +6,7 @@ use cmf\controller\AdminBaseController;
 // use think\Db;
 
 /**
-* 认证模块
+* 消息模块
 */
 class AdminNewsController extends AdminBaseController
 {

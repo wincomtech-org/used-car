@@ -16,11 +16,59 @@
 					<div class="tab-content">
 						<div class="tab-pane active" id="A">
 							<div class="form-group">
-								<label for="input-site-name" class="col-sm-2 control-label"><span class="form-required">*</span>{:lang('WEBSITE_NAME')}</label>
+								<label for="input-site_name" class="col-sm-2 control-label"><span class="form-required">*</span>{:lang('WEBSITE_NAME')}</label>
 								<div class="col-md-6 col-sm-10">
-									<input type="text" class="form-control" id="input-site-name" name="options[site_name]" value="{$site_name|default=''}">
+									<input type="text" class="form-control" id="input-site_name" name="options[site_name]" value="{$site_name|default=''}">
 								</div>
 							</div>
+
+							<div class="form-group">
+								<label for="thumbnail" class="col-sm-2 control-label">{:lang('WEBSITE_LOGO')}</label>
+								<div class="col-md-6 col-sm-10">
+									<input type="hidden" name="options[site_logo]" id="thumbnail" value="{$site_logo|default=''}">
+									<a href="javascript:uploadOneImage('图片上传','#thumbnail');">
+										<empty name="site_logo">
+											<img src="__TMPL__/public/assets/images/default-thumbnail.png" id="thumbnail-preview" width="135" style="cursor: pointer"/>
+										<else/>
+											<img src="{$site_logo_preview}" id="thumbnail-preview" width="135" style="cursor: pointer"/>
+										</empty>
+									</a>
+									<input type="button" class="btn btn-sm btn-cancel-thumbnail" value="取消图片">
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label for="input-site_icp" class="col-sm-2 control-label">{:lang('WEBSITE_ICP')}</label>
+								<div class="col-md-6 col-sm-10">
+									<input type="text" class="form-control" id="input-site_icp" name="options[site_icp]" value="{$site_icp|default=''}">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="input-site_copyright" class="col-sm-2 control-label">{:lang('WEBSITE_COPYRIGHT_INFOMATION')}</label>
+								<div class="col-md-6 col-sm-10">
+									<input type="text" class="form-control" id="input-site_copyright" name="options[site_copyright]" value="{$site_copyright|default=''}">
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label for="input-site_tel" class="col-sm-2 control-label">{:lang('WEBSITE_TEL')}</label>
+								<div class="col-md-6 col-sm-10">
+									<input type="text" class="form-control" id="input-site_tel" name="options[site_tel]" value="{$site_tel|default=''}">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="input-site_addr" class="col-sm-2 control-label">{:lang('WEBSITE_ADDR')}</label>
+								<div class="col-md-6 col-sm-10">
+									<input type="text" class="form-control" id="input-site_addr" name="options[site_addr]" value="{$site_addr|default=''}">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="input-site_admin_email" class="col-sm-2 control-label">{:lang('WEBMASTER_EMAIL')}</label>
+								<div class="col-md-6 col-sm-10">
+									<input type="text" class="form-control" id="input-site_admin_email" name="options[site_admin_email]" value="{$site_admin_email|default=''}">
+								</div>
+							</div>
+
 							<div class="form-group">
 								<label for="input-admin_url_password" class="col-sm-2 control-label">后台加密码</label>
 								<div class="col-md-6 col-sm-10">
@@ -73,29 +121,12 @@
 							</div>
 							-->
 							<div class="form-group">
-								<label for="input-site_icp" class="col-sm-2 control-label">{:lang('WEBSITE_ICP')}</label>
-								<div class="col-md-6 col-sm-10">
-									<input type="text" class="form-control" id="input-site_icp" name="options[site_icp]" value="{$site_icp|default=''}">
-								</div>
-							</div>
-							<div class="form-group">
-								<label for="input-site_admin_email" class="col-sm-2 control-label">{:lang('WEBMASTER_EMAIL')}</label>
-								<div class="col-md-6 col-sm-10">
-									<input type="text" class="form-control" id="input-site_admin_email" name="options[site_admin_email]" value="{$site_admin_email|default=''}">
-								</div>
-							</div>
-							<div class="form-group">
 								<label for="input-site_analytics" class="col-sm-2 control-label">{:lang('WEBSITE_STATISTICAL_CODE')}</label>
 								<div class="col-md-6 col-sm-10">
 									<textarea class="form-control" id="input-site_analytics" name="options[site_analytics]">{$site_analytics|default=''}</textarea>
 								</div>
 							</div>
-							<!--<div class="form-group">-->
-								<!--<label for="input-site_copyright" class="col-sm-2 control-label">{:lang('WEBSITE_COPYRIGHT_INFOMATION')}</label>-->
-								<!--<div class="col-md-6 col-sm-10">-->
-									<!--<input type="text" class="form-control" id="input-site_copyright" name="options[site_copyright]" value="{$site_copyright|default=''}">-->
-								<!--</div>-->
-							<!--</div>-->
+
 							<div class="form-group">
 								<div class="col-sm-offset-2 col-sm-10">
 									<button type="submit" class="btn btn-primary js-ajax-submit" data-refresh="1">{:lang('SAVE')}</button>
@@ -127,7 +158,8 @@
 								</div>
 							</div>
 						</div>
-						<!-- <div class="tab-pane" id="C">
+						<!--
+						<div class="tab-pane" id="C">
 							<div class="form-group">
 								<label for="input-urlmode" class="col-sm-2 control-label">{:lang('URL_MODE')}</label>
 								<div class="col-md-6 col-sm-10">
@@ -151,7 +183,8 @@
 									<button type="submit" class="btn btn-primary js-ajax-submit" data-refresh="0">{:lang('SAVE')}</button>
 								</div>
 							</div>
-						</div> -->
+						</div>
+						-->
 						<!--
 						<div class="tab-pane" id="E">
 							<div class="form-group">
@@ -224,5 +257,13 @@
 
 	</div>
 	<script type="text/javascript" src="__STATIC__/js/admin.js"></script>
+	<script type="text/javascript">
+	    $(function () {
+	        $('.btn-cancel-thumbnail').click(function () {
+	            $('#thumbnail-preview').attr('src', '__TMPL__/public/assets/images/default-thumbnail.png');
+	            $('#thumbnail').val('');
+	        });
+	    });
+	</script>
 </body>
 </html>

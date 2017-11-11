@@ -1,0 +1,18 @@
+<nav class="navPc">
+    <div class="main">
+        <ul class="nav_list">
+            <foreach name="menus" item="nav" >
+            <li class="nav_item {$nav.active?='active'}">
+                <a href="{$nav.href}" {$nav.target?='target="_blank"'}>{$nav.name}</a>
+                <if condition="!empty($nav.children)">
+                    <ol class="nav_second_item" style="display:none">
+                        <foreach name="nav.children" item="child" >
+                        <li><a href="{$child.href}">{$child.name}</a></li>
+                        </foreach>
+                    </ol>
+                </if>
+            </li>
+            </foreach>
+        </ul>
+    </div>
+</nav>

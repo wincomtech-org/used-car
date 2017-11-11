@@ -40,22 +40,9 @@ class InsuranceModel extends UsualModel
             ->join('__USUAL_COMPANY__ b','a.company_id=b.id','LEFT')
             ->where($where)
             ->order('a.update_time DESC')
-            ->paginate(config('pagerset.pagesize'));
+            ->paginate(config('pagerset.size'));
 
         return $series;
-    }
-
-    public function getCompany($selectId = 0)
-    {
-        $where = ['delete_time' => 0];
-        $categories = Db::name('usual_company')->field('id,name')->order("list_order ASC")->where($where)->select()->toArray();
-
-        $options = '';
-        foreach ($categories as $item) {
-            $options .= '<option value="'.$item['id'].'" '.($selectId==$item['id']?'selected':'').'>'.$item['name'].'</option>';
-        }
-
-        return $options;
     }
 
     public function getInsurance($selectId=0, $companyId=0)
@@ -73,20 +60,23 @@ class InsuranceModel extends UsualModel
         return $options;
     }
 
-    /*
-     * 获取 险种
-     * ."\r\n"
-    */
-    public function getCoverage($checkedIds=[], $excludeIds=[])
+
+
+// 前台
+    /*首页*/
+    public function getIndexInsuranceList($limit=4)
     {
-        $where = ['delete_time' => 0, 'insurance_id' => 0];
-        $categories = model('InsuranceCoverage')->field('id,name')->order("list_order ASC")->where($where)->select()->toArray();
-
-        $options = '';
-        foreach ($categories as $v) {
-            $options .= '<label><input type="checkbox" name="post[more][coverage][]" value="'.$v['id'].'" '.(in_array($v['id'],$checkedIds)?'checked':'').'>'. $v['name'] .'</label> &nbsp; &nbsp; ';
+        $ckey = 'giinsurancel'.$limit;
+        if (session('?'.$ckey)) {
+            $lists = cache($ckey);
+        } else {
+            $lists = $this->field('id,name,description,more')
+                ->where(['status'=>1,'identi_status'=>1])
+                ->order('is_rec desc,published_time desc')
+                ->limit($limit)
+                ->select()->toArray();
+            cache($ckey, $lists, 3600);
         }
-
-        return $options;
+        return $lists;
     }
 }

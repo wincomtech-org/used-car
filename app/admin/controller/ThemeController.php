@@ -33,7 +33,6 @@ class ThemeController extends AdminBaseController
      */
     public function index()
     {
-
         $themeModel = new ThemeModel();
         $themes     = $themeModel->select();
         $this->assign("themes", $themes);
@@ -195,13 +194,11 @@ class ThemeController extends AdminBaseController
 
         $themeModel = new ThemeModel();
         $themeCount = $themeModel->where('theme', $theme)->count();
-
         if ($themeCount === 0) {
             $this->error('模板未安装!');
         }
 
         $result = cmf_set_dynamic_config(['cmf_default_theme' => $theme]);
-
         if ($result === false) {
             $this->error('配置写入失败!');
         }

@@ -83,7 +83,11 @@
                         </notempty>
                     </td>
                     <td>
-                        <empty name="vo.status">禁用<else/>启用</empty>
+                        <switch name="vo.status">
+                            <case value="-1">禁用</case>
+                            <case value="1">启用</case>
+                            <default />隐藏
+                        </switch>
                     </td>
                     <td>
                         <a href="{:url('AdminCoverage/edit',array('id'=>$vo['id']))}">{:lang('EDIT')}</a>

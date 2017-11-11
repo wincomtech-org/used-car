@@ -39,15 +39,16 @@ class UsualCompanyModel extends UsualModel
         $series = $this->alias('a')->field($field)
             ->where($where)
             ->order('update_time DESC')
-            ->paginate(config('pagerset.pagesize'));
+            ->paginate(config('pagerset.size'));
 
         return $series;
     }
 
     public function getCompanys($selectId=0, $parentId=0, $level=1, $default_option=false)
     {
+        $where = ['delete_time' => 0];
         // $data = $this->all()->toArray();
-        $data = $this->field(['id','name'])->select()->toArray();
+        $data = $this->field(['id','name'])->where($where)->order("list_order ASC")->select()->toArray();
         $options = $default_option ?'<option value="0">--请选择--</option>':'';
         if (is_array($data)) {
             foreach ($data as $v) {

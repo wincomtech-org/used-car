@@ -76,6 +76,11 @@ class UsualModel extends Model
     {
         return strtotime($value);
     }
+    // car_license_time 上牌时间
+    public function setCarLicenseTimeAttr($value)
+    {
+        return strtotime($value);
+    }
 
     /**
      * status 状态 自动完成
@@ -91,6 +96,10 @@ class UsualModel extends Model
         return $this->setStatusAttr($value);
     }
     public function setIsRecAttr($value)
+    {
+        return $this->setStatusAttr($value);
+    }
+    public function setSellStatusAttr($value)
     {
         return $this->setStatusAttr($value);
     }
@@ -169,7 +178,7 @@ class UsualModel extends Model
      */
     public function adminEditArticle($data, $categories = null)
     {
-        $data['user_id'] = $data['user_id'] ? $data['user_id'] : cmf_get_current_admin_id();
+        $data['user_id'] = !empty($data['user_id']) ? $data['user_id'] : cmf_get_current_admin_id();
         if (!empty($data['more']['thumbnail'])) {
             $data['more']['thumbnail'] = cmf_asset_relative_url($data['more']['thumbnail']);
         }
@@ -375,8 +384,9 @@ class UsualModel extends Model
      * @param int $id 唯一ID
      * @return $post 获取一条数据
     */
-    public function getPost($id)
+    public function getPost($id,$field)
     {
+        $post = $this->get($id)->toArray();
         $post = $this->get($id)->toArray();
         // $post = model('UsualCompany')->where('id', $id)->find();
         // if (isset($post['content'])) {
@@ -385,6 +395,7 @@ class UsualModel extends Model
         // if (isset($post['information'])) {
         //     $post['information'] = cmf_replace_content_file_url(htmlspecialchars_decode($post['information']));
         // }
+
         return $post;
     }
 
@@ -400,5 +411,20 @@ class UsualModel extends Model
         }
 
         return $post;
+    }
+
+    public function getStatus($status='',$config='trade_order_status')
+    {
+        if (empty($config)) {
+            return false;
+        }
+        $status = intval($status);
+        $Sconfig = config($config);
+        $options = '';
+        foreach ($Sconfig as $key => $vo) {
+            $options .= '<option value="'.$key.'" '.($status==$key?'selected':'').'>'.$vo.'</option>';
+        }
+
+        return $options;
     }
 }
