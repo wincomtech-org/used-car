@@ -384,9 +384,8 @@ class UsualModel extends Model
      * @param int $id 唯一ID
      * @return $post 获取一条数据
     */
-    public function getPost($id,$field)
+    public function getPost($id)
     {
-        $post = $this->get($id)->toArray();
         $post = $this->get($id)->toArray();
         // $post = model('UsualCompany')->where('id', $id)->find();
         // if (isset($post['content'])) {
