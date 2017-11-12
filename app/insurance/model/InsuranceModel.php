@@ -67,7 +67,7 @@ class InsuranceModel extends UsualModel
     public function getIndexInsuranceList($limit=4)
     {
         $ckey = 'giinsurancel'.$limit;
-        if (session('?'.$ckey)) {
+        if (cache('?'.$ckey)) {
             $lists = cache($ckey);
         } else {
             $lists = $this->field('id,name,description,more')

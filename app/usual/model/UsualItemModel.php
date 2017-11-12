@@ -123,8 +123,8 @@ class UsualItemModel extends UsualModel
         // 以下整个都可以改成用 Tree 类解决
         if (is_array($itemCate)) {
             foreach ($itemCate as $key=>$cate) {
-                $item = $this->getItems(0,$cate['id'],false);
-                $itemCate[$key]['form_element'] = $item;
+                $items = $this->getItems(0,$cate['id'],false);
+                $itemCate[$key]['form_element'] = $items;
             }
             if ($recursive===true) {
                 $itemCateTree = [];
@@ -138,6 +138,12 @@ class UsualItemModel extends UsualModel
             return [];
         }
         return $itemCate;
+    }
+
+    // 获取前台 展示给用户的 自定义数据集
+    public function getItemShow($data=[])
+    {
+        # code...
     }
 
     /*

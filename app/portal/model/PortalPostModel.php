@@ -312,7 +312,7 @@ class PortalPostModel extends Model
     public function getIndexPortalList($cateId=1, $order='DESC', $limit=9)
     {
         $ckey = 'giportall'.$cateId.$order.$limit;
-        if (session('?'.$ckey)) {
+        if (cache('?'.$ckey)) {
             $lists = cache($ckey);
         } else {
             $field = 'a.id,a.post_title,a.post_excerpt,a.more';

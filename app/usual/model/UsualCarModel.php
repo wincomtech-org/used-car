@@ -61,7 +61,7 @@ class UsualCarModel extends UsualModel
     public function getIndexCarList($limit=6)
     {
         $ckey = 'gicarl'.$limit;
-        if (session('?'.$ckey)) {
+        if (cache('?'.$ckey)) {
             $cars = cache($ckey);
         } else {
             // $cars = $this->all(function($query){
