@@ -84,7 +84,7 @@ class InsuranceCoverageModel extends InsuranceModel
                     ->order('is_rec desc,id')
                     ->limit($limit)
                     ->select()->toArray();
-            cache($ckey, $lists);
+            cache($ckey, $lists, 3600);
         }
 
         return $lists;

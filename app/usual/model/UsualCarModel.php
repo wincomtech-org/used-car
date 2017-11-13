@@ -93,7 +93,7 @@ class UsualCarModel extends UsualModel
                   ->limit($limit)
                   ->select()->toArray();
 
-            // cache($ckey, $cars, 3600);
+            cache($ckey, $cars, 3600);
         }
 
         return $cars;
