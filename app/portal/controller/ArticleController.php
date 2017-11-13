@@ -27,10 +27,21 @@ class ArticleController extends HomeBaseController
         $articleId  = $this->request->param('id', 0, 'intval');
         $categoryId = $this->request->param('cid', 0, 'intval');
         $article    = $postService->publishedArticle($articleId, $categoryId);
-
         if (empty($articleId)) {
             abort(404, '文章不存在!');
         }
+
+
+        // 面包屑
+        // 关于我们左侧菜单
+        if (!empty($categoryId)) {
+            $menu = $postService->getMenuList($categoryId);
+            $this->assign('menu', $menu);
+            $this->assign('id', $articleId);
+            $this->assign('cid', $categoryId);
+        }
+
+        // 同级的文章
 
 
         $prevArticle = $postService->publishedPrevArticle($articleId, $categoryId);
@@ -40,27 +51,21 @@ class ArticleController extends HomeBaseController
 
         if (empty($categoryId)) {
             $categories = $article['categories'];
-
             if (count($categories) > 0) {
                 $this->assign('category', $categories[0]);
             } else {
                 abort(404, '文章未指定分类!');
             }
-
         } else {
             $category = $portalCategoryModel->where('id', $categoryId)->where('status', 1)->find();
-
             if (empty($category)) {
                 abort(404, '文章不存在!');
             }
-
             $this->assign('category', $category);
-
             $tplName = empty($category["one_tpl"]) ? $tplName : $category["one_tpl"];
         }
 
         Db::name('portal_post')->where(['id' => $articleId])->setInc('post_hits');
-
 
         hook('portal_before_assign_article', $article);
 
@@ -69,7 +74,6 @@ class ArticleController extends HomeBaseController
         $this->assign('next_article', $nextArticle);
 
         $tplName = empty($article['more']['template']) ? $tplName : $article['more']['template'];
-
         return $this->fetch("/$tplName");
     }
 

@@ -212,11 +212,46 @@ class PostService
         ];
 
         $portalPostModel = new PortalPostModel();
-        $page            = $portalPostModel
+        $page = $portalPostModel
             ->where($where)
             ->find();
 
         return $page;
+    }
+
+    public function getMenuList($categoryId=0)
+    {
+        $portalPostModel = new PortalPostModel();
+
+        $join    = [
+            ['__PORTAL_CATEGORY_POST__ relation', 'post.id = relation.post_id']
+        ];
+        $where = [
+            'post.post_type'       => 1,
+            'post.published_time'  => [['< time', time()], ['> time', 0]],
+            'post.post_status'     => 1,
+            'post.delete_time'     => 0,
+            'relation.category_id' => $categoryId
+        ];
+        $list = $portalPostModel->alias('post')->field('post.id,post.post_title')
+            ->join($join)
+            ->where($where)
+            ->select();
+
+        return $list;
+    }
+
+    public function getPageList($type='')
+    {
+        $where = [
+            'post_type'      => 2,
+            'published_time' => [['< time', time()], ['> time', 0]],
+            'post_status'    => 1,
+            'delete_time'    => 0,
+        ];
+        $portalPostModel = new PortalPostModel();
+        $list = $portalPostModel->field('id,post_title,post_alias')->where($where)->select();
+        return $list;
     }
 
 }

@@ -20,6 +20,8 @@ class IndexController extends HomeBaseController
 
         // 车辆数据
         $ufoModel = new UsualCarModel();
+        $carType = config('usual_car_type');
+        $Type = array_merge(['最新上架','新车推荐'],$carType);
 
         $newCar = $ufoModel->getIndexCarList('',['a.published_time'=>'desc']);
         $TuiCar = $ufoModel->getIndexCarList('',['a.is_rec'=>'DESC']);
@@ -27,12 +29,19 @@ class IndexController extends HomeBaseController
         // $cars = array_push($newCar,$TuiCar);
         // $cars = $newCar + $TuiCar;
 
-        $carType = config('usual_car_type');
         foreach ($carType as $key => $value) {
             $cars = array_merge($cars,[$ufoModel->getIndexCarList($key)]);
         }
+        // 统一处理
+        $newCars = [];
+        foreach ($cars as $key => $value) {
+            $newCars[] = [
+                'type_name' =>$Type[$key],
+                'children'  =>$value
+            ];
+        }
 
-        // dump($cars);
+        // dump($newCars);
         // die;
 
         // 车辆服务 使用Db不能直接转化 json 数组
@@ -56,8 +65,8 @@ class IndexController extends HomeBaseController
 
         $this->assign('coverages',$coverages);
         $this->assign('insurances',$insurances);
-        $this->assign('carType',array_merge(['最新上架','新车推荐'],$carType));
-        $this->assign('cars',$cars);
+        $this->assign('Type',$Type);
+        $this->assign('cars',$newCars);
         // $this->assign('services',$services);
         $this->assign('article_flows',$article_flows);
         $this->assign('article_services',$article_services);

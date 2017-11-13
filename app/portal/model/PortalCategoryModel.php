@@ -16,7 +16,6 @@ use tree\Tree;
 
 class PortalCategoryModel extends Model
 {
-
     protected $type = [
         'more' => 'array',
     ];
@@ -191,8 +190,13 @@ class PortalCategoryModel extends Model
             $routeModel->getRoutes(true);
         }
 
-
         return $result;
+    }
+
+    public function getCateMenu($parentId=0)
+    {
+        $cates = $this->field('id,name')->where('parent_id',$parentId)->select()->toArray();
+        return $cates;
     }
 
 

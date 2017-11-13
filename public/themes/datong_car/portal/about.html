@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>{$page.post_title}</title>
-    <meta name="keywords" content="{$page.post_keywords}"/>
-    <meta name="description" content="{$page.post_excerpt}">
+    <title>{$article.post_title}</title>
+    <meta name="keywords" content="{$article.post_keywords}"/>
+    <meta name="description" content="{$article.post_excerpt}">
 
     <include file="public@head"/>
     <style>
@@ -31,21 +31,23 @@
                 <li><a href="">关于我们</a></li>
                 <li class="active"><a href="">公司简介</a></li>
             </ul>
-            <div class="about_us_con">
+            <div class="about_us_con" id="AAA">
+                <notempty name="menu">
                 <div class="about_btn_m">
                     <span class="about_btn_span"></span>
                     <ul class="about_us_list about1">
-                        <foreach name="memu" item="vo" key="k">
-                        <li {$k==0?='class="active"'}><span class="icon{$k+1}"></span><a href="{:cmf_url('Page/index',['id'=>$vo.id])}">{$vo.post_title}</a></li>
+                        <foreach name="menu" item="vo" key="k">
+                        <li {$id==$vo.id?='class="active"'}><span class="icon{$k+1}"></span><a href="{:cmf_url('Article/index',['id'=>$vo.id,'cid'=>$cid])}#AAA">{$vo.post_title}</a></li>
                         </foreach>
                     </ul>
                 </div>
+                </notempty>
 
                 <div class="about_us_content">
-                    <h1>{$page.post_title|default=''}</h1>
+                    <h1>{$article.post_title|default=''}</h1>
                     <hr>
                     <div id="article_content">
-                        {$page.post_content|default=''}
+                        {$article.post_content|default=''}
                     </div>
                 </div>
             </div>

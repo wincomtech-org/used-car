@@ -85,7 +85,9 @@ class NavMenuModel extends Model
                     $href = $hrefOld;
                 }
             }
+
             $navMenu['href'] = $href;
+            // $navMenu['href'] = __HOST__.'/'.$href;
             $navMenus[$key]  = $navMenu;
         }
     }

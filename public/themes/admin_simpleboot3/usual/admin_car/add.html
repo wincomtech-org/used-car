@@ -50,7 +50,7 @@
         <form class="js-ajax-form" action="{:url('AdminCar/addPost')}" method="post">
         <div class="col-md-6">
             <div class="tab-content">
-                <div class="tab-pane " id="BASE_">
+                <div class="tab-pane active" id="BASE_">
                     <table class="table table-bordered">
                     <tr>
                         <th width="100">名称<span class="form-required">*</span></th>
@@ -138,7 +138,7 @@
                 </div>
                 <!-- 所有属性E -->
                 <!-- 优化属性S -->
-                <div class="tab-pane active" id="REC_">
+                <div class="tab-pane" id="REC_">
                     <table class="table table-bordered">
                     <tr>
                         <th width="100">车架号</th>
@@ -351,7 +351,7 @@
                             <a href="javascript:uploadOneImage('图片上传','#thumbnail');">
                                 <img src="__TMPL__/public/assets/images/default-thumbnail.png"
                                      id="thumbnail-preview"
-                                     width="135" style="cursor: pointer"/>
+                                     width="135" height="89" style="cursor: pointer"/>
                             </a>
                             <input type="button" class="btn btn-sm btn-cancel-thumbnail" value="取消图片">
                         </div>

@@ -12,6 +12,9 @@
 // 调试模式开关
 define("APP_DEBUG", true);
 // define("APP_TRACE", true);
+// URL
+// define('__HOST__', 'http://'.$_SERVER['HTTP_HOST']);
+
 
 // 定义CMF根目录,可更改此目录
 define('CMF_ROOT', __DIR__ . '/../');
