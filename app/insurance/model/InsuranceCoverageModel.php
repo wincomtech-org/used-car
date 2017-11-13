@@ -76,15 +76,15 @@ class InsuranceCoverageModel extends InsuranceModel
     public function getIndexCoverageList($limit=3)
     {
         $ckey = 'gicoveragel'.$limit;
-        if (cache('?'.$ckey)) {
-            $lists = cache($ckey);
-        } else {
+
+        $lists = cache($ckey);
+        if (empty($lists)) {
             $lists = $this->field('id,name,description,more')
                     ->where('status',1)
                     ->order('is_rec desc,id')
                     ->limit($limit)
                     ->select()->toArray();
-            cache($ckey, $lists, 3600);
+            cache($ckey, $lists);
         }
 
         return $lists;

@@ -9,72 +9,150 @@
 
 	/***首页*/
 	$(document).ready(function(){
-			var $div_ul=$('.vehicle_con>ul')
-			$('.vehicle_tit li').click(function(){
+		var $div_ul=$('.vehicle_con>ul')
+		$('.vehicle_tit li').click(function(){
 
-				var $t=$(this).index();
+			var $t=$(this).index();
 
-				$(this).addClass('active').siblings().removeClass('active');
-				$div_ul.eq($t).show(600).siblings().hide(600);
+			$(this).addClass('active').siblings().removeClass('active');
+			$div_ul.eq($t).show(600).siblings().hide(600);
 
-			});
+		});
 
-			/**预约看车*/
-			var  $car_li=$('.car_process .car_process_list ');
+		/**预约看车*/
+		var  $car_li=$('.car_process .car_process_list ');
 
-			$('.car_process_tit_item').click(function(){
+		$('.car_process_tit_item').click(function(){
 
-
-				/**其他*/
-				$('.car_process_tit_item').each(function(){
-			
-
-					var $d=$(this).index();
-
-					var img_src=$(this).find('img').attr('src').split(".");
-
-					var img_=$(this).find('img').attr('src').split(".")[0];
-
-					var img__=img_.split('_01')[0];
-				
-					if(img_.indexOf('_01') > -1 ){
-						
-						$(this).find('img').attr('src' , img__+"."+img_src[1]);
-						
-					}	
-
-				})
+			/**其他*/
+			$('.car_process_tit_item').each(function(){
+		
 
 				var $d=$(this).index();
-				var $this_siblings=$(this).siblings();
+
 				var img_src=$(this).find('img').attr('src').split(".");
+
 				var img_=$(this).find('img').attr('src').split(".")[0];
+
 				var img__=img_.split('_01')[0];
 			
 				if(img_.indexOf('_01') > -1 ){
 					
 					$(this).find('img').attr('src' , img__+"."+img_src[1]);
 					
-				}else{
-					$(this).find('img').attr('src' , img_src[0]+"_01."+img_src[1]);
-				}
-			
+				}	
 
-
-				$(this).addClass('active').siblings().removeClass('active');			
-
-				
-				$car_li.eq($d).show(600).siblings().hide(600);
 			})
+
+			var $d=$(this).index();
+			var $this_siblings=$(this).siblings();
+			var img_src=$(this).find('img').attr('src').split(".");
+			var img_=$(this).find('img').attr('src').split(".")[0];
+			var img__=img_.split('_01')[0];
+		
+			if(img_.indexOf('_01') > -1 ){
+				
+				$(this).find('img').attr('src' , img__+"."+img_src[1]);
+				
+			}else{
+				$(this).find('img').attr('src' , img_src[0]+"_01."+img_src[1]);
+			}
+		
+
+
+			$(this).addClass('active').siblings().removeClass('active');			
+
+			
+			$car_li.eq($d).show(600).siblings().hide(600);
+		})
 	})
 
 
+	// 模拟placeholder
+	var funPlaceholder = function(element) {
+	    //检测是否需要模拟placeholder
+	    var placeholder = '';
+	    if (element && !("placeholder" in document.createElement("input")) && (placeholder = element.getAttribute("placeholder"))) {
+	        //当前文本控件是否有id, 没有则创建
+	        var idLabel = element.id ;
+	        if (!idLabel) {
+	            idLabel = "placeholder_" + new Date().getTime();
+	            element.id = idLabel;
+	        }
+
+	        //创建label元素
+	        var eleLabel = document.createElement("label");
+	        eleLabel.htmlFor = idLabel;
+	        eleLabel.style.position = "absolute";
+	        //根据文本框实际尺寸修改这里的margin值
+	        eleLabel.style.margin = "1px 0 0 5px";
+	        eleLabel.style.color = "#999";
+	        eleLabel.style.cursor = "text";
+	        eleLabel.style.fontSize = "14px";
+	        //插入创建的label元素节点
+	        element.parentNode.insertBefore(eleLabel, element);
+	        //事件
+	        element.onfocus = function() {
+	            eleLabel.innerHTML = "";
+	        };
+	        element.onblur = function() {
+	            if (this.value === "") {
+	                eleLabel.innerHTML = placeholder;  
+	            }
+	        };
+
+	        //样式初始化
+	        if (element.value === "") {
+	            eleLabel.innerHTML = placeholder;   
+	        }
+	    }	
+	};
+
+	$('.placeholder').each(function(i,ind){
+		// console.log($(this))
+		funPlaceholder(ind)
+	})
+	
+
+	// 个人中心
+	// 个人中心卖家中心查看详情
+	$(document).delegate('.detail_see','click',function(){
+	 var onlyChoseAlert = simpleAlert({
+ 		"imgshow":1,
+        "list1_txt":"金大地",/**可用变量代替*/
+        "list2_txt":"18356082312",
+        "list3_txt":"付过定金，已认证",
+        "list4_txt":"合肥市蜀山区佛子岭路66号",
+        "buttons":{
+            "确定":function () {
+                onlyChoseAlert.close();
+            }
+            }
+        })
+	})
+
+	// 个人中心卖家中心取消
+	$(document).delegate('.order_cancel_btn','click',function(){
+		$(this).parent().parent().prev().find('a').text('已取消')
+		
+	})
+
+	// 个人中心卖家中心删除
+	$(document).delegate('.order_err_btn','click',function(){
+		$(this).parent().parent().parent().parent().parent().remove()
+	})
+
+	// 个人中心
+    $(function(){
+    	if($('.home_list table').width() > $('.home_list').width()){
+    		$('.home_list').prepend('<div class="table_div">');
+    		$('.page_tip').before('</div>');
+    	}
+    })
 
 
 	/**车辆买卖*/
-
 	$(document).delegate('.analogy_tit','click',function(e){
-		
 		$('.analogy_con').each(function(){
 			$(this).hide();
 		})
@@ -85,8 +163,6 @@
 		var _this_siblings=$(this).siblings('.analogy_con');
 		var _parrent=$(this).parent().parent();
 		var _this_siblings_li=$(this).siblings('.analogy_con').children('li');
-
-		
 		
 		$(document).one('click',function(){
 			_this_siblings.hide();
@@ -129,54 +205,149 @@
 		$(this).children('.yuyueguang').hide();
 	})
 
-	$('.yuyue_guang a').click(function(){
-		$(this).html('400-2263-6547')
-	})	
+		
+	if(screen.width > 768){
+		// alert(123)
+		$('.yuyue_guang a').click(function(){
+			$(this).html('400-2263-6547')
+		})
+	}
 
-	$('.cycle_icon li').click(function(){
+
+	$(document).delegate('.cycle_icon li','click',function(){
 
 		$(this).addClass('active').siblings().removeClass('active');
 		var t=$(this).index();
-		$('.simila_recommendation_list ').animate({'margin-left':-t*100+"%"},600);
-
-		
+		$(this).parent().parent().siblings().find('ul').animate({'margin-left':-t*100+"%"},600);
+		// $('.simila_recommendation_list ').animate({'margin-left':-t*100+"%"},600);
 	})
-		
+
+	// carousel_pic();
+	// // setInterval('carousel_pic()',3000);
+	
+	// function  carousel_pic(){
+	// 	$('.cycle_icon li').each(function(){
+	// 		var p=$(this).parent().children().length-1;
+	// 		var t=$(this).index();
+	// 		console.log(t,p)
+	// 		$(this).addClass('active').siblings().removeClass('active').animate(1500);
+	// 		if(t>=p ){
+	// 			$(this).parent().parent().siblings().find('ul').animate({'margin-left':-t*100+"%"},1500);
+	// 			return t=0;
+	// 		}else{
+	// 			$(this).parent().parent().siblings().find('ul').animate({'margin-left':-t*100+"%"},1500);
+	// 		}
+			
+	// 	})	
+
+	// }
+
+	// 车辆信息	
 	$(".car_message_nav_list").click(function(){
 		$(".car_message_nav").css({"position":"fixed","top":"0","z-index":"1"});
 		$(this).addClass('active').siblings().removeClass('active');
 		var id=$(this).children('a').attr('href');
-		console.log(1,id)
 		
 		$("html, body").animate({
             scrollTop: $(id).offset().top-50 }, {duration: 500,easing: "swing"});
       
 	})	
 
+	function  calcLi(lix){
+		var x=$('.simila_recommendation_list_con').width()/lix;
+			$('.simila_recommendation_list .vehicle_con_detail_items ').css('width',x)
+			var liLength=$('.simila_recommendation_list>li').length;
+			if( $('.cycle_icon li').length < liLength /lix){
+				
+				var num=Math.ceil(liLength /lix) - $('.cycle_icon li').length;
+				for(var i=0;i<num;i++){
+					$('.cycle_icon').append('<li><a></a></li>')
+				}
+			}
+	}
+
+	function lunpic(){
+		if(screen.width>767 && screen.width<1200){
+			calcLi(3)
+		}
+		if(screen.width>414 && screen.width<768){
+			
+			calcLi(2)
+		}
+		if(screen.width>319 && screen.width<415){
+			calcLi(1)
+		}
+	}
+
+
 
 	function scroll(){
-		var oTop = $(".car_message_nav").offset().top ;
-		var sTop = 0;
-		$(window).scroll(function(){
-			sTop = $(this).scrollTop();
-
-			if(sTop >= oTop){
-					$(".car_message_nav").css({"position":"fixed","top":"0","z-index":"1"});
-			}else{
-					$(".car_message_nav").css({"position":"static"});
-			}
-			$('.car_message_con_item').each(function(){
-				var x=$(this).scrollTop();			
-				var y=$(this).offset().top;	
+	   var  subNav_active = $('.car_message_nav .active');
+	   function   subNav_scroll(tar){
+			subNav_active.removeClass('active');
+			tar.parent().addClass('active');
+			subNav_active = tar.parent();
 			
-				var off_top=$(this).offset().top;
-				var off_top_cha=sTop - off_top;
-				if( off_top_cha > 60){
-					$()
-				}
-			})
-
+		};
+ 
+		$('.car_message_nav a').click(function(){
+			var _this = $(this);
+			subNav_scroll(_this);
+			var target = _this.attr('href');
+			var targetScroll = $(target).offset().top -50;
+			$('html,body').animate({scrollTop:targetScroll},300);
+			return false;
 		});
+
+		if(window.location.hash){
+
+			var targetScroll = $(window.location.hash).offset().top ;
+			
+			$('html,body').animate({scrollTop:targetScroll},300);
+		}
+		var divTop = $('.car_message_con').offset().top;
+	
+
+		$(window).scroll(function(){
+			var $this = $(this);
+			var targetTop = $(this).scrollTop() ;
+			var footerTop = $('footer').offset().top;
+			var height = $(window).height();
+
+
+			if(targetTop > divTop){
+				// alert(1)
+				$('.car_message_nav ').addClass('fixed_nav');
+				// $('.empty-placeholder').removeClass('empty_hidden');
+			}else {
+				// alert(2)
+				$('.car_message_nav ').removeClass('fixed_nav');
+				// $('.empty-placeholder').addClass('empty_hidden');
+			}
+
+            $('.car_message_con_item').each(function(){
+            	var that = $(this)
+            	var liTop =that.offset().top - 57;
+            	var liHeight = that.height();
+            	var divHeight = liTop +liHeight;
+            	
+            	  if(divHeight > targetTop &&  targetTop > liTop ){
+          			var liId=that.prop('id');
+          			
+          			$('.car_message_nav_list a').each(function(){
+          				
+          				if($(this).attr('href') == "#" + liId){
+          					subNav_scroll($(this))
+          				}
+
+          			})
+            	
+            	}
+            	
+            })
+
+         
+		})
 	}
 
 		/*预约看车*/
@@ -208,60 +379,60 @@
 	/*车辆买卖信息*/
 	/*表单验证*/
 	function check(){
-			if($('input[name="brand"]').val() == "请选择品牌"){
-				// $('input[name="brand"]').parent().parent().parent().css('height','auto')
-				// $('input[name="brand"]').parent().parent().siblings('i').show();
-				alert('请选择品牌')
-				return false;
-			}else if($('input[name="motorcycle"]').val() == "请选择车系"){
-				// $('input[name="motorcycle"]').parent().parent().parent().css('height','auto')
-				// $('input[name="motorcycle"]').parent().parent().siblings('i').show();
-				alert('请选择车系')
-				return false;
-			}else if($('input[name="tel"]').val() == ""){
-				// $('input[name="tel"]').parent().parent().parent().css('height','auto')
-				// $('input[name="tel"]').parent().parent().siblings('i').show();
-				alert('请填写手机号')
-				return false;
-			}
+		if($('input[name="brand"]').val() == "请选择品牌"){
+			// $('input[name="brand"]').parent().parent().parent().css('height','auto')
+			// $('input[name="brand"]').parent().parent().siblings('i').show();
+			alert('请选择品牌')
+			return false;
+		}else if($('input[name="motorcycle"]').val() == "请选择车系"){
+			// $('input[name="motorcycle"]').parent().parent().parent().css('height','auto')
+			// $('input[name="motorcycle"]').parent().parent().siblings('i').show();
+			alert('请选择车系')
+			return false;
+		}else if($('input[name="tel"]').val() == ""){
+			// $('input[name="tel"]').parent().parent().parent().css('height','auto')
+			// $('input[name="tel"]').parent().parent().siblings('i').show();
+			alert('请填写手机号')
+			return false;
+		}
 	}
 
 	
 
-		$('.vehiTrad_tit_item .more').on('click',function(){
-			if($(this).hasClass('on')){
-				$(this).removeClass('on');
-				$(this).parent().parent().css('height','50px');
-			}else{
-				$(this).addClass('on');
-				$(this).parent().parent().css('height','auto');
-			}
-				
+	$('.vehiTrad_tit_item .more').on('click',function(){
+		if($(this).hasClass('on')){
+			$(this).removeClass('on');
+			$(this).parent().parent().css('height','50px');
+		}else{
+			$(this).addClass('on');
+			$(this).parent().parent().css('height','auto');
+		}
+			
+	})
+
+	$('.vehiTrad_tit_item_other_list p').on('click',function(e){
+		var _this=$(this);
+		var _this_siblings=$(this).siblings('ul');
+		var _this_siblings_li=$(this).siblings('ul').children('li');
+
+		_this_siblings.show();
+			$(document).one('click',function(){
+			_this_siblings.hide();
+		})
+		e.stopPropagation();
+
+		_this_siblings_li.on('click',function(){
+			var txt=$(this).children('a').text();
+			_this.html(txt)
+			_this_siblings.hide();
+
 		})
 
-		$('.vehiTrad_tit_item_other_list p').on('click',function(e){
-			var _this=$(this);
-			var _this_siblings=$(this).siblings('ul');
-			var _this_siblings_li=$(this).siblings('ul').children('li');
-
-			_this_siblings.show();
-				$(document).one('click',function(){
-				_this_siblings.hide();
-			})
-			e.stopPropagation();
-
-			_this_siblings_li.on('click',function(){
-				var txt=$(this).children('a').text();
-				_this.html(txt)
-				_this_siblings.hide();
-
-			})
-
-		})
+	})
 
 
-		/**车险服务 --投保流程*/
-		$('.claim_guidance_guide li .circle').click(function(){
+	/**车险服务 --投保流程*/
+	$('.claim_guidance_guide li .circle').click(function(){
 		var _parent=$(this).parent();
 		var _t=_parent.index();
 		var _div=$('.claim_guidance_guide_con_list');

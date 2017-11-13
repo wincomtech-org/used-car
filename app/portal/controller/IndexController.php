@@ -3,8 +3,8 @@ namespace app\portal\controller;
 
 use cmf\controller\HomeBaseController;
 // use app\service\model\ServiceCategoryModel;
-use app\insurance\model\InsuranceModel;
-// use app\usual\model\UsualCarModel;
+// use app\insurance\model\InsuranceModel;
+use app\usual\model\UsualCarModel;
 use app\portal\model\PortalPostModel;
 use think\Db;
 
@@ -16,11 +16,24 @@ class IndexController extends HomeBaseController
         $coverages = model('insurance/InsuranceCoverage')->getIndexCoverageList();
 
         // 保险业务
-        $ufoModel = new InsuranceModel();
-        $insurances = $ufoModel->getIndexInsuranceList();
+        $insurances = model('insurance/Insurance')->getIndexInsuranceList();
 
         // 车辆数据
-        $cars = model('usual/UsualCar')->getIndexCarList();
+        $ufoModel = new UsualCarModel();
+
+        $newCar = $ufoModel->getIndexCarList('',['a.published_time'=>'desc']);
+        $TuiCar = $ufoModel->getIndexCarList('',['a.is_rec'=>'DESC']);
+        $cars = array_merge([$newCar],[$TuiCar]);
+        // $cars = array_push($newCar,$TuiCar);
+        // $cars = $newCar + $TuiCar;
+
+        $carType = config('usual_car_type');
+        foreach ($carType as $key => $value) {
+            $cars = array_merge($cars,[$ufoModel->getIndexCarList($key)]);
+        }
+
+        // dump($cars);
+        // die;
 
         // 车辆服务 使用Db不能直接转化 json 数组
         // $services = Db::name('ServiceCategory')->field('id,name,description,more')->where('status',1)->order('id')->limit(3)->select()->toArray();
@@ -43,6 +56,7 @@ class IndexController extends HomeBaseController
 
         $this->assign('coverages',$coverages);
         $this->assign('insurances',$insurances);
+        $this->assign('carType',array_merge(['最新上架','新车推荐'],$carType));
         $this->assign('cars',$cars);
         // $this->assign('services',$services);
         $this->assign('article_flows',$article_flows);

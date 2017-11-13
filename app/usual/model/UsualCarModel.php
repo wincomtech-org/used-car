@@ -58,12 +58,12 @@ class UsualCarModel extends UsualModel
 
 // 前台
     /*首页*/
-    public function getIndexCarList($limit=6)
+    public function getIndexCarList($type='', $sort=[], $limit=6)
     {
         $ckey = 'gicarl'.$limit;
-        if (cache('?'.$ckey)) {
-            $cars = cache($ckey);
-        } else {
+
+        $cars = cache($ckey);
+        if (empty($cars)) {
             // $cars = $this->all(function($query){
             //     $query->alias('a')
             //           ->field('a.id,a.name,a.more,a.car_mileage,a.car_license_time,a.shop_price,a.price,b.name AS city_name')
@@ -75,15 +75,25 @@ class UsualCarModel extends UsualModel
             //           ->select()->toArray();
             // });
 
+            $where = ['a.sell_status'=>1];
+            if (!empty($type)) {
+                $where['a.type'] = $type;
+            }
+            $order = ['a.id'=>'DESC'];
+            if (!empty($sort)) {
+                $order = array_merge($sort,$order);
+            }
+
             $cars = $this->alias('a')
-                  ->field('a.id,a.name,a.more,a.car_mileage,a.car_license_time,a.shop_price,a.price,b.name AS city_name')
+                  ->field('a.id,a.name,b.name AS city_name')
                   // ->join('district b','a.city_id=b.id','LEFT')
                   ->join('__DISTRICT__ b','a.city_id=b.id','LEFT')
-                  ->where('a.sell_status',1)
+                  ->where($where)
+                  ->order($order)
                   ->limit($limit)
-                  ->order(['a.is_rec'=>'desc','a.published_time'=>'desc'])
                   ->select()->toArray();
-            cache($ckey, $cars, 3600);
+
+            // cache($ckey, $cars, 3600);
         }
 
         return $cars;

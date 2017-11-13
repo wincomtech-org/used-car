@@ -33,10 +33,10 @@
 
 		    if($("div.zoomdiv").get().length == 0){
 
-		    $(this).after("<div class='zoomdiv'><img class='bigimg' src='"+bigimage+"'/></div>");
+			    $(this).after("<div class='zoomdiv'><img class='bigimg' src='"+bigimage+"'/></div>");
 
 
-		    $(this).append("<div class='jqZoomPup'>&nbsp;</div>");
+			    $(this).append("<div class='jqZoomPup'>&nbsp;</div>");
 
 		    }
 
@@ -73,10 +73,7 @@
               $(this).css('cursor','crosshair');
 			}
 
-
-
-
-				   $(document.body).mousemove(function(e){
+			$(document.body).mousemove(function(e){
 
 
 
@@ -186,5 +183,4 @@ this.y = e.pageY
 
 }
 
-
-/* 代码整理：懒人之家 www.lanrenzhijia.com */
+// 图片放大镜效果

@@ -85,6 +85,7 @@
         </div>
     </section>
 
+
     <!-- 车辆买卖 -->
     <section class="vehicle_trading vehicle_trading_pc">
         <div class="main">
@@ -92,29 +93,31 @@
                 <h3 class="index_tit">车辆买卖 <span class="index_tit_supply"> 日推爱车，为您提供便捷选择</span> <a href="">查看更多> </a></h3>
                 <div class="vehicle">
                     <ul class="vehicle_tit">
-                        <li class="active">
-                            <p>最新上架</p>
-                            <span>七日内新发布车源</span>
+                        <foreach name="carType" item="vo" key="k">
+                        <li class="{$k==0?='active'}">
+                            <p>{$vo}</p><span></span>
                         </li>
-                        <li>
-                            <p>新车推荐</p>
-                            <span>全新车辆供您选择</span>
-                        </li>
-                        <li>
-                            <p>准新车</p>
-                            <span>2年4万公里</span>
-                        </li>
-                        <li>
-                            <p>练手车</p>
-                            <span>5万以下 高性价比</span>
-                        </li>
-                        <li>
-                            <p>分期购</p>
-                            <span>零首付 低月供</span>
-                        </li>
+                        </foreach>
                     </ul>
                     <div class="vehicle_con">
+                        <foreach name="cars" item="vo">
                         <ul class="vehicle_con_detail">
+                            <foreach name="vo" item="child">
+                            <li class="vehicle_con_detail_items">
+                                <div class="img"><a href="{:cmf_url('trade/vehicle_trading/car_message')}">
+                                    <img src="__TMPL__/public/assets/images/example/car01.jpg" alt="">
+                                </a></div>
+                                <div class="txt">
+                                    <h6><a href="vehicle_trading/car_message.html">宝马7系 2009款 740Li领先型</a></h6>
+                                    <p>
+                                        <span>14万公里</span>
+                                        <span>2012-10</span>
+                                        <span>马鞍山</span>
+                                    </p>
+                                    <p><b>43.88万</b> <s>128.95万</s></p>
+                                </div>
+                            </li>
+                            </foreach>
                             <li class="vehicle_con_detail_items">
                                 <div class="img"><a href="vehicle_trading/car_message.html">
                                     <img src="__TMPL__/public/assets/images/example/car01.jpg" alt="">
@@ -185,22 +188,8 @@
                                     <p><b>43.88万</b> <s>128.95万</s></p>
                                 </div>
                             </li>
-                            <li class="vehicle_con_detail_items">
-                                <div class="img"><a href="vehicle_trading/car_message.html">
-                                    <img src="__TMPL__/public/assets/images/example/car01.jpg" alt="">
-                                </a></div>
-                                <div class="txt">
-                                    <h6><a href="vehicle_trading/car_message.html">宝马7系 2009款 740Li领先型</a></h6>
-                                    <p>
-                                        <span>14万公里</span>
-                                        <span>2012-10</span>
-                                        <span>马鞍山</span>
-                                    </p>
-                                    <p><b>43.88万</b> <s>128.95万</s></p>
-                                </div>
-                            </li>
-
                         </ul>
+                        </foreach>
                         <ul class="vehicle_con_detail" style="display:none;">
                             <li class="vehicle_con_detail_items">
                                 <div class="img"><a href="vehicle_trading/car_message.html">
@@ -286,7 +275,6 @@
                                     <p><b>43.88万</b> <s>128.95万</s></p>
                                 </div>
                             </li>
-
                         </ul>
                         <ul class="vehicle_con_detail" style="display:none;">
                             <li class="vehicle_con_detail_items">
@@ -373,7 +361,6 @@
                                     <p><b>43.88万</b> <s>128.95万</s></p>
                                 </div>
                             </li>
-
                         </ul>
                         <ul class="vehicle_con_detail" style="display:none;">
                             <li class="vehicle_con_detail_items">
@@ -460,7 +447,6 @@
                                     <p><b>43.88万</b> <s>128.95万</s></p>
                                 </div>
                             </li>
-
                         </ul>
                         <ul class="vehicle_con_detail" style="display:none;">
                             <li class="vehicle_con_detail_items">
@@ -547,7 +533,6 @@
                                     <p><b>43.88万</b> <s>128.95万</s></p>
                                 </div>
                             </li>
-
                         </ul>
                     </div>
                 </div>
@@ -1083,5 +1068,32 @@
             $('html, body').animate({scrollTop: 0}, 600,linear);
         });
     });
+</script>
+<script>
+    // 手机目录点击事件
+    $('.open-panel').click(function(e){
+        if($('body').hasClass('with-panel-left-cover')){
+
+        }else{
+            $('body').addClass('with-panel-left-cover');
+            $('.panel-cover').show()
+            $('.panel-cover').addClass('active');
+        }
+        e.stopPropagation()
+    })
+    $('.accordion-item>a.item-link').on('click',function(e){
+        if($(this).parent().hasClass('accordion-item-expanded')){
+            $(this).parent().removeClass('accordion-item-expanded')
+        }else{
+            $(this).parent().addClass('accordion-item-expanded')
+        }
+        e.stopPropagation()
+    })
+
+    $(document).click(function(){
+        $('.panel-cover').hide();
+        $('.accordion-item>').removeClass('accordion-item-expanded');
+        $('body').removeClass('with-panel-left-cover')
+    })
 </script>
 </html>

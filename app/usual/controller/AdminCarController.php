@@ -15,6 +15,10 @@ class AdminCarController extends AdminBaseController
     function _initialize()
     {
         // parent::_initialize();
+
+        //只报告错误,忽略通知
+        // error_reporting(E_ALL ^ E_NOTICE);
+
         // $data = $this->request->param();
         $this->Model = new UsualCarModel();
     }

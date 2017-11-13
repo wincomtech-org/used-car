@@ -1,5 +1,5 @@
 $( function(){
-
+			
 	var imgField=$('#J_imgList');
 	var imgList=$('#J_imgList>li');
 	var navField=$('#J_navList');
@@ -21,10 +21,10 @@ $( function(){
 	//初始图片区域高度与标题区域宽度
 	imgField.height(imgList.size()*imgList.height());
 	navField.width(navList.size()*navListW);
-
+	
 	//初始自动切换
 	GO();
-
+	
 	//自动切换
 	function GO() {
 		imgField.stop().animate({marginTop:-N*(imgList.height())},turnT);
@@ -59,7 +59,7 @@ $( function(){
 		N++;
 		delayFun=setTimeout(GO,T)
 	});
-
+	
 	//图片划过移出
 	imgList.hover( function() {
 		N=imgList.index(this);
@@ -67,7 +67,7 @@ $( function(){
 	}, function() {
 		navList.eq(N).trigger('mouseleave');
 	});
-
+	
 	//左切换
 	btnPrev.click( function() {
 		if(P==1) {
@@ -81,7 +81,7 @@ $( function(){
 		navList.eq((P-1)*turnPage).trigger('mouseover');
 		GO();
 	});
-
+	
 	//右切换
 	btnNext.click( function() {
 		if(P==turnPages) {
@@ -97,5 +97,5 @@ $( function(){
 		navList.eq((P-1)*turnPage).trigger('mouseover');
 		GO();
 	});
-
+	
 });

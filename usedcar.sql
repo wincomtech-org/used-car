@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50540
 File Encoding         : 65001
 
-Date: 2017-11-11 19:41:24
+Date: 2017-11-13 09:54:07
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -254,9 +254,7 @@ INSERT INTO `cmf_asset` VALUES ('6', '1', '155573', '1508306191', '1', '0', 'c4c
 INSERT INTO `cmf_asset` VALUES ('7', '1', '171184', '1508306248', '1', '0', '2183130e2d9cb4c8c47c79b59ac3b3792214b79b04d2b771af0987c53c99e096', 'img.png', 'usual/20171018/01dd16f7a785b54c5bd05e1b19384873.png', '2183130e2d9cb4c8c47c79b59ac3b379', '1db53eab32655f134cd19c9e863db1c24d272672', 'png', '');
 INSERT INTO `cmf_asset` VALUES ('8', '1', '161061', '1508306570', '1', '0', 'a5a346a9a01395d74941914c7f73d2de49dd71a5d9885887f476091eaca80de9', 'img.png', 'usual/20171018/310eaec8a9afafd7a5a3ae95a127f863.png', 'a5a346a9a01395d74941914c7f73d2de', '8d544bfffc5caf482d3719c74359107a2fb6a52c', 'png', '');
 INSERT INTO `cmf_asset` VALUES ('9', '1', '7859', '1509075164', '1', '0', 'a50feb855bd4915314c848468de98fdfdb1ed7a3d5a9c12c664a1db3a249d40f', 'head_99.jpg', 'insurance/20171027/3e1d07a86364dd96885569ae00d729cc.jpg', 'a50feb855bd4915314c848468de98fdf', 'e191406e2b58133a72e91fa6cf554b3fe05360c7', 'jpg', '');
-INSERT INTO `cmf_asset` VALUES ('10', '1', '39588', '1509929328', '1', '0', '477ef8d1e046aa9b0da65f2bb5db80e2ea10966e0e9ec0e2838100178c982ea7', 'banner2_670x346.jpg', 'trade/20171106/83f4c5fe678dff4615acaa85dd48ecbb.jpg', '477ef8d1e046aa9b0da65f2bb5db80e2', '1283204ff81d96470ea1ec0f2ed2b0f4b36e988d', 'jpg', null);
 INSERT INTO `cmf_asset` VALUES ('11', '1', '7654', '1509929637', '1', '0', '12cba80f5d18e01a3c4ca22c06def54c77ba600fcc8740db53fddd0c3fe6c615', 'cropped.jpg', 'trade/20171106/86c7411ecf320aeb7148c619fcd3e3b6.jpg', '12cba80f5d18e01a3c4ca22c06def54c', '67726060b746b4c063c2e44a3b88c29b012c663b', 'jpg', null);
-INSERT INTO `cmf_asset` VALUES ('12', '1', '20585', '1509929645', '1', '0', 'ba395fbff213314b85659ddd35b0529589d63722269af665c599b07485688e62', 'fmsprite.png', 'trade/20171106/08757f0af85f0a9182b1b922effa0212.png', 'ba395fbff213314b85659ddd35b05295', '72c759917b1c231908930a40a29cca9d680aaf59', 'png', null);
 
 -- ----------------------------
 -- Table structure for cmf_auth_access
@@ -4200,14 +4198,14 @@ CREATE TABLE `cmf_nav_menu` (
 -- Records of cmf_nav_menu
 -- ----------------------------
 INSERT INTO `cmf_nav_menu` VALUES ('1', '1', '0', '1', '10', '网站首页', '', 'home', '', '0-1');
-INSERT INTO `cmf_nav_menu` VALUES ('17', '1', '0', '1', '20', '关于我们', '', '{\"action\":\"portal\\/Page\\/index\",\"param\":{\"id\":32}}', '', '');
+INSERT INTO `cmf_nav_menu` VALUES ('17', '1', '0', '1', '20', '关于我们', '', '{\"action\":\"portal\\/Page\\/index\",\"param\":{\"id\":1}}', '', '');
 INSERT INTO `cmf_nav_menu` VALUES ('18', '1', '0', '1', '30', '车险服务', '', 'insurance', '', '');
 INSERT INTO `cmf_nav_menu` VALUES ('19', '1', '0', '1', '40', '车辆买卖', '', 'trade', '', '');
 INSERT INTO `cmf_nav_menu` VALUES ('20', '1', '0', '1', '50', '检车预约', '', 'service', '', '');
-INSERT INTO `cmf_nav_menu` VALUES ('21', '1', '0', '1', '60', '最新活动推荐', '', '{\"action\":\"portal\\/List\\/index\",\"param\":{\"id\":9}}', '', '');
-INSERT INTO `cmf_nav_menu` VALUES ('22', '1', '0', '1', '70', '新闻资讯', '', '{\"action\":\"portal\\/List\\/index\",\"param\":{\"id\":8}}', '', '');
-INSERT INTO `cmf_nav_menu` VALUES ('23', '1', '19', '1', '10000', '新车', '', '/', '', '');
-INSERT INTO `cmf_nav_menu` VALUES ('24', '1', '19', '1', '10000', '二手车', '', '/', '', '');
+INSERT INTO `cmf_nav_menu` VALUES ('21', '1', '0', '1', '60', '活动推荐', '', '{\"action\":\"portal\\/List\\/index\",\"param\":{\"id\":2}}', '', '');
+INSERT INTO `cmf_nav_menu` VALUES ('22', '1', '0', '1', '70', '新闻资讯', '', '{\"action\":\"portal\\/List\\/index\",\"param\":{\"id\":1}}', '', '');
+INSERT INTO `cmf_nav_menu` VALUES ('23', '1', '19', '1', '10000', '新车', '', 'trade/list/stype/new', '', '');
+INSERT INTO `cmf_nav_menu` VALUES ('24', '1', '19', '1', '10000', '二手车', '', 'trade/list/stype/old', '', '');
 
 -- ----------------------------
 -- Table structure for cmf_news

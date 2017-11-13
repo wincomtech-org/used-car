@@ -312,9 +312,9 @@ class PortalPostModel extends Model
     public function getIndexPortalList($cateId=1, $order='DESC', $limit=9)
     {
         $ckey = 'giportall'.$cateId.$order.$limit;
-        if (cache('?'.$ckey)) {
-            $lists = cache($ckey);
-        } else {
+
+        $lists = cache($ckey);
+        if (empty($lists)) {
             $field = 'a.id,a.post_title,a.post_excerpt,a.more';
             $join = [
                 ['__PORTAL_CATEGORY_POST__ b', 'a.id=b.post_id']

@@ -441,8 +441,14 @@ function cmf_get_option($key)
         $optionValue = Db::name('option')->where('option_name', $key)->value('option_value');
         if (!empty($optionValue)) {
             $optionValue = json_decode($optionValue, true);
-
             cache('cmf_options_' . $key, $optionValue);
+        }
+    }
+    if ($key=='site_info') {
+        if (empty($optionValue['site_logo'])) {
+            $optionValue['site_logo_preview'] = '';
+        } else {
+            $optionValue['site_logo_preview'] = cmf_get_image_preview_url($optionValue['site_logo']);
         }
     }
 
@@ -474,11 +480,6 @@ function cmf_get_site_info()
 
     if (isset($siteInfo['site_analytics'])) {
         $siteInfo['site_analytics'] = htmlspecialchars_decode($siteInfo['site_analytics']);
-    }
-    if (!empty($siteInfo['site_logo'])) {
-        $siteInfo['site_logo_preview'] = cmf_get_image_preview_url($siteInfo['site_logo']);
-    } else {
-        $siteInfo['site_logo_preview'] = '';
     }
 
     return $siteInfo;

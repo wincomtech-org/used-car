@@ -67,9 +67,9 @@ class InsuranceModel extends UsualModel
     public function getIndexInsuranceList($limit=4)
     {
         $ckey = 'giinsurancel'.$limit;
-        if (cache('?'.$ckey)) {
-            $lists = cache($ckey);
-        } else {
+
+        $lists = cache($ckey);
+        if (empty($lists)) {
             $lists = $this->field('id,name,description,more')
                 ->where(['status'=>1,'identi_status'=>1])
                 ->order('is_rec desc,published_time desc')

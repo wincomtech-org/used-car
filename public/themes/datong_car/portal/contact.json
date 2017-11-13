@@ -8,7 +8,7 @@
             "baidu_map_info_window_text": {
                 "title": "百度地图标注文字",
                 "name": "baidu_map_info_window_text",
-                "value": "ThinkCMF<br/><span class=''>地址：上海市徐汇区斜土路2601号</span>",
+                "value": "Wincomtech<br/><span class=''>地址：合肥市三孝口XX路0001号</span>",
                 "type": "text",
                 "tip": "百度地图标注文字,支持简单html代码",
                 "rule": []
@@ -24,7 +24,7 @@
             },
             "address_cn": {
                 "title": "公司地址",
-                "value": "上海市徐汇区斜土路0001号",
+                "value": "合肥市三孝口XX路0001号",
                 "type": "text",
                 "tip": "",
                 "rule": {
@@ -33,7 +33,7 @@
             },
             "address_en": {
                 "title": "公司地址（英文）",
-                "value": "NO.0001 Xie Tu Road, Shanghai China",
+                "value": "NO.0001 SanXiao Road, Hefei China",
                 "type": "text",
                 "tip": "",
                 "rule": {
