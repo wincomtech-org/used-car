@@ -32,7 +32,6 @@ class ArticleController extends HomeBaseController
         }
 
 
-        // 面包屑
         // 关于我们左侧菜单
         if (!empty($categoryId)) {
             $menu = $postService->getMenuList($categoryId);
@@ -43,12 +42,14 @@ class ArticleController extends HomeBaseController
 
         // 同级的文章
 
+        // 面包屑
+        $crumbs = $this->getCrumbs();
 
+        // 上下文
         $prevArticle = $postService->publishedPrevArticle($articleId, $categoryId);
         $nextArticle = $postService->publishedNextArticle($articleId, $categoryId);
 
         $tplName = 'article';
-
         if (empty($categoryId)) {
             $categories = $article['categories'];
             if (count($categories) > 0) {
@@ -69,6 +70,7 @@ class ArticleController extends HomeBaseController
 
         hook('portal_before_assign_article', $article);
 
+        $this->assign('crumbs', $crumbs);
         $this->assign('article', $article);
         $this->assign('prev_article', $prevArticle);
         $this->assign('next_article', $nextArticle);
@@ -83,12 +85,10 @@ class ArticleController extends HomeBaseController
         $this->checkUserLogin();
         $articleId = $this->request->param('id', 0, 'intval');
 
-
         $canLike = cmf_check_user_action("posts$articleId", 1);
 
         if ($canLike) {
             Db::name('portal_post')->where(['id' => $articleId])->setInc('post_like');
-
             $this->success("赞好啦！");
         } else {
             $this->error("您已赞过啦！");

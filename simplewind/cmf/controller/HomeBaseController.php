@@ -17,7 +17,6 @@ use think\View;
 
 class HomeBaseController extends BaseController
 {
-
     public function _initialize()
     {
         // 监听home_init
@@ -25,10 +24,10 @@ class HomeBaseController extends BaseController
         parent::_initialize();
         $siteInfo = cmf_get_site_info();
         $navMenuModel = new NavMenuModel();
-        $menus = $navMenuModel->navMenusTreeArray(null,2);
+        $navMenus = $navMenuModel->navMenusTreeArray(null,2);
 
         View::share('site_info', $siteInfo);
-        View::share('menus', $menus);
+        View::share('navMenus', $navMenus);
     }
 
     public function _initializeView()
@@ -197,6 +196,40 @@ class HomeBaseController extends BaseController
         if (empty($userId)) {
             $this->error("用户尚未登录", url("user/login/index"));
         }
+    }
+
+    /**
+     * 面包屑导航
+     * @param string $table 分类表名
+     * @param int $pid 分类id
+     * @param string $title 当前标题
+     * @param array $data 循环数据
+     * @param string $tpl 模板
+     * @return string
+    */
+    public function getCrumbs($table='', $pid=0, $title='', $data=[], $tpl='')
+    {
+        if (empty($tpl)) {
+            $tpl = '<ul class="brash"><li>当前位置：</li>';
+            if (!empty($table) && !empty($pid)) {
+                $name = Db::name($table)->where('id',$pid)->value('name');
+                $url = cmf_url($this->request->module().'/'.$this->request->controller().'/'.$this->request->action(), ['id',$pid]);
+                $tpl .= '<li><a href="'. $url .'">'. $name .'</a></li>';
+                if (isset($title)) {
+                    $tpl .= '<li class="active"><a href="#">'. $title .'</a></li>';
+                }
+            } elseif (!empty($data)) {
+                $count = count($data)-1;
+                foreach ($data as $k => $v) {
+                    $tpl .= '<li class="'. ($k==$count?'active':'') .'"><a href="'. $v['url'] .'">'. $v['name'] .'</a></li>';
+                }
+            }
+            $tpl .= '</ul>';
+        } else {
+            # code...
+        }
+
+        return $tpl;
     }
 
 }

@@ -331,9 +331,10 @@ class UsualModel extends Model
 
         $this->allowField(true)->isUpdate(true)->data($data, true)->save();
 
-        $routeModel = new RouteModel();
-        $routeModel->setRoute($data['post_alias'], 'portal/Page/index', ['id' => $data['id']], 2, 5000);
-        $routeModel->getRoutes(true);
+        // 路由定义 别名alias
+        // $routeModel = new RouteModel();
+        // $routeModel->setRoute($data['post_alias'], 'portal/Page/index', ['id' => $data['id']], 2, 5000);
+        // $routeModel->getRoutes(true);
 
         return $this;
     }

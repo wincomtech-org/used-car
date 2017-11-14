@@ -2,10 +2,7 @@
 namespace app\usual\model;
 
 // use think\Db;
-// use think\Model;
 // use tree\Tree;
-// use think\Request;
-// use app\admin\model\RouteModel;
 use app\usual\model\UsualModel;
 
 class VerifyModelModel extends UsualModel

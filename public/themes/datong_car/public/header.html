@@ -13,7 +13,7 @@
         </div>
         <div class="list-block accordion-list panel-menu">
             <ul>
-                <foreach name="menus" item="nav" >
+                <foreach name="navMenus" item="nav" >
                 <li class="accordion-item">
                     <a class="item-content item-link link" <empty name="nav.children">href="{$nav.href}"</empty> {$nav.target?='target="_blank"'} >
                         <div class="item-inner">

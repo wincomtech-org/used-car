@@ -1,16 +1,16 @@
 <?php
 namespace app\usual\validate;
 
-use app\admin\model\RouteModel;
 use think\Validate;
 // use think\Db;
+// use app\admin\model\RouteModel;
 
 class UsualBrandValidate extends Validate
 {
     protected $rule = [
         'name'  => 'require|checkName',
         'parent_id'  => 'checkParentId',
-        'alias' => 'checkAlias',
+        // 'alias' => 'checkAlias',
     ];
     protected $message = [
         'name.require'  => '名称不能为空',
@@ -20,8 +20,8 @@ class UsualBrandValidate extends Validate
 
     // 场景验证 ， 指定场景需要验证的字段
     protected $scene = [
-       'add'  => ['name','parent_id','alias'],
-       'edit' => ['name'=>'require','parent_id','alias'],
+       'add'  => ['name','parent_id'],
+       'edit' => ['name'=>'require','parent_id'],
     ];
 
     // 自定义验证规则
@@ -36,15 +36,8 @@ class UsualBrandValidate extends Validate
     protected function checkParentId($value)
     {
         $find = model('UsualBrand')->where(["id" => $value])->value('parent_id');
-        if ($find) {
+        if ($find>0) {
             return false;
-            // $find2 = Db::name('UsualBrand')->where(["id" => $find])->value('parent_id');
-            // if ($find2) {
-            //     $find3 = Db::name('UsualBrand')->where(["id" => $find2])->value('parent_id');
-            //     if ($find3) {
-            //         return false;
-            //     }
-            // }
         }
         return true;
     }

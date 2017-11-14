@@ -51,13 +51,14 @@ class AdminIndexController extends AdminBaseController
             cmf_set_option('cdn_settings', $cdnSettings);
 
             $adminSettings = $this->request->param('admin_settings/a');
-            $routeModel = new RouteModel();
-            if (!empty($adminSettings['admin_password'])) {
-                $routeModel->setRoute($adminSettings['admin_password'].'$', 'admin/Index/index', [], 2, 5000);
-            } else {
-                $routeModel->deleteRoute('admin/Index/index', []);
-            }
-            $routeModel->getRoutes(true);
+            // 路由定义 别名alias
+            // $routeModel = new RouteModel();
+            // if (!empty($adminSettings['admin_password'])) {
+            //     $routeModel->setRoute($adminSettings['admin_password'].'$', 'admin/Index/index', [], 2, 5000);
+            // } else {
+            //     $routeModel->deleteRoute('admin/Index/index', []);
+            // }
+            // $routeModel->getRoutes(true);
             cmf_set_option('admin_settings', $adminSettings);
 
             $this->success("保存成功！", '');

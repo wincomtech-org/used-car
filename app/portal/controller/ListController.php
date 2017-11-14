@@ -22,13 +22,20 @@ class ListController extends HomeBaseController
         $id    = $this->request->param('id', 0, 'intval');
         $childId = $this->request->param('sid', 0, 'intval');
 
+        $curId = $childId ? $childId : $id;
         $portalCategoryModel = new PortalCategoryModel();
-        $category = $portalCategoryModel->where('id', $id)->where('status', 1)->find();
+        // 当前分类信息
+        $category = $portalCategoryModel->where('id', $curId)->where('status', 1)->find();
+        // 分类菜单
         $cateMenu = $portalCategoryModel->getCateMenu($id);
-
+        // 当前分类下的文章
         $postService = new PostService();
-        $articles = $postService->adminArticleList(['category'=>$id]);
+        $articles = $postService->adminArticleList(['category'=>$curId]);
 
+        // 面包屑
+        $crumbs = $this->getCrumbs();
+
+        $this->assign('crumbs', $crumbs);
         $this->assign('cateId', $id);
         $this->assign('childId', $childId);
         $this->assign('category', $category);

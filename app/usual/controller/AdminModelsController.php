@@ -126,9 +126,10 @@ class AdminModelsController extends AdminBaseController
             $categoriesTree      = $this->UsualModel->adminCategoryTree($category['parent_id'], $id);
             $BrandTree          = $this->UsualModel->adminCategoryTree($category['brand_id'],0,'usual_brand');
 
-            $routeModel = new RouteModel();
-            $alias      = $routeModel->getUrl('portal/List/index', ['id' => $id]);
-            $category['alias'] = $alias;
+            // 路由定义 别名alias
+            // $routeModel = new RouteModel();
+            // $alias      = $routeModel->getUrl('portal/List/index', ['id' => $id]);
+            // $category['alias'] = $alias;
 
             $this->assign($category);
             $this->assign('categories_tree', $categoriesTree);

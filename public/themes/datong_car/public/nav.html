@@ -1,7 +1,7 @@
 <nav class="navPc">
     <div class="main">
         <ul class="nav_list">
-            <foreach name="menus" item="nav" >
+            <foreach name="navMenus" item="nav" >
             <li class="nav_item {$nav.active?='active'}">
                 <a href="http://tx.car/{$nav.href}" {$nav.target?='target="_blank"'}>{$nav.name}</a>
                 <if condition="!empty($nav.children)">

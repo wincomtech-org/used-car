@@ -68,13 +68,13 @@ class RouteModel extends Model
                 array_push($cacheRoutes[$path], ['vars' => $vars]);
             }
 
-            //$cacheRoutes[$fullUrl] = true;
+           //  $cacheRoutes[$fullUrl] = true;
 
-//            if (strpos($url, ':') === false) {
-//                $cacheRoutes['static'][$fullUrl] = $url;
-//            } else {
-//                $cacheRoutes['dynamic'][$path][] = ["query" => $vars, "url" => $url];
-//            }
+           // if (strpos($url, ':') === false) {
+           //     $cacheRoutes['static'][$fullUrl] = $url;
+           // } else {
+           //     $cacheRoutes['dynamic'][$path][] = ["query" => $vars, "url" => $url];
+           // }
             if (empty($appUrls[$path]['pattern'])) {
                 $allRoutes[$url] = $fullUrl;
             } else {

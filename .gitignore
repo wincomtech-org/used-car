@@ -5,7 +5,6 @@
 .idea
 composer.lock
 /api
-/data/
 !/data/index.html
 !/data/conf/config.php
 /public/api

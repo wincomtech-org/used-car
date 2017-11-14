@@ -116,6 +116,7 @@
 
 	// 个人中心
 	// 个人中心卖家中心查看详情
+	// 弹窗
 	$(document).delegate('.detail_see','click',function(){
 	 var onlyChoseAlert = simpleAlert({
  		"imgshow":1,
@@ -141,15 +142,6 @@
 	$(document).delegate('.order_err_btn','click',function(){
 		$(this).parent().parent().parent().parent().parent().remove()
 	})
-
-	// 个人中心
-    $(function(){
-    	if($('.home_list table').width() > $('.home_list').width()){
-    		$('.home_list').prepend('<div class="table_div">');
-    		$('.page_tip').before('</div>');
-    	}
-    })
-
 
 	/**车辆买卖*/
 	$(document).delegate('.analogy_tit','click',function(e){
@@ -180,6 +172,51 @@
 
 	})
 	
+	 // 个人中心在线充值	
+    // 支付方式切换
+	window.onload=function(){
+	  var $pay_li=$('.pay_tab_list_item');
+	  var $pay_con=$('.pay_tab_con_list_item')
+
+	  $('.pay_tab_list_item').on('click',function(){
+	       var $this=$(this);
+	       var $index=$this.index();
+	       var $length=$(this).parent().children().length - 1;
+	       $pay_li.siblings('.pay_tab_list_item').hide();
+	       $pay_li.show();
+	       $this.addClass('select').siblings().removeClass('select')
+	       $pay_con.css('display','none');
+	       $pay_con.eq($index).css('display','block');
+	       var price=$(this).find('.icon').not(".other").text();
+	       $(this).parent().siblings('.payment_amount ').find('input').val("￥" + powAmount(price, 2));
+	 		if($index ==  $length){
+	 			$(this).parent().siblings('.custom_amount ').show();
+	 		}
+	   	}
+	   )
+
+	  $('.custom_amount input').change(function(){
+
+	  	var changeVal=$(this).val();
+	  	 $(this).parent().parent().siblings('.payment_amount ').find('input').val("￥" + powAmount(changeVal, 2))
+	  })
+	}
+	function powAmount(amount, _pow_) {
+	    var amount_bak = amount;
+	    var base = 10;
+	    if (isNaN(amount)) {
+
+	        return "0.00";
+	    }else  if(amount <0){
+	    		 
+			 return "0.00"
+	    }
+	    amount = Math.round((amount - Math.floor(amount)) * Math.pow(base, _pow_));
+	    amount = amount < 10 ? '.0' + amount : '.' + amount
+	    amount = Math.floor(amount_bak) + amount;
+	    return amount;
+	 }
+	//结束 个人中心在线充值	
 
 	// 验证手机号
 	function isPhoneNo(phone) { 
