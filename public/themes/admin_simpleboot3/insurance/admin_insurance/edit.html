@@ -65,12 +65,19 @@
                     </tr>
 
                     <tr>
-                        <th>描述</th>
+                        <th>主描述</th>
                         <td>
-                            <textarea class="form-control" name="post[description]" style="height: 50px;"
+                            <textarea class="form-control" name="post[description]" style="height:50px;"
                                       placeholder="请填写描述">{$post.description}</textarea>
                         </td>
                     </tr>
+                    <tr>
+                        <th>次级描述</th>
+                        <td>
+                            <textarea class="form-control" name="post[desc2]" style="height:50px;">{$post.desc2}</textarea>
+                        </td>
+                    </tr>
+
                     <tr>
                         <th>总则</th>
                         <td>

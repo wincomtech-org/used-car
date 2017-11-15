@@ -166,7 +166,9 @@ str_split($param2,2)
 
 
 ●消息模块：需要消息提醒
-消息记录表(cmf_news)：cmf_put_news()
+消息记录表(cmf_news)：
+\simplewind\cmf\common.php
+cmf_put_news()
     action 操作名称;格式:应用名+控制器+操作名,也可自己定义格式只要不发生冲突且惟一;
 设置、列表
 

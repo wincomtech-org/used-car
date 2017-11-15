@@ -53,7 +53,7 @@ class InsuranceCoverageModel extends InsuranceModel
     }
 
     /*
-     * 获取 险种
+     * 获取 公用险种
      * ."\r\n"
     */
     public function getCoverage($checkedIds=[], $excludeIds=[])
@@ -88,6 +88,21 @@ class InsuranceCoverageModel extends InsuranceModel
         }
 
         return $lists;
+    }
+
+    public function fromCateList($Ids=0, $limit=20)
+    {
+        $where = [
+            'delete_time' => 0,
+            'status' => 1,
+            'id' => ['IN',$Ids]
+        ];
+        $list = $this->field('id,type,name,price,description,content')
+                ->where($where)
+                ->order('is_top','DESC')
+                ->select()->toArray();
+
+        return $list;
     }
 
 }

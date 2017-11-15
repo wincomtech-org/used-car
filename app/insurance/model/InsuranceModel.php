@@ -70,13 +70,30 @@ class InsuranceModel extends UsualModel
 
         $lists = cache($ckey);
         if (empty($lists)) {
-            $lists = $this->field('id,name,description,more')
-                ->where(['status'=>1,'identi_status'=>1])
+            $lists = $this->field('id,name,description,desc2,more')
+                ->where(['delete_time'=>0,'status'=>1,'identi_status'=>1])
                 ->order('is_rec desc,published_time desc')
                 ->limit($limit)
                 ->select()->toArray();
             cache($ckey, $lists, 3600);
         }
+        return $lists;
+    }
+
+    public function getPostList($where='', $order='update_time DESC', $limit=4)
+    {
+        $where = [
+            'delete_time'   => 0,
+            'status'        => 1,
+            'identi_status' => 1,
+            'is_rec'        => 1,
+        ];
+        $lists = $this->field('id,name,description,desc2,more')
+            ->where($where)
+            ->order($order)
+            ->select();
+            // ->paginate($limit);
+
         return $lists;
     }
 }

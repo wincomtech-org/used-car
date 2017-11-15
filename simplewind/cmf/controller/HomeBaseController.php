@@ -212,21 +212,32 @@ class HomeBaseController extends BaseController
         if (empty($tpl)) {
             $tpl = '<ul class="brash"><li>当前位置：</li>';
             if (!empty($table) && !empty($pid)) {
-                $name = Db::name($table)->where('id',$pid)->value('name');
-                $url = cmf_url($this->request->module().'/'.$this->request->controller().'/'.$this->request->action(), ['id',$pid]);
-                $tpl .= '<li><a href="'. $url .'">'. $name .'</a></li>';
-                if (isset($title)) {
-                    $tpl .= '<li class="active"><a href="#">'. $title .'</a></li>';
-                }
+                $tpl .= $this->parInfo($table, $pid);
             } elseif (!empty($data)) {
                 $count = count($data)-1;
                 foreach ($data as $k => $v) {
                     $tpl .= '<li class="'. ($k==$count?'active':'') .'"><a href="'. $v['url'] .'">'. $v['name'] .'</a></li>';
                 }
             }
+            if (isset($title)) {
+                $tpl .= '<li class="active"><a href="#">'. $title .'</a></li>';
+            }
             $tpl .= '</ul>';
         } else {
             # code...
+        }
+
+        return $tpl;
+    }
+    public function parInfo($table='', $pid=0)
+    {
+        // $this->request->controller()
+        // $this->request->action()
+        $par = Db::name($table)->field('parent_id,name')->where('id',$pid)->find();
+        $url = cmf_url($this->request->module().'/List/index', ['id'=>$pid]);
+        $tpl = '<li><a href="'. $url .'">'. $par['name'] .'</a></li>';
+        if ($par['parent_id']>0) {
+            $tpl = $this->parInfo($table,$par['parent_id']) . $tpl;
         }
 
         return $tpl;

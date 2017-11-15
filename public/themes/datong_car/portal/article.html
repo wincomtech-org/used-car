@@ -4,6 +4,7 @@
     <title>{$article.post_title}</title>
     <meta name="keywords" content="{$site_info.site_seo_keywords|default=''}"/>
     <meta name="description" content="{$site_info.site_seo_description|default=''}">
+
     <include file="public@head"/>
     <style>
         #article_content img {
@@ -29,140 +30,36 @@
         <div class="main">
             <!-- 面包屑 -->
             {$crumbs|default=''}
-            <ul class="brash">
-                <li>当前位置：</li>
-                <li><a href="news.html">新闻资讯</a></li>
-                <li class="active"><a href="news.html">热门资讯</a></li>
-            </ul>
             <div class="hot_news_con">
                 <div class="hot_news_top">
                     <h1>{$article.post_title}</h1>
                     <p >
-                    <span>发表于：<i>{:date('Y-m-d H:i',$article.published_time)}</i></span>
-                    <span>作者：<i>{$article.user.user_nickname}</i></span>
+                        <span>发表于：<i>{:date('Y-m-d H:i',$article.published_time)}</i></span>
+                        <span>作者：<i>{$article.user.user_nickname}</i></span>
                     </p>
                 </div>
                 <div class="hot_news_bottom">
+                    <!-- 文章内容 -->
                     <div class="hot_news_left" id="article_content">
                         {$article.post_content}
                     </div>
-
-
+                    <!-- 右侧列表 -->
                     <div class="hot_news_right">
-                        <div class="hot_news_list">
-                            <p class="hot_news_tit">热门新闻</p>
-                            <ul>
-                               <li class="news_txt_item active">
-                                    <b class="icon"></b>
-                                    <p><a href="">汽车的老祖宗德国人是如何玩转二手车汽车的老祖宗德国人是如何玩转二手车汽车的老祖宗德国人是如何玩转二手车</a></p>
-
-                                </li>
-                                <li class="news_txt_item">
-                                    <b class="icon"></b>
-                                    <p><a href="">汽车的老祖宗德国人是如何玩转二手车</a></p>
-
-                                </li>
-                                <li class="news_txt_item ">
-                                    <b class="icon"></b>
-                                    <p><a href="">汽车的老祖宗德国人是如何玩转二手车</a></p>
-
-                                </li>
-                                <li class="news_txt_item ">
-                                    <b class="icon"></b>
-                                    <p><a href="">汽车的老祖宗德国人是如何玩转二手车</a></p>
-
-                                </li>
-                                <li class="news_txt_item ">
-                                    <b class="icon"></b>
-                                    <p><a href="">汽车的老祖宗德国人是如何玩转二手车</a></p>
-
-                                </li>
-                                <li class="news_txt_item ">
-                                    <b class="icon"></b>
-                                    <p><a href="">汽车的老祖宗德国人是如何玩转二手车</a></p>
-
-                                </li>
-
-                            </ul>
-
-                        </div>
-
-                        <div class="hot_news_list">
-                            <p class="hot_news_tit">教你选车</p>
-                            <ul>
-                               <li class="news_txt_item active">
-                                    <b class="icon"></b>
-                                    <p><a href="">汽车的老祖宗德国人是如何玩转二手车汽车的老祖宗德国人是如何玩转二手车汽车的老祖宗德国人是如何玩转二手车</a></p>
-
-                                </li>
-                                <li class="news_txt_item">
-                                    <b class="icon"></b>
-                                    <p><a href="">汽车的老祖宗德国人是如何玩转二手车</a></p>
-
-                                </li>
-                                <li class="news_txt_item ">
-                                    <b class="icon"></b>
-                                    <p><a href="">汽车的老祖宗德国人是如何玩转二手车</a></p>
-
-                                </li>
-                                <li class="news_txt_item ">
-                                    <b class="icon"></b>
-                                    <p><a href="">汽车的老祖宗德国人是如何玩转二手车</a></p>
-
-                                </li>
-                                <li class="news_txt_item ">
-                                    <b class="icon"></b>
-                                    <p><a href="">汽车的老祖宗德国人是如何玩转二手车</a></p>
-
-                                </li>
-                                <li class="news_txt_item ">
-                                    <b class="icon"></b>
-                                    <p><a href="">汽车的老祖宗德国人是如何玩转二手车</a></p>
-
-                                </li>
-
-                            </ul>
-
-                        </div>
-
-                        <div class="hot_news_list">
-                            <p class="hot_news_tit">用车技巧</p>
-                            <ul>
-                               <li class="news_txt_item active">
-                                    <b class="icon"></b>
-                                    <p><a href="">汽车的老祖宗德国人是如何玩转二手车汽车的老祖宗德国人是如何玩转二手车汽车的老祖宗德国人是如何玩转二手车</a></p>
-
-                                </li>
-                                <li class="news_txt_item">
-                                    <b class="icon"></b>
-                                    <p><a href="">汽车的老祖宗德国人是如何玩转二手车</a></p>
-
-                                </li>
-                                <li class="news_txt_item ">
-                                    <b class="icon"></b>
-                                    <p><a href="">汽车的老祖宗德国人是如何玩转二手车</a></p>
-
-                                </li>
-                                <li class="news_txt_item ">
-                                    <b class="icon"></b>
-                                    <p><a href="">汽车的老祖宗德国人是如何玩转二手车</a></p>
-
-                                </li>
-                                <li class="news_txt_item ">
-                                    <b class="icon"></b>
-                                    <p><a href="">汽车的老祖宗德国人是如何玩转二手车</a></p>
-
-                                </li>
-                                <li class="news_txt_item ">
-                                    <b class="icon"></b>
-                                    <p><a href="">汽车的老祖宗德国人是如何玩转二手车</a></p>
-
-                                </li>
-
-                            </ul>
-
-                        </div>
-
+                        <foreach name="rightList" item="cate">
+                            <div class="hot_news_list">
+                                <p class="hot_news_tit">{$cate.name}</p>
+                                <notempty name="cate.list">
+                                    <ul>
+                                        <foreach name="cate.list" item="vo" key="k">
+                                            <li class="news_txt_item {$k==0?='active'}">
+                                                <b class="icon"></b>
+                                                <p><a href="">{$vo.post_title}</a></p>
+                                            </li>
+                                        </foreach>
+                                    </ul>
+                                </notempty>
+                            </div>
+                        </foreach>
                     </div>
                 </div>
             </div>

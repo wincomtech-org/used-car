@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50540
 File Encoding         : 65001
 
-Date: 2017-11-14 16:55:20
+Date: 2017-11-15 17:52:43
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -4026,7 +4026,8 @@ CREATE TABLE `cmf_insurance` (
   `information` text NOT NULL COMMENT '投保须知',
   `more` text NOT NULL COMMENT '扩展属性：coverage勾选的公共险种模型',
   `remark` varchar(255) NOT NULL COMMENT '备注',
-  `description` varchar(255) NOT NULL COMMENT '描述',
+  `description` varchar(255) NOT NULL DEFAULT '' COMMENT '描述',
+  `desc2` varchar(255) NOT NULL DEFAULT '' COMMENT '次级描述',
   `is_top` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '是否置顶',
   `is_rec` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '是否推荐',
   `identi_status` tinyint(2) NOT NULL DEFAULT '1' COMMENT '认证状态：-1禁止认证 0未认证 1已认证',
@@ -4039,10 +4040,10 @@ CREATE TABLE `cmf_insurance` (
 -- ----------------------------
 -- Records of cmf_insurance
 -- ----------------------------
-INSERT INTO `cmf_insurance` VALUES ('1', '2', '太平洋保险', '', '', '1508904236', '1510039212', '1508904120', '0', '&lt;p&gt;发个方法好的&lt;/p&gt;', '&lt;p&gt;正确&lt;/p&gt;', '{\"coverage\":[\"1\",\"4\",\"6\",\"7\",\"8\"],\"thumbnail\":\"\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/insurance01.png\"}', '', '老品牌，全国通赔\r\n舒心投保体验', '0', '0', '1', '1', '10000');
-INSERT INTO `cmf_insurance` VALUES ('2', '1', '安盛天平', '', '', '1508917303', '1510039259', '1508917200', '0', '&lt;p&gt;12321&lt;/p&gt;', '&lt;p&gt;456&lt;/p&gt;', '{\"thumbnail\":\"\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/insurance02.png\"}', '', '好保险省更多\r\n理赔省心', '0', '0', '1', '1', '10000');
-INSERT INTO `cmf_insurance` VALUES ('3', '1', '阳光保险', '', '', '1509085896', '1510039292', '1509085860', '0', '', '', '{\"coverage\":[\"1\",\"2\",\"3\",\"4\",\"5\",\"6\",\"7\",\"8\",\"9\"],\"thumbnail\":\"\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/insurance03.png\"}', '', '一对一专项顾问\r\n服务新升级', '0', '0', '1', '1', '10000');
-INSERT INTO `cmf_insurance` VALUES ('4', '0', '中华保险', '', '', '1510039164', '1510039164', '1510039059', '0', '', '', '{\"thumbnail\":\"\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/insurance04.png\"}', '', '快易免服务\r\n24小时极速闪赔', '0', '0', '1', '1', '10000');
+INSERT INTO `cmf_insurance` VALUES ('1', '2', '太平洋保险', '', '', '1508904236', '1510717757', '1508904120', '0', '&lt;p&gt;发个方法好的&lt;/p&gt;', '&lt;p&gt;正确&lt;/p&gt;', '{\"coverage\":[\"1\",\"4\",\"6\",\"7\",\"8\"],\"thumbnail\":\"\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/insurance01.png\"}', '', '老品牌，全国通赔', '舒心投保体验', '0', '1', '1', '1', '10000');
+INSERT INTO `cmf_insurance` VALUES ('2', '1', '安盛天平', '', '', '1508917303', '1510717781', '1508917200', '0', '&lt;p&gt;12321&lt;/p&gt;', '&lt;p&gt;456&lt;/p&gt;', '{\"coverage\":[\"1\",\"2\",\"3\",\"4\"],\"thumbnail\":\"\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/insurance02.png\"}', '', '好保险省更多', '理赔省心', '0', '1', '1', '1', '10000');
+INSERT INTO `cmf_insurance` VALUES ('3', '1', '阳光保险', '', '', '1509085896', '1510717816', '1509085860', '0', '', '', '{\"coverage\":[\"1\",\"2\",\"3\",\"4\",\"5\",\"6\",\"7\",\"8\",\"9\"],\"thumbnail\":\"\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/insurance03.png\"}', '', '一对一专项顾问', '服务新升级', '0', '1', '1', '1', '10000');
+INSERT INTO `cmf_insurance` VALUES ('4', '0', '中华保险', '', '', '1510039164', '1510717797', '1510039020', '0', '', '', '{\"coverage\":[\"1\",\"2\"],\"thumbnail\":\"\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/insurance04.png\"}', '', '快易免服务', '24小时极速闪赔', '0', '1', '1', '1', '10000');
 
 -- ----------------------------
 -- Table structure for cmf_insurance_compensation
@@ -4072,6 +4073,7 @@ CREATE TABLE `cmf_insurance_coverage` (
   `delete_time` int(10) unsigned NOT NULL COMMENT '删除时间',
   `remark` varchar(255) NOT NULL COMMENT '备注',
   `description` tinytext NOT NULL COMMENT '描述',
+  `content` text NOT NULL COMMENT '险种内容',
   `more` text NOT NULL COMMENT '扩展属性',
   `is_top` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '置顶',
   `is_rec` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '推荐',
@@ -4083,15 +4085,15 @@ CREATE TABLE `cmf_insurance_coverage` (
 -- ----------------------------
 -- Records of cmf_insurance_coverage
 -- ----------------------------
-INSERT INTO `cmf_insurance_coverage` VALUES ('1', '0', '1', '车辆损失险', '0', '1510382384', '1508923020', '0', '', '提供各大车险公司服务\r\n为您的安全保驾护航', '{\"thumbnail\":\"\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/service1.jpg\"}', '0', '0', '1', '10000');
-INSERT INTO `cmf_insurance_coverage` VALUES ('2', '0', '1', '第三责任险', '111', '1510040611', '1508924100', '0', '', '提供各大车险公司服务\r\n为您的安全保驾护航', '{\"thumbnail\":\"\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/service3.jpg\"}', '0', '0', '1', '10000');
-INSERT INTO `cmf_insurance_coverage` VALUES ('3', '0', '2', '全车盗抢险', '0', '1510040644', '1508979900', '0', '', '提供各大车险公司服务\r\n为您的安全保驾护航', '{\"thumbnail\":\"\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/service2.jpg\"}', '0', '0', '1', '10000');
-INSERT INTO `cmf_insurance_coverage` VALUES ('4', '0', '2', '车上座位责任险', '0', '1508980030', '1508980013', '0', '', '', '{\"thumbnail\":\"\"}', '0', '0', '1', '10000');
-INSERT INTO `cmf_insurance_coverage` VALUES ('5', '0', '2', '玻璃单独破碎险', '0', '1508980049', '1508980033', '0', '', '', '{\"thumbnail\":\"\"}', '0', '0', '1', '10000');
-INSERT INTO `cmf_insurance_coverage` VALUES ('6', '0', '2', '自燃险', '0', '1508980059', '1508980053', '0', '', '', '{\"thumbnail\":\"\"}', '0', '0', '1', '10000');
-INSERT INTO `cmf_insurance_coverage` VALUES ('7', '0', '2', '划痕险', '0', '1508980171', '1508980063', '0', '', '', '{\"thumbnail\":\"\"}', '0', '0', '1', '10000');
-INSERT INTO `cmf_insurance_coverage` VALUES ('8', '0', '2', '责任险率', '0', '1508980194', '1508980174', '0', '', '', '{\"thumbnail\":\"\"}', '0', '0', '1', '10000');
-INSERT INTO `cmf_insurance_coverage` VALUES ('9', '0', '2', '不计免额险', '0', '1508981415', '1508980140', '0', '', '', '{\"thumbnail\":\"\"}', '0', '0', '1', '10000');
+INSERT INTO `cmf_insurance_coverage` VALUES ('1', '0', '1', '车辆损失险', '0', '1510729745', '1508923020', '0', '', '提供各大车险公司服务\r\n为您的安全保驾护航', '&lt;ul class=&quot; list-paddingleft-2&quot;&gt;\n&lt;li style=&quot;&quot;&gt;&lt;p&gt;&lt;span class=&quot;insurance_icon_tit&quot; style=&quot;padding: 0px; margin: 0px; list-style: none; font-size: inherit; display: inline-block; width: 100px; vertical-align: top;&quot;&gt;保险责任：&lt;/span&gt;&lt;span class=&quot;insurance_icon_txt&quot; style=&quot;padding: 0px; margin: 0px; list-style: none; font-size: inherit; display: inline-block; width: calc(100% - 100px);&quot;&gt;道路交通事故中造成受害人(不包括本车人员和被保险人)的人身伤亡、财产损失&lt;/span&gt;&lt;/p&gt;&lt;/li&gt;\n&lt;li style=&quot;&quot;&gt;&lt;p&gt;&lt;span class=&quot;insurance_icon_tit&quot; style=&quot;padding: 0px; margin: 0px; list-style: none; font-size: inherit; display: inline-block; width: 100px; vertical-align: top;&quot;&gt;赔偿项目：&lt;/span&gt;&lt;span class=&quot;insurance_icon_txt&quot; style=&quot;padding: 0px; margin: 0px; list-style: none; font-size: inherit; display: inline-block; width: calc(100% - 100px);&quot;&gt;交通事故中的死亡伤残赔偿、医疗费用赔偿、财产损失赔偿等。&lt;/span&gt;&lt;/p&gt;&lt;/li&gt;\n&lt;li style=&quot;&quot;&gt;&lt;p&gt;&lt;span class=&quot;insurance_icon_tit&quot; style=&quot;padding: 0px; margin: 0px; list-style: none; font-size: inherit; display: inline-block; width: 100px; vertical-align: top;&quot;&gt;赔偿额度：&lt;/span&gt;&lt;span class=&quot;insurance_icon_txt&quot; style=&quot;padding: 0px; margin: 0px; list-style: none; font-size: inherit; display: inline-block; width: calc(100% - 100px);&quot;&gt;责任限额12万。交通事故中有责任的赔偿限额：死亡伤残赔偿限额：110000元 ；医疗费用赔偿限额：10000元；财产损失赔偿限额：2000元。机动车在道路交通事故中有无责任的赔偿限额：死亡伤残赔偿限额：11000元；医疗费用赔偿限额：1000元；财产损失赔偿限额：100元。&lt;/span&gt;&lt;/p&gt;&lt;/li&gt;\n&lt;/ul&gt;', '{\"thumbnail\":\"\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/service1.jpg\"}', '0', '0', '1', '10000');
+INSERT INTO `cmf_insurance_coverage` VALUES ('2', '0', '1', '第三责任险', '111', '1510729706', '1508924100', '0', '', '提供各大车险公司服务\r\n为您的安全保驾护航', '&lt;ul class=&quot; list-paddingleft-2&quot;&gt;\n&lt;li style=&quot;&quot;&gt;&lt;p&gt;&lt;span class=&quot;insurance_icon_tit&quot; style=&quot;padding: 0px; margin: 0px; list-style: none; font-size: inherit; display: inline-block; width: 100px; vertical-align: top;&quot;&gt;保险责任：&lt;/span&gt;&lt;span class=&quot;insurance_icon_txt&quot; style=&quot;padding: 0px; margin: 0px; list-style: none; font-size: inherit; display: inline-block; width: calc(100% - 100px);&quot;&gt;道路交通事故中造成受害人(不包括本车人员和被保险人)的人身伤亡、财产损失&lt;/span&gt;&lt;/p&gt;&lt;/li&gt;\n&lt;li style=&quot;&quot;&gt;&lt;p&gt;&lt;span class=&quot;insurance_icon_tit&quot; style=&quot;padding: 0px; margin: 0px; list-style: none; font-size: inherit; display: inline-block; width: 100px; vertical-align: top;&quot;&gt;赔偿项目：&lt;/span&gt;&lt;span class=&quot;insurance_icon_txt&quot; style=&quot;padding: 0px; margin: 0px; list-style: none; font-size: inherit; display: inline-block; width: calc(100% - 100px);&quot;&gt;交通事故中的死亡伤残赔偿、医疗费用赔偿、财产损失赔偿等。&lt;/span&gt;&lt;/p&gt;&lt;/li&gt;\n&lt;li style=&quot;&quot;&gt;&lt;p&gt;&lt;span class=&quot;insurance_icon_tit&quot; style=&quot;padding: 0px; margin: 0px; list-style: none; font-size: inherit; display: inline-block; width: 100px; vertical-align: top;&quot;&gt;赔偿额度：&lt;/span&gt;&lt;span class=&quot;insurance_icon_txt&quot; style=&quot;padding: 0px; margin: 0px; list-style: none; font-size: inherit; display: inline-block; width: calc(100% - 100px);&quot;&gt;责任限额12万。交通事故中有责任的赔偿限额：死亡伤残赔偿限额：110000元 ；医疗费用赔偿限额：10000元；财产损失赔偿限额：2000元。机动车在道路交通事故中有无责任的赔偿限额：死亡伤残赔偿限额：11000元；医疗费用赔偿限额：1000元；财产损失赔偿限额：100元。&lt;/span&gt;&lt;/p&gt;&lt;/li&gt;\n&lt;/ul&gt;', '{\"thumbnail\":\"\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/service3.jpg\"}', '0', '0', '1', '10000');
+INSERT INTO `cmf_insurance_coverage` VALUES ('3', '0', '2', '全车盗抢险', '0', '1510729797', '1508979900', '0', '', '提供各大车险公司服务\r\n为您的安全保驾护航', '&lt;p&gt;盗抢规则：&lt;/p&gt;', '{\"thumbnail\":\"\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/service2.jpg\"}', '0', '0', '1', '10000');
+INSERT INTO `cmf_insurance_coverage` VALUES ('4', '0', '2', '车上座位责任险', '0', '1508980030', '1508980013', '0', '', '', '', '{\"thumbnail\":\"\"}', '0', '0', '1', '10000');
+INSERT INTO `cmf_insurance_coverage` VALUES ('5', '0', '2', '玻璃单独破碎险', '0', '1508980049', '1508980033', '0', '', '', '', '{\"thumbnail\":\"\"}', '0', '0', '1', '10000');
+INSERT INTO `cmf_insurance_coverage` VALUES ('6', '0', '2', '自燃险', '0', '1508980059', '1508980053', '0', '', '', '', '{\"thumbnail\":\"\"}', '0', '0', '1', '10000');
+INSERT INTO `cmf_insurance_coverage` VALUES ('7', '0', '2', '划痕险', '0', '1508980171', '1508980063', '0', '', '', '', '{\"thumbnail\":\"\"}', '0', '0', '1', '10000');
+INSERT INTO `cmf_insurance_coverage` VALUES ('8', '0', '2', '责任险率', '0', '1508980194', '1508980174', '0', '', '', '', '{\"thumbnail\":\"\"}', '0', '0', '1', '10000');
+INSERT INTO `cmf_insurance_coverage` VALUES ('9', '0', '2', '不计免额险', '0', '1508981415', '1508980140', '0', '', '', '', '{\"thumbnail\":\"\"}', '0', '0', '1', '10000');
 
 -- ----------------------------
 -- Table structure for cmf_insurance_order
@@ -4100,6 +4102,7 @@ DROP TABLE IF EXISTS `cmf_insurance_order`;
 CREATE TABLE `cmf_insurance_order` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `insurance_id` int(11) unsigned NOT NULL COMMENT '保险业务ID',
+  `coverIds` varchar(255) NOT NULL DEFAULT '' COMMENT '自选险种',
   `car_id` int(11) unsigned NOT NULL COMMENT '车辆ID',
   `user_id` int(11) unsigned NOT NULL COMMENT '用户ID',
   `order_sn` varchar(30) NOT NULL COMMENT '保单编号',
@@ -4114,6 +4117,7 @@ CREATE TABLE `cmf_insurance_order` (
   `more` text NOT NULL COMMENT '扩展属性：审核资料',
   `remark` varchar(255) NOT NULL COMMENT '备注',
   `description` varchar(255) NOT NULL COMMENT '描述',
+  `type` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT '投保类型：1线上 2线下',
   `status` tinyint(2) NOT NULL COMMENT '状态：0未支付待审 1已支付 2取消关闭 5已审核 6待确认 8已确认 10完成 11过期失效 12',
   `list_order` float unsigned NOT NULL DEFAULT '10000' COMMENT '排序：从小到大',
   PRIMARY KEY (`id`),
@@ -4127,12 +4131,12 @@ CREATE TABLE `cmf_insurance_order` (
 -- ----------------------------
 -- Records of cmf_insurance_order
 -- ----------------------------
-INSERT INTO `cmf_insurance_order` VALUES ('1', '0', '0', '1', 'abc1111111', '', '0.00', '', '0', '0', '0', '0', '0', '', '', '', '0', '10000');
-INSERT INTO `cmf_insurance_order` VALUES ('2', '0', '2', '2', 'abc2222222222', '', '0.00', '', '0', '0', '0', '0', '0', '', '', '', '0', '10000');
-INSERT INTO `cmf_insurance_order` VALUES ('3', '0', '3', '3', 'abc3333333333', '', '0.00', '', '0', '0', '0', '0', '0', '', '', '', '0', '10000');
-INSERT INTO `cmf_insurance_order` VALUES ('4', '0', '4', '0', 'abc44444444444444', '', '0.00', '', '0', '0', '0', '1540261200', '0', '', '', '', '0', '10000');
-INSERT INTO `cmf_insurance_order` VALUES ('5', '1', '5', '0', 'abc5555555555', '', '0.00', '', '0', '0', '0', '0', '0', '', '', '', '0', '10000');
-INSERT INTO `cmf_insurance_order` VALUES ('6', '2', '1', '3', 'abc66666666666', '', '1000.00', '', '0', '1477531500', '0', '1509067440', '0', '{\"plateNo\":\"皖A158578\",\"name\":\"王华\",\"contact\":\"13369852147\",\"driving_license\":\"\"}', '', '', '1', '10000');
+INSERT INTO `cmf_insurance_order` VALUES ('1', '0', '', '0', '1', 'abc1111111', '', '0.00', '', '0', '0', '0', '0', '0', '', '', '', '0', '0', '10000');
+INSERT INTO `cmf_insurance_order` VALUES ('2', '0', '', '2', '2', 'abc2222222222', '', '0.00', '', '0', '0', '0', '0', '0', '', '', '', '0', '0', '10000');
+INSERT INTO `cmf_insurance_order` VALUES ('3', '0', '', '3', '3', 'abc3333333333', '', '0.00', '', '0', '0', '0', '0', '0', '', '', '', '0', '0', '10000');
+INSERT INTO `cmf_insurance_order` VALUES ('4', '0', '', '4', '0', 'abc44444444444444', '', '0.00', '', '0', '0', '0', '1540261200', '0', '', '', '', '0', '0', '10000');
+INSERT INTO `cmf_insurance_order` VALUES ('5', '1', '', '5', '0', 'abc5555555555', '', '0.00', '', '0', '0', '0', '0', '0', '', '', '', '0', '0', '10000');
+INSERT INTO `cmf_insurance_order` VALUES ('6', '2', '', '1', '3', 'abc66666666666', '', '1000.00', '', '0', '1477531500', '0', '1509067440', '0', '{\"plateNo\":\"皖A158578\",\"name\":\"王华\",\"contact\":\"13369852147\",\"driving_license\":\"\"}', '', '', '0', '1', '10000');
 
 -- ----------------------------
 -- Table structure for cmf_link
@@ -4221,7 +4225,7 @@ CREATE TABLE `cmf_news` (
   `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
   `content` text NOT NULL COMMENT '详情',
   `ip` char(15) NOT NULL DEFAULT '' COMMENT '用户ip',
-  `status` tinyint(1) NOT NULL COMMENT '状态：0未读 1已读',
+  `status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '状态：0未读 1已读',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -4301,7 +4305,7 @@ CREATE TABLE `cmf_portal_category` (
   `one_tpl` varchar(50) NOT NULL DEFAULT '' COMMENT '分类文章页模板',
   `more` text COMMENT '扩展属性',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COMMENT='portal应用 文章分类表';
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COMMENT='portal应用 文章分类表';
 
 -- ----------------------------
 -- Records of cmf_portal_category
@@ -4313,6 +4317,7 @@ INSERT INTO `cmf_portal_category` VALUES ('4', '3', '0', '1', '0', '10000', '买
 INSERT INTO `cmf_portal_category` VALUES ('5', '1', '0', '1', '0', '10000', '热门新闻', '', '0-1-5', '', '', '', 'list', 'article', '{\"thumbnail\":\"\"}');
 INSERT INTO `cmf_portal_category` VALUES ('6', '0', '0', '1', '0', '10000', '关于我们', '', '0-6', '', '', '', 'list', 'about', '{\"thumbnail\":\"\"}');
 INSERT INTO `cmf_portal_category` VALUES ('7', '1', '0', '1', '0', '10000', '用车技巧', '', '0-1-7', '', '', '', 'list', 'article', '{\"thumbnail\":\"\"}');
+INSERT INTO `cmf_portal_category` VALUES ('8', '3', '0', '1', '0', '10000', '理赔指引', '有了理赔指引，出险理赔不慌乱', '0-3-8', '', '', '', 'list', 'article', '{\"thumbnail\":\"\"}');
 
 -- ----------------------------
 -- Table structure for cmf_portal_category_post
@@ -4326,7 +4331,7 @@ CREATE TABLE `cmf_portal_category_post` (
   `status` tinyint(3) unsigned NOT NULL DEFAULT '1' COMMENT '状态,1:发布;0:不发布',
   PRIMARY KEY (`id`),
   KEY `term_taxonomy_id` (`category_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8 COMMENT='portal应用 分类文章对应表';
+) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8 COMMENT='portal应用 分类文章对应表';
 
 -- ----------------------------
 -- Records of cmf_portal_category_post
@@ -4359,6 +4364,9 @@ INSERT INTO `cmf_portal_category_post` VALUES ('28', '11', '5', '10000', '1');
 INSERT INTO `cmf_portal_category_post` VALUES ('29', '3', '2', '10000', '1');
 INSERT INTO `cmf_portal_category_post` VALUES ('30', '2', '1', '10000', '1');
 INSERT INTO `cmf_portal_category_post` VALUES ('31', '2', '5', '10000', '1');
+INSERT INTO `cmf_portal_category_post` VALUES ('32', '24', '8', '10000', '1');
+INSERT INTO `cmf_portal_category_post` VALUES ('33', '25', '8', '10000', '1');
+INSERT INTO `cmf_portal_category_post` VALUES ('34', '26', '8', '10000', '1');
 
 -- ----------------------------
 -- Table structure for cmf_portal_post
@@ -4393,14 +4401,14 @@ CREATE TABLE `cmf_portal_post` (
   KEY `post_parent` (`parent_id`),
   KEY `post_author` (`user_id`),
   KEY `post_date` (`create_time`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT COMMENT='portal应用 文章表';
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT COMMENT='portal应用 文章表';
 
 -- ----------------------------
 -- Records of cmf_portal_post
 -- ----------------------------
 INSERT INTO `cmf_portal_post` VALUES ('1', '0', '2', '1', '1', '1', '1', '0', '0', '0', '0', '0', '1507875360', '1510558282', '1507875240', '0', '单页演示', '', '', '', '\n&lt;p style=&quot;text-indent:2em;&quot;&gt;单页展示&lt;/p&gt;\n&lt;p&gt;&lt;br&gt;&lt;/p&gt;\n', '', '{\"thumbnail\":\"\",\"template\":\"page\"}');
 INSERT INTO `cmf_portal_post` VALUES ('2', '0', '1', '1', '1', '1', '1', '0', '0', '10', '0', '0', '1507876048', '1510645725', '1507875960', '0', '上线通知', '', '上线摘要', '', '&lt;p&gt;上线内容：本站将于2017年上线。&lt;/p&gt;', '', '{\"thumbnail\":\"\",\"template\":\"\",\"photos\":[{\"url\":\"portal\\/20171013\\/1f661e0d9d9f0c97b17a50e6e06580c0.png\",\"name\":\"大通车服logo.png\"}]}');
-INSERT INTO `cmf_portal_post` VALUES ('3', '0', '1', '1', '1', '1', '1', '0', '0', '9', '0', '0', '1507876137', '1510645674', '1507876080', '0', '活动1', '', '', '', '&lt;p&gt;最新活动极简出&lt;/p&gt;', '', '{\"thumbnail\":\"\",\"template\":\"\"}');
+INSERT INTO `cmf_portal_post` VALUES ('3', '0', '1', '1', '1', '1', '1', '0', '0', '14', '0', '0', '1507876137', '1510645674', '1507876080', '0', '活动1', '', '', '', '&lt;p&gt;最新活动极简出&lt;/p&gt;', '', '{\"thumbnail\":\"\",\"template\":\"\"}');
 INSERT INTO `cmf_portal_post` VALUES ('4', '0', '1', '1', '1', '1', '1', '0', '0', '1', '0', '0', '1510050010', '1510050289', '1510049940', '0', '尾气检测', '', '交检测费，等候上线。检测前会有工作人员进行初检，由检测员开车上线，拿...', '', null, null, '{\"thumbnail\":\"\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/car_service01.jpg\",\"template\":\"\"}');
 INSERT INTO `cmf_portal_post` VALUES ('5', '0', '1', '1', '1', '1', '1', '0', '0', '0', '0', '0', '1510050404', '1510050404', '1510050372', '0', '查违章', '', '查询窗口领取并填写“机动车定期检验登记表”，可凭行驶证领取。填好表中事...', '', null, null, '{\"thumbnail\":\"\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/c4e37762e79866a2f10d3c5926bbd188924ddbd3_m.jpg\",\"template\":\"\"}');
 INSERT INTO `cmf_portal_post` VALUES ('6', '0', '1', '1', '1', '1', '1', '0', '0', '0', '0', '0', '1510050437', '1510050437', '1510050412', '0', '交押金', '', '押金窗口缴押金，拿好押金条，领取并填写外观检验单。', '', null, null, '{\"thumbnail\":\"\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/c4e37762e79866a2f10d3c5926bbd188924ddbd3_m.jpg\",\"template\":\"\"}');
@@ -4408,19 +4416,22 @@ INSERT INTO `cmf_portal_post` VALUES ('7', '0', '1', '1', '1', '1', '1', '0', '0
 INSERT INTO `cmf_portal_post` VALUES ('8', '0', '1', '1', '1', '1', '1', '0', '0', '0', '0', '0', '1510050503', '1510050503', '1510050480', '0', '上线检测', '', '外观检验没问题，排队等候上线检测。检测线负责刹车、大灯（远光）、底盘', '', null, null, '{\"thumbnail\":\"\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/61f4d9a7eb72c52d84b7d86abe75a85b96b52da8_m.jpg\",\"template\":\"\"}');
 INSERT INTO `cmf_portal_post` VALUES ('9', '0', '1', '1', '1', '1', '1', '0', '0', '0', '0', '0', '1510050534', '1510050534', '1510050510', '0', '总监审核', '', '准备一张身份证复印件，到大厅总检处签字盖章。', '', null, null, '{\"thumbnail\":\"thumbnail\\\\&quot;:\\\\&quot;\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/b74aaf555eb970c3a1fdd6e7b2b5dd2a7a971286_m.jpg\",\"template\":\"\"}');
 INSERT INTO `cmf_portal_post` VALUES ('10', '0', '1', '1', '1', '1', '1', '0', '0', '0', '0', '0', '1510050567', '1510050567', '1510050545', '0', '交费，领标', '', '各窗口交相关费用，退回押金，交工本费领“机动车检验合格标志”，标后', '', null, null, '{\"thumbnail\":\"\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/156c2157ea31033cd8d2ae8431be8497387e5db0_m.jpg\",\"template\":\"\"}');
-INSERT INTO `cmf_portal_post` VALUES ('11', '0', '1', '1', '1', '1', '1', '0', '0', '0', '0', '0', '1510108023', '1510645645', '1510107840', '0', '三年血泪史分享 二手车寄售骗局揭秘编辑', '', '', '', null, null, '{\"thumbnail\":\"\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/news_img.jpg\",\"template\":\"\"}');
-INSERT INTO `cmf_portal_post` VALUES ('12', '0', '1', '1', '1', '1', '1', '0', '0', '30', '0', '0', '1510108075', '1510645598', '1510108020', '0', '汽车的老祖宗德国人是如何玩转二手车', '', '11月23日至24日，以“中国与欧洲相遇”为主题的汉堡峰会将要召开，我将受邀前往德国参加此次会议。虽然此次峰会是宏观金融层面的会议，但是作为一名“二手车人”，我最关心的还是还是德国二手车是如何发展的，看看有没有可以借鉴的地方。二手车销量远高于新车。最开始，咱们先看看德国的二手车销量。在这里先跟大家透露一点，判断一个国家二手车行业..', '', '\n&lt;p style=\'padding: 0px; margin-top: 0px; margin-bottom: 0px; color: rgb(102, 102, 102); list-style: none; line-height: 1.6; font-family: 微软雅黑, &quot;Microsoft Yahei&quot;, sans-serif; white-space: normal; background-color: rgb(255, 255, 255); text-indent: 2em;\'&gt;11月23日至24日，以“中国与欧洲相遇”为主题的汉堡峰会将要召开，我将受邀前往德国参加此次会议。虽然此次峰会是宏观金融层面的会议，但是作为一名“二手车人”，我最关心的还是还是德国二手车是如何发展的，看看有没有可以借鉴的地方。&lt;/p&gt;\n&lt;h6 style=\'padding: 0px; margin: 30px 0px; color: rgb(51, 51, 51); list-style: none; font-size: 18px; font-weight: normal; font-family: 微软雅黑, &quot;Microsoft Yahei&quot;, sans-serif; white-space: normal; background-color: rgb(255, 255, 255);\'&gt;二手车销量远高于新车&lt;/h6&gt;\n&lt;p style=\'padding: 0px; margin-top: 15px; margin-bottom: 15px; color: rgb(102, 102, 102); list-style: none; line-height: 1.6; font-family: 微软雅黑, &quot;Microsoft Yahei&quot;, sans-serif; white-space: normal; background-color: rgb(255, 255, 255); text-indent: 2em;\'&gt;最开始，咱们先看看德国的二手车销量。在这里先跟大家透露一点，判断一个国家二手车行业发展成熟与否的重要标准就是该国二手车销量与新车销量的对比，而一般发达国家二手车的销量都远高于新车。&lt;/p&gt;\n&lt;p&gt;&lt;img src=&quot;/portal/article/index/id/12/cid/1/image/hot_news.jpg&quot; alt=&quot;&quot; style=\'padding: 0px; margin: 20px auto; color: rgb(51, 51, 51); list-style: none; font-size: 24px; border: none; outline: none; transform: scale(1) translateZ(0px); max-width: 100%; display: block; font-family: 微软雅黑, &quot;Microsoft Yahei&quot;, sans-serif; white-space: normal; background-color: rgb(255, 255, 255);\'&gt;&lt;/p&gt;\n&lt;p style=\'padding: 0px; margin-top: 15px; margin-bottom: 15px; color: rgb(102, 102, 102); list-style: none; line-height: 1.6; font-family: 微软雅黑, &quot;Microsoft Yahei&quot;, sans-serif; white-space: normal; background-color: rgb(255, 255, 255); text-indent: 2em;\'&gt;根据相关数据统计，德国目前人口总数约在8000万左右，但汽车保有量却达到了4300万辆，平均每1.9个人就拥有一辆汽车。而最近十年以来德国新车的销量逐年下滑，平均每年不足300万辆。而二手车的销量却呈相反态势，2015年时销量达到了730万辆，二手车的销量是新车的2.4倍以上。美国和日本的这一比例在2.5倍左右，英国的更高达到了3.5倍。&lt;/p&gt;\n&lt;p style=\'padding: 0px; margin-top: 15px; margin-bottom: 15px; color: rgb(102, 102, 102); list-style: none; line-height: 1.6; font-family: 微软雅黑, &quot;Microsoft Yahei&quot;, sans-serif; white-space: normal; background-color: rgb(255, 255, 255); text-indent: 2em;\'&gt;而我国2015年统计的广义乘用车销量达到了2058万辆，二手车销量只有941万辆。虽然二手车销量正在逐年上涨，但还是远远不及新车的销量。&lt;/p&gt;\n&lt;p&gt;&lt;br&gt;&lt;/p&gt;\n', null, '{\"thumbnail\":\"\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/news_img.jpg\",\"template\":\"\"}');
+INSERT INTO `cmf_portal_post` VALUES ('11', '0', '1', '1', '1', '1', '1', '0', '0', '13', '0', '0', '1510108023', '1510645645', '1510107840', '0', '三年血泪史分享 二手车寄售骗局揭秘编辑', '', '', '', null, null, '{\"thumbnail\":\"\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/news_img.jpg\",\"template\":\"\"}');
+INSERT INTO `cmf_portal_post` VALUES ('12', '0', '1', '1', '1', '1', '1', '0', '0', '34', '0', '0', '1510108075', '1510645598', '1510108020', '0', '汽车的老祖宗德国人是如何玩转二手车', '', '11月23日至24日，以“中国与欧洲相遇”为主题的汉堡峰会将要召开，我将受邀前往德国参加此次会议。虽然此次峰会是宏观金融层面的会议，但是作为一名“二手车人”，我最关心的还是还是德国二手车是如何发展的，看看有没有可以借鉴的地方。二手车销量远高于新车。最开始，咱们先看看德国的二手车销量。在这里先跟大家透露一点，判断一个国家二手车行业..', '', '\n&lt;p style=\'padding: 0px; margin-top: 0px; margin-bottom: 0px; color: rgb(102, 102, 102); list-style: none; line-height: 1.6; font-family: 微软雅黑, &quot;Microsoft Yahei&quot;, sans-serif; white-space: normal; background-color: rgb(255, 255, 255); text-indent: 2em;\'&gt;11月23日至24日，以“中国与欧洲相遇”为主题的汉堡峰会将要召开，我将受邀前往德国参加此次会议。虽然此次峰会是宏观金融层面的会议，但是作为一名“二手车人”，我最关心的还是还是德国二手车是如何发展的，看看有没有可以借鉴的地方。&lt;/p&gt;\n&lt;h6 style=\'padding: 0px; margin: 30px 0px; color: rgb(51, 51, 51); list-style: none; font-size: 18px; font-weight: normal; font-family: 微软雅黑, &quot;Microsoft Yahei&quot;, sans-serif; white-space: normal; background-color: rgb(255, 255, 255);\'&gt;二手车销量远高于新车&lt;/h6&gt;\n&lt;p style=\'padding: 0px; margin-top: 15px; margin-bottom: 15px; color: rgb(102, 102, 102); list-style: none; line-height: 1.6; font-family: 微软雅黑, &quot;Microsoft Yahei&quot;, sans-serif; white-space: normal; background-color: rgb(255, 255, 255); text-indent: 2em;\'&gt;最开始，咱们先看看德国的二手车销量。在这里先跟大家透露一点，判断一个国家二手车行业发展成熟与否的重要标准就是该国二手车销量与新车销量的对比，而一般发达国家二手车的销量都远高于新车。&lt;/p&gt;\n&lt;p&gt;&lt;img src=&quot;/portal/article/index/id/12/cid/1/image/hot_news.jpg&quot; alt=&quot;&quot; style=\'padding: 0px; margin: 20px auto; color: rgb(51, 51, 51); list-style: none; font-size: 24px; border: none; outline: none; transform: scale(1) translateZ(0px); max-width: 100%; display: block; font-family: 微软雅黑, &quot;Microsoft Yahei&quot;, sans-serif; white-space: normal; background-color: rgb(255, 255, 255);\'&gt;&lt;/p&gt;\n&lt;p style=\'padding: 0px; margin-top: 15px; margin-bottom: 15px; color: rgb(102, 102, 102); list-style: none; line-height: 1.6; font-family: 微软雅黑, &quot;Microsoft Yahei&quot;, sans-serif; white-space: normal; background-color: rgb(255, 255, 255); text-indent: 2em;\'&gt;根据相关数据统计，德国目前人口总数约在8000万左右，但汽车保有量却达到了4300万辆，平均每1.9个人就拥有一辆汽车。而最近十年以来德国新车的销量逐年下滑，平均每年不足300万辆。而二手车的销量却呈相反态势，2015年时销量达到了730万辆，二手车的销量是新车的2.4倍以上。美国和日本的这一比例在2.5倍左右，英国的更高达到了3.5倍。&lt;/p&gt;\n&lt;p style=\'padding: 0px; margin-top: 15px; margin-bottom: 15px; color: rgb(102, 102, 102); list-style: none; line-height: 1.6; font-family: 微软雅黑, &quot;Microsoft Yahei&quot;, sans-serif; white-space: normal; background-color: rgb(255, 255, 255); text-indent: 2em;\'&gt;而我国2015年统计的广义乘用车销量达到了2058万辆，二手车销量只有941万辆。虽然二手车销量正在逐年上涨，但还是远远不及新车的销量。&lt;/p&gt;\n&lt;p&gt;&lt;br&gt;&lt;/p&gt;\n', null, '{\"thumbnail\":\"\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/news_img.jpg\",\"template\":\"\"}');
 INSERT INTO `cmf_portal_post` VALUES ('13', '0', '1', '1', '1', '1', '1', '0', '0', '0', '0', '0', '1510108957', '1510645617', '1510108800', '0', '汽车新闻1', '', '', '', null, null, '{\"thumbnail\":\"http:\\/\\/tx.car\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/news_img.jpg\",\"template\":\"\"}');
 INSERT INTO `cmf_portal_post` VALUES ('14', '0', '1', '1', '1', '1', '1', '0', '0', '1', '0', '0', '1510112081', '1510645531', '1510111800', '0', '新闻资讯花花', '', '', '', null, null, '{\"thumbnail\":\"\",\"template\":\"\"}');
 INSERT INTO `cmf_portal_post` VALUES ('15', '0', '1', '1', '1', '1', '1', '0', '0', '0', '0', '0', '1510112771', '1510112771', '1510112401', '0', '预约交谈', '', '及时交谈，预约时间确定', '', null, null, '{\"thumbnail\":\"\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/icon_07_01.png\",\"template\":\"\"}');
 INSERT INTO `cmf_portal_post` VALUES ('16', '0', '1', '1', '1', '1', '1', '0', '0', '0', '0', '0', '1510112820', '1510381166', '1510112760', '0', '预约看车', '', '专人带看\r\n安排售车顾问陪同您看车', '', null, null, '{\"thumbnail\":\"\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/icon_08.png\",\"template\":\"\"}');
 INSERT INTO `cmf_portal_post` VALUES ('17', '0', '1', '1', '1', '1', '1', '0', '0', '0', '0', '0', '1510113114', '1510113114', '1510113010', '0', '签订协议', '', '安排顾问指导您完成协议合同签订', '', null, null, '{\"thumbnail\":\"\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/icon_09.png\",\"template\":\"\"}');
 INSERT INTO `cmf_portal_post` VALUES ('18', '0', '1', '1', '1', '1', '1', '0', '0', '0', '0', '0', '1510113167', '1510113167', '1510113123', '0', '售后服务', '', 'GV预估个人', '', null, null, '{\"thumbnail\":\"\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/icon_10.png\",\"template\":\"\"}');
-INSERT INTO `cmf_portal_post` VALUES ('19', '0', '1', '1', '1', '1', '1', '0', '0', '23', '0', '0', '1510558406', '1510562058', '1510558260', '0', '公司介绍', '', '', '', '\n&lt;p style=&quot;text-indent:2em;&quot;&gt;大通车服有限公司是一家提供各种车险服务，二手车买卖，检车预约，车辆服务的的公司，致力于为广大车友提供最便捷，最安全，最省心的服务。&lt;/p&gt;\n&lt;p&gt;&lt;img src=&quot;/static/js/ueditor/themes/default/images/spacer.gif&quot; word_img=&quot;file:///E:/WXS/%E9%A1%B9%E7%9B%AE/%E4%BA%8C%E6%89%8B%E8%BD%A6%E4%BA%A4%E6%98%93/%E5%89%8D%E7%AB%AF%E4%BB%A3%E7%A0%81/second-hand_car1113/image/about.jpg&quot; style=&quot;background:url(http://tx.car/static/js/ueditor/lang/zh-cn/images/localimage.png) no-repeat center center;border:1px solid #ddd&quot;&gt;&lt;/p&gt;\n&lt;p style=&quot;text-indent:2em;&quot;&gt;华创在线服务领域涵盖网站建设，企业定制化系统（酒店管理系统，医疗管理系统，房产管理系统，金融管理系统，教育管理系统等），APP开发，微信公众号二次开发，商城网站开发，电子商务定制，百度推广服务等。\r\n \r\n华创在线创始团队多数来自百度，腾讯，阿里巴巴，Facebook等知名互联网公司，具备十年以上的互联网行业经验。公司60%以上为技术研发人员，均毕业于清华大学，浙江大学，中国科学技术大学等知名高校，公司技术实力雄厚。&lt;/p&gt;\n&lt;p&gt;&lt;br&gt;&lt;/p&gt;\n&lt;p style=&quot;text-indent: 2em;&quot;&gt;至臻品质，至真服务，华创在线与您携手共赢，共创未来！&lt;/p&gt;\n', null, '{\"thumbnail\":\"\",\"template\":\"about\"}');
-INSERT INTO `cmf_portal_post` VALUES ('20', '0', '1', '1', '1', '1', '1', '0', '0', '4', '0', '0', '1510558939', '1510562398', '1510558860', '0', '服务理念', '', '', '', '&lt;p&gt;服务理念内容：&lt;/p&gt;', null, '{\"thumbnail\":\"\",\"template\":\"about\"}');
-INSERT INTO `cmf_portal_post` VALUES ('21', '0', '1', '1', '1', '1', '1', '0', '0', '0', '0', '0', '1510559032', '1510562441', '1510558980', '0', '保险服务', '', '', '', '&lt;p&gt;保险服务内容&lt;/p&gt;', null, '{\"thumbnail\":\"\",\"template\":\"about\"}');
-INSERT INTO `cmf_portal_post` VALUES ('22', '0', '1', '1', '1', '1', '1', '0', '0', '6', '0', '0', '1510559763', '1510562424', '1510559700', '0', '交易流程', '', '', '', '&lt;p&gt;交易流程内容&lt;/p&gt;', null, '{\"thumbnail\":\"\",\"template\":\"about\"}');
+INSERT INTO `cmf_portal_post` VALUES ('19', '0', '1', '1', '1', '1', '1', '0', '0', '28', '0', '0', '1510558406', '1510562058', '1510558260', '0', '公司介绍', '', '', '', '\n&lt;p style=&quot;text-indent:2em;&quot;&gt;大通车服有限公司是一家提供各种车险服务，二手车买卖，检车预约，车辆服务的的公司，致力于为广大车友提供最便捷，最安全，最省心的服务。&lt;/p&gt;\n&lt;p&gt;&lt;img src=&quot;/static/js/ueditor/themes/default/images/spacer.gif&quot; word_img=&quot;file:///E:/WXS/%E9%A1%B9%E7%9B%AE/%E4%BA%8C%E6%89%8B%E8%BD%A6%E4%BA%A4%E6%98%93/%E5%89%8D%E7%AB%AF%E4%BB%A3%E7%A0%81/second-hand_car1113/image/about.jpg&quot; style=&quot;background:url(http://tx.car/static/js/ueditor/lang/zh-cn/images/localimage.png) no-repeat center center;border:1px solid #ddd&quot;&gt;&lt;/p&gt;\n&lt;p style=&quot;text-indent:2em;&quot;&gt;华创在线服务领域涵盖网站建设，企业定制化系统（酒店管理系统，医疗管理系统，房产管理系统，金融管理系统，教育管理系统等），APP开发，微信公众号二次开发，商城网站开发，电子商务定制，百度推广服务等。\r\n \r\n华创在线创始团队多数来自百度，腾讯，阿里巴巴，Facebook等知名互联网公司，具备十年以上的互联网行业经验。公司60%以上为技术研发人员，均毕业于清华大学，浙江大学，中国科学技术大学等知名高校，公司技术实力雄厚。&lt;/p&gt;\n&lt;p&gt;&lt;br&gt;&lt;/p&gt;\n&lt;p style=&quot;text-indent: 2em;&quot;&gt;至臻品质，至真服务，华创在线与您携手共赢，共创未来！&lt;/p&gt;\n', null, '{\"thumbnail\":\"\",\"template\":\"about\"}');
+INSERT INTO `cmf_portal_post` VALUES ('20', '0', '1', '1', '1', '1', '1', '0', '0', '5', '0', '0', '1510558939', '1510562398', '1510558860', '0', '服务理念', '', '', '', '&lt;p&gt;服务理念内容：&lt;/p&gt;', null, '{\"thumbnail\":\"\",\"template\":\"about\"}');
+INSERT INTO `cmf_portal_post` VALUES ('21', '0', '1', '1', '1', '1', '1', '0', '0', '1', '0', '0', '1510559032', '1510562441', '1510558980', '0', '保险服务', '', '', '', '&lt;p&gt;保险服务内容&lt;/p&gt;', null, '{\"thumbnail\":\"\",\"template\":\"about\"}');
+INSERT INTO `cmf_portal_post` VALUES ('22', '0', '1', '1', '1', '1', '1', '0', '0', '7', '0', '0', '1510559763', '1510562424', '1510559700', '0', '交易流程', '', '', '', '&lt;p&gt;交易流程内容&lt;/p&gt;', null, '{\"thumbnail\":\"\",\"template\":\"about\"}');
 INSERT INTO `cmf_portal_post` VALUES ('23', '0', '1', '1', '1', '1', '1', '0', '0', '2', '0', '0', '1510559782', '1510562378', '1510559760', '0', '售后服务', '', '', '', '&lt;p&gt;售后服务内容&lt;/p&gt;', null, '{\"thumbnail\":\"\",\"template\":\"about\"}');
+INSERT INTO `cmf_portal_post` VALUES ('24', '0', '1', '1', '1', '1', '1', '0', '0', '0', '0', '0', '1510714736', '1510714736', '1510714640', '0', '保护现场', '', '', '', '\n&lt;h6 style=&quot;padding: 0px; margin: 0px 0px 30px; color: rgb(208, 0, 0); list-style: none; font-size: 24px; font-weight: normal;&quot;&gt;领取赔款&lt;/h6&gt;\n&lt;p style=&quot;padding: 0px; margin-top: 0px; margin-bottom: 0px; color: rgb(102, 102, 102); list-style: none; font-size: 18px; line-height: 1.7;&quot;&gt;理赔资料审核后，案件结案。保险公司将支付赔款，完成理赔。&lt;/p&gt;\n&lt;p style=&quot;padding: 0px; margin-top: 0px; margin-bottom: 0px; color: rgb(102, 102, 102); list-style: none; font-size: 18px; line-height: 1.7;&quot;&gt;理赔时效：人保一小时通知赔付，平安赔款3天到账，大地当天【赔付，安盛1个工作日赔付。限未发生人伤、物损，且车辆损失1万元以下（含），单证齐全。&lt;/p&gt;\n&lt;p&gt;&lt;span style=\'color: rgb(51, 51, 51); font-family: å¾®è½¯é›…é»‘, &quot;Microsoft Yahei&quot;, sans-serif; font-size: 24px; background-color: rgb(255, 255, 255);\'&gt;&lt;/span&gt;&lt;/p&gt;\n&lt;p&gt;&lt;img src=&quot;/themes/datong_car/public/assets/images/example/money.jpg&quot; alt=&quot;&quot; style=&quot;padding: 0px; margin: 0px; list-style: none; font-size: inherit; border: none; outline: none; transform: scale(1) translateZ(0px); max-width: 100%; vertical-align: middle;&quot;&gt;&lt;/p&gt;\n&lt;p&gt;&lt;br&gt;&lt;/p&gt;\n', null, '{\"thumbnail\":\"\",\"template\":\"\"}');
+INSERT INTO `cmf_portal_post` VALUES ('25', '0', '1', '1', '1', '1', '1', '0', '0', '0', '0', '0', '1510714792', '1510714792', '1510714765', '0', '报警', '', '', '', '\n&lt;h6 style=&quot;padding: 0px; margin: 0px 0px 30px; color: rgb(208, 0, 0); list-style: none; font-size: 24px; font-weight: normal;&quot;&gt;报警&lt;/h6&gt;\n&lt;p style=&quot;padding: 0px; margin-top: 0px; margin-bottom: 0px; color: rgb(102, 102, 102); list-style: none; font-size: 18px; line-height: 1.7;&quot;&gt;理赔资料审核后，案件结案。保险公司将支付赔款，完成理赔。&lt;/p&gt;\n&lt;p style=&quot;padding: 0px; margin-top: 0px; margin-bottom: 0px; color: rgb(102, 102, 102); list-style: none; font-size: 18px; line-height: 1.7;&quot;&gt;理赔时效：人保一小时通知赔付，平安赔款3天到账，大地当天【赔付，安盛1个工作日赔付。限未发生人伤、物损，且车辆损失1万元以下（含），单证齐全。&lt;/p&gt;\n&lt;p&gt;&lt;span style=\'color: rgb(51, 51, 51); font-family: å¾®è½¯é›…é»‘, &quot;Microsoft Yahei&quot;, sans-serif; font-size: 24px; background-color: rgb(255, 255, 255);\'&gt;&lt;/span&gt;&lt;/p&gt;\n&lt;p&gt;&lt;img src=&quot;/themes/datong_car/public/assets/images/example/money.jpg&quot; alt=&quot;&quot; style=&quot;padding: 0px; margin: 0px; list-style: none; font-size: inherit; border: none; outline: none; transform: scale(1) translateZ(0px); max-width: 100%; vertical-align: middle;&quot;&gt;&lt;/p&gt;\n&lt;p&gt;&lt;br&gt;&lt;/p&gt;\n', null, '{\"thumbnail\":\"\",\"template\":\"\"}');
+INSERT INTO `cmf_portal_post` VALUES ('26', '0', '1', '1', '1', '1', '1', '0', '0', '0', '0', '0', '1510714835', '1510726461', '1510714800', '0', '提供理赔资料', '', '', '', '\n&lt;h6 style=&quot;padding: 0px; margin: 0px 0px 30px; color: rgb(208, 0, 0); list-style: none; font-size: 24px; font-weight: normal;&quot;&gt;提供理赔资料&lt;/h6&gt;\n&lt;p style=&quot;padding: 0px; margin-top: 0px; margin-bottom: 0px; color: rgb(102, 102, 102); list-style: none; font-size: 18px; line-height: 1.7;&quot;&gt;理赔资料审核后，案件结案。保险公司将支付赔款，完成理赔。&lt;/p&gt;\n&lt;p style=&quot;padding: 0px; margin-top: 0px; margin-bottom: 0px; color: rgb(102, 102, 102); list-style: none; font-size: 18px; line-height: 1.7;&quot;&gt;理赔时效：人保一小时通知赔付，平安赔款3天到账，大地当天【赔付，安盛1个工作日赔付。限未发生人伤、物损，且车辆损失1万元以下（含），单证齐全。&lt;/p&gt;\n&lt;p&gt;&lt;span style=\'color: rgb(51, 51, 51); font-family: 微软雅黑, &quot;Microsoft Yahei&quot;, sans-serif; font-size: 24px; background-color: rgb(255, 255, 255);\'&gt;&lt;/span&gt;&lt;/p&gt;\n&lt;p&gt;&lt;img src=&quot;/themes/datong_car/public/assets/images/example/money.jpg&quot; alt=&quot;&quot; style=&quot;padding: 0px; margin: 0px; list-style: none; font-size: inherit; border: none; outline: none; transform: scale(1) translateZ(0px); max-width: 100%; vertical-align: middle;&quot;&gt;&lt;/p&gt;\n', null, '{\"thumbnail\":\"\",\"template\":\"\"}');
 
 -- ----------------------------
 -- Table structure for cmf_portal_tag
@@ -4529,11 +4540,13 @@ CREATE TABLE `cmf_route` (
   `full_url` varchar(255) NOT NULL DEFAULT '' COMMENT '完整url',
   `url` varchar(255) NOT NULL DEFAULT '' COMMENT '实际显示的url',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='url路由表';
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COMMENT='url路由表';
 
 -- ----------------------------
 -- Records of cmf_route
 -- ----------------------------
+INSERT INTO `cmf_route` VALUES ('1', '5000', '1', '2', 'portal/List/index?id=6', 'about');
+INSERT INTO `cmf_route` VALUES ('2', '4999', '1', '2', 'portal/Article/index?cid=6', 'about/:id');
 
 -- ----------------------------
 -- Table structure for cmf_service

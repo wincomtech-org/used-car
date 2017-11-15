@@ -1,1 +1,123 @@
-insurance
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>首页 {$site_info.site_name|default=''}</title>
+    <meta name="keywords" content="{$site_info.site_seo_keywords|default=''}"/>
+    <meta name="description" content="{$site_info.site_seo_description|default=''}">
+
+    <include file="public@head"/>
+    <hook name="before_head_end"/>
+</head>
+<body>
+    <!-- 头部 -->
+    <include file="public@header" />
+    <!-- 导航 -->
+    <include file="public@nav" />
+    <!-- banner -->
+    <include file="public@banner" />
+
+    <!-- 保险推荐 -->
+    <section class="Insurance_recommendation color">
+        <div class="main">
+            <h3 class="index_tit">保险推荐 <span class="index_tit_supply"> 大通车服联合四家保险公司为您提供保险服务 </span></h3>
+            <div class="Insurance_recommendation_list">
+                <ul class="Insurance_recommendation_lists">
+                    <foreach name="recommend" item="vo">
+                    <li class="Insurance_recommendation_item">
+                        <div class="img"><a href="{:url('Post/step1',['id'=>$vo.id])}"><img src="{:cmf_get_image_preview_url($vo.more.thumbnail)}" alt=""></a></div>
+                        <div class="txt">
+                            <p><a >{$vo.description}</a></p>
+                            <span><a >{$vo.desc2}</a></span>
+                        </div>
+                        <div class="btn">
+                            <a href="{:url('Post/step1',['id'=>$vo.id,'html'=>'selection_insurance'])}">去投保</a>
+                        </div>
+                    </li>
+                    </foreach>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- 投保流程 -->
+    <section class="insurance_process">
+        <div class="main">
+            <h3 class="index_tit">投保流程  <span class="index_tit_supply">  仅需3步，轻松为您的爱车购买保险  </span></h3>
+            <div class="insurance_process_con">
+                <ul class="insurance_process_list">
+                    <li class="insurance_process_item">
+                        <div class="insurance_process_item_con">
+                            <img src="__TMPL__/public/assets/images/example/liucheng1.png" alt="">
+                            <h5>信息填写</h5>
+                            <p>输入车辆信息、个人信息</p>
+                            <p>即可进行报价</p>
+                        </div>
+                    </li>
+                    <li class="insurance_process_item">
+                        <div class="insurance_process_item_con">
+                            <img src="__TMPL__/public/assets/images/example/liucheng2.png" alt="">
+                            <h5>精准报价</h5>
+                            <p>直通多家公司官网</p>
+                            <p>量身定制最优车险方案</p>
+                        </div>
+                    </li>
+                    <li class="insurance_process_item">
+                        <div class="insurance_process_item_con">
+                            <img src="__TMPL__/public/assets/images/example/liucheng3.png" alt="">
+                            <h5>支付保费</h5>
+                            <p>支付环境严格加密</p>
+                            <p>有卡就能付</p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- 理赔指引 -->
+    <section class="claim_guidance">
+        <div class="main">
+            <h3 class="index_tit">理赔指引  <span class="index_tit_supply">有了理赔指引，出险理赔不慌乱 </span></h3>
+            <div class="claim_guidance_con">
+                <ul class="claim_guidance_guide">
+                    <foreach name="claim_guidance" item="vo" key="k">
+                    <li class="{$k==0?='active'}">
+                        <div class="circle">{$vo.post_title}</div>
+                        <if condition="$k<count($claim_guidance)-1">
+                        <div class="arr">
+                            <span class="icon1"></span>
+                            <span class="icon2"></span>
+                            <span class="icon3"></span>
+                            <span class="icon4"></span>
+                        </div>
+                        </if>
+                    </li>
+                    </foreach>
+                </ul>
+                <div class="claim_guidance_guide_con">
+                    <foreach name="claim_guidance" item="vo" key="k">
+                    <div class="claim_guidance_guide_con_list" {$k?='style="display:none"'}>
+                        {$vo.post_content}
+                        <!-- <div class="txt">
+                            <h6>领取赔款 </h6>
+                            <p>理赔资料审核后，案件结案。保险公司将支付赔款，完成理赔。</p>
+                            <p>理赔时效：人保一小时通知赔付，平安赔款3天到账，大地当天【赔付，安盛1个工作日赔付。限未发生人伤、物损，且车辆损失1万元以下（含），单证齐全。</p>
+                        </div>
+                        <div class="img">
+                            <img src="__TMPL__/public/assets/images/example/money.jpg" alt="">
+                        </div> -->
+                    </div>
+                    </foreach>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 底部 -->
+    <include file="public@footer" />
+    <include file="public@scripts"/>
+</body>
+
+<include file="public@morejs"/>
+<hook name="before_body_end"/>
+</html>

@@ -25,32 +25,42 @@ class ArticleController extends HomeBaseController
         $postService         = new PostService();
 
         $articleId  = $this->request->param('id', 0, 'intval');
-        $categoryId = $this->request->param('cid', 0, 'intval');
-        $article    = $postService->publishedArticle($articleId, $categoryId);
+        $cateId = $this->request->param('cid', 0, 'intval');
+        $article    = $postService->publishedArticle($articleId, $cateId);
         if (empty($articleId)) {
             abort(404, '文章不存在!');
         }
 
 
         // 关于我们左侧菜单
-        if (!empty($categoryId)) {
-            $menu = $postService->getMenuList($categoryId);
+        if (!empty($cateId)) {
+            $menu = $postService->fromCateList($cateId);
             $this->assign('menu', $menu);
             $this->assign('id', $articleId);
-            $this->assign('cid', $categoryId);
+            $this->assign('cid', $cateId);
         }
 
-        // 同级的文章
+        // 右侧同级的文章
+        $parentId = Db::name('portal_category')->where('id',$cateId)->value('parent_id');
+        // $peerIds = Db::name('portal_category')->where('parent_id',$parentId)->column('id');
+        $peers = Db::name('portal_category')->field('id,name')->where('parent_id',$parentId)->select();
+        $rightList = [];
+        foreach ($peers as $vo) {
+            $vo['list'] = $postService->fromCateList($vo['id'],3);;
+            $rightList[] = $vo;
+        }
 
         // 面包屑
-        $crumbs = $this->getCrumbs();
+        $crumbs = $this->getCrumbs('portal_category',$cateId,$article['post_title']);
 
         // 上下文
-        $prevArticle = $postService->publishedPrevArticle($articleId, $categoryId);
-        $nextArticle = $postService->publishedNextArticle($articleId, $categoryId);
+        $prevArticle = $postService->publishedPrevArticle($articleId, $cateId);
+        $nextArticle = $postService->publishedNextArticle($articleId, $cateId);
+
+
 
         $tplName = 'article';
-        if (empty($categoryId)) {
+        if (empty($cateId)) {
             $categories = $article['categories'];
             if (count($categories) > 0) {
                 $this->assign('category', $categories[0]);
@@ -58,7 +68,7 @@ class ArticleController extends HomeBaseController
                 abort(404, '文章未指定分类!');
             }
         } else {
-            $category = $portalCategoryModel->where('id', $categoryId)->where('status', 1)->find();
+            $category = $portalCategoryModel->where('id', $cateId)->where('status', 1)->find();
             if (empty($category)) {
                 abort(404, '文章不存在!');
             }
@@ -74,6 +84,7 @@ class ArticleController extends HomeBaseController
         $this->assign('article', $article);
         $this->assign('prev_article', $prevArticle);
         $this->assign('next_article', $nextArticle);
+        $this->assign('rightList', $rightList);
 
         $tplName = empty($article['more']['template']) ? $tplName : $article['more']['template'];
         return $this->fetch("/$tplName");

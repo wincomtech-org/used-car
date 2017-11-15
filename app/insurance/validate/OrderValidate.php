@@ -17,9 +17,9 @@ class OrderValidate extends Validate
        'add'  => ['order_sn','dead_time'],
        'edit' => ['dead_time'],
     ];
-    protected function checkName($value='')
+    protected function checkName($value,$rule,$data)
     {
-        if (model('InsuranceOrder')->where('order_sn',$post['order_sn'])->value('id')) {
+        if (model('InsuranceOrder')->where('order_sn',$data['order_sn'])->count()) {
             return false;
         }
         return true;

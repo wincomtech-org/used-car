@@ -80,6 +80,12 @@
                             <textarea class="form-control" name="post[description]" style="height:100px;" placeholder="请填写描述">{$post.description}</textarea>
                         </td>
                     </tr>
+                    <tr>
+                        <th>内容</th>
+                        <td>
+                            <script type="text/plain" id="content" name="post[content]">{$post.content}</script>
+                        </td>
+                    </tr>
                 </table>
             </div>
             <div class="col-md-3">
@@ -143,15 +149,12 @@
 <script type="text/javascript" src="__STATIC__/js/ueditor/ueditor.all.min.js"></script>
 <script type="text/javascript">
     $(function(){
-        var ue = UE.getEditor('content');
-        var ue = UE.getEditor('information');
-        // editorcontent = new baidu.editor.ui.Editor();
-        // editorcontent.render('content');
-        // editorcontent.render('information');
-        // try {
-        //     editorcontent.sync();
-        // } catch (err) {
-        // }
+        editorcontent = new baidu.editor.ui.Editor();
+        editorcontent.render('content');
+        try {
+            editorcontent.sync();
+        } catch (err) {
+        }
 
         $('.btn-cancel-thumbnail').click(function () {
             $('#thumbnail-preview').attr('src', '__TMPL__/public/assets/images/default-thumbnail.png');

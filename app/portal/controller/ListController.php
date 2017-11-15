@@ -33,7 +33,7 @@ class ListController extends HomeBaseController
         $articles = $postService->adminArticleList(['category'=>$curId]);
 
         // 面包屑
-        $crumbs = $this->getCrumbs();
+        $crumbs = $this->getCrumbs('portal_category',$curId);
 
         $this->assign('crumbs', $crumbs);
         $this->assign('cateId', $id);

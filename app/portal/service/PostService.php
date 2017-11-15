@@ -219,7 +219,7 @@ class PostService
         return $page;
     }
 
-    public function getMenuList($categoryId=0)
+    public function fromCateList($categoryId=0, $limit=20)
     {
         $portalPostModel = new PortalPostModel();
 
@@ -233,10 +233,12 @@ class PostService
             'post.delete_time'     => 0,
             'relation.category_id' => $categoryId
         ];
-        $list = $portalPostModel->alias('post')->field('post.id,post.post_title')
+        $list = $portalPostModel->alias('post')->field('post.id,post.post_title,post.post_content')
             ->join($join)
             ->where($where)
-            ->select();
+            // ->order()
+            ->limit($limit)
+            ->select()->toArray();
 
         return $list;
     }
