@@ -82,12 +82,15 @@ class NavMenuModel extends Model
                 if ($hrefOld == "home") {
                     $href = Request::instance()->root() . "/";
                 } else {
-                    $href = $hrefOld;
+                    $qoute = '';
+                    if (strpos($hrefOld,'/')!==0) {
+                        $qoute = '/';
+                    }
+                    $href = Request::instance()->domain() . $qoute . $hrefOld;
                 }
             }
 
             $navMenu['href'] = $href;
-            // $navMenu['href'] = __HOST__.'/'.$href;
             $navMenus[$key]  = $navMenu;
         }
     }

@@ -14,6 +14,7 @@ use think\Db;
 use app\admin\model\ThemeModel;
 use app\admin\model\NavMenuModel;
 use think\View;
+use think\Request;
 
 class HomeBaseController extends BaseController
 {
@@ -26,6 +27,7 @@ class HomeBaseController extends BaseController
         $navMenuModel = new NavMenuModel();
         $navMenus = $navMenuModel->navMenusTreeArray(null,2);
 
+// dump(Request::instance()->ip(0,true));die;
         View::share('site_info', $siteInfo);
         View::share('navMenus', $navMenus);
     }

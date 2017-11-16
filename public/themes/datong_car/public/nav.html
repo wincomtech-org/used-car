@@ -3,11 +3,11 @@
         <ul class="nav_list">
             <foreach name="navMenus" item="nav" >
             <li class="nav_item {$nav.active?='active'}">
-                <a href="http://tx.car/{$nav.href}" {$nav.target?='target="_blank"'}>{$nav.name}</a>
+                <a href="{$nav.href}" {$nav.target?='target="_blank"'}>{$nav.name}</a>
                 <if condition="!empty($nav.children)">
                     <ol class="nav_second_item" style="display:none">
                         <foreach name="nav.children" item="child" >
-                        <li><a href="http://tx.car/{$child.href}">{$child.name}</a></li>
+                        <li><a href="{$child.href}">{$child.name}</a></li>
                         </foreach>
                     </ol>
                 </if>

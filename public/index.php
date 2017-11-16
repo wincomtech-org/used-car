@@ -6,6 +6,17 @@
 // +----------------------------------------------------------------------
 // | Author: 老猫 <zxxjjforever@163.com>
 // +----------------------------------------------------------------------
+// index.php(或者其它应用入口文件） 模块/控制器/操作/[参数名/参数值...]
+// index.php(或者其它应用入口文件） 模块/控制器/操作?参数名=参数值&...
+// index.php（或者其它应用入口文件）?s=/模块/控制器/操作
+// var_dump($_REQUEST);
+// url('Post/step1',['id'=>1,'h'=>'a'])
+// url('Post/step1','id=1&h=a')
+// url('http://tx.car/index.php/Insurance/Post/step1?id=1&h=a#AAA')
+// var_dump(parse_url('http://tx.car/index.php/Insurance/Post/step1?id=1#AAA'));
+// parse_str('module=home&controller=user&action=login&var=value',$a);
+// var_dump($a);
+// die;
 
 // [ 入口文件 ]
 

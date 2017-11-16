@@ -27,6 +27,9 @@ class PostController extends HomeBaseController
         $mainModel = new InsuranceModel();
         $ufoModel = new InsuranceCoverageModel();
 
+        if (empty($id)) {
+            $this->error('ID 非法',url('Index/index').'#AAA');
+        }
         $iInfo = $mainModel->getPost($id);
 
         $coverages = $ufoModel->fromCateList($iInfo['more']['coverage']);
@@ -66,9 +69,9 @@ class PostController extends HomeBaseController
         }
 
         $id = $this->request->param('id', 0, 'intval');
-        $iid = $this->request->param('iid', 0, 'intval');
+        $InsurId = $this->request->param('iid', 0, 'intval');
         $mainModel = new InsuranceModel();
-        $iName = $mainModel->where('id',$iid)->value('name');
+        $iName = $mainModel->where('id',$InsurId)->value('name');
 
         $this->assign('iName', $iName);
         $this->assign('id', $id);
@@ -80,7 +83,7 @@ class PostController extends HomeBaseController
         if ($this->request->isPost()) {
             $data   = $this->request->param();
             $post = $data['post'];
-            $identi = $data['identi'];
+            $cardata = $data['car'];
             // dump($post);
             if (!empty($data['data_filling_online'])) {
                 $post['type'] = 1;
@@ -89,23 +92,20 @@ class PostController extends HomeBaseController
                 $post['type'] = 2;
             }
 
-            $car_id = DB::name('usual_car')->where('car_plate_number',$identi['car_plate_number'])->value('id');
+            $car_id = DB::name('usual_car')->where('car_plate_number',$cardata['identi']['car_plate_number'])->value('id');
             if (!empty($car_id)) {
                 $post['car_id'] = $car_id;
             } else {
-                $cardata = [
-                    'user_id' => cmf_get_current_user_id(),
-                    'identi'  => $data['identi'],
-                ];
+                $cardata['user_id'] = cmf_get_current_user_id();
 
                 // $carModel = new UsualCarModel();
-                // $result = $this->validate($post, 'usual/Car.add');
+                // $result = $this->validate($cardata, 'usual/Car.add');
                 // if ($result !== true) {
                 //     $this->error($result);
                 // }
 
-                // if (!empty($data['identi']['identity_card'])) {
-                //     $cardata['identi']['identity_card'] = $carModel->dealFiles($data['identi']['identity_card']);
+                // if (!empty($cardata['identi']['identity_card'])) {
+                //     $cardata['identi']['identity_card'] = $carModel->dealFiles($cardata['identi']['identity_card']);
                 // }
 
                 // $carModel->adminAddArticle($cardata);
