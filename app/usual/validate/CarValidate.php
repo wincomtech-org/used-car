@@ -32,8 +32,9 @@ class CarValidate extends Validate
     ];
 
     protected $scene = [
-        'add' => ['name','brand_id','serie_id','model_id','car_vin','plateNo','car_mileage','car_license_time','city_id'],
-        'edit' => ['name'=>'require','brand_id','serie_id','model_id','plateNo'=>'require','car_mileage','car_license_time','city_id']
+        'add'   => ['name','brand_id','serie_id','model_id','car_vin','plateNo','car_mileage','car_license_time','city_id'],
+        'edit'  => ['name'=>'require','brand_id','serie_id','model_id','plateNo'=>'require','car_mileage','car_license_time','city_id'],
+        'order' => ['plateNo'=>'require'],
     ];
 
     // 检查名称是否存在

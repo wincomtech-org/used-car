@@ -349,8 +349,15 @@ class UsualModel extends Model
     */
     public function getPost($id)
     {
-        $post = $this->get($id)->toArray();
-        // $post = model('UsualCompany')->where('id', $id)->find();
+        $post_obj = $this->get($id);
+        // $post_obj = $this->where('id',$id)->find()->toArray();//find()结果集为空时toArray()报错
+        // $post_obj = $this->where('id',$id)->select()->toArray();
+
+        $post = [];
+        if (!empty($post_obj)) {
+            $post = $post_obj->toArray();
+        }
+
         // if (isset($post['content'])) {
         //     $post['content'] = cmf_replace_content_file_url(htmlspecialchars_decode($post['content']));
         // }

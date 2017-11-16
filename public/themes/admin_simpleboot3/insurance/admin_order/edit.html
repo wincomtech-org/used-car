@@ -76,8 +76,8 @@
                         <td align="center"><b style="color:#F00">以下是审核资料</b></td>
                     </tr>
                     <tr>
-                        <th>车牌号码</th>car[identi][identity_card]
-                        <td><input class="form-control" type="text" name="post[more][plateNo]" value="{$car.identi.plateNo|default=''}"></td>
+                        <th>车牌号码</th>
+                        <td><input class="form-control" type="text" maxlength="7" name="car[identi][plateNo]" value="{$car.identi.plateNo|default=''}"></td>
                     </tr>
                     <tr>
                         <th>车主</th>
@@ -172,7 +172,7 @@
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
                 <input type="hidden" name="post[id]" value="{$post.id}">
-                <button type="submit" class="btn btn-primary js-ajax-submit">{:lang('SAVE')}</button>
+                <button type="submit" class="btn btn-primary js-ajax-submit1">{:lang('SAVE')}</button>
                 <a class="btn btn-default" href="javascript:history.back(-1);">{:lang('BACK')}</a>
             </div>
         </div>

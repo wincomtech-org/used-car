@@ -75,7 +75,7 @@ class UsualCarModel extends UsualModel
             //           ->select()->toArray();
             // });
 
-            $where = ['a.sell_status'=>1];
+            $where = ['a.status'=>1,'a.sell_status'=>1];
             if (!empty($type)) {
                 $where['a.type'] = $type;
             }

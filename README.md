@@ -196,7 +196,9 @@ cmf_put_news()
 用户表(cmf_user)：
 用户操作记录表(cmf_user_action)：积分/金币周期奖励 cmf_user_action()
 用户访问记录表(cmf_user_action_log)：
+用户收藏记录表(cmf_user_favorite)：
 用户积分/金币变动表(cmf_user_score_log)：
+token记录(cmf_user_token)：
 评价表(cmf_comment)：
 验证码发送记录表(cmf_verification_code)：手机或邮箱 cmf_get_verification_code()、cmf_verification_code_log()、cmf_check_verification_code()、cmf_clear_verification_code()
 

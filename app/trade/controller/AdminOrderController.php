@@ -93,8 +93,12 @@ class AdminOrderController extends AdminBaseController
                 $this->error('支付时间不能为空 <br>或者 支付状态不能为未支付、取消！');
             }
 
-            $post['more']['identity_card'] = model('Service')->dealFiles(['names'=>$data['photo_names'],'urls'=>$data['photo_urls']]);
-            $post['more']['files'] = model('Service')->dealFiles(['names'=>$data['file_names'],'urls'=>$data['file_urls']]);
+            if (!empty($data['photo_names'])) {
+                $post['more']['identity_card'] = model('TradeOrder')->dealFiles(['names'=>$data['photo_names'],'urls'=>$data['photo_urls']]);
+            }
+            if (!empty($data['file_names'])) {
+                $post['more']['files'] = model('TradeOrder')->dealFiles(['names'=>$data['file_names'],'urls'=>$data['file_urls']]);
+            }
 
             model('TradeOrder')->adminEditArticle($post);
 

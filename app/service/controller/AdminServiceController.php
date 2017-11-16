@@ -110,8 +110,12 @@ class AdminServiceController extends AdminBaseController
                 $this->error($result);
             }
 
-            // $post['more']['photos'] = model('Service')->dealFiles(['names'=>$data['photo_names'],'urls'=>$data['photo_urls']]);
-            // $post['more']['files'] = model('Service')->dealFiles(['names'=>$data['file_names'],'urls'=>$data['file_urls']]);
+            if (!empty($data['photo_names'])) {
+                $post['more']['photos'] = model('Service')->dealFiles(['names'=>$data['photo_names'],'urls'=>$data['photo_urls']]);
+            }
+            if (!empty($data['file_names'])) {
+                $post['more']['files'] = model('Service')->dealFiles(['names'=>$data['file_names'],'urls'=>$data['file_urls']]);
+            }
 
             model('Service')->adminEditArticle($post);
 

@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50540
 File Encoding         : 65001
 
-Date: 2017-11-15 17:52:43
+Date: 2017-11-16 14:32:19
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -4126,17 +4126,14 @@ CREATE TABLE `cmf_insurance_order` (
   KEY `idx3` (`insurance_id`),
   KEY `idx4` (`order_sn`),
   KEY `idx5` (`status`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COMMENT='保单表';
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COMMENT='保单表';
 
 -- ----------------------------
 -- Records of cmf_insurance_order
 -- ----------------------------
-INSERT INTO `cmf_insurance_order` VALUES ('1', '0', '', '0', '1', 'abc1111111', '', '0.00', '', '0', '0', '0', '0', '0', '', '', '', '0', '0', '10000');
-INSERT INTO `cmf_insurance_order` VALUES ('2', '0', '', '2', '2', 'abc2222222222', '', '0.00', '', '0', '0', '0', '0', '0', '', '', '', '0', '0', '10000');
-INSERT INTO `cmf_insurance_order` VALUES ('3', '0', '', '3', '3', 'abc3333333333', '', '0.00', '', '0', '0', '0', '0', '0', '', '', '', '0', '0', '10000');
-INSERT INTO `cmf_insurance_order` VALUES ('4', '0', '', '4', '0', 'abc44444444444444', '', '0.00', '', '0', '0', '0', '1540261200', '0', '', '', '', '0', '0', '10000');
-INSERT INTO `cmf_insurance_order` VALUES ('5', '1', '', '5', '0', 'abc5555555555', '', '0.00', '', '0', '0', '0', '0', '0', '', '', '', '0', '0', '10000');
-INSERT INTO `cmf_insurance_order` VALUES ('6', '2', '', '1', '3', 'abc66666666666', '', '1000.00', '', '0', '1477531500', '0', '1509067440', '0', '{\"plateNo\":\"皖A158578\",\"name\":\"王华\",\"contact\":\"13369852147\",\"driving_license\":\"\"}', '', '', '0', '1', '10000');
+INSERT INTO `cmf_insurance_order` VALUES ('1', '0', '', '4', '1', 'abc3333333333', '', '0.00', '', '0', '0', '0', '1514337840', '0', '', '', '', '0', '0', '10000');
+INSERT INTO `cmf_insurance_order` VALUES ('2', '0', '', '2', '0', 'abc44444444444444', '', '0.00', '', '0', '0', '0', '1540261200', '0', '', '', '', '0', '0', '10000');
+INSERT INTO `cmf_insurance_order` VALUES ('3', '2', '', '3', '3', 'abc66666666666', '', '1000.00', '', '0', '1477531500', '0', '1509067440', '0', '{\"plateNo\":\"皖A158578\",\"name\":\"王华\",\"contact\":\"13369852147\",\"driving_license\":\"\"}', '', '', '0', '1', '10000');
 
 -- ----------------------------
 -- Table structure for cmf_link
@@ -4983,8 +4980,8 @@ CREATE TABLE `cmf_user_score_log` (
   `user_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '用户 id',
   `create_time` int(11) NOT NULL DEFAULT '0' COMMENT '创建时间',
   `action` varchar(50) NOT NULL DEFAULT '' COMMENT '用户操作名称：可自定义请说明',
-  `score` int(11) NOT NULL DEFAULT '0' COMMENT '更改积分，可以为负',
-  `coin` int(11) NOT NULL DEFAULT '0' COMMENT '更改金币，可以为负',
+  `score` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '更改积分，可以为负',
+  `coin` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '更改金币，可以为负',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户操作积分等奖励日志表';
 
@@ -5103,7 +5100,7 @@ CREATE TABLE `cmf_usual_car` (
   `inventory` smallint(6) unsigned NOT NULL DEFAULT '1' COMMENT '库存',
   `old_user` varchar(255) NOT NULL COMMENT '以前的车主',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COMMENT='车辆表';
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COMMENT='车辆表';
 
 -- ----------------------------
 -- Records of cmf_usual_car
@@ -5111,6 +5108,7 @@ CREATE TABLE `cmf_usual_car` (
 INSERT INTO `cmf_usual_car` VALUES ('1', '2', '2', '2', '1', '大众 CC 2015款 3.0 自动 V6', '', '', 'eq123456789875463', '1234567', '2', '33.00', '1510243200', '', '', '', '', '', '', '0', '3', '3401', '1970', '1510556664', '0', '0', '0', '0', '', '', '', '{\"car_seating\":\"\",\"car_color\":\"\",\"car_length\":\"\",\"car_effluent\":\"\",\"car_fuel\":\"\",\"car_displacement\":\"\",\"car_gearbox\":\"\",\"thumbnail\":\"http:\\/\\/tx.car\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/car01.jpg\"}', '1', '1', '{\"username\":\"111\",\"contact\":\"烦烦烦\",\"plateNo\":\"\",\"driving_license\":\"\"}', '', '', '', '10000', '1', '1509590656', '107800.00', '3', '0.00', '0.00', '1', '');
 INSERT INTO `cmf_usual_car` VALUES ('2', '4', '3', '2', '1', '福特 福克斯两厢 2013款 1.8 手动 经典时尚型', '', '', 'xzuih433hf7463343', '9876542', '0', '1.00', '1510329600', '5', '2.1~2.5', '1', '5', '3', '1', '0', '3', '3401', '1970', '1510556785', '0', '0', '0', '0', '', '', '', '{\"car_seating\":\"5\",\"car_color\":\"3\",\"car_length\":\"121\",\"car_effluent\":\"5\",\"car_fuel\":\"1\",\"car_displacement\":\"2.1~2.5\",\"car_gearbox\":\"1\",\"thumbnail\":\"http:\\/\\/tx.car\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/car01.jpg\"}', '1', '1', '{\"username\":\"\",\"contact\":\"\",\"plateNo\":\"\",\"driving_license\":\"\"}', '', '', '', '10000', '1', '1510392426', '12.24', '1', '0.00', '0.00', '1', '');
 INSERT INTO `cmf_usual_car` VALUES ('3', '1', '0', '4', '1', '宝马7系 2009款 740Li领先型', '', '', '', '皖AB5X58', '0', '14.00', '1350057600', '5', '2.5~3', '3', '5', '3', '1', '0', '3', '46', '1970', '1510553206', '0', '0', '0', '0', '', '', '', '{\"car_seating\":\"5\",\"car_color\":\"3\",\"car_length\":\"\",\"car_effluent\":\"5\",\"car_fuel\":\"1\",\"car_displacement\":\"2.5~3\",\"car_gearbox\":\"3\",\"thumbnail\":\"\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/car01.jpg\"}', '1', '1', '{\"username\":\"\",\"contact\":\"\",\"plateNo\":\"\",\"driving_license\":\"\"}', '', '', '', '10000', '1', '1510552638', '128.95', '0', '0.00', '0.00', '1', '');
+INSERT INTO `cmf_usual_car` VALUES ('4', '0', '0', '0', '0', '', '', '', '', '皖AH67XB', '1', '0.00', '0', '0', '0', '0', '1', '0', '0', '0', '0', '0', '1510812223', '1510812223', '0', '0', '0', '0', '', '', '', '', '1', '0', '{\"plateNo\":\"皖AH67XB\",\"username\":\"王铮\",\"contact\":\"手机：13333333333\",\"driving_license\":\"\"}', '', '', '', '10000', '0', '0', '0.00', '0', '0.00', '0.00', '1', '');
 
 -- ----------------------------
 -- Table structure for cmf_usual_company

@@ -2,6 +2,8 @@
 namespace app\insurance\controller;
 
 use cmf\controller\AdminBaseController;
+use app\insurance\model\InsuranceOrderModel;
+use app\usual\model\UsualCarModel;
 use think\Db;
 
 class AdminOrderController extends AdminBaseController
@@ -63,30 +65,61 @@ class AdminOrderController extends AdminBaseController
     public function edit()
     {
         $id = $this->request->param('id', 0, 'intval');
-        $post = model('InsuranceOrder')->getPost($id);
 
-        $this->assign('order_status', model('InsuranceOrder')->getOrderStatus($post['status']));
+        $iOrderModel = new InsuranceOrderModel();
+        $post = $iOrderModel->getPost($id);
+        $order_status = $iOrderModel->getOrderStatus($post['status']);
+        $car = model('usual/UsualCar')->getPost($post['car_id']);
+
+        $this->assign('order_status', $order_status);
         $this->assign('post', $post);
+        $this->assign('car', $car);
         return $this->fetch();
     }
     public function editPost()
     {
         if ($this->request->isPost()) {
             $data   = $this->request->param();
-
             $post   = $data['post'];
+            $cardata= $data['car'];
+
+            $car_id = DB::name('usual_car')->where('plateNo',$cardata['identi']['plateNo'])->value('id');
+            if (!empty($car_id)) {
+                $post['car_id'] = $car_id;
+            } else {
+                $cardata['user_id'] = cmf_get_current_user_id();
+                $cardata['plateNo'] = $cardata['identi']['plateNo'];
+
+                $carModel = new UsualCarModel();
+                $result = $this->validate($cardata, 'usual/Car.order');
+                if ($result !== true) {
+                    $this->error($result);
+                }
+
+                if (!empty($cardata['identi']['identity_card'])) {
+                    $cardata['identi']['identity_card'] = $carModel->dealFiles($cardata['identi']['identity_card']);
+                }
+
+                $carModel->adminAddArticle($cardata);
+                $post['car_id'] = $carModel->id;
+                // model('usual/UsualCar')->adminEditArticle($cardata);
+                // $post['car_id'] = Db::name('usual_car')->insertGetId($cardata);
+            }
+
             $result = $this->validate($post, 'Order.edit');
             if ($result !== true) {
                 $this->error($result);
             }
+
             if ($post['status']==1 && empty($post['pay_time'])) {
                 $this->error('支付时间不能为空 <br>或者 支付状态不能为未支付、取消！');
             }
+            $iOrderModel = new InsuranceOrderModel();
+            if (!empty($data['file_names'])) {
+                $post['more']['files'] = $iOrderModel->dealFiles(['names'=>$data['file_names'],'urls'=>$data['file_urls']]);
+            }
 
-            $post['more']['identity_card'] = model('Service')->dealFiles(['names'=>$data['photo_names'],'urls'=>$data['photo_urls']]);
-            $post['more']['files'] = model('Service')->dealFiles(['names'=>$data['file_names'],'urls'=>$data['file_urls']]);
-
-            model('InsuranceOrder')->adminEditArticle($post);
+            $iOrderModel->adminEditArticle($post);
 
             // 钩子
             // $hookParam = [

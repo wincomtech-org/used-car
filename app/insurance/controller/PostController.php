@@ -97,6 +97,7 @@ class PostController extends HomeBaseController
                 $post['car_id'] = $car_id;
             } else {
                 $cardata['user_id'] = cmf_get_current_user_id();
+                $cardata['plateNo'] = $cardata['identi']['plateNo'];
 
                 // $carModel = new UsualCarModel();
                 // $result = $this->validate($cardata, 'usual/Car.add');
