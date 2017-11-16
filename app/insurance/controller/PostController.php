@@ -92,7 +92,7 @@ class PostController extends HomeBaseController
                 $post['type'] = 2;
             }
 
-            $car_id = DB::name('usual_car')->where('car_plate_number',$cardata['identi']['car_plate_number'])->value('id');
+            $car_id = DB::name('usual_car')->where('plateNo',$cardata['identi']['plateNo'])->value('id');
             if (!empty($car_id)) {
                 $post['car_id'] = $car_id;
             } else {

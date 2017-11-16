@@ -4561,7 +4561,7 @@ CREATE TABLE `cmf_service` (
   `contact` varchar(255) NOT NULL COMMENT '联系方式',
   `address` varchar(255) NOT NULL DEFAULT '' COMMENT '客户地址',
   `car_vin` char(17) NOT NULL COMMENT '车架号',
-  `car_plate_number` char(7) NOT NULL COMMENT '车牌号',
+  `plateNo` char(7) NOT NULL COMMENT '车牌号',
   `service_address` varchar(255) NOT NULL DEFAULT '' COMMENT '服务地址',
   `coordinate` varchar(50) NOT NULL COMMENT '位置坐标',
   `fix_history` text NOT NULL COMMENT '维修历史',
@@ -5064,7 +5064,7 @@ CREATE TABLE `cmf_usual_car` (
   `thumbnail` varchar(255) NOT NULL COMMENT '缩略图',
   `image` varchar(255) NOT NULL COMMENT '图片',
   `car_vin` char(17) NOT NULL COMMENT '车架号（Vehicle Identification Number），中文名叫车辆识别代码， 是制造厂为了识别而给一辆车指定的一组字码。VIN码是由17位字母、数字组成的编码',
-  `car_plate_number` char(7) NOT NULL COMMENT '车牌号',
+  `plateNo` char(7) NOT NULL COMMENT '车牌号',
   `car_age` tinyint(3) unsigned NOT NULL DEFAULT '1' COMMENT '车龄',
   `car_mileage` decimal(10,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '里程',
   `car_license_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '上牌时间',
@@ -5108,9 +5108,9 @@ CREATE TABLE `cmf_usual_car` (
 -- ----------------------------
 -- Records of cmf_usual_car
 -- ----------------------------
-INSERT INTO `cmf_usual_car` VALUES ('1', '2', '2', '2', '1', '大众 CC 2015款 3.0 自动 V6', '', '', 'eq123456789875463', '1234567', '2', '33.00', '1510243200', '', '', '', '', '', '', '0', '3', '3401', '1970', '1510556664', '0', '0', '0', '0', '', '', '', '{\"car_seating\":\"\",\"car_color\":\"\",\"car_length\":\"\",\"car_effluent\":\"\",\"car_fuel\":\"\",\"car_displacement\":\"\",\"car_gearbox\":\"\",\"thumbnail\":\"http:\\/\\/tx.car\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/car01.jpg\"}', '1', '1', '{\"username\":\"111\",\"contact\":\"烦烦烦\",\"car_plate_number\":\"\",\"driving_license\":\"\"}', '', '', '', '10000', '1', '1509590656', '107800.00', '3', '0.00', '0.00', '1', '');
-INSERT INTO `cmf_usual_car` VALUES ('2', '4', '3', '2', '1', '福特 福克斯两厢 2013款 1.8 手动 经典时尚型', '', '', 'xzuih433hf7463343', '9876542', '0', '1.00', '1510329600', '5', '2.1~2.5', '1', '5', '3', '1', '0', '3', '3401', '1970', '1510556785', '0', '0', '0', '0', '', '', '', '{\"car_seating\":\"5\",\"car_color\":\"3\",\"car_length\":\"121\",\"car_effluent\":\"5\",\"car_fuel\":\"1\",\"car_displacement\":\"2.1~2.5\",\"car_gearbox\":\"1\",\"thumbnail\":\"http:\\/\\/tx.car\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/car01.jpg\"}', '1', '1', '{\"username\":\"\",\"contact\":\"\",\"car_plate_number\":\"\",\"driving_license\":\"\"}', '', '', '', '10000', '1', '1510392426', '12.24', '1', '0.00', '0.00', '1', '');
-INSERT INTO `cmf_usual_car` VALUES ('3', '1', '0', '4', '1', '宝马7系 2009款 740Li领先型', '', '', '', '皖AB5X58', '0', '14.00', '1350057600', '5', '2.5~3', '3', '5', '3', '1', '0', '3', '46', '1970', '1510553206', '0', '0', '0', '0', '', '', '', '{\"car_seating\":\"5\",\"car_color\":\"3\",\"car_length\":\"\",\"car_effluent\":\"5\",\"car_fuel\":\"1\",\"car_displacement\":\"2.5~3\",\"car_gearbox\":\"3\",\"thumbnail\":\"\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/car01.jpg\"}', '1', '1', '{\"username\":\"\",\"contact\":\"\",\"car_plate_number\":\"\",\"driving_license\":\"\"}', '', '', '', '10000', '1', '1510552638', '128.95', '0', '0.00', '0.00', '1', '');
+INSERT INTO `cmf_usual_car` VALUES ('1', '2', '2', '2', '1', '大众 CC 2015款 3.0 自动 V6', '', '', 'eq123456789875463', '1234567', '2', '33.00', '1510243200', '', '', '', '', '', '', '0', '3', '3401', '1970', '1510556664', '0', '0', '0', '0', '', '', '', '{\"car_seating\":\"\",\"car_color\":\"\",\"car_length\":\"\",\"car_effluent\":\"\",\"car_fuel\":\"\",\"car_displacement\":\"\",\"car_gearbox\":\"\",\"thumbnail\":\"http:\\/\\/tx.car\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/car01.jpg\"}', '1', '1', '{\"username\":\"111\",\"contact\":\"烦烦烦\",\"plateNo\":\"\",\"driving_license\":\"\"}', '', '', '', '10000', '1', '1509590656', '107800.00', '3', '0.00', '0.00', '1', '');
+INSERT INTO `cmf_usual_car` VALUES ('2', '4', '3', '2', '1', '福特 福克斯两厢 2013款 1.8 手动 经典时尚型', '', '', 'xzuih433hf7463343', '9876542', '0', '1.00', '1510329600', '5', '2.1~2.5', '1', '5', '3', '1', '0', '3', '3401', '1970', '1510556785', '0', '0', '0', '0', '', '', '', '{\"car_seating\":\"5\",\"car_color\":\"3\",\"car_length\":\"121\",\"car_effluent\":\"5\",\"car_fuel\":\"1\",\"car_displacement\":\"2.1~2.5\",\"car_gearbox\":\"1\",\"thumbnail\":\"http:\\/\\/tx.car\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/car01.jpg\"}', '1', '1', '{\"username\":\"\",\"contact\":\"\",\"plateNo\":\"\",\"driving_license\":\"\"}', '', '', '', '10000', '1', '1510392426', '12.24', '1', '0.00', '0.00', '1', '');
+INSERT INTO `cmf_usual_car` VALUES ('3', '1', '0', '4', '1', '宝马7系 2009款 740Li领先型', '', '', '', '皖AB5X58', '0', '14.00', '1350057600', '5', '2.5~3', '3', '5', '3', '1', '0', '3', '46', '1970', '1510553206', '0', '0', '0', '0', '', '', '', '{\"car_seating\":\"5\",\"car_color\":\"3\",\"car_length\":\"\",\"car_effluent\":\"5\",\"car_fuel\":\"1\",\"car_displacement\":\"2.5~3\",\"car_gearbox\":\"3\",\"thumbnail\":\"\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/car01.jpg\"}', '1', '1', '{\"username\":\"\",\"contact\":\"\",\"plateNo\":\"\",\"driving_license\":\"\"}', '', '', '', '10000', '1', '1510552638', '128.95', '0', '0.00', '0.00', '1', '');
 
 -- ----------------------------
 -- Table structure for cmf_usual_company

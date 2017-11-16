@@ -76,25 +76,25 @@
                         <td align="center"><b style="color:#F00">以下是审核资料</b></td>
                     </tr>
                     <tr>
-                        <th>车牌号码</th>
-                        <td><input class="form-control" type="text" name="post[more][plateNo]" value="{$post.more.plateNo|default=''}"></td>
+                        <th>车牌号码</th>car[identi][identity_card]
+                        <td><input class="form-control" type="text" name="post[more][plateNo]" value="{$car.identi.plateNo|default=''}"></td>
                     </tr>
                     <tr>
                         <th>车主</th>
-                        <td><input class="form-control" type="text" name="post[more][uname]" value="{$post.more.uname|default=''}"></td>
+                        <td><input class="form-control" type="text" name="car[identi][username]" value="{$car.identi.username|default=''}"></td>
                     </tr>
                     <tr>
                         <th>联系方式</th>
                         <td>
-                            <textarea class="form-control" name="post[more][contact]" style="height:50px;" placeholder="手机号、QQ、微信">{$post.more.contact|default=''}</textarea>
+                            <textarea class="form-control" name="car[identi][contact]" style="height:50px;" placeholder="手机号、QQ、微信">{$car.identi.contact|default=''}</textarea>
                         </td>
                     </tr>
                     <tr>
                         <th>身份证</th>
                         <td>
                             <ul id="photos" class="pic-list list-unstyled form-inline">
-                                <notempty name="post.more.identity_card">
-                                    <foreach name="post.more.identity_card" item="vo">
+                                <notempty name="car.identi.identity_card">
+                                    <foreach name="car.identi.identity_card" item="vo">
                                         <php>$img_url=cmf_get_image_preview_url($vo['url']);</php>
                                         <li id="saved-image{$key}">
                                             <input id="photo-{$key}" type="hidden" name="photo_urls[]"
@@ -120,9 +120,9 @@
                         <th>行驶证</th>
                         <td>
                             <div>
-                                <input type="hidden" name="post[more][driving_license]" id="driving_license" value="{$post.more.driving_license|default=''}">
+                                <input type="hidden" name="car[identi][driving_license]" id="driving_license" value="{$car.identi.driving_license|default=''}">
                                 <a href="javascript:uploadOneImage('图片上传','#driving_license');">
-                                    <empty name="post.more.driving_license">
+                                    <empty name="car.identi.driving_license">
                                         <img src="__TMPL__/public/assets/images/default-thumbnail.png" id="driving_license-preview" width="135" style="cursor: pointer"/>
                                     <else/>
                                         <img src="{:cmf_get_image_preview_url($post.more.driving_license)}" id="driving_license-preview" width="135" style="cursor: pointer"/>

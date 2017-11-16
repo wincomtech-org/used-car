@@ -29,7 +29,7 @@ return [
   'service_define_data' =>
   [
     'plateNo' => '车牌号码',
-    'uname' => '车主',
+    'username' => '车主',
     'contact' => '联系方式',
     'identity_card' => '身份证',
     'driving_license' => '行驶证',

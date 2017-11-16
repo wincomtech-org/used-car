@@ -11,7 +11,7 @@ class CarValidate extends Validate
         'serie_id' => 'require',
         'model_id' => 'require',
         'car_vin' => 'checkVin',
-        'car_plate_number' => 'require|checkPlateNum',
+        'plateNo' => 'require|checkPlateNum',
         'car_mileage' => 'require',
         'car_license_time' => 'require',
         'city_id' => 'require',
@@ -24,16 +24,16 @@ class CarValidate extends Validate
         'serie_id' => '请选择所属车系',
         'model_id' => '请选择车型',
         'car_vin.checkVin' => '车架号已存在！',
-        'car_plate_number.require' => '请输入车牌号',
-        'car_plate_number.checkPlateNum' => '车牌号码已存在！',
+        'plateNo.require' => '请输入车牌号',
+        'plateNo.checkPlateNum' => '车牌号码已存在！',
         'car_mileage' => '请输入里程数',
         'car_license_time' => '请输入上牌时间',
         'city_id' => '请输入所在城市',
     ];
 
     protected $scene = [
-        'add' => ['name','brand_id','serie_id','model_id','car_vin','car_plate_number','car_mileage','car_license_time','city_id'],
-        'edit' => ['name'=>'require','brand_id','serie_id','model_id','car_plate_number'=>'require','car_mileage','car_license_time','city_id']
+        'add' => ['name','brand_id','serie_id','model_id','car_vin','plateNo','car_mileage','car_license_time','city_id'],
+        'edit' => ['name'=>'require','brand_id','serie_id','model_id','plateNo'=>'require','car_mileage','car_license_time','city_id']
     ];
 
     // 检查名称是否存在
@@ -59,7 +59,7 @@ class CarValidate extends Validate
     }
     protected function checkPlateNum($value)
     {
-        $find = model('UsualCar')->where('car_plate_number',$value)->count();
+        $find = model('UsualCar')->where('plateNo',$value)->count();
         if ($find>0) {
             return false;
         }

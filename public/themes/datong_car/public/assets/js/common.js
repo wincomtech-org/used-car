@@ -508,9 +508,9 @@
 		 	alert('请填写正确手机号')
 		 	$('input[name="tel"]').siblings('b').css('display','block')
 		 	return false;
-		 }else if($.trim($('input[name="car_plate_number"]').val()).length ==  0 || car_num($.trim($('input[name="car_plate_number"]').val())) == false){
+		 }else if($.trim($('input[name="plateNo"]').val()).length ==  0 || car_num($.trim($('input[name="plateNo"]').val())) == false){
 		 	alert('请填写车牌号')
-		 	$('input[name="car_plate_number"]').siblings('b').css('display','block')
+		 	$('input[name="plateNo"]').siblings('b').css('display','block')
 		 	return false;
 		 }else if($.trim($('input[name="xcz"]').val()).length == 0){
 		 	alert('请上传行车本照片')
