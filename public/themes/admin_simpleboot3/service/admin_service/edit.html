@@ -210,8 +210,8 @@
 <script type="text/javascript" src="__STATIC__/js/ueditor/ueditor.all.min.js"></script>
 <script type="text/javascript">
     $(function(){
-        var ue = UE.getEditor('content');
-        var ue = UE.getEditor('information');
+        // var ue = UE.getEditor('content');
+        // var ue = UE.getEditor('information');
         // editorcontent = new baidu.editor.ui.Editor();
         // editorcontent.render('content');
         // editorcontent.render('information');
@@ -220,12 +220,12 @@
         // } catch (err) {
         // }
 
-        $('.btn-cancel-driving_license').click(function () {
-            $('#driving_license-preview').attr('src', '__TMPL__/public/assets/images/default-thumbnail.png');
-            $('#driving_license').val('');
-        });
+        // $('.btn-cancel-thumbnail').click(function () {
+        //     $('#thumbnail-preview').attr('src', '__TMPL__/public/assets/images/default-thumbnail.png');
+        //     $('#thumbnail').val('');
+        // });
 
-        $('#more-template-select').val("{$post.more.template|default=''}");
+        // $('#more-template-select').val("{$post.more.template|default=''}");
     });
 
     function doSelectCategory() {

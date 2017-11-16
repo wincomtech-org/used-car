@@ -92,11 +92,15 @@ class PostController extends HomeBaseController
                 $post['type'] = 2;
             }
 
-            $car_id = DB::name('usual_car')->where('plateNo',$cardata['identi']['plateNo'])->value('id');
-            if (!empty($car_id)) {
-                $post['car_id'] = $car_id;
+            $carInfo = DB::name('usual_car')->field('id,user_id')->where('plateNo',$cardata['identi']['plateNo'])->find();
+            $userId = cmf_get_current_user_id();
+            if (!empty($carInfo)) {
+                if ($carInfo['user_id']!=$userId) {
+                    $this->error('该车牌号已被其他用户填写，请联系管理员');
+                }
+                $post['car_id'] = $carInfo['id'];
             } else {
-                $cardata['user_id'] = cmf_get_current_user_id();
+                $cardata['user_id'] = $userId;
                 $cardata['plateNo'] = $cardata['identi']['plateNo'];
 
                 // $carModel = new UsualCarModel();

@@ -95,8 +95,12 @@ class InsuranceCoverageModel extends InsuranceModel
         $where = [
             'delete_time' => 0,
             'status' => 1,
-            'id' => ['IN',$Ids]
         ];
+        if (is_array($Ids)) {
+            $where = array_merge($where,['id'=>['IN',$Ids]]);
+        } else {
+            $where = array_merge($where,['id'=>$Ids]);
+        }
         $list = $this->field('id,type,name,price,description,content')
                 ->where($where)
                 ->order('is_top','DESC')

@@ -21,88 +21,22 @@
         <div class="main">
             <h3 class="index_tit">车检预约<span class="index_tit_supply"> 大通车服联合多家车检单位为您提供车检服务 </span></h3>
             <div class="Insurance_recommendation_list">
+                <notempty name="companys">
                 <ul class="Insurance_recommendation_lists">
+                    <foreach name="companys" item="vo">
                     <li class="Insurance_recommendation_item">
-                        <div class="tit"><a href="vehicle_business.html">锦平车检</a></div>
+                        <div class="tit"><a href="{:cmf_url('Post/index',['id'=>$vo.id,'html'=>'vehicle_business'])}">{$vo.name}</a></div>
                         <div class="txt">
-                            <p><a href="vehicle_business.html">多家单位，就近选择</a></p>
-                            <span><a href="vehicle_business.html">省心车检体验</a></span>
+                            <p><a >{$vo.description}</a></p>
+                            <span><a >{$vo.desc2}</a></span>
                         </div>
                         <div class="btn">
-                            <a href="vehicle_business.html">去检测</a>
+                            <a href="{:cmf_url('Post/index',['id'=>$vo.id,'html'=>'vehicle_business'])}">去检测</a>
                         </div>
                     </li>
-                    <li class="Insurance_recommendation_item">
-                        <div class="tit"><a href="jianche_data_filling.html">润之丰车检</a></div>
-                        <div class="txt">
-                            <p><a href="jianche_data_filling.html">好车检省更多</a></p>
-                            <span><a href="jianche_data_filling.html">检测省心</a></span>
-                        </div>
-                        <div class="btn">
-                            <a href="">去检测</a>
-                        </div>
-                    </li>
-                    <li class="Insurance_recommendation_item">
-                        <div class="tit"><a href="jianche_data_filling.html">华通车检</a></div>
-                        <div class="txt">
-                            <p><a href="jianche_data_filling.html">各项功能专项检测</a></p>
-                            <span><a href="jianche_data_filling.html">服务新升级</a></span>
-                        </div>
-                        <div class="btn">
-                            <a href="jianche_data_filling.html">去检测</a>
-                        </div>
-                    </li>
-                    <li class="Insurance_recommendation_item">
-                        <div class="tit"><a href="jianche_data_filling.html">开平车检</a></div>
-                        <div class="txt">
-                            <p><a href="jianche_data_filling.html">7天左右即可拿检测报告</a></p>
-                            <span><a href="jianche_data_filling.html">快速出结果</a></span>
-                        </div>
-                        <div class="btn">
-                            <a href="jianche_data_filling.html">去检测</a>
-                        </div>
-                    </li>
-                    <li class="Insurance_recommendation_item">
-                        <div class="tit"><a href="jianche_data_filling.html">锦平车检</a></div>
-                        <div class="txt">
-                            <p><a href="jianche_data_filling.html">多家单位，就近选择</a></p>
-                            <span><a href="jianche_data_filling.html">省心车检体验</a></span>
-                        </div>
-                        <div class="btn">
-                            <a href="jianche_data_filling.html">去检测</a>
-                        </div>
-                    </li>
-                    <li class="Insurance_recommendation_item">
-                        <div class="tit"><a href="jianche_data_filling.html">润之丰车检</a></div>
-                        <div class="txt">
-                            <p><a href="jianche_data_filling.html">好车检省更多</a></p>
-                            <span><a href="jianche_data_filling.html">检测省心</a></span>
-                        </div>
-                        <div class="btn">
-                            <a href="jianche_data_filling.html">去检测</a>
-                        </div>
-                    </li>
-                    <li class="Insurance_recommendation_item">
-                        <div class="tit"><a href="jianche_data_filling.html">华通车检</a></div>
-                        <div class="txt">
-                            <p><a href="jianche_data_filling.html">各项功能专项检测</a></p>
-                            <span><a href="jianche_data_filling.html">服务新升级</a></span>
-                        </div>
-                        <div class="btn">
-                            <a href="jianche_data_filling.html">去检测</a>
-                        </div>
-                    </li>
-                    <li class="Insurance_recommendation_item">
-                        <div class="tit"><a href="jianche_data_filling.html">开平车检</a></div>
-                        <div class="txt">
-                            <p><a href="jianche_data_filling.html">7天左右即可拿检测报告</a></p>
-                            <span><a href="jianche_data_filling.html">快速出结果</a></span>
-                        </div>
-                        <div class="btn">
-                            <a href="jianche_data_filling.html">去检测</a>
-                        </div>
-                    </li>
+                    </foreach>
                 </ul>
+                </notempty>
             </div>
         </div>
     </section>
@@ -114,23 +48,15 @@
             <h3 class="index_tit">菜鸟验车<span class="index_tit_supply"> 网上预约检车，不用排队等候</span></h3>
             <div class="rookie_inspection_con">
                 <div class="rookie_inspection_instruction">
-                    <img src="../image/cainiao.jpg" alt="">
+                    <img src="__TMPL__/public/assets/images/example/cainiao.jpg" alt="">
                     <div class="instruction">
-                        <h6>办理网上预约验车手续须知：</h6>
-                        <div class="txt">
-                            <p><span>1、</span>本市注册登记的在用机动车（号牌号码后部有汉字的除外）。</p>
-                            <p><span>2、</span>车辆检验有效期在截止前的三个月之内，检验有效期截止的具体日期 请查看您的行驶证副页，或登录交管局主站使用“车辆违法”查询功 能进行查看。</p>
-                            <p><span>3、</span>您可以预约从第二日起连续一周之内的网上预约验车服务。（如：您在07月15日，可以预约07月16-21日之间的预约验车手续。）</p>
-                            <p><span>4、</span>如遇检测场网络设备故障或雨雪等恶劣天气检测场暂停验车的，请您接到通知或看到通报后不要再前往验车，不算爽约，可重新预约。如遇其它问题可联系我们查询检测场电话。</p>
-                            <p><span>5、</span>您在办理网上预约验车过程中遇到问题或有何建议意见请通过以下方 式反映：邮箱：1120594563@163.com；电话：87625172。 感谢 您的支持和关注。</p>
-                        </div>
+                        {$noobInfo.content|default=''}
                     </div>
                 </div>
                 <div class="rookie_inspection_img">
-                    <img src="../image/image.jpg" alt="">
+                    <img src="__TMPL__/public/assets/images/example/image.jpg" alt="">
                 </div>
                 <div class="rookie_inspection_form">
-
                     <h4>机动车预约</h4>
                     <form class="inspection_form">
                         <p class="red">请确认您的机动车是否属于免检车型。</p>
@@ -166,7 +92,7 @@
             <h3 class="index_tit">菜鸟验车<span class="index_tit_supply"> 网上预约检车，不用排队等候</span></h3>
             <div class="exemption_con">
                 <div class="img">
-                    <img src="../image/mianjian.jpg" alt="">
+                    <img src="__TMPL__/public/assets/images/example/mianjian.jpg" alt="">
                     <div class="txt">
                         <h3>6年内车辆免检新规</h3>
                         <p>你的车符合“免检”标准吗</p>
@@ -175,34 +101,14 @@
                 </div>
                 <p class="note">你的车子现在还属于“6年免检”范围吗？从2014年9月实行新车6年免检政策后，规定从2010年9月1日后购买的新车都享有6年免检的“福利”。而对于第一批享受“6年免检”福利的车，从今年起也将要一年一检查。</p>
                 <ul class="exemption_item">
+                    <foreach name="articles" item="vo" key="key">
                     <li>
-                        <span class="subtitle">1、</span>
-                        <p>6年免检等于不用年检吗？</p>
-                        <span>其实6年免检并非指车辆不用年审，而是指6年不用上线去检测，但每2年还必须到车管所去申领年检合格标志的。且要将年检合格标志贴在前挡风玻璃上，要是不贴标志被查的，可处扣1分、罚款200元的。</span>
+                        <span class="subtitle">{$key+1}、</span>
+                        <p>{$vo.post_title}</p>
+                        <span>{$vo.post_excerpt}</span>
                     </li>
-                     <li>
-                        <span class="subtitle">2、</span>
-                        <p>年检年限规定</p>
-                        <span>6年免检标志是从2014年9月开始实行的，规定在2012年的9月1日(含9月1日)后注册登记的新车，有2年免检机会；规定在2010年的9月1日(含9月1日)后注册登记的新车只有1次免检机会；而对于2010年的9月1日前注册登记的新车，是没有免检机会的。</span>
-                    </li>
-                    <li>
-                        <span class="subtitle">3、</span>
-                        <p>可免检的车型</p>
-                        <span>符合上诉那些情况，都是符合免检的，不过，当这些情况下，则不在适用免检了：1)车辆出厂超过4年且未办理上牌手续；2)车辆曾发生过重大事故或发生致人死亡的事故；3)有交通违章、交通事故为处理完毕的。</span>
-                    </li>
-                    <li>
-                        <span class="subtitle">4、</span>
-                        <p>哪些情况不适用免检呢？</p>
-                        <span>首先，必须是非营运车辆，且核载人数为6人以下，车辆注册登记的时间为2010年9月1日后。当然了，包含的车型有微、小、中、型轿车；微型、小型普通客车；小型专用客车；微型和小型越野客车。</span>
-                    </li>
-                    <li>
-                        <span class="subtitle">5、</span>
-                        <p>逾期年检如何处罚？</p>
-                        <span>对于未参加年审的车型，不允许上路行驶，要是上路被查的话，可处记3分、罚款200元的处罚。而未按时参加年审的车，要是发生交通事故的，都是要负事故的主要或全部责任，而且造成的损失，保险公司不予理赔</span>
-                    </li>
-
+                    </foreach>
                 </ul>
-
             </div>
         </div>
     </section>

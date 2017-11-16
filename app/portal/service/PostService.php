@@ -224,19 +224,19 @@ class PostService
         $portalPostModel = new PortalPostModel();
 
         $join    = [
-            ['__PORTAL_CATEGORY_POST__ relation', 'post.id = relation.post_id']
+            ['__PORTAL_CATEGORY_POST__ relation', 'a.id = relation.post_id']
         ];
         $where = [
-            'post.post_type'       => 1,
-            'post.published_time'  => [['< time', time()], ['> time', 0]],
-            'post.post_status'     => 1,
-            'post.delete_time'     => 0,
+            'a.post_type'       => 1,
+            'a.published_time'  => [['< time', time()], ['> time', 0]],
+            'a.post_status'     => 1,
+            'a.delete_time'     => 0,
             'relation.category_id' => $categoryId
         ];
-        $list = $portalPostModel->alias('post')->field('post.id,post.post_title,post.post_content')
+        $list = $portalPostModel->alias('a')->field('a.id,a.post_title,a.post_keywords,a.post_excerpt,a.post_source,a.post_content')
             ->join($join)
             ->where($where)
-            // ->order()
+            ->order('id','desc')
             ->limit($limit)
             ->select()->toArray();
 

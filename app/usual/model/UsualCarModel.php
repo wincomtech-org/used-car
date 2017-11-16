@@ -37,7 +37,7 @@ class UsualCarModel extends UsualModel
         $series = $this->alias('a')->field($field)
             ->join($join)
             ->where($where)
-            ->order('update_time DESC')
+            ->order('is_top DESC,is_rec DESC,update_time DESC')
             ->paginate(config('pagerset.size'));
 
         return $series;

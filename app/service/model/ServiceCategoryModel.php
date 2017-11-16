@@ -10,10 +10,10 @@ use app\usual\model\UsualModel;
 
 class ServiceCategoryModel extends UsualModel
 {
-    function _initialize()
-    {
-        parent::_initialize();
-    }
+    // function _initialize()
+    // {
+    //     parent::_initialize();
+    // }
 
     // 获取列表数据
     public function getLists($filter=[], $isPage = false)
@@ -127,5 +127,43 @@ class ServiceCategoryModel extends UsualModel
 tpl;
     }
 
+
+// 前台
+    /*首页*/
+    public function getIndexServiceList($limit=3)
+    {
+        $ckey = 'giservicel'.$limit;
+
+        $lists = cache($ckey);
+        if (empty($lists)) {
+            $lists = $this->field('id,name,description,more')
+                    ->where('status',1)
+                    ->order('is_rec desc,id')
+                    ->limit($limit)
+                    ->select()->toArray();
+            cache($ckey, $lists, 3600);
+        }
+
+        return $lists;
+    }
+    /*服务模块*/
+    public function fromCateList($type='service', $limit=20)
+    {
+        $where = [
+            'delete_time' => 0,
+            'status' => 1,
+        ];
+        if (is_array($type)) {
+            $where = array_merge($where,['type'=>['IN',$type]]);
+        } else {
+            $where = array_merge($where,['type'=>$type]);
+        }
+        $list = $this->field('id,type,name,code,dev,description,more')
+                ->where($where)
+                ->order('is_top','DESC')
+                ->select()->toArray();
+
+        return $list;
+    }
 
 }

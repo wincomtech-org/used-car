@@ -13,7 +13,7 @@ class UsualCompanyModel extends UsualModel
         // $field = 'a.*,m.name mname';
         // array_push($join, ['__USUAL_BRAND__ b', 'a.brand_id = b.id']);
         // $field .= ',b.id AS bid,b.name bname';
-        $field = 'id,name,province_id,city_id,brief,content,update_time,published_time,more,is_baoxian,is_yewu,status,list_order';
+        $field = 'id,name,province_id,city_id,description,update_time,published_time,more,is_baoxian,is_yewu,status,list_order';
 
         $where = [
             'a.delete_time' => 0
@@ -56,5 +56,25 @@ class UsualCompanyModel extends UsualModel
             }
         }
         return $options;
+    }
+
+    public function getPostList($where=[], $order=[], $limit=12)
+    {
+        $where = array_merge([
+            'delete_time'   => 0,
+            // 'is_yewu'       => 1,
+            'identi_status' => 1,
+            'status'        => 1,
+        ],$where);
+        $order = array_merge($order,['is_rec'=>'DESC','update_time'=>'DESC']);
+
+        $lists = $this->field('id,name,description,desc2,more')
+            ->where($where)
+            // ->order($order)
+            // ->limit($limit)
+            ->select()->toArray();
+            // ->paginate($limit);
+
+        return $lists;
     }
 }

@@ -91,6 +91,7 @@ class InsuranceModel extends UsualModel
         $lists = $this->field('id,name,description,desc2,more')
             ->where($where)
             ->order($order)
+            ->limit($limit)
             ->select();
             // ->paginate($limit);
 
