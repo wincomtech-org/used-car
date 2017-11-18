@@ -45,7 +45,10 @@ class AdminCategoryController extends AdminBaseController
         if ($result !== true) {
             $this->error($result);
         }
-        $data['define_data'] = empty($data['define_data'])?[]:$data['define_data'];
+        if (empty($data['define_data'])) {
+            $this->error('客户字段不能为空!');
+        }
+
         $result = model('ServiceCategory')->addCategory($cate,$data['define_data']);
         if ($result === false) {
             $this->error('添加失败!');
@@ -74,8 +77,10 @@ class AdminCategoryController extends AdminBaseController
         if ($result !== true) {
             $this->error($result);
         }
+        if (empty($data['define_data'])) {
+            $this->error('客户字段不能为空!');
+        }
 
-        $data['define_data'] = empty($data['define_data'])?[]:$data['define_data'];
         $result = model('ServiceCategory')->editCategory($cate,$data['define_data']);
         if ($result === false) {
             $this->error('保存失败!');

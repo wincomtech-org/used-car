@@ -21,9 +21,8 @@
             {$crumbs|default=''}
             <ul class="brash">
                 <li>当前位置：</li>
-                <li><a href="car_booking.html">检车预约 </a></li>
-                <li><a href="car_booking.html">锦江车险  </a></li>
-                <li  class="active"><a href="vehicle_business.html">车辆业务</a></li>
+                <li><a href="{:url('Index/index')}">检车预约 </a></li>
+                <li class="active"><a href="{:url('Post/step',['compId'=>$compId])}">{$companyInfo} </a></li>
             </ul>
             <div class="vehicle_business_select">
                 <p>{$companyInfo}车辆业务</p>
@@ -38,89 +37,12 @@
                                 <h3>{$vo.name}</h3>
                                 <p>{$vo.description}</p>
                             </div>
-                            <a href="{:url('Post/appoint',['id'=>$vo.id])}">去预约</a>
+                            <a href="{:url('Post/appoint',['servId'=>$vo.id,'compId'=>$compId])}">去预约</a>
                         </div>
                     </li>
                     </foreach>
-                    <!-- <li class='vehicle_business_items'>
-                        <div class="img">
-                            <img src="../image/bussiness.jpg" alt="">
-                        </div>
-                        <div class="txt">
-                            <div class="top">
-                                <h3>菜鸟验车</h3>
-                                <p>平台预约 线下取车、验车、送车  平台工作人员代检</p>
-                            </div>
-                            <a href="rookie_scrutineering.html">去预约</a>
-                        </div>
-                    </li>
-                    <li class='vehicle_business_items'>
-                        <div class="img">
-                            <img src="../image/bussiness.jpg" alt="">
-                        </div>
-                        <div class="txt">
-                            <div class="top">
-                                <h3>车检预约</h3>
-                                <p>平台预约 线下取车、验车、送车  平台工作人员代检</p>
-                            </div>
-                            <a href="jianche_data_filling.html">去预约</a>
-                        </div>
-                    </li>
-                    <li class='vehicle_business_items'>
-                        <div class="img">
-                            <img src="../image/bussiness.jpg" alt="">
-                        </div>
-                        <div class="txt">
-                            <div class="top">
-                                <h3>六年免检</h3>
-                                <p>1. 免检车辆范围为6年以内的非营运轿车和其它小型、微型载客汽车，但不包括面包车、7座以及7座以上车辆；</p>
-                                <p>2. 车辆没有发生任何伤人事故。</p>
-                            </div>
-                            <a href="six_inspection.html">去预约</a>
-                        </div>
-                    </li>
-                    <li class='vehicle_business_items'>
-                        <div class="img">
-                            <img src="../image/bussiness.jpg" alt="">
-                        </div>
-                        <div class="txt">
-                            <div class="top">
-                                <h3>上牌预约</h3>
-                                <p>1. 免检车辆范围为6年以内的非营运轿车和其它小型、微型载客汽车，但不包括面包车、7座以及7座以上车辆；</p>
-                                <p>2. 车辆没有发生任何伤人事故。</p>
-                            </div>
-                            <a href="wish_appointment.html">去预约</a>
-                        </div>
-                    </li>
-                    <li class='vehicle_business_items'>
-                        <div class="img">
-                            <img src="../image/bussiness.jpg" alt="">
-                        </div>
-                        <div class="txt">
-                            <div class="top">
-                                <h3>过户申请</h3>
-                                <p>1. 免检车辆范围为6年以内的非营运轿车和其它小型、微型载客汽车，但不包括面包车、7座以及7座以上车辆；</p>
-                                <p>2. 车辆没有发生任何伤人事故。</p>
-                            </div>
-                            <a href="transfer_application.html">去预约</a>
-                        </div>
-                    </li>
-                    <li class='vehicle_business_items'>
-                        <div class="img">
-                            <img src="../image/bussiness.jpg" alt="">
-                        </div>
-                        <div class="txt">
-                            <div class="top">
-                                <h3>合作寄存点</h3>
-                                <p>1. 免检车辆范围为6年以内的非营运轿车和其它小型、微型载客汽车，但不包括面包车、7座以及7座以上车辆；</p>
-                                <p>2. 车辆没有发生任何伤人事故。</p>
-                            </div>
-                            <a href="cooperative_register_point.html">去预约</a>
-                        </div>
-                    </li> -->
                 </ul>
             </div>
-            
         </div>
     </section>
 

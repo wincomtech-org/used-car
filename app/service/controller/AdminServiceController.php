@@ -22,6 +22,7 @@ class AdminServiceController extends AdminBaseController
     {
         $param = $this->request->param();//接收筛选条件
         $modelId = $this->request->param('modelId', 0, 'intval');
+        // $companyId = $this->request->param('companyId', 0, 'intval');
 
         $data = model('Service')->getLists($param);
         $data->appends($param);

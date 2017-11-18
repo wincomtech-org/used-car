@@ -16,12 +16,12 @@ class AdminCoverageController extends AdminBaseController
     {
         $param = $this->request->param();//接收筛选条件
         $insuranceId = $this->request->param('insuranceId',0,'intval');
-        $companyId = $this->request->param('companyId',0,'intval');
+        $compId = $this->request->param('compId',0,'intval');
 
         $data = model('InsuranceCoverage')->getLists($param);
         $data->appends($param);
-        $insurances = model('InsuranceCoverage')->getInsurance($insuranceId,$companyId);
-        $companys = model('usual/UsualCompany')->getCompanys($companyId);
+        $insurances = model('InsuranceCoverage')->getInsurance($insuranceId,$compId);
+        $companys = model('usual/UsualCompany')->getCompanys($compId);
 
         $this->assign('start_time', isset($param['start_time']) ? $param['start_time'] : '');
         $this->assign('end_time', isset($param['end_time']) ? $param['end_time'] : '');
@@ -30,7 +30,7 @@ class AdminCoverageController extends AdminBaseController
         $this->assign('insurances', $insurances);
         $this->assign('companys', $companys);
         $this->assign('insuranceId', $insuranceId);
-        $this->assign('companyId', $companyId);
+        $this->assign('compId', $compId);
         $this->assign('page', $data->render());
 
         return $this->fetch();
@@ -39,7 +39,7 @@ class AdminCoverageController extends AdminBaseController
     public function add()
     {
         $categoryId = $this->request->param('cid',0,'intval');
-        $companyId = $this->request->param('comid',0,'intval');
+        $companyId = $this->request->param('compId',0,'intval');
 
         $insurances = model('InsuranceCoverage')->getInsurance($categoryId,$companyId);
         $companys = model('usual/UsualCompany')->getCompanys($companyId);
@@ -78,7 +78,7 @@ class AdminCoverageController extends AdminBaseController
     {
         $id = $this->request->param('id', 0, 'intval');
         $categoryId = $this->request->param('cid', 0, 'intval');
-        $companyId = $this->request->param('comid',0,'intval');
+        $companyId = $this->request->param('compId',0,'intval');
 
         $post = model('InsuranceCoverage')->getPost($id);
         // $post = model('InsuranceCoverage')->where('id', $id)->find();

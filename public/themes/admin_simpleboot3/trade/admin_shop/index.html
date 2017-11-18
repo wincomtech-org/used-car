@@ -27,7 +27,7 @@
     </form>
     <form class="js-ajax-form" action="" method="post">
         <div class="table-actions">
-            <notempty name="categoryId_no">
+            <notempty name="categoryId_off">
                 <button class="btn btn-primary btn-sm js-ajax-submit" type="submit"
                         data-action="{:url('AdminCompany/listOrder')}">{:lang('SORT')}
                 </button>
@@ -124,7 +124,7 @@
             <tfoot>
             <tr>
                 <th width="15"><label><input type="checkbox" class="js-check-all" data-direction="x" data-checklist="js-check-x"></label></th>
-                <notempty name="categoryId_no">
+                <notempty name="categoryId_off">
                     <th width="50">{:lang('SORT')}</th>
                 </notempty>
                 <th width="50">ID</th>
@@ -140,7 +140,7 @@
             </tfoot>
         </table>
         <div class="table-actions">
-            <notempty name="categoryId_no">
+            <notempty name="categoryId_off">
                 <button class="btn btn-primary btn-sm js-ajax-submit" type="submit"
                         data-action="{:url('AdminCompany/listOrder')}">{:lang('SORT')}
                 </button>

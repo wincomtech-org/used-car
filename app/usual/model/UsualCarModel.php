@@ -16,6 +16,10 @@ class UsualCarModel extends UsualModel
             ['district e','a.model_id=e.id','LEFT'],
             ['user f','a.user_id=f.id','LEFT']
         ];
+
+        if (!empty($filter['brandId'])) {
+            $where['a.brand_id'] = $filter['brandId'];
+        }
         $startTime = empty($filter['start_time']) ? 0 : strtotime($filter['start_time']);
         $endTime   = empty($filter['end_time']) ? 0 : strtotime($filter['end_time']);
         if (!empty($startTime) && !empty($endTime)) {

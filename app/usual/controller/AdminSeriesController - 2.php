@@ -377,15 +377,15 @@ class AdminSeriesController extends AdminBaseController
     }
 
     /**
-     * 车系排序
+     * 通用排序
      * @adminMenu(
-     *     'name'   => '车系排序',
+     *     'name'   => '通用排序',
      *     'parent' => 'index',
      *     'display'=> false,
      *     'hasView'=> false,
      *     'order'  => 10000,
      *     'icon'   => '',
-     *     'remark' => '车系排序',
+     *     'remark' => '通用排序',
      *     'param'  => ''
      * )
      */

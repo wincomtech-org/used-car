@@ -70,8 +70,8 @@ class UsualCompanyModel extends UsualModel
 
         $lists = $this->field('id,name,description,desc2,more')
             ->where($where)
-            // ->order($order)
-            // ->limit($limit)
+            ->order($order)
+            ->limit($limit)
             ->select()->toArray();
             // ->paginate($limit);
 

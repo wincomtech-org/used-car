@@ -20,6 +20,11 @@ class HomeBaseController extends BaseController
 {
     public function _initialize()
     {
+        //只报告错误,忽略通知
+        // error_reporting(E_ALL ^ E_NOTICE);
+        // 显示除了E_NOTICE(提示)和E_WARNING(警告)外的所有错误
+        // error_reporting(E_ALL ^ (E_NOTICE | E_WARNING));
+
         // 监听home_init
         hook('home_init');
         parent::_initialize();

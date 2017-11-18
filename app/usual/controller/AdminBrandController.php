@@ -12,7 +12,7 @@ class AdminBrandController extends AdminBaseController
 {
     function _initialize()
     {
-        // parent::_initialize();
+        parent::_initialize();
         // $data = $this->request->param();
         $this->UsualModel = new UsualBrandModel();
     }

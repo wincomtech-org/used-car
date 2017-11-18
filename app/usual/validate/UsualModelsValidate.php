@@ -24,10 +24,10 @@ class UsualModelsValidate extends Validate
         if ($find) {return false;}
         return true;
     }
-    protected function checkNameEdit($value)
+
+    protected function checkNameEdit($value,$rule,$data)
     {
-        $find = model('UsualModels')->where('name',$value)->value('id');
-        if ($find) {return true;}
-        return false;
+        $find = model('UsualModels')->where(['id'=>$data['id'],'name'=>$value])->count();
+        if ($find>0) return true; return false;
     }
 }

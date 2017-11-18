@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50540
 File Encoding         : 65001
 
-Date: 2017-11-16 18:21:10
+Date: 2017-11-18 18:21:41
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -4000,7 +4000,7 @@ CREATE TABLE `cmf_hook_plugin` (
   `hook` varchar(50) NOT NULL DEFAULT '' COMMENT '钩子名',
   `plugin` varchar(30) NOT NULL DEFAULT '' COMMENT '插件',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COMMENT='系统钩子插件表';
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COMMENT='系统钩子插件表';
 
 -- ----------------------------
 -- Records of cmf_hook_plugin
@@ -4272,7 +4272,7 @@ CREATE TABLE `cmf_plugin` (
   `description` varchar(255) NOT NULL COMMENT '插件描述',
   `config` text COMMENT '插件配置',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COMMENT='插件表';
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COMMENT='插件表';
 
 -- ----------------------------
 -- Records of cmf_plugin
@@ -4564,21 +4564,27 @@ CREATE TABLE `cmf_service` (
   `company_id` mediumint(8) unsigned NOT NULL COMMENT '服务公司ID ',
   `seller_uid` int(11) unsigned NOT NULL COMMENT '卖家ID',
   `user_id` int(11) unsigned NOT NULL COMMENT '用户、联系人',
+  `username` varchar(50) NOT NULL,
   `contact` varchar(255) NOT NULL COMMENT '联系方式',
+  `telephone` varchar(15) NOT NULL,
+  `birthday` varchar(30) NOT NULL,
   `address` varchar(255) NOT NULL DEFAULT '' COMMENT '客户地址',
-  `car_vin` char(17) NOT NULL COMMENT '车架号',
-  `plateNo` char(7) NOT NULL COMMENT '车牌号',
+  `seller_name` varchar(50) NOT NULL DEFAULT '' COMMENT '卖家名',
+  `seller_contact` varchar(255) NOT NULL DEFAULT '' COMMENT '卖家联系方式',
+  `car_vin` char(17) NOT NULL DEFAULT '' COMMENT '车架号',
+  `plateNo` char(7) NOT NULL DEFAULT '' COMMENT '车牌号',
   `service_address` varchar(255) NOT NULL DEFAULT '' COMMENT '服务地址',
   `coordinate` varchar(50) NOT NULL COMMENT '位置坐标',
   `fix_history` text NOT NULL COMMENT '维修历史',
   `remark` varchar(255) NOT NULL COMMENT '备注，给管理员区分记录类型用',
   `description` text NOT NULL COMMENT '描述给前台用户用',
   `more` text NOT NULL COMMENT '扩展属性',
-  `create_time` int(10) unsigned NOT NULL COMMENT '创建时间',
-  `appoint_time` int(10) NOT NULL COMMENT '预约时间',
-  `end_time` int(10) unsigned NOT NULL COMMENT '结束时间',
+  `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
   `delete_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '删除时间',
-  `is_top` tinyint(1) unsigned NOT NULL COMMENT '是否置顶：0否 1是',
+  `appoint_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '预约时间',
+  `reg_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '注册时间',
+  `end_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '结束时间',
+  `is_top` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '是否置顶：0否 1是',
   `status` tinyint(4) NOT NULL DEFAULT '0' COMMENT '状态：0预约中 1预约成功 2取消 10结束 11过期',
   `list_order` float unsigned NOT NULL DEFAULT '10000' COMMENT '默认值10000，默认排序按从小到大',
   PRIMARY KEY (`id`)
@@ -4587,7 +4593,7 @@ CREATE TABLE `cmf_service` (
 -- ----------------------------
 -- Records of cmf_service
 -- ----------------------------
-INSERT INTO `cmf_service` VALUES ('1', '1', '2', '0', '3', '915273694', '栋', '123456', '654321', '无', '0,0', 'w ', '', '', '{\"thumbnail\":\"\"}', '1970', '1970', '0', '0', '1', '0', '10000');
+INSERT INTO `cmf_service` VALUES ('1', '1', '2', '0', '3', '', '915273694', '', '', '栋', '', '', '123456', '654321', '无', '0,0', 'w ', '', '', '{\"thumbnail\":\"\"}', '1970', '0', '1970', '0', '0', '1', '0', '10000');
 
 -- ----------------------------
 -- Table structure for cmf_service_category
@@ -4625,7 +4631,7 @@ CREATE TABLE `cmf_service_category` (
 INSERT INTO `cmf_service_category` VALUES ('1', '0', 'service', '菜鸟验车', 'noob', '', 'admin', '', '平台预约 线下取车、验车、送车  平台工作人员代检', '\n&lt;h6 style=\'padding: 0px; margin: 0px; color: rgb(51, 51, 51); list-style: none; font-size: 18px; font-weight: normal; font-family: 微软雅黑, &quot;Microsoft Yahei&quot;, sans-serif; white-space: normal;\'&gt;办理网上预约验车手续须知：&lt;/h6&gt;\n&lt;p style=&quot;padding: 0px 0px 0px 23px; margin-top: 10px; margin-bottom: 0px; color: rgb(102, 102, 102); list-style: none; font-size: 16px; line-height: 1.78; position: relative;&quot;&gt;&lt;span style=&quot;padding: 0px; margin: 0px; list-style: none; position: absolute; top: 0px; left: 0px;&quot;&gt;1、&lt;/span&gt;本市注册登记的在用机动车（号牌号码后部有汉字的除外）。&lt;/p&gt;\n&lt;p style=&quot;padding: 0px 0px 0px 23px; margin-top: 10px; margin-bottom: 0px; color: rgb(102, 102, 102); list-style: none; font-size: 16px; line-height: 1.78; position: relative;&quot;&gt;&lt;span style=&quot;padding: 0px; margin: 0px; list-style: none; position: absolute; top: 0px; left: 0px;&quot;&gt;2、&lt;/span&gt;车辆检验有效期在截止前的三个月之内，检验有效期截止的具体日期 请查看您的行驶证副页，或登录交管局主站使用“车辆违法”查询功 能进行查看。&lt;/p&gt;\n&lt;p style=&quot;padding: 0px 0px 0px 23px; margin-top: 10px; margin-bottom: 0px; color: rgb(102, 102, 102); list-style: none; font-size: 16px; line-height: 1.78; position: relative;&quot;&gt;&lt;span style=&quot;padding: 0px; margin: 0px; list-style: none; position: absolute; top: 0px; left: 0px;&quot;&gt;3、&lt;/span&gt;您可以预约从第二日起连续一周之内的网上预约验车服务。（如：您在07月15日，可以预约07月16-21日之间的预约验车手续。）&lt;/p&gt;\n&lt;p style=&quot;padding: 0px 0px 0px 23px; margin-top: 10px; margin-bottom: 0px; color: rgb(102, 102, 102); list-style: none; font-size: 16px; line-height: 1.78; position: relative;&quot;&gt;&lt;span style=&quot;padding: 0px; margin: 0px; list-style: none; position: absolute; top: 0px; left: 0px;&quot;&gt;4、&lt;/span&gt;如遇检测场网络设备故障或雨雪等恶劣天气检测场暂停验车的，请您接到通知或看到通报后不要再前往验车，不算爽约，可重新预约。如遇其它问题可联系我们查询检测场电话。&lt;/p&gt;\n&lt;p style=&quot;padding: 0px 0px 0px 23px; margin-top: 10px; margin-bottom: 0px; color: rgb(102, 102, 102); list-style: none; font-size: 16px; line-height: 1.78; position: relative;&quot;&gt;&lt;span style=&quot;padding: 0px; margin: 0px; list-style: none; position: absolute; top: 0px; left: 0px;&quot;&gt;5、&lt;/span&gt;您在办理网上预约验车过程中遇到问题或有何建议意见请通过以下方 式反映：邮箱：1120594563@163.com；电话：87625172。 感谢 您的支持和关注。&lt;/p&gt;\n', '{\"thumbnail\":\"\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/service1.jpg\"}', '', '1970', '0', '0', '1', '1', '[\"plateNo\",\"contact\",\"identity_card\",\"driving_license\",\"appoint_time\",\"service_point\"]', '10', '下下下', '上上上', '中转站');
 INSERT INTO `cmf_service_category` VALUES ('2', '0', 'service', '预约检车', 'inspectcar', '', 'admin', '', '提供各大车险公司服务\r\n为您的安全保驾护航', '', '{\"thumbnail\":\"\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/service2.jpg\"}', '', '2017', '0', '0', '1', '1', '[\"plateNo\",\"uname\",\"contact\",\"identity_card\",\"driving_license\",\"appoint_time\",\"reg_time\",\"service_point\"]', '20', '', '', '');
 INSERT INTO `cmf_service_category` VALUES ('3', '0', 'service', '上牌预约', 'applylicense', '', 'admin', '', '', '', '{\"thumbnail\":\"\"}', '', '1509692503', '0', '0', '1', '1', '[\"plateNo\"]', '30', '', '', '');
-INSERT INTO `cmf_service_category` VALUES ('4', '0', 'service', '过户申请', 'assigned', '', 'admin', '', '', '', '{\"thumbnail\":\"\"}', '', '1509692779', '0', '0', '1', '1', '', '40', '', '', '');
+INSERT INTO `cmf_service_category` VALUES ('4', '0', 'service', '过户申请', 'assigned', '', 'admin', '', '', '', '{\"thumbnail\":\"\"}', '', '2017', '0', '0', '1', '1', '[\"plateNo\",\"username\",\"telephone\"]', '40', '', '', '');
 
 -- ----------------------------
 -- Table structure for cmf_slide
@@ -4897,7 +4903,7 @@ CREATE TABLE `cmf_user` (
 -- ----------------------------
 INSERT INTO `cmf_user` VALUES ('1', '1', 'admin', 'admin', '###b0b5b1441fcc40910db4b7d99d049ddf', 'admin@admin.com', '', 'avatar/20171017/4356606a071829d0a566386a422d9bc7.png', '0', '0', '0', '0', '', '', '1507865317', '1509948972', '127.0.0.1', '1', '', '');
 INSERT INTO `cmf_user` VALUES ('2', '1', '超人不会飞', 'super', '###797fe4d0d1b299ac9b581f4fa4025dbb', 'super@qq.com', '', '', '0', '0', '0', '0', '', '', '0', '0', '', '1', '', '');
-INSERT INTO `cmf_user` VALUES ('3', '1', '洛萨', 'lothar', '###797fe4d0d1b299ac9b581f4fa4025dbb', 'lothar@qq.com', '', '', '0', '0', '0', '0', '', '', '0', '1510021825', '127.0.0.1', '1', '', '');
+INSERT INTO `cmf_user` VALUES ('3', '1', '洛萨', 'lothar', '###797fe4d0d1b299ac9b581f4fa4025dbb', 'lothar@qq.com', '', '', '0', '0', '0', '0', '', '', '0', '1510973738', '127.0.0.1', '1', '', '');
 
 -- ----------------------------
 -- Table structure for cmf_user_action
@@ -5166,17 +5172,26 @@ INSERT INTO `cmf_usual_company` VALUES ('5', '1', '0', '0', '平安车险', '', 
 -- ----------------------------
 DROP TABLE IF EXISTS `cmf_usual_coordinate`;
 CREATE TABLE `cmf_usual_coordinate` (
-  `id` int(11) NOT NULL,
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `company_id` mediumint(11) unsigned NOT NULL COMMENT '公司ID',
-  `ucs_x` char(10) NOT NULL COMMENT '横坐标',
-  `ucs_y` char(10) NOT NULL COMMENT '纵坐标',
-  `city_id` int(11) unsigned NOT NULL COMMENT '对应的城市ID',
+  `province_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '对应省份ID',
+  `city_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '对应的城市ID',
+  `name` varchar(255) NOT NULL DEFAULT '暂未设置' COMMENT '服务点名称',
+  `ucs_x` char(10) NOT NULL DEFAULT '0.00' COMMENT '横坐标',
+  `ucs_y` char(10) NOT NULL DEFAULT '0.00' COMMENT '纵坐标',
+  `status` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT '是否启用：1是 0否',
+  `remark` varchar(255) NOT NULL DEFAULT '' COMMENT '备注',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Records of cmf_usual_coordinate
 -- ----------------------------
+INSERT INTO `cmf_usual_coordinate` VALUES ('1', '5', '3', '3401', '平安合肥地区', '117.241405', '31.819577', '1', '');
+INSERT INTO `cmf_usual_coordinate` VALUES ('2', '4', '3', '3401', '华通合肥地区', '117.241405', '31.819577', '1', '');
+INSERT INTO `cmf_usual_coordinate` VALUES ('3', '3', '3', '3401', '开平合肥地区', '117.241405', '31.819577', '1', '');
+INSERT INTO `cmf_usual_coordinate` VALUES ('4', '2', '3', '3401', '润之丰合肥地区', '117.241405', '31.819577', '1', '');
+INSERT INTO `cmf_usual_coordinate` VALUES ('5', '1', '3', '3401', '锦平合肥地区', '117.241405', '31.819577', '1', '');
 
 -- ----------------------------
 -- Table structure for cmf_usual_item

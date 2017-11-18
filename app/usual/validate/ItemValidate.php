@@ -29,15 +29,21 @@ class ItemValidate extends Validate
         $find = model('UsualItem')->where('name',$value)->count();
         if ($find) return false; return true;
     }
+
     protected function checkNameEdit($value,$rule,$data)
     {
-        $find = model('UsualItem')->where(['name'=>$value,'cate_id'=>$data['cate_id']])->column('id');
-        // $diff = array_diff_assoc([intval($data['id'])],$find);
-        foreach ($find as $ii) {
-            if ($data['id']!=$ii) {
-                return false;
-            }
-        }
-        return true;
+        $find = model('UsualItem')->where(['cate_id'=>$data['cate_id'],'name'=>$value])->count();
+        if ($find>0) return true; return false;
     }
+    // protected function checkNameEdit($value,$rule,$data)
+    // {
+    //     $find = model('UsualItem')->where(['name'=>$value,'cate_id'=>$data['cate_id']])->column('id');
+    //     // $diff = array_diff_assoc([intval($data['id'])],$find);
+    //     foreach ($find as $ii) {
+    //         if ($data['id']!=$ii) {
+    //             return false;
+    //         }
+    //     }
+    //     return true;
+    // }
 }

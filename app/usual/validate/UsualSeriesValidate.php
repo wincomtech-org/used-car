@@ -45,6 +45,7 @@ class UsualSeriesValidate extends Validate
         }
         return true;
     }
+
     // 检查名称是否存在
     protected function checkName($value,$rule,$data)
     {
@@ -53,10 +54,11 @@ class UsualSeriesValidate extends Validate
         if ($find) {return false;}
         return true;
     }
-    protected function checkNameEdit($value)
+    // 名称编辑检测
+    protected function checkNameEdit($value,$rule,$data)
     {
-        $find = model('UsualSeries')->where('name',$value)->value('id');
-        if ($find) {return true;}
-        return false;
+        $find = model('UsualSeries')->where(['parent_id'=>$data['parent_id'],'name'=>$value])->count();
+        if ($find>0) return true; return false;
     }
+
 }

@@ -1,0 +1,190 @@
+<include file="public@header"/>
+<!-- <style type="text/css">
+    .pic-list li {
+        margin-bottom: 5px;
+    }
+</style> -->
+<!-- <script type="text/html" id="photos-item-tpl">
+    <li id="saved-image{id}">
+        <input id="photo-{id}" type="hidden" name="photos[urls]" value="{filepath}">
+        <input class="form-control" id="photo-{id}-name" type="text" name="photos[names]" value="{name}"
+               style="width: 200px;" title="图片名称">
+        <img id="photo-{id}-preview" src="{url}" style="height:36px;width: 36px;"
+             onclick="imagePreviewDialog(this.src);">
+        <a href="javascript:uploadOneImage('图片上传','#photo-{id}');">替换</a>
+        <a href="javascript:(function(){$('#saved-image{id}').remove();})();">移除</a>
+    </li>
+</script>
+<script type="text/html" id="files-item-tpl">
+    <li id="saved-file{id}">
+        <input id="file-{id}" type="hidden" name="files[urls]" value="{filepath}">
+        <input class="form-control" id="file-{id}-name" type="text" name="files[names]" value="{name}"
+               style="width: 200px;" title="文件名称">
+        <a id="file-{id}-preview" href="{preview_url}" target="_blank">下载</a>
+        <a href="javascript:uploadOne('图片上传','#file-{id}','file');">替换</a>
+        <a href="javascript:(function(){$('#saved-file{id}').remove();})();">移除</a>
+    </li>
+</script> -->
+</head>
+<body>
+<div class="wrap js-check-wrap">
+    <ul class="nav nav-tabs">
+        <li><a href="{:url('AdminDeposit/index')}">坐标管理</a></li>
+        <li class="active"><a href="{:url('AdminDeposit/add')}">添加坐标</a></li>
+    </ul>
+    <form action="{:url('AdminDeposit/addPost')}" method="post" class="form-horizontal js-ajax-form margin-top-20">
+        <div class="row">
+            <div class="col-md-9">
+                <table class="table table-bordered">
+                    <tr>
+                        <th>所属公司</th>
+                        <td>
+                            <select class="form-control" style="width:140px;" name="post[company_id]">
+                                {$company_tree|default=''}
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>地区</th>
+                        <td>
+                            <select class="form-control" style="width:150px;float:left;" name="post[province_id]" id="input-province">
+                                <option value="0" selected>--请选择--</option>
+                                {$Provinces}
+                            </select>
+                            <select class="form-control" style="width:150px;display:none" name="post[city_id]" id="input-city">
+                                <option value="0">--请选择--</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th width="100">坐标名称<span class="form-required">*</span></th>
+                        <td>
+                            <input class="form-control" type="text" name="post[name]" required placeholder="请输入坐标名称"/>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th width="100">横坐标<span class="form-required">*</span></th>
+                        <td>
+                            <input class="form-control" type="text" name="post[ucs_x]" required placeholder="请输入横坐标"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th width="100">纵坐标<span class="form-required">*</span></th>
+                        <td>
+                            <input class="form-control" type="text" name="post[ucs_y]" required placeholder="请输入纵坐标"/>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th>备注</th>
+                        <td>
+                            <textarea class="form-control" name="post[description]" style="height:50px;" placeholder="请填写备注"></textarea>
+                        </td>
+                    </tr>
+                </table>
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <button type="submit" class="btn btn-primary js-ajax-submit">{:lang('ADD')}</button>
+                        <a class="btn btn-default" href="{:url('AdminDeposit/index')}">{:lang('BACK')}</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <table class="table table-bordered">
+                    <!-- <tr>
+                        <th><b>LOGO</b></th>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div style="text-align: center;">
+                                <input type="hidden" name="post[more][thumbnail]" id="thumbnail" value="">
+                                <a href="javascript:uploadOneImage('图片上传','#thumbnail');">
+                                    <img src="__TMPL__/public/assets/images/default-thumbnail.png"
+                                         id="thumbnail-preview"
+                                         width="135" style="cursor: pointer"/>
+                                </a>
+                                <input type="button" class="btn btn-sm btn-cancel-thumbnail" value="取消图片">
+                            </div>
+                        </td>
+                    </tr> -->
+                    <tr>
+                        <th><b>状态</b></th>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="checkbox">
+                                <label><input type="checkbox" name="post[status]" value="1" checked>发布</label>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </form>
+</div>
+<script type="text/javascript" src="__STATIC__/js/admin.js"></script>
+<script type="text/javascript">
+    //编辑器路径定义
+    // var editorURL = GV.WEB_ROOT;
+</script>
+<!-- <script type="text/javascript" src="__STATIC__/js/ueditor/ueditor.config.js"></script>
+<script type="text/javascript" src="__STATIC__/js/ueditor/ueditor.all.min.js"></script> -->
+<script type="text/javascript">
+    $(function () {
+        // editorcontent = new baidu.editor.ui.Editor();
+        // editorcontent.render('content');
+        // try {
+        //     editorcontent.sync();
+        // } catch (err) {
+        // }
+
+        // $('.btn-cancel-thumbnail').click(function () {
+        //     $('#thumbnail-preview').attr('src', '__TMPL__/public/assets/images/default-thumbnail.png');
+        //     $('#thumbnail').val('');
+        // });
+
+        $('#input-province').change(function() {
+            var Id = $(this).val();
+            // alert(proId)
+            $.ajax({
+                url: '{:url("admin/District/getCitys")}',
+                type: 'POST',
+                // dataType: 'json',
+                data: {parentId: Id},
+            })
+            .done(function(data) {
+                // console.log("success");
+                if (data) {$('#input-city').show().html(data);}
+            })
+            .fail(function() {
+                // console.log("error");
+            })
+            .always(function() {
+                // console.log("complete");
+            });
+        });
+    });
+
+    // function doSelectCategory() {
+    //     var selectedCategoriesId = $('#js-categories-id-input').val();
+    //     openIframeLayer("{:url('AdminCompany/select')}?ids=" + selectedCategoriesId, '请选择分类', {
+    //         area: ['700px', '400px'],
+    //         btn: ['确定', '取消'],
+    //         yes: function (index, layero) {
+    //             var iframeWin          = window[layero.find('iframe')[0]['name']];
+    //             var selectedCategories = iframeWin.confirm();
+    //             if (selectedCategories.selectedCategoriesId.length == 0) {
+    //                 layer.msg('请选择分类');
+    //                 return;
+    //             }
+    //             $('#js-categories-id-input').val(selectedCategories.selectedCategoriesId.join(','));
+    //             $('#js-categories-name-input').val(selectedCategories.selectedCategoriesName.join(' '));
+    //             //console.log(layer.getFrameIndex(index));
+    //             layer.close(index); //如果设定了yes回调，需进行手工关闭
+    //         }
+    //     });
+    // }
+</script>
+</body>
+</html>

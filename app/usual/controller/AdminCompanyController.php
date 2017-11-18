@@ -14,7 +14,7 @@ class AdminCompanyController extends AdminBaseController
 {
     function _initialize()
     {
-        // parent::_initialize();
+        parent::_initialize();
         // $data = $this->request->param();
         $this->UsualModel = new UsualCompanyModel();
     }
@@ -96,15 +96,12 @@ class AdminCompanyController extends AdminBaseController
             if ($result !== true) {
                 $this->error($result);
             }
-            if (Db::name('UsualCompany')->where('name',$post['name'])->value('id')) {
-                $this->error('公司名已存在！','add');
-            }
 
-            if (!empty($data['photo_names'])) {
-                $post['more']['photos'] = $this->UsualModel->dealFiles(['names'=>$data['photo_names'],'urls'=>$data['photo_urls']]);
+            if (!empty($data['photos'])) {
+                $post['more']['photos'] = $this->UsualModel->dealFiles($data['photos']);
             }
-            if (!empty($data['file_names'])) {
-                $post['more']['files'] = $this->UsualModel->dealFiles(['names'=>$data['file_names'],'urls'=>$data['file_urls']]);
+            if (!empty($data['files'])) {
+                $post['more']['files'] = $this->UsualModel->dealFiles($data['files']);
             }
 
             $this->UsualModel->adminAddArticle($post);
@@ -171,20 +168,11 @@ class AdminCompanyController extends AdminBaseController
                 $this->error($result);
             }
 
-            if (!empty($data['photo_names']) && !empty($data['photo_urls'])) {
-                $post['more']['photos'] = [];
-                foreach ($data['photo_urls'] as $key => $url) {
-                    $photoUrl = cmf_asset_relative_url($url);
-                    array_push($post['more']['photos'], ["url" => $photoUrl, "name" => $data['photo_names'][$key]]);
-                }
+            if (!empty($data['photos'])) {
+                $post['more']['photos'] = $this->UsualModel->dealFiles($data['photos']);
             }
-
-            if (!empty($data['file_names']) && !empty($data['file_urls'])) {
-                $post['more']['files'] = [];
-                foreach ($data['file_urls'] as $key => $url) {
-                    $fileUrl = cmf_asset_relative_url($url);
-                    array_push($post['more']['files'], ["url" => $fileUrl, "name" => $data['file_names'][$key]]);
-                }
+            if (!empty($data['files'])) {
+                $post['more']['files'] = $this->UsualModel->dealFiles($data['files']);
             }
 
             $this->UsualModel->adminEditArticle($post);
@@ -364,15 +352,15 @@ class AdminCompanyController extends AdminBaseController
     }
 
     /**
-     * 车系排序
+     * 排序
      * @adminMenu(
-     *     'name'   => '车系排序',
+     *     'name'   => '通用排序',
      *     'parent' => 'index',
      *     'display'=> false,
      *     'hasView'=> false,
      *     'order'  => 10000,
      *     'icon'   => '',
-     *     'remark' => '车系排序',
+     *     'remark' => '通用排序',
      *     'param'  => ''
      * )
      */

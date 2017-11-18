@@ -3,18 +3,19 @@ namespace app\usual\controller;
 
 use cmf\controller\AdminBaseController;
 use app\usual\model\UsualCarModel;
+use app\usual\model\UsualBrandModel;
 // use app\usual\model\UsualItemModel;
 // use app\admin\model\DistrictModel;
 use think\Db;
 
 /**
-* 公司企业模块
+* 车辆模块
 */
 class AdminCarController extends AdminBaseController
 {
     function _initialize()
     {
-        // parent::_initialize();
+        parent::_initialize();
 
         //只报告错误,忽略通知
         // error_reporting(E_ALL ^ E_NOTICE);
@@ -24,48 +25,49 @@ class AdminCarController extends AdminBaseController
     }
 
     /**
-     * 公司列表
+     * 车辆列表
      * @adminMenu(
-     *     'name'   => '公司管理',
+     *     'name'   => '车辆管理',
      *     'parent' => 'usual/AdminCar/default',
      *     'display'=> true,
      *     'hasView'=> true,
      *     'order'  => 10000,
      *     'icon'   => '',
-     *     'remark' => '公司列表',
+     *     'remark' => '车辆列表',
      *     'param'  => ''
      * )
      */
     public function index()
     {
         $param = $this->request->param();//接收筛选条件
+        $brandId = $this->request->param('brandId',0,'intval');
 
         $data        = $this->Model->getLists($param);
         $data->appends($param);
 
-        // $CategoryModel  = new UsualBrandModel();
-        // $categoryTree   = $CategoryModel->adminCategoryTree($categoryId);
+        $cateModel  = new UsualBrandModel();
+        $brandTree   = $cateModel->adminCategoryTree($brandId);
 
         $this->assign('start_time', isset($param['start_time']) ? $param['start_time'] : '');
         $this->assign('end_time', isset($param['end_time']) ? $param['end_time'] : '');
         $this->assign('keyword', isset($param['keyword']) ? $param['keyword'] : '');
         $this->assign('articles', $data->items());
-        // $this->assign('category_tree', $categoryTree);
+        $this->assign('brand_tree', $brandTree);
         $this->assign('page', $data->render());
 
         return $this->fetch();
     }
 
     /**
-     * 添加公司
+     * 添加车辆
      * @adminMenu(
-     *     'name'   => '添加公司',
+     *     'name'   => '添加车辆',
      *     'parent' => 'index',
      *     'display'=> false,
      *     'hasView'=> true,
      *     'order'  => 10000,
      *     'icon'   => '',
-     *     'remark' => '添加公司',
+     *     'remark' => '添加车辆',
      *     'param'  => ''
      * )
      */
@@ -77,7 +79,7 @@ class AdminCarController extends AdminBaseController
         $proId = $this->request->param('proId',1,'intval');
         $Provinces = model('admin/District')->getDistricts(0,$proId);
         // 车源类别
-        $Citys = $this->Model->getCarType();
+        $Types = $this->Model->getCarType();
 
         // 用于前台车辆条件筛选且与属性表name同值的字段码
         $searchCode = model('UsualItem')->getItemSearch();
@@ -93,7 +95,7 @@ class AdminCarController extends AdminBaseController
         $this->assign('Brands', $Brands);
         $this->assign('Models', $Models);
         $this->assign('Series', $Series);
-        $this->assign('Types', $Citys);
+        $this->assign('Types', $Types);
         $this->assign('Provinces', $Provinces);
 
         $this->assign('searchCode', $searchCode);
@@ -106,15 +108,15 @@ class AdminCarController extends AdminBaseController
     }
 
     /**
-     * 添加公司提交
+     * 添加车辆提交
      * @adminMenu(
-     *     'name'   => '添加公司提交',
+     *     'name'   => '添加车辆提交',
      *     'parent' => 'index',
      *     'display'=> false,
      *     'hasView'=> false,
      *     'order'  => 10000,
      *     'icon'   => '',
-     *     'remark' => '添加公司提交',
+     *     'remark' => '添加车辆提交',
      *     'param'  => ''
      * )
      */
@@ -161,15 +163,15 @@ class AdminCarController extends AdminBaseController
     }
 
     /**
-     * 编辑公司
+     * 编辑车辆
      * @adminMenu(
-     *     'name'   => '编辑公司',
+     *     'name'   => '编辑车辆',
      *     'parent' => 'index',
      *     'display'=> false,
      *     'hasView'=> true,
      *     'order'  => 10000,
      *     'icon'   => '',
-     *     'remark' => '编辑公司',
+     *     'remark' => '编辑车辆',
      *     'param'  => ''
      * )
      */
@@ -216,15 +218,15 @@ class AdminCarController extends AdminBaseController
     }
 
     /**
-     * 编辑公司提交
+     * 编辑车辆提交
      * @adminMenu(
-     *     'name'   => '编辑公司提交',
+     *     'name'   => '编辑车辆提交',
      *     'parent' => 'index',
      *     'display'=> false,
      *     'hasView'=> false,
      *     'order'  => 10000,
      *     'icon'   => '',
-     *     'remark' => '编辑公司提交',
+     *     'remark' => '编辑车辆提交',
      *     'param'  => ''
      * )
      */
@@ -267,15 +269,15 @@ class AdminCarController extends AdminBaseController
     }
 
     /**
-     * 公司删除
+     * 车辆删除
      * @adminMenu(
-     *     'name'   => '公司删除',
+     *     'name'   => '车辆删除',
      *     'parent' => 'index',
      *     'display'=> false,
      *     'hasView'=> false,
      *     'order'  => 10000,
      *     'icon'   => '',
-     *     'remark' => '公司删除',
+     *     'remark' => '车辆删除',
      *     'param'  => ''
      * )
      */
@@ -321,15 +323,15 @@ class AdminCarController extends AdminBaseController
     }
 
     /**
-     * 公司发布
+     * 车辆发布
      * @adminMenu(
-     *     'name'   => '公司发布',
+     *     'name'   => '车辆发布',
      *     'parent' => 'index',
      *     'display'=> false,
      *     'hasView'=> false,
      *     'order'  => 10000,
      *     'icon'   => '',
-     *     'remark' => '公司发布',
+     *     'remark' => '车辆发布',
      *     'param'  => ''
      * )
      */
@@ -351,15 +353,15 @@ class AdminCarController extends AdminBaseController
     }
 
     /**
-     * 公司置顶
+     * 车辆置顶
      * @adminMenu(
-     *     'name'   => '公司置顶',
+     *     'name'   => '车辆置顶',
      *     'parent' => 'index',
      *     'display'=> false,
      *     'hasView'=> false,
      *     'order'  => 10000,
      *     'icon'   => '',
-     *     'remark' => '公司置顶',
+     *     'remark' => '车辆置顶',
      *     'param'  => ''
      * )
      */
@@ -380,15 +382,15 @@ class AdminCarController extends AdminBaseController
     }
 
     /**
-     * 公司推荐
+     * 车辆推荐
      * @adminMenu(
-     *     'name'   => '公司推荐',
+     *     'name'   => '车辆推荐',
      *     'parent' => 'index',
      *     'display'=> false,
      *     'hasView'=> false,
      *     'order'  => 10000,
      *     'icon'   => '',
-     *     'remark' => '公司推荐',
+     *     'remark' => '车辆推荐',
      *     'param'  => ''
      * )
      */
@@ -410,15 +412,15 @@ class AdminCarController extends AdminBaseController
     }
 
     /**
-     * 公司认证
+     * 车辆认证
      * @adminMenu(
-     *     'name'   => '公司认证',
+     *     'name'   => '车辆认证',
      *     'parent' => 'index',
      *     'display'=> false,
      *     'hasView'=> false,
      *     'order'  => 10000,
      *     'icon'   => '',
-     *     'remark' => '公司认证',
+     *     'remark' => '车辆认证',
      *     'param'  => ''
      * )
      */
@@ -428,15 +430,15 @@ class AdminCarController extends AdminBaseController
     }
 
     /**
-     * 车系排序
+     * 通用排序
      * @adminMenu(
-     *     'name'   => '车系排序',
+     *     'name'   => '通用排序',
      *     'parent' => 'index',
      *     'display'=> false,
      *     'hasView'=> false,
      *     'order'  => 10000,
      *     'icon'   => '',
-     *     'remark' => '车系排序',
+     *     'remark' => '通用排序',
      *     'param'  => ''
      * )
      */

@@ -11,7 +11,7 @@ class CarValidate extends Validate
         'serie_id' => 'require',
         'model_id' => 'require',
         'car_vin' => 'checkVin',
-        'plateNo' => 'require|checkPlateNum',
+        'plateNo' => 'require|checkPlateNo',
         'car_mileage' => 'require',
         'car_license_time' => 'require',
         'city_id' => 'require',
@@ -25,7 +25,7 @@ class CarValidate extends Validate
         'model_id' => '请选择车型',
         'car_vin.checkVin' => '车架号已存在！',
         'plateNo.require' => '请输入车牌号',
-        'plateNo.checkPlateNum' => '车牌号码已存在！',
+        'plateNo.checkPlateNo' => '车牌号码已存在！',
         'car_mileage' => '请输入里程数',
         'car_license_time' => '请输入上牌时间',
         'city_id' => '请输入所在城市',
@@ -44,12 +44,12 @@ class CarValidate extends Validate
         if ($find>0) {return false;}
         return true;
     }
-    protected function checkNameEdit($value)
+    protected function checkNameEdit($value,$rule,$data)
     {
-        $find = model('UsualCar')->where('name',$value)->count();
-        if ($find>0) {return true;}
-        return false;
+        $find = model('UsualCar')->where(['id'=>$data['id'],'name'=>$value])->count();
+        if ($find>0) return true; return false;
     }
+
     protected function checkVin($value)
     {
         $find = model('UsualCar')->where('car_vin',$value)->count();
@@ -58,7 +58,16 @@ class CarValidate extends Validate
         }
         return true;
     }
-    protected function checkPlateNum($value)
+
+    protected function isPlateNo($value)
+    {
+        $pattern = '/^[京津沪渝冀豫云辽黑湘皖鲁新苏浙赣鄂桂甘晋蒙陕吉闽贵粤青藏川宁琼使领A-Z]{1}[A-Z]{1}[A-Z_0-9]{5}$/';
+        if (!preg_match($pattern,$value)) {
+            return false;
+        }
+        return true;
+    }
+    protected function checkPlateNo($value)
     {
         $find = model('UsualCar')->where('plateNo',$value)->count();
         if ($find>0) {

@@ -24,18 +24,16 @@ class CompanyValidate extends Validate
     // 检查名称是否存在
     protected function checkName($value)
     {
-        $find = model('UsualCompany')->where('name',$value)->value('id');
-        if ($find) {return false;}
+        $find = model('UsualCompany')->where('name',$value)->count();
+        if ($find>0) {return false;}
         return true;
     }
     protected function checkNameEdit($value,$rule,$data)
     {
-        $find = model('UsualCompany')->where('name',$value)->column('id');
-        foreach ((array)$find as $v) {
-            if ($data['id']!=$v) {return false;}
-        }
-        return true;
+        $find = model('UsualCompany')->where(['id'=>$data['id'],'name'=>$value])->count();
+        if ($find>0) return true; return false;
     }
+
     protected function checkStatus($value,$rule,$data)
     {
         if ($value==1 && empty($data['identi_status'])) {

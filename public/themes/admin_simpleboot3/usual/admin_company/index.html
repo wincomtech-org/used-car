@@ -48,7 +48,7 @@
                         </notempty>
                     </td>
 
-                    <td><a href="{:url('AdminDeposit/index',['companyId'=>$vo['id']])}">查看寄存点</a></td>
+                    <td><a href="{:url('AdminDeposit/index',['compId'=>$vo['id']])}">查看寄存点</a></td>
                     <td><eq name='vo.is_baoxian' value='1'><a href="{:url('insurance/AdminInsurance/index',['companyId'=>$vo['id']])}">查看保险</a></eq></td>
                     <td><eq name="vo.is_yewu" value="1"><a href="{:url('service/AdminService/index',['companyId'=>$vo['id']])}">查看服务</a></eq></td>
                     <td>

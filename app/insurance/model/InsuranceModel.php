@@ -80,14 +80,16 @@ class InsuranceModel extends UsualModel
         return $lists;
     }
 
-    public function getPostList($where='', $order='update_time DESC', $limit=4)
+    public function getPostList($where='', $order='', $limit=4)
     {
-        $where = [
+        $where = array_merge([
             'delete_time'   => 0,
             'status'        => 1,
             'identi_status' => 1,
             'is_rec'        => 1,
-        ];
+        ],$where);
+        $order = array_merge($order,['update_time'=>'DESC']);
+
         $lists = $this->field('id,name,description,desc2,more')
             ->where($where)
             ->order($order)

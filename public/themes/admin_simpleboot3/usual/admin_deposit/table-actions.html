@@ -1,21 +1,14 @@
-
         <div class="table-actions">
             <notempty name="categoryId_off">
                 <button class="btn btn-primary btn-sm js-ajax-submit" type="submit"
-                        data-action="{:url('AdminItem/listOrder')}">{:lang('SORT')}
+                        data-action="{:url('AdminDeposit/listOrder')}">{:lang('SORT')}
                 </button>
             </notempty>
             <button class="btn btn-primary btn-sm js-ajax-submit" type="submit"
-                    data-action="{:url('AdminItem/publish',array('yes'=>1))}" data-subcheck="true">启用
+                    data-action="{:url('AdminDeposit/publish',array('yes'=>1))}" data-subcheck="true">发布
             </button>
             <button class="btn btn-primary btn-sm js-ajax-submit" type="submit"
-                    data-action="{:url('AdminItem/publish',array('no'=>1))}" data-subcheck="true">取消启用
-            </button>
-            <button class="btn btn-primary btn-sm js-ajax-submit" type="submit"
-                    data-action="{:url('AdminItem/top',array('yes'=>1))}" data-subcheck="true">置顶
-            </button>
-            <button class="btn btn-primary btn-sm js-ajax-submit" type="submit"
-                    data-action="{:url('AdminItem/top',array('no'=>1))}" data-subcheck="true">取消置顶
+                    data-action="{:url('AdminDeposit/publish',array('no'=>1))}" data-subcheck="true">取消发布
             </button>
             <!--
             <notempty name="categoryId">
@@ -24,7 +17,7 @@
             <button class="btn btn-primary btn-sm js-articles-copy" type="button">批量复制</button>
             -->
             <button class="btn btn-danger btn-sm js-ajax-submit" type="submit"
-                    data-action="{:url('AdminItem/delete')}" data-subcheck="true" data-msg="您确定删除吗？">
+                    data-action="{:url('AdminDeposit/delete')}" data-subcheck="true" data-msg="您确定删除吗？">
                 {:lang('DELETE')}
             </button>
         </div>

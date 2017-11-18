@@ -10,7 +10,6 @@
             overflow: hidden;
             margin: 0;
         }
-
         #suggestId {
             position: absolute;
             z-index: 9999;
@@ -20,9 +19,7 @@
             padding: 0px 10px;
             width: 300px;
             border: 1px solid #e4e6e7;
-
         }
-
         #suggestId:focus {
             outline: none;
         }
@@ -41,12 +38,11 @@
 <input id="suggestId" type="text" placeholder="请输入地址"/>
 <div id="allmap"></div>
 <script type="text/javascript">
-
     // 百度地图API功能
     var center = new BMap.Point({$lng}, {$lat});
 
     var map = new BMap.Map("allmap");
-    map.centerAndZoom(new BMap.Point(116.404, 39.915), 8);
+    map.centerAndZoom(new BMap.Point(117.241405, 31.819577), 8);
     map.enableScrollWheelZoom();    //启用滚轮放大缩小，默认禁用
     map.enableContinuousZoom();
 
