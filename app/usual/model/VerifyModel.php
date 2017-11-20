@@ -79,13 +79,6 @@ class VerifyModel extends UsualModel
 
     public function getVerifyStatus($status='')
     {
-        $status = intval($status);
-        $service_status = config('verify_status');
-        $options = '';
-        foreach ($service_status as $key => $vo) {
-            $options .= '<option value="'.$key.'" '.($status==$key?'selected':'').'>'.$vo.'</option>';
-        }
-
-        return $options;
+        return $this->getStatus($status,'verify_status');
     }
 }

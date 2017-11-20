@@ -61,6 +61,7 @@ class UsualItemCateModel extends UsualCategoryModel
         }
 
         return $tpl;
+        // return $this->getStatus($status,'usual_item_cate_codetype');
     }
 
 

@@ -33,18 +33,18 @@ class UsualCoordinateModel extends UsualModel
         return $series;
     }
 
-    public function getCoordinates($selectId=0, $companyId=0, $default_option=false)
+    public function getCoordinates($selectId=0, $condition=[], $default='请选择')
     {
         $where = ['status' => 1];
-        if (!empty($companyId)) {
-            $where = array_merge($where,['company_id'=>$companyId]);
+        if (!empty($condition)) {
+            $where = array_merge($where,$condition);
         }
         // $data = $this->all()->toArray();
         $data = $this->field(['id','name','ucs_x','ucs_y'])
             ->where($where)
             ->order('id')
             ->select()->toArray();
-        $options = $default_option ?'<option value="0">--请选择--</option>':'';
+        $options = empty($default) ?'':'<option value="">--'.$default.'--</option>';
         if (is_array($data)) {
             foreach ($data as $v) {
                 $options .= '<option value="'.$v['id'].'" '.($selectId==$v['id']?'selected':'').' >'.$v['name'].'</option>';
@@ -53,12 +53,16 @@ class UsualCoordinateModel extends UsualModel
         return $options;
     }
 
+
+
+// 前台
+    /*车业务服务*/
     public function getPostList($where=[], $order=[], $limit=12)
     {
         $where = array_merge(['status' => 1],$where);
         $order = array_merge($order,['id'=>'DESC']);
 
-        $lists = $this->field('id,ucs_x,ucs_y,remark')
+        $lists = $this->field('id,name,ucs_x,ucs_y,remark')
             ->where($where)
             ->order($order)
             ->limit($limit)

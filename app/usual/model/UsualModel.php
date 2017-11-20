@@ -384,13 +384,13 @@ class UsualModel extends Model
 
     public function getStatus($status='',$config='trade_order_status')
     {
-        if (empty($config)) {
+        if (empty(config('?'.$config))) {
             return false;
         }
         $status = intval($status);
-        $Sconfig = config($config);
+        $ufoconfig = config($config);
         $options = '';
-        foreach ($Sconfig as $key => $vo) {
+        foreach ($ufoconfig as $key => $vo) {
             $options .= '<option value="'.$key.'" '.($status==$key?'selected':'').'>'.$vo.'</option>';
         }
 

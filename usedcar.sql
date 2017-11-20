@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50540
 File Encoding         : 65001
 
-Date: 2017-11-18 18:21:41
+Date: 2017-11-20 10:28:55
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -5181,17 +5181,18 @@ CREATE TABLE `cmf_usual_coordinate` (
   `ucs_y` char(10) NOT NULL DEFAULT '0.00' COMMENT '纵坐标',
   `status` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT '是否启用：1是 0否',
   `remark` varchar(255) NOT NULL DEFAULT '' COMMENT '备注',
+  `total` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '被选次数',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Records of cmf_usual_coordinate
 -- ----------------------------
-INSERT INTO `cmf_usual_coordinate` VALUES ('1', '5', '3', '3401', '平安合肥地区', '117.241405', '31.819577', '1', '');
-INSERT INTO `cmf_usual_coordinate` VALUES ('2', '4', '3', '3401', '华通合肥地区', '117.241405', '31.819577', '1', '');
-INSERT INTO `cmf_usual_coordinate` VALUES ('3', '3', '3', '3401', '开平合肥地区', '117.241405', '31.819577', '1', '');
-INSERT INTO `cmf_usual_coordinate` VALUES ('4', '2', '3', '3401', '润之丰合肥地区', '117.241405', '31.819577', '1', '');
-INSERT INTO `cmf_usual_coordinate` VALUES ('5', '1', '3', '3401', '锦平合肥地区', '117.241405', '31.819577', '1', '');
+INSERT INTO `cmf_usual_coordinate` VALUES ('1', '5', '3', '3401', '平安合肥地区', '117.241405', '31.819577', '1', '', '0');
+INSERT INTO `cmf_usual_coordinate` VALUES ('2', '4', '3', '3401', '华通合肥地区', '117.241405', '31.819577', '1', '', '0');
+INSERT INTO `cmf_usual_coordinate` VALUES ('3', '3', '3', '3401', '开平合肥地区', '117.241405', '31.819577', '1', '', '0');
+INSERT INTO `cmf_usual_coordinate` VALUES ('4', '2', '3', '3401', '润之丰合肥地区', '117.241405', '31.819577', '1', '', '0');
+INSERT INTO `cmf_usual_coordinate` VALUES ('5', '1', '3', '3401', '锦平合肥地区', '117.241405', '31.819577', '1', '', '0');
 
 -- ----------------------------
 -- Table structure for cmf_usual_item

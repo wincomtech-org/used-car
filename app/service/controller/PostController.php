@@ -50,7 +50,7 @@ class PostController extends HomeBaseController
             }
             $this->assign('servInfo',$servInfo);
         }
-        $servicePoint = model('usual/UsualCoordinate')->getCoordinates(0,$this->compId);
+        $servicePoint = model('usual/UsualCoordinate')->getCoordinates(0, ['company_id'=>$this->compId], '请选择服务点');
 
         $this->assign('servId',$servId);
         $this->assign('servicePoint',$servicePoint);

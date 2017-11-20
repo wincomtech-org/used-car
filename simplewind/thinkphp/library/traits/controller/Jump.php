@@ -67,11 +67,16 @@ trait Jump
      * @param integer   $wait 跳转等待时间
      * @param array     $header 发送的Header信息
      * @return void
+        使用时
+        $this->error('请先登录系统！',"javascript:top.location.href='/jhydata/public/index.php/admin/login/login'");
+        $this->error('请先登录系统！',"javascript:top.location.href="."'".url('login/login')."'");
      */
     protected function error($msg = '', $url = null, $data = '', $wait = 3, array $header = [])
     {
         if (is_null($url)) {
             $url = Request::instance()->isAjax() ? '' : 'javascript:history.back(-1);';
+        } elseif(0 === strpos($url, 'javascript:')){
+            $url = $url;
         } elseif ('' !== $url) {
             $url = (strpos($url, '://') || 0 === strpos($url, '/')) ? $url : Url::build($url);
         }

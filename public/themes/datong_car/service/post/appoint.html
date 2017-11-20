@@ -71,8 +71,7 @@
                                             <option value="">--请选择城市--</option>
                                         </select>&nbsp;&nbsp;
 
-                                        <select id="countys" name="more[service_point]">
-                                            <option value="">请选择服务点</option>
+                                        <select name="more[service_point]" id="input-coordinate">
                                             {$servicePoint|default=''}
                                         </select>
                                     </case>
@@ -198,35 +197,25 @@
         var date_month=date.getMonth()+1
         var date_day=date.getDate();
         var now_date=date_year + "-" + date_month +"-" +date_day;
-        laydate.render({
-            elem: '#appoint_time',
-            value: now_date
-        });
-        laydate.render({
-            elem: '#birthday',
-            value: now_date
-        });
-        laydate.render({
-            elem: '#seller_birthday',
-            value: now_date
-        });
-        laydate.render({
-            elem: '#reg_time',
-            value: now_date
-        });
-
-        /**出生日期: 买家和卖家两个**/
-        lay('.birthday').each(function(){
+        var date_var = ['appoint_time','birthday','seller_birthday','reg_time'];
+        for (var i = 0; i < date_var.length; i++) {
             laydate.render({
-                elem: this
-                ,trigger: 'click'
+                elem: '#'+date_var[i],
+                value: now_date
             });
-        });
+        }
+
+        /**出生日期: 买家和卖家两个遍历**/
+        // lay('.birthday').each(function(){
+        //     laydate.render({
+        //         elem: this
+        //         ,trigger: 'click'
+        //     });
+        // });
 
         // 地区选项
         $('#input-province').change(function() {
             var Id = $(this).val();
-            // alert(proId)
             $.ajax({
                 url: '{:url("admin/District/getCitys")}',
                 type: 'POST',
@@ -242,6 +231,17 @@
             })
             .always(function() {
                 // console.log("complete");
+            });
+
+            $.post('{:url("usual/AdminDeposit/Ajax")}', {compId:'{$compId}', provId: Id}, function(coord) {
+                $('#input-coordinate').html(coord);
+            });
+        });
+
+        $('#input-city').change(function() {
+            var provId = $('#input-province').val(),cityId = $(this).val();
+            $.post('{:url("usual/AdminDeposit/Ajax")}', {compId:'{$compId}', provId: provId, cityId: cityId}, function(coord) {
+                $('#input-coordinate').html(coord);
             });
         });
 
