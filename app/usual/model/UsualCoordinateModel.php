@@ -44,12 +44,8 @@ class UsualCoordinateModel extends UsualModel
             ->where($where)
             ->order('id')
             ->select()->toArray();
-        $options = empty($default) ?'':'<option value="">--'.$default.'--</option>';
-        if (is_array($data)) {
-            foreach ($data as $v) {
-                $options .= '<option value="'.$v['id'].'" '.($selectId==$v['id']?'selected':'').' >'.$v['name'].'</option>';
-            }
-        }
+
+        $options = $this->createOptions($data,$option);
         return $options;
     }
 

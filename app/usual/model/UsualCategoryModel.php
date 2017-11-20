@@ -242,4 +242,23 @@ class UsualCategoryModel extends Model
         return $result;
     }
 
+
+
+/*自己添加的*/
+    // 选择框
+    public function createOptions($data,$option)
+    {
+        if ($option===false) {
+            return $data;
+        } else {
+            $options = (empty($option)) ? '':'<option value="">--'.$option.'--</option>';
+            if (is_array($data)) {
+                foreach ($data as $v) {
+                    $options .= '<option value="'.$v['id'].'" '.($selectId==$v['id']?'selected':'').' >'.$v['name'].'</option>';
+                }
+            }
+            return $options;
+        }
+    }
+
 }

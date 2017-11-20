@@ -13,16 +13,17 @@ class UsualModelsModel extends UsualCategoryModel
         //TODO:自定义的初始化
     }
 
-    public function getModels($selectId=0, $parentId=0, $level=1, $default_option=false)
+    public function getModels($selectId=0, $parentId=0, $level=1, $option=false)
     {
         // $data = $this->all()->toArray();
         $data = $this->field(['id','name'])->select()->toArray();
-        $options = $default_option ?'<option value="0">--请选择--</option>':'';
+        $options = $option ?'<option value="0">--请选择--</option>':'';
         if (is_array($data)) {
             foreach ($data as $v) {
                 $options .= '<option value="'.$v['id'].'" '.($selectId==$v['id']?'selected':'').' >'.$v['name'].'</option>';
             }
         }
+        // $options = $this->createOptions($data,$option);
         return $options;
     }
 }

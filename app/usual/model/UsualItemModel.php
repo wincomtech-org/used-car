@@ -150,22 +150,13 @@ class UsualItemModel extends UsualModel
      * 获取 属性
      * ."\r\n"
     */
-    public function getItems($selectId=0, $cateId=0, $option='default')
+    public function getItems($selectId=0, $cateId=0, $option='请选择')
     {
         $where = ['cate_id'=>$cateId,'status'=>1];
         $data = $this->field('name,description')->where($where)->order('is_top','desc')->select()->toArray();
 
-        if ($option===false) {
-            return $data;
-        } else {
-            $options = ($option=='default') ? '<option value="">--请选择--</option>':'';
-            if (is_array($data)) {
-                foreach ($data as $v) {
-                    $options .= '<option value="'.$v['id'].'" '.($selectId==$v['id']?'selected':'').' >'.$v['name'].'</option>';
-                }
-            }
-            return $options;
-        }
+        $options = $this->createOptions($data, $option);
+        return $options;
     }
 
 

@@ -21,16 +21,13 @@ class UsualBrandModel extends UsualCategoryModel
         return $categories;
     }
 
-    public function getBrands($selectId=0, $parentId=0, $level=1, $default_option=false)
+    public function getBrands($selectId=0, $parentId=0, $option='请选择')
     {
         // $data = $this->all()->toArray();
         $data = $this->field(['id','name'])->select()->toArray();
-        $options = $default_option ?'<option value="0">--请选择--</option>':'';
-        if (is_array($data)) {
-            foreach ($data as $v) {
-                $options .= '<option value="'.$v['id'].'" '.($selectId==$v['id']?'selected':'').' >'.$v['name'].'</option>';
-            }
-        }
+
+        $options = $this->createOptions($data, $option);
+
         return $options;
     }
 }

@@ -51,6 +51,7 @@ class VerifyModelModel extends UsualModel
         } else {
             return $define_data;
         }
+        // $options = $this->createOptions($data,$option);
         return $html;
     }
 

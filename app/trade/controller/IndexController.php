@@ -12,7 +12,12 @@ class IndexController extends HomeBaseController
 
     public function index()
     {
-        echo "Trade index!";
+        // echo "Trade index!";
+        $Brands = model('usual/UsualBrand')->getBrands(0,0,false);
+// dump($Brands);
+
+
+        $this->assign('Brands',$Brands);
         return $this->fetch();
     }
 }

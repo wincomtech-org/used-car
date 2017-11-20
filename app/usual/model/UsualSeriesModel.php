@@ -53,12 +53,14 @@ class UsualSeriesModel extends UsualCategoryModel
         // }
         // $data = $this->all()->toArray();
         $data = $this->field(['id','name'])->where(['parent_id'=>$pid])->select()->toArray();
+
         $options = $default_option ?'<option value="0">--请选择--</option>':'';
         if (is_array($data)) {
             foreach ($data as $v) {
                 $options .= '<option value="'.$v['id'].'" '.($selectId==$v['id']?'selected':'').' >'.$v['name'].'</option>';
             }
         }
+        // $options = $this->createOptions($data,$option);
         return $options;
     }
 
