@@ -52,8 +52,8 @@ class FavoriteController extends UserBaseController
     public function add()
     {
         $data   = $this->request->param();
-        $result = $this->validate($data, 'Favorite');
 
+        $result = $this->validate($data, 'Favorite');
         if ($result !== true) {
             $this->error($result);
         }

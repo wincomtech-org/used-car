@@ -7,6 +7,11 @@ use app\usual\model\UsualModel;
 
 class ServiceModel extends UsualModel
 {
+    // function _initialize()
+    // {
+    //     parent::_initialize();
+    // }
+
     public function getLists($filter, $isPage = false)
     {
         $field = 'a.*,b.name model_name,c.name company_name,d.user_nickname buyer_nickname,d.user_login buyer_login';
@@ -87,5 +92,75 @@ class ServiceModel extends UsualModel
     public function getServiceStatus($status='')
     {
         return $this->getStatus($status,'service_status');
+    }
+
+
+
+/*前台*/
+    // 用户提交预约单
+    public function addAppoint($post)
+    {
+        $data = [
+            'create_time'   => time(),
+        ];
+        $data = array_merge($data,$post);
+
+        $this->allowField(true)->data($data, true)->isUpdate(false)->save();
+        // $id = Db::name("service")->insertGetId($data);
+
+        return $this->id;
+        // return $id;
+        // return $this->adminAddArticle($data);
+    }
+
+    // 图片上传处理
+    public function uploadPhotos($filter_var=[])
+    {
+        $request    = request();
+        $module     = $request->module();
+        if (is_string($filter_var)) {
+            return false;
+        } else {
+            foreach ($filter_var as $fo) {
+                $file = $request->file($fo);
+                // 移动到框架应用根目录/public/uploads/ 目录下
+                if (!empty($file)) {
+                    $result = $file->validate([
+                        'size' => 1024*1024,
+                        'ext'  => 'jpg,jpeg,png,gif'
+                    ])->move('.' . DS . 'upload' . DS . $module . DS);
+                    // ])->move(ROOT_PATH . 'public' . DS . 'upload'. DS .'service'. DS);
+
+                    // var_dump($result);
+                    if($result){
+                        // 成功上传后 获取上传信息
+                        // 输出 jpg
+                        // echo $result->getExtension();
+                        // 输出 20160820/42a79759f284b767dfcb2a0197904287.jpg
+                        // echo $result->getSaveName();
+                        // 输出 42a79759f284b767dfcb2a0197904287.jpg
+                        // echo $result->getFilename();
+
+                        // 处理
+                        $saveName = str_replace('//', '/', str_replace('\\', '/', $result->getSaveName()));
+                        $photo    = $module .'/'. $saveName;
+                        $data[$fo] = $photo;
+                        // session($fo.'photo', $photo);
+                    }else{
+                        // 上传失败获取错误信息
+                        $error[$fo] = $file->getError();
+                    }
+                }
+            }
+            if (!empty($data)) {
+                $res['data'] = $data;
+            }
+            if (!empty($error)) {
+                $res['error'] = $error;
+            }
+            return $res;
+        }
+
+        return false;
     }
 }

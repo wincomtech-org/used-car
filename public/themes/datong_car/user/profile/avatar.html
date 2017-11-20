@@ -41,7 +41,7 @@
                         <br>
                         <if condition="empty($avatar)">
                             <img src="__TMPL__/public/assets/images/headicon_128.png" class="headicon" width="128"/>
-                            <else/>
+                        <else/>
                             <img src="{:cmf_get_user_avatar_url($avatar)}?t={:time()}" class="headicon" width="128"/>
                         </if>
                         <input type="file" onchange="avatar_upload(this)" id="avatar_uploder" name="file"/>

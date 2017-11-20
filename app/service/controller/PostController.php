@@ -59,7 +59,80 @@ class PostController extends HomeBaseController
 
     public function appointPost()
     {
+        // $data = $this->request->param(true); dump($data);die;
+        // dump(ROOT_PATH);die;
+
+        // 获取数据
         $data = $this->request->param();
-        $more = $data['more'];
+        $post = $data['post'];
+        // $more = $data['more'];
+
+        // 借助 validate 验证
+        $result = $this->validate($post, 'Service.appoint');
+        if ($result !== true) {
+            $this->error($result);
+        }
+
+        // 处理表单上传文件
+        $filter_var = ['identity_card','driving_license','qualified','loan_invoice'];
+        // dump($_FILES);die;
+        // $files   = $this->request->file();dump($files);die;
+        // $files = $this->request->file($filter_var);// 这样得到的不是一个对象了 无法处理不是对象的数据
+        // $files = $this->request->file('photo');// 单字段多张 photo[]
+        // dump($files);
+
+        $files = model('Service')->uploadPhotos($filter_var);
+        if (!empty($files['error'])) {
+            foreach ($files['error'] as $value) {
+                $this->error($value);
+            }
+        }
+        if (!empty($files['data'])) {
+            foreach ($files['data'] as $key => $value) {
+                $post['more'][$key] = $value;
+            }
+        }
+
+        // 提交
+        $result = model('Service')->addAppoint($post);
+        if ($result) {
+            $this->success('提交成功',url('user/Profile/center'));
+        }
+        $this->error('提交失败');
+
+        // 无法处理不是对象的数据
+        // foreach($files as $key=>$file){
+        //     // var_dump($key).'<br>';
+        //     if (is_string($key)) {
+        //         // 移动到框架应用根目录/public/uploads/ 目录下
+        //         $result = $file->validate([
+        //             'size' => 1024*1024,
+        //             'ext'  => 'jpg,jpeg,png,gif'
+        //         ])->move('.' . DS . 'upload' . DS . 'service' . DS);
+        //         // ])->move(ROOT_PATH . 'public' . DS . 'upload'. DS .'service'. DS);
+
+        //         if($result){
+        //             // 成功上传后 获取上传信息
+        //             // 输出 jpg
+        //             echo $result->getExtension();
+        //             // 输出 20160820/42a79759f284b767dfcb2a0197904287.jpg
+        //             echo $result->getSaveName();
+        //             // 输出 42a79759f284b767dfcb2a0197904287.jpg
+        //             echo $result->getFilename();
+
+        //             // 处理
+        //             $saveName = str_replace('//', '/', str_replace('\\', '/', $result->getSaveName()));
+        //             $service         = 'service/' . $saveName;
+        //             $post['more'][$key] = $service;
+        //             var_dump($service).'<br><br><br>';
+        //             // session('service', $service);
+        //         }else{
+        //             // 上传失败获取错误信息
+        //             echo $file->getError();
+        //         }
+        //     }
+        // }
+
+
     }
 }

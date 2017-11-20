@@ -580,8 +580,11 @@ $('.placeholder').each(function(i, ind) {
 	funPlaceholder(ind)
 });
 
-// 地区 省份获取城市
+
+
+// 预加载
 $(function () {
+	// 地区 省份获取城市
     $('#input-province').change(function() {
         var Id = $(this).val();
         // alert(proId)
@@ -602,19 +605,133 @@ $(function () {
             // console.log("complete");
         });
     });
+
+	// 图片预览
+	$('input[type="file"]').change(function() {
+		var x = $(this).attr('id');
+		var y = $(this).parent().parent().siblings().find('.show_img');
+		$(this).parent().parent().siblings('.img_div').show();
+		$(this).parent().parent().siblings('b').hide();
+		var f = document.getElementById(x).files[0];
+		var src = window.URL.createObjectURL(f);
+
+		$(this).parent().parent().siblings().find('.show_img').attr('src', src);
+	});
+});
+
+
+/*方法 function*/
+
+/* 没有form表单 \public\themes\simpleboot3\user\profile\avatar.html
+<style type="text/css">
+    .uploaded_photo_area {
+        margin-top: 20px;
+    }
+    .uploaded_photo_btns {
+        margin-top: 20px;
+    }
+    .uploaded_photo_area .uploaded_photo_btns {
+        display: none;
+    }
+</style>
+<div class="tab-pane active" id="one">
+    <br>
+    <if condition="empty($photo)">
+        <img src="__TMPL__/public/assets/images/headicon_128.png" class="headicon" width="128"/>
+    <else/>
+        <img src="{:cmf_get_user_avatar_url($photo)}?t={:time()}" class="headicon" width="128"/>
+    </if>
+    <input type="file" onchange="photo_upload(this,"{:url('Profile/avatarUpload')}")" id="photo_uploder" name="file"/>
+    <div class="uploaded_photo_area">
+        <div class="uploaded_photo_btns">
+            <a class="btn btn-primary confirm_photo_btn" onclick="update_photo(.uploaded_photo_area img,"{:url('Profile/avatarUpdate')}")">确定</a>
+            <a class="btn" onclick="reloadPage()">取消</a>
+        </div>
+    </div>
+    <p class="help-block">头像支持jpg,png,jpeg格式,文件大小最大不能超过1M</p>
+</div>
+ */
+/*点击上传按钮
+var obj = this;
+var url = '{:url('Profile/avatarUpload')}';
+*/
+function photo_upload(obj,url) {
+    var $fileinput = $(obj);
+    /* $(obj)
+     .show()
+     .ajaxComplete(function(){
+     $(this).hide();
+     }); */
+    Wind.css("jcrop");
+    Wind.use("ajaxfileupload", "jcrop", "noty", function () {
+        $.ajaxFileUpload({
+            url: "",
+            secureuri: false,
+            fileElementId: "photo_uploder",
+            dataType: 'json',
+            data: {},
+            success: function (data, status) {
+                if (data.code == 1) {
+                    $("#photo_uploder").hide();
+                    var $uploaded_area = $(".uploaded_photo_area");
+                    $uploaded_area.find("img").remove();
+                    var src  = "__ROOT__/upload/" + data.data.file;
+                    var $img = $("<img/>").attr("src", src);
+                    $img.prependTo($uploaded_area);
+                    $(".uploaded_photo_btns").show();
+                    var img = new Image();
+                    img.src = src;
+
+                    var callback = function () {
+                        console.log(img.width);
+                        $img.Jcrop({
+                            aspectRatio: 1,
+                            trueSize: [img.width, img.height],
+                            setSelect: [0, 0, 100, 100],
+                            onSelect: function (c) {
+                                $img.data("area", c);
+                            }
+                        });
+                    }
+
+                    if (img.complete) {
+                        callback();
+                    } else {
+                        img.onload = callback;
+                    }
+                } else {
+                    noty({
+                        text: data.msg,
+                        type: 'error',
+                        layout: 'center',
+                        callback: {
+                            afterClose: function () {
+                                reloadPage(window);
+                            }
+                        }
+                    });
+                }
+            },
+            error: function (data, status, e) {
+            }
+        });
+    });
+
+    return false;
 }
 
-// 图片预览
-$('input[type="file"]').change(function() {
-	var x = $(this).attr('id');
-	var y = $(this).parent().parent().siblings().find('.show_img')
-	$(this).parent().parent().siblings('.img_div').show();
-	$(this).parent().parent().siblings('b').hide();
-	var f = document.getElementById(x).files[0];
-	var src = window.URL.createObjectURL(f);
-
-	$(this).parent().parent().siblings().find('.show_img').attr('src', src);
-});
+/*确认上传
+var o = '.uploaded_photo_area img';
+var url = '{:url('Profile/avatarUpdate')}';
+*/
+function update_photo(o,url) {
+    var area = $(o).data("area");
+    $.post(url, area, function (data) {
+        if (data.code == 1) {
+            reloadPage(window);
+        }
+    }, "json");
+}
 
 
 // 弹窗 引用个人中心的

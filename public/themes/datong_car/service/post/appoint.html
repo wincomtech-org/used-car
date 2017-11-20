@@ -30,7 +30,7 @@
                 <li class="active"><a href="{:url('Post/appoint',['servId'=>$servId,'html'=>'rookie_scrutineering'])}">{$servInfo.name}</a></li>
             </ul>
             <div class="selection_insurance_con">
-                <form action="{:url('Post/appointPost')}" name="car_booking_form" method="post" accept-charset="utf-8" class="data_filling" id="data_filling">
+                <form action="{:url('Post/appointPost')}" method="post" enctype="multipart/form-data" name="car_booking_form" class="data_filling" id="data_filling">
                     <foreach name="new_data" item="vo">
                         <ul class="data_filling_list required">
                             <li class="left">{$vo.title}</li>
@@ -39,21 +39,21 @@
                             <li class="right">
                                 <switch name="vo.name">
                                     <case value="plateNo" break="1">
-                                        <input type="text" name="more[{$vo.name}]" maxlength="7">
+                                        <input type="text" name="post[{$vo.name}]" maxlength="7">
                                     </case>
                                     <case value="telephone">
-                                        <input type="tel" name="more[{$vo.name}]" maxlength="15">
+                                        <input type="tel" name="post[{$vo.name}]" maxlength="15">
                                         <i>请填写正确的号码，如是固话，请按照格式：0551-1234567</i>
                                         <!-- <b class="red">*请填写正确号码，如是固话，请按照0551-1234567格式</b> -->
                                     </case>
                                     <case value="appoint_time|reg_time|birthday|seller_birthday">
-                                        <input type="text" name="more[{$vo.name}]" id="{$vo.name}">
+                                        <input type="text" name="post[{$vo.name}]" id="{$vo.name}">
                                         <i>请填写正确的日期，按照格式：2017-11-11</i>
                                     </case>
                                     <case value="identity_card|driving_license|qualified|loan_invoice">
                                         <div class="file">
                                             <span class="file_con">
-                                                <input type="file" name="more[{$vo.name}]" id="{$vo.name}" >
+                                                <input type="file" name="{$vo.name}" id="{$vo.name}" >
                                                 <label for="{$vo.name}"></label>
                                             </span>
                                             <i>请上传{$vo.title}照片</i>
@@ -71,11 +71,11 @@
                                             <option value="">--请选择城市--</option>
                                         </select>&nbsp;&nbsp;
 
-                                        <select name="more[service_point]" id="input-coordinate">
+                                        <select name="post[service_point]" id="input-coordinate">
                                             {$servicePoint|default=''}
                                         </select>
                                     </case>
-                                    <default /><input type="text" name="more[{$vo.name}]">
+                                    <default /><input type="text" name="post[{$vo.name}]">
                                 </switch>
                             </li>
                         </ul>
@@ -174,6 +174,8 @@
                     </script>
                 </div>
                 <p class="data_filling_btn">
+                    <input type="hidden" name="post[model_id]" value="{$servId}">
+                    <input type="hidden" name="post[company_id]" value="{$compId}">
                     <input type="submit" name="data_filling_online" class="btn_submit" value='立即预约' onClick="car_booking_form.submit()">
                 </p>
             </div>

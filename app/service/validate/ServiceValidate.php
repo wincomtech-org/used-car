@@ -8,6 +8,7 @@ class ServiceValidate extends Validate
     protected $rule = [
         'model_id' => 'require',
         'company_id' => 'gt:0',
+        'username' => 'checkUname',
     ];
     protected $message = [
         'model_id' => '请选择模型',
@@ -17,6 +18,7 @@ class ServiceValidate extends Validate
     protected $scene = [
        'add'  => ['model_id','company_id'],
        'edit' => ['model_id','company_id'],
+       'appoint' => ['company_id','username'],
     ];
 
     protected function checkUid($value)
@@ -25,5 +27,13 @@ class ServiceValidate extends Validate
             return true;
         }
         return false;
+    }
+    protected function checkUname($value){
+        if (!empty($value)) {
+            if (!preg_match('/[\x80-\xff\w\-]+/',$value)) {
+                return false;
+            }
+        }
+        return true;
     }
 }

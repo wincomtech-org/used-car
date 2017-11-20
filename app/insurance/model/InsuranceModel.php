@@ -80,7 +80,7 @@ class InsuranceModel extends UsualModel
         return $lists;
     }
 
-    public function getPostList($where='', $order='', $limit=4)
+    public function getPostList($where=[], $order=[], $limit=4)
     {
         $where = array_merge([
             'delete_time'   => 0,

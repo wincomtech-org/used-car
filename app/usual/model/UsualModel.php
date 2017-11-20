@@ -69,6 +69,14 @@ class UsualModel extends Model
     public function setDeadTimeAttr($value){ return strtotime($value);}
     // car_license_time 上牌时间
     public function setCarLicenseTimeAttr($value){ return strtotime($value);}
+    // reg_time 注册时间
+    public function setRegTimeAttr($value){ return strtotime($value);}
+    // appoint_time 预约时间
+    public function setAppointTimeAttr($value){ return strtotime($value);}
+    // birthday 生日
+    public function setBirthdayAttr($value){ return strtotime($value);}
+    // seller_birthday 卖家生日
+    public function setSellerBirthdayAttr($value){ return strtotime($value);}
 
     /**
      * status 用户名 自动完成

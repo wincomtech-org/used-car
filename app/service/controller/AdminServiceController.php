@@ -62,6 +62,7 @@ class AdminServiceController extends AdminBaseController
 
             $post   = $data['post'];
             $post['user_id'] = intval($user_id);
+            $post['create_time'] = time();
 
             $result = $this->validate($post,'Service.add');
             if ($result !== true) {
