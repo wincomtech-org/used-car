@@ -41,7 +41,7 @@ class ListController extends HomeBaseController
         $this->assign('category', $category);
         $this->assign('cateMenu', $cateMenu);
         $this->assign('articles', $articles->items());// 获取查询数据并赋到模板
-        $articles->appends($param);//添加URL参数,跟分页有关系？
+        $articles->appends($param);//添加URL参数,跟分页有关系
         $this->assign('pager', $articles->render());// 获取分页代码并赋到模板
 
         $listTpl = empty($category['list_tpl']) ? 'list' : $category['list_tpl'];

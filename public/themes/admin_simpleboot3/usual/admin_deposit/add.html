@@ -146,7 +146,6 @@
 
         $('#input-province').change(function() {
             var Id = $(this).val();
-            // alert(proId)
             $.ajax({
                 url: '{:url("admin/District/getCitys")}',
                 type: 'POST',

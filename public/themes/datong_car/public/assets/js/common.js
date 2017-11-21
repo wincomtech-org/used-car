@@ -584,27 +584,6 @@ $('.placeholder').each(function(i, ind) {
 
 // 预加载
 $(function () {
-	// 地区 省份获取城市
-    $('#input-province').change(function() {
-        var Id = $(this).val();
-        // alert(proId)
-        $.ajax({
-            url: '{:url("admin/District/getCitys")}',
-            type: 'POST',
-            // dataType: 'json',
-            data: {parentId: Id},
-        })
-        .done(function(data) {
-            // console.log("success");
-            if (data) {$('#input-city').show().html(data);}
-        })
-        .fail(function() {
-            // console.log("error");
-        })
-        .always(function() {
-            // console.log("complete");
-        });
-    });
 
 	// 图片预览
 	$('input[type="file"]').change(function() {
@@ -618,6 +597,31 @@ $(function () {
 		$(this).parent().parent().siblings().find('.show_img').attr('src', src);
 	});
 });
+
+// 地区 省份获取城市
+// function select_province(o,url) {
+// 	// var o = '#input-province',
+// 	// 	url = {:url("admin/District/getCitys")};
+//     $(o).change(function() {
+//         var Id = $(this).val();
+//         $.ajax({
+//             url: url,
+//             type: 'POST',
+//             // dataType: 'json',
+//             data: {parentId: Id},
+//         })
+//         .done(function(data) {
+//             // console.log("success");
+//             if (data) {$('#input-city').show().html(data);}
+//         })
+//         .fail(function() {
+//             // console.log("error");
+//         })
+//         .always(function() {
+//             // console.log("complete");
+//         });
+//     });
+// }
 
 
 /*方法 function*/
