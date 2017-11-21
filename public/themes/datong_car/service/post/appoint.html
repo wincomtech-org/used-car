@@ -193,11 +193,12 @@
 
 <script>
 
-var Id = 3,
-    url = '{:url("admin/District/getCitys")}';
-$.post(url, {parentId: Id}, function(data) {
-    alert(data)
-});
+    var Id = 3,
+        url = '{:url("admin/District/getCitys")}';
+
+    $.post(url, {parentId: Id}, function(data) {
+        console.log(data)
+    });
     $(function(){
         /**日期时间**/
         var date=new Date();
@@ -222,9 +223,9 @@ $.post(url, {parentId: Id}, function(data) {
         // });
 
         // 地区选项
-        $('#input-province').change(function() {
-            var Id = $(this).val(),
-                url = '{:url("admin/District/getCitys")}';
+        // $('#input-province').change(function() {
+        //     var Id = $(this).val(),
+        //         url = '{:url("admin/District/getCitys")}';
             // alert('{:url("admin/District/getCitys")}');
             // alert("{:url("admin/District/getCitys")}");
             // alert(url)
@@ -271,7 +272,7 @@ $.post(url, {parentId: Id}, function(data) {
             // $.post('{:url("usual/AdminDeposit/Ajax")}', {compId:'{$compId}', provId: Id}, function(coord) {
             //     $('#input-coordinate').html(coord);
             // });
-        });
+        // });
 
         $('#input-city').change(function() {
             var provId = $('#input-province').val(),cityId = $(this).val();
