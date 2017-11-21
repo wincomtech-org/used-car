@@ -153,7 +153,7 @@ class UsualItemModel extends UsualModel
     public function getItems($selectId=0, $cateId=0, $option='请选择')
     {
         $where = ['cate_id'=>$cateId,'status'=>1];
-        $data = $this->field('name,description')->where($where)->order('is_top','desc')->select()->toArray();
+        $data = $this->field('id,name,description')->where($where)->order('is_top','desc')->select()->toArray();
 
         $options = $this->createOptions($selectId, $option, $data);
         return $options;

@@ -56,26 +56,34 @@ class IndexController extends HomeBaseController
         if (!empty($param2)) {
             $var_param2 = str_split($param2,2);
         }
-        // $brandId = $this->request->param('brandId/d',2,'intval');// 2大众 4福特
-        // $serieId = $this->request->param('serieId/d',0,'intval');
-        // $modelId = $this->request->param('modelId/d',0,'intval');
+        $brandId = $this->request->param('brandId/d',0,'intval');// 2大众 4福特
+        $serieId = $this->request->param('serieId/d',0,'intval');
+        $modelId = $this->request->param('modelId/d',0,'intval');
+        $priceId = $this->request->param('priceId/d',0,'intval');
 
 
 
         // 获取相关数据
-        // $Brands = model('usual/UsualBrand')->getBrands($brandId,0,false);
-        // $serieModel = new UsualSeriesModel();
-        // $Series = $serieModel->SeriesTree($brandId);
-        // $Models = model('usual/UsualModels')->getModels($modelId,0,false);
+        $Types = model('usual/UsualCar')->getCarType();// 车源类别
+        $Brands = model('usual/UsualBrand')->getBrands($brandId,0,false);
+        $serieModel = new UsualSeriesModel();
+        if (empty($brandId)) {
+            $Series = $serieModel->recSeries($brandId);
+        } else {
+            $recSeries = $serieModel->recSeries($brandId);
+            $Series = $serieModel->SeriesTree($brandId);
+            $this->assign('recSeries',$recSeries);
+        }
+        $Models = model('usual/UsualModels')->getModels($modelId,0,false);
         // $Provinces = model('admin/District')->getDistricts(0,1);
-        // 车源类别
-        // $Types = model('usual/UsualCar')->getCarType();
+        $Prices = model('usual/UsualItem')->getItems(0,21,false);
 
 
 
         // 筛选机制
         $filter = $where = $carlist = [];
         $url = $jumpur = $jumpext = '';
+        $filter['sell_status'] = 1;
 
         if (isset($var)) {
             $filter[$var] = '';
@@ -94,10 +102,17 @@ class IndexController extends HomeBaseController
 
         // 模板赋值
         $this->assign('jumpext',$jumpext);
-        // $this->assign('Brands',$Brands);
-        // $this->assign('recSeries',$recSeries);
-        // $this->assign('Series',$Series);
-        // $this->assign('Models',$Models);
+        $this->assign('Types',$Types);
+        $this->assign('brandId',$brandId);
+        $this->assign('Brands',$Brands);
+        $this->assign('serieId',$serieId);
+        $this->assign('Series',$Series);
+        $this->assign('modelId',$modelId);
+        $this->assign('Models',$Models);
+        // $this->assign('provId',$provId);
+        // $this->assign('Provinces',$Provinces);
+        $this->assign('priceId',$priceId);
+        $this->assign('Prices',$Prices);
         $this->assign('regCarInfo',$regCarInfo);
 
         $this->assign('carlist', $carlist->items());// 获取查询数据并赋到模板

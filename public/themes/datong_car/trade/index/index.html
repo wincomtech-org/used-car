@@ -277,30 +277,14 @@
                     <span class="vehiTrad_tit_condition">品牌</span>
                     <div class="vehiTrad_tit_item">
                         <ul class="vehiTrad_tit_item_con">
-                            <li class="active"><a href="#">不限</a></li>
-                            <li ><a href="#">大众</a></li>
-                            <li ><a href="#">大众</a></li>
-                            <li ><a href="#">大众</a></li>
-                            <li ><a href="#">大众</a></li>
-                            <li ><a href="#">大11111众</a></li>
-                            <li ><a href="#">大111111众</a></li>
-                            <li ><a href="#">大11111众</a></li>
-                            <li ><a href="#">大11111众</a></li>
-                            <li ><a href="#">大11111众</a></li>
-                            <li ><a href="#">大11111众</a></li>
-                            <li ><a href="#">大11111众</a></li>
-                            <li ><a href="#">大11111众</a></li>
-                            <li ><a href="#">大11111众</a></li>
-                            <li ><a href="#">大11111众</a></li>
-                            <li ><a href="#">大11111众</a></li>
-                            <li ><a href="#">大11111众</a></li>
-                            <li ><a href="#">大11111众</a></li>
-                            <li ><a href="#">大众</a></li>
-                            <li ><a href="#">大众</a></li>
-                            <li ><a href="#">大众</a></li>
-                            <li ><a href="#">大众</a></li>
-                            <li ><a href="#">大众</a></li>
-                            <li ><a href="#">大众</a></li>
+                            <li <empty name="brandId">class="active"</empty>>
+                                <a href="{:url('Index/index')}">不限</a>
+                            </li>
+                            <foreach name="Brands" item="vo">
+                            <li {$brandId==$vo.id?='class="active"'}>
+                                <a href="{:url('Index/index')}">{$vo.name}</a>
+                            </li>
+                            </foreach>
                         </ul>
                         <div class="more">
                             全部<span class="icon"> < </span>
@@ -312,16 +296,14 @@
                     <span class="vehiTrad_tit_condition">车系</span>
                     <div class="vehiTrad_tit_item">
                         <ul class="vehiTrad_tit_item_con">
-                            <li class="active"><a href="#">不限</a></li>
-                            <li ><a href="#">大众</a></li>
-                            <li ><a href="#">大众</a></li>
-                            <li ><a href="#">大众</a></li>
-                            <li ><a href="#">大众</a></li>
-                            <li ><a href="#">大众</a></li>
-                            <li ><a href="#">大众</a></li>
-                            <li ><a href="#">大众</a></li>
-                            <li ><a href="#">大众</a></li>
-                            <li ><a href="#">大众</a></li>
+                            <li <empty name="serieId">class="active"</empty>>
+                                <a href="{:url('Index/index')}">不限</a>
+                            </li>
+                            <foreach name="Series" item="vo">
+                            <li {$serieId==$vo.id?='class="active"'}>
+                                <a href="{:url('Index/index')}">{$vo.name}</a>
+                            </li>
+                            </foreach>
                         </ul>
                         <div class="more">
                             全部<span class="icon"> < </span>
@@ -333,26 +315,45 @@
                     <span class="vehiTrad_tit_condition">价格</span>
                     <div class="vehiTrad_tit_item">
                         <ul class="vehiTrad_tit_item_con">
-                            <li class="active"><a href="#">不限</a></li>
-                            <li ><a href="#">大众</a></li>
-                            <li ><a href="#">大众</a></li>
-                            <li ><a href="#">大众</a></li>
-                            <li ><a href="#">大众</a></li>
-                            <li ><a href="#">大众</a></li>
-                            <li ><a href="#">大众</a></li>
-                            <li ><a href="#">大众</a></li>
-                            <li ><a href="#">大众</a></li>
-                            <li ><a href="#">大众</a></li>
+                            <li <empty name="priceId">class="active"</empty>>
+                                <a href="{:url('Index/index')}">不限</a>
+                            </li>
+                            <foreach name="Prices" item="vo">
+                            <li {$priceId==$vo.id?='class="active"'}>
+                                <a href="{:url('Index/index')}">{$vo.description ?? $vo.name}</a>
+                            </li>
+                            </foreach>
                         </ul>
                         <div class="more">
                             全部<span class="icon"> < </span>
                         </div>
                     </div>
                 </div>
+                <!-- 排量 -->
+                <div class="vehiTrad_tit_list">
+                    <span class="vehiTrad_tit_condition">排量</span>
+                    <div class="vehiTrad_tit_item">
+                        <ul class="vehiTrad_tit_item_con">
+                            <li <empty name="priceId">class="active"</empty>>
+                                <a href="{:url('Index/index')}">不限</a>
+                            </li>
+                            <foreach name="Prices" item="vo">
+                            <li {$priceId==$vo.id?='class="active"'}>
+                                <a href="{:url('Index/index')}">{$vo.description ?? $vo.name}</a>
+                            </li>
+                            </foreach>
+                        </ul>
+                        <div class="more">
+                            全部<span class="icon"> < </span>
+                        </div>
+                    </div>
+                </div>
+
+
+
                 <!-- 其它 -->
                 <div class="vehiTrad_tit_list">
                     <span class="vehiTrad_tit_condition">其它</span>
-
                     <div class="vehiTrad_tit_item_other">
                         <div class="vehiTrad_tit_item_other_list">
                             <p>年龄</p>
