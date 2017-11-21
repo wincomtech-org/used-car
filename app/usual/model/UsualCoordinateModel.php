@@ -33,7 +33,7 @@ class UsualCoordinateModel extends UsualModel
         return $series;
     }
 
-    public function getCoordinates($selectId=0, $condition=[], $default='请选择')
+    public function getCoordinates($selectId=0, $condition=[], $option='请选择')
     {
         $where = ['status' => 1];
         if (!empty($condition)) {
