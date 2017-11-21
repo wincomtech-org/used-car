@@ -65,7 +65,7 @@
 .Insurance_recommendation_item:nth-child(4n+3){margin-right:2%;margin-left:1%;}
 .Insurance_recommendation_item .btn{width:100%;padding:35px 0 10px;}
 .Insurance_recommendation_item .btn a{display:inline-block;padding:10px 26px;color:#d00000;font-size:18px;background-color:#fff;border:1px solid #d00000;transition:0.6s;-webkit-transition:0.6s;transition:0.6s;}
-.Insurance_recommendation_item .btn a:hover{color:#fff;font-size:18px;background-color:#d00000;border:1px solid #d00000;}
+.Insurance_recommendation_item .btn a:hover{color:#fff;font-size:16px;background-color:#d00000;border:1px solid #d00000;}
 
 /*车辆买卖**/
 .vehicle_trading{background-color: #f0f0f0; width: 100%; padding: 30px 0;}
@@ -664,6 +664,7 @@
 
 
 /*险种选择&&分页车辆服务*/
+
 .selection_insurance{width:100%;padding-top:20px;box-sizing:border-box;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;-ms-box-sizing:border-box;-o-box-sizing:border-box;}
 .selection_insurance_con{margin:1.6rem 0;}
 .selection_insurance_form{width:100%;border:1px solid #ddd;padding:16px 50px;box-sizing:border-box;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;-ms-box-sizing:border-box;-o-box-sizing:border-box;}
@@ -699,7 +700,7 @@
 .selection_insurance_con .mess{margin-bottom:20px;}
 .selection_insurance_con .mess p{font-size:20px;color:#333;line-height:1.8;}
 .data_filling{width:100%;margin:0 auto;text-align:center;}
-.data_filling_list{padding:15px 0;width:600px;margin:0 auto;}
+.data_filling_list{padding:15px 0;width:630px;margin:0 auto;}
 .data_filling_list:after{content:"";display:block;clear:both;}
 .data_filling_list li{float:left;}
 .data_filling_list li.left{width:38%;text-align:right;font-size:18px;height:40px;line-height:40px;padding-right:20px;box-sizing:border-box;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;-ms-box-sizing:border-box;-o-box-sizing:border-box;}
@@ -713,8 +714,10 @@
 .data_filling_list.required li.right .file i{font-size:16px;margin-left:10px;}
 .data_filling_list li.right{width:62%;text-align:left;padding-left:20px;box-sizing:border-box;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;-ms-box-sizing:border-box;-o-box-sizing:border-box;}
 .data_filling_list li.right input{font-size:16px;display:block;width:240px;height:40px;padding-left:12px;border:1px solid #ddd;box-sizing:border-box;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;-ms-box-sizing:border-box;-o-box-sizing:border-box;}
+.data_filling_list li.right i{font-size: 13px;line-height: 1.5;margin: 5px 0;display: inline-block;}
+
 /**地区联动，共同样式**/
-.data_filling_list li.right select,.analogy li.right select{border:1px solid #ddd;height:40px;line-height:40px;font-size:12px;}
+.data_filling_list li.right select,.analogy li.right select{border:1px solid #ddd;height:40px;line-height:40px;font-size:12px;margin-bottom:5px;min-width:90px;}
 .data_filling_list li.right.date{position:relative;}
 .data_filling_list li.right.date input{padding-right:20px;}
 .data_filling_list li.right.date:after{    content: ""; display: inline-block; position: absolute; left: 230px; top: 13px; border-top: 10px solid #dcdcdc; border-left: 7px solid transparent; border-right: 7px solid transparent;}
@@ -1336,6 +1339,7 @@
     }
     @media only screen and (max-width: 767px){
         .claim_guidance_guide{display: flex; flex-wrap: wrap;justify-content: space-around;}
+        .data_filling_list{max-width:100%;}
     }
 
 }
@@ -1530,10 +1534,12 @@
         .yuyue .btn.iphone span{background-position: -2px -39px;}
 
      }
+
      @media only screen  and (max-width: 1023px) and (min-width: 768px){
        .car_mess_item .txt{font-size:13px;}
        .car_mess_item .con li span, .car_mess_item .con li i{font-size:12px;}
      }
+
       @media only screen and (min-width: 768px){
         .base_mess_item dd{width:50%;}
         .vehicle_con_detail_items .txt h6 a{font-size:15px;}
@@ -1584,9 +1590,9 @@
      .car_mess_item .txt{font-size:14px;}
      .car_mess_item .con li span, .car_mess_item .con li i{font-size:12px;}
      .car_message_con_tit{font-size:16px;}
-
-
  }
+
+
   @media only screen and (max-width: 414px){
     .car_mess_item.car_mess_item:nth-child(odd){margin:0 auto;margin-bottom:.7rem;}
     .car_mess_item.car_mess_item{width:100%;max-width:300px;float:none;margin:0 auto;margin-bottom:.7rem;}
@@ -1674,6 +1680,8 @@
  /*车辆业务*/
    @media only screen and (max-width: 1199px){
     .vehicle_business_items .txt .top{min-height:auto;margin-bottom:25px;}
+    /*地区三级联动*/
+    .data_filling_list li.right select, .analogy li.right select{height:30px;line-height:30px;}
    }
   @media only screen and (max-width: 767px){
     .vehicle_business_select{margin-top:10px;}

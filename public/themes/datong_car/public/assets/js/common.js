@@ -5,7 +5,58 @@ $('.nav_item ').hover(function() {
 }, function() {
 	$(this).removeClass('active1');
 	$(this).find('.nav_second_item').hide();
-})
+});
+	// 手机目录点击事件
+	$('.open-panel').click(function(e){
+		if($('body').hasClass('with-panel-left-cover')){
+           $('body').removeClass('with-panel-left-cover');
+           $('.panel-cover').removeClass('active').hide()
+		}else{
+			$('body').addClass('with-panel-left-cover');
+			$('.panel-cover').show()
+		    $('.panel-cover').addClass('active');
+		}
+		e.stopPropagation()
+	})
+
+	$('.list-block .item-content').on('clcik',function(e){
+		e.stopPropagation();
+	})
+	$('.list-block .item-content').on('touchend',function(e){
+	
+		e.stopPropagation();
+	})
+
+	$('.accordion-item>a.item-link').on('click',function(e){
+
+		
+		e.stopPropagation()
+	})
+	$('.accordion-item>a.item-link').on('touchend',function(e){
+		if($(this).parent().hasClass('accordion-item-expanded')){
+
+			$(this).parent().removeClass('accordion-item-expanded')
+		}else{
+			
+			$(this).parent().addClass('accordion-item-expanded')
+		}
+		e.stopPropagation()
+	})
+
+	$(document).on('click',function(){
+		_closeAction();
+	})
+	$("body:not('.accordion-item')").on('touchend',function(){
+		_closeAction();
+	})
+
+	function _closeAction(){
+		$('.panel-cover').hide();
+		$('.accordion-item>').removeClass('accordion-item-expanded');
+		$('body').removeClass('with-panel-left-cover')
+	}	
+
+	// 结束手机目录点击事件
 
 /*首页*/
 $(document).ready(function() {

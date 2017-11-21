@@ -20,7 +20,7 @@
     <section class="our_service">
         <div class="main ">
             <h3 class="index_tit">我们的服务<span class="index_tit_supply">一体化的服务流程，为您带来便捷生活 </span></h3>
-            <div class="our_service_list">
+            <div class="our_service_list our_service_list_pc">
                 <ul class="our_service_lists">
                     <foreach name="coverages" item="vo">
                     <li class="our_service_items">
@@ -35,6 +35,25 @@
                     </foreach>
                 </ul>
             </div>
+            <!-- 移动版 -->
+            <div class="our_service_list our_service_list_m">
+                <div class="our_service_show">
+                    <div class="slick">
+                        <foreach name="coverages" item="vo">
+                        <div>
+                            <div class="our_service_img">
+                                <span class="txt_foot">{$vo.name}</span>
+                                <img src="{:cmf_get_image_preview_url($vo.more.thumbnail)}" alt="">
+                            </div>
+                            <div class="our_service_txt">
+                                <a href="javascript:void(0);">{$vo.description}</a>
+                            </div>
+                        </div>
+                         </foreach>
+                    </div>
+                    
+                </div>
+             </div> 
         </div>
     </section>
 
