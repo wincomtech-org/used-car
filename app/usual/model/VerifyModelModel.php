@@ -20,16 +20,18 @@ class VerifyModelModel extends UsualModel
         return $categories;
     }
 
-    public function getOptions($selectId=0, $parentId=0, $level=1, $default_option=false)
+    public function getOptions($selectId=0, $parentId=0, $option='')
     {
         // $data = $this->all()->toArray();
         $data = $this->field(['code','name'])->select()->toArray();
-        $options = $default_option ?'<option value="">--请选择--</option>':'';
+        $options = $option ?'<option value="">--请选择--</option>':'';
         if (is_array($data)) {
             foreach ($data as $v) {
                 $options .= '<option value="'.$v['code'].'" '.($selectId==$v['code']?'selected':'').' >'.$v['name'].'</option>';
             }
         }
+
+        // $options = $this->createOptions($selectId, $option, $data);
         return $options;
     }
 
@@ -51,7 +53,7 @@ class VerifyModelModel extends UsualModel
         } else {
             return $define_data;
         }
-        // $options = $this->createOptions($data,$option);
+        // $options = $this->createOptions($selectId, $option, $data);
         return $html;
     }
 

@@ -72,14 +72,14 @@ class UsualCategoryModel extends Model
         // }
         if (isset($config['table2']) && $config['table2']=='usual_brand') {
             $where = ['a.delete_time' => 0];
-            $categories = $this
-                            ->alias('a')
-                            ->field('a.id,a.parent_id,a.brand_id,a.name,a.description,a.list_order,b.name bname')
-                            ->order("a.list_order,a.brand_id")
-                            ->join('usual_brand b','a.brand_id=b.id','left')
-                            ->where($where)
-                            ->select()
-                            ->toArray();
+            $categories = $this->alias('a')
+                ->field('a.id,a.parent_id,a.brand_id,a.name,a.description,a.is_rec,a.list_order,b.name bname')
+                ->order("a.list_order,a.brand_id")
+                ->join('usual_brand b','a.brand_id=b.id','left')
+                ->where($where)
+                ->select()
+                ->toArray();
+                // dump($categories);die;
         } else {
             $where = ['delete_time' => 0];
             $categories = $this->order("list_order ASC")->where($where)->select()->toArray();
@@ -98,11 +98,14 @@ class UsualCategoryModel extends Model
         foreach ($categories as $item) {
             $item['checked'] = in_array($item['id'], $currentIds) ? "checked" : "";
             $item['url']     = $config['url'] ? '<a href="'. cmf_url($config['url'], ['id' => $item['id']]) .'">'. $item['name'] .'</a>' : $item['name'];
-            if (isset($extra['code_type'])) {
-                $item['code_type'] = ($item['code_type']=='all') ? '<font color="#FCA005">默认</font>' : config('usual_item_cate_codetype')[$item['code_type']] ;
-            }
             if (isset($extra['is_rec'])) {
                 $item['is_rec'] = $item['is_rec']?'<font color="#F00">是</font>':'否';
+            }
+            if (isset($extra['is_top'])) {
+                $item['is_top'] = $item['is_top']?'<font color="#F00">是</font>':'否';
+            }
+            if (isset($extra['code_type'])) {
+                $item['code_type'] = ($item['code_type']=='all') ? '<font color="#FCA005">默认</font>' : config('usual_item_cate_codetype')[$item['code_type']] ;
             }
             $item['str_action'] = '';
             if ($config['add']) {
@@ -128,9 +131,10 @@ class UsualCategoryModel extends Model
             $tpl .= isset($extra['code']) ? "<td>\$code</td>" : '';
             $tpl .= isset($extra['code_type']) ? "<td>\$code_type</td>" : '';
             $tpl .= isset($extra['unit']) ? "<td><font color='#041DFA'>\$unit</font></td>" : '';
-            $tpl .= isset($extra['is_rec']) ? "<td>\$is_rec</td>" : '';
-            if (isset($config['table2']) && $config['table2']=='usual_brand') $tpl .= "<td>\$bname</td>";
+            if (isset($config['table2'])) $tpl .= "<td>\$bname</td>";
             $tpl .= "<td>\$description</td>";
+            $tpl .= isset($extra['is_rec']) ? "<td>\$is_rec</td>" : '';
+            $tpl .= isset($extra['is_top']) ? "<td>\$is_top</td>" : '';
             $tpl .= "<td>\$str_action</td>";
             $tpl .= '</tr>';
 
@@ -246,7 +250,7 @@ class UsualCategoryModel extends Model
 
 /*自己添加的*/
     // 选择框
-    public function createOptions($data,$option)
+    public function createOptions($selectId, $option, $data)
     {
         if ($option===false) {
             return $data;

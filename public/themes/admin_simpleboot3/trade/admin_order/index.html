@@ -49,7 +49,7 @@
                     <td><a href="{:url('usual/AdminCar/edit',array('id'=>$vo.car_id))}">{$vo.car_name}</a></td>
                     <td>{$vo.bargain_money}</td>
                     <td>{$vo.order_amount}</td>
-                    <td><a href="{:url('admin/plugin/index')}">{$vo.pay_name} >></a></td>
+                    <td><notempty name="vo.pay_name"><a href="{:url('admin/plugin/index')}">{$vo.pay_name} >></a></notempty></td>
                     <td><a href="{:url('user/AdminIndex/index',array('uid'=>$vo.buyer_uid))}">{$vo.buyer_nickname ? $vo.buyer_nickname : $vo.buyer_username}</a></td>
                     <td><a href="{:url('user/AdminIndex/index',array('uid'=>$vo.seller_uid))}">{$vo.seller_nickname ? $vo.seller_nickname : $vo.seller_username}</a></td>
                     <td>

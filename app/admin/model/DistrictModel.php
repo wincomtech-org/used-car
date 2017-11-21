@@ -21,7 +21,7 @@ class DistrictModel extends Model
                 $options .= '<option value="'.$v['id'].'" '.($selectId==$v['id']?'selected':'').' >'.$v['name'].'</option>';
             }
         }
-        // $options = $this->createOptions($data,$option);
+        // $options = $this->createOptions($selectId, $option, $data);
         return $options;
     }
 

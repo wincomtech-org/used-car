@@ -57,7 +57,7 @@ class InsuranceModel extends UsualModel
             $options .= '<option value="'.$item['id'].'" '.($selectId==$item['id']?'selected':'').'>'.$item['name'].'</option>';
         }
 
-        // $options = $this->createOptions($data,$option);
+        // $options = $this->createOptions($selectId, $option, $data);
         return $options;
     }
 

@@ -45,7 +45,7 @@ class UsualCoordinateModel extends UsualModel
             ->order('id')
             ->select()->toArray();
 
-        $options = $this->createOptions($data,$option);
+        $options = $this->createOptions($selectId, $option, $data);
         return $options;
     }
 

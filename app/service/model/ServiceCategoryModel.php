@@ -30,17 +30,12 @@ class ServiceCategoryModel extends UsualModel
         return $categories;
     }
 
-    public function getOptions($selectId=0, $parentId=0, $level=1, $default_option=false)
+    public function getOptions($selectId=0, $parentId=0, $option='')
     {
         // $data = $this->all()->toArray();
         $data = $this->field(['id','name'])->select()->toArray();
-        $options = $default_option ?'<option value="0">--请选择--</option>':'';
-        if (is_array($data)) {
-            foreach ($data as $v) {
-                $options .= '<option value="'.$v['id'].'" '.($selectId==$v['id']?'selected':'').' >'.$v['name'].'</option>';
-            }
-        }
-        // $options = $this->createOptions($data,$option);
+
+        $options = $this->createOptions($selectId, $option, $data);
         return $options;
     }
 

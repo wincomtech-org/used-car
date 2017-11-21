@@ -1,4 +1,5 @@
 <include file="public@header"/>
+
 </head>
 <body>
 <div class="wrap js-check-wrap">
@@ -50,7 +51,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="input-description">缩略图</label>
+                            <label>缩略图</label>
                             <div>
                                 <input type="hidden" name="more[thumbnail]" class="form-control"
                                        id="js-thumbnail-input">
@@ -58,9 +59,17 @@
                                     <a href="javascript:uploadOneImage('图片上传','#js-thumbnail-input');">
                                         <img src="__TMPL__/public/assets/images/default-thumbnail.png"
                                              id="js-thumbnail-input-preview"
-                                             width="135" style="cursor: pointer"/>
+                                             width="286" height="195" style="cursor:pointer" />
                                     </a>
                                 </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>是否推荐</label>
+                            <div>
+                                <label><input type="radio" name="is_rec" value="1"> 是 &nbsp; &nbsp;</label>
+                                <label><input type="radio" name="is_rec" value="0"> 否</label>
                             </div>
                         </div>
                     </div>

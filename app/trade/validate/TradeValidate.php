@@ -15,8 +15,8 @@ class TradeValidate extends Validate
     ];
 
 
-    protected function check($value='')
+    protected function check($value)
     {
-        # code...
+        return true;
     }
 }

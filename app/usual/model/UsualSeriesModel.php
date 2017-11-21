@@ -2,17 +2,10 @@
 namespace app\usual\model;
 
 use app\usual\model\UsualCategoryModel;
+use tree\Tree;
 
 class UsualSeriesModel extends UsualCategoryModel
 {
-    //自定义初始化
-    // protected function initialize()
-    // {
-    //     //需要调用`Model`的`initialize`方法
-    //     parent::initialize();
-    //     //TODO:自定义的初始化
-    // }
-
     public function getSeries($selectId=0, $parentId=0, $level=1, $default_option=false)
     {
         if (!empty($selectId)) {
@@ -60,8 +53,41 @@ class UsualSeriesModel extends UsualCategoryModel
                 $options .= '<option value="'.$v['id'].'" '.($selectId==$v['id']?'selected':'').' >'.$v['name'].'</option>';
             }
         }
-        // $options = $this->createOptions($data,$option);
+        // $options = $this->createOptions($selectId, $option, $data);
         return $options;
     }
 
+
+
+/*前台*/
+    // 车辆列表页
+    // 推荐车系
+    public function recSeries($brandId=0)
+    {
+        $data = $this->field('id,name')
+                ->where(['brand_id'=>$brandId,'is_rec'=>1])
+                ->order('list_order')
+                ->limit(10)
+                ->select()
+                ->toArray();
+
+        return $data;
+    }
+    // 所有车系
+    public function SeriesTree($brandId=0)
+    {
+        $data = $this->field('id,parent_id,name')
+                ->where(['brand_id'=>$brandId])
+                ->order('list_order')
+                ->select()
+                ->toArray();
+
+        $ufoTree = [];
+        $tree = new Tree();
+        // model('admin/NavMenu')->parseNavMenu4Home($data);
+        $tree->init($data);
+        $ufoTree = $tree->getTreeArray(0);
+
+        return $ufoTree;
+    }
 }

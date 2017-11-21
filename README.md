@@ -1,10 +1,18 @@
 # used-car
 二手车交易
 
-流程图
-https://www.processon.com/mindmap/59cc4f0ce4b06e9fd2f7247f
-GIT源码
-https://github.com/wincomtech-org/used_car
+流程图：
+    https://www.processon.com/view/link/59cc6eb9e4b06e9fd2f745d4
+    密码：1234
+GIT源码：
+    https://github.com/wincomtech-org/used_car
+DOAMIN：
+    http://usedcar.wincomtech.cn/
+模板路径：
+    \public\themes\datong_car\  主目录
+    \public\themes\datong_car\public\  共用文件 head、header、footer、nav、banner、morejs
+    \public\themes\datong_car\public\assets\  资源文件 css、js、images、font
+
 
 
 

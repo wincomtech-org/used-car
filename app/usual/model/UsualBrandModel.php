@@ -26,7 +26,7 @@ class UsualBrandModel extends UsualCategoryModel
         // $data = $this->all()->toArray();
         $data = $this->field(['id','name'])->select()->toArray();
 
-        $options = $this->createOptions($data, $option);
+        $options = $this->createOptions($selectId, $option, $data);
 
         return $options;
     }

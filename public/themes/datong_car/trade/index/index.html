@@ -33,7 +33,7 @@
                                 <p class="analogy_tit"><input placeholder="请选择品牌" class="placeholder" readonly ></p>
                                 <ul class="analogy_con" style="display:none;">
                                     <foreach name="Brands" item="vo">
-                                    <li data-val="{$vo.id}"><input value="{$vo.name}" readonly></li>
+                                    <li onclick="" data-val="{$vo.id}"><input value="{$vo.name}" readonly></li>
                                     </foreach>
                                 </ul>
                             </div>
@@ -44,17 +44,14 @@
                                 车&nbsp;&nbsp;&nbsp;&nbsp;系
                             </span>
                             <div class="analogy">
-                                <p class="analogy_tit"><input type="text" name="motorcycle" placeholder="请选择车系" class="placeholder" readonly></p>
+                                <p class="analogy_tit"><input placeholder="请选择车系" class="placeholder" readonly></p>
                                 <ul class="analogy_con" style="display:none;">
-                                    <li data-val="1"><input type="text" name="" value="123" readonly></li>
-                                    <li data-val="2"><input type="text" name="" value="123" readonly></li>
-                                    <li data-val="3"><input type="text" name="" value="123" readonly></li>
-                                    <li data-val="4"><input type="text" name="" value="123" readonly></li>
-                                    <li data-val="5"><input type="text" name="" value="123" readonly></li>
-                                    <li data-val="6"><input type="text" name="" value="123" readonly></li>
-                                    <li data-val="7"><input type="text" name="" value="123" readonly></li>
-                                    <li data-val="8"><input type="text" name="" value="123" readonly></li>
-
+                                    <li data-val="1"><input value="改成左右结构（包括手机端） - 左，作I级车系" readonly></li>
+                                    <li data-val="2"><input value="一汽大众" readonly></li>
+                                </ul>
+                                <ul class="analogy_con" style="display:none;">
+                                    <li data-val="12"><input value="改成左右结构 - 右，作二级车系" readonly></li>
+                                    <li data-val="13"><input value="CC" readonly></li>
                                 </ul>
                             </div>
                             <i class="tel_err" style="display:none;">*请选择车系</i>
@@ -66,15 +63,9 @@
                             <div class="analogy">
                                 <p class="analogy_tit"><input type="text" name="motorcycle_type" placeholder="请选择车型"  class="placeholder" readonly></p>
                                 <ul class="analogy_con" style="display:none;">
-                                    <li data-val="1"><input type="text" name="" value="123" readonly></li>
-                                    <li data-val="2"><input type="text" name="" value="123" readonly></li>
-                                    <li data-val="3"><input type="text" name="" value="123" readonly></li>
-                                    <li data-val="4"><input type="text" name="" value="123" readonly></li>
-                                    <li data-val="5"><input type="text" name="" value="123" readonly></li>
-                                    <li data-val="6"><input type="text" name="" value="123" readonly></li>
-                                    <li data-val="7"><input type="text" name="" value="123" readonly></li>
-                                    <li data-val="8"><input type="text" name="" value="123" readonly></li>
-
+                                    <foreach name="Models" item="vo">
+                                    <li onclick="" data-val="{$vo.id}"><input value="{$vo.name}" readonly></li>
+                                    </foreach>
                                 </ul>
                             </div>
                         </div>
@@ -85,15 +76,12 @@
                             <div class="analogy">
                                 <p class="analogy_tit">所在城市</p>
                                 <ul class="analogy_con" style="display:none;">
-                                    <li data-val="1"><input type="text" name="" value="123" readonly></li>
-                                    <li data-val="2"><input type="text" name="" value="123" readonly></li>
-                                    <li data-val="3"><input type="text" name="" value="123" readonly></li>
-                                    <li data-val="4"><input type="text" name="" value="123" readonly></li>
-                                    <li data-val="5"><input type="text" name="" value="123" readonly></li>
-                                    <li data-val="6"><input type="text" name="" value="123" readonly></li>
-                                    <li data-val="7"><input type="text" name="" value="123" readonly></li>
-                                    <li data-val="8"><input type="text" name="" value="123" readonly></li>
-
+                                    <li data-val="1"><input value="改成左右结构 - 左，作I级车系" readonly></li>
+                                    <li data-val="2"><input value="安徽" readonly></li>
+                                </ul>
+                                <ul class="analogy_con" style="display:none;">
+                                    <li data-val="12"><input value="改成左右结构 - 右，作二级车系" readonly></li>
+                                    <li data-val="13"><input value="合肥" readonly></li>
                                 </ul>
                             </div>
                             <i class="tel_err" style="display:none;">*请选择所在城市</i>

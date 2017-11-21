@@ -44,17 +44,13 @@ class UsualCompanyModel extends UsualModel
         return $series;
     }
 
-    public function getCompanys($selectId=0, $parentId=0, $level=1, $default_option=false)
+    public function getCompanys($selectId=0, $parentId=0, $option='')
     {
         $where = ['delete_time' => 0];
         // $data = $this->all()->toArray();
         $data = $this->field(['id','name'])->where($where)->order("list_order ASC")->select()->toArray();
-        $options = $default_option ?'<option value="0">--请选择--</option>':'';
-        if (is_array($data)) {
-            foreach ($data as $v) {
-                $options .= '<option value="'.$v['id'].'" '.($selectId==$v['id']?'selected':'').' >'.$v['name'].'</option>';
-            }
-        }
+
+        $options = $this->createOptions($selectId, $option, $data);
         return $options;
     }
 

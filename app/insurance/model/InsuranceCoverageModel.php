@@ -66,7 +66,7 @@ class InsuranceCoverageModel extends InsuranceModel
             $options .= '<label><input type="checkbox" name="post[more][coverage][]" value="'.$v['id'].'" '.(in_array($v['id'],$checkedIds)?'checked':'').'>'. $v['name'] .'</label> &nbsp; &nbsp; ';
         }
 
-        // $options = $this->createOptions($data,$option);
+        // $options = $this->createOptions($selectId, $option, $data);
         return $options;
     }
 

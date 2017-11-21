@@ -10,9 +10,9 @@ use think\Db;
 
 class AdminSeriesController extends AdminBaseController
 {
-    function _initialize()
+    public function _initialize()
     {
-        // parent::_initialize();
+        parent::_initialize();
         // $data = $this->request->param();
         $this->UsualModel = new UsualSeriesModel();
     }
@@ -41,7 +41,8 @@ class AdminSeriesController extends AdminBaseController
             'delete'=>true,
             'table2'=>'usual_brand'
         ];
-        $categoryTree    = $this->UsualModel->adminCategoryTableTree(0,'',$config);
+        $extra = ['is_rec'=>1];
+        $categoryTree    = $this->UsualModel->adminCategoryTableTree(0, '', $config, $extra);
 
         $this->assign('category_tree', $categoryTree);
         return $this->fetch();

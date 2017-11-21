@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50540
 File Encoding         : 65001
 
-Date: 2017-11-20 17:27:51
+Date: 2017-11-21 12:17:53
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -41,12 +41,12 @@ CREATE TABLE `cmf_admin_menu` (
 -- ----------------------------
 -- Records of cmf_admin_menu
 -- ----------------------------
-INSERT INTO `cmf_admin_menu` VALUES ('1', '0', '0', '1', '20', 'admin', 'Plugin', 'default', '', '插件管理', 'cloud', '插件管理');
+INSERT INTO `cmf_admin_menu` VALUES ('1', '0', '0', '1', '80', 'admin', 'Plugin', 'default', '', '插件管理', 'cloud', '插件管理');
 INSERT INTO `cmf_admin_menu` VALUES ('2', '1', '1', '1', '10000', 'admin', 'Hook', 'index', '', '钩子管理', '', '钩子管理');
 INSERT INTO `cmf_admin_menu` VALUES ('3', '2', '1', '0', '10000', 'admin', 'Hook', 'plugins', '', '钩子插件管理', '', '钩子插件管理');
 INSERT INTO `cmf_admin_menu` VALUES ('4', '2', '2', '0', '10000', 'admin', 'Hook', 'pluginListOrder', '', '钩子插件排序', '', '钩子插件排序');
 INSERT INTO `cmf_admin_menu` VALUES ('5', '2', '1', '0', '10000', 'admin', 'Hook', 'sync', '', '同步钩子', '', '同步钩子');
-INSERT INTO `cmf_admin_menu` VALUES ('6', '0', '0', '1', '0', 'admin', 'Setting', 'default', '', '设置', 'cogs', '系统设置入口');
+INSERT INTO `cmf_admin_menu` VALUES ('6', '0', '0', '1', '70', 'admin', 'Setting', 'default', '', '设置', 'cogs', '系统设置入口');
 INSERT INTO `cmf_admin_menu` VALUES ('7', '6', '1', '1', '50', 'admin', 'Link', 'index', '', '友情链接', '', '友情链接管理');
 INSERT INTO `cmf_admin_menu` VALUES ('8', '7', '1', '0', '10000', 'admin', 'Link', 'add', '', '添加友情链接', '', '添加友情链接');
 INSERT INTO `cmf_admin_menu` VALUES ('9', '7', '2', '0', '10000', 'admin', 'Link', 'addPost', '', '添加友情链接提交保存', '', '添加友情链接提交保存');
@@ -149,7 +149,7 @@ INSERT INTO `cmf_admin_menu` VALUES ('105', '95', '2', '0', '10000', 'admin', 'T
 INSERT INTO `cmf_admin_menu` VALUES ('106', '95', '2', '0', '10000', 'admin', 'Theme', 'fileArrayDataDelete', '', '模板文件数组数据删除', '', '模板文件数组数据删除');
 INSERT INTO `cmf_admin_menu` VALUES ('107', '95', '2', '0', '10000', 'admin', 'Theme', 'settingPost', '', '模板文件编辑提交保存', '', '模板文件编辑提交保存');
 INSERT INTO `cmf_admin_menu` VALUES ('108', '95', '1', '0', '10000', 'admin', 'Theme', 'dataSource', '', '模板文件设置数据源', '', '模板文件设置数据源');
-INSERT INTO `cmf_admin_menu` VALUES ('109', '0', '0', '1', '10', 'user', 'AdminIndex', 'default', '', '用户管理', 'group', '用户管理');
+INSERT INTO `cmf_admin_menu` VALUES ('109', '0', '0', '1', '50', 'user', 'AdminIndex', 'default', '', '用户管理', 'group', '用户管理');
 INSERT INTO `cmf_admin_menu` VALUES ('110', '49', '1', '1', '10000', 'admin', 'User', 'index', '', '管理员', '', '管理员管理');
 INSERT INTO `cmf_admin_menu` VALUES ('111', '110', '1', '0', '10000', 'admin', 'User', 'add', '', '管理员添加', '', '管理员添加');
 INSERT INTO `cmf_admin_menu` VALUES ('112', '110', '2', '0', '10000', 'admin', 'User', 'addPost', '', '管理员添加提交', '', '管理员添加提交');
@@ -160,7 +160,7 @@ INSERT INTO `cmf_admin_menu` VALUES ('116', '110', '2', '0', '10000', 'admin', '
 INSERT INTO `cmf_admin_menu` VALUES ('117', '110', '2', '0', '10000', 'admin', 'User', 'delete', '', '管理员删除', '', '管理员删除');
 INSERT INTO `cmf_admin_menu` VALUES ('118', '110', '2', '0', '10000', 'admin', 'User', 'ban', '', '停用管理员', '', '停用管理员');
 INSERT INTO `cmf_admin_menu` VALUES ('119', '110', '2', '0', '10000', 'admin', 'User', 'cancelBan', '', '启用管理员', '', '启用管理员');
-INSERT INTO `cmf_admin_menu` VALUES ('120', '0', '0', '1', '30', 'portal', 'AdminIndex', 'default', '', '门户管理', 'th', '门户管理');
+INSERT INTO `cmf_admin_menu` VALUES ('120', '0', '0', '1', '60', 'portal', 'AdminIndex', 'default', '', '门户管理', 'th', '门户管理');
 INSERT INTO `cmf_admin_menu` VALUES ('121', '120', '1', '1', '10000', 'portal', 'AdminArticle', 'index', '', '文章管理', '', '文章列表');
 INSERT INTO `cmf_admin_menu` VALUES ('122', '121', '1', '0', '10000', 'portal', 'AdminArticle', 'add', '', '添加文章', '', '添加文章');
 INSERT INTO `cmf_admin_menu` VALUES ('123', '121', '2', '0', '10000', 'portal', 'AdminArticle', 'addPost', '', '添加文章提交', '', '添加文章提交');
@@ -202,10 +202,10 @@ INSERT INTO `cmf_admin_menu` VALUES ('158', '6', '1', '1', '900', 'user', 'Admin
 INSERT INTO `cmf_admin_menu` VALUES ('159', '158', '1', '0', '10000', 'user', 'AdminUserAction', 'edit', '', '编辑用户操作', '', '编辑用户操作');
 INSERT INTO `cmf_admin_menu` VALUES ('160', '158', '2', '0', '10000', 'user', 'AdminUserAction', 'editPost', '', '编辑用户操作提交', '', '编辑用户操作提交');
 INSERT INTO `cmf_admin_menu` VALUES ('161', '158', '1', '0', '10000', 'user', 'AdminUserAction', 'sync', '', '同步用户操作', '', '同步用户操作');
-INSERT INTO `cmf_admin_menu` VALUES ('162', '0', '1', '1', '40', 'insurance', 'AdminIndex', 'default', '', '车险服务', 'flash', '');
-INSERT INTO `cmf_admin_menu` VALUES ('163', '0', '1', '1', '50', 'trade', 'AdminIndex', 'default', '', '车辆买卖', 'car', '');
-INSERT INTO `cmf_admin_menu` VALUES ('164', '0', '1', '1', '60', 'service', 'AdminIndex', 'default', '', '车辆业务', 'cubes', '');
-INSERT INTO `cmf_admin_menu` VALUES ('165', '0', '1', '1', '70', 'usual', 'AdminIndex', 'default', '', '车辆统配', 'cogs', '');
+INSERT INTO `cmf_admin_menu` VALUES ('162', '0', '1', '1', '20', 'insurance', 'AdminIndex', 'default', '', '车险服务', 'flash', '');
+INSERT INTO `cmf_admin_menu` VALUES ('163', '0', '1', '1', '30', 'trade', 'AdminIndex', 'default', '', '车辆买卖', 'car', '');
+INSERT INTO `cmf_admin_menu` VALUES ('164', '0', '1', '1', '40', 'service', 'AdminIndex', 'default', '', '车辆业务', 'cubes', '');
+INSERT INTO `cmf_admin_menu` VALUES ('165', '0', '1', '1', '10', 'usual', 'AdminIndex', 'default', '', '车辆统配', 'cogs', '');
 INSERT INTO `cmf_admin_menu` VALUES ('166', '165', '1', '1', '5', 'usual', 'AdminItemCate', 'index', '', '车辆属性', '', '');
 INSERT INTO `cmf_admin_menu` VALUES ('167', '165', '1', '1', '2', 'usual', 'AdminBrand', 'index', '', '品牌管理', '', '');
 INSERT INTO `cmf_admin_menu` VALUES ('168', '165', '1', '1', '15', 'usual', 'AdminVerify', 'index', '', '认证管理', '', '');
@@ -5370,14 +5370,26 @@ CREATE TABLE `cmf_usual_series` (
   KEY `idx2` (`brand_id`),
   KEY `idx3` (`model_id`),
   KEY `idx4` (`index`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COMMENT='品牌表';
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COMMENT='品牌表';
 
 -- ----------------------------
 -- Records of cmf_usual_series
 -- ----------------------------
 INSERT INTO `cmf_usual_series` VALUES ('1', '0', '2', '0', '一汽-大众', '', '', '*', '0', '0', '0', '0', '0', '', '', '', '0', '0', '0', '{\"thumbnail\":\"\"}', '0-1', '10000', '', '', '');
-INSERT INTO `cmf_usual_series` VALUES ('2', '1', '2', '0', 'CC', '', '', '*', '0', '0', '0', '0', '0', '', '1', '', '0', '0', '0', '{\"thumbnail\":\"\"}', '0-1-2', '10000', '', '', '');
-INSERT INTO `cmf_usual_series` VALUES ('3', '0', '4', '0', '福克斯', '', '', '*', '0', '0', '0', '0', '0', '', '', '', '0', '0', '0', '{\"thumbnail\":\"\"}', '0-3', '10000', '', '', '');
+INSERT INTO `cmf_usual_series` VALUES ('2', '1', '2', '0', 'CC', '', '', '*', '0', '0', '0', '0', '0', '', '1', '', '0', '1', '0', '{\"thumbnail\":\"\"}', '0-1-2', '10000', '', '', '');
+INSERT INTO `cmf_usual_series` VALUES ('3', '0', '4', '0', '长安福特', '', '', '*', '0', '0', '0', '0', '0', '', '', '', '0', '0', '0', '{\"thumbnail\":\"\"}', '0-3', '10000', '', '', '');
+INSERT INTO `cmf_usual_series` VALUES ('4', '0', '4', '0', '江铃福特', '', '', '*', '0', '0', '0', '0', '0', '', '', '', '0', '0', '0', '{\"thumbnail\":\"\"}', '0-4', '10000', '', '', '');
+INSERT INTO `cmf_usual_series` VALUES ('5', '0', '4', '0', '福特（进口）', '', '', '*', '0', '0', '0', '0', '0', '', '', '', '0', '0', '0', '{\"thumbnail\":\"\"}', '0-5', '10000', '', '', '');
+INSERT INTO `cmf_usual_series` VALUES ('6', '0', '2', '0', '上汽大众', '', '', '*', '0', '0', '0', '0', '0', '', '', '', '0', '0', '0', '{\"thumbnail\":\"\"}', '0-6', '10000', '', '', '');
+INSERT INTO `cmf_usual_series` VALUES ('7', '0', '2', '0', '大众（进口）', '', '', '*', '0', '0', '0', '0', '0', '', '', '', '0', '0', '0', '{\"thumbnail\":\"\"}', '0-7', '10000', '', '', '');
+INSERT INTO `cmf_usual_series` VALUES ('8', '1', '2', '0', '宝来', '', '', '*', '0', '0', '0', '0', '0', '', '', '', '0', '1', '0', '{\"thumbnail\":\"\"}', '0-1-8', '10000', '', '', '');
+INSERT INTO `cmf_usual_series` VALUES ('9', '6', '2', '0', 'POLO', '', '', '*', '0', '0', '0', '0', '0', '', '', '', '0', '1', '0', '{\"thumbnail\":\"\"}', '0-6-9', '10000', '', '', '');
+INSERT INTO `cmf_usual_series` VALUES ('10', '3', '4', '0', 'S-MAX', '', '', '*', '0', '0', '0', '0', '0', '', '', '', '0', '0', '0', '{\"thumbnail\":\"\"}', '0-3-10', '10000', '', '', '');
+INSERT INTO `cmf_usual_series` VALUES ('11', '3', '4', '0', '嘉年华', '', '', '*', '0', '0', '0', '0', '0', '', '', '', '0', '0', '0', '{\"thumbnail\":\"\"}', '0-3-11', '10000', '', '', '');
+INSERT INTO `cmf_usual_series` VALUES ('12', '3', '4', '0', '福克斯', '', '', '*', '0', '0', '0', '0', '0', '', '', '', '0', '1', '0', '{\"thumbnail\":\"\"}', '0-3-12', '10000', '', '', '');
+INSERT INTO `cmf_usual_series` VALUES ('13', '4', '4', '0', '全顺', '', '', '*', '0', '0', '0', '0', '0', '', '', '', '0', '0', '0', '{\"thumbnail\":\"\"}', '0-4-13', '10000', '', '', '');
+INSERT INTO `cmf_usual_series` VALUES ('14', '5', '4', '0', '野马', '', '', '*', '0', '0', '0', '0', '0', '', '', '', '0', '1', '0', '{\"thumbnail\":\"\"}', '0-5-14', '10000', '', '', '');
+INSERT INTO `cmf_usual_series` VALUES ('15', '7', '2', '0', '甲壳虫', '', '', '*', '0', '0', '0', '0', '0', '', '', '', '0', '0', '0', '{\"thumbnail\":\"\"}', '0-7-15', '10000', '', '', '');
 
 -- ----------------------------
 -- Table structure for cmf_verification_code

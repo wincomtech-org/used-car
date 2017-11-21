@@ -406,7 +406,7 @@ class UsualModel extends Model
     }
 
     // 选择框
-    public function createOptions($data,$option)
+    public function createOptions($selectId, $option, $data)
     {
         if ($option===false) {
             return $data;

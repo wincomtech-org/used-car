@@ -155,7 +155,7 @@ class UsualItemModel extends UsualModel
         $where = ['cate_id'=>$cateId,'status'=>1];
         $data = $this->field('name,description')->where($where)->order('is_top','desc')->select()->toArray();
 
-        $options = $this->createOptions($data, $option);
+        $options = $this->createOptions($selectId, $option, $data);
         return $options;
     }
 
