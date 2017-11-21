@@ -37,10 +37,13 @@ class DistrictController extends AdminBaseController
 
     public function getCitys()
     {
-        if ($this->request->isAjax()) {
+        echo "fengyue";die;
+        // if ($this->request->isAjax()) {
             $parentId = $this->request->param('parentId',0,'intval');
-            return model('District')->getDistricts(0,$parentId);
-        }
+
+            echo model('District')->getDistricts(0,$parentId);exit();
+            // return model('District')->getDistricts(0,$parentId);
+        // }
 
 
         // $parentId = request();

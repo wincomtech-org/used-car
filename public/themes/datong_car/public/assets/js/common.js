@@ -635,6 +635,7 @@ $('.placeholder').each(function(i, ind) {
 
 // 预加载
 $(function () {
+<<<<<<< HEAD
 	// 地区 省份获取城市
     // $('#input-province').change(function() {
     //     var Id = $(this).val();
@@ -656,6 +657,8 @@ $(function () {
     //         // console.log("complete");
     //     });
     // });
+=======
+>>>>>>> 8c25ffd2dd23c1c7e68292a107d925b939e5e0c4
 
 	// 图片预览
 	$('input[type="file"]').change(function() {
@@ -669,6 +672,31 @@ $(function () {
 		$(this).parent().parent().siblings().find('.show_img').attr('src', src);
 	});
 });
+
+// 地区 省份获取城市
+// function select_province(o,url) {
+// 	// var o = '#input-province',
+// 	// 	url = {:url("admin/District/getCitys")};
+//     $(o).change(function() {
+//         var Id = $(this).val();
+//         $.ajax({
+//             url: url,
+//             type: 'POST',
+//             // dataType: 'json',
+//             data: {parentId: Id},
+//         })
+//         .done(function(data) {
+//             // console.log("success");
+//             if (data) {$('#input-city').show().html(data);}
+//         })
+//         .fail(function() {
+//             // console.log("error");
+//         })
+//         .always(function() {
+//             // console.log("complete");
+//         });
+//     });
+// }
 
 
 /*方法 function*/

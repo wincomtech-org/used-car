@@ -76,8 +76,8 @@ class AdminCarController extends AdminBaseController
         $Brands = model('UsualBrand')->getBrands();
         $Models = model('UsualModels')->getModels();
         $Series = model('UsualSeries')->getSeries();
-        $proId = $this->request->param('proId',1,'intval');
-        $Provinces = model('admin/District')->getDistricts(0,$proId);
+        $provId = $this->request->param('provId',1,'intval');
+        $Provinces = model('admin/District')->getDistricts(0,$provId);
         // 车源类别
         $Types = $this->Model->getCarType();
 
