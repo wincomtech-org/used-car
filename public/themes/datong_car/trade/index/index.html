@@ -69,11 +69,11 @@
                                 </ul>
                             </div>
                         </div>
-                        <div class="regist_info_form_item requre">
+                        <div class="regist_info_form_item requre trade_area">
                             <span class="info_tit">
                                 所在城市
                             </span>
-                            <div class="analogy">
+                           <!--  <div class="analogy">
                                 <p class="analogy_tit">所在城市</p>
                                 <ul class="analogy_con" style="display:none;">
                                     <li data-val="1"><input value="改成左右结构 - 左，作I级车系" readonly></li>
@@ -83,7 +83,23 @@
                                     <li data-val="12"><input value="改成左右结构 - 右，作二级车系" readonly></li>
                                     <li data-val="13"><input value="合肥" readonly></li>
                                 </ul>
+                            </div>  -->
+                             <div class="analogy">
+                                   <li class="right required"> 
+                                        <select id="provinces">
+                                            <option value="">请选择省份</option>}
+                                            
+                                        </select>&nbsp;&nbsp;
+                                        <select id="citys">
+                                            <option value="">请选择城市</option>}
+                                        </select>&nbsp;&nbsp;
+                                        <select id="countys" name="strict">
+                                            <option value="">请选择服务点</option>}
+                                            
+                                        </select>
+                                    </li>
                             </div>
+
                             <i class="tel_err" style="display:none;">*请选择所在城市</i>
                         </div>
                         <div class="regist_info_form_item requre">
@@ -194,23 +210,24 @@
                             </div>
                         </div>
                         <!-- 所在城市 -->
-                        <div class="regist_info_form_item requre">
+                        <div class="regist_info_form_item requre trade_area">
                             <span class="info_tit">
                                 所在城市
                             </span>
-                            <div class="analogy">
-                                <p class="analogy_tit">所在城市</p>
-                                <ul class="analogy_con" style="display:none;">
-                                    <li data-val="1"><input type="text" name="" value="123" readonly></li>
-                                    <li data-val="2"><input type="text" name="" value="123" readonly></li>
-                                    <li data-val="3"><input type="text" name="" value="123" readonly></li>
-                                    <li data-val="4"><input type="text" name="" value="123" readonly></li>
-                                    <li data-val="5"><input type="text" name="" value="123" readonly></li>
-                                    <li data-val="6"><input type="text" name="" value="123" readonly></li>
-                                    <li data-val="7"><input type="text" name="" value="123" readonly></li>
-                                    <li data-val="8"><input type="text" name="" value="123" readonly></li>
-
-                                </ul>
+                           <div class="analogy">
+                               <li class="right required"> 
+                                    <select id="provinces">
+                                        <option value="">请选择省份</option>}
+                                        
+                                    </select>&nbsp;&nbsp;
+                                    <select id="citys">
+                                        <option value="">请选择城市</option>}
+                                    </select>&nbsp;&nbsp;
+                                    <select id="countys" name="strict">
+                                        <option value="">请选择服务点</option>}
+                                        
+                                    </select>
+                                </li>
                             </div>
                             <i class="tel_err" style="display:none;">*请选择所在城市</i>
                         </div>

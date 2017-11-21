@@ -152,7 +152,8 @@ nav{background-color:#000;}
 .regist_info_tit:after {content:"";display:block;border-bottom:2px solid #ddd;top:50%;position:absolute;width:100%;z-index:1;}
 .regist_info_tit p{height:30px;line-height:30px;position:absolute;top:0;left:50%;-webkit-transform:translateX(-50%);transform:translateX(-50%);font-size:24px;white-space:nowrap;text-align:center;padding:0 45px;background-color:#fff;z-index:2;}
 .regist_info_form_item{height:35px;line-height:35px;width:100%;margin:15px 0;padding-left:80px;position:relative;box-sizing:border-box;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;-ms-box-sizing:border-box;-o-box-sizing:border-box;text-align:left;}
-
+.trade_area.regist_info_form_item{height:auto;}
+.trade_area.regist_info_form_item .analogy{border:none;height:auto;}
 .regist_info_form_item span{font-size:16px;color:#666;width:80px;position:absolute;top:0;left:0;padding-left:8px;box-sizing:border-box;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;-ms-box-sizing:border-box;-o-box-sizing:border-box;text-align:left;}
 .regist_info_form_item.requre span:before{content:"*";display:block;color:#d00000;position:absolute;top:63%;-webkit-transform:translateY(-50%);transform:translateY(-50%);left:-11px;font-size:25px;}
 .regist_info_form_item .tel_err{color:#d00000;font-size:14px;margin-top:10px;display:block;line-height:20px;margin-bottom:-1px;}
@@ -178,18 +179,14 @@ nav{background-color:#000;}
 
 /*手机端*/
 .veh_trading_m  .registration_information{border:1px solid #ddd;}
-.veh_trading_m .registration_information{width:100%;max-width:800px;display:block;margin:0 auto;}
-
-
-
-
+.veh_trading_m .registration_information{width:100%;max-width:636px;display:block;margin:0 auto;}
 
 
 
 /*车辆买卖表格**/
 
 @media only screen and (max-width: 1690px) and (min-width:1024px){
-	.registration_information{width:419px;padding: 25px 56px;}
+	.registration_information{width:500px;padding: 27px 44px 15px;}
 	.analogy.no input{width:80px;}
 	.analogy.no  .kuang{width:70px;}
 	.analogy.no  .analogy_change{font-size:14px;}
@@ -207,7 +204,7 @@ nav{background-color:#000;}
 	.regist_info_form_item{margin:10px 0;}
 }
 @media only screen and (max-width: 1210px) and (min-width:1024px) {
-	.registration_information{width:391px;padding:15px 47px;}
+	.registration_information{width:535px;padding:13px 38px 8px;}
 	.regist_info_tit p{font-size:17px;}
 	.regist_info_form_item span{font-size:13px;}
 	.regist_info_form_item{height:25px;line-height:25px;}
@@ -296,14 +293,14 @@ nav{background-color:#000;}
 	.navPc,.headerPc,.login_pc{display:none;}
 
 	/**手机端顶部和导航*/
-	.header_top{display:-webkit-box;display: -ms-flexbox;display:flex;-ms-flex-wrap:wrap;flex-wrap:wrap;-webkit-box-pack:justify;-ms-flex-pack:justify;justify-content:space-between;padding:1%;}
+	.header_top{display:-webkit-box;display: -ms-flexbox;display:flex;-ms-flex-wrap:wrap;flex-wrap:wrap;-webkit-box-pack:justify;-ms-flex-pack:justify;justify-content:space-between;padding:1%;align-items:center;}
 	.header_top .logo{width:20%;}
 	.header_top .logo img{width:100%;}
-	.header_top .menu{display:-webkit-box;display:-ms-flexbox;display:flex;width:10%;}
-	.header_top .menu .icon{display:block;width:100%;max-width:40px;height:60%;border-bottom:2px solid #000;position:relative;}
-	.header_top .menu .icon:after,.header_top .menu .icon:before{content:"";display:block;width:100%;border-bottom:2px solid #000;position:absolute;left:0;}
-	.header_top .menu .icon:after{top:50%;-webkit-transform:translateY(-50%);transform:translateY(-50%);border-color:red;}
-	.header_top .menu .icon:before{top:-3px;border-color:blue;}
+	.header_top .menu{display:inline-block;display:-webkit-box;display:-ms-flexbox;display:flex;width:10%;height:1rem;}
+	.header_top .menu .icon{display:block;width:100%;max-width:40px;height:1rem;border-bottom:2px solid #bbb;position:relative;}
+	.header_top .menu .icon:after,.header_top .menu .icon:before{content:"";display:block;width:100%;border-bottom:2px solid #bbb;position:absolute;left:0;}
+	.header_top .menu .icon:after{top:50%;-webkit-transform:translateY(-50%);transform:translateY(-50%);}
+	.header_top .menu .icon:before{top:-3px;}
 
 	/**搜索框*/
 	.search{width:80%;max-width:450px;}
@@ -312,7 +309,7 @@ nav{background-color:#000;}
 	.search input.ser_button{padding:0;width:30%;font-size:0.75rem;max-width:120px;}
 	.header_search{display:-webkit-box;display: -ms-flexbox;display:flex;-ms-flex-wrap:wrap;flex-wrap:wrap;-webkit-box-pack:justify;-ms-flex-pack:justify;justify-content:space-between;padding:1rem .5rem .5rem;-webkit-box-sizing:border-box;box-sizing:border-box;}
 	.user_m{width:19%;text-align:right;}
-	.user_m .icon{display:inline-block;width:40px;height:40px;background:url(../images/example/login_icon.png) no-repeat -2px -185px;}
+	.user_m .icon{display:inline-block;width:40px;height:40px;background:url(../image/login_icon.png) no-repeat -2px -185px;}
 
 	/*banner图*/
 	.banner img{min-height:auto;min-width:320px;width:100%;}
@@ -325,6 +322,8 @@ nav{background-color:#000;}
 	}
 	
 }
+
+
 
 
 /*弹出窗口*/
