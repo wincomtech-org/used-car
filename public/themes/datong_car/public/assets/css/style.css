@@ -713,7 +713,8 @@
 .data_filling_list.required li.right .file i{font-size:16px;margin-left:10px;}
 .data_filling_list li.right{width:62%;text-align:left;padding-left:20px;box-sizing:border-box;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;-ms-box-sizing:border-box;-o-box-sizing:border-box;}
 .data_filling_list li.right input{font-size:16px;display:block;width:240px;height:40px;padding-left:12px;border:1px solid #ddd;box-sizing:border-box;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;-ms-box-sizing:border-box;-o-box-sizing:border-box;}
-.data_filling_list li.right select{border:1px solid #ddd;height:40px;line-height:40px;font-size:14px;}
+/**地区联动，共同样式**/
+.data_filling_list li.right select,.analogy li.right select{border:1px solid #ddd;height:40px;line-height:40px;font-size:12px;}
 .data_filling_list li.right.date{position:relative;}
 .data_filling_list li.right.date input{padding-right:20px;}
 .data_filling_list li.right.date:after{    content: ""; display: inline-block; position: absolute; left: 230px; top: 13px; border-top: 10px solid #dcdcdc; border-left: 7px solid transparent; border-right: 7px solid transparent;}
