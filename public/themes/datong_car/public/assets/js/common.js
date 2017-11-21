@@ -636,26 +636,26 @@ $('.placeholder').each(function(i, ind) {
 // 预加载
 $(function () {
 	// 地区 省份获取城市
-    $('#input-province').change(function() {
-        var Id = $(this).val();
-        // alert(proId)
-        $.ajax({
-            url: '{:url("admin/District/getCitys")}',
-            type: 'POST',
-            // dataType: 'json',
-            data: {parentId: Id},
-        })
-        .done(function(data) {
-            // console.log("success");
-            if (data) {$('#input-city').show().html(data);}
-        })
-        .fail(function() {
-            // console.log("error");
-        })
-        .always(function() {
-            // console.log("complete");
-        });
-    });
+    // $('#input-province').change(function() {
+    //     var Id = $(this).val();
+    //     alert(Id)
+    //     $.ajax({
+    //         url: '{:url("admin/District/getCitys")}',
+    //         type: 'POST',
+    //         // dataType: 'json',
+    //         data: {parentId: Id},
+    //     })
+    //     .done(function(data) {
+    //         console.log("success");
+    //         if (data) {$('#input-city').show().html(data);}
+    //     })
+    //     .fail(function() {
+    //         console.log("error");
+    //     })
+    //     .always(function() {
+    //         // console.log("complete");
+    //     });
+    // });
 
 	// 图片预览
 	$('input[type="file"]').change(function() {
