@@ -35,7 +35,7 @@
                     <div class="regist_info_form_item">
                         <span class="info_tit">车&nbsp;&nbsp;&nbsp;&nbsp;型</span>
                         <div class="analogy">
-                            <p class="analogy_tit"><input type="text" name="motorcycle_type" placeholder="请选择车型"  class="placeholder" readonly></p>
+                            <p class="analogy_tit"><input placeholder="请选择车型"  class="placeholder" readonly></p>
                             <ul class="analogy_con" style="display:none;">
                                 <foreach name="regCarInfo.model" item="vo">
                                 <li onclick="" data-val="{$vo.id}"><input value="{$vo.name}" readonly></li>
@@ -61,14 +61,14 @@
                     <div class="regist_info_form_item requre">
                         <span class="info_tit">手机号码</span>
                         <div class="analogy">
-                            <input type="tel" name="tel" maxLength="20" placeholder="请填写正确手机号" class="placeholder">
+                            <input type="tel" name="telephone" maxLength="20" placeholder="请填写正确手机号" class="placeholder">
                         </div>
                         <i class="tel_err" style="display:none;">*请填写正确格式手机号</i>
                     </div>
                     <div class="regist_info_form_item">
                         <span class="info_tit">验证码</span>
                         <div class="analogy no">
-                            <input type="text" name="">
+                            <input type="text" name="vericode">
                             <div class="kuang"><captcha height="36" width="150" font-size="18" length="4" bg="255,255,255" id=5 /></div>
                             <!-- <div class="analogy_change">换一张</div> -->
                         </div>
@@ -93,6 +93,7 @@ function RegCarSubmit(){
 }
 </script>
 
+
 <!-- 移动端 -->
 <section class="veh_trading_m" style="display:none">
     <div class="banner">
@@ -104,118 +105,83 @@ function RegCarSubmit(){
                 <form class="regist_info">
                     <!-- 品牌 -->
                     <div class="regist_info_form_item requre">
-                        <span class="info_tit">
-                            品&nbsp;&nbsp;&nbsp;&nbsp;牌
-                        </span>
+                        <span class="info_tit">品&nbsp;&nbsp;&nbsp;&nbsp;牌</span>
                         <div class="analogy">
-                            <p class="analogy_tit"><input type="text" name="brand" placeholder="请选择品牌" class="placeholder" readonly ></p>
+                            <p class="analogy_tit"><input placeholder="请选择品牌" class="placeholder" readonly ></p>
                             <ul class="analogy_con" style="display:none;">
-                                <li data-val="1"><input type="text" name="" value="123" readonly></li>
-                                <li data-val="2"><input type="text" name="" value="123" readonly></li>
-                                <li data-val="3"><input type="text" name="" value="123" readonly></li>
-                                <li data-val="4"><input type="text" name="" value="123" readonly></li>
-                                <li data-val="5"><input type="text" name="" value="123" readonly></li>
-                                <li data-val="6"><input type="text" name="" value="123" readonly></li>
-                                <li data-val="7"><input type="text" name="" value="123" readonly></li>
-                                <li data-val="8"><input type="text" name="" value="123" readonly></li>
-
-
+                                <foreach name="regCarInfo.brand" item="vo">
+                                    <li onclick="changeBrand(this)" data-val="{$vo.id}"><input value="{$vo.name}" readonly></li>
+                                </foreach>
                             </ul>
                         </div>
                         <i class="tel_err" style="display:none;">*请选择品牌</i>
                     </div>
                     <!-- 车系 -->
                     <div class="regist_info_form_item requre">
-                        <span class="info_tit">
-                            车&nbsp;&nbsp;&nbsp;&nbsp;系
-                        </span>
+                        <span class="info_tit">车&nbsp;&nbsp;&nbsp;&nbsp;系</span>
                         <div class="analogy">
-                            <p class="analogy_tit"><input type="text" name="motorcycle" placeholder="请选择车系" class="placeholder" readonly></p>
-                            <ul class="analogy_con" style="display:none;">
-                                <li data-val="1"><input type="text" name="" value="123" readonly></li>
-                                <li data-val="2"><input type="text" name="" value="123" readonly></li>
-                                <li data-val="3"><input type="text" name="" value="123" readonly></li>
-                                <li data-val="4"><input type="text" name="" value="123" readonly></li>
-                                <li data-val="5"><input type="text" name="" value="123" readonly></li>
-                                <li data-val="6"><input type="text" name="" value="123" readonly></li>
-                                <li data-val="7"><input type="text" name="" value="123" readonly></li>
-                                <li data-val="8"><input type="text" name="" value="123" readonly></li>
-
+                            <p class="analogy_tit"><input placeholder="请选择车系" class="placeholder" readonly></p>
+                            <ul class="analogy_con" style="display:none;" id="input-series">
+                                <foreach name="Series" item="vo">
+                                    <li data-val="{vo.id}"><input value="{$vo.name}" readonly></li>
+                                </foreach>
                             </ul>
                         </div>
                         <i class="tel_err" style="display:none;">*请选择车系</i>
                     </div>
                     <!-- 车型 -->
                     <div class="regist_info_form_item">
-                        <span class="info_tit">
-                            车&nbsp;&nbsp;&nbsp;&nbsp;型
-                        </span>
+                        <span class="info_tit">车&nbsp;&nbsp;&nbsp;&nbsp;型</span>
                         <div class="analogy">
-                            <p class="analogy_tit"><input type="text" name="motorcycle_type" placeholder="请选择车型" class="placeholder" readonly></p>
+                            <p class="analogy_tit"><input placeholder="请选择车型" class="placeholder" readonly></p>
                             <ul class="analogy_con" style="display:none;">
-                                <li data-val="1"><input type="text" name="" value="123" readonly></li>
-                                <li data-val="2"><input type="text" name="" value="123" readonly></li>
-                                <li data-val="3"><input type="text" name="" value="123" readonly></li>
-                                <li data-val="4"><input type="text" name="" value="123" readonly></li>
-                                <li data-val="5"><input type="text" name="" value="123" readonly></li>
-                                <li data-val="6"><input type="text" name="" value="123" readonly></li>
-                                <li data-val="7"><input type="text" name="" value="123" readonly></li>
-                                <li data-val="8"><input type="text" name="" value="123" readonly></li>
-
+                                <foreach name="regCarInfo.model" item="vo">
+                                    <li data-val="{$vo.id}"><input value="{$vo.name}" readonly></li>
+                                </foreach>
                             </ul>
                         </div>
                     </div>
                     <!-- 所在城市 -->
                     <div class="regist_info_form_item requre trade_area">
-                        <span class="info_tit">
-                            所在城市
-                        </span>
-                       <div class="analogy">
-                           <li class="right required">
-                                <select id="provinces">
-                                    <option value="">请选择省份</option>}
-
-                                </select>&nbsp;&nbsp;
-                                <select id="citys">
-                                    <option value="">请选择城市</option>}
-                                </select>&nbsp;&nbsp;
-                                <select id="countys" name="strict">
-                                    <option value="">请选择服务点</option>}
-
-                                </select>
-                            </li>
-                        </div>
-                        <i class="tel_err" style="display:none;">*请选择所在城市</i>
-                    </div>
-                    <div class="regist_info_form_item requre">
-                        <span class="info_tit">
-                            手机号码
-                        </span>
+                        <span class="info_tit">所在城市</span>
                         <div class="analogy">
-                            <input type="tel" name="tel" maxLength="20" placeholder="请填写正确手机号" class="placeholder">
-                        </div>
-                        <i class="tel_err" style="display:none;">*请填写正确格式手机号</i>
+                         <li class="right required">
+                            <select id="input-province" onchange="select_province();">
+                                <option value="">--请选择省份--</option>
+                                {$regCarInfo.prov}
+                            </select>&nbsp;&nbsp;
+                            <select id="input-city">
+                                <option value="">--请选择城市--</option>
+                            </select>
+                        </li>
                     </div>
-                    <div class="regist_info_form_item">
-                        <span class="info_tit">
-                            验证码
-                        </span>
-                        <div class="analogy no">
-                            <input type="text" name="">
-                            <div class="kuang"></div>
-                            <div class="analogy_change">换一张</div>
-                        </div>
-                        <i class="tel_err" style="display:none;">*验证码</i>
+                    <i class="tel_err" style="display:none;">*请选择所在城市</i>
+                </div>
+                <div class="regist_info_form_item requre">
+                    <span class="info_tit">手机号码</span>
+                    <div class="analogy">
+                        <input type="tel" name="telephone" maxLength="20" placeholder="请填写正确手机号" class="placeholder">
                     </div>
-                    <div class="regist_info_form_item">
-                        <span class="info_tit">
-                        </span>
-                        <div class="analogy">
-                            <button type="submit" class="btn_submi" onclick="return check()">提交</button>
-                        </div>
+                    <i class="tel_err" style="display:none;">*请填写正确格式手机号</i>
+                </div>
+                <div class="regist_info_form_item">
+                    <span class="info_tit">验证码</span>
+                    <div class="analogy no">
+                        <input type="text" name="vericode">
+                        <div class="kuang"><captcha height="36" width="124" font-size="14" length="4" bg="255,255,255" id=5 /></div>
+                        <!-- <div class="analogy_change">换一张</div> -->
                     </div>
-                </form>
-            </div>
+                    <i class="tel_err" style="display:none;">*验证码</i>
+                </div>
+                <div class="regist_info_form_item">
+                    <span class="info_tit">
+                    </span>
+                    <div class="analogy">
+                        <button class="btn_submi" onclick="return RegCarSubmit()">提交</button>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
+</div>
 </section>
