@@ -149,7 +149,7 @@ $('.analogy').delegate('.analogy_tit', 'click', function(e) {
 	$(document).one('click', function() {
 		_this_siblings.hide();
 	})
-	e.stopPropagation();
+	
 
 	_this_siblings_li.on('click', function() {
 		var txt = $(this).children('input').val();
@@ -159,6 +159,8 @@ $('.analogy').delegate('.analogy_tit', 'click', function(e) {
 		_this_siblings.hide();
 
 	})
+
+	e.stopPropagation();
 
 })
 

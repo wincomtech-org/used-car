@@ -77,7 +77,7 @@
                     <div class="regist_info_form_item">
                         <span class="info_tit"></span>
                         <div class="analogy">
-                            <button class="btn_submi" onclick="return RegCarSubmit()">提交</button>
+                            <button type="button" class="btn_submi" onclick="return RegCarSubmit()">提交</button>
                         </div>
                     </div>
                 </form>
@@ -90,16 +90,16 @@ function RegCarSubmit(){
     var brandId =  $('#brandget').attr('data-id');
     var serieId =  $('#serieget').attr('data-id');
     var modelId =  $('#modelget').attr('data-id');
-    var tel=$('input[name="tel"]').val();
+    var tel=$('input[name="telephone"]').val();
     var province=$('#input-province option:selected').val();
     var city=$('#input-city option:selected').val();
     var code=$('input[name="vericode"]').val();
 
     console.log(brandId,serieId,modelId,province,city,tel,code)
     alert(code)
-    $.post('/path/to/file', {brandId: brandId, serieId: serieId, modelId: modelId, tel:tel, code: code}, function(data, textStatus, xhr) {
-        /*optional stuff to do after success */
-    });
+    // $.post('/path/to/file', {brandId: brandId, serieId: serieId, modelId: modelId, tel:tel, code: code}, function(data, textStatus, xhr) {
+    //     /*optional stuff to do after success */
+    // });
 }
 </script>
 

@@ -707,7 +707,7 @@
 .selection_insurance_con .mess{margin-bottom:20px;}
 .selection_insurance_con .mess p{font-size:20px;color:#333;line-height:1.8;}
 .data_filling{width:100%;margin:0 auto;text-align:center;}
-.data_filling_list{padding:15px 0;width:630px;margin:0 auto;}
+.data_filling_list{padding:15px 0;width:690px;margin:0 auto;}
 .data_filling_list:after{content:"";display:block;clear:both;}
 .data_filling_list li{float:left;}
 .data_filling_list li.left{width:38%;text-align:right;font-size:18px;height:40px;line-height:40px;padding-right:20px;box-sizing:border-box;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;-ms-box-sizing:border-box;-o-box-sizing:border-box;}
@@ -724,7 +724,7 @@
 .data_filling_list li.right i{font-size: 13px;line-height: 1.5;margin: 5px 0;display: inline-block;}
 
 /**地区联动，共同样式**/
-.data_filling_list li.right select,.analogy li.right select{border:1px solid #ddd;height:40px;line-height:40px;font-size:12px;margin-bottom:5px;min-width:90px;}
+.data_filling_list li.right select,.analogy li.right select{border:1px solid #ddd;height:40px;line-height:40px;font-size:14px;margin-bottom:5px;min-width:90px;}
 .data_filling_list li.right.date{position:relative;}
 .data_filling_list li.right.date input{padding-right:20px;}
 .data_filling_list li.right.date:after{    content: ""; display: inline-block; position: absolute; left: 230px; top: 13px; border-top: 10px solid #dcdcdc; border-left: 7px solid transparent; border-right: 7px solid transparent;}
@@ -1380,6 +1380,8 @@
     .data_filling_list li.right select{font-size:14px;margin-bottom:5px;}
     /*.data_filling_list li.right select option{}*/
 }
+
+
 
 @media only screen and (max-width: 600px){
     .data_filling_list{width:100%;padding: 6px 0;}
