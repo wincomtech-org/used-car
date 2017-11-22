@@ -64,8 +64,12 @@ class UsualSeriesModel extends UsualCategoryModel
     // 推荐车系
     public function recSeries($brandId=0)
     {
+        $where = ['is_rec'=>1];
+        if (!empty($brandId)) {
+            $where = array_merge(['brand_id'=>$brandId],$where);
+        }
         $data = $this->field('id,name')
-                ->where(['brand_id'=>$brandId,'is_rec'=>1])
+                ->where($where)
                 ->order('list_order')
                 ->limit(10)
                 ->select()
@@ -74,20 +78,32 @@ class UsualSeriesModel extends UsualCategoryModel
         return $data;
     }
     // 所有车系
-    public function SeriesTree($brandId=0)
+    public function SeriesTree($brandId=0,$recursive=true)
     {
+        $where = [];
+        if (!empty($brandId)) {
+            $where = ['brand_id'=>$brandId];
+        }
+        if (empty($recursive)) {
+            $where = array_merge($where,['parent_id'=>['neq',0]]);
+            // $where = array_merge($where,['parent_id'=>['gt',0]]);
+        }
         $data = $this->field('id,parent_id,name')
-                ->where(['brand_id'=>$brandId])
+                ->where($where)
                 ->order('list_order')
                 ->select()
                 ->toArray();
 
-        $ufoTree = [];
-        $tree = new Tree();
-        // model('admin/NavMenu')->parseNavMenu4Home($data);
-        $tree->init($data);
-        $ufoTree = $tree->getTreeArray(0);
+        if ($recursive) {
+            $ufoTree = [];
+            $tree = new Tree();
+            // model('admin/NavMenu')->parseNavMenu4Home($data);
+            $tree->init($data);
+            $ufoTree = $tree->getTreeArray(0);
 
-        return $ufoTree;
+            return $ufoTree;
+        }
+
+        return $data;
     }
 }

@@ -11,10 +11,6 @@ use think\Db;
  */
 class DistrictController extends AdminBaseController
 {
-    // public function _initialize()
-    // {
-    //     parent::_initialize();
-    // }
 
     /**
      * 地区管理
@@ -33,25 +29,5 @@ class DistrictController extends AdminBaseController
     {
         return '地区管理';
         $this->fetch();
-    }
-
-    public function getCitys()
-    {
-        echo "fengyue";die;
-        // if ($this->request->isAjax()) {
-            $parentId = $this->request->param('parentId',0,'intval');
-
-            echo model('District')->getDistricts(0,$parentId);exit();
-            // return model('District')->getDistricts(0,$parentId);
-        // }
-
-
-        // $parentId = request();
-        // $parentId = $this->request->param();
-        // return $parentId['parentId'];
-        // return request('parentId',0,'intval');
-        // return $this->request->param('parentId',0,'intval');
-        // echo "kill2";die;
-        // echo $this->request->param('parentId');die;
     }
 }

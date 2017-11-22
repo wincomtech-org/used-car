@@ -14,258 +14,8 @@
     <!-- 导航 -->
     <include file="public@nav" />
 
-    <!-- banner -->
-    <!-- PC端 -->
-    <section class="veh_trading_pc">
-        <div class="banner">
-            <img src="__TMPL__/public/assets/images/example/banner.jpg" alt="">
-            <div class="main">
-                <div class="registration_information">
-                    <div class="regist_info_tit">
-                        <p>免费登记卖车信息</p>
-                    </div>
-                    <form action="{:url('usual/Post/regCar')}" method="post" class="regist_info">
-                        <div class="regist_info_form_item requre">
-                            <span class="info_tit">
-                                品&nbsp;&nbsp;&nbsp;&nbsp;牌
-                            </span>
-                            <div class="analogy">
-                                <p class="analogy_tit"><input placeholder="请选择品牌" class="placeholder" readonly ></p>
-                                <ul class="analogy_con" style="display:none;">
-                                    <foreach name="Brands" item="vo">
-                                    <li onclick="" data-val="{$vo.id}"><input value="{$vo.name}" readonly></li>
-                                    </foreach>
-                                </ul>
-                            </div>
-                            <i class="tel_err" style="display:none;">*请选择品牌</i>
-                        </div>
-                        <div class="regist_info_form_item requre">
-                            <span class="info_tit">
-                                车&nbsp;&nbsp;&nbsp;&nbsp;系
-                            </span>
-                            <div class="analogy">
-                                <p class="analogy_tit"><input placeholder="请选择车系" class="placeholder" readonly></p>
-                                <ul class="analogy_con" style="display:none;">
-                                    <li data-val="1"><input value="改成左右结构（包括手机端） - 左，作I级车系" readonly></li>
-                                    <li data-val="2"><input value="一汽大众" readonly></li>
-                                </ul>
-                                <ul class="analogy_con" style="display:none;">
-                                    <li data-val="12"><input value="改成左右结构 - 右，作二级车系" readonly></li>
-                                    <li data-val="13"><input value="CC" readonly></li>
-                                </ul>
-                            </div>
-                            <i class="tel_err" style="display:none;">*请选择车系</i>
-                        </div>
-                        <div class="regist_info_form_item">
-                            <span class="info_tit">
-                                车&nbsp;&nbsp;&nbsp;&nbsp;型
-                            </span>
-                            <div class="analogy">
-                                <p class="analogy_tit"><input type="text" name="motorcycle_type" placeholder="请选择车型"  class="placeholder" readonly></p>
-                                <ul class="analogy_con" style="display:none;">
-                                    <foreach name="Models" item="vo">
-                                    <li onclick="" data-val="{$vo.id}"><input value="{$vo.name}" readonly></li>
-                                    </foreach>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="regist_info_form_item requre trade_area">
-                            <span class="info_tit">
-                                所在城市
-                            </span>
-                           <!--  <div class="analogy">
-                                <p class="analogy_tit">所在城市</p>
-                                <ul class="analogy_con" style="display:none;">
-                                    <li data-val="1"><input value="改成左右结构 - 左，作I级车系" readonly></li>
-                                    <li data-val="2"><input value="安徽" readonly></li>
-                                </ul>
-                                <ul class="analogy_con" style="display:none;">
-                                    <li data-val="12"><input value="改成左右结构 - 右，作二级车系" readonly></li>
-                                    <li data-val="13"><input value="合肥" readonly></li>
-                                </ul>
-                            </div>  -->
-                             <div class="analogy">
-                                   <li class="right required"> 
-                                        <select id="provinces">
-                                            <option value="">请选择省份</option>}
-                                            
-                                        </select>&nbsp;&nbsp;
-                                        <select id="citys">
-                                            <option value="">请选择城市</option>}
-                                        </select>&nbsp;&nbsp;
-                                        <select id="countys" name="strict">
-                                            <option value="">请选择服务点</option>}
-                                            
-                                        </select>
-                                    </li>
-                            </div>
-
-                            <i class="tel_err" style="display:none;">*请选择所在城市</i>
-                        </div>
-                        <div class="regist_info_form_item requre">
-                            <span class="info_tit">
-                                手机号码
-                            </span>
-                            <div class="analogy">
-                                <input type="tel" name="tel" maxLength="20" placeholder="请填写正确手机号" class="placeholder">
-                            </div>
-                            <i class="tel_err" style="display:none;">*请填写正确格式手机号</i>
-                        </div>
-                        <div class="regist_info_form_item">
-                            <span class="info_tit">
-                                验证码
-                            </span>
-                            <div class="analogy no">
-                                <input type="text" name="">
-                                <div class="kuang"></div>
-                                <div class="analogy_change">换一张</div>
-                            </div>
-                            <i class="tel_err" style="display:none;">*验证码</i>
-                        </div>
-                        <div class="regist_info_form_item">
-                            <span class="info_tit">
-
-                            </span>
-                            <div class="analogy">
-                                <button type="submit" class="btn_submi" onclick="return check()">提交</button>
-                            </div>
-
-                        </div>
-
-                    </form>
-                </div>
-            </div>
-        </div>
-    </section>  
-    <!-- 移动端 -->
-    <section class="veh_trading_m" style="display:none">
-        <div class="banner">
-            <div class="main">
-                <div class="registration_information">
-                    <div class="regist_info_tit">
-                        <p>免费登记卖车信息</p>
-                    </div>
-                    <form class="regist_info">
-                        <!-- 品牌 -->
-                        <div class="regist_info_form_item requre">
-                            <span class="info_tit">
-                                品&nbsp;&nbsp;&nbsp;&nbsp;牌
-                            </span>
-                            <div class="analogy">
-                                <p class="analogy_tit"><input type="text" name="brand" placeholder="请选择品牌" class="placeholder" readonly ></p>
-                                <ul class="analogy_con" style="display:none;">
-                                    <li data-val="1"><input type="text" name="" value="123" readonly></li>
-                                    <li data-val="2"><input type="text" name="" value="123" readonly></li>
-                                    <li data-val="3"><input type="text" name="" value="123" readonly></li>
-                                    <li data-val="4"><input type="text" name="" value="123" readonly></li>
-                                    <li data-val="5"><input type="text" name="" value="123" readonly></li>
-                                    <li data-val="6"><input type="text" name="" value="123" readonly></li>
-                                    <li data-val="7"><input type="text" name="" value="123" readonly></li>
-                                    <li data-val="8"><input type="text" name="" value="123" readonly></li>
-
-
-                                </ul>
-                            </div>
-                            <i class="tel_err" style="display:none;">*请选择品牌</i>
-                        </div>
-                        <!-- 车系 -->
-                        <div class="regist_info_form_item requre">
-                            <span class="info_tit">
-                                车&nbsp;&nbsp;&nbsp;&nbsp;系
-                            </span>
-                            <div class="analogy">
-                                <p class="analogy_tit"><input type="text" name="motorcycle" placeholder="请选择车系" class="placeholder" readonly></p>
-                                <ul class="analogy_con" style="display:none;">
-                                    <li data-val="1"><input type="text" name="" value="123" readonly></li>
-                                    <li data-val="2"><input type="text" name="" value="123" readonly></li>
-                                    <li data-val="3"><input type="text" name="" value="123" readonly></li>
-                                    <li data-val="4"><input type="text" name="" value="123" readonly></li>
-                                    <li data-val="5"><input type="text" name="" value="123" readonly></li>
-                                    <li data-val="6"><input type="text" name="" value="123" readonly></li>
-                                    <li data-val="7"><input type="text" name="" value="123" readonly></li>
-                                    <li data-val="8"><input type="text" name="" value="123" readonly></li>
-
-                                </ul>
-                            </div>
-                            <i class="tel_err" style="display:none;">*请选择车系</i>
-                        </div>
-                        <!-- 车型 -->
-                        <div class="regist_info_form_item">
-                            <span class="info_tit">
-                                车&nbsp;&nbsp;&nbsp;&nbsp;型
-                            </span>
-                            <div class="analogy">
-                                <p class="analogy_tit"><input type="text" name="motorcycle_type" placeholder="请选择车型" class="placeholder" readonly></p>
-                                <ul class="analogy_con" style="display:none;">
-                                    <li data-val="1"><input type="text" name="" value="123" readonly></li>
-                                    <li data-val="2"><input type="text" name="" value="123" readonly></li>
-                                    <li data-val="3"><input type="text" name="" value="123" readonly></li>
-                                    <li data-val="4"><input type="text" name="" value="123" readonly></li>
-                                    <li data-val="5"><input type="text" name="" value="123" readonly></li>
-                                    <li data-val="6"><input type="text" name="" value="123" readonly></li>
-                                    <li data-val="7"><input type="text" name="" value="123" readonly></li>
-                                    <li data-val="8"><input type="text" name="" value="123" readonly></li>
-
-                                </ul>
-                            </div>
-                        </div>
-                        <!-- 所在城市 -->
-                        <div class="regist_info_form_item requre trade_area">
-                            <span class="info_tit">
-                                所在城市
-                            </span>
-                           <div class="analogy">
-                               <li class="right required"> 
-                                    <select id="provinces">
-                                        <option value="">请选择省份</option>}
-                                        
-                                    </select>&nbsp;&nbsp;
-                                    <select id="citys">
-                                        <option value="">请选择城市</option>}
-                                    </select>&nbsp;&nbsp;
-                                    <select id="countys" name="strict">
-                                        <option value="">请选择服务点</option>}
-                                        
-                                    </select>
-                                </li>
-                            </div>
-                            <i class="tel_err" style="display:none;">*请选择所在城市</i>
-                        </div>
-                        <div class="regist_info_form_item requre">
-                            <span class="info_tit">
-                                手机号码
-                            </span>
-                            <div class="analogy">
-                                <input type="tel" name="tel" maxLength="20" placeholder="请填写正确手机号" class="placeholder">
-                            </div>
-                            <i class="tel_err" style="display:none;">*请填写正确格式手机号</i>
-                        </div>
-                        <div class="regist_info_form_item">
-                            <span class="info_tit">
-                                验证码
-                            </span>
-                            <div class="analogy no">
-                                <input type="text" name="">
-                                <div class="kuang"></div>
-                                <div class="analogy_change">换一张</div>
-                            </div>
-                            <i class="tel_err" style="display:none;">*验证码</i>
-                        </div>
-                        <div class="regist_info_form_item">
-                            <span class="info_tit">
-
-                            </span>
-                            <div class="analogy">
-                                <button type="submit" class="btn_submi" onclick="return check()">提交</button>
-                            </div>
-
-                        </div>
-
-                    </form>
-                </div>
-            </div>
-        </div>
-    </section>
+    <!-- 免费登记卖车信息 -->
+    <include file="index/index-regcar" />
 
     <!-- 车辆买卖 -->
     <section class="vehiTrad">
@@ -277,30 +27,14 @@
                     <span class="vehiTrad_tit_condition">品牌</span>
                     <div class="vehiTrad_tit_item">
                         <ul class="vehiTrad_tit_item_con">
-                            <li class="active"><a href="#">不限</a></li>
-                            <li ><a href="#">大众</a></li>
-                            <li ><a href="#">大众</a></li>
-                            <li ><a href="#">大众</a></li>
-                            <li ><a href="#">大众</a></li>
-                            <li ><a href="#">大11111众</a></li>
-                            <li ><a href="#">大111111众</a></li>
-                            <li ><a href="#">大11111众</a></li>
-                            <li ><a href="#">大11111众</a></li>
-                            <li ><a href="#">大11111众</a></li>
-                            <li ><a href="#">大11111众</a></li>
-                            <li ><a href="#">大11111众</a></li>
-                            <li ><a href="#">大11111众</a></li>
-                            <li ><a href="#">大11111众</a></li>
-                            <li ><a href="#">大11111众</a></li>
-                            <li ><a href="#">大11111众</a></li>
-                            <li ><a href="#">大11111众</a></li>
-                            <li ><a href="#">大11111众</a></li>
-                            <li ><a href="#">大众</a></li>
-                            <li ><a href="#">大众</a></li>
-                            <li ><a href="#">大众</a></li>
-                            <li ><a href="#">大众</a></li>
-                            <li ><a href="#">大众</a></li>
-                            <li ><a href="#">大众</a></li>
+                            <li <empty name="brandId">class="active"</empty>>
+                                <a href="{:url('Index/index')}">不限</a>
+                            </li>
+                            <foreach name="Brands" item="vo">
+                            <li {$brandId==$vo.id?='class="active"'}>
+                                <a href="{:url('Index/index')}">{$vo.name}</a>
+                            </li>
+                            </foreach>
                         </ul>
                         <div class="more">
                             全部<span class="icon"> < </span>
@@ -312,16 +46,14 @@
                     <span class="vehiTrad_tit_condition">车系</span>
                     <div class="vehiTrad_tit_item">
                         <ul class="vehiTrad_tit_item_con">
-                            <li class="active"><a href="#">不限</a></li>
-                            <li ><a href="#">大众</a></li>
-                            <li ><a href="#">大众</a></li>
-                            <li ><a href="#">大众</a></li>
-                            <li ><a href="#">大众</a></li>
-                            <li ><a href="#">大众</a></li>
-                            <li ><a href="#">大众</a></li>
-                            <li ><a href="#">大众</a></li>
-                            <li ><a href="#">大众</a></li>
-                            <li ><a href="#">大众</a></li>
+                            <li <empty name="serieId">class="active"</empty>>
+                                <a href="{:url('Index/index')}">不限</a>
+                            </li>
+                            <foreach name="Series" item="vo">
+                            <li {$serieId==$vo.id?='class="active"'}>
+                                <a href="{:url('Index/index')}">{$vo.name}</a>
+                            </li>
+                            </foreach>
                         </ul>
                         <div class="more">
                             全部<span class="icon"> < </span>
@@ -333,26 +65,45 @@
                     <span class="vehiTrad_tit_condition">价格</span>
                     <div class="vehiTrad_tit_item">
                         <ul class="vehiTrad_tit_item_con">
-                            <li class="active"><a href="#">不限</a></li>
-                            <li ><a href="#">大众</a></li>
-                            <li ><a href="#">大众</a></li>
-                            <li ><a href="#">大众</a></li>
-                            <li ><a href="#">大众</a></li>
-                            <li ><a href="#">大众</a></li>
-                            <li ><a href="#">大众</a></li>
-                            <li ><a href="#">大众</a></li>
-                            <li ><a href="#">大众</a></li>
-                            <li ><a href="#">大众</a></li>
+                            <li <empty name="priceId">class="active"</empty>>
+                                <a href="{:url('Index/index')}">不限</a>
+                            </li>
+                            <foreach name="Prices" item="vo">
+                            <li {$priceId==$vo.id?='class="active"'}>
+                                <a href="{:url('Index/index')}">{$vo.description ?? $vo.name}</a>
+                            </li>
+                            </foreach>
                         </ul>
                         <div class="more">
                             全部<span class="icon"> < </span>
                         </div>
                     </div>
                 </div>
+                <!-- 排量 -->
+                <div class="vehiTrad_tit_list">
+                    <span class="vehiTrad_tit_condition">排量</span>
+                    <div class="vehiTrad_tit_item">
+                        <ul class="vehiTrad_tit_item_con">
+                            <li <empty name="priceId">class="active"</empty>>
+                                <a href="{:url('Index/index')}">不限</a>
+                            </li>
+                            <foreach name="Prices" item="vo">
+                            <li {$priceId==$vo.id?='class="active"'}>
+                                <a href="{:url('Index/index')}">{$vo.description ?? $vo.name}</a>
+                            </li>
+                            </foreach>
+                        </ul>
+                        <div class="more">
+                            全部<span class="icon"> < </span>
+                        </div>
+                    </div>
+                </div>
+
+
+
                 <!-- 其它 -->
                 <div class="vehiTrad_tit_list">
                     <span class="vehiTrad_tit_condition">其它</span>
-
                     <div class="vehiTrad_tit_item_other">
                         <div class="vehiTrad_tit_item_other_list">
                             <p>年龄</p>
@@ -647,9 +398,17 @@
     <hook name="before_body_end" />
 </body>
 <script>
-  if(screen.width<1024){
-     $('.veh_trading_pc .main .registration_information').remove();
-     $('.veh_trading_m').show()
-  }
+    function changeBrand(o){
+        var brandId = $(o).attr('data-val');
+
+        $.post('{:url("usual/Ajax/serieByBrand")}', {brandId: brandId}, function(data) {
+            $('#input-series').html(data);
+        });
+    }
+
+    if(screen.width<1024){
+        $('.veh_trading_pc .main .registration_information').remove();
+        $('.veh_trading_m').show()
+    }
 </script>
 </html>

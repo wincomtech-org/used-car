@@ -64,7 +64,7 @@
                                     </case>
                                     <case value="service_point">
                                         <select name="more[province_id]" id="input-province" >
-                                            <option value="" selected>--请选择省份--</option>
+                                            <option value="" >--请选择省份--</option>
                                             {$Provinces}
                                         </select>&nbsp;&nbsp;
                                         <select name="more[city_id]" id="input-city">
@@ -215,6 +215,7 @@
         //     });
         // });
 
+<<<<<<< HEAD
         // 地区选项
         $('#input-province').change(function() {
             var Id = $(this).val(), url ='{:url("admin/District/getCitys")}';
@@ -239,13 +240,24 @@
             });
 
             $.post('{:url("usual/AdminDeposit/Ajax")}', {compId:'{$compId}', provId: Id}, function(coord) {
+=======
+
+        // 地区选项
+        $('#input-province').change(function() {
+            // var o = this = '#input-province';
+            var url = '{:url("usual/Ajax/getCitys")}';
+            select_province(this,url);
+
+            var Id = $(this).val();
+            $.post('{:url("usual/Ajax/coordinate")}', {compId:'{$compId}', provId: Id}, function(coord) {
+>>>>>>> b34fd25c42b29bbd8bbe7d96f417444d4f18cd36
                 $('#input-coordinate').html(coord);
             });
         });
 
         $('#input-city').change(function() {
             var provId = $('#input-province').val(),cityId = $(this).val();
-            $.post('{:url("usual/AdminDeposit/Ajax")}', {compId:'{$compId}', provId: provId, cityId: cityId}, function(coord) {
+            $.post('{:url("usual/Ajax/coordinate")}', {compId:'{$compId}', provId: provId, cityId: cityId}, function(coord) {
                 $('#input-coordinate').html(coord);
             });
         });

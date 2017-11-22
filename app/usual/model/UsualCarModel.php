@@ -17,9 +17,20 @@ class UsualCarModel extends UsualModel
             ['user f','a.user_id=f.id','LEFT']
         ];
 
+        // 筛选条件
         if (!empty($filter['brandId'])) {
             $where['a.brand_id'] = $filter['brandId'];
         }
+        if (!empty($filter['serieId'])) {
+            $where['a.serie_id'] = $filter['serieId'];
+        }
+        if (!empty($filter['modelId'])) {
+            $where['a.model_id'] = $filter['modelId'];
+        }
+        if (!empty($filter['cityId'])) {
+            $where['a.city_id'] = $filter['cityId'];
+        }
+
         $startTime = empty($filter['start_time']) ? 0 : strtotime($filter['start_time']);
         $endTime   = empty($filter['end_time']) ? 0 : strtotime($filter['end_time']);
         if (!empty($startTime) && !empty($endTime)) {
@@ -38,6 +49,7 @@ class UsualCarModel extends UsualModel
             $where['a.name'] = ['like', "%$keyword%"];
         }
 
+        // 查数据
         $series = $this->alias('a')->field($field)
             ->join($join)
             ->where($where)

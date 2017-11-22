@@ -23,13 +23,13 @@ $('.nav_item ').hover(function() {
 		e.stopPropagation();
 	})
 	$('.list-block .item-content').on('touchend',function(e){
-	
+
 		e.stopPropagation();
 	})
 
 	$('.accordion-item>a.item-link').on('click',function(e){
 
-		
+
 		e.stopPropagation()
 	})
 	$('.accordion-item>a.item-link').on('touchend',function(e){
@@ -37,7 +37,7 @@ $('.nav_item ').hover(function() {
 
 			$(this).parent().removeClass('accordion-item-expanded')
 		}else{
-			
+
 			$(this).parent().addClass('accordion-item-expanded')
 		}
 		e.stopPropagation()
@@ -54,7 +54,7 @@ $('.nav_item ').hover(function() {
 		$('.panel-cover').hide();
 		$('.accordion-item>').removeClass('accordion-item-expanded');
 		$('body').removeClass('with-panel-left-cover')
-	}	
+	}
 
 	// 结束手机目录点击事件
 
@@ -652,33 +652,48 @@ $(function () {
 	});
 });
 
-// 地区 省份获取城市
-// function select_province(o,url) {
-// 	// var o = '#input-province',
-// 	// 	url = {:url("admin/District/getCitys")};
-//     $(o).change(function() {
-//         var Id = $(this).val();
-//         $.ajax({
-//             url: url,
-//             type: 'POST',
-//             // dataType: 'json',
-//             data: {parentId: Id},
-//         })
-//         .done(function(data) {
-//             // console.log("success");
-//             if (data) {$('#input-city').show().html(data);}
-//         })
-//         .fail(function() {
-//             // console.log("error");
-//         })
-//         .always(function() {
-//             // console.log("complete");
-//         });
-//     });
-// }
-
 
 /*方法 function*/
+
+// 地区 省份获取城市
+function select_province(o,url) {
+	if (!o) { var o ='#input-province'; }
+	if (!url) { var url = '/usual/ajax/getcitys.html'; }
+
+    // $(o).change(function() {
+        var Id = $(o).val();
+
+        $.ajax({
+            url: url,
+            type: 'POST',
+            // dataType: 'json',
+            data: {parentId: Id},
+        })
+        .done(function(data) {
+            // console.log("success");
+            if (data) {$('#input-city').html(data);}
+        })
+        .fail(function() {
+            // console.log("error");
+        })
+        .always(function() {
+            // console.log("complete");
+        });
+
+		// $.ajax({
+		//     url: url,
+		//     type: 'POST',
+		//     // dataType: 'json',
+		//     data: {parentId: Id},
+		//     success:function(data){
+		//         console.log(data);
+		//         if (data) { $('#input-city').html(data); }
+		//     }
+		// });
+    // });
+}
+
+
 
 /* 没有form表单 \public\themes\simpleboot3\user\profile\avatar.html
 <style type="text/css">
@@ -751,7 +766,6 @@ function photo_upload(obj,url) {
                             }
                         });
                     }
-
                     if (img.complete) {
                         callback();
                     } else {

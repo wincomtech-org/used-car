@@ -19,6 +19,8 @@ class PostController extends HomeBaseController
             $this->error($result);
         }
 
+        // 验证验证码
+        cmf_captcha_check($value, 5);
 
 
         // 提交
