@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>预约看车 - {$site_info.site_name|default=''}</title>
+    <meta name="keywords" content="{$site_info.site_seo_keywords|default=''}"/>
+    <meta name="description" content="{$site_info.site_seo_description|default=''}">
+
+    <include file="public@head"/>
+    <hook name="before_head_end"/>
+</head>
+<body>
+    <!-- 头部 -->
+    <include file="public@header" />
+    <!-- 导航 -->
+    <include file="public@nav" />
+
+
+    <section class="booking_see_car">
+        <div class="main">
+            <div class="booking_see_car_con">
+                <h3>预约看车</h3>
+                <form action="booking_see_car_submit" method="post" accept-charset="utf-8">
+                    <ul class="see_car_list">
+                        <li class="see_car_items">
+                            <span class="icon">商品名称</span>
+                            <div class="item_con">
+                                <p class='text'>宝马 7系 2009款 3.0T 自动 740Li领先型</p>
+                            </div>
+                        </li>
+                        <li class="see_car_items">
+                            <span class="icon">价格（订金）</span>
+                            <div class="item_con">
+                                <p class='text'>￥41.25万（含过户费)</p>
+                            </div>
+                        </li>
+                        <li class="see_car_items">
+                            <span class="icon">支付订金</span>
+                            <div class="item_con">
+                                <div class="payment_tit">
+                                    <ul class="payment_way">
+                                        <li class="payment_way_1 label_input"><b></b><label><input type="radio" name="payment_way" >余额支付</label></li>
+                                        <li class="payment_way_2 label_input"><b></b><label><input type="radio" name="payment_way">在线支付</label></li>
+                                    </ul>
+                                </div>
+                                <div class="payment_con">
+                                    <div class="payment_way_1_con" style="display:none">
+                                        <div class="has_money list_money" style="display:block">
+
+                                            <div class="middle">
+                                                <p>名称：宝马 7系 2009款 3.0T 自动 740Li领先型</p>
+                                                <p>订金：￥41.25万（含过户费)</p>
+
+                                            </div>
+                                            <div class="right">
+                                                <a href="" class="sure_pay">确认支付</a>
+                                            </div>
+                                        </div>
+                                        <div class="nomoney list_money" style="display:none">
+                                            <div class="top">
+                                                <img src="__TMPL__/public/assets/images/example/error.png" alt="">
+                                            </div>
+                                            <div class="bottom">
+                                                余额不足，请<a >充值</a>后，再操作
+                                            </div>
+                                        </div>
+                                        <div class="nomoney list_money" style="display:none">
+                                            <div class="top">
+                                                <img src="__TMPL__/public/assets/images/example/duihao.png" alt="">
+                                            </div>
+                                            <div class="bottom">
+                                                支付成功
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="payment_way_2_con" style="display:none;">
+                                        <div class="pay_mode">
+                                            <div class="pay_tab">
+                                                <ul class="online_way pay_tab_list">
+                                                    <li class="label_input pay_tab_list_item"><b></b><label><input type="radio" name="online_payment_way" ><span class="icon_img"></span></label></li>
+                                                    <li class="label_input pay_tab_list_item"><b></b><label><input type="radio" name="online_payment_way" ><span class="icon_img"></span></label></li>
+
+                                                </ul>
+                                                <div class="pay_tab_con">
+                                                    <ul class="pay_tab_con_list">
+                                                             <!-- <li class="pay_tab_con_list_item" >
+                                                                <div class="pay_bank">
+                                                                    <ul class="banks">
+                                                                        <li>
+                                                                            <label for="gsyh"><b></b></label>
+                                                                            <input  name="paybank" value="0" id="gsyh" type='radio'>
+                                                                        </li>
+                                                                        <li>
+                                                                            <label for="jsyh"><b></b></label>
+                                                                            <input  name="paybank" value="1" id="jsyh" type='radio'>
+                                                                        </li>
+                                                                        <li>
+                                                                            <label for="zsyh"><b></b></label>
+                                                                            <input  name="paybank" value="2" id="zsyh" type='radio'>
+                                                                        </li>
+                                                                        <li>
+                                                                            <label for="nyyh"><b></b></label>
+                                                                            <input  name="paybank" value="3" id="nyyh" type='radio'>
+                                                                        </li>
+                                                                        <li>
+                                                                            <label for="jtyh"><b></b></label>
+                                                                            <input  name="paybank" value="4" id="jtyh" type='radio'>
+                                                                        </li>
+                                                                        <li>
+                                                                            <label for="gfyh"><b></b></label>
+                                                                            <input  name="paybank" value="5" id="gfyh" type='radio'>
+                                                                        </li>
+                                                                        <li>
+                                                                            <label for="zgyh"><b></b></label>
+                                                                            <input  name="paybank" value="6" id="zgyh" type='radio'>
+                                                                        </li>
+                                                                        <li>
+                                                                            <label for="yzyh"><b></b></label>
+                                                                            <input t name="paybank" value="7" id="yzyh" type='radio'>
+                                                                        </li>
+                                                                       <div class="clear"></div>
+                                                                    </ul>
+
+                                                                    <p class="pay_button"><a>立即支付</a></p>
+                                                                </div>
+                                                            </li> -->
+                                                            <li class="pay_tab_con_list_item" style="display:none">
+                                                                <div class="zhifubao">
+                                                                    <div class="left">
+                                                                        <div class="txt"><img src="__TMPL__/public/assets/images/example/erweima_tit.png" alt=""></div>
+                                                                        <div class="erweima">
+                                                                            <div class="lf">
+                                                                                <img src="__TMPL__/public/assets/images/example/erweima.png" alt="">
+                                                                            </div>
+                                                                            <div class="rt">
+                                                                                <img src="__TMPL__/public/assets/images/example/erweima_tip.png" alt="">
+                                                                            </div>
+
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="right">
+                                                                        <div class="img">
+                                                                            <img src="__TMPL__/public/assets/images/example/erweima_wangye.png" alt="">
+                                                                        </div>
+                                                                        <div class="button">
+                                                                            <a href="#">立即支付</a>
+                                                                        </div>
+
+                                                                    </div>
+                                                                    <div class="clear"></div>
+                                                                </div>
+                                                            </li>
+                                                            <li class="pay_tab_con_list_item" style="display:none;">
+                                                                <div class="weixin">
+                                                                    <div class="weixin_con">
+                                                                        <img src="__TMPL__/public/assets/images/example/weixin3.png" alt="">
+                                                                        <div class="weixin_bottom">
+                                                                            <div class="lf"><img src="__TMPL__/public/assets/images/example/weixin.png" alt=""></div>
+                                                                            <div class="lf"><img src="__TMPL__/public/assets/images/example/weixin2.png" alt=""></div>
+                                                                            <div class="clear"></div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </li>
+
+                                                        </ul>
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+
+                    </form>
+                </div>
+            </div>
+        </section>
+
+
+    <!-- 底部 -->
+    <include file="public@footer" />
+    <include file="public@scripts" />
+    <hook name="before_body_end" />
+</body>
+
+<!-- 放大镜效果 -->
+<script src="__TMPL__/public/assets/js/jquery.jqzoom.js"></script>
+<script src="__TMPL__/public/assets/js/lanrenzhijia.js"></script>
+<!-- end -->
+
+<script>
+    $('.payment_tit .label_input input').click(function(){
+        var $t=$(this).parent().parent().index();
+        var $div=$('.payment_con>div')
+        if($(this).prop('checked')){
+            $(this).parent().parent().addClass('select').siblings().removeClass('select');
+
+            $div.eq($t).show().siblings().hide();
+
+        }
+    })
+
+    /*支付页面*/
+    // 支付方式切换
+    $(function(){
+        window.onload=function(){
+            var $pay_li=$('.pay_tab_list_item');
+            var $pay_con=$('.pay_tab_con_list_item');
+            $pay_li.click(function(){
+                var $this=$(this);
+                var $index=$this.index();
+                $pay_li.siblings('.pay_tab_list_item').hide();
+                $pay_li.show();
+                $this.addClass('select').siblings().removeClass('select')
+                $pay_con.css('display','none');
+                $pay_con.eq($index).css('display','block');
+            })
+        }
+
+        /***银行支付**/
+        $(".pay_bank ").delegate('label',"click",function(){
+            var that=$(this);
+            var input_val=$(this).siblings('input').val();
+            that.parent().siblings('li').find('label').removeClass('select');
+            that.addClass('select');
+        })
+    })
+</script>
+</html>

@@ -20,7 +20,7 @@ class PostController extends HomeBaseController
         }
 
         // 验证验证码
-        cmf_captcha_check($value, 5);
+        // cmf_captcha_check($value, 5);
 
 
         // 提交

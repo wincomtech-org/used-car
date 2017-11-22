@@ -55,7 +55,7 @@
                     <tr>
                         <th width="100">名称<span class="form-required">*</span></th>
                         <td>
-                            <input class="form-control" type="text" name="post[name]" required value="" placeholder="起个合适的标题吧"/>
+                            <input class="form-control" type="text" name="post[name]" required placeholder="起个合适的标题吧"/>
                         </td>
                     </tr>
                     <tr>
@@ -153,22 +153,30 @@
                         </td>
                     </tr>
                     <tr>
+                        <th>上牌时间</th>
+                        <td>
+                            <input class="form-control js-bootstrap-datetime" placeholder="" type="text" name="post[car_license_time]" value="{:date('Y-m-d H:i:s',time())}">
+                        </td>
+                    </tr>
+                    <tr>
                         <th>车龄</th>
                         <td>
-                            <input class="form-control" max="999" placeholder="" type="number" name="post[car_age]" value="0">
+                            <input class="form-control" max="999" placeholder="0" type="number" name="post[car_age]" >
                             <p class="help-block">单位：年</p>
                         </td>
                     </tr>
                     <tr>
                         <th>里程数</th>
                         <td>
-                            <input class="form-control" placeholder="" type="text" name="post[car_mileage]" value="0"> 万公里
+                            <input class="form-control" placeholder="0" type="text" name="post[car_mileage]" >
+                            <p class="help-block">单位：万公里</p>
                         </td>
                     </tr>
                     <tr>
-                        <th>上牌时间</th>
+                        <th>排量</th>
                         <td>
-                            <input class="form-control js-bootstrap-datetime" placeholder="" type="text" name="post[car_license_time]" value="{:date('Y-m-d H:i:s',time())}">
+                            <input class="form-control" placeholder="0" type="text" name="post[car_displacement]" >
+                            <p class="help-block">单位：升（L）</p>
                         </td>
                     </tr>
 

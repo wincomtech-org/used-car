@@ -10,6 +10,16 @@ use think\Db;
 class PostController extends HomeBaseController
 {
 
+    public function details()
+    {
+        return $this->fetch();
+    }
+
+    public function seeCar()
+    {
+        return $this->fetch();
+    }
+
     public function order()
     {
         $data = $this->request->param();

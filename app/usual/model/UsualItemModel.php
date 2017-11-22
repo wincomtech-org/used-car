@@ -7,7 +7,7 @@ use tree\Tree;
 
 class UsualItemModel extends UsualModel
 {
-    protected $filter_var = 'car_seating,car_color,car_effluent,car_fuel,car_displacement,car_gearbox';
+    protected $filter_var = 'car_seating,car_color,car_effluent,car_fuel,car_gearbox';
 
     // function _initialize()
     // {
@@ -100,8 +100,10 @@ class UsualItemModel extends UsualModel
     public function getItemTable($key='', $var='', $recursive=false)
     {
         $filter = [];
-        if (!empty($key)) {
+        if (!empty($var)) {
             $filter[$key] = $var;
+        } else {
+            $filter = $key;
         }
         return $this->ItemBaseData($filter, $recursive);
     }

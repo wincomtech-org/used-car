@@ -5,19 +5,26 @@ use app\usual\model\UsualModel;
 
 class UsualCarModel extends UsualModel
 {
-    public function getLists($filter)
+    public function getLists($filter=[], $order='', $limit='')
     {
         $field = 'a.*,b.name AS bname,c.name AS cname,d.name AS dname,e.name ename,f.user_nickname,f.user_login';
-        $where = ['a.delete_time' => 0];
+
         $join = [
             ['usual_brand b','a.brand_id=b.id','LEFT'],
             ['usual_series c','a.serie_id=c.id','LEFT'],
             ['usual_models d','a.model_id=d.id','LEFT'],
-            ['district e','a.model_id=e.id','LEFT'],
+            ['district e','a.city_id=e.id','LEFT'],
             ['user f','a.user_id=f.id','LEFT']
         ];
 
         // 筛选条件
+        $where = ['a.delete_time' => 0];
+        if (!empty($filter['sell_status'])) {
+            $where['a.sell_status'] = $filter['sell_status'];
+        }
+        if (!empty($filter['typeId'])) {
+            $where['a.type'] = $filter['typeId'];
+        }
         if (!empty($filter['brandId'])) {
             $where['a.brand_id'] = $filter['brandId'];
         }
@@ -49,12 +56,18 @@ class UsualCarModel extends UsualModel
             $where['a.name'] = ['like', "%$keyword%"];
         }
 
+        // 排序
+        $order = empty($order) ? 'is_top DESC,is_rec DESC,update_time DESC' : $order;
+
+        // 数据量
+        $limit = empty($limit) ? config('pagerset.size') : $limit;
+
         // 查数据
         $series = $this->alias('a')->field($field)
             ->join($join)
             ->where($where)
-            ->order('is_top DESC,is_rec DESC,update_time DESC')
-            ->paginate(config('pagerset.size'));
+            ->order($order)
+            ->paginate($limit);
 
         return $series;
     }

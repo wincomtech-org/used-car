@@ -22,13 +22,11 @@ class IndexController extends HomeBaseController
         $ufoModel = new UsualCarModel();
         $carType = config('usual_car_type');
         $Type = array_merge(['最新上架','新车推荐'],$carType);
-
         $newCar = $ufoModel->getIndexCarList('',['a.published_time'=>'desc']);
         $TuiCar = $ufoModel->getIndexCarList('',['a.is_rec'=>'DESC']);
         $cars = array_merge([$newCar],[$TuiCar]);
         // $cars = array_push($newCar,$TuiCar);
         // $cars = $newCar + $TuiCar;
-
         foreach ($carType as $key => $value) {
             $cars = array_merge($cars,[$ufoModel->getIndexCarList($key)]);
         }
@@ -41,15 +39,12 @@ class IndexController extends HomeBaseController
             ];
         }
 
-        // dump($newCars);
-        // die;
-
         // 车辆服务 使用Db不能直接转化 json 数组
         // $services = Db::name('ServiceCategory')->field('id,name,description,more')->where('status',1)->order('id')->limit(3)->select()->toArray();
         // $services = model('service/ServiceCategory')->field('id,name,description,more')->where(['status'=>1,'type'=>'flow'])->order('is_top desc,id')->limit(7)->select()->toArray();
 
-        $portalM = new PortalPostModel();
         // 买车流程
+        $portalM = new PortalPostModel();
         $article_flows = $portalM->getIndexPortalList(4,'ASC',7);
         // 车辆服务文章
         $article_services = $portalM->getIndexPortalList(3,'ASC',7);

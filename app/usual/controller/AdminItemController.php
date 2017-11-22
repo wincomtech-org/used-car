@@ -46,13 +46,17 @@ class AdminItemController extends AdminBaseController
     public function addPost()
     {
         if ($this->request->isPost()) {
-            $data   = $this->request->param();
+            // $data   = $this->request->param();
+            $data   = $_POST;// 避免被转译
             $post   = $data['post'];
             $post['update_time'] = time();
             $result = $this->validate($post,'Item.add');
             if ($result !== true) {
                 $this->error($result);
             }
+
+            // $post['name'] = htmlspecialchars_decode($post['name']);// 反转译
+            // $this->error($post['name']);
 
             model('UsualItem')->adminAddArticle($post);
 
@@ -85,7 +89,8 @@ class AdminItemController extends AdminBaseController
     public function editPost()
     {
         if ($this->request->isPost()) {
-            $data   = $this->request->param();
+            // $data   = $this->request->param();
+            $data   = $_POST;// 避免被转译
 
             $post   = $data['post'];
             $post['update_time'] = time();
@@ -93,6 +98,7 @@ class AdminItemController extends AdminBaseController
             if ($result !== true) {
                 $this->error($result);
             }
+
             model('UsualItem')->adminEditArticle($post);
 
             // 钩子

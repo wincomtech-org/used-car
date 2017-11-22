@@ -18,7 +18,7 @@
     <include file="index/index-regcar" />
 
     <!-- 车辆买卖 -->
-    <section class="vehiTrad">
+    <section class="vehiTrad" id="AAA">
         <div class="main">
             <!-- 车辆买卖条件筛选 -->
             <div class="vehiTrad_tit">
@@ -28,11 +28,11 @@
                     <div class="vehiTrad_tit_item">
                         <ul class="vehiTrad_tit_item_con">
                             <li <empty name="brandId">class="active"</empty>>
-                                <a href="{:url('Index/index')}">不限</a>
+                                <a href="{:url('Index/index')}#AAA">不限</a>
                             </li>
                             <foreach name="Brands" item="vo">
                             <li {$brandId==$vo.id?='class="active"'}>
-                                <a href="{:url('Index/index')}">{$vo.name}</a>
+                                <a href="{:url('Index/index')}#AAA">{$vo.name}</a>
                             </li>
                             </foreach>
                         </ul>
@@ -47,11 +47,11 @@
                     <div class="vehiTrad_tit_item">
                         <ul class="vehiTrad_tit_item_con">
                             <li <empty name="serieId">class="active"</empty>>
-                                <a href="{:url('Index/index')}">不限</a>
+                                <a href="{:url('Index/index')}#AAA">不限</a>
                             </li>
                             <foreach name="Series" item="vo">
                             <li {$serieId==$vo.id?='class="active"'}>
-                                <a href="{:url('Index/index')}">{$vo.name}</a>
+                                <a href="{:url('Index/index')}#AAA">{$vo.name}</a>
                             </li>
                             </foreach>
                         </ul>
@@ -66,11 +66,11 @@
                     <div class="vehiTrad_tit_item">
                         <ul class="vehiTrad_tit_item_con">
                             <li <empty name="priceId">class="active"</empty>>
-                                <a href="{:url('Index/index')}">不限</a>
+                                <a href="{:url('Index/index')}#AAA">不限</a>
                             </li>
                             <foreach name="Prices" item="vo">
                             <li {$priceId==$vo.id?='class="active"'}>
-                                <a href="{:url('Index/index')}">{$vo.description ?? $vo.name}</a>
+                                <a href="{:url('Index/index')}#AAA">{$vo.description ?? $vo.name}</a>
                             </li>
                             </foreach>
                         </ul>
@@ -79,303 +79,76 @@
                         </div>
                     </div>
                 </div>
-                <!-- 排量 -->
-                <div class="vehiTrad_tit_list">
-                    <span class="vehiTrad_tit_condition">排量</span>
-                    <div class="vehiTrad_tit_item">
-                        <ul class="vehiTrad_tit_item_con">
-                            <li <empty name="priceId">class="active"</empty>>
-                                <a href="{:url('Index/index')}">不限</a>
-                            </li>
-                            <foreach name="Prices" item="vo">
-                            <li {$priceId==$vo.id?='class="active"'}>
-                                <a href="{:url('Index/index')}">{$vo.description ?? $vo.name}</a>
-                            </li>
-                            </foreach>
-                        </ul>
-                        <div class="more">
-                            全部<span class="icon"> < </span>
-                        </div>
-                    </div>
-                </div>
-
-
 
                 <!-- 其它 -->
                 <div class="vehiTrad_tit_list">
                     <span class="vehiTrad_tit_condition">其它</span>
                     <div class="vehiTrad_tit_item_other">
+                        <!-- model -->
                         <div class="vehiTrad_tit_item_other_list">
-                            <p>年龄</p>
+                            <p>车型</p>
                             <ul style="display:none;">
-                                <li><a href="">0-10岁</a></li>
-                                <li><a href="">0-10岁</a></li>
-                                <li><a href="">0-10岁</a></li>
-                                <li><a href="">0-10岁</a></li>
-                                <li><a href="">0-10岁</a></li>
+                                <foreach name="Models" item="vo">
+                                <li><a href="#AAA">{$vo.name}</a></li>
+                                </foreach>
                             </ul>
                         </div>
+                        <!-- 未处理 -->
+                        <!-- 以下在item -->
+                        <foreach name="moreTree" item="vo">
                         <div class="vehiTrad_tit_item_other_list">
-                            <p>年龄</p>
+                            <p>{$vo.name}</p>
+                            <notempty name="vo.form_element">
                             <ul style="display:none;">
-                                <li><a href="">0-10岁</a></li>
-                                <li><a href="">0-10岁</a></li>
-                                <li><a href="">0-10岁</a></li>
-                                <li><a href="">0-10岁</a></li>
-                                <li><a href="">0-10岁</a></li>
+                                <foreach name="vo.form_element" item="v">
+                                <li><a href="#AAA">{$v.description?$v.description:$v.name.$vo.unit}</a></li>
+                                </foreach>
                             </ul>
+                            </notempty>
                         </div>
-                        <div class="vehiTrad_tit_item_other_list">
-                            <p>年龄</p>
-                            <ul style="display:none;">
-                                <li><a href="">0-10岁</a></li>
-                                <li><a href="">0-10岁</a></li>
-                                <li><a href="">0-10岁</a></li>
-                                <li><a href="">0-10岁</a></li>
-                                <li><a href="">0-10岁</a></li>
-                            </ul>
-                        </div>
-                        <div class="vehiTrad_tit_item_other_list">
-                            <p>年龄</p>
-                            <ul style="display:none;">
-                                <li><a href="">0-10岁</a></li>
-                                <li><a href="">0-10岁</a></li>
-                                <li><a href="">0-10岁</a></li>
-                                <li><a href="">0-10岁</a></li>
-                                <li><a href="">0-10岁</a></li>
-                            </ul>
-                        </div>
-                        <div class="vehiTrad_tit_item_other_list">
-                            <p>年龄</p>
-                            <ul style="display:none;">
-                                <li><a href="">0-10岁</a></li>
-                                <li><a href="">0-10岁</a></li>
-                                <li><a href="">0-10岁</a></li>
-                                <li><a href="">0-10岁</a></li>
-                                <li><a href="">0-10岁</a></li>
-                            </ul>
-                        </div>
-                        <div class="vehiTrad_tit_item_other_list">
-                            <p>年龄</p>
-                            <ul style="display:none;">
-                                <li><a href="">0-10岁</a></li>
-                                <li><a href="">0-10岁</a></li>
-                                <li><a href="">0-10岁</a></li>
-                                <li><a href="">0-10岁</a></li>
-                                <li><a href="">0-10岁</a></li>
-                            </ul>
-                        </div>
-                        <div class="vehiTrad_tit_item_other_list">
-                            <p>年龄</p>
-                            <ul style="display:none;">
-                                <li><a href="">0-10岁</a></li>
-                                <li><a href="">0-10岁</a></li>
-                                <li><a href="">0-10岁</a></li>
-                                <li><a href="">0-10岁</a></li>
-                                <li><a href="">0-10岁</a></li>
-                            </ul>
-                        </div>
-                        <div class="vehiTrad_tit_item_other_list">
-                            <p>年龄</p>
-                            <ul style="display:none;">
-                                <li><a href="">0-10岁</a></li>
-                                <li><a href="">0-10岁</a></li>
-                                <li><a href="">0-10岁</a></li>
-                                <li><a href="">0-10岁</a></li>
-                                <li><a href="">0-10岁</a></li>
-                            </ul>
-                        </div>
-
+                        </foreach>
                     </div>
                 </div>
             </div>
+
+
 
             <!-- 车辆 -->
             <div class="vehiTrad_con">
                 <div class="vehiTrad_con_tit">
                     <ul class="vehiTrad_con_tit_list">
-                        <li class="active"><a href="">最新上架</a></li>
-                        <li><a href="">准新车</a></li>
-                        <li><a href="">练手车</a></li>
-                        <li><a href="">分期购</a></li>
+                        <foreach name="Types" item="vo" key="key">
+                        <li {$key==$typeId?='class="active"'}>
+                            <a href="{:url('Index/index',['typeId'=>$key])}#AAA">{$vo}</a>
+                        </li>
+                        </foreach>
                     </ul>
                 </div>
                 <div class="vehiTrad_con_con">
                     <!-- 车辆列表 -->
                     <ul class="vehiTrad_con_con_list">
-                            <li class="vehicle_con_detail_items">
-                                <div class="img"><a href="car_message.html">
-                                    <img src="__TMPL__/public/assets/images/example/car01.jpg" alt="">
-                                </a></div>
-                                <div class="txt">
-                                    <h6><a href="car_message.html">宝马7系 2009款 740Li领先型</a></h6>
-                                    <p>
-                                        <span>14万公里</span>
-                                        <span>2012-10</span>
-                                        <span>马鞍山</span>
-                                    </p>
-                                    <p><b>43.88万</b> <s>128.95万</s></p>
-                                </div>
-                            </li>
-                            <li class="vehicle_con_detail_items">
-                                <div class="img"><a href="car_message.html">
-                                    <img src="__TMPL__/public/assets/images/example/car01.jpg" alt="">
-                                </a></div>
-                                <div class="txt">
-                                    <h6><a href="car_message.html">宝马7系 2009款 740Li领先型</a></h6>
-                                    <p>
-                                        <span>14万公里</span>
-                                        <span>2012-10</span>
-                                        <span>马鞍山</span>
-                                    </p>
-                                    <p><b>43.88万</b> <s>128.95万</s></p>
-                                </div>
-                            </li>
-                            <li class="vehicle_con_detail_items">
-                                <div class="img"><a href="car_message.html">
-                                    <img src="__TMPL__/public/assets/images/example/car01.jpg" alt="">
-                                </a></div>
-                                <div class="txt">
-                                    <h6><a href="car_message.html">宝马7系 2009款 740Li领先型</a></h6>
-                                    <p>
-                                        <span>14万公里</span>
-                                        <span>2012-10</span>
-                                        <span>马鞍山</span>
-                                    </p>
-                                    <p><b>43.88万</b> <s>128.95万</s></p>
-                                </div>
-                            </li>
-                            <li class="vehicle_con_detail_items">
-                                <div class="img"><a href="car_message.html">
-                                    <img src="__TMPL__/public/assets/images/example/car01.jpg" alt="">
-                                </a></div>
-                                <div class="txt">
-                                    <h6><a href="car_message.html">宝马7系 2009款 740Li领先型</a></h6>
-                                    <p>
-                                        <span>14万公里</span>
-                                        <span>2012-10</span>
-                                        <span>马鞍山</span>
-                                    </p>
-                                    <p><b>43.88万</b> <s>128.95万</s></p>
-                                </div>
-                            </li>
-                            <li class="vehicle_con_detail_items">
-                                <div class="img"><a href="car_message.html">
-                                    <img src="__TMPL__/public/assets/images/example/car01.jpg" alt="">
-                                </a></div>
-                                <div class="txt">
-                                    <h6><a href="car_message.html">宝马7系 2009款 740Li领先型</a></h6>
-                                    <p>
-                                        <span>14万公里</span>
-                                        <span>2012-10</span>
-                                        <span>马鞍山</span>
-                                    </p>
-                                    <p><b>43.88万</b> <s>128.95万</s></p>
-                                </div>
-                            </li>
-                            <li class="vehicle_con_detail_items">
-                                <div class="img"><a href="car_message.html">
-                                    <img src="__TMPL__/public/assets/images/example/car01.jpg" alt="">
-                                </a></div>
-                                <div class="txt">
-                                    <h6><a href="car_message.html">宝马7系 2009款 740Li领先型</a></h6>
-                                    <p>
-                                        <span>14万公里</span>
-                                        <span>2012-10</span>
-                                        <span>马鞍山</span>
-                                    </p>
-                                    <p><b>43.88万</b> <s>128.95万</s></p>
-                                </div>
-                            </li>
-                            <li class="vehicle_con_detail_items">
-                                <div class="img"><a href="car_message.html">
-                                    <img src="__TMPL__/public/assets/images/example/car01.jpg" alt="">
-                                </a></div>
-                                <div class="txt">
-                                    <h6><a href="car_message.html">宝马7系 2009款 740Li领先型</a></h6>
-                                    <p>
-                                        <span>14万公里</span>
-                                        <span>2012-10</span>
-                                        <span>马鞍山</span>
-                                    </p>
-                                    <p><b>43.88万</b> <s>128.95万</s></p>
-                                </div>
-                            </li>
-                            <li class="vehicle_con_detail_items">
-                                <div class="img"><a href="">
-                                    <img src="__TMPL__/public/assets/images/example/car01.jpg" alt="">
-                                </a></div>
-                                <div class="txt">
-                                    <h6><a href="">宝马7系 2009款 740Li领先型</a></h6>
-                                    <p>
-                                        <span>14万公里</span>
-                                        <span>2012-10</span>
-                                        <span>马鞍山</span>
-                                    </p>
-                                    <p><b>43.88万</b> <s>128.95万</s></p>
-                                </div>
-                            </li>
-                            <li class="vehicle_con_detail_items">
-                                <div class="img"><a href="">
-                                    <img src="__TMPL__/public/assets/images/example/car01.jpg" alt="">
-                                </a></div>
-                                <div class="txt">
-                                    <h6><a href="">宝马7系 2009款 740Li领先型</a></h6>
-                                    <p>
-                                        <span>14万公里</span>
-                                        <span>2012-10</span>
-                                        <span>马鞍山</span>
-                                    </p>
-                                    <p><b>43.88万</b> <s>128.95万</s></p>
-                                </div>
-                            </li>
-                            <li class="vehicle_con_detail_items">
-                                <div class="img"><a href="">
-                                    <img src="__TMPL__/public/assets/images/example/car01.jpg" alt="">
-                                </a></div>
-                                <div class="txt">
-                                    <h6><a href="">宝马7系 2009款 740Li领先型</a></h6>
-                                    <p>
-                                        <span>14万公里</span>
-                                        <span>2012-10</span>
-                                        <span>马鞍山</span>
-                                    </p>
-                                    <p><b>43.88万</b> <s>128.95万</s></p>
-                                </div>
-                            </li>
-                            <li class="vehicle_con_detail_items">
-                                <div class="img"><a href="">
-                                    <img src="__TMPL__/public/assets/images/example/car01.jpg" alt="">
-                                </a></div>
-                                <div class="txt">
-                                    <h6><a href="">宝马7系 2009款 740Li领先型</a></h6>
-                                    <p>
-                                        <span>14万公里</span>
-                                        <span>2012-10</span>
-                                        <span>马鞍山</span>
-                                    </p>
-                                    <p><b>43.88万</b> <s>128.95万</s></p>
-                                </div>
-                            </li>
-                            <li class="vehicle_con_detail_items">
-                                <div class="img"><a href="">
-                                    <img src="__TMPL__/public/assets/images/example/car01.jpg" alt="">
-                                </a></div>
-                                <div class="txt">
-                                    <h6><a href="">宝马7系 2009款 740Li领先型</a></h6>
-                                    <p>
-                                        <span>14万公里</span>
-                                        <span>2012-10</span>
-                                        <span>马鞍山</span>
-                                    </p>
-                                    <p><b>43.88万</b> <s>128.95万</s></p>
-                                </div>
-                            </li>
+                        <foreach name="carlist" item="vo">
+                        <li class="vehicle_con_detail_items">
+                            <div class="img"><a href="{:url('Post/details',['id'=>$vo.id,'html'=>'car_message'])}">
+                                <img src="{:cmf_get_image_preview_url($vo.more.thumbnail)}" alt="">
+                            </a></div>
+                            <div class="txt">
+                                <h6><a href="{:url('Post/details',['id'=>$vo.id,'html'=>'car_message'])}">{$vo.name}</a></h6>
+                                <p>
+                                    <span>{$vo.car_mileage}万公里</span>
+                                    <span>{:date('Y-m-d',$vo.car_license_time)}上牌</span>
+                                    <span>{$vo.ename}</span>
+                                </p>
+                                <p><b>{$vo.shop_price}万</b> <s>{$vo.market_price}万</s></p>
+                            </div>
+                        </li>
+                        </foreach>
                     </ul>
                     <!-- 页码 -->
                     <div class="page">
                         <ul class="page_con">
-                            <li class="active"><a href="">1</a></li>
+                            {$pager|default=''}
+                            <!-- <li class="active"><a href="">1</a></li>
                             <li><a href="">1</a></li>
                             <li><a href="">1</a></li>
                             <li><a href="">1</a></li>
@@ -384,7 +157,7 @@
                             <li><a href="">1</a></li>
                             <li><a href="">1</a></li>
                             <li><a href="">1</a></li>
-                            <li><a href="">100</a></li>
+                            <li><a href="">100</a></li> -->
                         </ul>
                     </div>
                 </div>

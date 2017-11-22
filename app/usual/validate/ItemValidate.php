@@ -15,7 +15,7 @@ class ItemValidate extends Validate
         'cate_id.gt' => '分类属性必选',
         'name.require' => '属性值不能为空',
         'name.checkName' => '属性值已存在',
-        'name.checkNameEdit' => '属性值已存在',
+        'name.checkNameEdit' => '属性值不存在',
     ];
 
     protected $scene = [
@@ -24,10 +24,10 @@ class ItemValidate extends Validate
     ];
 
     // 检查名称是否存在
-    protected function checkName($value)
+    protected function checkName($value,$rule,$data)
     {
-        $find = model('UsualItem')->where('name',$value)->count();
-        if ($find) return false; return true;
+        $find = model('UsualItem')->where(['cate_id'=>$data['cate_id'],'name'=>$value])->count();
+        if ($find>0) return false; return true;
     }
 
     protected function checkNameEdit($value,$rule,$data)
