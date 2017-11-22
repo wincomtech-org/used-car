@@ -35,11 +35,7 @@
                     <div class="regist_info_form_item">
                         <span class="info_tit">车&nbsp;&nbsp;&nbsp;&nbsp;型</span>
                         <div class="analogy">
-<<<<<<< HEAD
                             <p class="analogy_tit"><input type="text" name="motorcycle_type" placeholder="请选择车型"  class="placeholder" readonly id="modelget"></p>
-=======
-                            <p class="analogy_tit"><input placeholder="请选择车型"  class="placeholder" readonly></p>
->>>>>>> fe9b241356cd6dec2d2a5b97b5dc5f955a9d3398
                             <ul class="analogy_con" style="display:none;">
                                 <foreach name="regCarInfo.model" item="vo">
                                 <li onclick="" data-val="{$vo.id}"><input value="{$vo.name}" readonly ></li>
@@ -72,11 +68,7 @@
                     <div class="regist_info_form_item">
                         <span class="info_tit">验证码</span>
                         <div class="analogy no">
-<<<<<<< HEAD
-                            <input type="text" name="code">
-=======
                             <input type="text" name="vericode">
->>>>>>> fe9b241356cd6dec2d2a5b97b5dc5f955a9d3398
                             <div class="kuang"><captcha height="36" width="150" font-size="18" length="4" bg="255,255,255" id=5 /></div>
                             <!-- <div class="analogy_change">换一张</div> -->
                         </div>
@@ -101,7 +93,7 @@ function RegCarSubmit(){
     var tel=$('input[name="tel"]').val();
     var province=$('#input-province option:selected').val();
     var city=$('#input-city option:selected').val();
-    var code=$('input[name="code"]').val();
+    var code=$('input[name="vericode"]').val();
 
     console.log(brandId,serieId,modelId,province,city,tel,code)
     alert(code)
@@ -163,65 +155,44 @@ function RegCarSubmit(){
                     <div class="regist_info_form_item requre trade_area">
                         <span class="info_tit">所在城市</span>
                         <div class="analogy">
-                         <li class="right required">
-                            <select id="input-province" onchange="select_province();">
-                                <option value="">--请选择省份--</option>
-                                {$regCarInfo.prov}
-                            </select>&nbsp;&nbsp;
-                            <select id="input-city">
-                                <option value="">--请选择城市--</option>
-                            </select>
-                        </li>
+                             <li class="right required">
+                                <select id="input-province" onchange="select_province();">
+                                    <option value="">--请选择省份--</option>
+                                    {$regCarInfo.prov}
+                                </select>&nbsp;&nbsp;
+                                <select id="input-city">
+                                    <option value="">--请选择城市--</option>
+                                </select>
+                            </li>
+                        </div>
+                         <i class="tel_err" style="display:none;">*请选择所在城市</i>
                     </div>
-<<<<<<< HEAD
+                    <div class="regist_info_form_item requre">
+                        <span class="info_tit">手机号码</span>
+                        <div class="analogy">
+                            <input type="tel" name="telephone" maxLength="20" placeholder="请填写正确手机号" class="placeholder">
+                        </div>
+                        <i class="tel_err" style="display:none;">*请填写正确格式手机号</i>
+                    </div>
                     <div class="regist_info_form_item">
-                        <span class="info_tit">
-                            验证码
-                        </span>
+                        <span class="info_tit">验证码</span>
                         <div class="analogy no">
-                            <input type="text" name="">
-                             <div class="kuang"><captcha height="36" width="150" font-size="18" length="4" bg="255,255,255" id=5 /></div>
-                            <div class="analogy_change">换一张</div>
+                            <input type="text" name="vericode">
+                            <div class="kuang"><captcha height="36" width="124" font-size="14" length="4" bg="255,255,255" id=5 /></div>
+                            <!-- <div class="analogy_change">换一张</div> -->
                         </div>
                         <i class="tel_err" style="display:none;">*验证码</i>
-=======
-                    <i class="tel_err" style="display:none;">*请选择所在城市</i>
-                </div>
-                <div class="regist_info_form_item requre">
-                    <span class="info_tit">手机号码</span>
-                    <div class="analogy">
-                        <input type="tel" name="telephone" maxLength="20" placeholder="请填写正确手机号" class="placeholder">
->>>>>>> fe9b241356cd6dec2d2a5b97b5dc5f955a9d3398
                     </div>
-                    <i class="tel_err" style="display:none;">*请填写正确格式手机号</i>
-                </div>
-                <div class="regist_info_form_item">
-                    <span class="info_tit">验证码</span>
-                    <div class="analogy no">
-                        <input type="text" name="vericode">
-                        <div class="kuang"><captcha height="36" width="124" font-size="14" length="4" bg="255,255,255" id=5 /></div>
-                        <!-- <div class="analogy_change">换一张</div> -->
+                    <div class="regist_info_form_item">
+                        <span class="info_tit">
+                        </span>
+                        <div class="analogy">
+                            <button class="btn_submi" onclick="return RegCarSubmit()">提交</button>
+                        </div>
                     </div>
-                    <i class="tel_err" style="display:none;">*验证码</i>
-                </div>
-                <div class="regist_info_form_item">
-                    <span class="info_tit">
-                    </span>
-                    <div class="analogy">
-                        <button class="btn_submi" onclick="return RegCarSubmit()">提交</button>
-                    </div>
-                </div>
-            </form>
+                </form>
+            </div>
         </div>
     </div>
-<<<<<<< HEAD
 </section>
 
-
-<script>
-    
-</script>
-=======
-</div>
-</section>
->>>>>>> fe9b241356cd6dec2d2a5b97b5dc5f955a9d3398
