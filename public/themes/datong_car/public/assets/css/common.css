@@ -173,7 +173,7 @@ nav{background-color:#000;}
 
 .analogy.no  .kuang{/*width:80px;*/height:100%;border:1px solid #ddd;margin:0 10px;}
 .analogy.no  .analogy_change{font-size:16px;line-height:35px;vertical-align:text-bottom;}
-.analogy.no  .kuang,.analogy.no  .analogy_change{display:inline-block;}
+.analogy.no  .kuang,.analogy.no  .analogy_change{display:inline-block;vertical-align:middle;}
 .analogy .btn_submi{background-color:#d00000;color:#fff;font-size:16px;width:100%;height:100%;display:block;text-align:center;}
 
 
@@ -225,6 +225,7 @@ nav{background-color:#000;}
 	.regist_info_form_item span{width:71px;}
 	.analogy.no  .kuang{margin:0;}
 	.analogy.no input,.analogy.no  .kuang{width:68px;}
+
 	.analogy.no  .analogy_change{font-size:12px;}
 }
 
@@ -314,7 +315,8 @@ nav{background-color:#000;}
 	/*banner图*/
 	.banner img{min-height:auto;min-width:320px;width:100%;}
 
-
+	/**车辆信息里的小图*/
+	.analogy.no  .kuang img{min-width:0;}
 
 	@media only screen and (max-width:615px){
 		/**手机端顶部和导航*/
