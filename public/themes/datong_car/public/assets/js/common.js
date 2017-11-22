@@ -100,7 +100,10 @@ $(document).ready(function() {
 })
 
 
-
+// 首页 移动端车辆买卖
+$('.vehicle_ul .tit').on('click',function(){
+	$(this).siblings('.vehicle_con_detail').toggle(600)
+})
 
 
 /*个人中心*/

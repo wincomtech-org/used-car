@@ -192,13 +192,6 @@
 <script src="__TMPL__/public/assets/js/AreaData_min.js" type="text/javascript"></script>
 
 <script>
-
-    var Id = 3,
-        url = '{:url("admin/District/getCitys")}';
-
-    $.post(url, {parentId: Id}, function(data) {
-        console.log(data)
-    });
     $(function(){
         /**日期时间**/
         var date=new Date();
@@ -223,56 +216,32 @@
         // });
 
         // 地区选项
-        // $('#input-province').change(function() {
-        //     var Id = $(this).val(),
-        //         url = '{:url("admin/District/getCitys")}';
-            // alert('{:url("admin/District/getCitys")}');
-            // alert("{:url("admin/District/getCitys")}");
-            // alert(url)
+        $('#input-province').change(function() {
+            var Id = $(this).val(), url ='{:url("admin/District/getCitys")}';
+            alert(url)
 
-            // $.ajax({
-            //     url: url,
-            //     type: 'POST',
-            //     // dataType: 'json',
-            //     data: {parentId: Id},
-            // })
-            // .done(function(data) {
-            //     // console.log("success");
-            //     alert(data)
-            //     if (data) {$('#input-city').html(data);}
-            // })
-            // .fail(function() {
-            //     // console.log("error");
-            // })
-            // .always(function() {
-            //     // console.log("complete");
-            // });
+            $.ajax({
+                url: '{:url("admin/District/getCitys")}',
+                type: 'POST',
+                // dataType: 'json',
+                data: {parentId: Id},
+            })
+            .done(function(data) {
+                console.log(data);
 
-      // $.ajax({
-      //   url: url,
-      //   data: {parentId: Id},
-      //   type: "POST",
-      //   // dataType:'json',
-      //   success:function(CallBack) {
-      //     alert(CallBack)
-      //   },
-      //   error:function(er){BackErr(er);}
-      // });
-            // $.ajax({
-            //     url: url,
-            //     type: 'POST',
-            //     // dataType: 'json',
-            //     data: {parentId: Id},
-            //     success:function(data){
-            //         alert(data)
-            //         if (data) { $('#input-city').html(data); }
-            //     }
-            // });
+                if (data) {$('#input-city').show().html(data);}
+            })
+            .fail(function() {
+                // console.log("error");
+            })
+            .always(function() {
+                // console.log("complete");
+            });
 
-            // $.post('{:url("usual/AdminDeposit/Ajax")}', {compId:'{$compId}', provId: Id}, function(coord) {
-            //     $('#input-coordinate').html(coord);
-            // });
-        // });
+            $.post('{:url("usual/AdminDeposit/Ajax")}', {compId:'{$compId}', provId: Id}, function(coord) {
+                $('#input-coordinate').html(coord);
+            });
+        });
 
         $('#input-city').change(function() {
             var provId = $('#input-province').val(),cityId = $(this).val();

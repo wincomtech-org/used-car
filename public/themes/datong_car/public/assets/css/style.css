@@ -29,8 +29,15 @@
 .our_service_img img{width:100%;}
 .our_service_img .txt_foot{position:absolute;top:20px;left:20px;z-index:1;font-size:24px;color:#272636;}
 
-.our_service_items:hover img{-webkit-transform:scale(1.1) rotate(1deg);transform:scale(1.1) rotate(1deg);transition:0.6s;-webkit-transition:0.6s;-moz-transition:0.6s;-ms-transition:0.6s;-o-transition:0.6s}
-.our_service_items:hover .our_service_txt{background-color:rgba(0,0,0,.6);display:block;transition:0.6s;-webkit-transition:0.6s;-moz-transition:0.6s;-ms-transition:0.6s;-o-transition:0.6s;filter:alpha(opacity=100);opacity:1}
+
+ @media only screen  and (min-width:481px){
+    .our_service_items:hover img{-webkit-transform:scale(1.1) rotate(1deg);transform:scale(1.1) rotate(1deg);transition:0.6s;-webkit-transition:0.6s;-moz-transition:0.6s;-ms-transition:0.6s;-o-transition:0.6s}
+    .our_service_items:hover .our_service_txt{background-color:rgba(0,0,0,.6);display:block;transition:0.6s;-webkit-transition:0.6s;-moz-transition:0.6s;-ms-transition:0.6s;-o-transition:0.6s;filter:alpha(opacity=100);opacity:1}
+}
+ @media only screen  and (max-width:480px){
+    .slick-slide img{-webkit-transform:scale(1.1) rotate(1deg);transform:scale(1.1) rotate(1deg);transition:0.6s;-webkit-transition:0.6s;-moz-transition:0.6s;-ms-transition:0.6s;-o-transition:0.6s}
+    .slick-slide .our_service_txt{display:block;background-color:rgba(0,0,0,.6);display:block;transition:0.6s;-webkit-transition:0.6s;-moz-transition:0.6s;-ms-transition:0.6s;-o-transition:0.6s;filter:alpha(opacity=100);opacity:1}
+ }
 
 
 /**公司简介**/
@@ -1113,8 +1120,8 @@
 /*手机端*/
 /**首页我们的服务*/
 @media only screen and (max-width: 1199px){
-
-    .our_service{padding:.5rem 0;}
+    
+    .our_service{padding:.5rem 0;} 
     .our_service_lists{margin:1rem 0;}
     .index_tit{font-size:1rem;}
     .index_tit:after{content:"";display:block;clear:both;}
@@ -1125,11 +1132,11 @@
     /*手机端加轮播*/
     .our_service_list_pc{display:none;}
     .our_service_list_m{display:block;}
-    .our_service_show{width:100%;overflow:hidden;max-width:380px;margin:0 auto;}
-    .our_service_lists{width:300%;margin:0;}
-    .our_service_items{width:33.3333333%;}
+    .our_service_show{width:100%;max-width:380px;margin:0 auto;padding-bottom:35px;}
     .our_service_items:nth-child(2){margin:0;}
 }
+
+
 
 
 /*首页公司剑姬*/
@@ -1204,10 +1211,12 @@
 @media only screen and (max-width: 768px){
     .vehicle_trading_pc{display:none;}
     .vehicle_trading_m{display:block;}
-    .vehicle_ul .tit{font-size:18px;padding: 10px;border-bottom: 1px solid #ddd;}
+    .vehicle_ul .tit{font-size: 18px;padding: 10px;border-bottom: 1px solid #ddd;}
     .vehiTrad_con_con_list .vehicle_con_detail_items{width:49%;}
     /*.vehiTrad_con_con_list .vehicle_con_detail_items:nth-child(4n+2), .vehiTrad_con_con_list .vehicle_con_detail_items:nth-child(4n+3){margin-right:0;margin-left:0;}*/
      .vehiTrad_con_con_list .vehicle_con_detail_items:nth-child(odd){margin-right:2%;}
+     .vehicle_ul .tit{position:relative;}
+     .vehicle_ul .tit i{position:absolute;right:10px;}
     .vehicle_ul .tit span{font-size:14px;margin-left:10px;}
      .vehiTrad_tit_item_other_list{margin-right:6px;width:100px;}
      .vehiTrad_tit_item_other_list p{font-size:14px;}
@@ -1216,6 +1225,7 @@
      .vehiTrad_tit_item_con li a{padding:5px 11px;}
      .vehiTrad{padding:20px 0;}
      .vehiTrad_con{margin:25px 0;}
+     .vehicle_trading_m .vehicle_con_detail{display:none;}
 }
 
 @media only screen and (max-width:768px) and (min-width: 415px){
@@ -1280,7 +1290,7 @@
     body .flickerplate ul.flicks>li .flick-inner .flick-content{max-width:76%;}
     .news_txt{width:100%;}
     .news_txt_item{padding-top:7px;padding-bottom:12px;}
-    .news_con{    position: relative;padding-left: 360px;box-sizing: border-box;}
+    .news_con{position: relative;padding-left: 360px;box-sizing: border-box;min-height: 240px;}
 }
 @media only screen and (max-width: 767px){
     .news_img{display:none;}
