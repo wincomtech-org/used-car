@@ -134,8 +134,8 @@ $(document).delegate('.order_err_btn', 'click', function() {
 	$(this).parent().parent().parent().parent().parent().remove()
 })
 
-/**车辆买卖*/
-$(document).delegate('.analogy_tit', 'click', function(e) {
+/**车辆买卖  免费登记信息*/
+$('.analogy').delegate('.analogy_tit', 'click', function(e) {
 	$('.analogy_con').each(function() {
 		$(this).hide();
 	})
@@ -149,13 +149,19 @@ $(document).delegate('.analogy_tit', 'click', function(e) {
 	$(document).one('click', function() {
 		_this_siblings.hide();
 	})
-	e.stopPropagation();
+	
 
 	_this_siblings_li.on('click', function() {
 		var txt = $(this).children('input').val();
+		var liID=$(this).attr('data-val');
 		_this.children('input').val(txt);
+		_this.children('input').attr('data-id',liID)
 		_this_siblings.hide();
+
 	})
+
+	e.stopPropagation();
+
 })
 
 // 个人中心在线充值
