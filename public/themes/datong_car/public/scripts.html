@@ -20,10 +20,13 @@ $(function(){
 	// 	}
 	// });
 
+
+
 	$.post("{:url('user/index/isLogin')}",{},function(data){
 	    // console.log(data);
 		if(data.code==1){
 			if(data.data.user.avatar){
+
 			}
 			$("#main-head-user span.user-nickname").text(data.data.user.user_nickname?data.data.user.user_nickname:data.data.user.user_login);
 			$("#main-head-user li.logining").show();
@@ -34,6 +37,8 @@ $(function(){
 			$("#main-head-user li.offline").show();
 		}
 	});
+
+	
 
 	// ;(function($){
 	// 	$.fn.totop=function(opt){

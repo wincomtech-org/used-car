@@ -45,3 +45,10 @@
 .slick-dots li button:focus { outline: none; }
 .slick-dots li button:before { position: absolute; top: 0; left: 0; content: "\2022"; width: 20px; height: 20px; font-family: "slick"; font-size: 36px; line-height: 20px; text-align: center; color: black; opacity: 0.25; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
 .slick-dots li.slick-active button:before { opacity: 0.75; }
+
+
+.slick { width: 100%; margin: 0 auto;}
+.slick-prev:before, .slick-next:before { position: absolute; left: 0; top: 1px; color: #ccc;}
+.slick-prev { left: -35px;}
+.slick-next { right: -35px;}
+.slick-dots { bottom: -35px;}

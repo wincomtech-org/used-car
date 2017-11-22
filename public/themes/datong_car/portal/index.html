@@ -4,9 +4,24 @@
     <title>首页 {$site_info.site_name|default=''}</title>
     <meta name="keywords" content="{$site_info.site_seo_keywords|default=''}"/>
     <meta name="description" content="{$site_info.site_seo_description|default=''}">
+   
 
     <include file="public@head"/>
+    <link rel="stylesheet" href="__TMPL__/public/assets/css/slick.css">
+    <script src="__TMPL__/public/assets/js/slick.min.js"></script>
+    <script>
+     $(function(){
+        $('.slick').slick({
+            dots: true,
+            slidesToShow: 1,
+            slidesToScroll: 1,
+            autoplay: true,
+            autoplaySpeed: 2000
+        });
+      });
+    </script>
     <hook name="before_head_end"/>
+    
 </head>
 <body>
     <!-- 头部 -->
@@ -114,7 +129,7 @@
                     <ul class="vehicle_tit">
                         <foreach name="Type" item="vo" key="k">
                         <li class="{$k==0?='active'}">
-                            <p>{$vo}</p><span></span>
+                            <p>{$vo}<span></span></p>
                         </li>
                         </foreach>
                     </ul>
@@ -177,7 +192,7 @@
                     <div class="vehicle_con">
                         <foreach name="cars" item="vo">
                         <div class="vehicle_ul">
-                            <p class="tit">{$vo.type_name}<span></span></p>
+                            <p class="tit">{$vo.type_name}<span></span><i class="ion-ios-arrow-right"></i></p>
                             <ul class="vehicle_con_detail">
                                 <foreach name="vo.children" item="child">
                                 <li class="vehicle_con_detail_items">
@@ -321,6 +336,15 @@
 <include file="public@morejs"/>
 
 <script>
+    $(function(){
+        $('.slick').slick({
+            dots: true,
+            slidesToShow: 1,
+            slidesToScroll: 1,
+            autoplay: true,
+            autoplaySpeed: 2000
+        });
+    });
     $(document).ready(function(){
         $('.flicker-example').flicker();
     });
