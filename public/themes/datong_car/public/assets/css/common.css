@@ -224,8 +224,12 @@ nav{background-color:#000;}
 	.registration_information{padding:20px 19px;}
 	.regist_info_form_item span{width:71px;}
 	.analogy.no  .kuang{margin:0;}
+<<<<<<< HEAD
 	.analogy.no input,.analogy.no  .kuang{width:68px;}
 
+=======
+	/*.analogy.no input,.analogy.no  .kuang{width:68px;}*/
+>>>>>>> fe9b241356cd6dec2d2a5b97b5dc5f955a9d3398
 	.analogy.no  .analogy_change{font-size:12px;}
 }
 
