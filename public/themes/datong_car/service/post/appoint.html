@@ -64,7 +64,7 @@
                                     </case>
                                     <case value="service_point">
                                         <select name="more[province_id]" id="input-province" >
-                                            <option value="" selected>--请选择省份--</option>
+                                            <option value="" >--请选择省份--</option>
                                             {$Provinces}
                                         </select>&nbsp;&nbsp;
                                         <select name="more[city_id]" id="input-city">
@@ -218,39 +218,11 @@
 
         // 地区选项
         $('#input-province').change(function() {
-            var Id = $(this).val(),
-                url = '{:url("usual/Ajax/getCitys")}';
-                // url = '{:url("admin/District/getCitys")}';
-            // alert(url)
+            // var o = this = '#input-province';
+            var url = '{:url("usual/Ajax/getCitys")}';
+            select_province(this,url);
 
-            $.ajax({
-                url: url,
-                type: 'POST',
-                // dataType: 'json',
-                data: {parentId: Id},
-            })
-            .done(function(data) {
-                // console.log(data);
-                if (data) {$('#input-city').html(data);}
-            })
-            .fail(function() {
-                // console.log("error");
-            })
-            .always(function() {
-                // console.log("complete");
-            });
-
-            // $.ajax({
-            //     url: url,
-            //     type: 'POST',
-            //     // dataType: 'json',
-            //     data: {parentId: Id},
-            //     success:function(data){
-            //         console.log(data);
-            //         if (data) { $('#input-city').html(data); }
-            //     }
-            // });
-
+            var Id = $(this).val();
             $.post('{:url("usual/Ajax/coordinate")}', {compId:'{$compId}', provId: Id}, function(coord) {
                 $('#input-coordinate').html(coord);
             });

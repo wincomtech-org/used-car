@@ -11,10 +11,6 @@ use think\Db;
  */
 class DistrictController extends AdminBaseController
 {
-    // public function _initialize()
-    // {
-    //     parent::_initialize();
-    // }
 
     /**
      * 地区管理
@@ -33,11 +29,5 @@ class DistrictController extends AdminBaseController
     {
         return '地区管理';
         $this->fetch();
-    }
-
-    public function getCitys()
-    {
-        $parentId = $this->request->param('parentId',0,'intval');
-        return $this->CityData($parentId);
     }
 }

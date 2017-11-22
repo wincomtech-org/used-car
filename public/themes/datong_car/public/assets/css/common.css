@@ -171,7 +171,7 @@ nav{background-color:#000;}
 .analogy.no{border:none;}
 .analogy.no input{border:1px solid #ddd;height:100%;width:125px;display:inline-block;vertical-align:top;}
 
-.analogy.no  .kuang{width:80px;height:100%;border:1px solid #ddd;margin:0 10px;}
+.analogy.no  .kuang{/*width:80px;*/height:100%;border:1px solid #ddd;margin:0 10px;}
 .analogy.no  .analogy_change{font-size:16px;line-height:35px;vertical-align:text-bottom;}
 .analogy.no  .kuang,.analogy.no  .analogy_change{display:inline-block;}
 .analogy .btn_submi{background-color:#d00000;color:#fff;font-size:16px;width:100%;height:100%;display:block;text-align:center;}

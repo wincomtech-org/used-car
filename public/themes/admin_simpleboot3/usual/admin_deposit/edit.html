@@ -148,7 +148,7 @@
         $('#input-province').change(function() {
             var Id = $(this).val();
             $.ajax({
-                url: '{:url("admin/District/getCitys")}',
+                url: '{:url("usual/Ajax/getCitys")}',
                 type: 'POST',
                 // dataType: 'json',
                 data: {parentId: Id},

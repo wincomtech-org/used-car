@@ -20,21 +20,21 @@ class IndexController extends HomeBaseController
         // 实例化
         $serieModel = new UsualSeriesModel();
 
-        // 获取免费登记卖车信息相关数据
-        if (cache('?regCarInfo')) {
-            $regCarInfo = cache('regCarInfo');
-        } else {
+        // 获取免费登记卖车信息相关数据 cache('?regCarInfo')
+        $regCarInfo = cache('regCarInfo');
+        if (empty($regCarInfo)) {
+            // $brandId = $this->request->param('brandId',0,'intval');
             $provId = $this->request->param('provId',1,'intval');
             // $cityId = $this->request->param('cityId',0,'intval');
             $Brands = model('usual/UsualBrand')->getBrands(0,0,false);
-            $Series = $serieModel->SeriesTree();
+            // $Series = $serieModel->SeriesTree($brandId,false);
             $Models = model('usual/UsualModels')->getModels(0,0,false);
             $Provinces = model('admin/District')->getDistricts(0,$provId);
             // $Citys = model('admin/District')->getDistricts($cityId,$provId);
 
             $regCarInfo = [
                 'brand'=>$Brands,
-                'serie'=>$Series,
+                // 'serie'=>$Series,
                 'model'=>$Models,
                 'prov'=>$Provinces,
             ];
@@ -68,10 +68,10 @@ class IndexController extends HomeBaseController
         $Brands = model('usual/UsualBrand')->getBrands($brandId,0,false);
         $serieModel = new UsualSeriesModel();
         if (empty($brandId)) {
-            $Series = $serieModel->recSeries($brandId);
+            $Series = $serieModel->recSeries();
         } else {
             $recSeries = $serieModel->recSeries($brandId);
-            $Series = $serieModel->SeriesTree($brandId);
+            $Series = $serieModel->SeriesTree($brandId,false);
             $this->assign('recSeries',$recSeries);
         }
         $Models = model('usual/UsualModels')->getModels($modelId,0,false);

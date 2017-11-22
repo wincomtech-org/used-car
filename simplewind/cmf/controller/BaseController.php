@@ -80,26 +80,5 @@ class BaseController extends Controller
         return true;
     }
 
-    /*
-    * 地区 获取城市数据
-    * return ajax
-    */
-    public function CityData($parentId,$option)
-    {
-        // if ($this->request->isAjax()) {
-            // echo model('District')->getDistricts(0,$parentId);exit();
-            return model('admin/District')->getDistricts(0,$parentId,$option);
-        // }
-
-
-        // $parentId = request();
-        // $parentId = $this->request->param();
-        // return $parentId['parentId'];
-        // return request('parentId',0,'intval');
-        // return $this->request->param('parentId',0,'intval');
-        // echo "kill2";die;
-        // echo $this->request->param('parentId');die;
-    }
-
 
 }

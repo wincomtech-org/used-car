@@ -78,7 +78,7 @@ class UsualSeriesModel extends UsualCategoryModel
         return $data;
     }
     // 所有车系
-    public function SeriesTree($brandId=0,$recursive=false)
+    public function SeriesTree($brandId=0,$recursive=true)
     {
         $where = [];
         if (!empty($brandId)) {
