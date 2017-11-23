@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>提现 - {$site_info.site_name|default=''}</title>
+    <meta name="keywords" content="{$site_info.site_seo_keywords|default=''}"/>
+    <meta name="description" content="{$site_info.site_seo_description|default=''}">
+
+    <include file="public@head"/>
+</head>
+<body>
+    <!-- 头部 -->
+    <include file="public@header" />
+    <!-- 导航 -->
+    <include file="public@nav" />
+
+
+    <!-- 热门资讯 -->
+    <section class="person">
+        <div class="main">
+            <include file="public@usernav" />
+
+            <div class="person_right">
+                <div class="person_right_tit">
+                    <include file="funds/fundsnav" />
+                </div>
+                <div class="person_right_con">
+                    <div class="fund_management">
+                        <div class="fund_management_detail">
+                            <p class="fund_management_tit_tip">尊敬的用户，为了您的账号安全，在进行此操作前，请先输入支付密码</p>
+                            <div class="detail_div">
+                                <ul class="detail_list">
+                                    <li class="tit">可用余额</li>
+                                    <li class="money">￥0.99</li>
+                                    <li class="operate">
+                                        <a href="" class=""><b></b>充值</a>
+                                        <a href="" class="select"><b></b>提现</a>
+                                    </li>
+                                </ul>
+                                <ul class="detail_list">
+                                    <li class="tit">押金</li>
+                                    <li class="money">￥0.99</li>
+                                    <li class="operate">
+                                        <a href="" class=""><b></b>支付</a>
+                                        <a href="" class=""><b></b>返回</a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="mode_payment">
+                                <form action="fund_management1_sucuss.html" method="get" accept-charset="utf-8">
+                                    <div class="mode_payment_con">
+                                        <p class="fund_managemen_title">请选择提现方式</p>
+
+                                        <ul class="online_way pay_tab_list">
+                                            <li class="label_input pay_tab_list_item"><b></b><label><input type="radio" name="online_payment_way" ><span class="icon_img"></span></label></li>
+                                            <li class="label_input pay_tab_list_item"><b></b><label><input type="radio" name="online_payment_way" ><span class="icon_img"></span></label></li>
+                                        </ul>
+                                         <div class="pay_tab_con">
+                                            <ul class="pay_tab_con_list">
+
+                                                <li class="pay_tab_con_list_item" style="display:block">
+
+                                                        <p class="group_list">
+                                                            <span class="icon_tit">请输入支付宝账号</span>
+                                                            <input type="text" name="zfb">
+                                                        </p>
+                                                        <p class="group_list">
+                                                            <span class="icon_tit">姓名</span>
+                                                            <input type="text" name="name">
+                                                        </p>
+                                                        <p class="group_list">
+                                                            <span class="icon_tit">昵称</span>
+                                                            <input type="text" name="name1">
+                                                        </p>
+
+                                                </li>
+                                                <li class="pay_tab_con_list_item" style="display:none;">
+
+                                                        <p class="group_list">
+                                                            <span class="icon_tit">请输入微信账号</span>
+                                                            <input type="text" name="wx">
+                                                        </p>
+                                                        <p class="group_list">
+                                                            <span class="icon_tit">姓名</span>
+                                                            <input type="text" name="name">
+                                                        </p>
+                                                        <p class="group_list">
+                                                            <span class="icon_tit">昵称</span>
+                                                            <input type="text" name="name1">
+                                                        </p>
+
+                                                </li>
+
+                                            </ul>
+                                        </div>
+
+                                    </div>
+                                     <div class="ash_withdrawa">
+                                        <span><i>*</i>提现金额</span>
+                                        <input type="" name="">
+                                    </div>
+                                    <p class="cz_btn_p"><button type="submit" class="btn-red">确认提交</button></p>
+                                </form>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 底部 -->
+    <include file="public@footer" />
+    <include file="public@scripts" />
+</body>
+<include file="public@morejs" />
+<script type="text/javascript" src="__TMPL__/public/assets/js/laydate/laydate.js"></script>
+
+<script>
+
+     // 支付方式切换
+
+    window.onload=function(){
+      var $pay_li=$('.pay_tab_list_item');
+      var $pay_con=$('.pay_tab_con_list_item');
+      $pay_li.click(function(){
+          var $this=$(this);
+          var $index=$this.index();
+          $pay_li.siblings('.pay_tab_list_item').hide();
+          $pay_li.show();
+          $this.addClass('select').siblings().removeClass('select')
+          $pay_con.css('display','none');
+          $pay_con.eq($index).css('display','block');
+      })
+ }
+
+
+</script>
+</html>

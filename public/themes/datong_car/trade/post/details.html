@@ -18,9 +18,9 @@
         <div class="main">
             <ul class="brash">
                 <li>当前位置：</li>
-                <li><a href="">车辆买卖</a></li>
-                <li><a href="">二手车</a></li>
-                <li class="active"><a href="">宝马 7系 2009款 3.0T 自动 740li领先型</a></li>
+                <li><a href="{:url('Index/index')}">车辆买卖</a></li>
+                <!-- <li><a href="">二手车</a></li> -->
+                <li class="active"><a href="#">{$page.name}</a></li>
             </ul>
             <div class="car_message_tit_con">
                 <div class="img lf">
@@ -45,7 +45,6 @@
                                   <li><img bimg="__TMPL__/public/assets/images/example/car_big.jpg" src="__TMPL__/public/assets/images/example/car_big.jpg" onmousemove="preview(this);"></li>
                                   <li><img bimg="__TMPL__/public/assets/images/example/car_big.jpg" src="__TMPL__/public/assets/images/example/car_big.jpg" onmousemove="preview(this);"></li>
                                   <li><img bimg="__TMPL__/public/assets/images/example/car_big.jpg" src="__TMPL__/public/assets/images/example/car_big.jpg" onmousemove="preview(this);"></li>
-
                                 </ul>
                               </div>
                         </div>
@@ -54,11 +53,11 @@
 
 
                 <div class="txt rt">
-                    <h5>宝马 7系 2009款 3.0T 自动 740Li领先型</h5>
+                    <h5>{$page.name}</h5>
                     <ul class="detail1">
-                        <li class="offter"> <span class="big">￥41.25万</span>（含过户费）</li>
-                        <li>新车价： <span class="gray">128.95万</span></li>
-                        <li >车辆所属：<span class="gray">大通车服 </span></li>
+                        <li class="offter"> <span class="big">￥{$page.shop_price}万</span>（含过户费）</li>
+                        <li>新车价： <span class="gray">{$page.market_price}万</span></li>
+                        <!-- <li >车辆所属：<span class="gray">大通车服 </span></li> -->
                     </ul>
                     <div class="down_payments">
                         <a href="" class="down_payments_a">
@@ -69,29 +68,29 @@
                     <div class="detail2">
                         <ul >
                             <li class="offter">
-                                <b>6.1万公里</b>
+                                <b>{$page.car_mileage}万公里</b>
                                 <span>表显历程</span>
                             </li>
                             <li class="offter">
-                                <b>2011-06</b>
+                                <b>{$page.car_license_time?=date('Y-m-d',$page.car_license_time)}</b>
                                 <span>上牌时间</span>
                             </li>
                             <li class="offter">
-                                <b>2011-10-09</b>
-                                <span>上驾时间</span>
+                                <b>{$page.car_color}</b>
+                                <span>颜色</span>
                             </li>
                         </ul>
                         <ul>
                             <li class="offter">
-                                <b>国4</b>
+                                <b>{$page.car_effluent}</b>
                                 <span>排放标准</span>
                             </li>
                             <li class="offter">
-                                <b>3.0L/AT自动</b>
+                                <b>{$page.car_gearbox}</b>
                                 <span>排量/变速箱</span>
                             </li>
                             <li class="offter">
-                                <b>合肥</b>
+                                <b>{$page.city_id}</b>
                                 <span>所在城市</span>
                             </li>
 
@@ -102,11 +101,9 @@
                             <a href="booking_see_car.html" class="btn car"><span></span>预约看车</a>
                         </div>
                         <div class="yuyue_guang">
-                            <a  class="btn iphone" href="tel:13205513306"><span></span>电话联系</a>
+                            <a class="btn iphone" href="tel:13205513306"><span></span>电话联系</a>
                         </div>
-
                     </div>
-
                 </div>
 
             </div>
@@ -389,7 +386,6 @@
                                 <li class="active"><a ></a></li>
                                 <li><a ></a></li>
                                 <li><a></a></li>
-
                             </ul>
                         </div>
                     </div>

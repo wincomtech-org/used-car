@@ -28,11 +28,11 @@
                     <div class="vehiTrad_tit_item">
                         <ul class="vehiTrad_tit_item_con">
                             <li <empty name="brandId">class="active"</empty>>
-                                <a href="{:url('Index/index')}#AAA">不限</a>
+                                <a href="{:url('Index/index', $jumpext.'&brandId=')}#AAA">不限</a>
                             </li>
                             <foreach name="Brands" item="vo">
                             <li {$brandId==$vo.id?='class="active"'}>
-                                <a href="{:url('Index/index')}#AAA">{$vo.name}</a>
+                                <a href="{:url('Index/index', $jumpext.'&brandId='.$vo.id)}#AAA">{$vo.name}</a>
                             </li>
                             </foreach>
                         </ul>
@@ -47,11 +47,11 @@
                     <div class="vehiTrad_tit_item">
                         <ul class="vehiTrad_tit_item_con">
                             <li <empty name="serieId">class="active"</empty>>
-                                <a href="{:url('Index/index')}#AAA">不限</a>
+                                <a href="{:url('Index/index', $jumpext.'&serieId=')}#AAA">不限</a>
                             </li>
                             <foreach name="Series" item="vo">
                             <li {$serieId==$vo.id?='class="active"'}>
-                                <a href="{:url('Index/index')}#AAA">{$vo.name}</a>
+                                <a href="{:url('Index/index', $jumpext.'&serieId='.$vo.id)}#AAA">{$vo.name}</a>
                             </li>
                             </foreach>
                         </ul>
@@ -66,13 +66,14 @@
                     <div class="vehiTrad_tit_item">
                         <ul class="vehiTrad_tit_item_con">
                             <li <empty name="priceId">class="active"</empty>>
-                                <a href="{:url('Index/index')}#AAA">不限</a>
+                                <a href="{:url('Index/index', $jumpext.'&priceId=')}#AAA">不限</a>
                             </li>
-                            <foreach name="Prices" item="vo">
-                            <li {$priceId==$vo.id?='class="active"'}>
-                                <a href="{:url('Index/index')}#AAA">{$vo.description ?? $vo.name}</a>
+                            <foreach name="Prices" item="vo" key="key">
+                            <li <if condition="$priceId===$key">class="active"</if>>
+                                <a href="{:url('Index/index', $jumpext.'&priceId='.$key)}#AAA">{$vo}</a>
                             </li>
                             </foreach>
+                                <!-- <a href="">{//$vo.description ?? $vo.name}</a> -->
                         </ul>
                         <div class="more">
                             全部<span class="icon"> < </span>
@@ -89,11 +90,10 @@
                             <p>车型</p>
                             <ul style="display:none;">
                                 <foreach name="Models" item="vo">
-                                <li><a href="#AAA">{$vo.name}</a></li>
+                                <li><a href="{:url('Index/index', $jumpext.'&modelId='.$vo.id)}#AAA">{$vo.name}</a></li>
                                 </foreach>
                             </ul>
                         </div>
-                        <!-- 未处理 -->
                         <!-- 以下在item -->
                         <foreach name="moreTree" item="vo">
                         <div class="vehiTrad_tit_item_other_list">
@@ -101,7 +101,7 @@
                             <notempty name="vo.form_element">
                             <ul style="display:none;">
                                 <foreach name="vo.form_element" item="v">
-                                <li><a href="#AAA">{$v.description?$v.description:$v.name.$vo.unit}</a></li>
+                                <li {$$vo.code==$v.name?='class="active"'}><a href="{:url('Index/index', $jumpext.'&'.$vo.code.'='.$v.name)}#AAA">{$v.description?$v.description:$v.name.$vo.unit}</a></li>
                                 </foreach>
                             </ul>
                             </notempty>
@@ -119,7 +119,7 @@
                     <ul class="vehiTrad_con_tit_list">
                         <foreach name="Types" item="vo" key="key">
                         <li {$key==$typeId?='class="active"'}>
-                            <a href="{:url('Index/index',['typeId'=>$key])}#AAA">{$vo}</a>
+                            <a href="{:url('Index/index', $jumpext.'&typeId='.$key)}#AAA">{$vo}</a>
                         </li>
                         </foreach>
                     </ul>

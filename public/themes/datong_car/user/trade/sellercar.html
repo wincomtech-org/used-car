@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>卖家中心 - {$site_info.site_name|default=''}</title>
+    <meta name="keywords" content="{$site_info.site_seo_keywords|default=''}"/>
+    <meta name="description" content="{$site_info.site_seo_description|default=''}">
+
+    <include file="public@head"/>
+</head>
+<body>
+    <!-- 头部 -->
+    <include file="public@header" />
+    <!-- 导航 -->
+    <include file="public@nav" />
+
+    <!-- 卖家中心 -->
+    <section class="person">
+        <div class="main">
+            <include file="public@usernav" />
+
+            <div class="person_right">
+                <div class="person_right_tit">
+                    <include file="trade/sellernav" />
+                </div>
+                <div class="person_right_con">
+                    <form action="" method="post" accept-charset="utf-8">
+                        <!-- 一下是有几个步骤的，点击上下页可以看到之前的 -->
+
+                        <div class="seller_center" >
+                            <div class="info_tit">属性设置填写<ul class="page_turning"><li><a class="pre">上一页</a></li><li><a class="next">下一页</a></li></ul></div>
+                            <div class="home_list">
+                                <ul class="info_detail_list">
+                                    <li class="details_item">
+                                        <span class="details_tit">车身颜色</span>
+                                        <div class="idetails_con">
+                                            <input type="text" name="" placeholder="车身颜色" class="placeholder" >
+                                            <!-- <i class="tip">请核实后在填写</i> -->
+                                        </div>
+                                    </li>
+                                    <li class="details_item">
+                                        <span class="details_tit">燃料类型</span>
+                                        <div class="idetails_con">
+                                            <div class="analogy">
+                                                <p class="analogy_tit"><input type="text" name="brand" placeholder="燃料类型" class="placeholder" readonly=""></p>
+                                                <ul class="analogy_con" style="display: none;">
+                                                    <li data-val="1"><input type="text" name="" value="123" readonly=""></li>
+                                                    <li data-val="2"><input type="text" name="" value="123" readonly=""></li>
+                                                    <li data-val="3"><input type="text" name="" value="123" readonly=""></li>
+                                                    <li data-val="4"><input type="text" name="" value="123" readonly=""></li>
+                                                    <li data-val="5"><input type="text" name="" value="123" readonly=""></li>
+                                                    <li data-val="6"><input type="text" name="" value="123" readonly=""></li>
+                                                    <li data-val="7"><input type="text" name="" value="123" readonly=""></li>
+                                                    <li data-val="8"><input type="text" name="" value="123" readonly=""></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="details_item">
+                                        <span class="details_tit">车龄</span>
+                                        <div class="idetails_con">
+                                            <div class="analogy">
+                                                <p class="analogy_tit"><input type="text" name="brand" placeholder="车辆" class="placeholder" readonly=""></p>
+                                                <ul class="analogy_con" style="display: none;">
+                                                    <li data-val="1"><input type="text" name="" value="123" readonly=""></li>
+                                                    <li data-val="2"><input type="text" name="" value="123" readonly=""></li>
+                                                    <li data-val="3"><input type="text" name="" value="123" readonly=""></li>
+                                                    <li data-val="4"><input type="text" name="" value="123" readonly=""></li>
+                                                    <li data-val="5"><input type="text" name="" value="123" readonly=""></li>
+                                                    <li data-val="6"><input type="text" name="" value="123" readonly=""></li>
+                                                    <li data-val="7"><input type="text" name="" value="123" readonly=""></li>
+                                                    <li data-val="8"><input type="text" name="" value="123" readonly=""></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="details_item">
+                                        <span class="details_tit">燃料类型</span>
+                                        <div class="idetails_con">
+                                            <input type="text" name="" placeholder="排放标准" class="placeholder" >
+                                            <!-- <i class="tip">请核实后在填写</i> -->
+                                        </div>
+                                    </li>
+                                    <li class="details_item">
+                                        <span class="details_tit">上牌时间</span>
+                                        <div class="idetails_con">
+
+                                            <input type="text" name="" id="spdate" >
+
+                                        </div>
+                                    </li>
+                                    <li class="details_item">
+                                        <span class="details_tit">里程数</span>
+                                        <div class="idetails_con">
+                                            <input type="text" name="" placeholder="里程数" class="placeholder" >
+                                            <!-- <i class="tip">请核实后在填写</i> -->
+                                        </div>
+                                    </li>
+                                    <li class="details_item">
+                                        <span class="details_tit">变速箱</span>
+                                        <div class="idetails_con">
+                                            <input type="text" name="" placeholder="变速箱" class="placeholder" >
+                                            <!-- <i class="tip">请核实后在填写</i> -->
+                                        </div>
+                                    </li>
+                                    <li class="details_item">
+                                        <span class="details_tit">座位数</span>
+                                        <div class="idetails_con">
+                                            <input type="text" name="" placeholder="座位数" class="placeholder" >
+                                            <!-- <i class="tip">请核实后在填写</i> -->
+                                        </div>
+                                    </li>
+                                    <li class="details_item">
+                                        <span class="details_tit"></span>
+                                        <div class="idetails_con">
+                                            <a class="btn-red next">下一页</a>
+                                            <input type="reset" class=" btn-red" value="取消">
+
+                                        </div>
+                                    </li>
+                                </ul>
+
+                                <div class="custom_service">
+                                    <span class="icon"><img src="__TMPL__/public/assets/images/example/custorm.png" alt=""></span>
+                                    <dl>
+                                        <dt>有问题找车服</dt>
+                                        <dd><a href="">信息提交不上怎么办？</a></dd>
+                                        <dd><a href="">信息提交不上怎么办？</a></dd>
+                                        <dd><a href="">信息提交不上怎么办？</a></dd>
+                                        <dd><a href="">信息提交不上怎么办？</a></dd>
+                                        <dd><a href="">信息提交不上怎么办？</a></dd>
+                                    </dl>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="seller_center" style="display:none;">
+                            <div class="info_tit">基本属性填写 <ul class="page_turning"><li><a class="pre">上一页</a></li><li><a class="next">下一页</a></li></ul></div>
+                            <div class="home_list">
+                                <ul class="info_detail_list">
+                                    <li class="details_item">
+                                        <span class="details_tit">车辆名称</span>
+                                        <div class="idetails_con">
+                                            <input type="text" name="" placeholder="车辆名称" class="placeholder" >
+                                            <!-- <i class="tip">请核实后在填写</i> -->
+                                        </div>
+                                    </li>
+                                    <li class="details_item">
+                                        <span class="details_tit">所属车系</span>
+                                        <div class="idetails_con">
+                                            <div class="analogy">
+                                                <p class="analogy_tit"><input type="text" name="brand" placeholder="燃料类型" class="placeholder" readonly=""></p>
+                                                <ul class="analogy_con" style="display: none;">
+                                                    <li data-val="1"><input type="text" name="" value="123" readonly=""></li>
+                                                    <li data-val="2"><input type="text" name="" value="123" readonly=""></li>
+                                                    <li data-val="3"><input type="text" name="" value="123" readonly=""></li>
+                                                    <li data-val="4"><input type="text" name="" value="123" readonly=""></li>
+                                                    <li data-val="5"><input type="text" name="" value="123" readonly=""></li>
+                                                    <li data-val="6"><input type="text" name="" value="123" readonly=""></li>
+                                                    <li data-val="7"><input type="text" name="" value="123" readonly=""></li>
+                                                    <li data-val="8"><input type="text" name="" value="123" readonly=""></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="details_item">
+                                        <span class="details_tit">所属品牌</span>
+                                        <div class="idetails_con">
+                                            <div class="analogy">
+                                                <p class="analogy_tit"><input type="text" name="brand" placeholder="所属品牌" class="placeholder" readonly=""></p>
+                                                <ul class="analogy_con" style="display: none;">
+                                                    <li data-val="1"><input type="text" name="" value="123" readonly=""></li>
+                                                    <li data-val="2"><input type="text" name="" value="123" readonly=""></li>
+                                                    <li data-val="3"><input type="text" name="" value="123" readonly=""></li>
+                                                    <li data-val="4"><input type="text" name="" value="123" readonly=""></li>
+                                                    <li data-val="5"><input type="text" name="" value="123" readonly=""></li>
+                                                    <li data-val="6"><input type="text" name="" value="123" readonly=""></li>
+                                                    <li data-val="7"><input type="text" name="" value="123" readonly=""></li>
+                                                    <li data-val="8"><input type="text" name="" value="123" readonly=""></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="details_item">
+                                        <span class="details_tit">车辆价格</span>
+                                        <div class="idetails_con">
+                                            <input type="text" name="" placeholder="车辆价格" class="placeholder" >
+                                            <!-- <i class="tip">请核实后在填写</i> -->
+                                        </div>
+                                    </li>
+                                    <li class="details_item">
+                                        <span class="details_tit">车辆地址</span>
+                                        <div class="idetails_con">
+
+                                            <input type="text" name="" placeholder="车辆地址" >
+
+                                        </div>
+                                    </li>
+                                    <li class="details_item">
+                                        <span class="details_tit">详情介绍</span>
+                                        <div class="idetails_con">
+                                            <textarea name=""></textarea>
+                                        </div>
+                                    </li>
+
+                                    <li class="details_item">
+                                        <span class="details_tit"></span>
+                                        <div class="idetails_con">
+                                            <a class="btn-red pre">上一页</a>
+                                            <a class="btn-red next">下一页</a>
+
+                                        </div>
+                                    </li>
+                                </ul>
+                                <div class="custom_service">
+                                    <span class="icon"><img src="__TMPL__/public/assets/images/example/custorm.png" alt=""></span>
+                                    <dl>
+                                        <dt>有问题找车服</dt>
+                                        <dd><a href="">信息提交不上怎么办？</a></dd>
+                                        <dd><a href="">信息提交不上怎么办？</a></dd>
+                                        <dd><a href="">信息提交不上怎么办？</a></dd>
+                                        <dd><a href="">信息提交不上怎么办？</a></dd>
+                                        <dd><a href="">信息提交不上怎么办？</a></dd>
+                                    </dl>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="seller_center" style="display:none;">
+                            <div class="info_tit">个人信息填写 <ul class="page_turning"><li><a class="pre">上一页</a></li><li><a class="next">下一页</a></li></ul></div>
+                            <div class="home_list">
+                                <ul class="info_detail_list">
+                                    <li class="details_item">
+                                        <span class="details_tit">姓名</span>
+                                        <div class="idetails_con">
+                                            <input type="text" name="" placeholder="姓名" class="placeholder" >
+                                            <!-- <i class="tip">请核实后在填写</i> -->
+                                        </div>
+                                    </li>
+                                    <li class="details_item">
+                                        <span class="details_tit">联系方式</span>
+                                        <div class="idetails_con">
+                                            <input type="text" name="" placeholder="手机号码" class="placeholder" >
+                                            <!-- <i class="tip">请核实后在填写</i> -->
+                                        </div>
+                                    </li>
+                                    <li class="details_item">
+                                        <span class="details_tit">身份证号码</span>
+                                        <div class="idetails_con">
+                                            <input type="text" name="" placeholder="身份证号码" class="placeholder" >
+                                            <!-- <i class="tip">请核实后在填写</i> -->
+                                        </div>
+                                    </li>
+                                    <li class="details_item">
+                                        <span class="details_tit">QQ</span>
+                                        <div class="idetails_con">
+                                            <input type="text" name="" placeholder="QQ" class="placeholder" >
+
+                                        </div>
+                                    </li>
+
+                                    <li class="details_item unauthorized" >
+                                        <span class="details_tit">行车本照片</span>
+                                        <div class="idetails_con">
+                                            <ul>
+                                                <li>
+                                                    <!-- <span class="txt">正面</span> -->
+
+                                                    <div class="file">
+                                                        <span class="file_con">
+                                                            <input type="file" name="xcb" id="xcz1">
+                                                            <label for="xcz1"></label>
+                                                        </span>
+                                                        <!-- <i>请上传身份证正面照</i> -->
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <!-- <span class="txt">反面</span> -->
+
+                                                    <div class="file">
+                                                        <span class="file_con">
+                                                            <input type="file" name="xcb" id="xcz2">
+                                                            <label for="xcz2"></label>
+                                                        </span>
+                                                        <!-- <i>请上传身份证反面照</i> -->
+                                                    </div>
+                                                </li>
+                                            </ul>
+
+                                        </div>
+                                    </li>
+                                        <li class="details_item unauthorized" >
+                                        <span class="details_tit">车辆照片</span>
+                                        <div class="idetails_con">
+                                            <ul>
+                                                <li>
+                                                    <div class="file">
+                                                        <span class="file_con">
+                                                            <input type="file" name="car" id="xcz1">
+                                                            <label for="xcz1"></label>
+                                                        </span>
+                                                        <!-- <i>请上传身份证正面照</i> -->
+                                                    </div>
+                                                </li>
+                                                <li>
+
+
+                                                    <div class="file">
+                                                        <span class="file_con">
+                                                            <input type="file" name="car" id="xcz2">
+                                                            <label for="xcz2"></label>
+                                                        </span>
+                                                        <!-- <i>请上传身份证反面照</i> -->
+                                                    </div>
+                                                </li>
+                                            </ul>
+
+                                        </div>
+                                    </li>
+
+                                    <li class="details_item">
+                                        <span class="details_tit"></span>
+                                        <div class="idetails_con">
+                                            <a class=" btn-red">保存</a>
+                                            <input type="reset" class=" btn-red" value="取消">
+
+                                        </div>
+                                    </li>
+                                </ul>
+                                <div class="custom_service">
+                                    <span class="icon"><img src="__TMPL__/public/assets/images/example/custorm.png" alt=""></span>
+                                    <dl>
+                                        <dt>有问题找车服</dt>
+                                        <dd><a href="">信息提交不上怎么办？</a></dd>
+                                        <dd><a href="">信息提交不上怎么办？</a></dd>
+                                        <dd><a href="">信息提交不上怎么办？</a></dd>
+                                        <dd><a href="">信息提交不上怎么办？</a></dd>
+                                        <dd><a href="">信息提交不上怎么办？</a></dd>
+                                    </dl>
+                                </div>
+
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 底部 -->
+    <include file="public@footer" />
+    <include file="public@scripts" />
+</body>
+<include file="public@morejs" />
+<script type="text/javascript" src="__TMPL__/public/assets/js/laydate/laydate.js"></script>
+
+<script>
+    // 上牌日期
+    laydate.render({
+      elem: '#spdate', //指定元素
+      type: 'month'
+    });
+
+    $('.details_item .pre').click(function(){
+        $(this).parent().parent().parent().parent().parent().prev().show().siblings('.seller_center').hide()
+    })
+    $('.details_item .next').click(function(){
+        $(this).parent().parent().parent().parent().parent().next().show().siblings('.seller_center').hide()
+    })
+    $('.idetails_con input[type="reset"]').click(function(){
+        // $(this).parent().parent().parent().parent().parent().hide().
+    })
+    $('.page_turning .pre').click(function(){
+        $(this).parent().parent().parent().parent().prev().show().siblings('.seller_center').hide()
+    })
+    $('.page_turning .next').click(function(){
+        $(this).parent().parent().parent().parent().next().show().siblings('.seller_center').hide()
+    })
+</script>
+</html>

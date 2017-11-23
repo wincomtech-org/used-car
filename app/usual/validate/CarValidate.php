@@ -15,6 +15,7 @@ class CarValidate extends Validate
         'car_mileage' => 'require',
         'car_license_time' => 'require',
         'city_id' => 'require',
+        'identi.telephone' => 'require|checkTel',
     ];
 
     protected $message = [
@@ -34,6 +35,7 @@ class CarValidate extends Validate
     protected $scene = [
         'add'   => ['name','brand_id','serie_id','model_id','car_vin','plateNo','car_mileage','car_license_time','city_id'],
         'edit'  => ['name'=>'require','brand_id','serie_id','model_id','plateNo'=>'require','car_mileage','car_license_time','city_id'],
+        'reg'   => ['brand_id','serie_id','model_id','city_id'],
         'order' => ['plateNo'=>'require'],
     ];
 
@@ -74,5 +76,13 @@ class CarValidate extends Validate
             return false;
         }
         return true;
+    }
+    protected function checkTel($value)
+    {
+        $pattern = '/^1[34578]\d{9}$/';
+        if (preg_match($pattern,$value)) {
+            return true;
+        }
+        return false;
     }
 }

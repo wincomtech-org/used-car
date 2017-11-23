@@ -1,79 +1,293 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>{$user_login} - 个人中心</title>
-<meta name="keywords" content=""/>
-<meta name="description" content="">
-<include file="public@head"/>
-<style>
-.control-label {
-	font-weight: bold;
-	float: left;
-	width: 70px;
-}
-</style>
+	<title>{$user.user_login} - 个人中心</title>
+	<meta name="keywords" content=""/>
+	<meta name="description" content="">
+
+    <include file="public@head"/>
 </head>
-<body class="body-white" id="top">
-<include file="public@nav" />
-	<div class="container tc-main">
-		<div class="row">
-			<div class="col-md-3">
-				<include file="public@usernav" />
-			</div>
-			<div class="col-md-9">
-				<div class="tabs">
-					<ul class="nav nav-tabs">
-						<li class="active"><a href="#one" data-toggle="tab"><i class="fa fa-list-alt"></i>个人中心</a></li>
+<body>
+    <!-- 头部 -->
+    <include file="public@header" />
+    <!-- 导航 -->
+    <include file="public@nav" />
+
+	<!-- 个人中心 -->
+	<section class="person">
+		<div class="main">
+			<include file="public@usernav" />
+			<div class="person_right">
+				<div class="person_right_tit">
+					<ul>
+						<li class="person_right_item active">
+							<a href="#">资料中心</a>
+						</li>
 					</ul>
-					<div class="tab-content">
-						<div class="tab-pane active" id="one">
-							<br>
-							<div class="row">
-								<div class="col-md-3">
-								<a href="{:url('profile/avatar')}">
-									<if condition="empty($avatar)">
-										<img src="__TMPL__/public/assets/images/headicon_128.png" class="headicon" width="128" />
-									<else />
-										<img src="__ROOT__/upload/{$avatar}" class="headicon" width="128"/>
-									</if>
-								</a>
-							</div>
-							<div class="col-md-9">
-								<div class="form-group">
-									<label class="control-label" for="input-user_nicename">昵称</label>
-									<div>{$user_nickname|default='未填写'}</div>
-								</div>
-								<div class="form-group">
-									<label class="control-label" for="input-sex">性别</label>
-									<div>
-										<php> $sexs=array("0"=>"保密","1"=>"程序猿","2"=>"程序媛");echo $sexs[$sex]; </php>
+				</div>
+				<div class="person_right_con">
+					<div class="information_details">
+						<p class="info_tit">基本信息</p>
+						<!-- 查看 -->
+						<div class="info_detail">
+							<ul class="info_detail_list">
+								<li class="details_item">
+									<span class="details_tit">昵称</span>
+									<div class="idetails_con">
+										<input value="{$user.user_nickname|default='未填写'}" readonly>
 									</div>
-								</div>
-								<div class="form-group">
-									<label class="control-label" for="input-birthday">生日</label>
-									<div>{:date('Y-m-d',$birthday)}</div>
-								</div>
-								<div class="form-group">
-									<label class="control-label" for="input-user_url">个人网址</label>
-									<div>{$user_url|default='未填写'}</div>
-								</div>
-								<div class="form-group">
-									<label class="control-label" for="input-signature">个性签名</label>
-									<div>{$signature|default='未填写'}</div>
-								</div>
-								<div class="form-group">
-									<a href="{:url('user/profile/edit')}" class="btn btn-primary">编辑</a>
-								</div>
-							</div>
-							</div>
+								</li>
+								<li class="details_item">
+									<span class="details_tit">手机号码</span>
+									<div class="idetails_con">
+										<input value="{$user.mobile|default='未填写'}" readonly>
+									</div>
+								</li>
+								<li class="details_item">
+									<span class="details_tit">邮箱</span>
+									<div class="idetails_con">
+										<input value="{$user.user_email|default='未填写'}" readonly>
+									</div>
+								</li>
+								<li class="details_item">
+									<span class="details_tit">QQ</span>
+									<div class="idetails_con">
+										<input value="{$user.more.qq|default=''}" readonly>
+									</div>
+								</li>
+								<li class="details_item">
+									<span class="details_tit">性别</span>
+									<div class="idetails_con">
+										<input <php>$sexs=array("0"=>"保密","1"=>"程序猿","2"=>"程序媛");echo 'value="'.$sexs[$user['sex']].'"';</php> readonly />
+									</div>
+								</li>
+								<li class="details_item">
+									<span class="details_tit">生日</span>
+									<div class="idetails_con">
+										<input value="{:date('Y-m-d',$user.birthday)}" readonly>
+									</div>
+								</li>
+								<li class="details_item">
+									<span class="details_tit">详细地址</span>
+									<div class="idetails_con">
+										<input value="{$user.more.address|default=''}" readonly>
+									</div>
+								</li>
+
+								<!-- 上传了身份证，则是已认证，否则是未认证，不显示 -->
+								<li class="details_item">
+									<span class="details_tit">身份证照片</span>
+									<div class="idetails_con">
+										<ul>
+											<li>
+												<span class="txt">正面</span>
+												<div class="img">
+													<img src="__TMPL__/public/assets/images/example/sfz.jpg" alt="">
+												</div>
+											</li>
+											<li>
+												<span class="txt">反面</span>
+												<div class="img">
+													<img src="__TMPL__/public/assets/images/example/sfz.jpg" alt="">
+												</div>
+											</li>
+										</ul>
+									</div>
+								</li>
+								<li class="details_item">
+									<span class="details_tit">实名认证</span>
+									<div class="idetails_con">
+										<div class="stauts">
+											<!-- <p class="yes">已认证</p> -->
+											<p class="no">未认证</p>
+										</div>
+									</div>
+								</li>
+								<li class="details_item">
+									<span class="details_tit"></span>
+									<div class="idetails_con">
+										<p class="edit btn-red">编辑</p>
+									</div>
+								</li>
+							</ul>
+						</div>
+
+
+
+						<!-- 编辑 -->
+						<div class="edit_info_detail" style="display:none;">
+							<form action="{:url('user/profile/editPost')}" method="post" accept-charset="utf-8">
+								<ul class="info_detail_list">
+									<li class="details_item">
+										<span class="details_tit">昵称</span>
+										<div class="idetails_con">
+											<input type="text" name="user[user_nickname]">
+											<i class="tip">请核实后在填写</i>
+										</div>
+									</li>
+									<li class="details_item">
+										<span class="details_tit">手机号码</span>
+										<div class="idetails_con">
+											<input type="text" name="user[mobile]">
+											<i class="tip">请核实后在填写</i>
+										</div>
+									</li>
+									<li class="details_item">
+										<span class="details_tit">邮箱</span>
+										<div class="idetails_con">
+											<input type="text" name="user[user_email]">
+											<i class="tip">请核实后在填写</i>
+										</div>
+									</li>
+									<li class="details_item">
+										<span class="details_tit">QQ</span>
+										<div class="idetails_con">
+											<input type="text" name="user[more][qq]">
+										</div>
+									</li>
+									<li class="details_item">
+										<span class="details_tit">出生年月日</span>
+										<div class="idetails_con">
+											<input type="text" name="user[birthday]" class="person_bir">
+										</div>
+									</li>
+									<li class="details_item">
+										<span class="details_tit">详细地址</span>
+										<div class="idetails_con">
+											<input type="text" name="user[more][address]">
+										</div>
+									</li>
+
+									<!-- 已认证 -->
+									<li class="details_item authenticated">
+										<span class="details_tit">身份证照片</span>
+										<div class="idetails_con">
+											<ul>
+												<li>
+													<span class="txt">正面</span>
+													<div class="img">
+														<img src="__TMPL__/public/assets/images/example/sfz.jpg" alt="">
+														<div class="file">
+															<span class="file_con">
+																<input type="file" name="verify[identify1]" id="xcz">
+																<label for="xcz"></label>
+															</span>
+															<!-- <i>请上传身份证正面照</i> -->
+														</div>
+													</div>
+												</li>
+												<li>
+													<span class="txt">反面</span>
+													<div class="img">
+														<img src="__TMPL__/public/assets/images/example/sfz.jpg" alt="">
+														<div class="file">
+															<span class="file_con">
+																<input type="file" name="verify[identify2]" id="xcz">
+																<label for="xcz"></label>
+															</span>
+															<!-- <i>请上传身份证反面照</i> -->
+														</div>
+													</div>
+
+												</li>
+											</ul>
+
+										</div>
+									</li>
+									<!-- 未认证 -->
+									<li class="details_item unauthorized" style="display:none;" >
+										<span class="details_tit">身份证照片</span>
+										<div class="idetails_con">
+											<ul>
+												<li>
+													<span class="txt">正面</span>
+
+													<div class="file">
+														<span class="file_con">
+															<input type="file" name="xcz" id="xcz">
+															<label for="xcz"></label>
+														</span>
+														<!-- <i>请上传身份证正面照</i> -->
+													</div>
+												</li>
+												<li>
+													<span class="txt">反面</span>
+
+													<div class="file">
+														<span class="file_con">
+															<input type="file" name="xcz" id="xcz">
+															<label for="xcz"></label>
+														</span>
+														<!-- <i>请上传身份证反面照</i> -->
+													</div>
+												</li>
+											</ul>
+
+										</div>
+									</li>
+									<li class="details_item">
+										<span class="details_tit">实名认证</span>
+										<div class="idetails_con">
+											<div class="stauts">
+												<p class="yes">已认证</p>
+												<!-- 未认证 -->
+												<!-- <p class="no">未认证</p> -->
+											</div>
+
+										</div>
+									</li>
+									<li class="details_item">
+										<span class="details_tit"></span>
+										<div class="idetails_con">
+											<button  type="submit" class="conserve btn-red">保存</button>
+
+										</div>
+									</li>
+								</ul>
+							</form>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-		<include file="public@footer" />
-	</div>
-<!-- /container -->
-<include file="public@scripts" />
+	</section>
+
+    <!-- 底部 -->
+    <include file="public@footer" />
+    <include file="public@scripts" />
 </body>
+
+<script type="text/javascript" src="__TMPL__/public/assets/js/laydate/laydate.js"></script>
+<!-- 弹窗 -->
+<script src="__TMPL__/public/assets/js/jquery.qrcode.min.js"></script>
+<script>
+	$('.edit').click(function(){
+		$('.info_detail').hide();
+		$('.edit_info_detail').show();
+	})
+
+	laydate.render({
+	  elem: '.person_bir' //指定元素
+	});
+
+	/*图片弹窗*/
+	$('.c1').click(function(){
+		var Liimg = $(this).find('img')
+		var z="";
+		for(var i=0;i<Liimg.length;i++){
+
+			z+=Liimg[i].outerHTML;
+			// return z;
+		}
+		var onlyChoseAlert = simpleAlert({
+			"content":z,/**显示点击图片的*/
+			"buttons":{
+				"确定":function () {
+					onlyChoseAlert.close();
+				}
+			}
+		})
+	})
+
+</script>
 </html>

@@ -4,6 +4,7 @@ namespace app\trade\controller;
 use cmf\controller\HomeBaseController;
 use app\usual\model\UsualSeriesModel;
 use app\usual\model\UsualCarModel;
+use think\Loader;
 
 /**
 * 车辆买卖 列表
@@ -17,6 +18,9 @@ class IndexController extends HomeBaseController
 
     public function index()
     {
+        // dump(Loader::parseName('brand_id',1));die;
+        // dump(Loader::parseName('brandId'));die;
+        // dump(Loader::parseName('car_seating'));die;
         // 实例化
         $serieModel = new UsualSeriesModel();
 
@@ -50,24 +54,34 @@ class IndexController extends HomeBaseController
             条件筛选先用a标签试试 占位符 效果(string类型：00000000)。
             001：车品牌、车系
             01：其它参数
+        * 备用函数
+            str_split($param,3);
+            str_replace(search, replace, subject);
+            substr(string,start,length)
+            dechex('十转十六');hexdec('十六转十');
         */
         $carModel = new UsualCarModel();
 
         // 处理请求
         $param = $this->request->param();
-        $param1 = $this->request->param('param1/s','','strval');
-        $param2 = $this->request->param('param2/s','','strval');
-        if (!empty($param1)) {
-            $var_param1 = str_split($param1,3);
-        }
-        if (!empty($param2)) {
-            $var_param2 = str_split($param2,2);
-        }
+        $oxnum = $this->request->param('oxnum/s');
+        $oxvar = $this->request->param('oxvar/s');
+        // $jumpext = $this->request->param('ext/s','','strval');
+        // ID
         $typeId = $this->request->param('typeId','new');
-        $brandId = $this->request->param('brandId/d',0,'intval');// 2大众 4福特
-        $serieId = $this->request->param('serieId/d',0,'intval');
-        $modelId = $this->request->param('modelId/d',0,'intval');
-        $priceId = $this->request->param('priceId/d',0,'intval');
+        $brandId = $this->request->param('brandId/d');// 2大众 4福特
+        $serieId = $this->request->param('serieId/d');
+        $modelId = $this->request->param('modelId/d');
+        $priceId = $this->request->param('priceId/s');
+        // 以下为 item 处理
+        $car_seating = $this->request->param('car_seating/s','','strval');
+        $car_gearbox = $this->request->param('car_gearbox/s','','strval');
+        $car_effluent = $this->request->param('car_effluent/s','','strval');
+        $car_fuel = $this->request->param('car_fuel/s','','strval');
+        $car_color = $this->request->param('car_color/s','','strval');
+        $car_displacement = $this->request->param('car_displacement/s','','strval');
+        $car_mileage = $this->request->param('car_mileage/s','','strval');
+        $car_age = $this->request->param('car_age/s','','strval');
 
         // 获取筛选相关数据
         // 车源类别
@@ -92,18 +106,27 @@ class IndexController extends HomeBaseController
         $Models = model('usual/UsualModels')->getModels($modelId,0,false);
         // 。。。
         // $Provinces = model('admin/District')->getDistricts(0,1);
-        $Prices = model('usual/UsualItem')->getItems(0,21,false);
+        // $Prices = model('usual/UsualItem')->getItems(0,21,false);
+        $Prices = ['0~3'=>'3万以下','3~5'=>'3-5万','5~8'=>'5-8万','8~10'=>'8-10万','10~15'=>'10-15万','15~20'=>'15-20万','20~30'=>'20-30万','30~50'=>'30-50万','>50'=>'50万以上'];
         // 其它
-        $moreTree = model('usual/UsualItem')->getItemTable(['code'=>['IN','car_age,car_mileage,car_displacement,car_effluent,car_color,car_gearbox,car_seating,car_fuel']]);
+        $moreTree = cache('moreTree');
+        if (empty($moreTree)) {
+            $moreTree = model('usual/UsualItem')->getItemTable(['code'=>['IN','car_age,car_mileage,car_displacement,car_effluent,car_color,car_gearbox,car_seating,car_fuel']]);
+            cache('moreTree',$moreTree,3600);
+        }
         // dump($moreTree);die;
 
         // 筛选机制
-        $filter = $where = $order = $carlist = [];
-        $url = $jumpurl = $jumpext = '';
-        $limit = 20;
-
+        // 初始化
+        $separator = '_';// 分隔符 避免被转义
+        $cname = 'a.';// 别名
+        $numeric = '000000000';// 预置
+        $limit = 1;//每页数据量
+        $string = $jumpurl = $jumpext = '';
+        $filter = $extra = $where = $order = $carlist = [];
         $filter['sell_status'] = 1;
 
+        // 处理请求的数据
         if (isset($typeId)) {
             if (is_numeric($typeId)) {
                 $filter['typeId'] = (int)$typeId;
@@ -113,20 +136,89 @@ class IndexController extends HomeBaseController
                 $order = ['a.is_rec'=>'DESC'];
             }
         }
+        if (!empty($priceId)) {
+            $extra['shop_price'] = $this->operatorSwitch($priceId);
+        }
+        if (!empty($oxnum)) {
+            $numeric = trim($oxnum);
+        }
+        if (!empty($oxvar)) {
+            $string = explode($separator,$oxvar);
+        }
+        // if (!empty($jumpext)) {
+        //     // $numeric = $this->request->param('n/a',[]);
+        //     // $jumpArr = explode($separator,$jumpext);
+        //     // 处理数字类型的 0,1,2
+        //     $numeric = strstr($jumpext, $separator, true);
+        //     // 处理 item 字符类型的
+        //     $string = strstr($jumpext, $separator);
+        //     $string = preg_replace('/^\\'.$separator.'/','',$string);
+        //     // $string = preg_replace('/\\'.$separator.'/','',$string,1);//同上面效果
+        //     $string = explode($separator,$string);
+        // }
 
-        $jumpext = '&param1='.$param1 . '&param2='.$param2;
+        // 处理数字类型的 0,1,2 是否字段别名: 'a.'.Loader::parseName($idv)
+        $numericArr = str_split($numeric,3);
+        $newNumeric = [];
+        foreach (['brandId','serieId','modelId'] as $key => $idv) {
+            if (!is_null($$idv)) {
+                $value = !empty($$idv) ? $$idv: $numericArr[$key];
+                $value = $$idv = intval($value);
+                if (!empty($value)) $extra[$cname.Loader::parseName($idv)] = $value;
+                if ($value<10) {
+                    $newNumeric[$key] = '00'.$value;
+                } elseif ($value<100) {
+                    $newNumeric[$key] = '0'.$value;
+                } else {
+                    $newNumeric[$key] = strval($value);
+                }
+            }
+        }
+        $numeric = empty($newNumeric) ? implode('',$newNumeric) : $numeric;
+        // 处理 item $$val['code'] 用于 assign()赋值
+        $newString = '';
+        foreach ($moreTree as $key => $val) {
+            $value = !empty($$val['code']) ? $$val['code'] : (empty($string)?$$val['code']:$string[$key]);
+            $value = htmlspecialchars_decode($value);
+            // $value = htmlspecialchars($value);
+            if (!empty($value)) {
+                $$val['code'] = $value;
+                $extra[$cname.$val['code']] = $this->operatorSwitch($value);
+            }
+            $newString .= $value . $separator;
+        }
+        $string = substr($newString,0,strlen($newString)-1);
 
+        // URL 参数
+        // url('Post/step1',['id'=>1,'h'=>'a'])
+        // url('Post/step1','id=1&h=a')
+        // $jumpext = $numeric . ($string?$separator.$string:'');
+        $jumpext = 'oxnum='.$numeric
+                 . ($string ? '&oxvar='.$string : '')
+                 . ($typeId ? '&typeId='.$typeId : '')
+                 . ($priceId ? '&priceId='.$priceId : '');
 
+// dump($brandId);
+// dump($priceId);
+// dump($car_gearbox);
+// dump($extra);
+// dump($moreTree);
+// dump($numeric);
+// dump($priceId);
+// dump($jumpext);
+// die;
 
         /*车辆买卖 车辆数据*/
 
         // 列表 数据库查询
-        $carlist = $carModel->getLists($filter, $order, $limit);
+        $carlist = $carModel->getLists($filter, $order, $limit, $extra);
 
 
 
         // 模板赋值
+        $this->assign('regCarInfo',$regCarInfo);
         $this->assign('jumpext',$jumpext);
+
         $this->assign('typeId',$typeId);
         $this->assign('Types',$Types);
         $this->assign('brandId',$brandId);
@@ -139,12 +231,20 @@ class IndexController extends HomeBaseController
         // $this->assign('Provinces',$Provinces);
         $this->assign('priceId',$priceId);
         $this->assign('Prices',$Prices);
+        // 以下为 item 处理
+        $this->assign('car_seating',$car_seating);
+        $this->assign('car_gearbox',$car_gearbox);
+        $this->assign('car_effluent',$car_effluent);
+        $this->assign('car_fuel',$car_fuel);
+        $this->assign('car_color',$car_color);
+        $this->assign('car_displacement',$car_displacement);
+        $this->assign('car_mileage',$car_mileage);
+        $this->assign('car_age',$car_age);
         $this->assign('moreTree',$moreTree);
-        $this->assign('regCarInfo',$regCarInfo);
 
         // 数据分页
         $this->assign('carlist', $carlist->items());// 获取查询数据并赋到模板
-        $carlist->appends($param);//添加URL参数,跟分页有关系
+        $carlist->appends('ext',$jumpext);//添加URL参数,跟分页有关系
         $this->assign('pager', $carlist->render());// 获取分页代码并赋到模板
 
         return $this->fetch();

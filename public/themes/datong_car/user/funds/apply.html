@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>申请列表 - {$site_info.site_name|default=''}</title>
+    <meta name="keywords" content="{$site_info.site_seo_keywords|default=''}"/>
+    <meta name="description" content="{$site_info.site_seo_description|default=''}">
+
+    <include file="public@head"/>
+</head>
+<body>
+    <!-- 头部 -->
+    <include file="public@header" />
+    <!-- 导航 -->
+    <include file="public@nav" />
+
+
+    <!-- 热门资讯 -->
+    <section class="person">
+        <div class="main">
+            <include file="public@usernav" />
+
+            <div class="person_right">
+                <div class="person_right_tit">
+                    <include file="funds/fundsnav" />
+                </div>
+                <div class="person_right_con">
+                    <div class="fund_management">
+                        <div class="fund_management_detail">
+                            <p class="fund_managemen_title">收支明细<a href="">使用遇到的问题？</a></p>
+                            <div class="detail_div">
+                                <ul class="detail_list">
+                                    <li class="tit">可用余额</li>
+                                    <li class="money">￥0.99</li>
+                                    <li class="operate">
+                                        <a href="" class="select"><b></b>充值</a>
+                                        <a href="" class=""><b></b>提现</a>
+                                    </li>
+                                </ul>
+                                <ul class="detail_list">
+                                    <li class="tit">押金</li>
+                                    <li class="money">￥0.99</li>
+                                    <li class="operate">
+                                        <a href="" class=""><b></b>支付</a>
+                                        <a href="" class=""><b></b>返回</a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="stream">
+                                <p class="scroll_tip">以下内容可滚动</p>
+                                <div class=" table_div">
+                                    <div class="stream_con">
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <th>流水号</th>
+                                                    <th>时间</th>
+                                                    <th>操作</th>
+                                                    <th>金额</th>
+                                                    <th>状态</th>
+                                                </tr>   
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>10011441</td>
+                                                    <td>2017-12-20 12:12:20</td>
+                                                    <td>任务失败退款</td>
+                                                    <td>+0.99</td>
+                                                    <td>正在审核</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>10011441</td>
+                                                    <td>2017-12-20 12:12:20</td>
+                                                    <td>任务失败退款</td>
+                                                    <td>+0.99</td>
+                                                    <td>正在审核</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>10011441</td>
+                                                    <td>2017-12-20 12:12:20</td>
+                                                    <td>任务失败退款</td>
+                                                    <td>+0.99</td>
+                                                    <td>正在审核</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>10011441</td>
+                                                    <td>2017-12-20 12:12:20</td>
+                                                    <td>任务失败退款</td>
+                                                    <td>+0.99</td>
+                                                    <td>正在审核</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="page_tip">
+                                    <div class="page2_con">
+                                        <p>共<span>1</span>页</p>
+                                        <ul class="page2_list">
+                                            <li><a href=""><</a></li>
+                                            <li class="active"><a href="">1</a></li>
+                                            <li><a href="">></a></li>
+                                            
+                                        </ul>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 底部 -->
+    <include file="public@footer" />
+    <include file="public@scripts" />
+</body>
+
+<include file="public@morejs" />
+<script type="text/javascript" src="__TMPL__/public/assets/js/laydate/laydate.js"></script>
+</html>

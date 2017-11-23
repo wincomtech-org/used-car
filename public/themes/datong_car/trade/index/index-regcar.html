@@ -7,11 +7,11 @@
                 <div class="regist_info_tit">
                     <p>免费登记卖车信息</p>
                 </div>
-                <form action="{:url('usual/Post/regCar')}" method="post" class="regist_info">
+                <form action="{:url('trade/Post/regCar')}" method="post" class="regist_info">
                     <div class="regist_info_form_item requre">
                         <span class="info_tit">品&nbsp;&nbsp;&nbsp;&nbsp;牌</span>
                         <div class="analogy">
-                            <p class="analogy_tit"><input placeholder="请选择品牌" name='brand' class="placeholder" readonly id="brandget"></p>
+                            <p class="analogy_tit"><input name='brand' placeholder="请选择品牌" class="placeholder" readonly id="brandget"></p>
                             <ul class="analogy_con" style="display:none;" >
                                 <foreach name="regCarInfo.brand" item="vo">
                                 <li onclick="changeBrand(this)" data-val="{$vo.id}"><input value="{$vo.name}" readonly></li>
@@ -23,10 +23,10 @@
                     <div class="regist_info_form_item requre">
                         <span class="info_tit">车&nbsp;&nbsp;&nbsp;&nbsp;系</span>
                         <div class="analogy">
-                            <p class="analogy_tit"><input placeholder="请选择车系" name="audi" class="placeholder" readonly id="serieget"></p>
+                            <p class="analogy_tit"><input name="serie" placeholder="请选择车系" class="placeholder" readonly id="serieget"></p>
                             <ul class="analogy_con" style="display:none;" id="input-series">
                                 <foreach name="Series" item="vo">
-                                <li data-val="{vo.id}"><input value="{$vo.name}" readonly></li>
+                                <li data-val="{$vo.id}"><input value="{$vo.name}" readonly></li>
                                 </foreach>
                             </ul>
                         </div>
@@ -35,7 +35,7 @@
                     <div class="regist_info_form_item">
                         <span class="info_tit">车&nbsp;&nbsp;&nbsp;&nbsp;型</span>
                         <div class="analogy">
-                            <p class="analogy_tit"><input type="text" name="motorcycle_type" placeholder="请选择车型"  class="placeholder" readonly id="modelget"></p>
+                            <p class="analogy_tit"><input name="model" type="text" placeholder="请选择车型"  class="placeholder" readonly id="modelget"></p>
                             <ul class="analogy_con" style="display:none;">
                                 <foreach name="regCarInfo.model" item="vo">
                                 <li onclick="" data-val="{$vo.id}"><input value="{$vo.name}" readonly ></li>
@@ -47,11 +47,11 @@
                         <span class="info_tit">所在城市</span>
                         <div class="analogy">
                             <li class="right required">
-                                <select id="input-province" onchange="select_province();">
+                                <select name="province" id="input-province" onchange="select_province();">
                                     <option value="">--请选择省份--</option>
                                     {$regCarInfo.prov}
                                 </select>&nbsp;&nbsp;
-                                <select id="input-city">
+                                <select name="city" id="input-city">
                                     <option value="">--请选择城市--</option>
                                 </select>
                             </li>
@@ -61,14 +61,14 @@
                     <div class="regist_info_form_item requre">
                         <span class="info_tit">手机号码</span>
                         <div class="analogy">
-                            <input type="tel" name="telephone" maxLength="20" placeholder="请填写正确手机号" class="placeholder">
+                            <input type="tel" name="telephone" value="" maxLength="20" placeholder="请填写正确手机号" class="placeholder">
                         </div>
                         <i class="tel_err" style="display:none;">*请填写正确格式手机号</i>
                     </div>
                     <div class="regist_info_form_item">
                         <span class="info_tit">验证码</span>
                         <div class="analogy no">
-                            <input type="text" name="vericode">
+                            <input type="text" name="vericode" value="">
                             <div class="kuang"><captcha height="36" width="150" font-size="18" length="4" bg="255,255,255" id=5 /></div>
                             <!-- <div class="analogy_change">换一张</div> -->
                         </div>
@@ -85,24 +85,28 @@
         </div>
     </div>
 </section>
+
 <script type="text/javascript">
 function RegCarSubmit(){
-    var brandId =  $('#brandget').attr('data-id');
-    var serieId =  $('#serieget').attr('data-id');
-    var modelId =  $('#modelget').attr('data-id');
-    var tel=$('input[name="telephone"]').val();
-    var province=$('#input-province option:selected').val();
-    var city=$('#input-city option:selected').val();
-    var code=$('input[name="vericode"]').val();
+    var brandId = $('#brandget').attr('data-id');
+    if (brandId=='undefined') { brandId = ''; }
+    var serieId = $('#serieget').attr('data-id');
+    if (serieId=='undefined') { serieId = ''; }
+    var modelId = $('#modelget').attr('data-id');
+    if (modelId=='undefined') { modelId = ''; }
+    var province= $('#input-province option:selected').val();
+    var city    = $('#input-city option:selected').val();
+    if (city=='undefined') { city = ''; }
+    var tel     = $('input[name="telephone"]').val();
+    var code    = $('input[name="vericode"]').val();
 
-    console.log(brandId,serieId,modelId,province,city,tel,code)
-    alert(code)
-    // $.post('/path/to/file', {brandId: brandId, serieId: serieId, modelId: modelId, tel:tel, code: code}, function(data, textStatus, xhr) {
-    //     /*optional stuff to do after success */
-    // });
+    // console.log(brandId,serieId,modelId,province,city,tel,code);
+
+    $.post("{:url('trade/Post/regCar')}", {brandId:brandId, serieId:serieId, modelId:modelId, province:province, city:city, tel:tel, code: code}, function(data) {
+        alert(data)
+    });
 }
 </script>
-
 
 <!-- 移动端 -->
 <section class="veh_trading_m" style="display:none">
@@ -117,7 +121,7 @@ function RegCarSubmit(){
                     <div class="regist_info_form_item requre">
                         <span class="info_tit">品&nbsp;&nbsp;&nbsp;&nbsp;牌</span>
                         <div class="analogy">
-                            <p class="analogy_tit"><input placeholder="请选择品牌" class="placeholder" readonly ></p>
+                            <p class="analogy_tit"><input name='brand' placeholder="请选择品牌" class="placeholder" readonly id="brandget"></p>
                             <ul class="analogy_con" style="display:none;">
                                 <foreach name="regCarInfo.brand" item="vo">
                                     <li onclick="changeBrand(this)" data-val="{$vo.id}"><input value="{$vo.name}" readonly></li>
@@ -130,10 +134,10 @@ function RegCarSubmit(){
                     <div class="regist_info_form_item requre">
                         <span class="info_tit">车&nbsp;&nbsp;&nbsp;&nbsp;系</span>
                         <div class="analogy">
-                            <p class="analogy_tit"><input placeholder="请选择车系" class="placeholder" readonly></p>
+                            <p class="analogy_tit"><input name="serie" placeholder="请选择车系" class="placeholder" readonly id="serieget"></p>
                             <ul class="analogy_con" style="display:none;" id="input-series">
                                 <foreach name="Series" item="vo">
-                                    <li data-val="{vo.id}"><input value="{$vo.name}" readonly></li>
+                                    <li data-val="{$vo.id}"><input value="{$vo.name}" readonly></li>
                                 </foreach>
                             </ul>
                         </div>
@@ -143,7 +147,7 @@ function RegCarSubmit(){
                     <div class="regist_info_form_item">
                         <span class="info_tit">车&nbsp;&nbsp;&nbsp;&nbsp;型</span>
                         <div class="analogy">
-                            <p class="analogy_tit"><input placeholder="请选择车型" class="placeholder" readonly></p>
+                            <p class="analogy_tit"><input name="model" placeholder="请选择车型" class="placeholder" readonly id="modelget"></p>
                             <ul class="analogy_con" style="display:none;">
                                 <foreach name="regCarInfo.model" item="vo">
                                     <li data-val="{$vo.id}"><input value="{$vo.name}" readonly></li>
@@ -156,11 +160,11 @@ function RegCarSubmit(){
                         <span class="info_tit">所在城市</span>
                         <div class="analogy">
                              <li class="right required">
-                                <select id="input-province" onchange="select_province();">
+                                <select name="province" id="input-province" onchange="select_province();">
                                     <option value="">--请选择省份--</option>
                                     {$regCarInfo.prov}
                                 </select>&nbsp;&nbsp;
-                                <select id="input-city">
+                                <select name="city" id="input-city">
                                     <option value="">--请选择城市--</option>
                                 </select>
                             </li>
@@ -170,14 +174,14 @@ function RegCarSubmit(){
                     <div class="regist_info_form_item requre">
                         <span class="info_tit">手机号码</span>
                         <div class="analogy">
-                            <input type="tel" name="telephone" maxLength="20" placeholder="请填写正确手机号" class="placeholder">
+                            <input type="tel" name="telephone" value="" maxLength="20" placeholder="请填写正确手机号" class="placeholder">
                         </div>
                         <i class="tel_err" style="display:none;">*请填写正确格式手机号</i>
                     </div>
                     <div class="regist_info_form_item">
                         <span class="info_tit">验证码</span>
                         <div class="analogy no">
-                            <input type="text" name="vericode">
+                            <input type="text" name="vericode" value="">
                             <div class="kuang"><captcha height="36" width="124" font-size="14" length="4" bg="255,255,255" id=5 /></div>
                             <!-- <div class="analogy_change">换一张</div> -->
                         </div>
@@ -195,4 +199,6 @@ function RegCarSubmit(){
         </div>
     </div>
 </section>
+
+
 
