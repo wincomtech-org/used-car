@@ -1,70 +1,151 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>{$site_info.site_name}</title>
+    <title>{$user.user_login} - 个人中心</title>
     <meta name="keywords" content=""/>
     <meta name="description" content="">
+
     <include file="public@head"/>
+ 
+   <script src="/static/js/wind.js"></script>
+    
+    <!-- 上传头像 -->
     <style type="text/css">
-        .tab-content {
-            overflow: visible;
-        }
+        .tab-content { overflow: visible; }
 
-        .uploaded_avatar_area {
-            margin-top: 20px;
-        }
+        .uploaded_avatar_area {margin-top: 20px;}
 
-        .uploaded_avatar_btns {
-            margin-top: 20px;
-        }
+        .uploaded_avatar_btns { margin-top: 20px;  }
 
-        .uploaded_avatar_area .uploaded_avatar_btns {
-            display: none;
+        .uploaded_avatar_area .uploaded_avatar_btns { display: none; }
+
+        .help-block{font-size:16px;color:#737373;margin:1rem 0;}
+
+        .uploaded_avatar_area>img{max-width:100%;}
+
+        .person_panel_left{width:200px;float:left;}
+
+        .tab-pane.active .person_panel_left>img{display:block;margin:1rem auto;}
+
+        .tab-pane.active .tab-pan_tit input{font-size:14px;margin-left:30px;}
+
+        .tab-pane.active .tab-pan_tit {display:block;font-size:15px;font-weight:700;font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;}
+
+        .person_panel_right{width:660px;float:left}
+
+        .uploaded_avatar_area{width:100%;;padding:1rem .5rem;background-color: #fcfcfc;border:1px solid #ddd;min-height:350px;box-sizing:border-box;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;-ms-box-sizing:border-box;-o-box-sizing:border-box;}
+
+        .uploaded_avatar_btns .btn{display:inline-block;background-color:#1967be;color:#fff;font-size:15px;padding:10px 15px;border-radius:6px;}
+        .uploaded_avatar_btns{margin:10px 0;}
+
+        .uploaded_avatar_btns .btn{display:none;}
+
+        .uploaded_avatar_btns.show .btn{display:inline-block;}
+
+        .jcrop-holder{max-width:100%;margin:0 auto;}
+
+        @media only screen and (max-width: 1199px){
+
+              @media only screen and (min-width: 1024px){
+                    
+                  .person_panel_right{width:calc(100% - 200px);-webkit-width:calc(100% - 200px);-moz-width:calc(100% - 200px);-ms-width:calc(100% - 200px);-o-width:calc(100% - 200px);}
+              }
+
+             @media only screen and (max-width: 1023px){
+                  .person_panel_right{width:100%;} 
+                  .person_panel_left{display:block;margin:1rem auto;}
+             }
+
+             @media only screen and (max-width: 414px){
+                .tab-pane.active .tab-pan_tit input{display:block;margin-left:0;margin-top:5px;}
+             }
         }
     </style>
 </head>
-<body class="body-white" id="top">
-<include file="public@nav"/>
+<body>
+    <!-- 头部 -->
+    <include file="public@header" />
+    <!-- 导航 -->
+    <include file="public@nav" />
 
-<div class="container tc-main">
-    <div class="row">
-        <div class="col-md-3">
-            <include file="public@usernav"/>
-        </div>
-        <div class="col-md-9">
-            <div class="tabs">
-                <ul class="nav nav-tabs">
-                    <li class="active"><a href="#one" data-toggle="tab"><i class="fa fa-user"></i> 修改头像</a></li>
-                </ul>
-                <div class="tab-content">
-                    <div class="tab-pane active" id="one">
-                        <br>
-                        <if condition="empty($avatar)">
-                            <img src="__TMPL__/public/assets/images/headicon_128.png" class="headicon" width="128"/>
-                        <else/>
-                            <img src="{:cmf_get_user_avatar_url($avatar)}?t={:time()}" class="headicon" width="128"/>
-                        </if>
-                        <input type="file" onchange="avatar_upload(this)" id="avatar_uploder" name="file"/>
-                        <div class="uploaded_avatar_area">
-                            <div class="uploaded_avatar_btns">
-                                <a class="btn btn-primary confirm_avatar_btn" onclick="update_avatar()">确定</a>
-                                <a class="btn" onclick="reloadPage()">取消</a>
+    <!-- 个人中心 -->
+    <section class="person">
+        <div class="main">
+            <include file="public@usernav" />
+            <div class="person_right">
+                <div class="person_right_tit">
+                    <ul>
+                        <li class="person_right_item active">
+                            <a href="#">修改头像</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="person_right_con">
+                    <div class="information_details">
+                        <p class="info_tit">修改头像</p>
+                        <!-- 查看 -->
+                        <div class="info_detail">
+                           <div class="tabs">
+                                <!-- <ul class="nav nav-tabs">
+                                    <li class="active"><a href="#one" data-toggle="tab"><i class="fa fa-user"></i> 修改头像</a></li>
+                                </ul> -->
+                                <div class="tab-content">
+                                    <div class="tab-pane active" id="one">
+                                        <br>
+                                        <p class="tab-pan_tit">图片上传<input type="file" onchange="avatar_upload(this)" id="avatar_uploder" name="file"/></p>
+                                        <div class="person_panel_left">
+                                             <if condition="empty($avatar)">
+                                                <img src="__TMPL__/public/assets/images/headicon_128.png" class="headicon" width="128"/>
+                                                <else/>
+                                                <img src="{:cmf_get_user_avatar_url($avatar)}?t={:time()}" class="headicon" width="128"/>
+                                            </if>
+                                             
+                                        </div>
+                                       
+                                        <div class="person_panel_right">
+                                             <div class="uploaded_avatar_area" >
+                                                
+                                            </div>
+                                            <div class="uploaded_avatar_btns" >
+                                                <a class="btn btn-primary confirm_avatar_btn" onclick="update_avatar()">确定</a>
+                                                <a class="btn" onclick="reloadPage()">取消</a>
+                                            </div>
+                                            <p class="help-block">头像支持jpg,png,jpeg格式,文件大小最大不能超过1M</p>
+                                        </div>
+                                       
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <p class="help-block">头像支持jpg,png,jpeg格式,文件大小最大不能超过1M</p>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    </section>
 
-    <include file="public@footer"/>
+    <!-- 底部 -->
+    <include file="public@footer" />
+    <include file="public@scripts" />
+</body>
 
-</div>
-<!-- /container -->
-
+<script type="text/javascript" src="__TMPL__/public/assets/js/laydate/laydate.js"></script>
+<!-- 弹窗 -->
+<script src="__TMPL__/public/assets/js/jquery.qrcode.min.js"></script>
 <include file="public@scripts"/>
 <script type="text/javascript">
+
+  
+    $('.uploaded_avatar_area').on('DOMNodeInserted',function(){
+        
+        if($('.uploaded_avatar_area').has('div').length >0){
+            
+            $('.uploaded_avatar_btns').addClass('show')
+        }else{
+            
+            $('.uploaded_avatar_btns').removeClass('show')
+        }
+    })
+
     function update_avatar() {
         var area = $(".uploaded_avatar_area img").data("area");
         $.post("{:url('Profile/avatarUpdate')}", area, function (data) {
@@ -77,11 +158,11 @@
     }
     function avatar_upload(obj) {
         var $fileinput = $(obj);
-        /* $(obj)
+         $(obj)
          .show()
          .ajaxComplete(function(){
          $(this).hide();
-         }); */
+         }); 
         Wind.css("jcrop");
         Wind.use("ajaxfileupload", "jcrop", "noty", function () {
             $.ajaxFileUpload({
@@ -143,5 +224,5 @@
         return false;
     }
 </script>
-</body>
+
 </html>

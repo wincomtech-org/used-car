@@ -859,6 +859,7 @@
 .person_right{width:971px;float:right;}
 .users{width:100%;}
 .users_con{width:100%;padding:1.7rem 0;background-color:#dcdcdc;text-align:center;line-height:1.638;}
+.users_con img{max-width:80px;min-width:60px;}
 .users_con p{font-size:18px;margin:12px 0;}
 .users_con span{font-size:16px;}
 
