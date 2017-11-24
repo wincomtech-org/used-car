@@ -336,6 +336,7 @@
 <include file="public@morejs"/>
 
 <script>
+    // 手机端首页图片滑动事件
     $(function(){
         $('.slick').slick({
             dots: true,
@@ -345,46 +346,13 @@
             autoplaySpeed: 2000
         });
     });
+
+
+
     $(document).ready(function(){
         $('.flicker-example').flicker();
     });
-    $(function() {
-        $(window).scroll(function() {
-            if ($(window).scrollTop() > 1000)
-                $('.back_to_top').show(600);
-            else
-                $('.back_to_top').hide(600);
-        });
-        $('.back_to_top').click(function() {
-            $('html, body').animate({scrollTop: 0}, 600,linear);
-        });
-    });
+   
 </script>
-<script>
-    // 手机目录点击事件
-    $('.open-panel').click(function(e){
-        if($('body').hasClass('with-panel-left-cover')){
 
-        }else{
-            $('body').addClass('with-panel-left-cover');
-            $('.panel-cover').show()
-            $('.panel-cover').addClass('active');
-        }
-        e.stopPropagation()
-    })
-    $('.accordion-item>a.item-link').on('click',function(e){
-        if($(this).parent().hasClass('accordion-item-expanded')){
-            $(this).parent().removeClass('accordion-item-expanded')
-        }else{
-            $(this).parent().addClass('accordion-item-expanded')
-        }
-        e.stopPropagation()
-    })
-
-    $(document).click(function(){
-        $('.panel-cover').hide();
-        $('.accordion-item>').removeClass('accordion-item-expanded');
-        $('body').removeClass('with-panel-left-cover')
-    })
-</script>
 </html>

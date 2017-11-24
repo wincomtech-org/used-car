@@ -59,7 +59,7 @@
 .Insurance_recommendation_lists .Insurance_recommendation_item{border-color:#ddd;}
 .Insurance_recommendation_lists:after{content:"";display:block;clear:both;}
 .Insurance_recommendation_item{width:23%;padding:30px 0;float:left;background-color:#fff;border:2px solid transparent;margin-bottom:40px;text-align:center;box-sizing:border-box;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;-o-box-sizing:border-box;}
-.Insurance_recommendation_item:hover{border-color:#d00000;}
+.Insurance_recommendation_item:hover{border-color:#d00000;transition:0.6s;-webkit-transition:0.6s;transition:0.6s;}
 .Insurance_recommendation_item .txt p a:hover,.Insurance_recommendation_item .txt span a:hover{color:#d00000;}
 .Insurance_recommendation_item .tit{padding:20px 0 60px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .Insurance_recommendation_item .tit a{font-size:30px;}
@@ -72,7 +72,7 @@
 .Insurance_recommendation_item:nth-child(4n+3){margin-right:2%;margin-left:1%;}
 .Insurance_recommendation_item .btn{width:100%;padding:35px 0 10px;}
 .Insurance_recommendation_item .btn a{display:inline-block;padding:10px 26px;color:#d00000;font-size:18px;background-color:#fff;border:1px solid #d00000;transition:0.6s;-webkit-transition:0.6s;transition:0.6s;}
-.Insurance_recommendation_item .btn a:hover{color:#fff;font-size:16px;background-color:#d00000;border:1px solid #d00000;}
+.Insurance_recommendation_item .btn a:hover{color:#fff;font-size:18px;background-color:#d00000;border:1px solid #d00000;}
 
 /*车辆买卖**/
 .vehicle_trading{background-color: #f0f0f0; width: 100%; padding: 30px 0;}
@@ -81,7 +81,9 @@
 .vehicle_tit{margin-top:20px;}
 .vehicle_tit:after{content:"";display:block;clear:both;}
 .vehicle:after{content:"";display:block;clear:both;}
-.vehicle_tit li{width:20%;text-align:center;padding:12px 4px;float:left;border:1px solid #949494;box-sizing:border-box;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;-o-box-sizing:border-box; white-space: nowrap;overflow: hidden;}
+.vehicle_tit li{width:20%;text-align:center;padding:12px 4px;float:left;border:1px solid #949494;border-left:none;cursor:pointer;box-sizing:border-box;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;-o-box-sizing:border-box; white-space: nowrap;overflow: hidden;}
+.vehicle_tit li:first-child{border-left:1px solid #949494;}
+.vehicle_tit li:hover{color:#d00000;border:1px solid #d00000;}
 .vehicle_tit li.active{color:#d00000;border:1px solid #d00000;}
 .vehicle_tit li.active p,.vehicle_tit li.active span{color:#d00000;}
 .vehicle_tit li p{font-size:18px;line-height:1.9;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
@@ -185,7 +187,7 @@
 .vehiTrad{width:100%;padding:55px 0;}
 .vehiTrad_tit{width:100%;border:1px solid #ddd;}
 .vehiTrad_tit_list{width:100%;height:50px;line-height:50px;position:relative;padding-left:140px;border-bottom:1px solid #ddd;overflow:hidden;box-sizing:border-box;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;-ms-box-sizing:border-box;-o-box-sizing:border-box;}
-.vehiTrad_tit_list:last-child{overflow:inherit;}
+.vehiTrad_tit_list:last-child{overflow:inherit;height:auto;}
 .vehiTrad_tit_list .vehiTrad_tit_condition{position:absolute;top:0;left:0;width:120px;height:100%;line-height:50px;background-color:#f3f3f3;font-size:16px;text-align:center;}
 .vehiTrad_tit_item_con li{float:left;}
 .vehiTrad_tit_item_con li a{padding:5px 15px;font-size:16px;}
@@ -213,13 +215,14 @@
         -o-transform:rotate(90deg); /* Opera */
         filter:progid:DXImageTransform.Microsoft.BasicImage(rotation=1);
 }
-.vehiTrad_tit_item_other{width:100%;}
+.vehiTrad_tit_item_other{width:100%;padding-top:4px;padding-bottom:4px;}
 .vehiTrad_tit_item_other:after,.vehiTrad_tit_item_other:before{display:block;content:"";clear:both;}
-.vehiTrad_tit_item_other_list{float:left;width:110px;height:30px;line-height:30px;margin-right:20px;position:relative;margin-top:7px;}
-.vehiTrad_tit_item_other_list p{position:relative;height:100%;width:100%;line-height:30px;font-size:16px;border:1px solid #ddd;padding-left:20px;padding-right:20px;box-sizing:border-box;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;-ms-box-sizing:border-box;-o-box-sizing:border-box;}
-.vehiTrad_tit_item_other_list ul{position:absolute;z-index:1;top:32px;left:0;width:100%;background-color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.vehiTrad_tit_item_other_list ul li{padding-left:20px;box-sizing:border-box;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;-ms-box-sizing:border-box;-o-box-sizing:border-box;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.vehiTrad_tit_item_other_list ul li a{display:block;width:100%;height:100%;font-size:16px;}
+.vehiTrad_tit_item_other_list{float:left;min-width:107px;margin-right:10px;position:relative;margin-top:5px;margin-bottom:5px;}
+.vehiTrad_tit_item_other_list p{position:relative;height:100%;width:100%;line-height:30px;font-size:16px;border:1px solid #ddd;padding-left:10px;padding-right:10px; white-space:nowrap;
+    overflow:hidden;box-sizing:border-box;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;-ms-box-sizing:border-box;-o-box-sizing:border-box;}
+.vehiTrad_tit_item_other_list ul{position:absolute;z-index:1;top:32px;left:0;width:100%;border:1px solid #ddd;background-color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;box-sizing:border-box;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;-ms-box-sizing:border-box;-o-box-sizing:border-box;}
+.vehiTrad_tit_item_other_list ul li{padding-left:5px;height:30px;line-height:30px;box-sizing:border-box;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;-ms-box-sizing:border-box;-o-box-sizing:border-box;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.vehiTrad_tit_item_other_list ul li a{display:block;width:100%;height:100%;font-size:14px;}
 .vehiTrad_tit_item_other_list ul li:hover{background-color:#f3f3f3;}
 .vehiTrad_tit_item_other_list p:after{content:">";display:block;position:absolute;top:0;right:10px;
         transform:rotate(90deg);
@@ -1126,14 +1129,21 @@
     .index_tit{font-size:1rem;}
     .index_tit:after{content:"";display:block;clear:both;}
     .index_tit_supply{font-size:0.875rem}
+    .our_service_txt a{font-size:0.875rem;}
+}
+@media only screen and (max-width:767px){
+    .index_tit_supply{display:block;margin-top:.625rem;font-size:14px;margin-left:0;}
+    .our_service_img .txt_foot{font-size:1rem;}
+
 }
 @media only screen and (min-width: 481px){ .our_service_list_m{display:none;}}
 @media only screen and (max-width: 480px){
     /*手机端加轮播*/
     .our_service_list_pc{display:none;}
     .our_service_list_m{display:block;}
-    .our_service_show{width:100%;max-width:380px;margin:0 auto;padding-bottom:35px;}
+    .our_service_show{width:100%;max-width:380px;margin:0 auto;overflow:hidden;padding-bottom:35px;}
     .our_service_items:nth-child(2){margin:0;}
+    .our_service_txt a{font-size:1em;}
 }
 
 
@@ -1218,14 +1228,17 @@
      .vehicle_ul .tit{position:relative;}
      .vehicle_ul .tit i{position:absolute;right:10px;}
     .vehicle_ul .tit span{font-size:14px;margin-left:10px;}
-     .vehiTrad_tit_item_other_list{margin-right:6px;width:100px;}
+     .vehiTrad_tit_item_other_list{margin-right:6px;min-width:100px;}
+     .vehiTrad_tit_list .vehiTrad_tit_condition{font-size:14px;}
      .vehiTrad_tit_item_other_list p{font-size:14px;}
-     .vehiTrad_tit_item_con li a{font-size:14px;}
+     .vehiTrad_tit_item_con li a{font-size:12px;}
      .vehiTrad_tit_item .more{font-size:14px;}
      .vehiTrad_tit_item_con li a{padding:5px 11px;}
      .vehiTrad{padding:20px 0;}
      .vehiTrad_con{margin:25px 0;}
      .vehicle_trading_m .vehicle_con_detail{display:none;}
+
+     
 }
 
 @media only screen and (max-width:768px) and (min-width: 415px){

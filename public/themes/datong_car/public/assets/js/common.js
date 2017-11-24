@@ -46,6 +46,7 @@ $('.nav_item ').hover(function() {
 	$(document).on('click',function(){
 		_closeAction();
 	})
+
 	$("body:not('.accordion-item')").on('touchend',function(){
 		_closeAction();
 	})
@@ -57,6 +58,7 @@ $('.nav_item ').hover(function() {
 	}
 
 	// 结束手机目录点击事件
+
 
 /*首页*/
 $(document).ready(function() {
@@ -416,6 +418,8 @@ function check() {
 	}
 }
 
+
+// 车辆买卖
 $('.vehiTrad_tit_item .more').on('click', function() {
 	if ($(this).hasClass('on')) {
 		$(this).removeClass('on');
@@ -430,8 +434,10 @@ $('.vehiTrad_tit_item_other_list p').on('click', function(e) {
 	var _this = $(this);
 	var _this_siblings = $(this).siblings('ul');
 	var _this_siblings_li = $(this).siblings('ul').children('li');
+	var _siblings_siblings=$(this).parent().siblings().children('ul');
 
 	_this_siblings.show();
+	_siblings_siblings.hide();
 	$(document).one('click', function() {
 		_this_siblings.hide();
 	})
@@ -444,7 +450,30 @@ $('.vehiTrad_tit_item_other_list p').on('click', function(e) {
 	})
 })
 
+$('.vehiTrad_tit_item_other_list').hover(function(e){
 
+	$(this).children('ul').show();
+
+},function(){
+
+	$(this).children('ul').hide();
+	
+})
+
+
+
+// 车辆买卖筛选条件跳转之后
+$(function(){
+	$('.vehiTrad_tit_item_other_list ul li').each(function(){
+		if($(this).hasClass('active')){	
+			var text=$(this).children('a').text();
+			$(this).parent().siblings('p').html(text)
+			
+		}
+	})
+})
+
+// 结束车辆买卖
 
 
 
