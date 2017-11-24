@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>合同完成 - {$site_info.site_name|default=''}</title>
+    <meta name="keywords" content="{$site_info.site_seo_keywords|default=''}"/>
+    <meta name="description" content="{$site_info.site_seo_description|default=''}">
+
+    <include file="public@head"/>
+    <hook name="before_head_end"/>
+</head>
+<body>
+    <!-- 头部 -->
+    <include file="public@header" />
+    <!-- 导航 -->
+    <include file="public@nav" />
+
+    <!-- 险种选择 -->
+    <section class="selection_insurance">
+        <div class="main">
+            <ul class="brash">
+                <li>当前位置：</li>
+                <li><a href="{:url('Index/index')}">车险服务 </a></li>
+                <li><a href="#">{$iName|default=''} </a></li>
+                <li ><a href="#">险种选择</a></li>
+                <li ><a href="#">资料填写</a></li>
+                <li ><a href="#">签订合同</a></li>
+                <li class="active"><a href="#">付钱</a></li>
+            </ul>
+            <div class="selection_insurance_con">
+                <div class="contact_sucess">
+                    <form action="" method="post">
+                        <p>支付金额</p>
+                        <input type="text" name="money" value="1000" readonly>
+                        <button>确认</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 底部 -->
+    <include file="public@footer" />
+    <include file="public@scripts" />
+    <hook name="before_body_end" />
+</body>
+
+<script>
+
+</script>
+</html>

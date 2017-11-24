@@ -8,6 +8,7 @@ use think\Loader;
 
 /**
 * 车辆买卖 列表
+* 
 */
 class IndexController extends HomeBaseController
 {
@@ -66,7 +67,7 @@ class IndexController extends HomeBaseController
         $param = $this->request->param();
         $oxnum = $this->request->param('oxnum/s');
         $oxvar = $this->request->param('oxvar/s');
-        // $jumpext = $this->request->param('ext/s','','strval');
+        // $jumpext = $this->request->param('jumpext/s','','strval');
         // ID
         $typeId = $this->request->param('typeId','new');
         $brandId = $this->request->param('brandId/d');// 2大众 4福特
@@ -159,26 +160,30 @@ class IndexController extends HomeBaseController
 
         // 处理数字类型的 0,1,2 是否字段别名: 'a.'.Loader::parseName($idv)
         $numericArr = str_split($numeric,3);
-        $newNumeric = [];
+        $newNumeric = '';
         foreach (['brandId','serieId','modelId'] as $key => $idv) {
-            if (!is_null($$idv)) {
-                $value = !empty($$idv) ? $$idv: $numericArr[$key];
-                $value = $$idv = intval($value);
-                if (!empty($value)) $extra[$cname.Loader::parseName($idv)] = $value;
-                if ($value<10) {
-                    $newNumeric[$key] = '00'.$value;
+            $value = $$idv;
+            $value = !empty($value) ? $value: (is_null($value)?null:$numericArr[$key]);
+            $value = $$idv = intval($value);
+            if (empty($value)) {
+                $value = '000';
+            } else {
+                $extra[$cname.Loader::parseName($idv)] = $value;
+                if ($value>0 && $value<10) {
+                    $value = '00'.$value;
                 } elseif ($value<100) {
-                    $newNumeric[$key] = '0'.$value;
-                } else {
-                    $newNumeric[$key] = strval($value);
+                    $value = '0'.$value;
                 }
             }
+            $newNumeric .= strval($value);
         }
-        $numeric = empty($newNumeric) ? implode('',$newNumeric) : $numeric;
+        $numeric = empty($newNumeric) ? $numeric : $newNumeric;
+
         // 处理 item $$val['code'] 用于 assign()赋值
         $newString = '';
         foreach ($moreTree as $key => $val) {
-            $value = !empty($$val['code']) ? $$val['code'] : (empty($string)?$$val['code']:$string[$key]);
+            $value = $$val['code'];
+            $value = !empty($value) ? $value : (empty($string)?$value:$string[$key]);
             $value = htmlspecialchars_decode($value);
             // $value = htmlspecialchars($value);
             if (!empty($value)) {
@@ -244,7 +249,8 @@ class IndexController extends HomeBaseController
 
         // 数据分页
         $this->assign('carlist', $carlist->items());// 获取查询数据并赋到模板
-        $carlist->appends('ext',$jumpext);//添加URL参数,跟分页有关系
+        $carlist->appends($jumpext);//添加URL参数,跟分页有关系
+        // $carlist->appends('jumpext',$jumpext);//添加URL参数,跟分页有关系
         $this->assign('pager', $carlist->render());// 获取分页代码并赋到模板
 
         return $this->fetch();

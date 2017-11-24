@@ -24,7 +24,6 @@
                         <li class="person_right_item active">
                             <a href="">车险预约</a>
                         </li>
-                    
                     </ul>
                 </div>
                 <div class="person_right_con">
@@ -33,23 +32,36 @@
                             <thead>
                                 <tr>
                                     <th>编号</th>
-                                    <th>公司</th>
-                                    <th>时间</th>
+                                    <th>保险名</th>
+                                    <th>创建时间</th>
                                     <th>状态</th>
                                     <th>操作</th>
                                 </tr>
                             </thead>
                             <tbody>
+                                <foreach name="policy" item="vo">
                                 <tr>
-                                    <td class="num">1</td>
+                                    <td class="num">{$vo.id}</td>
+                                    <td class="company">{$vo.insurance_name}</td>
+                                    <td class="date">{:date('Y-m-d H:i:s',$vo.create_time)}</td>
+                                    <td class="state"><php>echo config('insurance_order_status')[$vo['status']]</php></td>
+                                    <td class="operate">
+                                        <dl>
+                                            <dd><a href="{:url('user/Insurance/cancel',['id'=>$vo.id])}">取消预约</a></dd>
+                                            <dd><a href="{:url('user/Insurance/details',['id'=>$vo.id])}">详&nbsp;&nbsp;情</a></dd>
+                                        </dl>
+                                    </td>
+                                </tr>
+                                </foreach>
+                                <tr>
+                                    <td class="num">3</td>
                                     <td class="company">广州汽车集团股份有限公司</td>
                                     <td class="date">2017-12-20  12:12:20  </td>
                                     <td class="state">预约中</td>
                                     <td class="operate">
                                         <dl>
-
                                             <dd><a href="">取消预约</a></dd>
-                                            <dd><a href="insurance_form_details_cn.html">详&nbsp;&nbsp;情</a></dd>
+                                            <dd><a href="{:url('user/Insurance/details')}">详&nbsp;&nbsp;情</a></dd>
                                         </dl>
                                     </td>
 
@@ -62,20 +74,7 @@
                                     <td class="operate">
                                         <dl>
                                             <dd><a href="" class="del">删&nbsp;&nbsp;除</a></dd>
-                                            <dd><a href="insurance_form_details_cn.html">详&nbsp;&nbsp;情</a></dd>
-                                        </dl>
-                                    </td>
-
-                                </tr>
-                                <tr>
-                                    <td class="num">3</td>
-                                    <td class="company">广州汽车集团股份有限公司</td>
-                                    <td class="date">2017-12-20  12:12:20  </td>
-                                    <td class="state">预约中</td>
-                                    <td class="operate">
-                                        <dl>
-                                            <dd><a href="">取消预约</a></dd>
-                                            <dd><a href="insurance_form_details_cn.html">详&nbsp;&nbsp;情</a></dd>
+                                            <dd><a href="{:url('user/Insurance/details')}">详&nbsp;&nbsp;情</a></dd>
                                         </dl>
                                     </td>
 
@@ -93,72 +92,20 @@
                                     </td>
 
                                 </tr>
-                                <tr>
-                                    <td class="num">5</td>
-                                    <td class="company">广州汽车集团股份有限公司</td>
-                                    <td class="date">2017-12-20  12:12:20  </td>
-                                    <td class="state">预约中</td>
-                                    <td class="operate">
-                                        <dl>
-                                            <dd><a href="">取消预约</a></dd>
-                                            <dd><a href="">详情</a></dd>
-                                        </dl>
-                                    </td>
 
-                                </tr>
-                                <tr>
-                                    <td class="num">6</td>
-                                    <td class="company">广州汽车集团股份有限公司</td>
-                                    <td class="date">2017-12-20  12:12:20  </td>
-                                    <td class="state">预约中</td>
-                                    <td class="operate">
-                                        <dl>
-                                            <dd><a href="">取消预约</a></dd>
-                                            <dd><a href="">详情</a></dd>
-                                        </dl>
-                                    </td>
-
-                                </tr>
-                                <tr>
-                                    <td class="num">1</td>
-                                    <td class="company">广州汽车集团股份有限公司</td>
-                                    <td class="date">2017-12-20  12:12:20  </td>
-                                    <td class="state">预约中</td>
-                                    <td class="operate">
-                                        <dl>
-                                            <dd><a href="">取消预约</a></dd>
-                                            <dd><a href="">详情</a></dd>
-                                        </dl>
-                                    </td>
-
-                                </tr>
-                                <tr>
-                                    <td class="num">7</td>
-                                    <td class="company">广州汽车集团股份有限公司</td>
-                                    <td class="date">2017-12-20  12:12:20  </td>
-                                    <td class="state">预约中</td>
-                                    <td class="operate">
-                                        <dl>
-                                            <dd><a href="">取消预约</a></dd>
-                                            <dd><a href="">详情</a></dd>
-                                        </dl>
-                                    </td>
-
-                                </tr>
-                                
                             </tbody>
                         </table>
                         <div class="page_tip">
-                            <p>显示第1到第7条记录，总共<span>7</span>条记录</p>
+                            <!-- <p>显示第1到第7条记录，总共<span>7</span>条记录</p> -->
                             <div class="page1">
                                 <ul class="page1_con">
-                                    <li><a href="">《</a></li>
+                                    {$pager|default=''}
+                                    <!-- <li><a href="">《</a></li>
                                     <li><a href=""><</a></li>
                                     <li class="active"><a href="">1</a></li>
                                     <li><a href="">2</a></li>
                                     <li><a href="">></a></li>
-                                    <li><a href="">》</a></li>
-                                
+                                    <li><a href="">》</a></li> -->
                                 </ul>
                             </div>
                         </div>

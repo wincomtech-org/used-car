@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50540
 File Encoding         : 65001
 
-Date: 2017-11-23 21:06:28
+Date: 2017-11-24 12:10:56
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -4110,6 +4110,7 @@ CREATE TABLE `cmf_insurance_order` (
   `company_name` varchar(150) NOT NULL COMMENT '投保公司名',
   `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
   `pay_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '支付时间(生效时间)',
+  `appoint_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '预约时间',
   `finish_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '完成时间',
   `dead_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '失效时间',
   `delete_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '删除时间',
@@ -4130,9 +4131,9 @@ CREATE TABLE `cmf_insurance_order` (
 -- ----------------------------
 -- Records of cmf_insurance_order
 -- ----------------------------
-INSERT INTO `cmf_insurance_order` VALUES ('1', '0', '', '1', '1', 'abc3333333333', '', '0.00', '', '0', '0', '0', '1514337840', '0', '', '', '', '0', '0', '10000');
-INSERT INTO `cmf_insurance_order` VALUES ('2', '0', '', '2', '0', 'abc44444444444444', '', '0.00', '', '0', '0', '0', '1540261200', '0', '', '', '', '0', '0', '10000');
-INSERT INTO `cmf_insurance_order` VALUES ('3', '2', '', '3', '3', 'abc66666666666', '', '1000.00', '', '0', '1477531500', '0', '1509067440', '0', '{\"plateNo\":\"皖A158578\",\"name\":\"王华\",\"contact\":\"13369852147\",\"driving_license\":\"\"}', '', '', '0', '1', '10000');
+INSERT INTO `cmf_insurance_order` VALUES ('1', '1', '', '1', '1', 'abc3333333333', '', '0.00', '', '1477531500', '0', '0', '0', '1514337840', '0', '', '', '', '0', '0', '10000');
+INSERT INTO `cmf_insurance_order` VALUES ('2', '3', '', '2', '0', 'abc44444444444444', '', '0.00', '', '1477531500', '0', '0', '0', '1540261200', '0', '', '', '', '0', '0', '10000');
+INSERT INTO `cmf_insurance_order` VALUES ('3', '2', '', '3', '3', 'abc66666666666', '', '1000.00', '', '1477531500', '1477542500', '0', '0', '1509067440', '0', '{\"plateNo\":\"皖A158578\",\"name\":\"王华\",\"contact\":\"13369852147\",\"driving_license\":\"\"}', '', '', '0', '1', '10000');
 
 -- ----------------------------
 -- Table structure for cmf_link
@@ -5158,7 +5159,7 @@ CREATE TABLE `cmf_usual_company` (
   `status` tinyint(2) NOT NULL COMMENT '状态：-1禁用 0隐藏 1显示',
   `list_order` float unsigned NOT NULL DEFAULT '10000' COMMENT '排序：从小到大',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COMMENT='公司表';
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COMMENT='公司表';
 
 -- ----------------------------
 -- Records of cmf_usual_company
@@ -5168,6 +5169,7 @@ INSERT INTO `cmf_usual_company` VALUES ('2', '1', '10', '146', '润之丰车险'
 INSERT INTO `cmf_usual_company` VALUES ('3', '1', '10', '146', '开平车检', '', '', '1508990912', '1510820613', '1508990700', '0', '', '', '', '7天左右即可拿检测报告', '快速出结果', '', '{\"thumbnail\":\"http:\\/\\/pimg1.4008000000.com\\/app_images\\/4008000000\\/v20\\/index_b\\/logo.png\",\"photos\":[{\"url\":\"http:\\/\\/pimg1.4008000000.com\\/app_images\\/4008000000\\/v20\\/index_b\\/logo.png\",\"name\":\"\"},{\"url\":\"http:\\/\\/pimg1.4008000000.com\\/app_images\\/4008000000\\/v20\\/index_b\\/logo.png\",\"name\":\"\"}]}', '0', '0', '0', '1', '1', '1', '10000');
 INSERT INTO `cmf_usual_company` VALUES ('4', '0', '0', '0', '华通车检', '', '', '1510820665', '1510820665', '1510820648', '0', '', '', '', '各项功能专项检测', '服务新升级', '', '{\"thumbnail\":\"\"}', '0', '0', '1', '1', '1', '1', '10000');
 INSERT INTO `cmf_usual_company` VALUES ('5', '1', '0', '0', '平安车险', '', '', '1510820692', '1510821534', '1510820640', '0', '', '', '', '总部深圳', '全国连锁', '', '{\"thumbnail\":\"\"}', '0', '1', '1', '1', '1', '1', '10000');
+INSERT INTO `cmf_usual_company` VALUES ('6', '0', '0', '0', '广州汽车集团股份有限公司', '', '', '1511493781', '1511493781', '1511493751', '0', '', '', '', '广汽', '有限公司', '', '', '0', '0', '1', '1', '1', '1', '10000');
 
 -- ----------------------------
 -- Table structure for cmf_usual_coordinate

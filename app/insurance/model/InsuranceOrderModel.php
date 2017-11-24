@@ -20,7 +20,7 @@ class InsuranceOrderModel extends InsuranceModel
         ];
     }*/
 
-    public function getLists($filter, $isPage = false)
+    public function getLists($filter, $extra=false)
     {
         $field = 'a.*,b.name insurance_name,c.name car_name,d.user_login';
         $where = ['a.delete_time' => 0];
@@ -30,6 +30,14 @@ class InsuranceOrderModel extends InsuranceModel
             ['user d','a.user_id=d.id','LEFT']
         ];
 
+        if ($extra!==false) {
+            $where = array_merge($where,$extra);
+        }
+
+        // 保单状态
+        if (!empty($filter['status'])) {
+            $where['a.status'] = $filter['status'];
+        }
         // 所属保险
         if (!empty($filter['insuranceId'])) {
             $where['a.insurance_id'] = intval($filter['insuranceId']);
@@ -46,6 +54,10 @@ class InsuranceOrderModel extends InsuranceModel
             if (!empty($endTime)) {
                 $where['a.create_time'] = ['<= time', $endTime];
             }
+        }
+        // 用户ID
+        if (!empty($filter['user_id'])) {
+            $where['a.user_id'] = intval($filter['user_id']);
         }
         // 用户
         $uname = empty($filter['uname']) ? '' : $filter['uname'];

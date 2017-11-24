@@ -9,6 +9,7 @@ use think\Db;
 
 class PostController extends HomeBaseController
 {
+    // 选保险
     public function index()
     {
         $id = $this->request->param('id', 0, 'intval');
@@ -21,6 +22,7 @@ class PostController extends HomeBaseController
         return $this->fetch();
     }
 
+    // 选择险种
     public function step1()
     {
         $id = $this->request->param('id', 0, 'intval');
@@ -43,6 +45,7 @@ class PostController extends HomeBaseController
         return $this->fetch();
     }
 
+    // 个人资料
     public function step2()
     {
         if ($this->request->isPost()) {
@@ -78,7 +81,7 @@ class PostController extends HomeBaseController
         return $this->fetch();
     }
 
-    public function step3()
+    public function step2Post()
     {
         if ($this->request->isPost()) {
             $data   = $this->request->param();
@@ -137,6 +140,41 @@ class PostController extends HomeBaseController
         }
     }
 
+    // 合同
+    public function step5()
+    {
+        $insurId = $this->request->param('insurId',null);
+
+        $this->assign('insurId',$insurId);
+        return $this->fetch();
+    }
+
+    // 付钱
+    public function step6()
+    {
+        // $data = $this->request->param();
+        // $agree = $this->request->param('agree',null);
+        // $insurId = $this->request->param('insurId',null);
+        // $uid = cmf_get_current_user_id();
+
+        // $result = $this->validate(['insurance_id'=>$insurId], 'insurance/Order.agree');
+        // if ($result !== true) {
+        //     $this->error($result);
+        // }
+
+        // if ($agree==1) {
+        //     $where = ['user_id'=>$uid,'insurance_id'=>$insurId];
+        //     Db::name('insurance_order')->where($where)->setField('status',8);
+        // }
+
+        return $this->fetch();
+    }
+
+    // 结果
+    public function step7()
+    {
+        return $this->fetch();
+    }
 
 
 }
