@@ -143,9 +143,25 @@ class PostController extends HomeBaseController
     // 合同
     public function step5()
     {
-        $insurId = $this->request->param('insurId',null);
+        $insurId = $this->request->param('id',0,'intval');
+        $down = $this->request->param('down/d');
 
-        $this->assign('insurId',$insurId);
+        $insurOrder = Db::name('insurance_order')->field('status,insurance_id')->where('id',$insurId)->find();
+        $where = ['id'=>$insurOrder['insurance_id'],'identi_status'=>1,'status'=>1];
+        // $insurInfo = model('Insurance')->getPost($insurOrder['insurance_id']);
+        $insurInfo = Db::name('insurance')->field('company_id,name,content,information,more')->where($where)->find();
+        if (empty($insurInfo)) {
+            $this->error('该保险已被关闭或者失效，请联系管理员');
+        }
+        $insurInfo['content'] = cmf_replace_content_file_url(htmlspecialchars_decode($insurInfo['content']));
+
+        // if ($down==1) {
+        //     # code...
+        // }
+
+        $this->assign('id',$insurId);
+        $this->assign('Order',$insurOrder);
+        $this->assign('Info',$insurInfo);
         return $this->fetch();
     }
 
@@ -154,7 +170,7 @@ class PostController extends HomeBaseController
     {
         // $data = $this->request->param();
         // $agree = $this->request->param('agree',null);
-        // $insurId = $this->request->param('insurId',null);
+        // $insurId = $this->request->param('id',null);
         // $uid = cmf_get_current_user_id();
 
         // $result = $this->validate(['insurance_id'=>$insurId], 'insurance/Order.agree');
@@ -173,6 +189,14 @@ class PostController extends HomeBaseController
     // 结果
     public function step7()
     {
+        return $this->fetch();
+    }
+
+    // 查看险种
+    public function coverage()
+    {
+        $insurId = $this->request->param('id');
+
         return $this->fetch();
     }
 

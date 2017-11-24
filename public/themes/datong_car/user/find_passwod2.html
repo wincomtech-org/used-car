@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>找回密码</title>
+    <meta name="keywords" content=""/>
+    <meta name="description" content="">
+    <include file="public@head"/>
+</head>
+<body>
+    <!-- 头部 -->
+    <include file="public@header" />
+    <!-- 导航 -->
+    <include file="public@nav" />
+
+	<!-- banner -->
+	<section class="find_passwod">
+		<div class="find_password_tit"><div class="main">找回密码	</div>	</div>
+		<div class="main">	
+			<ul class="password_tit">
+				<li ><span>1</span>确认账号</li>
+				<li ><span>2</span>安全认证</li>
+				<li class="active"><span>3</span>重置密码</li>
+			</ul>							
+			<div class="password_con">
+				
+				<form action="	" method="get" accept-charset="utf-8" class="find_password3">
+						<ul class="password_ul">
+							<li>
+								<div class="lists_input  confirm">
+									<span class="tit">	新密码</span>
+									<input type="password" name="password1" class="password1 placeholder" placeholder="请你填写密码">
+								</div>
+
+								<b style="display:block;">*密码为英文字母加数字，8-20位</b>
+							</li>
+							<li>
+								<div class="lists_input confirm">
+									<span class="tit">	确认密码</span>
+									<input type="password" name="password2" class="password2 placeholder" placeholder="请你再次确认密码">
+								</div>
+
+								<b style="display:none;">*两次输入密码不一致</b>
+							</li>
+						</ul>		
+						<p class="submit">	<button type="submit" class="btn btn_next " onClick="return password()">下一步</button></p>
+				</form>
+			</div>							
+		
+		</div>
+	</section>
+
+
+    <!-- 底部 -->
+    <include file="public@footer" />
+    <include file="public@scripts" />
+</body>
+<script src="../js/jquery-1.11.3.min.js"></script>
+<script src="../js/common.js"></script>
+<script>
+	var password1=$('.password1').val();
+	var password2=$('.password2').val();
+
+	function isPassword (password) {
+	  var pattern=/^[a-zA-z]{1}[0-9A-Za-z]{7,19}$/
+	  return  pattern.test(password)
+	}
+
+	$('.password_ul input').blur(function(){
+		if($.trim($(this).val())== "" || isPassword($.trim($(this).val())) == false){
+			$(this).parent().siblings('b').show();
+		}else if( $(this).attr('name') == "password2" &&  password1 != password2 ){
+			$('input[name="password1"]').parent().siblings('b').hide();
+			$('input[name="password2"]').parent().siblings('b').show();
+		}else{
+			$(this).parent().siblings('b').hide();
+		} 
+	})
+
+	function password(e){
+		// var password1=$('.password1');
+		// var password2=$('.password2');
+		if($.trim($('input[name="password1"]').val()).length == 0|| isPassword($.trim($('input[name="password1"]').val())) == false){
+			$('input[name="password1"]').parent().siblings('b').show();
+			return false;
+		}else if($.trim($('input[name="password2"]').val()).length == 0 ){
+			$('input[name="password1"]').parent().siblings('b').hide();
+			$('input[name="password2"]').parent().siblings('b').show();
+			return false;
+		}else if(password1 != password2){
+			$('input[name="password2"]').parent().siblings('b').show();
+			return false;
+		}
+		e.prentDefault();
+	}
+</script>
+
+</html>

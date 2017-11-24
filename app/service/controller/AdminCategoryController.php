@@ -39,7 +39,8 @@ class AdminCategoryController extends AdminBaseController
     }
     public function addPost()
     {
-        $data = $this->request->param();
+        // $data   = $this->request->param();
+        $data   = $_POST;
         $cate = $data['cate'];
         $result = $this->validate($cate, 'Category.add');
         if ($result !== true) {
@@ -71,7 +72,8 @@ class AdminCategoryController extends AdminBaseController
     }
     public function editPost()
     {
-        $data = $this->request->param();
+        // $data   = $this->request->param();
+        $data   = $_POST;
         $cate = $data['cate'];
         $result = $this->validate($cate, 'Category.edit');
         if ($result !== true) {

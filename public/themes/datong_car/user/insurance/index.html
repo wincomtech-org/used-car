@@ -39,60 +39,32 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                <php>
+                                    $orderStatus = config('insurance_order_status');
+
+                                </php>
                                 <foreach name="policy" item="vo">
                                 <tr>
                                     <td class="num">{$vo.id}</td>
                                     <td class="company">{$vo.insurance_name}</td>
                                     <td class="date">{:date('Y-m-d H:i:s',$vo.create_time)}</td>
-                                    <td class="state"><php>echo config('insurance_order_status')[$vo['status']]</php></td>
+                                    <td class="state 
+                                        <switch name='vo.status'>
+                                            <case value='1|5|6|10'>sucss</case>
+                                            <case value='-1|-2|-3|-11'>err</case>
+                                            <default />
+                                        </switch>
+                                    ">{$orderStatus[$vo.status]}</td>
                                     <td class="operate">
                                         <dl>
+                                            <in name='vo.status' value='0,1,5'>
                                             <dd><a href="{:url('user/Insurance/cancel',['id'=>$vo.id])}">取消预约</a></dd>
+                                            </in>
                                             <dd><a href="{:url('user/Insurance/details',['id'=>$vo.id])}">详&nbsp;&nbsp;情</a></dd>
                                         </dl>
                                     </td>
                                 </tr>
                                 </foreach>
-                                <tr>
-                                    <td class="num">3</td>
-                                    <td class="company">广州汽车集团股份有限公司</td>
-                                    <td class="date">2017-12-20  12:12:20  </td>
-                                    <td class="state">预约中</td>
-                                    <td class="operate">
-                                        <dl>
-                                            <dd><a href="">取消预约</a></dd>
-                                            <dd><a href="{:url('user/Insurance/details')}">详&nbsp;&nbsp;情</a></dd>
-                                        </dl>
-                                    </td>
-
-                                </tr>
-                                <tr>
-                                    <td class="num">2</td>
-                                    <td class="company">广州汽车集团股份有限公司</td>
-                                    <td class="date">2017-12-20  12:12:20  </td>
-                                    <td class="state sucss">预约成功</td>
-                                    <td class="operate">
-                                        <dl>
-                                            <dd><a href="" class="del">删&nbsp;&nbsp;除</a></dd>
-                                            <dd><a href="{:url('user/Insurance/details')}">详&nbsp;&nbsp;情</a></dd>
-                                        </dl>
-                                    </td>
-
-                                </tr>
-                                <tr>
-                                    <td class="num">4</td>
-                                    <td class="company">广州汽车集团股份有限公司</td>
-                                    <td class="date">2017-12-20  12:12:20  </td>
-                                    <td class="state err">预约失败</td>
-                                    <td class="operate">
-                                        <dl>
-                                            <dd><a href="" class="del">删&nbsp;&nbsp;除</a></dd>
-                                            <dd><a href="">详&nbsp;&nbsp;情</a></dd>
-                                        </dl>
-                                    </td>
-
-                                </tr>
-
                             </tbody>
                         </table>
                         <div class="page_tip">

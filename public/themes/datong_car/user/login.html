@@ -1,54 +1,94 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title></title>
-<meta name="keywords" content="" />
-<meta name="description" content="">
-<include file="public@head" />
+	<title>登录</title>
+	<meta name="keywords" content="" />
+	<meta name="description" content="">
+	<include file="public@head" />
 </head>
-
-<body class="body-white">
+<body>
+	<!-- 头部 -->
+	<include file="public@header" />
+	<!-- 导航 -->
 	<include file="public@nav" />
 
-	<div class="container tc-main">
-		<div class="row">
-			<div class="col-md-4 col-md-offset-4">
-				<h2 class="text-center">用户登录</h2>
-				<form class="js-ajax-form" action="{:url('user/login/doLogin')}" method="post">
-					<div class="form-group">
-						<input type="text" id="input_username" name="username" placeholder="手机号/邮箱/用户名" class="form-control">
-					</div>
-
-					<div class="form-group">
-						<input type="password" id="input_password" name="password" placeholder="密码" class="form-control">
-					</div>
-
-					<div class="form-group">
-						<div style="position: relative;">
-							<input type="text" name="captcha" placeholder="验证码" class="form-control captcha" style="width: 170px;float: left;margin-right: 30px">
-							<captcha height="38" width="160" font-size="20"/>
-						</div>
-					</div>
-
-					<div class="form-group">
-						<input type="hidden" name="redirect" value="">
-						<button class="btn btn-primary btn-block js-ajax-submit" type="submit" style="margin-left: 0px">确定</button>
-					</div>
-
-					<div class="form-group" style="text-align: center;">
-						<ul class="list-inline">
-							<li><a href="{:cmf_url('user/Register/index')}">现在注册</a></li>
-							<li><a href="{:cmf_url('user/Login/findPassword')}">忘记密码</a></li>
+	<!-- banner -->
+	<section class="login_pc veh_trading_pc">
+		<div class="banner">
+			<img src="__TMPL__/public/assets/images/example/banner.jpg" alt="">
+			<!-- 登录 -->
+			<div class="main">
+				<di class="regist_con">
+					<form action="{:url('user/login/doLogin')}" method="post" class="js-ajax-form">
+						<p class="tit">登录</p>
+						<ul class="user_login_lists">
+							<li class="user_login_input">
+								<input type="text" name="username" placeholder="手机号/邮箱/用户名" class="tel_icon placeholder" id="input_username">
+							</li>
+							<li class="user_login_input">
+								<input type="password" name="password" placeholder="请输入密码" class="password_icon placeholder" id="input_password">
+							</li>
+							<li class="user_login_input_yz">
+								<input type="text" name="captcha" placeholder="请输入验证码" class="placeholder">
+								<span class="yanzheng"><captcha height="38" width="160" font-size="20"/></span>
+							</li>
 						</ul>
-					</div>
+						<dl class="user_login_supplement">
+							<dd class="auto_login"><label ><input type="checkbox" name="" value="下次自动登录">下次自动登录</label></dd>
+							<dd><a href="{:cmf_url('user/Login/findPassword')}" class="red">忘记密码？</a></dd>
+						</dl>
+						<p class="submit">
+							<input type="hidden" name="redirect" value="">
+							<button type="submit" class="red_btn btn js-ajax-submit">登录</button>
+							<!-- <a href="" class="red_btn btn">登录</a> -->
+							<a href="{:cmf_url('user/Register/index')}" class="btn">免费注册</a>
+						</p>
+					</form>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- 手机版 -->
+	<section class="login_m">
+		<div class="main">
+			<div class="regist_con">
+				<form  action="{:url('user/login/doLogin')}" method="post" accept-charset="utf-8" name="login_form" class="js-ajax-form">
+					<p class="tit">登录</p>
+					<ul class="user_login_lists">
+						<li class="user_login_input">
+							<input type="text" name="username" class="tel_icon placeholder" placeholder="手机号/邮箱/用户名">
+							<b style="display:none;">*请输入正确手机号/邮箱/用户名</b>
+						</li>
+						<li class="user_login_input"><input type="password" name="password" class="password_icon placeholder" placeholder="请输入密码"></li>
+						<li class="user_login_input_yz">
+							<input type="text" name="captcha" class="placeholder" placeholder="请输入验证码">
+							<span class="yanzheng"><captcha height="38" width="160" font-size="20"/></span>
+						</li>
+					</ul>
+					<dl class="user_login_supplement">
+						<dd class="auto_login"><label ><input type="checkbox" name="" value="下次自动登录">下次自动登录</label></dd>
+						<dd><a href="find_passwod.html" class="red">忘记密码？</a></dd>
+					</dl>
+					<p class="submit">
+						<input type="hidden" name="redirect" value="">
+						<button type="submit" class="red_btn btn js-ajax-submit">登录</button>
+						<!-- <a href="javascript:login_form.submit()" onClick="return loginLayoutValidate()" class="red_btn btn">登录</a> -->
+						<a href="{:cmf_url('user/Register/index')}" class="btn">免费注册</a>
+					</p>
 				</form>
 			</div>
 		</div>
+	</section>
 
 
-	</div>
-	<!-- /container -->
-
+	<!-- 底部 -->
+	<include file="public@footer" />
 	<include file="public@scripts" />
 </body>
+
+<script>
+
+</script>
+
 </html>

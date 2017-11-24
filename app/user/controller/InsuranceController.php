@@ -38,8 +38,20 @@ class InsuranceController extends UserBaseController
         if (empty($page)) {
             abort(404, ' 页面不存在!');
         }
+        $page['statusV'] = config('insurance_order_status')[$page['status']];
 
+        if (!empty($page['car_id'])) {
+            $identiInfo = Db::name('usual_car')->where('id',$page['car_id'])->value('identi');
+            $identiInfo = (array)json_decode(Db::name('usual_car')->where('id',$page['car_id'])->value('identi'));
+        } else {
+            $identiInfo = $page['more'];
+        }
+
+// dump(Db::getLastsql());
+// dump($identiInfo);
+// die;
         $this->assign('page',$page);
+        $this->assign('identi',$identiInfo);
         return $this->fetch();
     }
 
@@ -50,7 +62,7 @@ class InsuranceController extends UserBaseController
 
         $where = ['id'=>$orderId,'user_id'=>$uid];
 
-        // $result = Db::name('insurance_order')->where($where)->setField('status',2);
+        $result = Db::name('insurance_order')->where($where)->setField('status',-1);
         if ($result) {
             $this->success('您已取消预约保单');
         }
@@ -59,7 +71,7 @@ class InsuranceController extends UserBaseController
 
     public function del()
     {
-        return $this->fetch();
+        $orderId = $this->request->param('id',0,'intval');
     }
 
     public function more()

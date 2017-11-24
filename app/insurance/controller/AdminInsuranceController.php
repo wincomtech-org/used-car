@@ -48,7 +48,8 @@ class AdminInsuranceController extends AdminBaseController
     public function addPost()
     {
         if ($this->request->isPost()) {
-            $data   = $this->request->param();
+            // $data   = $this->request->param();
+            $data   = $_POST;
             $post   = $data['post'];
             $result = $this->validate($post,'Insurance.add');
             if ($result !== true) {
@@ -85,7 +86,8 @@ class AdminInsuranceController extends AdminBaseController
     public function editPost()
     {
         if ($this->request->isPost()) {
-            $data   = $this->request->param();
+            // $data   = $this->request->param();
+            $data   = $_POST;
             // dump($data);die;
             $post   = $data['post'];
             $result = $this->validate($post, 'Insurance.edit');

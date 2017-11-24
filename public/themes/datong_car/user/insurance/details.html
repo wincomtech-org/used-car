@@ -25,48 +25,88 @@
                         <li class="person_right_item active">
                             <a href="#">预约详情</a>
                         </li>
-
                     </ul>
                 </div>
                 <div class="person_right_con">
                     <div class="person_car_buss">
-                        <p class="info_tit">预约详情</p>
+                        <p class="info_tit">保单详情</p>
+                        <div class="form_details">
+                            <ul>
+                                <li>
+                                    <span class="icon">保&nbsp;&nbsp;&nbsp;单&nbsp;&nbsp;&nbsp;号</span>
+                                    <span class="txt">{$page.order_sn}</span>
+                                </li>
+                                <li>
+                                    <span class="icon">保&nbsp;&nbsp;&nbsp;险&nbsp;&nbsp;&nbsp;金</span>
+                                    <span class="txt">{$page.amount|default='null'}</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <p class="info_tit">客户资料</p>
                         <div class="form_details">
                             <ul>
                                 <li>
                                     <span class="icon">姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名</span>
-                                    <span class="txt">金*</span>
+                                    <span class="txt">{$identi.username}</span>
                                 </li>
                                 <li>
                                     <span class="icon">电&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;话</span>
-                                    <span class="txt">金*</span>
+                                    <span class="txt">{$identi.telephone?$identi.telephone:$identi.contact}</span>
                                 </li>
                                 <li>
                                     <span class="icon">车&nbsp;&nbsp;&nbsp;牌&nbsp;&nbsp;&nbsp;号</span>
-                                    <span class="txt">金*</span>
+                                    <span class="txt">{$identi.plateNo}</span>
                                 </li>
 
                                 <li>
                                     <span class="icon">行车本照片</span>
-                                    <span class="txt"><img src="__TMPL__/public/assets/images/example/sfz.jpg" alt=""></span>
+                                    <span class="txt"><img src="
+                                        <empty name='identi.driving_license'>
+                                            __TMPL__/public/assets/images/example/sfz.jpg
+                                        <else/>
+                                        {:cmf_get_image_preview_url($identi.driving_license)}
+                                        </empty>
+                                    " alt="driving_license"></span>
                                 </li>
                                 <li>
                                     <span class="icon">身份证</span>
-                                    <span class="txt"><img src="__TMPL__/public/assets/images/example/sfz.jpg" alt=""></span>
+                                    <span class="txt"><img src="
+                                        <empty name='identi.identity_card'>
+                                            __TMPL__/public/assets/images/example/sfz.jpg
+                                        <else/>
+                                        {:cmf_get_image_preview_url($identi.identity_card)}
+                                        </empty>
+                                    " alt="identity_card"></span>
                                 </li>
 
-                                <li>
+                                <!-- <li>
                                     <span class="icon">服&nbsp;&nbsp;务&nbsp;&nbsp;点</span>
                                     <span class="txt">安徽省合肥市马鞍山路4店</span>
-                                </li>
+                                </li> -->
+
                                 <li>
                                     <span class="icon">预&nbsp;&nbsp;约&nbsp;&nbsp;状&nbsp;&nbsp;态</span>
-                                    <span class="txt succ">预约成功</span>
+                                    <span class="txt 
+                                        <switch name='page.status'>
+                                            <case value='1|5|6|10'>sucss</case>
+                                            <case value='-1|-2|-3|-11'>err</case>
+                                            <default />
+                                        </switch>
+                                    ">{$page.statusV}</span>
                                 </li>
 
                                 <li>
                                     <span class="icon">合&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;同</span>
-                                    <span class="txt"><a href="{:cmf_url('insurance/Post/step5')}" class="file">查看详情</a><a href="{:cmf_url('insurance/Post/step5',['down'=>1])}" class="file_down">下载</a></span>
+                                    <span class="txt">
+                                        <eq name='page.type' value='1'>
+                                        <notin name='page.status' value='0,-1,-2,-3,-11'>
+                                            <a href="{:cmf_url('insurance/Post/step5',['id'=>$page.id])}" class="file">查看详情</a>
+                                            <a href="{:cmf_url('insurance/Post/step5',['id'=>$page.id,'down'=>1])}" class="file_down">下载</a>
+                                        </notin>
+                                        <else/>
+                                            线下操作
+                                        </eq>
+                                    </span>
                                 </li>
                             </ul>
                         </div>

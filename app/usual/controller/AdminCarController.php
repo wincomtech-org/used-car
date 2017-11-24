@@ -123,7 +123,8 @@ class AdminCarController extends AdminBaseController
     public function addPost()
     {
         if ($this->request->isPost()) {
-            $data   = $this->request->param();
+            // $data   = $this->request->param();
+            $data   = $_POST;
             $data['post']['user_id'] = cmf_get_current_admin_id();
             $post   = $data['post'];
             if (empty($post['serie_id'])) {
@@ -233,7 +234,8 @@ class AdminCarController extends AdminBaseController
     public function editPost()
     {
         if ($this->request->isPost()) {
-            $data   = $this->request->param();
+            // $data   = $this->request->param();
+            $data   = $_POST;
             $post   = $data['post'];
             $more   = $data['post']['more'];
             if (empty($post['serie_id'])) {

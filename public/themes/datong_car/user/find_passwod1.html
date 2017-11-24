@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>找回密码</title>
+    <meta name="keywords" content=""/>
+    <meta name="description" content="">
+    <include file="public@head"/>
+</head>
+<body>
+    <!-- 头部 -->
+    <include file="public@header" />
+    <!-- 导航 -->
+    <include file="public@nav" />
+
+	<!-- banner -->
+	<section class="find_passwod">
+		<div class="find_password_tit"><div class="main">找回密码	</div>	</div>
+		<div class="main">	
+			<ul class="password_tit">
+				<li ><span>1</span>确认账号</li>
+				<li  class="active"><span>2</span>安全认证</li>
+				<li><span>3</span>重置密码</li>
+			</ul>							
+			<div class="password_con">
+				
+				<form action="	" method="get" accept-charset="utf-8" class="find_password2">
+						<ul class="password_ul">
+							<li>
+								<div class="lists_input">
+									您验证的手机号码为：<span>12345678912</span>
+								</div>
+								
+							</li>
+							<li>
+								<div class="lists_input list_90">
+									<input type="tel" name="tel" class="placeholder"  placeholder="请输入验证码">
+									<a class="yz" href="">发送验证码</a>
+								</div>
+								<b style="display:none;">*请输入验证码</b>
+							</li>
+						</ul>		
+						<p class="submit">	<button type="submit" class="btn btn_next" onClick=>下一步</button></p>
+				</form>
+			
+			</div>							
+		
+		</div>
+	</section>
+
+
+    <!-- 底部 -->
+    <include file="public@footer" />
+    <include file="public@scripts" />
+</body>
+<script src="../js/jquery-1.11.3.min.js"></script>
+<script src="../js/common.js"></script>
+
+
+</html>
