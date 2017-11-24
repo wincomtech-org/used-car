@@ -1,13 +1,13 @@
 <div class="person_left">
     <div class="users">
         <div class="users_con">
-            <img src="
+            <a href="{:url('profile/avatar')}"><img src="
                 <if condition="empty($user.avatar)">
                     __TMPL__/public/assets/images/example/user.png
                 <else/>
                     {:cmf_get_user_avatar_url($user.avatar)}
                 </if>
-            " alt="">
+            " alt="" /></a>
             <p>{$user.user_login}</p>
             <span>欢迎您！</span>
         </div>
@@ -15,7 +15,7 @@
             <ul >
                 <!-- <li class="person_item active"><a href="#"></a></li> -->
                 <li class="person_item"><a href="{:cmf_url('user/Profile/center')}">个人资料</a></li>
-                <li class="person_item"><a href="{:cmf_url('user/Insurance/index')}">车险预约</a></li>
+                <li class="person_item"><a href="{:cmf_url('user/Insurance/index')}">车险管理</a></li>
                 <li class="person_item"><a href="{:cmf_url('user/Service/index',['id'=>1])}">车辆业务</a></li>
                 <li class="person_item"><a href="{:cmf_url('user/favorite/index')}">我的收藏</a></li>
                 <li class="person_item"><a href="{:cmf_url('user/Trade/buyer')}">买家中心</a></li>

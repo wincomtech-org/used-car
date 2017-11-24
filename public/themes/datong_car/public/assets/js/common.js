@@ -572,12 +572,15 @@ $(".contract_p .check_span input").click(function() {
 	}
 })
 
-function contract(e) {
+function insurance_contract(e) {
 	if ($(".contract_p .check_span>label").attr('tid') != 1) {
-		alert("您未同意服务条款")
+		alert("您未同意服务条款");
 		return false;
 	}
-	e.preventDefault();
+	var data = $('#contract_form').serialize();
+	alert(data)
+	// e.preventDefault();
+	$('#contract_form').submit();
 }
 
 /*同意服务*/

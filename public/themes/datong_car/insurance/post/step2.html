@@ -22,13 +22,13 @@
             <ul class="brash">
                 <li>当前位置：</li>
                 <li><a href="{:url('Index/index')}">车险服务 </a></li>
-                <li><a href="#">{$iName} </a></li>
+                <li><a href="#">{$iName|default=''} </a></li>
                 <li ><a href="#">险种选择</a></li>
                 <li  class="active"><a >资料填写</a></li>
             </ul>
 
             <div class="selection_insurance_con">
-                <form action="{:url('Post/step3')}" method="post" class="data_filling" id="data_filling">
+                <form action="{:url('Post/step2Post')}" method="post" class="data_filling" id="data_filling">
                     <ul class="data_filling_list required">
                         <li class="left">姓名</li>
                         <li class="right">

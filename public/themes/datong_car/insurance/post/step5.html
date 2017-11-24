@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>签订合同 - {$site_info.site_name|default=''}</title>
+    <meta name="keywords" content="{$site_info.site_seo_keywords|default=''}"/>
+    <meta name="description" content="{$site_info.site_seo_description|default=''}">
+
+    <include file="public@head"/>
+    <hook name="before_head_end"/>
+</head>
+<body>
+    <!-- 头部 -->
+    <include file="public@header" />
+    <!-- 导航 -->
+    <include file="public@nav" />
+
+    <!-- 合同 -->
+    <section class="selection_insurance">
+        <div class="main">
+            <ul class="brash">
+                <li>当前位置：</li>
+                <li><a href="{:url('Index/index')}">车险服务 </a></li>
+                <li><a href="#">{$iName|default=''} </a></li>
+                <li ><a href="#">险种选择</a></li>
+                <li ><a href="#">资料填写</a></li>
+                <li class="active"><a href="#">签订合同</a></li>
+            </ul>
+            <div class="selection_insurance_con">
+                <form action="{:url('insurance/Post/step5Post')}" method="post" accept-charset="utf-8" id="contract_form" class="contract_form">
+                    <div class="contrac_con">
+                        <div class="img">太平洋保险条例</div>
+                        <div class="contract">
+                            <dl>
+                                <dt>总 则</dt>
+                                <dd>第一条 本保险合同由保险条款、投保单、保险单、批单和特别约定组成。凡涉及本保险合同的约定，均应采用书面形式。  </dd>
+                                <dd>第二条 本保险合同中的非营业用汽车是指在中华人民共和国境内（不含港、澳、台地区）行驶的党政机关、企事业单位、社会团体、使领馆等机构从事公务或在生产经营活动中不以直接或间接方式收取运费或租金的自用汽车，包括客车、货车、客货两用车。  第三条 本保险合同为不定值保险合同。保险人按照承保险别承担保险责任，附加险不能单独承保 </dd>
+                            </dl>
+                            <dl>
+                                <dt>保险责任</dt>
+                                <dd>第四条 保险期间内，被保险人或其允许的驾驶人在使用保险车辆过程中，因下列原因造成保险车辆的损失，保险人依照本保险合同的约定负责赔偿：  </dd>
+                                <dd style="text-indent:2em;">（一） 碰撞、倾覆、坠落；  </dd>
+                                <dd style="text-indent:2em;"> （二） 火灾、爆炸、自燃；  </dd>
+                                <dd style="text-indent:2em;">（三） 外界物体坠落、倒塌；</dd>
+                                <dd style="text-indent:2em;">（四） 暴风、龙卷风； </dd>
+                                <dd style="text-indent:2em;">（五） 雷击、雹灾、暴雨、洪水、海啸；</dd>
+                                <dd style="text-indent:2em;">（六） 地陷、冰陷、崖崩、雪崩、泥石流、滑坡；  </dd>
+                                <dd style="text-indent:2em;">（七） 载运保险车辆的渡船遭受自然灾害（只限于驾驶人随船的情形）。</dd>
+                                <dd>第五条 发生保险事故时，被保险人为防止或者减少保险车辆的损失所支付的必要的、合理的施救费用，由保险人承担，最高不超过保险金额的数额。</dd>
+                            </dl>
+                            <dl>
+                                <dt>责任免除</dt>
+                                <dd>第五条 保险期间内，被保险人或其允许的驾驶人在使用保险车辆过程中，因下列原因造成保险车辆的损失，保险人依照本保险合同的约定负责赔偿：   </dd>
+                                <dd style="text-indent:2em;">（一） 碰撞、倾覆、坠落；  </dd>
+                                <dd style="text-indent:2em;"> （二） 火灾、爆炸、自燃；  </dd>
+                                <dd style="text-indent:2em;">（三） 外界物体坠落、倒塌；</dd>
+                                <dd style="text-indent:2em;">（四） 暴风、龙卷风； </dd>
+                                <dd style="text-indent:2em;">（五） 雷击、雹灾、暴雨、洪水、海啸；</dd>
+                                <dd style="text-indent:2em;">（六） 地陷、冰陷、崖崩、雪崩、泥石流、滑坡；  </dd>
+                                <dd style="text-indent:2em;">（七） 载运保险车辆的渡船遭受自然灾害（只限于驾驶人随船的情形）。</dd>
+                                <dd>第五条 发生保险事故时，被保险人为防止或者减少保险车辆的损失所支付的必要的、合理的施救费用，由保险人承担，最高不超过保险金额的数额。</dd>
+                            </dl>
+                            <dl>
+                                <dt>总 则</dt>
+                                <dd>第五条 保险期间内，被保险人或其允许的驾驶人在使用保险车辆过程中，因下列原因造成保险车辆的损失，保险人依照本保险合同的约定负责赔偿：   </dd>
+                                <dd style="text-indent:2em;">（一） 碰撞、倾覆、坠落；  </dd>
+                                <dd style="text-indent:2em;"> （二） 火灾、爆炸、自燃；  </dd>
+                                <dd style="text-indent:2em;">（三） 外界物体坠落、倒塌；</dd>
+                                <dd style="text-indent:2em;">（四） 暴风、龙卷风； </dd>
+                                <dd style="text-indent:2em;">（五） 雷击、雹灾、暴雨、洪水、海啸；</dd>
+                                <dd style="text-indent:2em;">（六） 地陷、冰陷、崖崩、雪崩、泥石流、滑坡；  </dd>
+                                <dd style="text-indent:2em;">（七） 载运保险车辆的渡船遭受自然灾害（只限于驾驶人随船的情形）。</dd>
+                                <dd>第五条 发生保险事故时，被保险人为防止或者减少保险车辆的损失所支付的必要的、合理的施救费用，由保险人承担，最高不超过保险金额的数额。</dd>
+                            </dl>
+                        </div>
+                    </div>
+                    <p class="contract_p">
+                        <span class="check_span">
+                            <input type="checkbox" name="agree" value="1" id="contract_label" class="no_input"><label for="contract_label"></label>
+                        </span>
+                        <label for="contract_label">同意上述条例，自投保日30内成功支付首期保险费，方可生效。</label>
+                    </p>
+                    <input type="hidden" name="insurId" value="{$insurId}">
+                    <button type="button" for="contract_form" class="btn btn_submit" onClick="insurance_contract(this);">同意</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- 底部 -->
+    <include file="public@footer" />
+    <include file="public@scripts" />
+    <hook name="before_body_end" />
+</body>
+
+<script>
+
+</script>
+</html>
