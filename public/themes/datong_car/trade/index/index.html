@@ -90,7 +90,7 @@
                             <p>车型</p>
                             <ul style="display:none;">
                                 <foreach name="Models" item="vo">
-                                <li><a href="{:url('Index/index', $jumpext.'&modelId='.$vo.id)}#AAA">{$vo.name}</a></li>
+                                <li {$modelId==$vo.id?='class="active"'}><a href="{:url('Index/index', $jumpext.'&modelId='.$vo.id)}#AAA">{$vo.name}</a></li>
                                 </foreach>
                             </ul>
                         </div>

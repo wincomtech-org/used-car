@@ -106,14 +106,19 @@ class PostController extends HomeBaseController
                 $cardata['user_id'] = $userId;
                 $cardata['plateNo'] = $cardata['identi']['plateNo'];
 
-                // $carModel = new UsualCarModel();
-                // $result = $this->validate($cardata, 'usual/Car.add');
-                // if ($result !== true) {
-                //     $this->error($result);
-                // }
+                $carModel = new UsualCarModel();
+                $result = $this->validate($cardata, 'usual/Car.add');
+                if ($result !== true) {
+                    $this->error($result);
+                }
 
                 // if (!empty($cardata['identi']['identity_card'])) {
                 //     $cardata['identi']['identity_card'] = $carModel->dealFiles($cardata['identi']['identity_card']);
+                // }
+                $file_var = ['driving_license','identity_card'];
+                // $carUp = $carModel->uploadPhotos($file_var);
+                // foreach ($carUp['data'] as $key=>$var) {
+                //     $cardata['identi'][$key] = $var;
                 // }
 
                 // $carModel->adminAddArticle($cardata);
@@ -126,17 +131,25 @@ class PostController extends HomeBaseController
                 $this->error($result);
             }
 
-            // $res = Db::name('insurance_order')->where('id',$post['id'])->update($post);
-            if (!empty($res)) {
-                $data = [
-                    'title' => '预约保险',
-                    'object'=> 'insurance_order'.$post['id'],
-                    'content'=>'',
-                    'create_time'=>time(),
-                    'ip' => get_client_ip()
-                ];
-                cmf_put_news($data);
-            }
+            // Db::startTrans();
+            // try{
+            //     $res = Db::name('insurance_order')->where('id',$post['id'])->update($post);
+            //     if (!empty($res)) {
+            //         $data = [
+            //             'title' => '预约保险',
+            //             'object'=> 'insurance_order'.$post['id'],
+            //             'content'=>'',
+            //             'create_time'=>time(),
+            //             'ip' => get_client_ip()
+            //         ];
+            //         cmf_put_news($data);
+            //     }
+            //     // 提交事务
+            //     Db::commit();
+            // } catch (\Exception $e) {
+            //     // 回滚事务
+            //     Db::rollback();
+            // }
         }
     }
 

@@ -39,8 +39,6 @@
 <script type="text/javascript" src="__TMPL__/public/assets/js/laydate/laydate.js"></script>
 <script src="__TMPL__/public/assets/js/Area.js" type="text/javascript"></script>
 <script src="__TMPL__/public/assets/js/AreaData_min.js" type="text/javascript"></script>
-</html>
-
 
 public@head
 
@@ -49,6 +47,34 @@ public@header
 public@nav
 
 public@footer
+
+</html>
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>系统自带</title>
+</head>
+<body>
+    <form action="{:url('AdminArticle/editPost')}" method="post" class="form-horizontal js-ajax-form margin-top-20">
+        <button type="submit" class="btn btn-primary js-ajax-submit">{:lang('SAVE')}</button>
+        <a class="btn btn-default" href="javascript:history.back(-1);">{:lang('BACK')}</a>
+    </form>
+    <a href="javascript:" class=""></a>
+    <a href="{:url('Rbac/roledelete',array('id'=>$vo['id']))}" class="js-ajax-delete">{:lang('DELETE')}</a>
+    <a href="{:U('user/delete',array('id'=>$vo['id']))}" class="js-ajax-delete">删除</a>
+    <a href="{:url('theme/update',['theme'=>$vo.theme])}" class="js-ajax-dialog-btn" data-msg="确定更新此模板吗？">更新</a>
+    <a href="{:url('RecycleBin/restore',array('id'=>$vo['id']))}" class="js-ajax-dialog-btn___" data-msg="确定要还原吗？">还原</a>
+</body>
+</html>
+
+
+
+
+
+
 
 
 

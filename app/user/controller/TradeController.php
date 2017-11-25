@@ -16,12 +16,16 @@ class TradeController extends UserBaseController
     //     parent::_initialize();
     // }
 
-    // 列表页
+    // 买家订单列表页
     public function buyer()
     {
         return $this->fetch();
     }
 
+
+    /*
+    * 卖家数据
+    */
     public function seller()
     {
         return $this->fetch();
@@ -29,12 +33,12 @@ class TradeController extends UserBaseController
 
     public function sellerCar()
     {
-        return $this->fetch();
+        return $this->fetch('seller_car');
     }
 
-    public function orderList()
+    public function sellerOrder()
     {
-        return $this->fetch();
+        return $this->fetch('seller_order');
     }
 
     public function cancel()

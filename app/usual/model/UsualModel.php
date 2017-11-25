@@ -376,20 +376,6 @@ class UsualModel extends Model
         return $post;
     }
 
-    public function dealFiles($files=['names'=>[],'urls'=>[]], $pk='')
-    {
-        $post = [];
-        $names = $files['names']; $urls = $files['urls'];
-        if (!empty($names) && !empty($urls)) {
-            foreach ($urls as $key => $url) {
-                $relative_url = cmf_asset_relative_url($url);
-                array_push($post, ["url"=>$relative_url, "name"=>$names[$key]]);
-            }
-        }
-
-        return $post;
-    }
-
     public function getStatus($status='',$config='trade_order_status')
     {
         if (empty(config('?'.$config))) {
@@ -419,5 +405,101 @@ class UsualModel extends Model
             }
             return $options;
         }
+    }
+
+    // 后台 JS 插件获取文件
+    public function dealFiles($files=['names'=>[],'urls'=>[]], $pk='')
+    {
+        $post = [];
+        $names = $files['names']; $urls = $files['urls'];
+        if (!empty($names) && !empty($urls)) {
+            foreach ($urls as $key => $url) {
+                $relative_url = cmf_asset_relative_url($url);
+                array_push($post, ["url"=>$relative_url, "name"=>$names[$key]]);
+            }
+        }
+
+        return $post;
+    }
+
+    // 图片上传处理
+    public function uploadPhotos($field_var=[], $module, $valid)
+    {
+        $module     = empty($module) ? request()->module() : $module;
+        $valid      = empty($valid) ? ['size' => 1024*1024,'ext' => 'jpg,jpeg,png,gif'] : $valid;
+        $move       = '.' . DS . 'upload' . DS . $module . DS;
+        // $move       = ROOT_PATH . 'public' . DS . 'upload'. DS .'service'. DS;
+
+        if (is_string($field_var)) {
+            return $this->uploadPhotoOne($field_var, $module, $valid, $move);
+        } elseif (is_array($field_var)) {
+            $data = [];
+            foreach ($field_var as $fo) {
+                $data = array_merge($data,$this->uploadPhotoOne($fo, $module, $valid, $move));
+            }
+            return $data;
+        }
+
+        return false;
+    }
+
+    // 处理一张图片
+    public function uploadPhotoOne($field_var, $module, $valid, $move)
+    {
+        $file = request()->file($field_var);
+
+        // 移动到框架应用根目录/public/uploads/ 目录下
+        if (empty($file)) {
+            $data['err'][$field_var] = '该文件不存在，请检查错误';
+        } else {
+            $result = $file->validate($valid)->move($move);
+            // var_dump($result);
+            if ($result) {
+                // 成功上传后 获取上传信息
+                // 输出 jpg
+                // echo $result->getExtension();
+                // 输出 20160820/42a79759f284b767dfcb2a0197904287.jpg
+                // echo $result->getSaveName();
+                // 输出 42a79759f284b767dfcb2a0197904287.jpg
+                // echo $result->getFilename();
+
+                // 处理
+                $saveName = str_replace('//', '/', str_replace('\\', '/', $result->getSaveName()));
+                $photo    = $module .'/'. $saveName;
+                // session('photo_'.$field_var, $photo);
+                $data['data'][$field_var] = $photo;
+            } else {
+                // 上传失败获取错误信息
+                $data['err'][$field_var] = $file->getError();
+            }
+
+            // json形式
+            // if ($result) {
+            //     $saveName = str_replace('//', '/', str_replace('\\', '/', $result->getSaveName()));
+            //     $photo         = $module .'/'. $saveName;
+            //     // session('photo_'.$field_var, $photo);
+            //     $data = json_encode([
+            //         'code' => 1,
+            //         "msg"  => "上传成功",
+            //         "data" => ['file' => $photo],
+            //         "url"  => ''
+            //     ]);
+            // } else {
+            //     $data = json_encode([
+            //         'code' => 0,
+            //         "msg"  => $file->getError(),
+            //         "data" => "",
+            //         "url"  => ''
+            //     ]);
+            // }
+        }
+
+        return $data;
+    }
+
+    // 同一字段多图上传
+    public function uploadPhotoMulti($field_var, $module, $valid, $move)
+    {
+        # code...
     }
 }

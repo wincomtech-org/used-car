@@ -74,16 +74,16 @@ class PostController extends HomeBaseController
         }
 
         // 处理表单上传文件
-        $filter_var = ['identity_card','driving_license','qualified','loan_invoice'];
+        $field_var = ['identity_card','driving_license','qualified','loan_invoice'];
         // dump($_FILES);die;
         // $files   = $this->request->file();dump($files);die;
-        // $files = $this->request->file($filter_var);// 这样得到的不是一个对象了 无法处理不是对象的数据
+        // $files = $this->request->file($field_var);// 这样得到的不是一个对象了 无法处理不是对象的数据
         // $files = $this->request->file('photo');// 单字段多张 photo[]
         // dump($files);
 
-        $files = model('Service')->uploadPhotos($filter_var);
-        if (!empty($files['error'])) {
-            foreach ($files['error'] as $value) {
+        $files = model('Service')->uploadPhotos($field_var);
+        if (!empty($files['err'])) {
+            foreach ($files['err'] as $value) {
                 $this->error($value);
             }
         }
