@@ -87,18 +87,19 @@ class AdminOrderController extends AdminBaseController
             if (!empty($car_id)) {
                 $post['car_id'] = $car_id;
             } else {
-                $cardata['user_id'] = cmf_get_current_user_id();
                 $cardata['plateNo'] = $cardata['identi']['plateNo'];
 
                 $carModel = new UsualCarModel();
-                $result = $this->validate($cardata, 'usual/Car.order');
+                $result = $this->validate($cardata, 'usual/Car.insurance');
                 if ($result !== true) {
                     $this->error($result);
                 }
-
+                // 身份证
                 if (!empty($cardata['identi']['identity_card'])) {
                     $cardata['identi']['identity_card'] = $carModel->dealFiles($cardata['identi']['identity_card']);
                 }
+                // 行驶证 单图不需要额外处理
+                // $cardata['identi']['driving_license'];
 
                 $carModel->adminAddArticle($cardata);
                 $post['car_id'] = $carModel->id;

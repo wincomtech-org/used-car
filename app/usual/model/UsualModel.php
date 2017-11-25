@@ -3,7 +3,8 @@ namespace app\usual\model;
 
 use think\Db;
 use think\Model;
-use app\admin\model\RouteModel;
+use think\Request;
+// use app\admin\model\RouteModel;
 
 /**
 * 车辆共用 模型类
@@ -422,8 +423,21 @@ class UsualModel extends Model
         return $post;
     }
 
-    // 图片上传处理
-    public function uploadPhotos($field_var=[], $module, $valid)
+    /*
+    * 图片上传处理
+    * 使用
+        $file_var = ['driving_license','identity_card'];
+        $carUp = $carModel->uploadPhotos($file_var);
+        if (!empty($carUp['err'])) {
+            foreach ($carUp['err'] as $value) {
+                $this->error($value);
+            }
+        }
+        foreach ($carUp['data'] as $key=>$var) {
+            $cardata['identi'][$key] = $var;
+        }
+    */
+    public function uploadPhotos($field_var=[], $module='', $valid=[])
     {
         $module     = empty($module) ? request()->module() : $module;
         $valid      = empty($valid) ? ['size' => 1024*1024,'ext' => 'jpg,jpeg,png,gif'] : $valid;
@@ -450,7 +464,7 @@ class UsualModel extends Model
 
         // 移动到框架应用根目录/public/uploads/ 目录下
         if (empty($file)) {
-            $data['err'][$field_var] = '该文件不存在，请检查错误';
+            $data['err'][$field_var] = '文件上传出错，请检查';
         } else {
             $result = $file->validate($valid)->move($move);
             // var_dump($result);

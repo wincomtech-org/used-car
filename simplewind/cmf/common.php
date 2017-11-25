@@ -173,22 +173,35 @@ function cmf_log($content, $file = "log.txt")
 /**
  * 消息记录
  * @param $data 要写入的数据
+    $data = [
+        'title' => '预约保险',
+        'object'=> 'insurance_order'.$id,
+        'content'=>'客户ID：'.$userId.'保单ID：'.$id,
+    ];
  * @param string $file 消息文件,在 web 入口目录
- * @return bool
+ * @return int
  */
 function cmf_put_news($data, $file = null)
 {
     // file_put_contents($file, $content, FILE_APPEND);
-    $data['create_time'] = time();
+    // $request = Request::instance();
+
     if (empty($data['action'])) {
         $request    = request();
         $module     = $request->module();
         $controller = $request->controller();
         $action     = $request->action();
-        $data['action']       = strtolower($module .'/'. $controller .'/'. $action);
+        $data['action'] = strtolower($module .'/'. $controller .'/'. $action);
     }
     if (empty($data['app'])) {
         $data['app'] = request()->module();
+    }
+
+    if (empty($data['create_time'])) {
+        $data['create_time'] = time();
+    }
+    if (empty($data['ip'])) {
+        $data['ip'] = get_client_ip();
     }
 
     return Db::name('news')->insertGetId($data);

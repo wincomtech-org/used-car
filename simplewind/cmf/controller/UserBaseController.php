@@ -17,10 +17,6 @@ class UserBaseController extends HomeBaseController
     {
         parent::_initialize();
         $this->checkUserLogin();
-
-        $this->user = cmf_get_current_user();
-        // dump($user);
-        $this->assign('user',$this->user);
     }
 
 

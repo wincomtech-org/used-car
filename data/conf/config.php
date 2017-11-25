@@ -1,5 +1,6 @@
 <?php	
 return [
+  'show_error_msg' => true,
   'cmf_default_theme' => 'datong_car',
   'insurance_order_status' => 
   [

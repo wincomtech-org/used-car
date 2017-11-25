@@ -1,11 +1,5 @@
 <?php
 // +----------------------------------------------------------------------
-// | ThinkCMF [ WE CAN DO IT MORE SIMPLE ]
-// +----------------------------------------------------------------------
-// | Copyright (c) 2013-2017 http://www.thinkcmf.com All rights reserved.
-// +----------------------------------------------------------------------
-// | Author: 老猫 <zxxjjforever@163.com>
-// +----------------------------------------------------------------------
 // index.php(或者其它应用入口文件） 模块/控制器/操作/[参数名/参数值...]
 // index.php(或者其它应用入口文件） 模块/控制器/操作?参数名=参数值&...
 // index.php（或者其它应用入口文件）?s=/模块/控制器/操作
@@ -17,12 +11,16 @@
 // parse_str('module=home&controller=user&action=login&var=value',$a);
 // var_dump($a);
 // die;
+// +----------------------------------------------------------------------
 
 // [ 入口文件 ]
 
 // 调试模式开关
+// config.php中 APP_DEBUG 替换成 (defined('APP_DEBUG') && APP_DEBUG)
 define("APP_DEBUG", true);
-// define("APP_TRACE", true);
+// define("APP_DEBUG", false);
+// define("APP_TRACE", false);
+
 // URL
 // define('__HOST__', 'http://'.$_SERVER['HTTP_HOST']);
 

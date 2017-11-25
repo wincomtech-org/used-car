@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50540
 File Encoding         : 65001
 
-Date: 2017-11-24 18:32:14
+Date: 2017-11-25 15:01:38
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -4214,7 +4214,7 @@ INSERT INTO `cmf_nav_menu` VALUES ('25', '1', '22', '1', '10000', '热门新闻'
 -- ----------------------------
 DROP TABLE IF EXISTS `cmf_news`;
 CREATE TABLE `cmf_news` (
-  `id` bigint(20) NOT NULL,
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `title` varchar(255) NOT NULL COMMENT '消息标题',
   `object` varchar(100) NOT NULL COMMENT '消息对象的id,格式:不带前缀的表名+id;如posts1表示xx_posts表里id为1的记录',
   `action` varchar(100) NOT NULL DEFAULT '' COMMENT '来源所在名称;格式:应用名+控制器+操作名,也可自己定义格式只要不发生冲突且惟一;',
@@ -4906,7 +4906,7 @@ CREATE TABLE `cmf_user` (
 -- ----------------------------
 INSERT INTO `cmf_user` VALUES ('1', '1', 'admin', 'admin', '###b0b5b1441fcc40910db4b7d99d049ddf', 'admin@admin.com', '', '', '0', '0', '0', '0', '', '', '1507865317', '1509948972', '127.0.0.1', '1', '', '');
 INSERT INTO `cmf_user` VALUES ('2', '1', '超人不会飞', 'super', '###797fe4d0d1b299ac9b581f4fa4025dbb', 'super@qq.com', '', '', '0', '0', '0', '0', '', '', '0', '0', '', '1', '', '');
-INSERT INTO `cmf_user` VALUES ('3', '1', '洛萨', 'lothar', '###797fe4d0d1b299ac9b581f4fa4025dbb', 'lothar@qq.com', '', '', '0', '0', '0', '0', '', '', '0', '1511517665', '127.0.0.1', '1', '', '');
+INSERT INTO `cmf_user` VALUES ('3', '1', '洛萨', 'lothar', '###797fe4d0d1b299ac9b581f4fa4025dbb', 'lothar@qq.com', '', 'avatar/20171125/584d5aa4308ccc597df494da2b84700d.jpg', '0', '0', '0', '0', '', '', '0', '1511572970', '127.0.0.1', '1', '', '');
 
 -- ----------------------------
 -- Table structure for cmf_user_action

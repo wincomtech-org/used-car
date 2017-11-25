@@ -10,6 +10,7 @@ class CarValidate extends Validate
         'brand_id' => 'require',
         'serie_id' => 'require',
         'model_id' => 'require',
+        'user_id' => 'require',
         'car_vin' => 'checkVin',
         'plateNo' => 'require|checkPlateNo',
         'car_mileage' => 'require',
@@ -24,6 +25,7 @@ class CarValidate extends Validate
         'brand_id' => '请选择所属品牌',
         'serie_id' => '请选择所属车系',
         'model_id' => '请选择车型',
+        'user_id' => '车主数据丢失',
         'car_vin.checkVin' => '车架号已存在！',
         'plateNo.require' => '请输入车牌号',
         'plateNo.checkPlateNo' => '车牌号码已存在！',
@@ -35,8 +37,8 @@ class CarValidate extends Validate
     protected $scene = [
         'add'   => ['name','brand_id','serie_id','model_id','car_vin','plateNo','car_mileage','car_license_time','city_id'],
         'edit'  => ['name'=>'require','brand_id','serie_id','model_id','plateNo'=>'require','car_mileage','car_license_time','city_id'],
-        'reg'   => ['brand_id','serie_id','model_id','city_id'],
-        'order' => ['plateNo'=>'require'],
+        'sell'   => ['brand_id','serie_id','model_id','city_id'],
+        'insurance' => ['user_id','plateNo'=>'require'],
     ];
 
     // 检查名称是否存在

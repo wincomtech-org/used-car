@@ -30,9 +30,14 @@ class ProfileController extends UserBaseController
      */
     public function center()
     {
+        // 获取用户信息
+        $this->user = cmf_get_current_user();
+        // dump($user);
+        $this->assign('user',$this->user);
+
         // 用户身份认证体系
         // $identi = model('usual/Verify')->where(['user_id'=>$this->user['id'],'auth_code'=>'certification'])->find();
-        $identi = Db::name('verify')->where(['user_id'=>$this->user['id'],'auth_code'=>'certification'])->find();
+        // $identi = Db::name('verify')->where(['user_id'=>$this->user['id'],'auth_code'=>'certification'])->find();
 
         return $this->fetch();
     }

@@ -45,6 +45,19 @@ class PostController extends HomeBaseController
         //     'identi'   => ['contact'=>'手机：'.$data['tel']],
         // ];
 
+        // 是否登录
+        $userId = cmf_get_current_user_id();
+        if (empty($userId)) {
+            return json_encode([
+                'code' => 0,
+                "msg"  => '用户尚未登录',
+                "data" => "",
+                "url"  => url("user/login/index")
+            ]);
+        }
+        // 是否认证
+        
+
         $brandId = $this->request->param('brandId');
         $serieId = $this->request->param('serieId');
         $modelId = $this->request->param('modelId');
@@ -63,28 +76,70 @@ class PostController extends HomeBaseController
             'province_id' => $province,
             'city_id'   => $city,
             'name'      => $uname .'的车子',
+            'sell_status' => -1,
             'user_id'   => $userInfo['id'],
             'identi'    => ['username'=>'','contact'=>'手机：'.$tel],
         ];
 
-        $result = $this->validate($post, 'usual/Car.reg');
+        $result = $this->validate($post, 'usual/Car.sell');
         if ($result !== true) {
-            return $result;
+            return json_encode([
+                'code' => 0,
+                "msg"  => $result,
+                "data" => "",
+                "url"  => ''
+            ]);
         }
-
         // 验证验证码
-        if (!cmf_captcha_check($code, 5)) {
-            return '验证码错误';
+        // $isMob = cmf_is_mobile();
+        // if (!(cmf_captcha_check($code,1) || cmf_captcha_check($code,2))) {
+        if (!cmf_captcha_check($code,1) && !cmf_captcha_check($code,2)) {
+            return json_encode([
+                'code' => 0,
+                "msg"  => '验证码错误',
+                "data" => "",
+                "url"  => ''
+            ]);
         }
-
 
         // 提交
-        $result = model('usual/UsualCar')->adminAddArticle($post);
-        if ($result) {
-            return '提交成功';
+        Db::startTrans();
+        $sta = false;
+        try{
+            // $id = Db::name('usual_car')->insertGetId($post);
+            // identi 需要被序列化，用模型处理
+            $result = model('usual/UsualCar')->adminAddArticle($post);
+            $id = $result->id;
+            $data = [
+                'title' => '免费登记卖车信息',
+                'object'=> 'usual_car:'.$id,
+                'content'=>'客户ID：'.$userInfo['id'].'，车子ID：'.$id
+            ];
+            cmf_put_news($data);
+            $sta = true;
+            // 提交事务
+            Db::commit();
+        } catch (\Exception $e) {
+            // 回滚事务
+            Db::rollback();
         }
-        // $this->error('提交失败');
-        return '提交失败';
+
+        if ($sta===true) {
+            $result = json_encode([
+                'code' => 1,
+                "msg"  => "提交成功",
+                "data" => ['id' => $id],
+                "url"  => url('user/Trade/sellerCar')
+            ]);
+        } else {
+            $result = json_encode([
+                'code' => 0,
+                "msg"  => '提交失败',
+                "data" => "",
+                "url"  => ''
+            ]);
+        }
+        return $result;
     }
 
     public function order()

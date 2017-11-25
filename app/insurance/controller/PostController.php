@@ -56,7 +56,12 @@ class PostController extends HomeBaseController
             if ($result !== true) {
                 $this->error($result);
             }
+            // session('insuranceStep1',json_encode($data));
+            $data['coverIds'] = json_encode($data['coverIds']);
+            session('insuranceStep1',$data);
 
+            // 不存 session 时
+            // $coverIds = '';
             // if (!empty($data['coverIds'])) {
             //     $coverIds = json_encode($data['coverIds']);
             // }
@@ -71,13 +76,11 @@ class PostController extends HomeBaseController
             // $this->redirect('Post/step2', ['id'=>$insertId,'iid'=>$data['insurance_id']]);
         }
 
-        $id = $this->request->param('id', 0, 'intval');
-        $InsurId = $this->request->param('iid', 0, 'intval');
+        $id = $this->request->param('insurance_id', 0, 'intval');
         $mainModel = new InsuranceModel();
-        $iName = $mainModel->where('id',$InsurId)->value('name');
+        $iName = $mainModel->where('id',$id)->value('name');
 
         $this->assign('iName', $iName);
-        $this->assign('id', $id);
         return $this->fetch();
     }
 
@@ -85,18 +88,20 @@ class PostController extends HomeBaseController
     {
         if ($this->request->isPost()) {
             $data   = $this->request->param();
-            $post = $data['post'];
+            // $post = $data['post'];
             $cardata = $data['car'];
-            // dump($post);
+
             if (!empty($data['data_filling_online'])) {
                 $post['type'] = 1;
             }
             if (!empty($data['data_filling_offline'])) {
                 $post['type'] = 2;
             }
-
-            $carInfo = DB::name('usual_car')->field('id,user_id')->where('plateNo',$cardata['identi']['plateNo'])->find();
             $userId = cmf_get_current_user_id();
+
+
+            // 处理车辆数据
+            $carInfo = DB::name('usual_car')->field('id,user_id')->where('plateNo',$cardata['identi']['plateNo'])->find();
             if (!empty($carInfo)) {
                 if ($carInfo['user_id']!=$userId) {
                     $this->error('该车牌号已被其他用户填写，请联系管理员');
@@ -107,49 +112,70 @@ class PostController extends HomeBaseController
                 $cardata['plateNo'] = $cardata['identi']['plateNo'];
 
                 $carModel = new UsualCarModel();
-                $result = $this->validate($cardata, 'usual/Car.add');
+                $result = $this->validate($cardata, 'usual/Car.insurance');
                 if ($result !== true) {
                     $this->error($result);
                 }
 
+                // 行驶证 单图不需要额外处理
+                // $cardata['identi']['driving_license'];
+                // 身份证
                 // if (!empty($cardata['identi']['identity_card'])) {
                 //     $cardata['identi']['identity_card'] = $carModel->dealFiles($cardata['identi']['identity_card']);
                 // }
                 $file_var = ['driving_license','identity_card'];
-                // $carUp = $carModel->uploadPhotos($file_var);
-                // foreach ($carUp['data'] as $key=>$var) {
-                //     $cardata['identi'][$key] = $var;
-                // }
+                $carUp = $carModel->uploadPhotos($file_var);
+                if (!empty($carUp['err'])) {
+                    foreach ($carUp['err'] as $value) {
+                        $this->error($value);
+                    }
+                }
+                foreach ($carUp['data'] as $key=>$var) {
+                    $cardata['identi'][$key] = $var;
+                }
 
-                // $carModel->adminAddArticle($cardata);
-                // $post['car_id'] = $carModel->id;
+                $carModel->adminAddArticle($cardata);
+                $post['car_id'] = $carModel->id;
                 // $post['car_id'] = Db::name('usual_car')->insertGetId($cardata);
             }
 
+
+            // 处理保单数据
+            // $post_pre = json_decode(session('insuranceStep1'));
+            $post_pre = session('insuranceStep1');
+            $post = array_merge($post,$post_pre);
+            $post['user_id'] = $userId;
             $result = $this->validate($post, 'Post.step3');
             if ($result !== true) {
                 $this->error($result);
             }
 
-            // Db::startTrans();
-            // try{
-            //     $res = Db::name('insurance_order')->where('id',$post['id'])->update($post);
-            //     if (!empty($res)) {
-            //         $data = [
-            //             'title' => '预约保险',
-            //             'object'=> 'insurance_order'.$post['id'],
-            //             'content'=>'',
-            //             'create_time'=>time(),
-            //             'ip' => get_client_ip()
-            //         ];
-            //         cmf_put_news($data);
-            //     }
-            //     // 提交事务
-            //     Db::commit();
-            // } catch (\Exception $e) {
-            //     // 回滚事务
-            //     Db::rollback();
-            // }
+            Db::startTrans();
+            $sta = false;
+            try{
+                // 不用session时
+                // $res = Db::name('insurance_order')->where('id',$post['id'])->update($post);
+                // 使用session
+                Db::name('insurance_order')->insert($post);
+                $id = Db::getLastInsID();
+                $data = [
+                    'title' => '预约保险',
+                    'object'=> 'insurance_order:'.$id,
+                    'content'=>'客户ID：'.$userId.'，保单ID：'.$id
+                ];
+                cmf_put_news($data);
+                $sta = true;
+                // 提交事务
+                Db::commit();
+            } catch (\Exception $e) {
+                // 回滚事务
+                Db::rollback();
+            }
+
+            if ($sta===true) {
+                $this->success('提交成功，请等待工作人员回复','user/Insurance/index');
+            }
+            $this->error('提交失败');
         }
     }
 

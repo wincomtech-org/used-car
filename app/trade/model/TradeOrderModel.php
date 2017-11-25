@@ -9,16 +9,21 @@ use app\usual\model\UsualModel;
 */
 class TradeOrderModel extends UsualModel
 {
-    public function getLists($filter, $isPage = false)
+    public function getLists($filter, $order='', $limit='',$extra=[])
     {
         $field = 'a.*,b.name car_name,c.user_nickname buyer_nickname,d.user_nickname seller_nickname,e.title pay_name';
-        $where = ['a.delete_time' => 0];
         $join = [
             ['usual_car b','a.car_id=b.id','LEFT'],
             ['user c','a.buyer_uid=c.id','LEFT'],
             ['user d','a.seller_uid=d.id','LEFT'],
             ['plugin e','a.pay_id=e.name','LEFT']
         ];
+
+        // 筛选条件
+        $where = ['a.delete_time' => 0];
+        if (!empty($extra)) {
+            $where = array_merge($where,$extra);
+        }
 
         // 支付方式
         if (!empty($filter['payId'])) {
@@ -52,6 +57,12 @@ class TradeOrderModel extends UsualModel
         if (!empty($sn)) {
             $where['a.order_sn'] = ['like', "%$sn%"];
         }
+
+        // 排序
+        // $order = empty($order) ? 'is_top DESC,is_rec DESC,update_time DESC' : $order;
+
+        // 数据量
+        // $limit = empty($limit) ? config('pagerset.size') : $limit;
 
         $series = $this->alias('a')->field($field)
             ->join($join)

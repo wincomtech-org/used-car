@@ -132,4 +132,37 @@ class UsualCarModel extends UsualModel
         return $cars;
     }
 
+    // 用户车子列表
+    public function getPostRelate($id,$filter=[])
+    {
+        $field = 'a.*,b.name AS brandname,c.name AS seriename,d.name AS modelname,e.name cityname,f.user_nickname,f.user_login';
+
+        $join = [
+            ['usual_brand b','a.brand_id=b.id','LEFT'],
+            ['usual_series c','a.serie_id=c.id','LEFT'],
+            ['usual_models d','a.model_id=d.id','LEFT'],
+            ['district e','a.city_id=e.id','LEFT'],
+            ['user f','a.user_id=f.id','LEFT']
+        ];
+
+        // 筛选条件
+        $where = [
+            'a.id' => $id,
+            // 'a.delete_time' => 0,
+            // 'a.sell_status' => 1,
+        ];
+        if (!empty($filter)) {
+            $where = array_merge($where,$filter);
+        }
+
+        // 查数据
+        $page = $this->alias('a')
+            ->field($field)
+            ->join($join)
+            ->where($where)
+            ->find();
+
+        return $page;
+    }
+
 }
