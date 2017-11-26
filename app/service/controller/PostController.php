@@ -29,9 +29,9 @@ class PostController extends HomeBaseController
 
     public function appoint()
     {
-        $servId = $this->request->param('servId',0,'intval');
-        if (!empty($servId)) {
-            $servInfo = model('service/ServiceCategory')->getPost($servId);
+        $modelId = $this->request->param('modelId',0,'intval');
+        if (!empty($modelId)) {
+            $servInfo = model('service/ServiceCategory')->getPost($modelId);
             if (!empty($servInfo['define_data'])) {
                 $define_data = $servInfo['define_data'];
                 $define_data_conf = config('service_define_data');
@@ -52,7 +52,7 @@ class PostController extends HomeBaseController
         }
         $servicePoint = model('usual/UsualCoordinate')->getCoordinates(0, ['company_id'=>$this->compId], '请选择服务点');
 
-        $this->assign('servId',$servId);
+        $this->assign('modelId',$modelId);
         $this->assign('servicePoint',$servicePoint);
         return $this->fetch();
     }
@@ -61,10 +61,16 @@ class PostController extends HomeBaseController
     {
         // $data = $this->request->param(true); dump($data);die;
         // dump(ROOT_PATH);die;
+        $modelId = $this->request->param('modelId',0,'intval');
+        $servName = Db::name('service_category')->where('id',$modelId)->value('name');
 
         // 获取数据
         $data = $this->request->param();
+        $userId = cmf_get_current_user_id();
+
         $post = $data['post'];
+        $post['company_id'] = $this->compId;
+        $post['user_id'] = $userId;
         // $more = $data['more'];
 
         // 借助 validate 验证
@@ -94,11 +100,30 @@ class PostController extends HomeBaseController
         }
 
         // 提交
-        $result = model('Service')->addAppoint($post);
-        if ($result) {
-            $this->success('提交成功',url('user/Profile/center'));
+        Db::startTrans();
+        $sta = false;
+        try{
+            $id = model('Service')->addAppoint($post);
+            $data = [
+                'title' => '预约车辆服务：'.$servName,
+                'object'=> 'service:'.$id,
+                'content'=>'客户ID：'.$userId.'，公司ID：'.$this->compId
+            ];
+            lothar_put_news($data);
+            $sta = true;
+            // 提交事务
+            Db::commit();
+        } catch (\Exception $e) {
+            // 回滚事务
+            Db::rollback();
+        }
+
+        if ($sta===true) {
+            $this->success('提交成功，请等待工作人员回复',url('user/Profile/center'));
         }
         $this->error('提交失败');
+
+
 
         // 无法处理不是对象的数据
         // foreach($files as $key=>$file){

@@ -163,7 +163,7 @@ class PostController extends HomeBaseController
                     'object'=> 'insurance_order:'.$id,
                     'content'=>'客户ID：'.$userId.'，保单ID：'.$id
                 ];
-                cmf_put_news($data);
+                lothar_put_news($data);
                 $sta = true;
                 // 提交事务
                 Db::commit();
@@ -173,7 +173,7 @@ class PostController extends HomeBaseController
             }
 
             if ($sta===true) {
-                $this->success('提交成功，请等待工作人员回复','user/Insurance/index');
+                $this->success('提交成功，请等待工作人员回复',url('user/Insurance/index'));
             }
             $this->error('提交失败');
         }

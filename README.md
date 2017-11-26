@@ -12,7 +12,9 @@ DOAMIN：
     \public\themes\datong_car\  主目录
     \public\themes\datong_car\public\  共用文件 head、header、footer、nav、banner、morejs
     \public\themes\datong_car\public\assets\  资源文件 css、js、images、font
-
+DOMEvent DOMDocumentWrapper phpQueryEvents phpQuery Callback JSONP
+    \simplewind\extend\phpQuery\phpQuery.php
+        $.getJSON(url,data,callback)
 
 
 
@@ -180,7 +182,7 @@ str_split($param2,2)
 ●消息模块：需要消息提醒
 消息记录表(cmf_news)：
 \simplewind\cmf\common.php
-cmf_put_news()
+lothar_put_news()
     action 操作名称;格式:应用名+控制器+操作名,也可自己定义格式只要不发生冲突且惟一;
 设置、列表
 

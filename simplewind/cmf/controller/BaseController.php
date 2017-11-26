@@ -80,5 +80,29 @@ class BaseController extends Controller
         return true;
     }
 
+    /**
+     *  刪除 
+     *  通用的
+     */
+    protected function del($model, $obj)
+    {
+        if (is_array($model)) {
+            $result = $obj->where($model)->delete();
+        } elseif (is_object($model)) {
+            $pk = $model->getPk(); //获取主键名称
+            $id = $this->request->param($pk.'/d');
+            $result = $model->where($pk, $id)->delete();
+        } else {
+            return false;
+        }
+
+        if ($result) {
+            // Db::name('recycleBin')->insert($data);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 
 }

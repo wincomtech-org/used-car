@@ -24,6 +24,14 @@ class TradeController extends UserBaseController
         // $id = $this->request->param('id/d');
         $userId = cmf_get_current_user_id();
 
+        $extra = [
+            'buyer_uid' => $userId;
+        ];
+
+        $list = model('trade/TradeOrder')->getLists([],'','',$extra);
+dump($list);
+
+        $this->assign('list',$list);
         return $this->fetch();
     }
 
@@ -40,6 +48,7 @@ class TradeController extends UserBaseController
         $extra = ['a.user_id'=>$userId];
 
         $list = model('usual/UsualCar')->getLists([],'','',$extra);
+dump($list);
 
         $this->assign('list',$list);
         return $this->fetch();
@@ -48,10 +57,49 @@ class TradeController extends UserBaseController
     // 填写车子信息
     public function sellerCar()
     {
-        // $id = $this->request->param('id/d');
+        $id = $this->request->param('id/d');
+
+        $page = model('usual/UsualCar')->getPost($id);
+        if (empty($page)) {
+            $this->error('数据丢失！');
+            // abort(404,'数据丢失！');
+        }
+
+        $this->assign('page',$page);
+        return $this->fetch('seller_car');
+    }
+
+    public function sellerCarPost()
+    {
         $userId = cmf_get_current_user_id();
 
-        return $this->fetch('seller_car');
+        if ($this->request->isPost()) {
+            $post = $this->request->post();
+            $post['user_id'] = $userId;
+
+            if (!empty($id)) {
+                $post['update_time'] = $post['create_time'] = time();
+                $valid = 'add';
+            } else {
+                $post['update_time'] = time();
+                $valid = 'edit';
+            }
+            
+            $result = $this->validate($post,'usual/Car.'.$valid);
+            if ($result!==true) {
+                $this->error($result->getError());
+            }
+
+            if (!empty($id)) {
+                $result = model('usual/UsualCar')->adminAddArticle($post);
+                $id = $result->id;
+            } else {
+                $result = model('usual/UsualCar')->adminEditArticle($post);
+            }
+            
+            $this->success('提交成功',url('Trade/sellerCar',['id'=>$id]));
+
+        }
     }
 
     // 订单
@@ -61,7 +109,7 @@ class TradeController extends UserBaseController
         $userId = cmf_get_current_user_id();
 
         $extra = [
-            'user_id' => $userId;
+            'seller_uid' => $userId;
         ];
 
         $list = model('trade/TradeOrder')->getLists([],'','',$extra);
@@ -107,8 +155,9 @@ class TradeController extends UserBaseController
 
     public function del()
     {
-        $id = $this->request->param('id/d');
-        return $this->fetch();
+        // $id = $this->request->param('id/d');
+        parent::del(Db::name('trade_order'));
+        $this->success("刪除成功！", '');
     }
 
     public function more()

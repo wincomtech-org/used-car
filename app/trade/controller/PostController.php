@@ -83,23 +83,13 @@ class PostController extends HomeBaseController
 
         $result = $this->validate($post, 'usual/Car.sell');
         if ($result !== true) {
-            return json_encode([
-                'code' => 0,
-                "msg"  => $result,
-                "data" => "",
-                "url"  => ''
-            ]);
+            return lothar_toJson(0,$result);
         }
         // 验证验证码
         // $isMob = cmf_is_mobile();
         // if (!(cmf_captcha_check($code,1) || cmf_captcha_check($code,2))) {
         if (!cmf_captcha_check($code,1) && !cmf_captcha_check($code,2)) {
-            return json_encode([
-                'code' => 0,
-                "msg"  => '验证码错误',
-                "data" => "",
-                "url"  => ''
-            ]);
+            return lothar_toJson(0,'验证码错误');
         }
 
         // 提交
@@ -115,7 +105,7 @@ class PostController extends HomeBaseController
                 'object'=> 'usual_car:'.$id,
                 'content'=>'客户ID：'.$userInfo['id'].'，车子ID：'.$id
             ];
-            cmf_put_news($data);
+            lothar_put_news($data);
             $sta = true;
             // 提交事务
             Db::commit();
@@ -125,19 +115,9 @@ class PostController extends HomeBaseController
         }
 
         if ($sta===true) {
-            $result = json_encode([
-                'code' => 1,
-                "msg"  => "提交成功",
-                "data" => ['id' => $id],
-                "url"  => url('user/Trade/sellerCar')
-            ]);
+            $result = lothar_toJson(1, '提交成功', ['id'=>$id], url('user/Trade/sellerCar'));
         } else {
-            $result = json_encode([
-                'code' => 0,
-                "msg"  => '提交失败',
-                "data" => "",
-                "url"  => ''
-            ]);
+            $result = lothar_toJson(0,'提交失败');
         }
         return $result;
     }

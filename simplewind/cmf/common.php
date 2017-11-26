@@ -181,7 +181,7 @@ function cmf_log($content, $file = "log.txt")
  * @param string $file 消息文件,在 web 入口目录
  * @return int
  */
-function cmf_put_news($data, $file = null)
+function lothar_put_news($data, $file = null)
 {
     // file_put_contents($file, $content, FILE_APPEND);
     // $request = Request::instance();
@@ -207,6 +207,22 @@ function cmf_put_news($data, $file = null)
     return Db::name('news')->insertGetId($data);
     // Db::name('news')->insert($data);
     // return Db::name('news')->getLastInsID();
+}
+/*JSON*/
+function lothar_toJson($code=0, $msg='', $data='', $url='')
+{
+    if (is_array($code)) {
+        $result = json_encode($code);
+    } else {
+        $result = json_encode([
+            'code' => $code,
+            "msg"  => $msg,
+            "data" => $data,
+            "url"  => $url
+        ]);
+    }
+    
+    return $result;
 }
 
 /**

@@ -65,6 +65,7 @@ return [
     2 => '练手车',
     3 => '分期购',
   ],
+  'usual_car_filter_var' => 'car_effluent,car_color,car_gearbox,car_seating,car_fuel',
   'usual_car_sell_status' => 
   [
     -11 => '售罄',

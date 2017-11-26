@@ -47,9 +47,6 @@ class InsuranceController extends UserBaseController
             $identiInfo = $page['more'];
         }
 
-// dump(Db::getLastsql());
-// dump($identiInfo);
-// die;
         $this->assign('page',$page);
         $this->assign('identi',$identiInfo);
         return $this->fetch();
@@ -71,7 +68,9 @@ class InsuranceController extends UserBaseController
 
     public function del()
     {
-        $orderId = $this->request->param('id',0,'intval');
+        // $orderId = $this->request->param('id',0,'intval');
+        parent::del(Db::name('insurance_order'));
+        $this->success("刪除成功！", '');
     }
 
     public function more()
