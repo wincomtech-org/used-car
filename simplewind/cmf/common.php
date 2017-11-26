@@ -344,6 +344,7 @@ function cmf_get_theme_path($theme = null)
 
 /**
  * 设置动态配置
+ * modify by Lothar
  * @param array $data <br>如：["cmf_default_theme"=>'simpleboot3'];
  * @return boolean
  */
