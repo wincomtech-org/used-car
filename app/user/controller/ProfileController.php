@@ -31,14 +31,15 @@ class ProfileController extends UserBaseController
     public function center()
     {
         // 获取用户信息
-        $this->user = cmf_get_current_user();
-        // dump($user);
-        $this->assign('user',$this->user);
+        $user = cmf_get_current_user();
 
         // 用户身份认证体系
-        // $identi = model('usual/Verify')->where(['user_id'=>$this->user['id'],'auth_code'=>'certification'])->find();
-        // $identi = Db::name('verify')->where(['user_id'=>$this->user['id'],'auth_code'=>'certification'])->find();
+        // $identi = model('usual/Verify')->userCertiSta($user['id']);
+        $verify = model('usual/Verify')->userCertiSta($user['id'],'certification',true);
 
+        $this->assign('user',$user);
+        $this->assign('identi',$verify['auth_status']);
+        $this->assign('verify',$verify);
         return $this->fetch();
     }
 
@@ -62,8 +63,8 @@ class ProfileController extends UserBaseController
                 'user_nickname' => 'chsDash|max:32',
                 'sex'     => 'number|between:0,2',
                 'birthday'   => 'dateFormat:Y-m-d|after:-88 year|before:-1 day',
-                'user_url'   => 'url|max:64',
-                'signature'   => 'chsDash|max:128',
+                // 'user_url'   => 'url|max:64',
+                // 'signature'   => 'chsDash|max:128',
             ]);
             $validate->message([
                 'user_nickname.chsDash' => '昵称只能是汉字、字母、数字和下划线_及破折号-',
@@ -73,13 +74,29 @@ class ProfileController extends UserBaseController
                 'birthday.dateFormat' => '生日格式不正确',
                 'birthday.after' => '出生日期也太早了吧？',
                 'birthday.before' => '出生日期也太晚了吧？',
-                'user_url.url' => '个人网址错误',
-                'user_url.max' => '个人网址长度不得超过64个字符',
-                'signature.chsDash' => '个性签名只能是汉字、字母、数字和下划线_及破折号-',
-                'signature.max' => '个性签名长度不得超过128个字符',
+                // 'user_url.url' => '个人网址错误',
+                // 'user_url.max' => '个人网址长度不得超过64个字符',
+                // 'signature.chsDash' => '个性签名只能是汉字、字母、数字和下划线_及破折号-',
+                // 'signature.max' => '个性签名长度不得超过128个字符',
             ]);
 
             $data = $this->request->post();
+            if (!empty($data['verify'])) {
+                // $verify = $data['verify'];
+                // 处理认证资料
+                // $file_var = ['driving_license','identity_card'];
+                // $file_var = ['identify1','identify2'];
+                // $ups = $carModel->uploadPhotos($file_var);
+                // foreach ($ups as $key => $it) {
+                //     if (!empty($it['err'])) {
+                //         $this->error($it['err']);
+                //     }
+                //     $verify['more'][$key] = $it['data'];
+                // }
+            }
+            if (!empty($data['user'])) {
+                $data = $data['user'];
+            }
             if (!$validate->check($data)) {
                 $this->error($validate->getError());
             }

@@ -250,8 +250,8 @@ class IndexController extends HomeBaseController
 
         // 数据分页
         $this->assign('carlist', $carlist->items());// 获取查询数据并赋到模板
-        $carlist->appends($jumpext);//添加URL参数,跟分页有关系
-        // $carlist->appends('jumpext',$jumpext);//添加URL参数,跟分页有关系
+        $carlist->appends($jumpext);//添加分页URL参数
+        // $carlist->appends('jumpext',$jumpext);//添加分页URL参数
         $this->assign('pager', $carlist->render());// 获取分页代码并赋到模板
 
         return $this->fetch();

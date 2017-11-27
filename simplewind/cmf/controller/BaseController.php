@@ -84,7 +84,7 @@ class BaseController extends Controller
      *  刪除 
      *  通用的
      */
-    protected function del($model, $obj)
+    protected function dels($model, $obj='')
     {
         if (is_array($model)) {
             $result = $obj->where($model)->delete();

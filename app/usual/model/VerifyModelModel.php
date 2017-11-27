@@ -7,10 +7,10 @@ use app\usual\model\UsualModel;
 
 class VerifyModelModel extends UsualModel
 {
-    function _initialize()
-    {
-        parent::_initialize();
-    }
+    // function _initialize()
+    // {
+    //     parent::_initialize();
+    // }
 
     // 获取列表数据
     public function getLists($filter, $isPage = false)
@@ -67,6 +67,7 @@ class VerifyModelModel extends UsualModel
     {
         $data['create_time'] = time();
         $data['code'] = strtolower(trim($data['code']));
+        if (!empty($data['end_time'])) $data['end_time'] = strtotime($data['end_time']);
 
         $result = true;
         self::startTrans();
@@ -95,6 +96,8 @@ class VerifyModelModel extends UsualModel
     {
         $id = intval($data['id']);
         $data['code'] = strtolower(trim($data['code']));
+        if (!empty($data['create_time'])) $data['create_time'] = strtotime($data['create_time']);
+        if (!empty($data['end_time'])) $data['end_time'] = strtotime($data['end_time']);
 
         $result = true;
         if (!empty($data['more']['thumbnail'])) {

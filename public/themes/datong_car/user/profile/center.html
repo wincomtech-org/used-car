@@ -17,6 +17,7 @@
 	<section class="person">
 		<div class="main">
 			<include file="public@usernav" />
+
 			<div class="person_right">
 				<div class="person_right_tit">
 					<ul>
@@ -82,13 +83,21 @@
 											<li>
 												<span class="txt">正面</span>
 												<div class="img">
-													<img src="__TMPL__/public/assets/images/example/sfz.jpg" alt="">
+													<empty name="identi">
+														<img src="__TMPL__/public/assets/images/example/sfz.jpg" alt="">
+													<else/>
+														<img src="{:cmf_get_image_preview_url($verify.more.identify1)}" alt="">
+													</empty>
 												</div>
 											</li>
 											<li>
 												<span class="txt">反面</span>
 												<div class="img">
-													<img src="__TMPL__/public/assets/images/example/sfz.jpg" alt="">
+													<empty name="identi">
+														<img src="__TMPL__/public/assets/images/example/sfz.jpg" alt="">
+													<else/>
+														<img src="{:cmf_get_image_preview_url($verify.more.identify2)}" alt="">
+													</empty>
 												</div>
 											</li>
 										</ul>
@@ -116,61 +125,79 @@
 
 						<!-- 编辑 -->
 						<div class="edit_info_detail" style="display:none;">
-							<form action="{:url('user/profile/editPost')}" method="post" accept-charset="utf-8">
+							<form action="{:url('user/profile/editPost')}" method="post" enctype="multipart/form-data" class="js-ajax-form">
 								<ul class="info_detail_list">
 									<li class="details_item">
 										<span class="details_tit">昵称</span>
 										<div class="idetails_con">
-											<input type="text" name="user[user_nickname]">
-											<i class="tip">请核实后在填写</i>
+											<input type="text" name="user[user_nickname]" value="{$user.user_nickname|default='未填写'}" placeholder="昵称">
+											<i class="tip">请核实后再填写</i>
 										</div>
 									</li>
 									<li class="details_item">
 										<span class="details_tit">手机号码</span>
 										<div class="idetails_con">
-											<input type="text" name="user[mobile]">
-											<i class="tip">请核实后在填写</i>
+											<input type="text" name="user[mobile]" value="{$user.mobile|default='未填写'}" placeholder="手机号" {$user.mobile?='readonly'}>
+											<i class="tip">请核实后再填写</i>
 										</div>
 									</li>
 									<li class="details_item">
 										<span class="details_tit">邮箱</span>
 										<div class="idetails_con">
-											<input type="text" name="user[user_email]">
-											<i class="tip">请核实后在填写</i>
+											<input type="text" name="user[user_email]" value="{$user.user_email|default='未填写'}" placeholder="{$user.mobile?'重新认证？':''}">
+											<i class="tip">请核实后再填写</i>
 										</div>
 									</li>
 									<li class="details_item">
 										<span class="details_tit">QQ</span>
 										<div class="idetails_con">
-											<input type="text" name="user[more][qq]">
+											<input type="text" name="user[more][qq]" value="{$user.more.qq|default=''}"  placeholder="QQ">
 										</div>
 									</li>
+	                                <li class="details_item">
+	                                    <span class="details_tit">性别</span>
+                       					<php>
+                         					$sexs=array("0"=>"保密","1"=>"程序猿","2"=>"程序媛");
+                         				</php>
+	                                    <div class="idetails_con">
+	                       					<select class="" id="input-sex" name="user[sex]">
+	                       						<foreach name="sexs" item="vo">
+	                       						<php>$sexselected=$key==$user['sex']?"selected":"";</php>
+	                       							<option value="{$key}" {$sexselected}>{$vo}</option>
+	                       						</foreach>
+	                       					</select>
+	                                    </div>
+	                                </li>
 									<li class="details_item">
-										<span class="details_tit">出生年月日</span>
+										<span class="details_tit">生日</span>
 										<div class="idetails_con">
-											<input type="text" name="user[birthday]" class="person_bir">
+											<input type="text" name="user[birthday]" value="{:date('Y-m-d',$user.birthday)}" placeholder="2013-01-04" class="person_bir js-bootstrap-date" id="input-birthday">
 										</div>
 									</li>
 									<li class="details_item">
 										<span class="details_tit">详细地址</span>
 										<div class="idetails_con">
-											<input type="text" name="user[more][address]">
+											<input type="text" name="user[more][address]" value="{$user.more.address|default=''}">
 										</div>
 									</li>
 
 									<!-- 已认证 -->
-									<li class="details_item authenticated">
+									<li class="details_item {$identi?'authenticated':'unauthorized'}">
 										<span class="details_tit">身份证照片</span>
 										<div class="idetails_con">
 											<ul>
 												<li>
 													<span class="txt">正面</span>
 													<div class="img">
-														<img src="__TMPL__/public/assets/images/example/sfz.jpg" alt="">
+														<if condition="empty($identi)">
+															<img src="__TMPL__/public/assets/images/example/sfz.jpg" alt="">
+														<else/>
+															<img src="{:cmf_get_image_preview_url($verify.more.identify1)}" alt="">
+														</if>
 														<div class="file">
 															<span class="file_con">
-																<input type="file" name="verify[identify1]" id="xcz">
-																<label for="xcz"></label>
+																<input type="file" name="verify[identify1]" id="xcz1">
+																<label for="xcz1"></label>
 															</span>
 															<!-- <i>请上传身份证正面照</i> -->
 														</div>
@@ -179,11 +206,15 @@
 												<li>
 													<span class="txt">反面</span>
 													<div class="img">
-														<img src="__TMPL__/public/assets/images/example/sfz.jpg" alt="">
+														<empty name="identi">
+															<img src="__TMPL__/public/assets/images/example/sfz.jpg" alt="">
+														<else/>
+															<img src="{:cmf_get_image_preview_url($verify.more.identify2)}" alt="">
+														</empty>
 														<div class="file">
 															<span class="file_con">
-																<input type="file" name="verify[identify2]" id="xcz">
-																<label for="xcz"></label>
+																<input type="file" name="verify[identify2]" id="xcz2">
+																<label for="xcz2"></label>
 															</span>
 															<!-- <i>请上传身份证反面照</i> -->
 														</div>
@@ -192,50 +223,23 @@
 											</ul>
 										</div>
 									</li>
-									<!-- 未认证 -->
-									<li class="details_item unauthorized" style="display:none;" >
-										<span class="details_tit">身份证照片</span>
-										<div class="idetails_con">
-											<ul>
-												<li>
-													<span class="txt">正面</span>
 
-													<div class="file">
-														<span class="file_con">
-															<input type="file" name="xcz" id="xcz">
-															<label for="xcz"></label>
-														</span>
-														<!-- <i>请上传身份证正面照</i> -->
-													</div>
-												</li>
-												<li>
-													<span class="txt">反面</span>
-
-													<div class="file">
-														<span class="file_con">
-															<input type="file" name="xcz" id="xcz">
-															<label for="xcz"></label>
-														</span>
-														<!-- <i>请上传身份证反面照</i> -->
-													</div>
-												</li>
-											</ul>
-										</div>
-									</li>
 									<li class="details_item">
 										<span class="details_tit">实名认证</span>
 										<div class="idetails_con">
 											<div class="stauts">
-												<p class="yes">已认证</p>
-												<!-- 未认证 -->
-												<!-- <p class="no">未认证</p> -->
+												<empty name="identi">
+													<p class="no">未认证</p>
+												<else/>
+													<p class="yes">已认证</p>
+												</empty>
 											</div>
 										</div>
 									</li>
 									<li class="details_item">
 										<span class="details_tit"></span>
 										<div class="idetails_con">
-											<button type="submit" class="conserve btn-red">保存</button>
+											<button type="submit" class="conserve btn-red js-ajax-submit">保存</button>
 										</div>
 									</li>
 								</ul>

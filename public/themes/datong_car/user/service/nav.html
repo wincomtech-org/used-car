@@ -1,20 +1,7 @@
 <ul>
-    <li class="person_right_item active">
-        <a href="{:cmf_url('user/Service/index',['id'=>1])}">菜鸟验车</a>
+    <foreach name="serviceNav" item="nav">
+    <li class="person_right_item {$mid==$nav.id?='active'}">
+        <a href="{:url('user/Service/index',['mid'=>$nav.id])}">{$nav.name}</a>
     </li>
-    <li class="person_right_item ">
-        <a href="">车检预约</a>
-    </li>
-    <li class="person_right_item ">
-        <a href="">六年免检</a>
-    </li>
-    <li class="person_right_item ">
-        <a href="">上牌预约</a>
-    </li>
-    <li class="person_right_item ">
-        <a href="">过户申请</a>
-    </li>
-    <li class="person_right_item ">
-        <a href="">合作寄存点</a>
-    </li>
+    </foreach>
 </ul>

@@ -34,8 +34,12 @@
 							</li>
 						</ul>
 						<dl class="user_login_supplement">
-							<dd class="auto_login"><label ><input type="checkbox" name="" value="下次自动登录">下次自动登录</label></dd>
-							<dd><a href="{:cmf_url('user/Login/findPassword')}" class="red">忘记密码？</a></dd>
+							<dd class="auto_login">
+								<label ><input checked type="checkbox" name="" value="下次自动登录">下次自动登录</label>
+							</dd>
+							<dd>
+								<a href="{:cmf_url('user/Login/findPassword')}" class="red">忘记密码？</a>
+							</dd>
 						</dl>
 						<p class="submit">
 							<input type="hidden" name="redirect" value="">

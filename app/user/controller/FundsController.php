@@ -45,7 +45,7 @@ class FundsController extends UserBaseController
 
     public function del()
     {
-        parent::del(Db::name('funds'));
+        parent::dels(Db::name('funds'));
         $this->success("刪除成功！", '');
     }
 

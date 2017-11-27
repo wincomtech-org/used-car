@@ -16,7 +16,6 @@ use app\user\model\UserModel;
 
 class LoginController extends HomeBaseController
 {
-
     /**
      * 登录
      */
@@ -107,6 +106,14 @@ class LoginController extends HomeBaseController
     {
         return $this->fetch('/find_password');
     }
+    public function findPassword2()
+    {
+        return $this->fetch('/find_password2');
+    }
+    public function findPassword3()
+    {
+        return $this->fetch('/find_password3');
+    }
 
     /**
      * 用户密码重置
@@ -119,6 +126,7 @@ class LoginController extends HomeBaseController
                 'captcha'           => 'require',
                 'verification_code' => 'require',
                 'password'          => 'require|min:6|max:32',
+                // 'password2'         => 'checkPwd2',
             ]);
             $validate->message([
                 'verification_code.require' => '验证码不能为空',

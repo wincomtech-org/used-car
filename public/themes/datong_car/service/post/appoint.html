@@ -214,33 +214,6 @@
         //     });
         // });
 
-<<<<<<< HEAD
-        // 地区选项
-        $('#input-province').change(function() {
-            var Id = $(this).val(), url ='{:url("admin/District/getCitys")}';
-            alert(url)
-
-            $.ajax({
-                url: '{:url("admin/District/getCitys")}',
-                type: 'POST',
-                // dataType: 'json',
-                data: {parentId: Id},
-            })
-            .done(function(data) {
-                console.log(data);
-
-                if (data) {$('#input-city').show().html(data);}
-            })
-            .fail(function() {
-                // console.log("error");
-            })
-            .always(function() {
-                // console.log("complete");
-            });
-
-            $.post('{:url("usual/AdminDeposit/Ajax")}', {compId:'{$compId}', provId: Id}, function(coord) {
-=======
-
         // 地区选项
         $('#input-province').change(function() {
             // var o = this = '#input-province';
@@ -249,7 +222,6 @@
 
             var Id = $(this).val();
             $.post('{:url("usual/Ajax/coordinate")}', {compId:'{$compId}', provId: Id}, function(coord) {
->>>>>>> b34fd25c42b29bbd8bbe7d96f417444d4f18cd36
                 $('#input-coordinate').html(coord);
             });
         });

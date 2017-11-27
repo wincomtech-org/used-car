@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>个人中心 - 车辆业务 - 详情 - {$site_info.site_name|default=''}</title>
+    <meta name="keywords" content=""/>
+    <meta name="description" content="">
+
+    <include file="public@head"/>
+</head>
+<body>
+<!-- 头部 -->
+<include file="public@header" />
+<!-- 导航 -->
+<include file="public@nav" />
+
+<!-- 预约详情 -->
+<section class="person">
+    <div class="main">
+        <include file="public@usernav" />
+
+        <div class="person_right">
+            <div class="person_right_tit">
+                <include file="service/nav" />
+            </div>
+            <div class="person_right_con">
+                <div class="person_car_buss">
+                    <p class="info_tit">预约详情</p>
+                    <div class="form_details">
+                        <ul>
+                            <li>
+                                <span class="icon">预&nbsp;&nbsp;约&nbsp;&nbsp;状&nbsp;&nbsp;态</span>
+                                <span class="txt succ">预约成功</span>
+                            </li>
+
+                            <div class="mess">
+                                <!-- <p>买家信息</p> -->
+                                <foreach name="define_data" item="vo">
+                                <li>
+                                    <span class="icon">{$vo.title}</span>
+                                    <switch name="vo.name">
+                                        <case value="appoint_time|reg_time|birthday|seller_birthday">
+                                            <span class="txt">{:date('Y-m-d H:i',$page[$vo.name])}</span>
+                                        </case>
+                                        <case value="identity_card|driving_license|qualified|loan_invoice">
+                                            <span class="txt">
+                                                <if condition="!empty($page['more'][$vo['name']])">
+                                                <img src="{:cmf_get_image_preview_url($page['more'][$vo.name])}" alt="">
+                                                <else/>
+                                                <img src="__TMPL__/public/assets/images/default_width.png" alt="">
+                                                </if>
+                                            </span>
+                                        </case>
+                                        <case value="service_point">
+                                            {$servicePoint|default=''}
+                                        </case>
+                                        <default /><span class="txt">{$page[$vo.name]}</span>
+                                    </switch>
+                                </li>
+                                </foreach>
+                            </div>
+
+                            <!-- <div class="mess">
+                                <p>卖家信息</p>
+                                <li>
+                                    <span class="icon">姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名</span>
+                                    <span class="txt">金*</span>
+                                </li>
+                            </div> -->
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 底部 -->
+<include file="public@footer" />
+<include file="public@scripts" />
+</body>
+<include file="public@morejs" />
+<script type="text/javascript" src="__TMPL__/public/assets/js/laydate/laydate.js"></script>
+
+<script>
+/**个人中心车辆业务**/
+$('.del').on('click',function(){
+    $(this).parent().parent().parent().parent().remove();
+})
+
+</script>
+</html>

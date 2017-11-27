@@ -25,13 +25,15 @@ class TradeController extends UserBaseController
         $userId = cmf_get_current_user_id();
 
         $extra = [
-            'buyer_uid' => $userId;
+            'buyer_uid' => $userId,
         ];
 
         $list = model('trade/TradeOrder')->getLists([],'','',$extra);
 dump($list);
 
-        $this->assign('list',$list);
+        $this->assign('list', $list->items());// 获取查询数据并赋到模板
+        $list->appends($param);//添加分页URL参数
+        $this->assign('pager', $list->render());// 获取分页代码并赋到模板
         return $this->fetch();
     }
 
@@ -50,7 +52,9 @@ dump($list);
         $list = model('usual/UsualCar')->getLists([],'','',$extra);
 dump($list);
 
-        $this->assign('list',$list);
+        $this->assign('list', $list->items());// 获取查询数据并赋到模板
+        $list->appends($param);//添加分页URL参数
+        $this->assign('pager', $list->render());// 获取分页代码并赋到模板
         return $this->fetch();
     }
 
@@ -84,7 +88,7 @@ dump($list);
                 $post['update_time'] = time();
                 $valid = 'edit';
             }
-            
+
             $result = $this->validate($post,'usual/Car.'.$valid);
             if ($result!==true) {
                 $this->error($result->getError());
@@ -96,7 +100,7 @@ dump($list);
             } else {
                 $result = model('usual/UsualCar')->adminEditArticle($post);
             }
-            
+
             $this->success('提交成功',url('Trade/sellerCar',['id'=>$id]));
 
         }
@@ -109,14 +113,16 @@ dump($list);
         $userId = cmf_get_current_user_id();
 
         $extra = [
-            'seller_uid' => $userId;
+            'seller_uid' => $userId,
         ];
 
         $list = model('trade/TradeOrder')->getLists([],'','',$extra);
 
         dump($list);
 
-        $this->assign('list',$list);
+        $this->assign('list', $list->items());// 获取查询数据并赋到模板
+        $list->appends($param);//添加分页URL参数
+        $this->assign('pager', $list->render());// 获取分页代码并赋到模板
         return $this->fetch('seller_order');
     }
 
@@ -156,7 +162,7 @@ dump($list);
     public function del()
     {
         // $id = $this->request->param('id/d');
-        parent::del(Db::name('trade_order'));
+        parent::dels(Db::name('trade_order'));
         $this->success("刪除成功！", '');
     }
 

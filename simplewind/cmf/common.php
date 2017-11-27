@@ -208,7 +208,10 @@ function lothar_put_news($data, $file = null)
     // Db::name('news')->insert($data);
     // return Db::name('news')->getLastInsID();
 }
-/*JSON*/
+/*
+* JSON
+* json_decode(json,true) 为true时返回array而非object
+*/
 function lothar_toJson($code=0, $msg='', $data='', $url='')
 {
     if (is_array($code)) {
@@ -221,7 +224,7 @@ function lothar_toJson($code=0, $msg='', $data='', $url='')
             "url"  => $url
         ]);
     }
-    
+
     return $result;
 }
 

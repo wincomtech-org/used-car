@@ -4,7 +4,6 @@
     <title>首页 {$site_info.site_name|default=''}</title>
     <meta name="keywords" content="{$site_info.site_seo_keywords|default=''}"/>
     <meta name="description" content="{$site_info.site_seo_description|default=''}">
-   
 
     <include file="public@head"/>
     <link rel="stylesheet" href="__TMPL__/public/assets/css/slick.css">
@@ -21,7 +20,6 @@
       });
     </script>
     <hook name="before_head_end"/>
-    
 </head>
 <body>
     <!-- 头部 -->
@@ -66,9 +64,9 @@
                         </div>
                          </foreach>
                     </div>
-                    
+
                 </div>
-             </div> 
+             </div>
         </div>
     </section>
 
@@ -107,11 +105,13 @@
                 <ul class="Insurance_recommendation_lists">
                     <foreach name="insurances" item="vo">
                     <li class="Insurance_recommendation_item">
-                        <div class="img"><a href="{:cmf_url('insurance/booking/selection')}"><img src="{:cmf_get_image_preview_url($vo.more.thumbnail)}" alt=""></a></div>
+                    <a href="{:cmf_url('insurance/Post/step1',['id'=>$vo.id])}">
+                        <div class="img"><img src="{:cmf_get_image_preview_url($vo.more.thumbnail)}" alt=""></div>
                         <div class="txt">
                             <p><a >{$vo.description}</a></p>
                             <span><a >{$vo.desc2}</a></span>
                         </div>
+                    </a>
                     </li>
                     </foreach>
                 </ul>
@@ -124,7 +124,7 @@
     <section class="vehicle_trading vehicle_trading_pc">
         <div class="main">
             <div class="vehicle_trading_detail">
-                <h3 class="index_tit">车辆买卖 <span class="index_tit_supply"> 日推爱车，为您提供便捷选择</span> <a href="{:cmf_url('trade/Lists/index')}">查看更多>></a></h3>
+                <h3 class="index_tit">车辆买卖 <span class="index_tit_supply"> 日推爱车，为您提供便捷选择</span> <a href="{:cmf_url('trade/Index/index')}">查看更多>></a></h3>
                 <div class="vehicle">
                     <ul class="vehicle_tit">
                         <foreach name="Type" item="vo" key="k">
@@ -138,11 +138,11 @@
                         <ul class="vehicle_con_detail" {$key?='style="display:none;"'}>
                             <foreach name="vo.children" item="child">
                             <li class="vehicle_con_detail_items">
-                                <div class="img"><a href="{:cmf_url('trade/vehicle_trading/car_message')}">
+                                <div class="img"><a href="{:cmf_url('trade/Post/details',['id'=>$child.id])}">
                                     <img src="{:cmf_get_image_preview_url($child.more.thumbnail)}" alt="">
                                 </a></div>
                                 <div class="txt">
-                                    <h6><a href="{:cmf_url('trade/vehicle_trading/car_message')}">{$child.name}</a></h6>
+                                    <h6><a href="{:cmf_url('trade/Post/details',['id'=>$child.id])}">{$child.name}</a></h6>
                                     <p>
                                         <span>{$child.car_mileage}万公里</span>
                                         <span>{:date('Y-m',$child.car_license_time)}</span>
@@ -164,7 +164,7 @@
                     <span>提供牌照省心省力</span>
                     <div class="img">
                         <img src="__TMPL__/public/assets/images/example/icon_05.png" alt="">
-                        <a href="{:cmf_url('trade/vehicle_trading/vehicle_trading')}"> 立刻拥有 >> </a>
+                        <a href="{:cmf_url('trade/Index/index')}"> 立刻拥有 >> </a>
                     </div>
                 </div>
 
@@ -174,7 +174,7 @@
                     <span>提供牌照省心省力</span>
                     <div class="img">
                         <img src="__TMPL__/public/assets/images/example/icon_06.png" alt="">
-                        <a href="{:cmf_url('trade/vehicle_trading/vehicle_trading')}"> 立刻拥有 >> </a>
+                        <a href="{:cmf_url('trade/Index/index')}"> 立刻拥有 >> </a>
                     </div>
                 </div>
             </aside>
@@ -186,7 +186,7 @@
     <section class="vehicle_trading vehicle_trading_m">
         <div class="main">
             <div class="vehicle_trading_detail">
-                <h3 class="index_tit">车辆买卖 <span class="index_tit_supply"> 日推爱车，为您提供便捷选择</span> <a href="{:cmf_url('trade/Lists/index')}">查看更多>></a></h3>
+                <h3 class="index_tit">车辆买卖 <span class="index_tit_supply"> 日推爱车，为您提供便捷选择</span> <a href="{:cmf_url('trade/Index/index')}">查看更多>></a></h3>
                 <div class="vehicle">
 
                     <div class="vehicle_con">
@@ -196,11 +196,11 @@
                             <ul class="vehicle_con_detail">
                                 <foreach name="vo.children" item="child">
                                 <li class="vehicle_con_detail_items">
-                                    <div class="img"><a href="{:cmf_url('trade/vehicle_trading/car_message')}">
+                                    <div class="img"><a href="{:url('trade/Post/details',['id'=>$child.id])}">
                                         <img src="{:cmf_get_image_preview_url($child.more.thumbnail)}" alt="">
                                     </a></div>
                                     <div class="txt">
-                                        <h6><a href="{:cmf_url('trade/vehicle_trading/car_message')}">{$child.name}</a></h6>
+                                        <h6><a href="{:url('trade/Post/details',['id'=>$child.id])}">{$child.name}</a></h6>
                                         <p>
                                             <span>{$child.car_mileage}万公里</span>
                                             <span>{:date('Y-m',$child.car_license_time)}</span>
@@ -258,7 +258,7 @@
                         <div class="i_imglist">
                             <ul id="J_imgList">
                                 <foreach name="article_services" item="vo" >
-                                <li><a href="#"><img src="{:cmf_get_image_preview_url($vo.more.thumbnail)}" alt="{$vo.post_title}" title="{$vo.post_title}" /></a></li>
+                                <li><a href="{:cmf_url('portal/Article/index',['id'=>$vo.id])}"><img src="{:cmf_get_image_preview_url($vo.more.thumbnail)}" alt="{$vo.post_title}" title="{$vo.post_title}" /></a></li>
                                 </foreach>
                             </ul>
                         </div><!--切换大图-->
@@ -266,7 +266,7 @@
                             <div class="i_navlist">
                                 <ul id="J_navList">
                                     <foreach name="article_services" item="vo" >
-                                    <li><a href="#">{$vo.post_title}</a></li>
+                                    <li><a href="{:cmf_url('portal/Article/index',['id'=>$vo.id])}">{$vo.post_title}</a></li>
                                     </foreach>
                                     <div class="clear"></div>
                                 </ul>
@@ -282,7 +282,7 @@
                         <foreach name="article_services" item="vo" key="key">
                         <li class="vehicle_services_txt_item {$key==0?'active':''}">
                             <span class="icon">{$key+1}</span>
-                            <p><a href="#"><b>{$vo.post_title}</b>{$vo.post_excerpt}</a></p>
+                            <p><a href="{:cmf_url('portal/Article/index',['id'=>$vo.id])}"><b>{$vo.post_title}</b>{$vo.post_excerpt}</a></p>
                         </li>
                         </foreach>
                     </ul>
@@ -297,7 +297,7 @@
     <section class="news">
         <div class="main">
             <h3 class="index_tit">
-                新闻资讯  <span class="index_tit_supply"> 行内最新资讯，给您带来最可靠地消息</span>
+                新闻资讯 <span class="index_tit_supply"> 行内最新资讯，给您带来最可靠地消息</span>
             </h3>
             <div class="news_con">
                 <div class="news_img">
@@ -305,7 +305,7 @@
                         <ul>
                             <volist name="article_news" id="vo" key="key" length="3">
                                 <li data-background="{:cmf_get_image_preview_url($vo.more.thumbnail)}">
-                                    <a href="news/hot_news.html" class="flick-title">{$vo.post_title}</a>
+                                    <a href="{:cmf_url('portal/Article/index',['id'=>$vo.id])}" class="flick-title">{$vo.post_title}</a>
                                 </li>
                             </volist>
                         </ul>
@@ -316,7 +316,7 @@
                         <volist name="article_news" id="vo" key="key" offset="3">
                         <li class="news_txt_item {$key==4?='active'}">
                             <b class="icon"></b>
-                            <p><a href="news/hot_news.html">{$vo.post_title}</a></p>
+                            <p><a href="{:cmf_url('portal/Article/index',['id'=>$vo.id])}">{$vo.post_title}</a></p>
                             <span>{$vo.published_time?=date('Y-m-d',$vo['published_time'])}</span>
                         </li>
                         </volist>
@@ -352,7 +352,7 @@
     $(document).ready(function(){
         $('.flicker-example').flicker();
     });
-   
+
 </script>
 
 </html>

@@ -2,6 +2,7 @@
 namespace app\service\controller;
 
 use cmf\controller\HomeBaseController;
+use app\service\model\ServiceCategoryModel;
 use think\Db;
 
 class PostController extends HomeBaseController
@@ -30,29 +31,25 @@ class PostController extends HomeBaseController
     public function appoint()
     {
         $modelId = $this->request->param('modelId',0,'intval');
-        if (!empty($modelId)) {
-            $servInfo = model('service/ServiceCategory')->getPost($modelId);
-            if (!empty($servInfo['define_data'])) {
-                $define_data = $servInfo['define_data'];
-                $define_data_conf = config('service_define_data');
-                $new_data = [];
-                foreach ($define_data as $d) {
-                    $new_data[] = [
-                        'title' => $define_data_conf[$d],
-                        'name' => $d
-                    ];
-                }
-                if (!empty(in_array('service_point',$define_data))) {
-                    $Provinces = model('admin/District')->getDistricts(0,1);
-                    $this->assign('Provinces', $Provinces);
-                }
-                $this->assign('new_data',$new_data);
-            }
-            $this->assign('servInfo',$servInfo);
+        $scModel = new ServiceCategoryModel();
+        $servInfo = $scModel->getPost($modelId);
+        if (empty($servInfo)) {
+            abort(404,'数据不存在！');
         }
+        $define_data = $servInfo['define_data'];
+        if (!empty($define_data)) {
+            $new_data = $scModel->getDefineData($define_data,false);
+            $this->assign('new_data',$new_data);
+            if (!empty(in_array('service_point',$define_data))) {
+                $Provinces = model('admin/District')->getDistricts(0,1);
+                $this->assign('Provinces', $Provinces);
+            }
+        }
+
         $servicePoint = model('usual/UsualCoordinate')->getCoordinates(0, ['company_id'=>$this->compId], '请选择服务点');
 
         $this->assign('modelId',$modelId);
+        $this->assign('servInfo',$servInfo);
         $this->assign('servicePoint',$servicePoint);
         return $this->fetch();
     }
@@ -61,9 +58,6 @@ class PostController extends HomeBaseController
     {
         // $data = $this->request->param(true); dump($data);die;
         // dump(ROOT_PATH);die;
-        $modelId = $this->request->param('modelId',0,'intval');
-        $servName = Db::name('service_category')->where('id',$modelId)->value('name');
-
         // 获取数据
         $data = $this->request->param();
         $userId = cmf_get_current_user_id();
@@ -79,24 +73,29 @@ class PostController extends HomeBaseController
             $this->error($result);
         }
 
-        // 处理表单上传文件
+        $servCates = Db::name('service_category')->field('name,define_data')->where('id',$post['model_id'])->find();
+        // 处理表单上传文件 貌似一次性不能处理几张图？
         $field_var = ['identity_card','driving_license','qualified','loan_invoice'];
+        $define_data = json_decode($servCates['define_data']);
+        foreach ($field_var as $value) {
+            if (in_array($value,$define_data)) {
+                $new_var[] = $value;
+            }
+        }
         // dump($_FILES);die;
+        // dump(request()->file('identity_card'));
+        // dump(request()->file('driving_license'));die;
         // $files   = $this->request->file();dump($files);die;
-        // $files = $this->request->file($field_var);// 这样得到的不是一个对象了 无法处理不是对象的数据
+        // $files = $this->request->file($new_var);// 这样得到的不是一个对象了 无法处理不是对象的数据
         // $files = $this->request->file('photo');// 单字段多张 photo[]
         // dump($files);
 
-        $files = model('Service')->uploadPhotos($field_var);
-        if (!empty($files['err'])) {
-            foreach ($files['err'] as $value) {
-                $this->error($value);
+        $files = model('Service')->uploadPhotos($new_var);
+        foreach ($files as $key => $it) {
+            if (!empty($it['err'])) {
+                $this->error($it['err']);
             }
-        }
-        if (!empty($files['data'])) {
-            foreach ($files['data'] as $key => $value) {
-                $post['more'][$key] = $value;
-            }
+            $post['more'][$key] = $it['data'];
         }
 
         // 提交
@@ -105,7 +104,7 @@ class PostController extends HomeBaseController
         try{
             $id = model('Service')->addAppoint($post);
             $data = [
-                'title' => '预约车辆服务：'.$servName,
+                'title' => '预约车辆服务：'.$servCates['name'],
                 'object'=> 'service:'.$id,
                 'content'=>'客户ID：'.$userId.'，公司ID：'.$this->compId
             ];
@@ -119,7 +118,7 @@ class PostController extends HomeBaseController
         }
 
         if ($sta===true) {
-            $this->success('提交成功，请等待工作人员回复',url('user/Profile/center'));
+            $this->success('提交成功，请等待工作人员回复',url('user/Service/index',['id'=>$post['model_id']]));
         }
         $this->error('提交失败');
 

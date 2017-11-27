@@ -125,13 +125,11 @@ class PostController extends HomeBaseController
                 // }
                 $file_var = ['driving_license','identity_card'];
                 $carUp = $carModel->uploadPhotos($file_var);
-                if (!empty($carUp['err'])) {
-                    foreach ($carUp['err'] as $value) {
-                        $this->error($value);
+                foreach ($carUp as $key => $it) {
+                    if (!empty($it['err'])) {
+                        $this->error($it['err']);
                     }
-                }
-                foreach ($carUp['data'] as $key=>$var) {
-                    $cardata['identi'][$key] = $var;
+                    $cardata['identi'][$key] = $it['data'];
                 }
 
                 $carModel->adminAddArticle($cardata);
