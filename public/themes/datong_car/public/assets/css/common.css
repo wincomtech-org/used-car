@@ -20,7 +20,6 @@ section.no_color{background-color:transparent;}
 /**主题内容公共尺寸**/
 header,section,nav,footer{min-width:1200px;}
 .main{width:1200px;margin:0 auto;}
-
 img{transform:scale(1) translateZ(0);}
 
 
@@ -35,6 +34,10 @@ img{transform:scale(1) translateZ(0);}
    font-family: myFirstFont;
    src: url('../font/font.TTF')    
 }
+
+
+/*placeholder*/
+ .inp {color: #666;}
 
 /**头部公共样式**/
 .header_top{border-bottom:1px solid #eee;}
