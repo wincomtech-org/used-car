@@ -7,12 +7,14 @@ use tree\Tree;
 
 class UsualItemModel extends UsualModel
 {
-    protected $filter_var = 'car_seating,car_color,car_effluent,car_fuel,car_gearbox';
+    // protected $filter_var = config('usual_car_filter_var');
+    protected $filter_var = 'car_effluent,car_color,car_gearbox,car_seating,car_fuel';
 
-    // function _initialize()
-    // {
-    //     parent::_initialize();
-    // }
+    /*function _initialize()
+    {
+        parent::_initialize();
+        // $this->filter_var = config('usual_car_filter_var');
+    }*/
 
     public function getLists($filter)
     {

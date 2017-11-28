@@ -28,7 +28,7 @@
             </ul>
 
             <div class="selection_insurance_con">
-                <form action="{:url('Post/step2Post')}" method="post" class="data_filling" id="data_filling">
+                <form action="{:url('Post/step2Post')}" method="post" enctype="multipart/form-data" class="data_filling" id="data_filling">
                     <ul class="data_filling_list required">
                         <li class="left">姓名</li>
                         <li class="right">
@@ -56,7 +56,7 @@
                         <li class="right">
                             <div class="file">
                                 <span class="file_con">
-                                    <input type="file" name="car[identi][driving_license]" id="xcz">
+                                    <input type="file" name="driving_license" id="xcz">
                                     <label for="xcz"></label>
                                 </span>
                                 <p><i>请上传行车本照片（尽可能的小）</i></p>
@@ -73,7 +73,7 @@
                         <li class="right">
                             <div class="file">
                                 <span class="file_con">
-                                    <input type="file" name="car[identi][identity_card]" id="sfz">
+                                    <input type="file" name="identity_card" id="sfz">
                                     <label for="sfz"></label>
                                 </span>
                                 <p><i>请上传身份证正面照片（尽可能的小）</i></p>
@@ -85,7 +85,6 @@
                         </li>
                     </ul>
                     <p class="data_filling_btn">
-                        <input type="hidden" name="post[id]" value="{$id}">
                         <!-- 表单验证JS \public\themes\datong_car\public\assets\js\common.js is_submit() -->
                         <!-- js里有具体点击那一个上传按钮，action是什么文件 -->
                         <input type="submit" name="data_filling_online" class="btn_submit" value='在线投保' >

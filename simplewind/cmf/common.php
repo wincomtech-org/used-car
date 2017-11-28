@@ -7,6 +7,7 @@ use think\Route;
 use think\Loader;
 use think\Request;
 use cmf\lib\Storage;
+use think\View;
 
 // 应用公共文件
 
@@ -173,27 +174,77 @@ function cmf_log($content, $file = "log.txt")
 /**
  * 消息记录
  * @param $data 要写入的数据
+    $data = [
+        'title' => '预约保险',
+        'object'=> 'insurance_order'.$id,
+        'content'=>'客户ID：'.$userId.'保单ID：'.$id,
+    ];
  * @param string $file 消息文件,在 web 入口目录
- * @return bool
+ * @return int
  */
-function cmf_put_news($data, $file = null)
+function lothar_put_news($data, $file = null)
 {
     // file_put_contents($file, $content, FILE_APPEND);
-    $data['create_time'] = time();
+    // $request = Request::instance();
+
     if (empty($data['action'])) {
         $request    = request();
         $module     = $request->module();
         $controller = $request->controller();
         $action     = $request->action();
-        $data['action']       = strtolower($module .'/'. $controller .'/'. $action);
+        $data['action'] = strtolower($module .'/'. $controller .'/'. $action);
     }
     if (empty($data['app'])) {
         $data['app'] = request()->module();
     }
 
+    if (empty($data['create_time'])) {
+        $data['create_time'] = time();
+    }
+    if (empty($data['ip'])) {
+        $data['ip'] = get_client_ip();
+    }
+
     return Db::name('news')->insertGetId($data);
     // Db::name('news')->insert($data);
     // return Db::name('news')->getLastInsID();
+}
+/*
+* JSON
+* json_decode(json,true) 为true时返回array而非object
+*/
+function lothar_toJson($code=0, $msg='', $url=null, $data='', $wait=3)
+{
+    if (is_array($code)) {
+        $result = json_encode($code);
+    } else {
+        $result = json_encode([
+            'code' => $code,
+            "msg"  => $msg,
+            "data" => $data,
+            "url"  => $url,
+            'wait' => $wait,
+        ]);
+    }
+
+    return $result;
+}
+
+/*弹窗*/
+function lothar_popup($msg='', $code=1, $url=null, $data='', $wait=3)
+{
+    $result = [
+        'code' => $code,
+        "msg"  => $msg,
+        "data" => $data,
+        "url"  => $url,
+        'wait' => $wait,
+    ];
+
+    $ViewTemplate = View::instance(Config::get('template'), Config::get('view_replace_str'));
+
+    return $ViewTemplate->fetch('public@/popup',$result);
+    // return $ViewTemplate->fetch(Config::get('dispatch_success_tmpl'), $result);
 }
 
 /**
@@ -315,6 +366,7 @@ function cmf_get_theme_path($theme = null)
 
 /**
  * 设置动态配置
+ * modify by Lothar
  * @param array $data <br>如：["cmf_default_theme"=>'simpleboot3'];
  * @return boolean
  */

@@ -15,6 +15,11 @@ use think\Model;
 
 class UserModel extends Model
 {
+    protected $type = [
+        'more' => 'array',
+        'identi' => 'array',
+        'define_data' => 'array',
+    ];
     public function doMobile($user)
     {
         $userQuery = Db::name("user");
@@ -228,21 +233,33 @@ class UserModel extends Model
         return 1;
     }
 
-    public function editData($user)
+    public function editData($data)
     {
         $userId           = cmf_get_current_user_id();
-        $data['user_nickname'] = $user['user_nickname'];
-        $data['sex'] = $user['sex'];
-        $data['birthday'] = strtotime($user['birthday']);
-        $data['user_url'] = $user['user_url'];
-        $data['signature'] = $user['signature'];
-        $userQuery        = Db::name("user");
-        if ($userQuery->where('id', $userId)->update($data)) {
-            $userInfo = $userQuery->where('id', $userId)->find();
+        $data['birthday'] = strtotime($data['birthday']);
+
+        // 事务处理
+        $result = true;
+        self::startTrans();
+        try {
+            $this->isUpdate(true)->allowField(true)->save($data, ['id' => $userId]);
+            // $userId          = $this->id;
+            $userInfo = $this->where('id', $userId)->find();
             cmf_update_current_user($userInfo);
-            return 1;
+            self::commit();
+        } catch (\Exception $e) {
+            self::rollback();
+            $result = false;
         }
-        return 0;
+        return $result;
+
+        // $userQuery        = Db::name("user");
+        // if ($userQuery->where('id', $userId)->update($data)) {
+        //     $userInfo = $userQuery->where('id', $userId)->find();
+        //     cmf_update_current_user($userInfo);
+        //     return 1;
+        // }
+        // return 0;
     }
 
     /**

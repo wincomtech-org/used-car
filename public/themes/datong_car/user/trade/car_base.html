@@ -1,0 +1,88 @@
+<div class="info_tit">基本属性填写 <ul class="page_turning"><li><a class="pre">上一页</a></li><li><a class="next">下一页</a></li></ul></div>
+<div class="home_list">
+    <ul class="info_detail_list">
+        <li class="details_item">
+            <span class="details_tit">车辆标题</span>
+            <div class="idetails_con">
+                <input type="text" name="" placeholder="车辆名称" class="placeholder" >
+                 <!-- <p><i class="tip">请核实后在填写</i></p> -->
+            </div>
+        </li>
+        <li class="details_item">
+            <span class="details_tit">车辆标题</span>
+            <div class="idetails_con">
+                <input class="form-control" type="text" name="post[price]" value="{$post.price|default='0.00'}" /> 万元
+            </div>
+        </li>
+
+
+        <li class="details_item">
+            <span class="details_tit">所属品牌</span>
+            <div class="idetails_con">
+                <div class="analogy">
+                    <select class="form-control" name="post[brand_id]" id="input-brand">
+                        <option value="0" selected>--请选择--</option>
+                        {$Brands}
+                    </select>
+                </div>
+            </div>
+        </li>
+        <li class="details_item">
+            <span class="details_tit">所属车系</span>
+            <div class="idetails_con">
+                <div class="analogy">
+                    <select class="form-control" style="float:left;" name="post[serie_pid]" id="input-series">
+                        <option value="0" selected>--请选择--</option>
+                        {$Series}
+                    </select>
+                    <select class="form-control" style="width:150px;" name="post[serie_id]" id="input-serie">
+                        <option value="0">--请选择--</option>
+                        {$Series2|default=''}
+                    </select>
+                </div>
+            </div>
+        </li>
+        <li class="details_item">
+            <span class="details_tit">所属车型</span>
+            <div class="idetails_con">
+                <div class="analogy">
+                    <select class="form-control" name="post[model_id]" id="input-model">
+                        <option value="0" selected>--请选择--</option>
+                        {$Models}
+                    </select>
+                </div>
+            </div>
+        </li>
+        <li class="details_item">
+            <span class="details_tit">所在城市</span>
+            <div class="idetails_con">
+                <div class="analogy">
+                    <select class="form-control" style="float:left;" name="post[province_id]" id="input-province">
+                        <option value="0" selected>--请选择--</option>
+                        {$Provinces}
+                    </select>
+                    <select class="form-control" style="width:150px;" name="post[city_id]" id="input-city">
+                        <option value="0">--请选择--</option>
+                        {$Citys|default=''}
+                    </select>
+                </div>
+            </div>
+        </li>
+
+        <li class="details_item">
+            <span class="details_tit">详情介绍</span>
+            <div class="idetails_con">
+                <textarea name=""></textarea>
+            </div>
+        </li>
+
+        <li class="details_item">
+            <span class="details_tit"></span>
+            <div class="idetails_con">
+                <a class="btn-red pre">上一页</a>
+                <a class="btn-red next">下一页</a>
+
+            </div>
+        </li>
+    </ul>
+</div>

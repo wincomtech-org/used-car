@@ -12,16 +12,22 @@ class ServiceModel extends UsualModel
     //     parent::_initialize();
     // }
 
-    public function getLists($filter, $isPage = false)
+    public function getLists($filter, $order='', $limit='', $extra=[])
     {
         $field = 'a.*,b.name model_name,c.name company_name,d.user_nickname buyer_nickname,d.user_login buyer_login';
-        $where = ['a.delete_time' => 0];
         $join = [
             ['service_category b','a.model_id=b.id','LEFT'],
             ['usual_company c','a.company_id=c.id','LEFT'],
             ['user d','a.user_id=d.id','LEFT'],
             // ['user e','a.seller_uid=e.id','LEFT'],
         ];
+
+
+        // 筛选条件
+        $where = ['a.delete_time' => 0];
+        if (!empty($extra)) {
+            $where = array_merge($where,$extra);
+        }
 
         // 模型
         if (!empty($filter['modelId'])) {
@@ -56,6 +62,12 @@ class ServiceModel extends UsualModel
         if (!empty($sn)) {
             $where['a.description'] = ['like', "%$keyword%"];
         }
+
+        // 排序
+        // $order = empty($order) ? 'is_top DESC,is_rec DESC,update_time DESC' : $order;
+
+        // 数据量
+        // $limit = empty($limit) ? config('pagerset.size') : $limit;
 
         $series = $this->alias('a')->field($field)
             ->join($join)

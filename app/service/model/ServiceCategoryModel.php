@@ -39,25 +39,46 @@ class ServiceCategoryModel extends UsualModel
         return $options;
     }
 
-    public function getDefineData($selectIds=[], $freestyle='checkbox', $default_option=false)
+    public function getDefineData($selectIds=[], $freestyle='checkbox', $default='请选择')
     {
-        $define_data = config('service_define_data');
-        $html = '';
+        $defconf = config('service_define_data');
+        $tpl = '';
         if ($freestyle=='checkbox') {
-            foreach ($define_data as $key => $vo) {
-                $html .= '<label class="define_label"><input class="define_input" type="checkbox" name="define_data[]" value="'.$key.'" '.(in_array($key,$selectIds)?'checked':'').'><span> &nbsp;'.$vo.'</span></label>';
+            foreach ((array)$defconf as $key => $vo) {
+                $tpl .= '<label class="define_label"><input class="define_input" type="checkbox" name="define_data[]" value="'.$key.'" '.(in_array($key,$selectIds)?'checked':'').'><span> &nbsp;'.$vo.'</span></label>';
             }
-        } elseif ($freestyle=='select') {
-            $html = $default_option ?'<option value="0">--请选择--</option>':'';
-            if (is_array($define_data)) {
-                foreach ($define_data as $key => $vo) {
-                    $html .= '<option value="'.$key.'" '.($selectIds==$key?'selected':'').' >'.$vo.'</option>';
+        } elseif ($freestyle=='selectmulti') {
+            // <select multiple="multiple" size="2"></select>
+            $tpl = empty($default) ? '': '<option value="0">--'.$default.'--</option>';
+            if (is_array($defconf)) {
+                foreach ($defconf as $key => $vo) {
+                    $tpl .= '<option value="'.$key.'" '.($selectIds==$key?'selected':'').' >'.$vo.'</option>';
                 }
             }
+            // $tpl = createOptions($selectId, $default, $data);
+        } elseif ($freestyle===false) {
+            if (is_numeric($selectIds)) {
+                // $define_data = $this->getPost($selectIds);
+                // $define_data = $this->field('define_data')->where('id',$selectIds)->find()->toArray();
+                // $define_data = $define_data['define_data'];
+                // 优化
+                $define_data = $this->where('id',$selectIds)->value('define_data');
+                $define_data =  json_decode($define_data);
+            } else {
+                $define_data = $selectIds;
+            }
+            $new_data = [];
+            foreach ($define_data as $d) {
+                $new_data[] = [
+                    'title' => $defconf[$d],
+                    'name' => $d
+                ];
+            }
+            return $new_data;
         } else {
             return $define_data;
         }
-        return $html;
+        return $tpl;
     }
 
     /**
@@ -97,7 +118,6 @@ class ServiceCategoryModel extends UsualModel
     */
     public function editCategory($data,$extra=[])
     {
-        $result = true;
         $id          = intval($data['id']);
         $data['dev'] = session('?name')?session('name'):'';
 
@@ -105,7 +125,7 @@ class ServiceCategoryModel extends UsualModel
             $data['more']['thumbnail'] = cmf_asset_relative_url($data['more']['thumbnail']);
         }
         $data['define_data'] = empty($extra) ? [] : $extra;
-        $this->isUpdate(true)->allowField(true)->save($data, ['id' => $id]);
+        $result = $this->isUpdate(true)->allowField(true)->save($data, ['id' => $id]);
 
         return $result;
     }
@@ -122,6 +142,7 @@ class ServiceCategoryModel extends UsualModel
 </tr>
 tpl;
     }
+
 
 
 // 前台
@@ -160,6 +181,20 @@ tpl;
                 ->select()->toArray();
 
         return $list;
+    }
+
+    // 用户中心 - 服务nav
+    public function serviceNav()
+    {
+        $where = [
+            'delete_time'   => 0,
+            'status'        => 1,
+            'type'          => 'service',
+        ];
+        $order = 'is_top DESC,list_order';
+
+        $result = $this->field('id,name,code')->where($where)->order($order)->select();
+        return $result;
     }
 
 }

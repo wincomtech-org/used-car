@@ -11,7 +11,22 @@ class UsualCategoryModel extends Model
 {
     protected $type = [
         'more' => 'array',
+        // 'identi' => 'array',
+        // 'define_data' => 'array',
     ];
+
+    // 开启自动写入时间戳字段
+    // protected $autoWriteTimestamp = true;
+
+    /**
+     * published_time 自动完成
+     * @param $value
+     * @return false|int
+    */
+    // 创建时间
+    // function setCreateTimeAttr($value){ return strtotime($value);}
+    // dead_time 结束时间
+    // function setEndTimeAttr($value){ return strtotime($value);}
 
     /**
      * 生成分类 select树形结构
@@ -154,7 +169,7 @@ class UsualCategoryModel extends Model
     }
 
     /**
-     * 添加品牌分类
+     * 添加分类
      * @param $data
      * @return bool
      */

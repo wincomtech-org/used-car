@@ -24,10 +24,11 @@
 
                     <ul class="user_login_lists">
                         <li class="user_login_input">
-                            <input type="text" name="username" class="tel_icon placeholder" placeholder="请输入手机号">
+                            <input type="text" name="username" class="tel_icon placeholder" placeholder="请输入手机号" autocomplete="off">
                         </li>
+                        <input type="hidden">
                         <li class="user_login_input">
-                            <input type="password" name="password" class="password_icon placeholder" placeholder="请输入密码">
+                            <input type="text" name="password" class="password_icon placeholder" placeholder="请输入密码" onfocus="this.type='password'" autocomplete="off">
                         </li>
                         <li class="user_login_input_yz">
                             <input type="text" name="captcha" class="placeholder" placeholder="请输入验证码" >
@@ -36,8 +37,9 @@
 
                     </ul>
                     <dl class="user_login_supplement">
-                        <dd class="auto_login"><label ><input type="checkbox" name="" value="">我已看过并同意<a href="#">《网络服务条款》</a></label></dd>
-
+                        <dd class="auto_login">
+                            <label ><input checked type="checkbox" name="">我已看过并同意<a href="#">《网络服务条款》</a></label>
+                        </dd>
                     </dl>
                     <p class="submit">
                         <button class="btn red_btn js-ajax-submit" type="submit" data-wait="1500">确定注册</button>

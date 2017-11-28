@@ -25,7 +25,7 @@ class InsuranceController extends UserBaseController
         $policy = model('insurance/InsuranceOrder')->getLists($filter);
 
         $this->assign('policy', $policy->items());// 获取查询数据并赋到模板
-        // $policy->appends($param);//添加URL参数,跟分页有关系？
+        // $policy->appends($param);添加分页URL参数
         $this->assign('pager', $policy->render());// 获取分页代码并赋到模板
         return $this->fetch();
     }
@@ -47,9 +47,6 @@ class InsuranceController extends UserBaseController
             $identiInfo = $page['more'];
         }
 
-// dump(Db::getLastsql());
-// dump($identiInfo);
-// die;
         $this->assign('page',$page);
         $this->assign('identi',$identiInfo);
         return $this->fetch();
@@ -71,7 +68,9 @@ class InsuranceController extends UserBaseController
 
     public function del()
     {
-        $orderId = $this->request->param('id',0,'intval');
+        // $orderId = $this->request->param('id',0,'intval');
+        parent::dels(Db::name('insurance_order'));
+        $this->success("刪除成功！", '');
     }
 
     public function more()

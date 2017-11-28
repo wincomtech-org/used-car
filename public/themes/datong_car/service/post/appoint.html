@@ -27,7 +27,7 @@
                 <li>当前位置：</li>
                 <li><a href="{:url('Index/index')}">检车预约 </a></li>
                 <li><a href="{:url('Post/index',['compId'=>$compId,'html'=>'vehicle_business'])}">{$companyInfo} </a></li>
-                <li class="active"><a href="{:url('Post/appoint',['servId'=>$servId,'html'=>'rookie_scrutineering'])}">{$servInfo.name}</a></li>
+                <li class="active"><a href="{:url('Post/appoint',['modelId'=>$modelId,'html'=>'rookie_scrutineering'])}">{$servInfo.name}</a></li>
             </ul>
             <div class="selection_insurance_con">
                 <form action="{:url('Post/appointPost')}" method="post" enctype="multipart/form-data" name="car_booking_form" class="data_filling" id="data_filling">
@@ -80,8 +80,12 @@
                             </li>
                         </ul>
                     </foreach>
+                    <p class="data_filling_btn">
+                        <input type="hidden" name="post[model_id]" value="{$modelId}">
+                        <input type="hidden" name="compId" value="{$compId}">
+                        <input type="submit" name="data_filling_online" class="btn_submit" value='立即预约' onClick="car_booking_form.submit()">
+                    </p>
                 </form>
-
                 <div class="map_con" >
                     <div id="allmap"></div>
                     <style type="text/css">
@@ -146,7 +150,7 @@
                             addClickHandler(content,opts,marker);
                         }
 
-                       function gotobaidu(type)
+                        function gotobaidu(type)
                         {
                             if($.trim($("input[name=origin]").val())=="")
                             {
@@ -167,17 +171,12 @@
 
                         function addClickHandler(content,opts,marker){
                             marker.addEventListener("click",function(e){
-                                     searchInfoWindow = new BMapLib.SearchInfoWindow(map, content,opts)
-                                     searchInfoWindow.open(marker);
-                                })
+                                 searchInfoWindow = new BMapLib.SearchInfoWindow(map, content,opts)
+                                 searchInfoWindow.open(marker);
+                            })
                         }
                     </script>
                 </div>
-                <p class="data_filling_btn">
-                    <input type="hidden" name="post[model_id]" value="{$servId}">
-                    <input type="hidden" name="post[company_id]" value="{$compId}">
-                    <input type="submit" name="data_filling_online" class="btn_submit" value='立即预约' onClick="car_booking_form.submit()">
-                </p>
             </div>
         </div>
     </section>
@@ -215,33 +214,6 @@
         //     });
         // });
 
-<<<<<<< HEAD
-        // 地区选项
-        $('#input-province').change(function() {
-            var Id = $(this).val(), url ='{:url("admin/District/getCitys")}';
-            alert(url)
-
-            $.ajax({
-                url: '{:url("admin/District/getCitys")}',
-                type: 'POST',
-                // dataType: 'json',
-                data: {parentId: Id},
-            })
-            .done(function(data) {
-                console.log(data);
-
-                if (data) {$('#input-city').show().html(data);}
-            })
-            .fail(function() {
-                // console.log("error");
-            })
-            .always(function() {
-                // console.log("complete");
-            });
-
-            $.post('{:url("usual/AdminDeposit/Ajax")}', {compId:'{$compId}', provId: Id}, function(coord) {
-=======
-
         // 地区选项
         $('#input-province').change(function() {
             // var o = this = '#input-province';
@@ -250,7 +222,6 @@
 
             var Id = $(this).val();
             $.post('{:url("usual/Ajax/coordinate")}', {compId:'{$compId}', provId: Id}, function(coord) {
->>>>>>> b34fd25c42b29bbd8bbe7d96f417444d4f18cd36
                 $('#input-coordinate').html(coord);
             });
         });

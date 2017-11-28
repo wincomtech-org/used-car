@@ -1,0 +1,11 @@
+#douBox .boxFrame {overflow:auto;width:100%;left:0%;top:inherit;bottom:0;margin-left:0px;}
+#douBox .boxFrame .boxCon {height:auto;padding-bottom:30px;}
+#douBox .boxFrame .boxCon:after{content:"";display:block;clear:both;}
+#douBox .boxFrame .boxCon dt{margin-top:10px;}
+#douBox .boxFrame .boxCon dd{margin-top:10px;}
+#douBox .boxFrame .boxCon dd{font-size:16px;color:#fff;}
+#douBox .boxFrame .boxCon dd a{margin:0;}
+.boxdt{float:left;margin-right:10%;}
+.boxdd1{float:left;margin-right:15%;}
+.boxdd2{float:left;}
+#douBox .boxFrame{background-color:#222 !important;}

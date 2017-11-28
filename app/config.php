@@ -20,7 +20,7 @@ $configs = [
     // 应用命名空间
     'app_namespace'           => 'app',
     // 应用模式状态
-    'app_status'              => APP_DEBUG ? 'debug' : 'release',
+    'app_status'              => (defined('APP_DEBUG') && APP_DEBUG) ? 'debug' : 'release',
     // 是否支持多模块
     'app_multi_module'        => true,
     // 入口自动绑定模块
@@ -115,7 +115,7 @@ $configs = [
         // 标签库标签结束标记
         'taglib_end'      => '>',
         'taglib_build_in' => 'cmf\lib\taglib\Cmf,cx',
-        'tpl_cache'       => APP_DEBUG ? false : true,
+        'tpl_cache'       => (defined('APP_DEBUG') && APP_DEBUG) ? false : true,
         'tpl_deny_php'    => false
     ],
     // 视图输出字符串内容替换

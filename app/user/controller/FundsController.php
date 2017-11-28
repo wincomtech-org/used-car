@@ -7,7 +7,8 @@ use app\user\model\UserModel;
 use think\Db;
 
 /**
-* 个人中心 保险
+* 个人中心 
+* 财务管理 资金动向
 */
 class FundsController extends UserBaseController
 {
@@ -44,7 +45,8 @@ class FundsController extends UserBaseController
 
     public function del()
     {
-        return $this->fetch();
+        parent::dels(Db::name('funds'));
+        $this->success("刪除成功！", '');
     }
 
     public function more()

@@ -97,6 +97,29 @@ trait Jump
         throw new HttpResponseException($response);
     }
 
+    /*弹窗样式*/
+    protected function popup($msg='', $code=1, $url=null, $data='', $wait=3, array $header=[])
+    {
+        if (is_null($url) && isset($_SERVER["HTTP_REFERER"])) {
+            $url = $_SERVER["HTTP_REFERER"];
+        } elseif ('' !== $url) {
+            $url = (strpos($url, '://') || 0 === strpos($url, '/')) ? $url : Url::build($url);
+        }
+        $result = [
+            'code' => $code,
+            'msg'  => $msg,
+            'data' => $data,
+            'url'  => $url,
+            'wait' => $wait,
+        ];
+
+        $type = 'html';
+        $result = ViewTemplate::instance(Config::get('template'), Config::get('view_replace_str'))
+                ->fetch(THINK_PATH .'tpl'. DS .'dispatch_jump_popup.tpl', $result);
+        $response = Response::create($result, $type)->header($header);
+        throw new HttpResponseException($response);
+    }
+
     /**
      * 返回封装后的API数据到客户端
      * @access protected

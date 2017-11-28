@@ -12,7 +12,9 @@ DOAMIN：
     \public\themes\datong_car\  主目录
     \public\themes\datong_car\public\  共用文件 head、header、footer、nav、banner、morejs
     \public\themes\datong_car\public\assets\  资源文件 css、js、images、font
-
+DOMEvent DOMDocumentWrapper phpQueryEvents phpQuery Callback JSONP
+    \simplewind\extend\phpQuery\phpQuery.php
+        $.getJSON(url,data,callback)
 
 
 
@@ -180,7 +182,7 @@ str_split($param2,2)
 ●消息模块：需要消息提醒
 消息记录表(cmf_news)：
 \simplewind\cmf\common.php
-cmf_put_news()
+lothar_put_news()
     action 操作名称;格式:应用名+控制器+操作名,也可自己定义格式只要不发生冲突且惟一;
 设置、列表
 
@@ -206,10 +208,10 @@ cmf_put_news()
 角色表(cmf_role)：
 
 用户表(cmf_user)：
-用户操作记录表(cmf_user_action)：积分/金币周期奖励 cmf_user_action()
+用户操作设定表(cmf_user_action)：积分/金币周期奖励 cmf_user_action()
+用户积分/金币变动表(cmf_user_score_log)：
 用户访问记录表(cmf_user_action_log)：
 用户收藏记录表(cmf_user_favorite)：
-用户积分/金币变动表(cmf_user_score_log)：
 token记录(cmf_user_token)：
 评价表(cmf_comment)：
 验证码发送记录表(cmf_verification_code)：手机或邮箱 cmf_get_verification_code()、cmf_verification_code_log()、cmf_check_verification_code()、cmf_clear_verification_code()

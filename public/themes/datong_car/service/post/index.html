@@ -37,7 +37,7 @@
                                 <h3>{$vo.name}</h3>
                                 <p>{$vo.description}</p>
                             </div>
-                            <a href="{:url('Post/appoint',['servId'=>$vo.id,'compId'=>$compId])}">去预约</a>
+                            <a href="{:url('Post/appoint',['modelId'=>$vo.id,'compId'=>$compId])}">去预约</a>
                         </div>
                     </li>
                     </foreach>

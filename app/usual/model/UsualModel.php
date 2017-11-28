@@ -3,7 +3,8 @@ namespace app\usual\model;
 
 use think\Db;
 use think\Model;
-use app\admin\model\RouteModel;
+use think\Request;
+// use app\admin\model\RouteModel;
 
 /**
 * 车辆共用 模型类
@@ -58,25 +59,35 @@ class UsualModel extends Model
     }
 
     /**
-     * published_time 发布时间 自动完成
+     * published_time 自动完成
      * @param $value
      * @return false|int
     */
-    public function setPublishedTimeAttr($value){ return strtotime($value);}
+    // 创建时间
+    function setCreateTimeAttr($value){ return strtotime($value);}
+    // 更新时间
+    function setUpdateTimeAttr($value){ return strtotime($value);}
+    // 发布时间
+    function setPublishedTimeAttr($value){ return strtotime($value);}
     // pay_time 支付时间、生效时间
-    public function setPayTimeAttr($value){ return strtotime($value);}
+    function setPayTimeAttr($value){ return strtotime($value);}
     // dead_time 失效时间
-    public function setDeadTimeAttr($value){ return strtotime($value);}
+    function setDeadTimeAttr($value){ return strtotime($value);}
+    // dead_time 结束时间
+    function setEndTimeAttr($value){ return strtotime($value);}
+    // 删除时间
+    function setDeleteTimeAttr($value){ return strtotime($value);}
+
     // car_license_time 上牌时间
-    public function setCarLicenseTimeAttr($value){ return strtotime($value);}
+    function setCarLicenseTimeAttr($value){ return strtotime($value);}
     // reg_time 注册时间
-    public function setRegTimeAttr($value){ return strtotime($value);}
+    function setRegTimeAttr($value){ return strtotime($value);}
     // appoint_time 预约时间
-    public function setAppointTimeAttr($value){ return strtotime($value);}
+    function setAppointTimeAttr($value){ return strtotime($value);}
     // birthday 生日
-    public function setBirthdayAttr($value){ return strtotime($value);}
+    function setBirthdayAttr($value){ return strtotime($value);}
     // seller_birthday 卖家生日
-    public function setSellerBirthdayAttr($value){ return strtotime($value);}
+    function setSellerBirthdayAttr($value){ return strtotime($value);}
 
     /**
      * status 用户名 自动完成
@@ -116,19 +127,6 @@ class UsualModel extends Model
 
         $this->allowField(true)->data($data, true)->isUpdate(false)->save();
 
-        // if (isset($categories)) {
-        //     if (is_string($categories)) {
-        //         $categories = explode(',', $categories);
-        //     }
-        //     $this->categories()->save($categories);
-        // }
-
-        // if (isset($data['post_keywords'])) {
-        //     $data['post_keywords'] = str_replace('，', ',', $data['post_keywords']);
-        //     $keywords = explode(',', $data['post_keywords']);
-        //     $this->addTags($keywords, $this->id);
-        // }
-
         return $this;
     }
 
@@ -159,74 +157,7 @@ class UsualModel extends Model
         $this->allowField(true)->isUpdate(true)->data($data, true)->save();
         // $this->allowField(true)->isUpdate(true)->save($data, ['id' => $id]);
 
-        // if (isset($categories)) {
-        //     if (is_string($categories)) {
-        //         $categories = explode(',', $categories);
-        //     }
-        //     $oldCategoryIds        = $this->categories()->column('category_id');
-        //     $sameCategoryIds       = array_intersect($categories, $oldCategoryIds);
-        //     $needDeleteCategoryIds = array_diff($oldCategoryIds, $sameCategoryIds);
-        //     $newCategoryIds        = array_diff($categories, $sameCategoryIds);
-        //     if (!empty($needDeleteCategoryIds)) {
-        //         $this->categories()->detach($needDeleteCategoryIds);
-        //     }
-        //     if (!empty($newCategoryIds)) {
-        //         $this->categories()->attach(array_values($newCategoryIds));
-        //     }
-        // }
-
-        // if (isset($data['post_keywords'])) {
-        //     $data['post_keywords'] = str_replace('，', ',', $data['post_keywords']);
-        //     $keywords = explode(',', $data['post_keywords']);
-        //     $this->addTags($keywords, $data['id']);
-        // }
-
         return $this;
-    }
-
-    /*文章标签*/
-    public function addTags($keywords, $articleId)
-    {
-        $portalTagModel = new PortalTagModel();
-        $tagIds = [];
-        $data = [];
-
-        if (!empty($keywords)) {
-            $oldTagIds = Db::name('portal_tag_post')->where('post_id', $articleId)->column('tag_id');
-            foreach ($keywords as $keyword) {
-                $keyword = trim($keyword);
-                if (!empty($keyword)) {
-                    $findTag = $portalTagModel->where('name', $keyword)->find();
-                    if (empty($findTag)) {
-                        $tagId = $portalTagModel->insertGetId([
-                            'name' => $keyword
-                        ]);
-                    } else {
-                        $tagId = $findTag['id'];
-                    }
-                    if (!in_array($tagId, $oldTagIds)) {
-                        array_push($data, ['tag_id' => $tagId, 'post_id' => $articleId]);
-                    }
-                    array_push($tagIds, $tagId);
-                }
-            }
-
-            if (empty($tagIds) && !empty($oldTagIds)) {
-                Db::name('portal_tag_post')->where('post_id', $articleId)->delete();
-            }
-
-            $sameTagIds = array_intersect($oldTagIds, $tagIds);
-            $shouldDeleteTagIds = array_diff($oldTagIds, $sameTagIds);
-
-            if (!empty($shouldDeleteTagIds)) {
-                Db::name('portal_tag_post')->where(['post_id' => $articleId, 'tag_id' => ['in', $shouldDeleteTagIds]])->delete();
-            }
-            if (!empty($data)) {
-                Db::name('portal_tag_post')->insertAll($data);
-            }
-        } else {
-            Db::name('portal_tag_post')->where('post_id', $articleId)->delete();
-        }
     }
 
     /*删除*/
@@ -304,48 +235,6 @@ class UsualModel extends Model
         }
     }
 
-    /**
-     * 后台管理添加页面
-     * @param array $data 页面数据
-     * @return $this
-     */
-    public function adminAddPage($data)
-    {
-        $data['user_id'] = cmf_get_current_admin_id();
-        if (!empty($data['more']['thumbnail'])) {
-            $data['more']['thumbnail'] = cmf_asset_relative_url($data['more']['thumbnail']);
-        }
-        $data['status'] = empty($data['status']) ? 0 : 1;
-        $data['post_type']   = 2;
-
-        $this->allowField(true)->data($data, true)->save();
-
-        return $this;
-    }
-
-    /**
-     * 后台管理编辑提交处理
-     * @param array $data 页面数据
-     * @return $this
-     */
-    public function adminEditPage($data)
-    {
-        $data['user_id'] = cmf_get_current_admin_id();
-        if (!empty($data['more']['thumbnail'])) {
-            $data['more']['thumbnail'] = cmf_asset_relative_url($data['more']['thumbnail']);
-        }
-        $data['status'] = empty($data['status']) ? 0 : 1;
-        $data['post_type']   = 2;
-
-        $this->allowField(true)->isUpdate(true)->data($data, true)->save();
-
-        // 路由定义 别名alias
-        // $routeModel = new RouteModel();
-        // $routeModel->setRoute($data['post_alias'], 'portal/Page/index', ['id' => $data['id']], 2, 5000);
-        // $routeModel->getRoutes(true);
-
-        return $this;
-    }
 
 
 
@@ -368,9 +257,6 @@ class UsualModel extends Model
 
         // if (isset($post['content'])) {
         //     $post['content'] = cmf_replace_content_file_url(htmlspecialchars_decode($post['content']));
-        // }
-        // if (isset($post['information'])) {
-        //     $post['information'] = cmf_replace_content_file_url(htmlspecialchars_decode($post['information']));
         // }
 
         return $post;
@@ -422,8 +308,19 @@ class UsualModel extends Model
         return $post;
     }
 
-    // 图片上传处理
-    public function uploadPhotos($field_var=[], $module, $valid)
+    /*
+    * 图片上传处理
+    * 控制器中使用
+        $file_var = ['driving_license','identity_card'];
+        $files = model('Service')->uploadPhotos($file_var);
+        foreach ($files as $key => $it) {
+            if (!empty($it['err'])) {
+                $this->error($it['err']);
+            }
+            $post['more'][$key] = $it['data'];
+        }
+    */
+    public function uploadPhotos($field_var=[], $module='', $valid=[])
     {
         $module     = empty($module) ? request()->module() : $module;
         $valid      = empty($valid) ? ['size' => 1024*1024,'ext' => 'jpg,jpeg,png,gif'] : $valid;
@@ -433,9 +330,8 @@ class UsualModel extends Model
         if (is_string($field_var)) {
             return $this->uploadPhotoOne($field_var, $module, $valid, $move);
         } elseif (is_array($field_var)) {
-            $data = [];
             foreach ($field_var as $fo) {
-                $data = array_merge($data,$this->uploadPhotoOne($fo, $module, $valid, $move));
+                $data[$fo] = $this->uploadPhotoOne($fo, $module, $valid, $move);
             }
             return $data;
         }
@@ -450,7 +346,7 @@ class UsualModel extends Model
 
         // 移动到框架应用根目录/public/uploads/ 目录下
         if (empty($file)) {
-            $data['err'][$field_var] = '该文件不存在，请检查错误';
+            $data['err'] = '文件上传出错，请检查';
         } else {
             $result = $file->validate($valid)->move($move);
             // var_dump($result);
@@ -467,10 +363,12 @@ class UsualModel extends Model
                 $saveName = str_replace('//', '/', str_replace('\\', '/', $result->getSaveName()));
                 $photo    = $module .'/'. $saveName;
                 // session('photo_'.$field_var, $photo);
-                $data['data'][$field_var] = $photo;
+                $data['data'] = $photo;
+                $data['err'] = '';
             } else {
                 // 上传失败获取错误信息
-                $data['err'][$field_var] = $file->getError();
+                $data['data'] = '';
+                $data['err'] = $file->getError();
             }
 
             // json形式
