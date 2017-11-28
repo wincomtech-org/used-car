@@ -112,29 +112,33 @@ $('.vehicle_ul .tit').on('click',function(){
 // 个人中心卖家中心查看详情
 // 弹窗
 $(document).delegate('.detail_see', 'click', function() {
-	var onlyChoseAlert = simpleAlert({
-		"imgshow": 1,
-		"list1_txt": "金大地",
-		"list2_txt": "18356082312",
-		"list3_txt": "付过定金，已认证",
-		"list4_txt": "合肥市蜀山区佛子岭路66号",
-		"buttons": {
-			"确定": function() {
-				onlyChoseAlert.close();
-			}
-		}
-	});
+	// var url = $(this).attr('data-url'),
+	// 	id = $(this).attr('data-id');
+	// $.ajax({
+	// 	url: url,
+	// 	type: 'POST',
+	// 	dataType: 'json',
+	// 	data: {id: id},
+	// 	success:function(data){
+	// 		msgDialog(data);
+	// 	}
+	// });
+	var data = {'name':'你的名字','mobile':'18356082312','pop':'popup-Dialog','addr':'合肥市蜀山区佛子岭路66号'};
+	msgDialog(data);
 });
 
-// 个人中心卖家中心取消
-$(document).delegate('.order_cancel_btn', 'click', function() {
-	$(this).parent().parent().prev().find('a').text('已取消')
-})
+// 个人中心卖家中心取消 效果
+// $(document).delegate('.order_cancel_btn', 'click', function() {
+// 	$(this).parent().parent().prev().find('a').text('已取消')
+// })
 
-// 个人中心卖家中心删除
-$(document).delegate('.order_err_btn', 'click', function() {
-	$(this).parent().parent().parent().parent().parent().remove()
-})
+// 个人中心卖家中心删除 效果
+// $(document).delegate('.order_err_btn', 'click', function() {
+// 	$(this).parent().parent().parent().parent().parent().remove()
+// })
+
+
+
 
 /**车辆买卖  免费登记信息*/
 $('.analogy').delegate('.analogy_tit', 'click', function(e) {
@@ -151,7 +155,7 @@ $('.analogy').delegate('.analogy_tit', 'click', function(e) {
 	$(document).one('click', function() {
 		_this_siblings.hide();
 	})
-	
+
 
 	_this_siblings_li.on('click', function() {
 		var txt = $(this).children('input').val();
@@ -457,7 +461,7 @@ $('.vehiTrad_tit_item_other_list').hover(function(e){
 },function(){
 
 	$(this).children('ul').hide();
-	
+
 })
 
 
@@ -465,10 +469,10 @@ $('.vehiTrad_tit_item_other_list').hover(function(e){
 // 车辆买卖筛选条件跳转之后
 $(function(){
 	$('.vehiTrad_tit_item_other_list ul li').each(function(){
-		if($(this).hasClass('active')){	
+		if($(this).hasClass('active')){
 			var text=$(this).children('a').text();
 			$(this).parent().siblings('p').html(text)
-			
+
 		}
 	})
 })
@@ -844,24 +848,134 @@ function update_photo(o,url) {
 }
 
 
-// 弹窗 引用个人中心的
+// 弹窗 引用个人中心的 不灵活需改造
 function msgDialog(data) {
 	// for (var i = 0; i < Things.length; i++) {
 	// 	Things[i]
 	// }
-	var onlyChoseAlert = simpleAlert({
+	// var data = {'name':'你的名字','mobile':'18356082312','pop':'付过定金，已认证','addr':'合肥市蜀山区佛子岭路66号'};
+	var opts = {
 		"imgshow": 1,
-		"list1_txt": "金大地",
-		"list2_txt": "popup-Dialog",
-		"list3_txt": "付过定金，已认证",
-		"list4_txt": "合肥市蜀山区佛子岭路66号",
+		"list1_txt": data.name,
+		"list2_txt": data.mobile,
+		"list3_txt": data.pop,
+		"list4_txt": data.addr,
 		"buttons": {
 			"确定": function() {
 				onlyChoseAlert.close();
 			}
 		}
-	});
+	};
+	simpleAlert(opts);
 }
 
 
+/*引入 douphp 的*/
+/**
+ +----------------------------------------------------------
+ * 刷新验证码
+ +----------------------------------------------------------
+ */
+function refreshimage() {
+    var cap = document.getElementById("vcode");
+    cap.src = cap.src + '?';
+}
 
+/**
+ +----------------------------------------------------------
+ * 搜索框的鼠标交互事件
+ +----------------------------------------------------------
+ */
+function formClick(name, text) {
+    var obj = name;
+    if (typeof(name) == "string") obj = document.getElementById(id);
+    if (obj.value == text) {
+        obj.value = "";
+    }
+    obj.onblur = function() {
+        if (obj.value == '') {
+            obj.value = text;
+        }
+    }
+}
+
+/**
+ +----------------------------------------------------------
+ * 表单提交
+ +----------------------------------------------------------
+ */
+function douSubmit(form_id) {
+    var formParam = $("#"+form_id).serialize(); //序列化表格内容为字符串
+
+    $.ajax({
+        type: "POST",
+        url: $("#"+form_id).attr("action")+'&do=callback',
+        data: formParam,
+        dataType: "json",
+        success: function(form) {
+            if (!form) {
+                $("#"+form_id).submit();
+            } else {
+                for(var key in form) {
+                    $("#"+key).html(form[key]);
+                }
+            }
+        }
+    });
+}
+
+/**
+ +----------------------------------------------------------
+ * 弹出窗口
+ +----------------------------------------------------------
+ */
+function douBox(page) {
+    $.ajax({
+        type: "GET",
+        url: page,
+        data: "if_check=1",
+        dataType: "html",
+        success: function(html) {
+            $(document.body).append(html);
+        }
+    });
+}
+
+/**
+ +----------------------------------------------------------
+ * 清空对象内HTML
+ +----------------------------------------------------------
+ */
+function douRemove(target) {
+    var obj = document.getElementById(target);
+    obj.parentNode.removeChild(obj);
+}
+
+/**
+ +----------------------------------------------------------
+ * 收藏本站
+ +----------------------------------------------------------
+ */
+function AddFavorite(url, title) {
+    try {
+        window.external.addFavorite(url, title)
+    } catch(e) {
+        try {
+            window.sidebar.addPanel(title, url, "")
+        } catch(e) {
+            alert("加入收藏失败，请使用Ctrl+D进行添加")
+        }
+    }
+}
+
+/**
+ +----------------------------------------------------------
+ * 在线客服
+ +----------------------------------------------------------
+*/
+
+/**
+ +----------------------------------------------------------
+ * 返回顶部
+ +----------------------------------------------------------
+*/

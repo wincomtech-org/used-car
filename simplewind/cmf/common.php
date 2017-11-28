@@ -7,6 +7,7 @@ use think\Route;
 use think\Loader;
 use think\Request;
 use cmf\lib\Storage;
+use think\View;
 
 // 应用公共文件
 
@@ -212,7 +213,7 @@ function lothar_put_news($data, $file = null)
 * JSON
 * json_decode(json,true) 为true时返回array而非object
 */
-function lothar_toJson($code=0, $msg='', $data='', $url='')
+function lothar_toJson($code=0, $msg='', $url=null, $data='', $wait=3)
 {
     if (is_array($code)) {
         $result = json_encode($code);
@@ -221,11 +222,29 @@ function lothar_toJson($code=0, $msg='', $data='', $url='')
             'code' => $code,
             "msg"  => $msg,
             "data" => $data,
-            "url"  => $url
+            "url"  => $url,
+            'wait' => $wait,
         ]);
     }
 
     return $result;
+}
+
+/*弹窗*/
+function lothar_popup($msg='', $code=1, $url=null, $data='', $wait=3)
+{
+    $result = [
+        'code' => $code,
+        "msg"  => $msg,
+        "data" => $data,
+        "url"  => $url,
+        'wait' => $wait,
+    ];
+
+    $ViewTemplate = View::instance(Config::get('template'), Config::get('view_replace_str'));
+
+    return $ViewTemplate->fetch('public@/popup',$result);
+    // return $ViewTemplate->fetch(Config::get('dispatch_success_tmpl'), $result);
 }
 
 /**

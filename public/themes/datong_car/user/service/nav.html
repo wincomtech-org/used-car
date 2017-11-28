@@ -1,7 +1,7 @@
 <ul>
     <foreach name="serviceNav" item="nav">
     <li class="person_right_item {$mid==$nav.id?='active'}">
-        <a href="{:url('user/Service/index',['mid'=>$nav.id])}">{$nav.name}</a>
+        <a href="{:url('user/Service/index',['mid'=>$nav.id])}#AAA">{$nav.name}</a>
     </li>
     </foreach>
 </ul>

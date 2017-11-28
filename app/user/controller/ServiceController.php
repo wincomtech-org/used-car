@@ -21,7 +21,7 @@ class ServiceController extends UserBaseController
     // 列表页
     public function index()
     {
-        $param = $this->request->param();
+        // $param = $this->request->param();
         $mid = $this->request->param('mid/d',1,'intval');
         $userId = cmf_get_current_user_id();
         $extra = [

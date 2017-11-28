@@ -11,12 +11,14 @@ class TradeOrderModel extends UsualModel
 {
     public function getLists($filter, $order='', $limit='',$extra=[])
     {
-        $field = 'a.*,b.name car_name,c.user_nickname buyer_nickname,d.user_nickname seller_nickname,e.title pay_name';
+        // 支付插件 ,p.title pay_name
+        $field = 'a.*,b.name car_name,b.car_mileage,b.car_license_time,b.shop_price,b.more as car_more,c.user_nickname buyer_nickname,d.user_nickname seller_nickname,e.name city_name';
         $join = [
             ['usual_car b','a.car_id=b.id','LEFT'],
             ['user c','a.buyer_uid=c.id','LEFT'],
             ['user d','a.seller_uid=d.id','LEFT'],
-            ['plugin e','a.pay_id=e.name','LEFT']
+            ['district e','b.city_id=e.id','LEFT'],
+            // ['plugin p','a.pay_id=p.name','LEFT']
         ];
 
         // 筛选条件
@@ -76,13 +78,13 @@ class TradeOrderModel extends UsualModel
     public function getPost($id)
     {
         // $post = $this->get($id)->toArray();
-        $field = 'a.*,b.name car_name,c.user_nickname buyer_nickname,d.user_nickname seller_nickname,e.title pay_name';
+        $field = 'a.*,b.name car_name,c.user_nickname buyer_nickname,d.user_nickname seller_nickname';//,p.title pay_name
         // $where = ['a.id' => $id];
         $join = [
             ['usual_car b','a.car_id=b.id','LEFT'],
             ['user c','a.buyer_uid=c.id','LEFT'],
             ['user d','a.seller_uid=d.id','LEFT'],
-            ['plugin e','a.pay_id=e.name','LEFT']
+            // ['plugin p','a.pay_id=p.name','LEFT']
         ];
         $post = $this->alias('a')
             ->field($field)

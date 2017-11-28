@@ -40,7 +40,7 @@
                             </thead>
                             <tbody>
                                 <php>
-                                    $orderStatus = config('insurance_order_status');
+                                    $statusV = config('insurance_order_status');
                                 </php>
                                 <foreach name="policy" item="vo">
                                 <tr>
@@ -53,7 +53,7 @@
                                             <case value='-1|-2|-3|-11'>err</case>
                                             <default />
                                         </switch>
-                                    ">{$orderStatus[$vo.status]}</td>
+                                    ">{$statusV[$vo.status]}</td>
                                     <td class="operate">
                                         <dl>
                                             <in name='vo.status' value='0,1,5'>

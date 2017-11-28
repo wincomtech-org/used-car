@@ -66,7 +66,7 @@
                         <php>echo config('trade_order_status')[$vo['status']]</php>
                     </td>
                     <td>
-                        <a href="{:url('AdminOrder/edit',array('id'=>$vo['id']))}">{:lang('EDIT')}</a>
+                        <a href="{:url('AdminOrder/edit',array('id'=>$vo['id']))}">{:lang('EDIT')}</a> &nbsp;
                         <a href="{:url('AdminOrder/delete',array('id'=>$vo['id']))}" class="js-ajax-delete">{:lang('DELETE')}</a>
                     </td>
                 </tr>

@@ -31,144 +31,84 @@
                                     <thead>
                                         <tr>
                                             <th>车辆信息</th>
-                                            <th>姓名</th>
-                                            <th>客户认证</th>
+                                            <th>客户信息</th>
+                                            <th>费用</th>
                                             <th>状态</th>
                                             <th>操作</th>
                                         </tr>
                                     </thead>
                                 </table>
+                                <php>$statusV = config('trade_order_status');</php>
+                                <foreach name="list" item="vo">
+                                <php>if($vo['car_more']){ $car_more = json_decode($vo['car_more'],true); }</php>
                                 <table>
                                     <tbody>
                                         <tr>
                                             <td colspan="5">
                                                 <ul class="table_caption">
-                                                    <li class="">编号<span>2017020512336120101201201</span></li>
-                                                    <li>时间<span>2017-02-02 &nbsp; 12:30:30</span></li>
+                                                    <li class="">编号：<span>{$vo.order_sn}</span></li>
+                                                    <li>下单时间：<span>{:date('Y-m-d H:i:s',$vo.create_time)}</span></li>
                                                 </ul>
                                             </td>
                                         </tr>
                                         <tr>
                                             <td class="order_detail">
-                                                <div class="left"><img src="../image/order_car.jpg" alt=""></div>
+                                                <div class="left"><img src="{:cmf_get_image_preview_url($car_more.thumbnail)}" alt=""></div>
                                                 <div class="right">
-                                                    <h6>宝马7系 2009款 740Li领先型</h6>
-                                                    
-                                                    <p><span>所属车服</span><span>大通车服</span></p>
+                                                    <h6>{$vo.car_name}</h6>
+                                                    <p><span>所属车服：</span><span>大通车服</span></p>
                                                 </div>
                                             </td>
                                             <td class="subscription">
-                                                金大地
+                                                <span>姓名：<a href="#">{$vo.buyer_username?$vo.buyer_username:$vo.buyer_nickname}</a></span>
+                                                <span>联系方式：{$vo.buyer_contact}</span>
+                                                <span>认证：<a class="state1">已认证</a><a class="state2">未认证</a></span>
                                             </td>
                                             <td class="state">
-                                                <span><a class="state1">已认证</a></span>              
+                                                <span>订金：<a class="state1">￥{$vo.bargain_money}</a></span>
+                                                <span>全额：<a class="state1">￥{$vo.order_amount}</a></span>
+                                                <span>支付方式：<a class="state1">{$vo.pay_id}</a></span>
                                             </td>
                                             <td class="operate">
-                                                <span><a class="operate2 order_cancel">取消预约</a></span>
+                                                <span>
+                                                <a class="
+                                                    <switch name='vo.status'>
+                                                        <case value='-1|-2|-3|-4|-5|-11'>operate1</case>
+                                                        <case value='1|8|10'>operate2</case>
+                                                        <default/>operate3
+                                                    </switch>
+                                                ">{$statusV[$vo.status]}</a>
+                                                </span>
                                             </td>
                                             <td class="detail">
-                                                <span><a class="detail1 detail_see">查看详情</a></span>
-                                                <span><a class="detail2 order_cancel_btn">确认取消</a></span>
-                                                <span><a class="detail3 order_cancel_btn">不能取消</a></span>                   
+                                                <span><a href="{:url('user/Trade/sellerCancel',['id'=>$vo.id])}" class="detail2 order_cancel_btn" onclick="return confirm('确定？(系统将退回资金)')">确认取消</a></span>
+                                                <span><a href="#" data-url="{:url('user/Trade/ajaxBuyer')}" data-id="{$vo.id}" class="detail1 detail_see">查看详情</a></span>
+                                                <span><a href="{:url('user/Trade/del',['id'=>$vo.id])}" class="detail4 order_err_btn" onclick="return confirm('确定？')">删除</a></span>
                                             </td>
                                         </tr>
                                     </tbody>
                                 </table>
-                                <table>
-                                    <tbody>
-                                        <tr>
-                                            <td colspan="5">
-                                                <ul class="table_caption">
-                                                    <li class="">编号<span>2017020512336120101201201</span></li>
-                                                    <li>时间<span>2017-02-02 &nbsp; 12:30:30</span></li>
-                                                </ul>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="order_detail">
-                                                <div class="left"><img src="../image/order_car.jpg" alt=""></div>
-                                                <div class="right">
-                                                    <h6>宝马7系 2009款 740Li领先型</h6>
-                                                    
-                                                    <p><span>所属车服</span><span>大通车服</span></p>
-                                                </div>
-                                            </td>
-                                            <td class="subscription">
-                                                金大地
-                                            </td>
-                                            <td class="state">  
-                                                <span><a class="state2">未认证</a></span>
-                                            </td>
-                                            <td class="operate">
-                                                <span><a class="operate1 order_sure">已预约</a></span>
-                                            </td>
-                                            <td class="detail">
-                                                <span><a class="detail1 detail_see">查看详情</a></span>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                                <table>
-                                    <tbody>
-                                        <tr>
-                                            <td colspan="5">
-                                                <ul class="table_caption">
-                                                    <li class="">编号<span>2017020512336120101201201</span></li>
-                                                    <li>时间<span>2017-02-02 &nbsp; 12:30:30</span></li>
-                                                </ul>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="order_detail">
-                                                <div class="left"><img src="../image/order_car.jpg" alt=""></div>
-                                                <div class="right">
-                                                    <h6>宝马7系 2009款 740Li领先型</h6>
-                                                    
-                                                    <p><span>所属车服</span><span>大通车服</span></p>
-                                                </div>
-                                            </td>
-                                            <td class="subscription">
-                                                金大地
-                                            </td>
-                                            <td class="state">
-                                                <span><a class="state1">已认证</a></span>
-                                                
-                                            </td>
-                                            <td class="operate">
-                                        
-                                                <span><a class="operate3 order_err">预约失败</a></span>
-                                                
-                                            </td>
-                                            <td class="detail">
-                                                <span><a class="detail1 detail_see">查看详情 <span class=""></span></a></span>
-                                            
-                                                
-                                                <span><a class="detail4 order_err_btn">删除</a></span>        
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>  
+                                </foreach>
+                            </div>
+                            <!-- 分页 -->
                             <div class="page_tip">
                                 <div class="page2_con">
-                                    <p>共<span>1</span>页</p>
+                                    <!-- <p>共<span>1</span>页</p> -->
                                     <ul class="page2_list">
-                                        <li><a href=""><</a></li>
+                                        {$pager|default=''}
+                                        <!-- <li><a href=""><</a></li>
                                         <li class="active"><a href="">1</a></li>
-                                        <li><a href="">></a></li>
-                                        
+                                        <li><a href="">></a></li> -->
                                     </ul>
                                 </div>
-                                
                             </div>
-                            
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-    
+
 
     <!-- 底部 -->
     <include file="public@footer" />
@@ -190,7 +130,7 @@
             var thPad=$(this).css('padding');
 
             var $t=$(this).index();
-        
+
         })
         // $('.home_list table td:first-child').css('width',$('.home_list table  th:first-child').width())
 

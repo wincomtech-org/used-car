@@ -33,19 +33,20 @@
                                     <thead>
                                         <tr>
                                             <th>基本信息</th>
-                                            <th>价格</th>
+                                            <th>价格(购买)</th>
                                             <th>认证状态</th>
                                             <th>操作</th>
                                         </tr>
                                     </thead>
                                 </table>
+                                <foreach name="list" item="vo">
                                 <table>
                                     <tbody>
                                         <tr>
                                             <td colspan="5">
                                                 <ul class="table_caption">
-                                                    <li class="">编号<span>2017020512336120101201201</span></li>
-                                                    <li>时间<span>2017-02-02 &nbsp; 12:30:30</span></li>
+                                                    <li class="">#<span>{$vo.id}</span></li>
+                                                    <li>创建时间<span>{:date('Y-m-d H:i:s',$vo.create_time)}</span></li>
                                                 </ul>
                                             </td>
                                         </tr>
@@ -53,100 +54,42 @@
                                             <td class="order_detail">
                                                 <div class="left"><img src="__TMPL__/public/assets/images/example/order_car.jpg" alt=""></div>
                                                 <div class="right">
-                                                    <h6>宝马7系 2009款 740Li领先型</h6>
-                                                    <p><span>14万公里</span><span>2012-10</span><span>马鞍山</span></p>
-                                                    <p><span>4座</span><span>轿车</span></p>
+                                                    <h6>{$vo.name}</h6>
+                                                    <p>
+                                                        <span>{$vo.car_mileage}万公里</span> |
+                                                        <span>{:date('Y-d',$vo.car_license_time)}</span> |
+                                                        <span>{$vo.ename}</span>
+                                                    </p>
+                                                    <p><span>{$vo.car_seating}座</span><span>{$vo.dname}</span></p>
                                                 </div>
                                             </td>
+
                                             <td class="subscription">
-                                                20.22万
+                                                {$vo.price}万
                                             </td>
+
                                             <td class="state">
-                                                <span><a class="state1">已认证</a></span>
+                                                <span>
+                                                <empty name="vo.identi_status">
+                                                <a class="state1">未认证（无法售卖）</a>
+                                                <else/>
+                                                <a class="state2">已认证</a>
+                                                </empty>
+                                                </span>
                                             </td>
 
                                             <td class="detail">
-                                                <span><a class="detail1 detail_see">查看详情</a></span>
-
-                                                <span><a class="detail3 order_err_btn">删除</a></span>
-
-
+                                                <!-- <span><a class="detail1 detail_see">查看详情</a></span> -->
+                                                <span><a href="{:url('user/Trade/sellerCar',['id'=>$vo.id])}" class="detail2">查看详情</a></span>
+                                                <span><a href="{:url('user/Trade/del',['id'=>$vo.id,'table'=>'usual_car'])}" onclick="return confirm('确定？(不可恢复)')" class="detail1">删除</a></span>
+                                                <notempty name="vo.identi_status">
+                                                <span><a href="{:url('user/Trade/sellerCar',['id'=>$vo.id])}" class="detail3">认证</a></span>
+                                                </notempty>
                                             </td>
                                         </tr>
                                     </tbody>
                                 </table>
-                                <table>
-                                    <tbody>
-                                        <tr>
-                                            <td colspan="5">
-                                                <ul class="table_caption">
-                                                    <li class="">编号<span>2017020512336120101201201</span></li>
-                                                    <li>时间<span>2017-02-02 &nbsp; 12:30:30</span></li>
-                                                </ul>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="order_detail">
-                                                <div class="left"><img src="__TMPL__/public/assets/images/example/order_car.jpg" alt=""></div>
-                                                <div class="right">
-                                                    <h6>宝马7系 2009款 740Li领先型</h6>
-                                                    <p><span>14万公里</span><span>2012-10</span><span>马鞍山</span></p>
-                                                    <p><span>4座</span><span>轿车</span></p>
-                                                </div>
-                                            </td>
-                                            <td class="subscription">
-                                                20.22万
-                                            </td>
-                                            <td class="state">
-                                                <span><a class="state1">已认证</a></span>
-
-                                            </td>
-
-                                            <td class="detail">
-                                                <span><a class="detail1 detail_see">查看详情</a></span>
-                                                <span><a class="detail3 order_err_btn">删除</a></span>
-
-
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                                <table>
-                                    <tbody>
-                                        <tr>
-                                            <td colspan="5">
-                                                <ul class="table_caption">
-                                                    <li class="">编号<span>2017020512336120101201201</span></li>
-                                                    <li>时间<span>2017-02-02 &nbsp; 12:30:30</span></li>
-                                                </ul>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="order_detail">
-                                                <div class="left"><img src="__TMPL__/public/assets/images/example/order_car.jpg" alt=""></div>
-                                                <div class="right">
-                                                    <h6>宝马7系 2009款 740Li领先型</h6>
-                                                    <p><span>14万公里</span><span>2012-10</span><span>马鞍山</span></p>
-                                                    <p><span>4座</span><span>轿车</span></p>
-                                                </div>
-                                            </td>
-                                            <td class="subscription">
-                                                20.22万
-                                            </td>
-                                            <td class="state">
-                                                <span><a class="state2">未认证</a></span>
-                                            </td>
-
-                                            <td class="detail">
-                                                <span><a class="detail2 ">重新填写</a></span>
-
-                                                    <span><a class="detail3 order_err_btn">删除</a></span>
-
-
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                                </foreach>
                             </div>
                             <div class="page_tip">
                                 <div class="page2_con">
@@ -155,14 +98,10 @@
                                         <li><a href=""><</a></li>
                                         <li class="active"><a href="">1</a></li>
                                         <li><a href="">></a></li>
-
                                     </ul>
                                 </div>
-
                             </div>
-
                         </div>
-
                     </div>
                 </div>
             </div>

@@ -171,7 +171,7 @@
 									<li class="details_item">
 										<span class="details_tit">生日</span>
 										<div class="idetails_con">
-											<input type="text" name="user[birthday]" value="{:date('Y-m-d',$user.birthday)}" placeholder="2013-01-04" class="person_bir js-bootstrap-date" id="input-birthday">
+											<input type="text" name="user[birthday]" value="{:date('Y-m-d',$user.birthday)}" placeholder="2013-01-04" class="js-bootstrap-date" id="input-birthday">
 										</div>
 									</li>
 									<li class="details_item">
@@ -266,7 +266,7 @@
 	})
 
 	laydate.render({
-	  elem: '.person_bir' //指定元素
+	  elem: '#input-birthday' //指定元素
 	});
 
 	/*图片弹窗*/

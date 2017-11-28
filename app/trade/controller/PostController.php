@@ -75,7 +75,7 @@ class PostController extends HomeBaseController
             'model_id' => $modelId,
             'province_id' => $province,
             'city_id'   => $city,
-            'name'      => $uname .'的车子',
+            'name'      => $uname .'的车子-'.rand(100,9999),
             'sell_status' => -1,
             'user_id'   => $userInfo['id'],
             'identi'    => ['username'=>'','contact'=>'手机：'.$tel],
@@ -115,7 +115,7 @@ class PostController extends HomeBaseController
         }
 
         if ($sta===true) {
-            $result = lothar_toJson(1, '提交成功', ['id'=>$id], url('user/Trade/sellerCar'));
+            $result = lothar_toJson(1, '提交成功', url('user/Trade/sellerCar'), ['id'=>$id]);
         } else {
             $result = lothar_toJson(0,'提交失败');
         }

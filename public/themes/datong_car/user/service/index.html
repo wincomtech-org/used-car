@@ -18,7 +18,7 @@
         <div class="main">
             <include file="public@usernav" />
 
-            <div class="person_right">
+            <div class="person_right" id="AAA">
                 <div class="person_right_tit business_person">
                     <include file="service/nav" />
                 </div>
@@ -47,7 +47,13 @@
                                     <td class="company">{$vo.company_name|default=''}</td>
                                     <td class="date">{:date('Y-m-d H:i',$vo.create_time)}</td>
                                     <td class="date">{:date('Y-m-d H:i',$vo.end_time)}</td>
-                                    <td class="state">{$statusV[$vo.status]}</td>
+                                    <td class="state 
+                                        <switch name='vo.status'>
+                                            <case value='1|10'>sucss</case>
+                                            <case value='-1|-2|-3|-4|-5|-11'>err</case>
+                                            <default />
+                                        </switch>
+                                    ">{$statusV[$vo.status]}</td>
                                     <td class="operate">
                                         <dl>
                                             <in name="vo.status" value="0">
