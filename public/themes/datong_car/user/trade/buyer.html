@@ -36,6 +36,7 @@
                                         <tr>
                                             <th>订单信息</th>
                                             <th>费用</th>
+                                            <th>卖家</th>
                                             <th>状态</th>
                                             <th>操作</th>
                                             <!-- <th>订单详情</th> -->
@@ -52,7 +53,7 @@
                                                 <ul class="table_caption">
                                                     <li class="">订单号：<span>{$vo.order_sn}</span></li>
                                                     <li>下单时间：<span>{:date('Y-m-d H:i:s',$vo.create_time)}</span></li>
-                                                    <li>卖家：<a href="#">[{$vo.seller_uid}]{$vo.seller_username?$vo.seller_username:$vo.seller_nickname}</a></li>
+                                                    <!-- <li>卖家：<a href="#">[{$vo.seller_uid}]{$vo.seller_username?$vo.seller_username:$vo.seller_nickname}</a></li> -->
                                                 </ul>
                                             </td>
                                         </tr>
@@ -69,12 +70,15 @@
                                                     <p>店铺价：<span>{$vo.shop_price}万</span></p>
                                                 </div>
                                             </td>
-                                            <td class="subscription">
+                                            <td class="expense">
                                                 <span><a class="state2">订金：￥{$vo.bargain_money}</a></span>
                                                 <in name="vo.status" value="8,10">
                                                 <span><a class="state1">全额：￥{$vo.order_amount}</a></span>
                                                 </in>
                                                 <span><a>支付方式：{$vo.pay_id}</a></span>
+                                            </td>
+                                            <td class="subscription">
+                                                [{$vo.seller_uid}]{$vo.seller_username?$vo.seller_username:$vo.seller_nickname}
                                             </td>
                                             <td class="state">
                                                 <span><a class="state1">{$statusV[$vo.status]}</a></span>
