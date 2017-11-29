@@ -44,19 +44,19 @@ class CarValidate extends Validate
     // 检查名称是否存在
     protected function checkName($value)
     {
-        $find = model('UsualCar')->where('name',$value)->count();
+        $find = model('usual/UsualCar')->where('name',$value)->count();
         if ($find>0) {return false;}
         return true;
     }
     protected function checkNameEdit($value,$rule,$data)
     {
-        $find = model('UsualCar')->where(['id'=>$data['id'],'name'=>$value])->count();
+        $find = model('usual/UsualCar')->where(['id'=>$data['id'],'name'=>$value])->count();
         if ($find>0) return true; return false;
     }
 
     protected function checkVin($value)
     {
-        $find = model('UsualCar')->where('car_vin',$value)->count();
+        $find = model('usual/UsualCar')->where('car_vin',$value)->count();
         if ($find>0) {
             return false;
         }
@@ -73,7 +73,7 @@ class CarValidate extends Validate
     }
     protected function checkPlateNo($value)
     {
-        $find = model('UsualCar')->where('plateNo',$value)->count();
+        $find = model('usual/UsualCar')->where('plateNo',$value)->count();
         if ($find>0) {
             return false;
         }

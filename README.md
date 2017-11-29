@@ -175,14 +175,15 @@ str_split($param2,2)
 
 
 ●认证体系：手机认证、邮箱认证、身份证认证、营业执照认证
+lothar_verify()
 #认证表(cmf_verify)：
 #认证表(cmf_verify_model)：
 
 
 ●消息模块：需要消息提醒
-消息记录表(cmf_news)：
 \simplewind\cmf\common.php
-lothar_put_news()
+    lothar_put_news()
+消息记录表(cmf_news)：
     action 操作名称;格式:应用名+控制器+操作名,也可自己定义格式只要不发生冲突且惟一;
 设置、列表
 

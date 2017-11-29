@@ -443,7 +443,7 @@
         $('#input-province').change(function() {
             var Id = $(this).val();
             $.ajax({
-                url: '{:url("usual/Ajax/getCitys")}',
+                url: '{:url("Ajax/getCitys")}',
                 type: 'POST',
                 // dataType: 'json',
                 data: {parentId: Id},
@@ -462,7 +462,7 @@
 
         $('#input-series').change(function() {
             var Id = $(this).val();
-            $.post('{:url("AdminSeries/getSecondSeries")}', {parentId: Id}, function(data) {
+            $.post('{:url("Ajax/getSecondSeries")}', {parentId: Id}, function(data) {
                 if (data) {$('#input-serie').show().html(data);}
             });
         });

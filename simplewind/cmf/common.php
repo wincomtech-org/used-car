@@ -210,6 +210,37 @@ function lothar_put_news($data, $file = null)
     // return Db::name('news')->getLastInsID();
 }
 /*
+* 判断用户认证状态
+* @param $uid 默认是当前用户
+* @param $code 默认是实名认证
+* @param $data 是否返回数据集、统计
+* @return boolean or array
+*/
+function lothar_verify($uid=null, $code='certification', $data=false)
+{
+    if (is_null($uid)) {
+        $uid = cmf_get_current_user_id();
+    }
+    $where = [];
+    if (!empty($uid)) {
+        $where['user_id'] = $uid;
+    }
+    if (!empty($code)) {
+        $where['auth_code'] = $code;
+    }
+    $obj = Db::name('verify');
+    if ($data===false) {
+        $result = $obj->where($where)->value('auth_status');
+    } elseif ($data=='count') {
+        $result = $obj->where($where)->count();
+    } else {
+        $result = $obj->where($where)->find();
+        $result['more'] = json_decode($result['more'],true);
+    }
+
+    return $result;
+}
+/*
 * JSON
 * json_decode(json,true) 为true时返回array而非object
 */

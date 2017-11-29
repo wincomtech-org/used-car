@@ -106,7 +106,6 @@
                             <ul id="photos" class="pic-list list-unstyled form-inline">
                                 <notempty name="post.more.photos">
                                     <foreach name="post.more.photos" item="vo">
-                                        <php>$img_url=cmf_get_image_preview_url($vo['url']);</php>
                                         <li id="saved-image{$key}">
                                             <input id="photo-{$key}" type="hidden" name="photo_urls[]"
                                                    value="{$vo.url}">

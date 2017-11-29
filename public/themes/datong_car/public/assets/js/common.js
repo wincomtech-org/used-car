@@ -112,19 +112,20 @@ $('.vehicle_ul .tit').on('click',function(){
 // 个人中心卖家中心查看详情
 // 弹窗
 $(document).delegate('.detail_see', 'click', function() {
-	// var url = $(this).attr('data-url'),
-	// 	id = $(this).attr('data-id');
-	// $.ajax({
-	// 	url: url,
-	// 	type: 'POST',
-	// 	dataType: 'json',
-	// 	data: {id: id},
-	// 	success:function(data){
-	// 		msgDialog(data);
-	// 	}
-	// });
-	var data = {'name':'你的名字','mobile':'18356082312','pop':'popup-Dialog','addr':'合肥市蜀山区佛子岭路66号'};
-	msgDialog(data);
+	var url = $(this).attr('data-url'),
+		id = $(this).attr('data-id');
+	$.ajax({
+		url: url,
+		type: 'POST',
+		dataType: 'json',
+		data: {id: id},
+		success:function(data){
+			// console.log(data)
+			msgDialog(data);
+		}
+	});
+	// var data = {'name':'你的名字','mobile':'18356082312','pop':'popup-Dialog','addr':'合肥市蜀山区佛子岭路66号'};
+	// msgDialog(data);
 });
 
 // 个人中心卖家中心取消 效果
@@ -486,7 +487,7 @@ $('.claim_guidance_guide li .circle').click(function() {
 	var _parent = $(this).parent();
 	var _t = _parent.index();
 	var _div = $('.claim_guidance_guide_con_list');
-	console.log(_t)
+	// console.log(_t)
 	_parent.addClass('active').siblings().removeClass('active');
 	_div.eq(_t).show().siblings().hide(600);
 })
@@ -505,7 +506,7 @@ function car_num(num) {
 
 /*strat**险种选择，资料填写*/
 function is_submit(value) {
-	console.log($('input[name="sfz"]'))
+	// console.log($('input[name="sfz"]'))
 
 	var form1 = $("#data_filling");
 	// 在线投保
@@ -658,7 +659,6 @@ function select_province(o,url) {
 
     // $(o).change(function() {
         var Id = $(o).val();
-
         $.ajax({
             url: url,
             type: 'POST',
@@ -667,7 +667,7 @@ function select_province(o,url) {
         })
         .done(function(data) {
             // console.log("success");
-            if (data) {$('#input-city').html(data);}
+            if (data) { $('#input-city').html(data); }
         })
         .fail(function() {
             // console.log("error");
@@ -752,7 +752,7 @@ function photo_upload(obj,url) {
                     img.src = src;
 
                     var callback = function () {
-                        console.log(img.width);
+                        // console.log(img.width);
                         $img.Jcrop({
                             aspectRatio: 1,
                             trueSize: [img.width, img.height],

@@ -34,8 +34,7 @@ class ProfileController extends UserBaseController
         $user = cmf_get_current_user();
 
         // 用户身份认证体系
-        // $identi = model('usual/Verify')->userCertiSta($user['id']);
-        $verify = model('usual/Verify')->userCertiSta($user['id'],'certification',true);
+        $verify = lothar_verify($user['id'], 'certification', true);
 
         $this->assign('user',$user);
         $this->assign('identi',$verify['auth_status']);

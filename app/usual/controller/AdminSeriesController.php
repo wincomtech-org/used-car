@@ -274,12 +274,4 @@ tpl;
             $this->error('删除失败');
         }
     }
-
-    public function getSecondSeries()
-    {
-        if ($this->request->isAjax()) {
-            $parentId = $this->request->post('parentId',0,'intval');
-            return model('UsualSeries')->getSeries(0,$parentId,2,true);
-        }
-    }
 }

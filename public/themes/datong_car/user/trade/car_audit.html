@@ -1,98 +1,90 @@
-<div class="info_tit">个人审核资料填写 <ul class="page_turning"><li><a class="pre">上一页</a></li><li><a class="next">下一页</a></li></ul></div>
-<div class="home_list">
-    <ul class="info_detail_list">
-        <li class="details_item">
-            <span class="details_tit">姓名</span>
-            <div class="idetails_con">
-                <input type="text" name="" placeholder="姓名" class="placeholder" >
-            </div>
-        </li>
-        <li class="details_item">
-            <span class="details_tit">联系方式</span>
-            <div class="idetails_con">
-                <input type="text" name="" placeholder="手机号码" class="placeholder" >
-            </div>
-        </li>
-        <li class="details_item">
-            <span class="details_tit">身份证号码</span>
-            <div class="idetails_con">
-                <input type="text" name="" placeholder="身份证号码" class="placeholder" >
-            </div>
-        </li>
-        <li class="details_item">
-            <span class="details_tit">QQ</span>
-            <div class="idetails_con">
-                <input type="text" name="" placeholder="QQ" class="placeholder" >
-
-            </div>
-        </li>
-
-        <li class="details_item unauthorized" >
-            <span class="details_tit">行车本照片</span>
-            <div class="idetails_con">
-                <ul>
-                    <li>
-                        <!-- <span class="txt">正面</span> -->
-
-                        <div class="file">
-                            <span class="file_con">
-                                <input type="file" name="xcb" id="xcz1">
-                                <label for="xcz1"></label>
-                            </span>
-                            <!-- <i>请上传身份证正面照</i> -->
-                        </div>
-                    </li>
-                    <li>
-                        <!-- <span class="txt">反面</span> -->
-
-                        <div class="file">
-                            <span class="file_con">
-                                <input type="file" name="xcb" id="xcz2">
-                                <label for="xcz2"></label>
-                            </span>
-                            <!-- <i>请上传身份证反面照</i> -->
-                        </div>
-                    </li>
-                </ul>
-
-            </div>
-        </li>
-            <li class="details_item unauthorized" >
-            <span class="details_tit">车辆照片</span>
-            <div class="idetails_con">
-                <ul>
-                    <li>
-                        <div class="file">
-                            <span class="file_con">
-                                <input type="file" name="car" id="xcz1">
-                                <label for="xcz1"></label>
-                            </span>
-                            <!-- <i>请上传身份证正面照</i> -->
-                        </div>
-                    </li>
-                    <li>
-
-
-                        <div class="file">
-                            <span class="file_con">
-                                <input type="file" name="car" id="xcz2">
-                                <label for="xcz2"></label>
-                            </span>
-                            <!-- <i>请上传身份证反面照</i> -->
-                        </div>
-                    </li>
-                </ul>
-
-            </div>
-        </li>
-
-        <li class="details_item">
-            <span class="details_tit"></span>
-            <div class="idetails_con">
-                <a class=" btn-red">保存</a>
-                <input type="reset" class=" btn-red" value="取消">
-
-            </div>
-        </li>
+<div class="info_tit">
+    个人审核资料填写 
+    <ul class="page_turning">
+        <li><a class="pre">上一页</a></li>
+        <notempty name="identify">
+            <li><a class="next">下一页</a></li>
+        </notempty>
     </ul>
+</div>
+
+<div class="home_list">
+<ul class="info_detail_list">
+    <li class="details_item">
+        <span class="details_tit">姓名</span>
+        <div class="idetails_con">
+            <input class="placeholder" type="text" name="post[identi][username]" value="{$post.identi.username|default=''}" placeholder="姓名" />
+        </div>
+    </li>
+    <li class="details_item">
+        <span class="details_tit">联系方式</span>
+        <div class="idetails_con">
+            <textarea class="placeholder" placeholder="" name="post[identi][contact]">{$post.identi.contact|default=''}</textarea>
+        </div>
+    </li>
+    <li class="details_item">
+        <span class="details_tit">车牌号码</span>
+        <div class="idetails_con">
+            <input class="placeholder" type="text" 
+                name="post[identi][plateNo]" 
+                value="{$post.identi.plateNo?$post.identi.plateNo:$post.plateNo}" 
+                placeholder="7位的车牌号" maxlength="7" />
+        </div>
+    </li>
+
+    <li class="details_item unauthorized" >
+        <span class="details_tit">行车本照片</span>
+        <div class="idetails_con">
+            <input type="hidden" name="post[identi][driving_license]" id="driving_license" value="{$post.identi.driving_license|default=''}" />
+            <a href="javascript:uploadOneImage('图片上传','#driving_license');">
+                <if condition="empty($post.identi.driving_license)">
+                    <img src="__TMPL__/public/assets/images/default-thumbnail.png" id="driving_license-preview" width="135" style="cursor: pointer"/>
+                <else/>
+                    <img src="{:cmf_get_image_preview_url($post.identi.driving_license)}" id="driving_license-preview" width="135" style="cursor: pointer"/>
+                </if>
+            </a>
+            <input type="button" class="btn btn-sm btn-cancel-driving_license" value="取消图片" />
+        </div>
+    </li>
+
+    <li class="details_item unauthorized" >
+        <span class="details_tit">身份证照片</span>
+        <div class="idetails_con">
+            <ul id="identity_card" class="pic-list list-unstyled form-inline">
+                <notempty name="post.identi.identity_card">
+                    <foreach name="post.identi.identity_card" item="vo">
+                        <li id="saved-identity_card{$key}">
+                            <input id="identity_card-{$key}" type="hidden"
+                                   name="identity_card[urls][]" value="{$vo.url}" />
+                            <input id="identity_card-{$key}-name" type="text"
+                                   name="identity_card[names][]" value="{$vo.name|default=''}"
+                                   class="form-control" style="width: 200px;" title="图片名称" />
+                            <img id="identity_card-{$key}-preview"
+                                 src="{:cmf_get_image_preview_url($vo['url'])}"
+                                 style="height:36px;width: 36px;"
+                                 onclick="parent.imagePreviewDialog(this.src);">
+                            <a href="javascript:uploadOneImage('图片上传','#identity_card-{$key}');">替换</a>
+                            <a href="javascript:(function(){$('#saved-identity_card{$key}').remove();})();">移除</a>
+                        </li>
+                    </foreach>
+                </notempty>
+            </ul>
+            <a href="javascript:uploadMultiImage('图片上传','#identity_card','identity_card-item-tpl');"
+               class="btn btn-default btn-sm">选择图片</a>
+        </div>
+    </li>
+
+    <li class="details_item">
+        <span class="details_tit"></span>
+        <div class="idetails_con">
+            <empty name="identify">
+                <button type="submit" class="btn-red js-ajax-submit">{:lang('SAVE')}</button>
+                <a class="btn-red" href="{:url('Trade/seller')}">{:lang('BACK')}</a>
+            <else/>
+                <a class="btn-red pre">上一页</a>
+                <a class="btn-red next">下一页</a>
+            </empty>
+        </div>
+    </li>
+</ul>
 </div>

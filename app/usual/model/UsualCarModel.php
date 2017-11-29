@@ -29,18 +29,18 @@ class UsualCarModel extends UsualModel
         if (!empty($filter['typeId'])) {
             $where['a.type'] = $filter['typeId'];
         }
-        // if (!empty($filter['brandId'])) {
-        //     $where['a.brand_id'] = $filter['brandId'];
-        // }
-        // if (!empty($filter['serieId'])) {
-        //     $where['a.serie_id'] = $filter['serieId'];
-        // }
-        // if (!empty($filter['modelId'])) {
-        //     $where['a.model_id'] = $filter['modelId'];
-        // }
-        // if (!empty($filter['cityId'])) {
-        //     $where['a.city_id'] = $filter['cityId'];
-        // }
+        if (!empty($filter['brandId'])) {
+            $where['a.brand_id'] = $filter['brandId'];
+        }
+        if (!empty($filter['serieId'])) {
+            $where['a.serie_id'] = $filter['serieId'];
+        }
+        if (!empty($filter['modelId'])) {
+            $where['a.model_id'] = $filter['modelId'];
+        }
+        if (!empty($filter['cityId'])) {
+            $where['a.city_id'] = $filter['cityId'];
+        }
 
         // 后台
         $startTime = empty($filter['start_time']) ? 0 : strtotime($filter['start_time']);

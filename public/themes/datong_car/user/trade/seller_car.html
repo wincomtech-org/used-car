@@ -6,6 +6,34 @@
     <meta name="description" content="{$site_info.site_seo_description|default=''}">
 
     <include file="public@head"/>
+
+    <style type="text/css">
+        .pic-list li {
+            margin-bottom: 5px;
+        }
+    </style>
+    <script type="text/html" id="photos-item-tpl">
+        <li id="saved-image{id}">
+            <input id="photo-{id}" type="hidden" name="photo[urls][]" value="{filepath}">
+            <input class="form-control" id="photo-{id}-name" type="text" name="photo[names][]" value="{name}"
+                   style="width: 200px;" title="图片名称">
+            <img id="photo-{id}-preview" src="{url}" style="height:36px;width: 36px;"
+                 onclick="imagePreviewDialog(this.src);">
+            <a href="javascript:uploadOneImage('图片上传','#photo-{id}');">替换</a>
+            <a href="javascript:(function(){$('#saved-image{id}').remove();})();">移除</a>
+        </li>
+    </script>
+    <script type="text/html" id="identity_card-item-tpl">
+        <li id="saved-identity_card{id}">
+            <input id="identity_card-{id}" type="hidden" name="identity_card[urls][]" value="{filepath}">
+            <input class="form-control" id="identity_card-{id}-name" type="text" name="identity_card[names][]" value="{name}"
+                   style="width: 200px;" title="图片名称">
+            <img id="identity_card-{id}-preview" src="{url}" style="height:36px;width:36px;"
+                 onclick="imagePreviewDialog(this.src);">
+            <a href="javascript:uploadOneImage('图片上传','#identity_card-{id}');">替换</a>
+            <a href="javascript:(function(){$('#saved-identity_card{id}').remove();})();">移除</a>
+        </li>
+    </script>
 </head>
 <body>
     <!-- 头部 -->
@@ -23,29 +51,34 @@
                     <include file="trade/sellernav" />
                 </div>
                 <div class="person_right_con">
-                    <form action="{:url('user/Trade/sellerCarPost')}" method="post" accept-charset="utf-8">
-                        <!-- 一下是有几个步骤的，点击上下页可以看到之前的 -->
+                    <form action="{:url('user/Trade/sellerCarPost')}" method="post" accept-charset="utf-8" class="js-ajax-form">
+                        <!-- 基本属性 -->
                         <div class="seller_center" >
                             <include file="trade/car_base" />
                         </div>
+                        <!-- 优化属性 -->
                         <div class="seller_center" style="display:none;">
                             <include file="trade/car_rec" />
                         </div>
+                        <!-- 扩展属性 -->
                         <div class="seller_center" style="display:none;">
                             <include file="trade/car_ext" />
                         </div>
+                        <!-- 审核资料 -->
                         <div class="seller_center" style="display:none;">
                             <include file="trade/car_audit" />
                         </div>
-                        <div class="seller_center" style="display:none;">
-                            <include file="trade/car_shop" />
-                        </div>
+
+                        <!-- 店铺相关 -->
                         <notempty name="page.identi_status">
                         <div class="seller_center" style="display:none;">
                             <include file="trade/car_shop" />
                         </div>
                         </notempty>
-                        <input type="hidden" name="post[id]" value="{$post.id|default=''}">
+
+                        <input type="hidden" name="post[id]" value="{$page.id|default=''}">
+                        <input type="hidden" name="post[user_id]" value="{$page.user_id|default=''}">
+                        <input type="hidden" name="post[sell_status]" value="{$page.sell_status|default='0'}">
                     </form>
                     <div class="custom_service">
                         <span class="icon"><img src="__TMPL__/public/assets/images/example/custorm.png" alt=""></span>
@@ -71,26 +104,65 @@
 <script type="text/javascript" src="__TMPL__/public/assets/js/laydate/laydate.js"></script>
 
 <script>
-    // 上牌日期
-    laydate.render({
-      elem: '#spdate', //指定元素
-      type: 'month'
-    });
+/**日期时间**/
+// var date=new Date();
+// var date_year=date.getFullYear()
+// var date_month=date.getMonth()+1
+// var date_day=date.getDate();
+// var now_date=date_year + "-" + date_month +"-" +date_day;
 
-    $('.details_item .pre').click(function(){
-        $(this).parent().parent().parent().parent().parent().prev().show().siblings('.seller_center').hide()
-    })
-    $('.details_item .next').click(function(){
-        $(this).parent().parent().parent().parent().parent().next().show().siblings('.seller_center').hide()
-    })
-    $('.idetails_con input[type="reset"]').click(function(){
-        // $(this).parent().parent().parent().parent().parent().hide().
-    })
-    $('.page_turning .pre').click(function(){
-        $(this).parent().parent().parent().parent().prev().show().siblings('.seller_center').hide()
-    })
-    $('.page_turning .next').click(function(){
-        $(this).parent().parent().parent().parent().next().show().siblings('.seller_center').hide()
-    })
+// 上牌日期
+laydate.render({
+    elem: '#spdate',
+    // value: now_date,
+    // type: 'month'
+});
+
+// 上一页、下一页等操作
+$('.details_item .pre').click(function(){
+    $(this).parent().parent().parent().parent().parent().prev().show().siblings('.seller_center').hide()
+})
+$('.details_item .next').click(function(){
+    $(this).parent().parent().parent().parent().parent().next().show().siblings('.seller_center').hide()
+})
+$('.idetails_con input[type="reset"]').click(function(){
+    // $(this).parent().parent().parent().parent().parent().hide().
+})
+$('.page_turning .pre').click(function(){
+    $(this).parent().parent().parent().parent().prev().show().siblings('.seller_center').hide()
+})
+$('.page_turning .next').click(function(){
+    $(this).parent().parent().parent().parent().next().show().siblings('.seller_center').hide()
+})
+</script>
+
+<!-- 引入官版 -->
+<script type="text/javascript">
+    //编辑器路径定义
+    var editorURL = GV.WEB_ROOT;
+</script>
+<script type="text/javascript" src="__STATIC__/js/ueditor/ueditor.config.js"></script>
+<script type="text/javascript" src="__STATIC__/js/ueditor/ueditor.all.min.js"></script>
+<script type="text/javascript">
+    $(function () {
+        editorcontent = new baidu.editor.ui.Editor();
+        editorcontent.render('content');
+        try {
+            editorcontent.sync();
+        } catch (err) {
+        }
+
+        $('.btn-cancel-driving_license').click(function () {
+            $('#driving_license-preview').attr('src', '__TMPL__/public/assets/images/default-thumbnail.png');
+            $('#driving_license').val('');
+        });
+
+        $('.btn-cancel-thumbnail').click(function () {
+            $('#thumbnail-preview').attr('src', '__TMPL__/public/assets/images/default-thumbnail.png');
+            $('#thumbnail').val('');
+        });
+
+        // $('#more-template-select').val("{$post.more.template|default=''}");
+    });
 </script>
 </html>

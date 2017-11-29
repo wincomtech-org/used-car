@@ -129,7 +129,6 @@
                             <ul id="photos" class="pic-list list-unstyled form-inline">
                                 <notempty name="post.more.photos">
                                     <foreach name="post.more.photos" item="vo">
-                                        <php>$img_url=cmf_get_image_preview_url($vo['url']);</php>
                                         <li id="saved-image{$key}">
                                             <input id="photo-{$key}" type="hidden"
                                                    name="photo_urls[]" value="{$vo.url}">
@@ -241,12 +240,12 @@
                                     </notempty>
                                 </case>
                                 <case value="number">
-                                    <input class="form-control" placeholder="{$vo.description}" type="number" name="post[{$vo.code}]" value="{$post[$vo.code]|defalut=''}">
+                                    <input class="form-control" placeholder="{$vo.description}" type="number" name="post[{$vo.code}]" value="{$post[$vo.code]|default=''}">
                                 </case>
                                 <case value="hidden">
-                                    <input class="form-control" type="hidden" name="post[{$vo.code}]" value="{$post[$vo.code]|defalut=''}">
+                                    <input class="form-control" type="hidden" name="post[{$vo.code}]" value="{$post[$vo.code]|default=''}">
                                 </case>
-                                <default /><input class="form-control" placeholder="{$vo.description}" type="text" name="post[{$vo.code}]" value="{$post[$vo.code]|defalut=''}">
+                                <default /><input class="form-control" placeholder="{$vo.description}" type="text" name="post[{$vo.code}]" value="{$post[$vo.code]|default=''}">
                             </switch>
                             <p class="help-block">{$vo.description|default=''} <notempty name="vo.unit">单位：{$vo.unit}</notempty></p>
                         </td>
@@ -280,7 +279,7 @@
                         <th>车牌号码<span class="form-required">*</span></th>
                         <td>
                             <input class="form-control" maxlength="7" placeholder="7位的车牌号"
-                                type="text" name="post[identi][plateNo]" value="{$post.identi.plateNo|default=''}">
+                                type="text" name="post[identi][plateNo]" value="{$post.identi.plateNo?$post.identi.plateNo:$post.plateNo}">
                         </td>
                     </tr>
                     <tr>
@@ -305,7 +304,6 @@
                             <ul id="identity_card" class="pic-list list-unstyled form-inline">
                                 <notempty name="post.identi.identity_card">
                                     <foreach name="post.identi.identity_card" item="vo">
-                                        <php>$img_url=cmf_get_image_preview_url($vo['url']);</php>
                                         <li id="saved-identity_card{$key}">
                                             <input id="identity_card-{$key}" type="hidden"
                                                    name="identity_card[urls][]" value="{$vo.url}">
@@ -342,19 +340,19 @@
                     <tr>
                         <th>市场价</th>
                         <td>
-                            <input class="form-control" placeholder="" name="post[market_price]" value="0.00"> 万元
+                            <input class="form-control" placeholder="" name="post[market_price]" value="{$post.market_price|default='0.00'}"> 万元
                         </td>
                     </tr>
                     <tr>
                         <th>店铺价</th>
                         <td>
-                            <input class="form-control" placeholder="" name="post[shop_price]" value="0.00"> 万元
+                            <input class="form-control" placeholder="" name="post[shop_price]" value="{$post.shop_price|default='0.00'}"> 万元
                         </td>
                     </tr>
                     <tr>
                         <th>库存</th>
                         <td>
-                            <input class="form-control" placeholder="" name="post[inventory]" value="1"> 辆
+                            <input class="form-control" placeholder="" name="post[inventory]" value="{$post..inventory|default='1'}"> 辆
                         </td>
                     </tr>
                     </table>
@@ -363,25 +361,26 @@
                     <div class="form-group">
                         <label for="input-seo_title">SEO标题</label>
                         <div>
-                            <input class="form-control" id="input-seo_title" type="text" name="post[seo_title]" value="{$post.seo_title}">
+                            <input class="form-control" id="input-seo_title" type="text" name="post[seo_title]" value="{$post.seo_title|default=''}">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="input-seo_keywords">SEO关键字</label>
                         <div>
-                            <input class="form-control" id="input-seo_keywords" type="text" name="post[seo_keywords]" value="{$post.seo_keywords}">
+                            <input class="form-control" id="input-seo_keywords" type="text" name="post[seo_keywords]" value="{$post.seo_keywords|default=''}">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="input-seo_description">SEO描述</label>
                         <div>
-                            <textarea class="form-control" id="input-seo_description" name="post[seo_description]">{$post.seo_description}</textarea>
+                            <textarea class="form-control" id="input-seo_description" name="post[seo_description]">{$post.seo_description|default=''}</textarea>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="form-group">
                 <input type="hidden" name="post[id]" value="{$post.id}">
+                <input type="hidden" name="post[user_id]" value="{$post.user_id}">
                 <button type="submit" class="btn btn-primary js-ajax-submit">{:lang('SAVE')}</button>
                 <a class="btn btn-default" href="{:url('AdminCar/index')}">{:lang('BACK')}</a>
             </div>
@@ -492,7 +491,7 @@
         $('#input-province').change(function() {
             var Id = $(this).val();
             $.ajax({
-                url: '{:url("usual/Ajax/getCitys")}',
+                url: '{:url("Ajax/getCitys")}',
                 type: 'POST',
                 // dataType: 'json',
                 data: {parentId: Id},
@@ -511,7 +510,7 @@
 
         $('#input-series').change(function() {
             var Id = $(this).val();
-            $.post('{:url("AdminSeries/getSecondSeries")}', {parentId: Id}, function(data) {
+            $.post('{:url("Ajax/getSecondSeries")}', {parentId: Id}, function(data) {
                 $('#input-serie').show().html(data);
             });
         });

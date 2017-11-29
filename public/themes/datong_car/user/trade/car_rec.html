@@ -1,153 +1,72 @@
 <div class="info_tit">优化属性项填写<ul class="page_turning"><li><a class="pre">上一页</a></li><li><a class="next">下一页</a></li></ul></div>
+
 <div class="home_list">
-    <ul class="info_detail_list">
-        <li class="details_item">
-            <span class="details_tit">车架号</span>
-            <div class="idetails_con">
-                <input type="text" name="" placeholder="17位车架号" class="placeholder" >
-                <!-- <p><i class="tip">请核实后在填写</i></p> -->
-            </div>
-        </li>
-        <li class="details_item">
-            <span class="details_tit">车牌号</span>
-            <div class="idetails_con">
-                <input type="text" name="" placeholder="7位车牌号" class="placeholder" >
-            </div>
-        </li>
-        <li class="details_item">
-            <span class="details_tit">上牌时间</span>
-            <div class="idetails_con">
-                <input type="text" name="" id="spdate" >
-            </div>
-        </li>
-        <li class="details_item">
-            <span class="details_tit">车龄</span>
-            <div class="idetails_con">
-                <input type="text" name="" placeholder="里程数" class="placeholder" >
-            </div>
-        </li>
-        <li class="details_item">
-            <span class="details_tit">里程数</span>
-            <div class="idetails_con">
-                <input type="text" name="" placeholder="里程数" class="placeholder" >
-            </div>
-        </li>
-        <li class="details_item">
-            <span class="details_tit">排量</span>
-            <div class="idetails_con">
-                <input type="text" name="" placeholder="里程数" class="placeholder" >
-            </div>
-        </li>
+<ul class="info_detail_list">
+    <li class="details_item">
+        <span class="details_tit">车架号</span>
+        <div class="idetails_con">
+            <input class="" type="text" name="post[car_vin]" value="{$post.car_vin|default=''}" maxlength="17" placeholder="17位的车架号">
+            <!-- <p><i class="tip">请核实后在填写</i></p> -->
+        </div>
+    </li>
+    <li class="details_item">
+        <span class="details_tit">车牌号</span>
+        <div class="idetails_con">
+            <input class="" type="text" name="post[plateNo]" value="{$post.plateNo|default=''}" maxlength="7" placeholder="7位的车牌号">
+        </div>
+    </li>
+    <li class="details_item">
+        <span class="details_tit">上牌时间</span>
+        <div class="idetails_con">
+            <input class="" id="spdate" type="text" name="post[car_license_time]" value="{:date('Y-m-d',$post.car_license_time)}" placeholder="">
+        </div>
+    </li>
+    <li class="details_item">
+        <span class="details_tit">车龄</span>
+        <div class="idetails_con">
+            <input class="" type="number" name="post[car_age]" value="{$post.car_age|default=''}" placeholder="" max="999" >
+        </div>
+    </li>
+    <li class="details_item">
+        <span class="details_tit">里程数</span>
+        <div class="idetails_con">
+            <input class="" type="text" name="post[car_mileage]" value="{$post.car_mileage|default=''}" placeholder="">
+        </div>
+    </li>
+    <li class="details_item">
+        <span class="details_tit">排量</span>
+        <div class="idetails_con">
+            <input class="" type="text" name="post[car_displacement]" value="{$post.car_displacement|default=''}" placeholder="">
+        </div>
+    </li>
 
 
 
-
-        <li class="details_item">
-            <span class="details_tit">座位数</span>
-            <div class="idetails_con">
-                <div class="analogy">
-                    <p class="analogy_tit"><input type="text" name="brand" placeholder="座位数" class="placeholder" readonly=""></p>
-                    <ul class="analogy_con" style="display: none;">
-                        <li data-val="1"><input type="text" name="" value="123" readonly=""></li>
-                        <li data-val="2"><input type="text" name="" value="123" readonly=""></li>
-                        <li data-val="3"><input type="text" name="" value="123" readonly=""></li>
-                        <li data-val="4"><input type="text" name="" value="123" readonly=""></li>
-                        <li data-val="5"><input type="text" name="" value="123" readonly=""></li>
-                        <li data-val="6"><input type="text" name="" value="123" readonly=""></li>
-                        <li data-val="7"><input type="text" name="" value="123" readonly=""></li>
-                        <li data-val="8"><input type="text" name="" value="123" readonly=""></li>
-                    </ul>
-                </div>
-            </div>
-        </li>
-        <li class="details_item">
-            <span class="details_tit">变速箱</span>
-            <div class="idetails_con">
-                <div class="analogy">
-                    <p class="analogy_tit"><input type="text" name="brand" placeholder="变速箱" class="placeholder" readonly=""></p>
-                    <ul class="analogy_con" style="display: none;">
-                        <li data-val="1"><input type="text" name="" value="123" readonly=""></li>
-                        <li data-val="2"><input type="text" name="" value="123" readonly=""></li>
-                        <li data-val="3"><input type="text" name="" value="123" readonly=""></li>
-                        <li data-val="4"><input type="text" name="" value="123" readonly=""></li>
-                        <li data-val="5"><input type="text" name="" value="123" readonly=""></li>
-                        <li data-val="6"><input type="text" name="" value="123" readonly=""></li>
-                        <li data-val="7"><input type="text" name="" value="123" readonly=""></li>
-                        <li data-val="8"><input type="text" name="" value="123" readonly=""></li>
-                    </ul>
-                </div>
-            </div>
-        </li>
-        <li class="details_item">
-            <span class="details_tit">排放标准</span>
-            <div class="idetails_con">
-                <div class="analogy">
-                    <p class="analogy_tit"><input type="text" name="brand" placeholder="排放标准" class="placeholder" readonly=""></p>
-                    <ul class="analogy_con" style="display: none;">
-                        <li data-val="1"><input type="text" name="" value="123" readonly=""></li>
-                        <li data-val="2"><input type="text" name="" value="123" readonly=""></li>
-                        <li data-val="3"><input type="text" name="" value="123" readonly=""></li>
-                        <li data-val="4"><input type="text" name="" value="123" readonly=""></li>
-                        <li data-val="5"><input type="text" name="" value="123" readonly=""></li>
-                        <li data-val="6"><input type="text" name="" value="123" readonly=""></li>
-                        <li data-val="7"><input type="text" name="" value="123" readonly=""></li>
-                        <li data-val="8"><input type="text" name="" value="123" readonly=""></li>
-                    </ul>
-                </div>
-            </div>
-        </li>
-        <li class="details_item">
-            <span class="details_tit">燃料类型</span>
-            <div class="idetails_con">
-                <div class="analogy">
-                    <p class="analogy_tit"><input type="text" name="brand" placeholder="燃料类型" class="placeholder" readonly=""></p>
-                    <ul class="analogy_con" style="display: none;">
-                        <li data-val="1"><input type="text" name="" value="123" readonly=""></li>
-                        <li data-val="2"><input type="text" name="" value="123" readonly=""></li>
-                        <li data-val="3"><input type="text" name="" value="123" readonly=""></li>
-                        <li data-val="4"><input type="text" name="" value="123" readonly=""></li>
-                        <li data-val="5"><input type="text" name="" value="123" readonly=""></li>
-                        <li data-val="6"><input type="text" name="" value="123" readonly=""></li>
-                        <li data-val="7"><input type="text" name="" value="123" readonly=""></li>
-                        <li data-val="8"><input type="text" name="" value="123" readonly=""></li>
-                    </ul>
-                </div>
-            </div>
-        </li>
-        <li class="details_item">
-            <span class="details_tit">车身颜色</span>
-            <div class="idetails_con">
-                <div class="analogy">
-                    <p class="analogy_tit"><input type="text" name="brand" placeholder="车身颜色" class="placeholder" readonly=""></p>
-                    <ul class="analogy_con" style="display: none;">
-                        <li data-val="1"><input type="text" name="" value="123" readonly=""></li>
-                        <li data-val="2"><input type="text" name="" value="123" readonly=""></li>
-                        <li data-val="3"><input type="text" name="" value="123" readonly=""></li>
-                        <li data-val="4"><input type="text" name="" value="123" readonly=""></li>
-                        <li data-val="5"><input type="text" name="" value="123" readonly=""></li>
-                        <li data-val="6"><input type="text" name="" value="123" readonly=""></li>
-                        <li data-val="7"><input type="text" name="" value="123" readonly=""></li>
-                        <li data-val="8"><input type="text" name="" value="123" readonly=""></li>
-                    </ul>
-                </div>
-            </div>
-        </li>
+    <foreach name="searchCode" item="vo">
+        <php>
+            $post[$vo['code']] = empty($post[$vo['code']]) ?  '': $post[$vo['code']];
+            echo $post[$vo['code']];
+            $biz = 'post';
+        </php>
+        <include file="trade/item_loop" />
+    </foreach>
+    <foreach name="recItems" item="vo">
+        <php>
+            $post['more'][$vo['code']] = empty($post['more'][$vo['code']]) ?  '': $post['more'][$vo['code']];
+            echo $post['more'][$vo['code']];
+            $biz = 'post[more]';
+        </php>
+        <include file="trade/item_loop" />
+    </foreach>
 
 
-        <li class="details_item">
-            <span class="details_tit">推荐项</span>
-            <div class="idetails_con">
-                <input type="text" name="" placeholder="" class="placeholder" >
-            </div>
-        </li>
 
-        <li class="details_item">
-            <span class="details_tit"></span>
-            <div class="idetails_con">
-                <a class="btn-red next">下一页</a>
-                <input type="reset" class=" btn-red" value="取消">
-
-            </div>
-        </li>
-    </ul>
+    <li class="details_item">
+        <span class="details_tit"></span>
+        <div class="idetails_con">
+            <a class="btn-red pre">上一页</a>
+            <a class="btn-red next">下一页</a>
+        </div>
+    </li>
+</ul>
 </div>

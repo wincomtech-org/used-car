@@ -1,56 +1,93 @@
-<div class="info_tit">店铺相关资料设置<ul class="page_turning"><li><a class="pre">上一页</a></li><li><a class="next">下一页</a></li></ul></div>
-<div class="home_list">
-    <ul class="info_detail_list">
-        <li class="details_item">
-            <span class="details_tit">车源类别</span>
-            <div class="idetails_con">
-                <input type="text" name="" placeholder="" class="placeholder" >
-            </div>
-        </li>
-        <li class="details_item">
-            <span class="details_tit">市场价</span>
-            <div class="idetails_con">
-                <input type="text" name="" placeholder="" class="placeholder" >
-            </div>
-        </li>
-        <li class="details_item">
-            <span class="details_tit">店铺价</span>
-            <div class="idetails_con">
-                <input type="text" name="" placeholder="" class="placeholder" >
-            </div>
-        </li>
-
-        <li class="details_item unauthorized" >
-            <span class="details_tit">车辆照片</span>
-            <div class="idetails_con">
-                <ul>
-                    <li>
-                        <div class="file">
-                        <span class="file_con">
-                        <input type="file" name="car" id="xcz1">
-                        <label for="xcz1"></label>
-                        </span>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="file">
-                        <span class="file_con">
-                        <input type="file" name="car" id="xcz2">
-                        <label for="xcz2"></label>
-                        </span>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-        </li>
-
-        <li class="details_item">
-            <span class="details_tit"></span>
-            <div class="idetails_con">
-                <a class=" btn-red">保存</a>
-                <input type="reset" class=" btn-red" value="取消">
-
-            </div>
-        </li>
+<div class="info_tit">
+    店铺相关资料设置
+    <ul class="page_turning">
+        <li><a class="pre">上一页</a></li>
+        <!-- <li><a class="next">下一页</a></li> -->
     </ul>
+</div>
+
+<div class="home_list">
+<ul class="info_detail_list">
+    <li class="details_item">
+        <span class="details_tit">车源类别</span>
+        <div class="idetails_con">
+            <select class="" style="width:150px;" name="post[type]">
+                <option value="">--请选择--</option>
+                {$Types}
+            </select>
+        </div>
+    </li>
+    <li class="details_item">
+        <span class="details_tit">市场价</span>
+        <div class="idetails_con">
+            <input type="text" name="post[market_price]" value="{$post.market_price|default='0.00'}" placeholder="" class="placeholder" /> 万元
+        </div>
+    </li>
+    <li class="details_item">
+        <span class="details_tit">店铺价</span>
+        <div class="idetails_con">
+            <input type="text" name="post[shop_price]" value="{$post.shop_price|default='0.00'}" placeholder="" class="placeholder" /> 万元
+        </div>
+    </li>
+
+    <li class="details_item">
+        <span class="details_tit">库存</span>
+        <div class="idetails_con">
+            <input type="text" name="post[inventory]" value="{$post.inventory|default='1'}" placeholder="" class="placeholder" /> 辆
+        </div>
+    </li>
+
+    <li class="details_item unauthorized" >
+        <span class="details_tit">主图</span>
+        <!-- post[more][thumbnail] -->
+        <div class="idetails_con" >
+            <input type="hidden" name="post[more][thumbnail]" id="thumbnail" value="{$post.more.thumbnail|default=''}">
+            <a href="javascript:uploadOneImage('图片上传','#thumbnail');">
+                <if condition="empty($post.more.thumbnail)">
+                    <img src="__TMPL__/public/assets/images/default-thumbnail.png" id="thumbnail-preview" width="286" height="195" style="cursor:pointer" />
+                <else/>
+                    <img src="{:cmf_get_image_preview_url($post.more.thumbnail)}" id="thumbnail-preview" width="286" height="195" style="cursor:pointer" />
+                </if>
+            </a>
+            <input type="button" class="btn btn-sm btn-cancel-thumbnail" value="取消图片">
+        </div>
+    </li>
+    <li class="details_item unauthorized" >
+        <span class="details_tit">车辆照片</span>
+        <!-- post.more.photos -->
+        <div class="idetails_con">
+            <ul id="photos" class="pic-list list-unstyled form-inline">
+                <notempty name="post.more.photos">
+                    <foreach name="post.more.photos" item="vo">
+                        <li id="saved-image{$key}">
+                            <input id="photo-{$key}" type="hidden"
+                                   name="photo_urls[]" value="{$vo.url}">
+                            <input id="photo-{$key}-name" type="text"
+                                   name="photo_names[]" value="{$vo.name|default=''}"
+                                   class="form-control" style="width: 200px;" title="图片名称">
+                            <img id="photo-{$key}-preview"
+                                 src="{:cmf_get_image_preview_url($vo['url'])}"
+                                 style="height:36px;width: 36px;"
+                                 onclick="parent.imagePreviewDialog(this.src);">
+                            <a href="javascript:uploadOneImage('图片上传','#photo-{$key}');">替换</a>
+                            <a href="javascript:(function(){$('#saved-image{$key}').remove();})();">移除</a>
+                        </li>
+                    </foreach>
+                </notempty>
+            </ul>
+            <a href="javascript:uploadMultiImage('图片上传','#photos','photos-item-tpl');"
+               class="btn btn-default btn-sm">选择图片</a>
+        </div>
+    </li>
+
+
+
+    <li class="details_item">
+        <span class="details_tit"></span>
+        <div class="idetails_con">
+            <button type="submit" class="btn-red js-ajax-submit">{:lang('SAVE')}</button>
+            <a class="btn-red" href="{:url('Trade/seller')}">{:lang('BACK')}</a>
+        </div>
+    </li>
+</ul>
 </div>

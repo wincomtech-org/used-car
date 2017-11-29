@@ -1,0 +1,48 @@
+
+    <li class="details_item">
+        <span class="details_tit">{$vo.name}</span>
+        <div class="idetails_con">
+            <div class="analogy">
+                <switch name="vo.code_type">
+                    <case value="select">
+                        <select class="" style="width:140px;" name="{$biz}[{$vo.code}]">
+                            <option value="">--请选择--</option>
+                            <notempty name="vo.form_element">
+                            <foreach name="vo.form_element" item="it">
+                            <option {$post[$vo.code]==$it.name?'selected':''} value="{$it.name}">{$it.description?$it.description:$it.name.$vo.unit}</option>
+                            </foreach>
+                            </notempty>
+                        </select>
+                    </case>
+                    <case value="radio">
+                        <notempty name="vo.form_element">
+                        <foreach name="vo.form_element" item="it">
+                        <label>
+                            <input type="radio" {$post[$vo.code]==$it.name?'checked':''} name="{$biz}[{$vo.code}]" value="{$it.name}"> 
+                            {$it.description?$it.description:$it.name.$vo.unit} &nbsp; &nbsp;
+                        </label>
+                        </foreach>
+                        </notempty>
+                    </case>
+                    <case value="checkbox">
+                        <notempty name="vo.form_element">
+                        <foreach name="vo.form_element" item="it">
+                        <label>
+                            <input type="checkbox" {$post[$vo.code]==$it.name?'checked':''} name="{$biz}[{$vo.code}][]" value="{$it.name}"> 
+                            {$it.description?$it.description:$it.name.$vo.unit}
+                        </label> &nbsp; &nbsp;
+                        </foreach>
+                        </notempty>
+                    </case>
+                    <case value="number">
+                        <input class="" placeholder="{$vo.description}" type="number" name="{$biz}[{$vo.code}]" value="{$post[$vo.code]|default=''}">
+                    </case>
+                    <case value="hidden">
+                        <input class="" type="hidden" name="{$biz}[{$vo.code}]" value="{$post[$vo.code]|default=''}">
+                    </case>
+                    <default /><input class="" placeholder="{$vo.description}" type="text" name="{$biz}[{$vo.code}]" value="{$post[$vo.code]|default=''}">
+                </switch>
+                <p class="analogy_tit">{$vo.description|default=''} <i class="tip">{$vo.unit?='单位：'.$vo.unit}</i></p>
+            </div>
+        </div>
+    </li>

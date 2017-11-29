@@ -130,21 +130,21 @@
 									<li class="details_item">
 										<span class="details_tit">昵称</span>
 										<div class="idetails_con">
-											<input type="text" name="user[user_nickname]" value="{$user.user_nickname|default='未填写'}" placeholder="昵称">
+											<input type="text" name="user[user_nickname]" value="{$user.user_nickname|default=''}" placeholder="昵称">
 											<i class="tip">请核实后再填写</i>
 										</div>
 									</li>
 									<li class="details_item">
 										<span class="details_tit">手机号码</span>
 										<div class="idetails_con">
-											<input type="text" name="user[mobile]" value="{$user.mobile|default='未填写'}" placeholder="手机号" {$user.mobile?='readonly'}>
+											<input type="text" name="user[mobile]" value="{$user.mobile|default=''}" placeholder="手机号" {$user.mobile?='readonly'}>
 											<i class="tip">请核实后再填写</i>
 										</div>
 									</li>
 									<li class="details_item">
 										<span class="details_tit">邮箱</span>
 										<div class="idetails_con">
-											<input type="text" name="user[user_email]" value="{$user.user_email|default='未填写'}" placeholder="{$user.mobile?'重新认证？':''}">
+											<input type="text" name="user[user_email]" value="{$user.user_email|default=''}" placeholder="{$user.user_email?'重新认证？':''}">
 											<i class="tip">请核实后再填写</i>
 										</div>
 									</li>

@@ -520,7 +520,7 @@
 
         $('#input-series').change(function() {
             var Id = $(this).val();
-            $.post('{:url("AdminSeries/getSecondSeries")}', {parentId: Id}, function(data) {
+            $.post('{:url("Ajax/getSecondSeries")}', {parentId: Id}, function(data) {
                 if (data) {$('#input-serie').show().html(data);}
             });
         });

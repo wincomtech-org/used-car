@@ -243,7 +243,8 @@ class AdminCarController extends AdminBaseController
             }
             $post   = model('UsualItem')->ItemMulti($post,$more);
 
-            if (empty($post['sell_status'])) {
+            if ($post['sell_status']==0 || $post['sell_status']==-1 || $post['sell_status']==-2) {
+                $post['plateNo'] = empty($post['plateNo'])?$post['identi']['plateNo']:$post['plateNo'];
                 $result = $this->validate($post,'Car.insurance');
             } else {
                 $result = $this->validate($post,'Car.edit');

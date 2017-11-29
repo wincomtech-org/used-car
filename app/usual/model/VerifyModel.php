@@ -82,22 +82,5 @@ class VerifyModel extends UsualModel
         return $this->getStatus($status,'verify_status');
     }
 
-    // 获取用户认证资料
-    public function userCertiSta($uid=0, $type='certification', $extra=null)
-    {
-        if ($extra!==null) {
-            if (is_bool($extra)) {
-                $data = $this->where(['user_id'=>$uid,'auth_code'=>$type])->find();
-                // $identi = Db::name('verify')->where(['user_id'=>$user['id'],'auth_code'=>'certification'])->find();
-            } else {
-                $data = $this->where($extra)->find();
-            }
-        } else {
-            $data = Db::name('verify')->where(['user_id'=>$uid,'auth_code'=>$type])->value('auth_status');
-        }
-        return $data;
-    }
-
-
 
 }

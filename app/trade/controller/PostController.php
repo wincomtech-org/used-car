@@ -48,15 +48,13 @@ class PostController extends HomeBaseController
         // 是否登录
         $userId = cmf_get_current_user_id();
         if (empty($userId)) {
-            return json_encode([
-                'code' => 0,
-                "msg"  => '用户尚未登录',
-                "data" => "",
-                "url"  => url("user/login/index")
-            ]);
+            return lothar_toJson(0,'用户尚未登录',url("user/Login/index"));
         }
         // 是否认证
-        
+        // $identify = lothar_verify();
+        // if (empty($identify)) {
+        //     return lothar_toJson(0,'您未进行实名认证',url('user/Profile/center'));
+        // }
 
         $brandId = $this->request->param('brandId');
         $serieId = $this->request->param('serieId');
@@ -76,7 +74,8 @@ class PostController extends HomeBaseController
             'province_id' => $province,
             'city_id'   => $city,
             'name'      => $uname .'的车子-'.rand(100,9999),
-            'sell_status' => -1,
+            'sell_status' => 0,
+            // 'sell_status' => -1,
             'user_id'   => $userInfo['id'],
             'identi'    => ['username'=>'','contact'=>'手机：'.$tel],
         ];

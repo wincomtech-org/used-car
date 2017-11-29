@@ -23,6 +23,11 @@ class TradeController extends UserBaseController
         // $this->userId = cmf_get_current_user_id();
     }
 
+    // public function index()
+    // {
+    //     $this->seller();
+    // }
+
     // 买家订单列表页
     public function buyer()
     {
@@ -65,6 +70,7 @@ class TradeController extends UserBaseController
         // $param = $this->request->param();
         // $id = $this->request->param('id/d');
         $userId = cmf_get_current_user_id();
+        $userId = 1;
 
         $extra = ['a.user_id'=>$userId];
 
@@ -80,33 +86,30 @@ class TradeController extends UserBaseController
     // 填写车子信息
     public function sellerCar()
     {
-        $id = $this->request->param('id/d',0,'intval');
         error_reporting(E_ALL^(E_WARNING|E_NOTICE));
+        $id = $this->request->param('id/d',0,'intval');
+        $userId = cmf_get_current_user_id();
+        // 用户认证状态
+        $identify = lothar_verify($userId);
+        $identify = 1;
 
 
         $carModel = new UsualCarModel();
-        $page = $carModel->getPost($id);
-
+        $post = $carModel->getPost($id);
+// dump($post);die;
         $itemModel = new UsualItemModel();
         $districtModel = new DistrictModel();
 
-        if (!empty($page)) {
+        if (!empty($post)) {
 
-            $Brands = model('usual/UsualBrand')->getBrands($page['brand_id']);
-            $Models = model('usual/UsualModels')->getModels($page['model_id']);
-            $Series = model('usual/UsualSeries')->getSeries($page['serie_id']);
-            $Series2 = model('usual/UsualSeries')->getSeries($page['serie_id'],0,2);
-            $Provinces = $districtModel->getDistricts($page['province_id']);
-            $Citys = $districtModel->getDistricts($page['city_id'],$page['province_id']);
+            $Brands = model('usual/UsualBrand')->getBrands($post['brand_id']);
+            $Models = model('usual/UsualModels')->getModels($post['model_id']);
+            $Series = model('usual/UsualSeries')->getSeries($post['serie_id']);
+            $Series2 = model('usual/UsualSeries')->getSeries($post['serie_id'],0,2);
+            $Provinces = $districtModel->getDistricts($post['province_id']);
+            $Citys = $districtModel->getDistricts($post['city_id'],$post['province_id']);
             // 车源类别
-            $Types = $carModel->getCarType($page['type']);
-
-            // 用于前台车辆条件筛选且与属性表name同值的字段码
-            $searchCode = $itemModel->getItemSearch();
-            // 从属性表里被推荐的
-            $recItems = $itemModel->getItemTable('is_rec',1);
-            // 属性表里所有属性（不包含推荐的）
-            $allItems = $itemModel->getItemTable('','',true);
+            $Types = $carModel->getCarType($post['type']);
 
             $this->assign('Series2', $Series2);
             $this->assign('Citys', $Citys);
@@ -120,15 +123,19 @@ class TradeController extends UserBaseController
             $Provinces = $districtModel->getDistricts(0,$provId);
             // 车源类别
             $Types = $carModel->getCarType();
-
-            // 用于前台车辆条件筛选且与属性表name同值的字段码
-            $searchCode = $itemModel->getItemSearch();
-            // dump($searchCode);die;
-            // 从属性表里被推荐的
-            $recItems = $itemModel->getItemTable('is_rec',1);
-            // 属性表里所有属性（不包含推荐的）
-            $allItems = $itemModel->getItemTable('','',true);
         }
+
+        // 用于前台车辆条件筛选且与属性表name同值的字段码
+        $searchCode = $itemModel->getItemSearch();
+        // 从属性表里被推荐的
+        $recItems = $itemModel->getItemTable('is_rec',1);
+        // 属性表里所有属性（不包含推荐的）
+        // $where['code'] = where('id','not in','1,5,8');
+        $item_rec = Db::name('usual_item_cate')->where('is_rec',1)->column('code');
+        $item_rec = implode(',',$item_rec);
+        $filter_var = 'car_age,car_mileage,car_displacement,'. $item_rec .','.config('usual_car_filter_var');
+        $where['code'] = ['not in',$filter_var];
+        $allItems = $itemModel->getItemTable($where,'',true);
 
         $this->assign('Brands', $Brands);
         $this->assign('Models', $Models);
@@ -140,7 +147,8 @@ class TradeController extends UserBaseController
         $this->assign('recItems', $recItems);
         $this->assign('allItems', $allItems);
 
-        $this->assign('page',$page);
+        $this->assign('post',$post);
+        $this->assign('identify',$identify);
         return $this->fetch('seller_car');
     }
 
@@ -151,11 +159,10 @@ class TradeController extends UserBaseController
         if ($this->request->isPost()) {
             $data = $this->request->post();
             $post = $data['post'];
-            $more = $data['post']['more'];
-
             $id = intval($post['id']);
 
-            $post   = model('usual/UsualItem')->ItemMulti($post,$more);
+            // $more = !empty($data['post']['more'])?$data['post']['more']:'';
+            // $post   = model('usual/UsualItem')->ItemMulti($post,$more);
 
             if (empty($post['serie_id'])) {
                 $post['serie_id'] = $post['serie_pid'];
@@ -166,7 +173,7 @@ class TradeController extends UserBaseController
             if (empty($post['sell_status'])) {
                 $valid = 'seller';
             } else {
-                if (!empty($id)) {
+                if (empty($id)) {
                     $post['create_time'] = time();
                     $valid = 'add';
                 } else {
@@ -174,20 +181,47 @@ class TradeController extends UserBaseController
                 }
             }
             $result = $this->validate($post,'usual/Car.'.$valid);
-            if ($result!==true) {
-                $this->error($result->getError());
+            if ($result !== true) {
+                $this->error($result);
             }
 
-            // if (!empty($data['photo'])) {
-            //     $post['more']['photos'] = $this->Model->dealFiles($data['photo']);
+            /*处理图片*/
+            // $file_var = ['driving_license','identity_card1','identity_card2'];
+            // // $file_var = ['driving_license','identity_card1','identity_card2','thumbnail'];
+            // $files = model('service/Service')->uploadPhotos($file_var);
+            // foreach ($files as $key => $it) {
+            //     if (!empty($it['err'])) {
+            //         // $this->error($it['err']);
+            //     }
+            //     if (!empty($it['data'])) {
+            //         if ($key=='identity_card1') {
+            //             $post['identi']['identity_card'][] = ['url'=>$it['data'],'name'=>''];
+            //         } elseif ($key=='identity_card2') {
+            //             $post['identi']['identity_card'][] = ['url'=>$it['data'],'name'=>''];
+            //         } elseif ($key=='driving_license') {
+            //             $post['identi']['driving_license'] = $it['data'];
+            //         } else {
+            //             $post['more'][$key] = $it['data'];
+            //         }
+            //     }
             // }
-            // if (!empty($data['identity_card'])) {
-            //     $post['identi']['identity_card'] = $this->Model->dealFiles($data['identity_card']);
-            // }
-            // if (!empty($data['file'])) {
-            //     $post['more']['files'] = $this->Model->dealFiles($data['file']);
-            // }
+            // 多图上传 photos
+            // $pdata = model('service/Service')->uploadPhotoMulti('photos');
+            // $post['more']['photos'][] = [];
 
+            // 直接拿官版的
+            if (!empty($data['photo'])) {
+                $post['more']['photos'] = $this->Model->dealFiles($data['photo']);
+            }
+            if (!empty($data['identity_card'])) {
+                $post['identi']['identity_card'] = $this->Model->dealFiles($data['identity_card']);
+            }
+            if (!empty($data['file'])) {
+                $post['more']['files'] = $this->Model->dealFiles($data['file']);
+            }
+
+// dump($post);
+// die;
 
             if (!empty($id)) {
                 $result = model('usual/UsualCar')->adminAddArticle($post);
@@ -222,6 +256,7 @@ class TradeController extends UserBaseController
         return $this->fetch('seller_order');
     }
 
+    // 取消订单 如果有订金则退还订金
     public function sellerCancel()
     {
         $id = $this->request->param('id/d');
@@ -230,7 +265,9 @@ class TradeController extends UserBaseController
         $orderInfo = Db::name('trade_order')->field('buyer_uid,bargain_money')->where('id',$id)->find();
         $bargain_money = floatval($orderInfo['bargain_money']);
 
-        if (!empty($bargain_money)) {
+        if (empty($bargain_money)) {
+            Db::name('trade_order')->where('id',$id)->setField('status',-2);
+        } else {
             Db::startTrans();
             $TransStatus = false;
             try{
@@ -243,7 +280,6 @@ class TradeController extends UserBaseController
                     'action'      => 'trade_sellerCancel',
                     'coin'        => $bargain_money,
                 ]);
-
                 $TransStatus = true;
                 // 提交事务
                 Db::commit();
@@ -253,7 +289,6 @@ class TradeController extends UserBaseController
                 // throw $e;
             }
         }
-
         if ($TransStatus) {
             $this->success('取消成功');
         }
@@ -303,6 +338,28 @@ class TradeController extends UserBaseController
         $userId = cmf_get_current_user_id();
 
         return $this->fetch();
+    }
+
+    // 订单 客户详情
+    public function ajaxBuyer()
+    {
+        $id = $this->request->param('id/d');
+        $buyerInfo = Db::name('trade_order')
+            ->field('buyer_uid,buyer_username,buyer_contact,buyer_address')
+            ->where('id',$id)->find();
+        $identify = lothar_verify($buyerInfo['buyer_uid']);
+        $pop = ($identify==1)?'已认证':'未认证';
+
+        // $data = lothar_toJson($data);
+        $data = json_encode([
+                'name'  => $buyerInfo['buyer_username'],
+                'mobile'=> $buyerInfo['buyer_contact'],
+                'pop'   => $pop,
+                'addr'  => $buyerInfo['buyer_address'],
+            ]);
+
+        echo $data;exit();
+        // return $data;
     }
 
     public function more()

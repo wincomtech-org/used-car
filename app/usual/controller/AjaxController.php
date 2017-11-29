@@ -8,6 +8,12 @@ use app\usual\model\UsualSeriesModel;
 
 /**
 * Ajax 集中营
+* 特别说明
+    对于ajax返回数据
+        echo $data;exit();
+        return $data;
+    特别是对于 json 格式，这两个返回的数据集结果是不一样的。
+* 其它地方 ajax 操作以 function ajax*() 形式来创建方法体
 */
 class AjaxController extends BaseController
 {
@@ -86,5 +92,14 @@ class AjaxController extends BaseController
             return $tpl;
         }
         return '<li><input value="--数据错误--"></li>';
+    }
+
+    // 获取二级车系
+    public function getSecondSeries()
+    {
+        if ($this->request->isAjax()) {
+            $parentId = $this->request->post('parentId',0,'intval');
+            return model('UsualSeries')->getSeries(0,$parentId,2,true);
+        }
     }
 }
