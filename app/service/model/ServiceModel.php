@@ -118,6 +118,7 @@ class ServiceModel extends UsualModel
         $data = array_merge($data,$post);
 
         $this->allowField(true)->data($data, true)->isUpdate(false)->save();
+        // $data['more'] = json_encode($data['more']);
         // $id = Db::name("service")->insertGetId($data);
 
         return $this->id;

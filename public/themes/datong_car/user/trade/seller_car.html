@@ -70,15 +70,15 @@
                         </div>
 
                         <!-- 店铺相关 -->
-                        <notempty name="page.identi_status">
+                        <notempty name="post.identi_status">
                         <div class="seller_center" style="display:none;">
                             <include file="trade/car_shop" />
                         </div>
                         </notempty>
 
-                        <input type="hidden" name="post[id]" value="{$page.id|default=''}">
-                        <input type="hidden" name="post[user_id]" value="{$page.user_id|default=''}">
-                        <input type="hidden" name="post[sell_status]" value="{$page.sell_status|default='0'}">
+                        <input type="hidden" name="post[id]" value="{$post.id|default=''}">
+                        <input type="hidden" name="post[user_id]" value="{$post.user_id|default=''}">
+                        <input type="hidden" name="post[sell_status]" value="{$post.sell_status|default='0'}">
                     </form>
                     <div class="custom_service">
                         <span class="icon"><img src="__TMPL__/public/assets/images/example/custorm.png" alt=""></span>

@@ -74,14 +74,7 @@ class PostController extends HomeBaseController
         }
 
         $servCates = Db::name('service_category')->field('name,define_data')->where('id',$post['model_id'])->find();
-        // 处理表单上传文件 貌似一次性不能处理几张图？
-        $field_var = ['identity_card','driving_license','qualified','loan_invoice'];
-        $define_data = json_decode($servCates['define_data']);
-        foreach ($field_var as $value) {
-            if (in_array($value,$define_data)) {
-                $new_var[] = $value;
-            }
-        }
+        // 处理图片文件
         // dump($_FILES);die;
         // dump(request()->file('identity_card'));
         // dump(request()->file('driving_license'));die;
@@ -89,13 +82,25 @@ class PostController extends HomeBaseController
         // $files = $this->request->file($new_var);// 这样得到的不是一个对象了 无法处理不是对象的数据
         // $files = $this->request->file('photo');// 单字段多张 photo[]
         // dump($files);
+        // // 处理表单上传文件 貌似一次性不能处理几张图？
+        // $field_var = ['identity_card','driving_license','qualified','loan_invoice'];
+        // $define_data = json_decode($servCates['define_data']);
+        // foreach ($field_var as $value) {
+        //     if (in_array($value,$define_data)) {
+        //         $new_var[] = $value;
+        //     }
+        // }
 
-        $files = model('Service')->uploadPhotos($new_var);
-        foreach ($files as $key => $it) {
-            if (!empty($it['err'])) {
-                $this->error($it['err']);
-            }
-            $post['more'][$key] = $it['data'];
+        // $files = model('Service')->uploadPhotos($new_var);
+        // foreach ($files as $key => $it) {
+        //     if (!empty($it['err'])) {
+        //         $this->error($it['err']);
+        //     }
+        //     $post['more'][$key] = $it['data'];
+        // }
+        // 直接拿官版的
+        if (!empty($data['identity_card'])) {
+            $post['more']['identity_card'] = model('Service')->dealFiles($data['identity_card']);
         }
 
         // 提交

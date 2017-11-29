@@ -41,13 +41,30 @@
                                         <case value="appoint_time|reg_time|birthday|seller_birthday">
                                             <span class="txt">{:date('Y-m-d H:i',$page[$vo.name])}</span>
                                         </case>
-                                        <case value="identity_card|driving_license|qualified|loan_invoice">
+                                        <case value="driving_license|qualified|loan_invoice">
                                             <span class="txt">
-                                                <if condition="!empty($page['more'][$vo['name']])">
-                                                <img src="{:cmf_get_image_preview_url($page['more'][$vo.name])}" alt="">
+                                                <if condition="empty($page.more[$vo.name])">
+                                                    <img src="__TMPL__/public/assets/images/default_width.png" alt="">
                                                 <else/>
-                                                <img src="__TMPL__/public/assets/images/default_width.png" alt="">
+                                                    <img src="{:cmf_get_image_preview_url($page.more[$vo.name])}" alt="">
                                                 </if>
+                                            </span>
+                                        </case>
+                                        <case value="identity_card">
+                                            <span class="txt">
+                                                <empty name="page.more.identity_card">
+                                                    <img src="__TMPL__/public/assets/images/default_width.png" alt="">
+                                                <else/>
+                                                <ul>
+                                                    <foreach name="page.more.identity_card" item="vo">
+                                                    <li class="">
+                                                        <img id="identity_card-{$key}-preview"
+                                                            src="{:cmf_get_image_preview_url($vo.url)}"
+                                                            style="height:36px;width:36px;" />
+                                                    </li>
+                                                    </foreach>
+                                                </ul>
+                                                </empty>
                                             </span>
                                         </case>
                                         <case value="service_point">

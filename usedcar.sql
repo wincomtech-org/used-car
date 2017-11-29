@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50540
 File Encoding         : 65001
 
-Date: 2017-11-27 19:31:41
+Date: 2017-11-29 18:38:56
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -250,11 +250,6 @@ CREATE TABLE `cmf_asset` (
 -- Records of cmf_asset
 -- ----------------------------
 INSERT INTO `cmf_asset` VALUES ('5', '1', '4288', '1507876093', '1', '0', '0017258984a2322273fbde79a092b884674ad9f0f016ad18697d9cb29c423616', '大通车服logo.png', 'portal/20171013/1f661e0d9d9f0c97b17a50e6e06580c0.png', '0017258984a2322273fbde79a092b884', '796d87176a36d808062bc11080cde44872bee928', 'png', '');
-INSERT INTO `cmf_asset` VALUES ('6', '1', '155573', '1508306191', '1', '0', 'c4cfecad9883277e9ba9ed65d97442a49128d02be31ce4822a41b3e22fbdac0d', 'img.png', 'usual/20171018/9f47f95e3f7a3ad3b69fca211387ab41.png', 'c4cfecad9883277e9ba9ed65d97442a4', '2e5367da30a4f6f69bd5dd4a7ceb086416be5cc6', 'png', '');
-INSERT INTO `cmf_asset` VALUES ('7', '1', '171184', '1508306248', '1', '0', '2183130e2d9cb4c8c47c79b59ac3b3792214b79b04d2b771af0987c53c99e096', 'img.png', 'usual/20171018/01dd16f7a785b54c5bd05e1b19384873.png', '2183130e2d9cb4c8c47c79b59ac3b379', '1db53eab32655f134cd19c9e863db1c24d272672', 'png', '');
-INSERT INTO `cmf_asset` VALUES ('8', '1', '161061', '1508306570', '1', '0', 'a5a346a9a01395d74941914c7f73d2de49dd71a5d9885887f476091eaca80de9', 'img.png', 'usual/20171018/310eaec8a9afafd7a5a3ae95a127f863.png', 'a5a346a9a01395d74941914c7f73d2de', '8d544bfffc5caf482d3719c74359107a2fb6a52c', 'png', '');
-INSERT INTO `cmf_asset` VALUES ('9', '1', '7859', '1509075164', '1', '0', 'a50feb855bd4915314c848468de98fdfdb1ed7a3d5a9c12c664a1db3a249d40f', 'head_99.jpg', 'insurance/20171027/3e1d07a86364dd96885569ae00d729cc.jpg', 'a50feb855bd4915314c848468de98fdf', 'e191406e2b58133a72e91fa6cf554b3fe05360c7', 'jpg', '');
-INSERT INTO `cmf_asset` VALUES ('11', '1', '7654', '1509929637', '1', '0', '12cba80f5d18e01a3c4ca22c06def54c77ba600fcc8740db53fddd0c3fe6c615', 'cropped.jpg', 'trade/20171106/86c7411ecf320aeb7148c619fcd3e3b6.jpg', '12cba80f5d18e01a3c4ca22c06def54c', '67726060b746b4c063c2e44a3b88c29b012c663b', 'jpg', null);
 
 -- ----------------------------
 -- Table structure for cmf_auth_access
@@ -4789,6 +4784,7 @@ CREATE TABLE `cmf_trade_order` (
   `buyer_uid` int(11) unsigned NOT NULL COMMENT '买家编号',
   `buyer_username` varchar(20) NOT NULL COMMENT '买家用户名',
   `buyer_contact` varchar(60) NOT NULL COMMENT '买家联系方式',
+  `buyer_address` varchar(255) NOT NULL DEFAULT '' COMMENT '收货地址',
   `seller_uid` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '卖家编号',
   `seller_username` varchar(30) NOT NULL COMMENT '卖家用户名',
   `pay_id` varchar(30) NOT NULL COMMENT '支付标识',
@@ -4807,7 +4803,7 @@ CREATE TABLE `cmf_trade_order` (
   `pay_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '支付时间',
   `end_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '完成时间',
   `delete_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '删除时间',
-  `status` tinyint(3) NOT NULL DEFAULT '0' COMMENT '状态：-11过期 -5卖家取消失败,-4买家取消失败,-3管理员取消,-2卖家取消,-1买家取消,0未支付订金,1预约中,8支付全部,10完成(确认收货、取消成功)',
+  `status` tinyint(3) NOT NULL DEFAULT '0' COMMENT '状态：-11过期 -5卖家取消失败,-4买家取消失败,-3管理员取消,-2卖家取消,-1买家取消,0未支付订金,1预约中,8支付全部,10完成(确认收货)',
   `audit_data` varchar(255) NOT NULL COMMENT '审核资料：上传票据照片',
   PRIMARY KEY (`id`),
   KEY `idx1` (`pay_id`),
@@ -4819,7 +4815,7 @@ CREATE TABLE `cmf_trade_order` (
 -- ----------------------------
 -- Records of cmf_trade_order
 -- ----------------------------
-INSERT INTO `cmf_trade_order` VALUES ('1', '1', 'DSC20171025-f5re4e', '', '3', 'lothar', '', '1', 'admin', 'alipay', '0.00', '1', '0.00', '', '0.00', '', '100.00', '0.00', '订单测试', '', '{\"username\":\"\",\"contact\":\"\",\"driving_license\":\"\"}', '1509613450', '0', '0', '0', '8', '');
+INSERT INTO `cmf_trade_order` VALUES ('1', '1', 'DSC20171025-f5re4e', '', '3', '洛萨', '18356082312', '合肥市蜀山区佛子岭路66号', '1', 'admin', 'alipay', '0.00', '1', '0.00', '', '0.00', '', '100.00', '0.00', '订单测试', '', '{\"username\":\"\",\"contact\":\"\",\"driving_license\":\"\"}', '1509613450', '0', '0', '0', '8', '');
 
 -- ----------------------------
 -- Table structure for cmf_trade_order_detail
@@ -4908,7 +4904,7 @@ CREATE TABLE `cmf_user` (
 -- ----------------------------
 INSERT INTO `cmf_user` VALUES ('1', '1', 'admin', 'admin', '###b0b5b1441fcc40910db4b7d99d049ddf', 'admin@admin.com', '', '', '0', '0', '0', '0', '', '', '1507865317', '1509948972', '127.0.0.1', '1', '', '');
 INSERT INTO `cmf_user` VALUES ('2', '1', '超人不会飞', 'super', '###797fe4d0d1b299ac9b581f4fa4025dbb', 'super@qq.com', '', '', '0', '0', '0', '0', '', '', '0', '0', '', '1', '', '');
-INSERT INTO `cmf_user` VALUES ('3', '1', '洛萨', 'lothar', '###797fe4d0d1b299ac9b581f4fa4025dbb', 'lothar@qq.com', '未填写', 'avatar/20171125/584d5aa4308ccc597df494da2b84700d.jpg', '0', '785865600', '0', '0', '', '', '0', '1511748208', '127.0.0.1', '1', '', '{\"qq\":\"34242432\",\"address\":\"56特有涂改液\"}');
+INSERT INTO `cmf_user` VALUES ('3', '1', '洛萨', 'lothar', '###797fe4d0d1b299ac9b581f4fa4025dbb', 'lothar@qq.com', '13333333333', 'avatar/20171125/584d5aa4308ccc597df494da2b84700d.jpg', '0', '785865600', '0', '0', '', '', '0', '1511748208', '127.0.0.1', '1', '', '{\"qq\":\"34242432\",\"address\":\"56特有涂改液\"}');
 
 -- ----------------------------
 -- Table structure for cmf_user_action
@@ -5126,10 +5122,10 @@ CREATE TABLE `cmf_usual_car` (
 -- ----------------------------
 -- Records of cmf_usual_car
 -- ----------------------------
-INSERT INTO `cmf_usual_car` VALUES ('1', '2', '2', '2', '1', '大众 CC 2015款 3.0 自动 V6', '', '', 'eq123456789875463', '皖AH67XB', '2', '33.00', '1510243200', '', '0', '', '', '', '', '0', '3', '3401', '1970', '1510814246', '0', '0', '0', '0', '', '', '', '{\"car_seating\":\"\",\"car_color\":\"\",\"car_length\":\"\",\"car_effluent\":\"\",\"car_fuel\":\"\",\"car_displacement\":\"\",\"car_gearbox\":\"\",\"thumbnail\":\"http:\\/\\/tx.car\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/car02.jpg\"}', '1', '1', '{\"username\":\"王铮\",\"contact\":\"手机：13333333333\",\"plateNo\":\"皖AH67XB\",\"driving_license\":\"\"}', '', '', '', '10000', '1', '1509590656', '10.78', '3', '10.78', '10.21', '1', '');
-INSERT INTO `cmf_usual_car` VALUES ('2', '4', '3', '2', '1', '福特 福克斯两厢 2013款 1.8 手动 经典时尚型', '', '', 'xzuih433hf7463343', '皖H967JN', '0', '1.00', '1510329600', '5', '2.1', '1', '5', '3', '1', '0', '3', '3401', '1970', '1510814361', '0', '0', '0', '0', '', '', '', '{\"car_seating\":\"5\",\"car_color\":\"3\",\"car_length\":\"121\",\"car_effluent\":\"5\",\"car_fuel\":\"1\",\"car_displacement\":\"2.1~2.5\",\"car_gearbox\":\"1\",\"thumbnail\":\"http:\\/\\/tx.car\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/car01.jpg\"}', '1', '1', '{\"username\":\"澄迈\",\"contact\":\"\",\"plateNo\":\"皖H967JN\",\"driving_license\":\"\"}', '', '', '', '10000', '1', '1510392426', '12.24', '1', '12.24', '11.99', '1', '');
-INSERT INTO `cmf_usual_car` VALUES ('3', '1', '0', '4', '1', '宝马7系 2009款 740Li领先型', '', '', '', '皖A95K88', '0', '14.00', '1350057600', '5', '2.5', '3', '5', '3', '1', '0', '3', '46', '1970', '1511509730', '0', '0', '0', '0', '', '', '', '{\"car_seating\":\"5\",\"car_color\":\"3\",\"car_length\":\"\",\"car_age\":\"\",\"car_effluent\":\"5\",\"car_fuel\":\"1\",\"car_displacement\":\"2.5~3\",\"car_mileage\":\"\",\"car_gearbox\":\"3\",\"thumbnail\":\"\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/car01.jpg\"}', '1', '1', '{\"username\":\"贝尔\",\"contact\":\"QQ：456876646\",\"plateNo\":\"皖A95K88\",\"driving_license\":\"https:\\/\\/c1.xinstatic.com\\/f2\\/20171113\\/1802\\/5a096daf09902191543_18.jpg\"}', '', '', '', '10000', '1', '1510552638', '128.95', '0', '0.00', '0.00', '1', '');
-INSERT INTO `cmf_usual_car` VALUES ('4', '2', '8', '2', '3', '洛萨的车子：', '', '', '', '', '1', '0.00', '0', '0', '0', '0', '1', '0', '0', '0', '3', '37', '1511595559', '1511595559', '0', '0', '0', '0', '', '', '', '', '1', '0', '{\"username\":\"\",\"contact\":\"手机：13333333333\"}', '', '', '', '10000', '-1', '0', '0.00', '0', '0.00', '0.00', '1', '');
+INSERT INTO `cmf_usual_car` VALUES ('1', '2', '2', '2', '1', '大众 CC 2015款 3.0 自动 V6', '', '', 'eq123456789875463', '皖AH67XB', '2', '33.00', '1510243200', '', '0', '', '', '', '', '0', '3', '3401', '1510814246', '1510814246', '0', '0', '0', '0', '', '', '', '{\"car_seating\":\"\",\"car_color\":\"\",\"car_length\":\"\",\"car_effluent\":\"\",\"car_fuel\":\"\",\"car_displacement\":\"\",\"car_gearbox\":\"\",\"thumbnail\":\"http:\\/\\/tx.car\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/car02.jpg\"}', '1', '1', '{\"username\":\"王铮\",\"contact\":\"手机：13333333333\",\"plateNo\":\"皖AH67XB\",\"driving_license\":\"\"}', '', '', '', '10000', '1', '1509590656', '10.78', '3', '10.78', '10.21', '1', '');
+INSERT INTO `cmf_usual_car` VALUES ('2', '4', '3', '2', '1', '福特 福克斯两厢 2013款 1.8 手动 经典时尚型', '', '', 'xzuih433hf7463343', '皖H967JN', '0', '1.00', '1510329600', '5', '2.1', '1', '5', '3', '1', '0', '3', '3401', '1510814246', '1510814361', '0', '0', '0', '0', '', '', '', '{\"car_seating\":\"5\",\"car_color\":\"3\",\"car_length\":\"121\",\"car_effluent\":\"5\",\"car_fuel\":\"1\",\"car_displacement\":\"2.1~2.5\",\"car_gearbox\":\"1\",\"thumbnail\":\"http:\\/\\/tx.car\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/car01.jpg\"}', '1', '1', '{\"username\":\"澄迈\",\"contact\":\"\",\"plateNo\":\"皖H967JN\",\"driving_license\":\"\"}', '', '', '', '10000', '1', '1510392426', '12.24', '1', '12.24', '11.99', '1', '');
+INSERT INTO `cmf_usual_car` VALUES ('3', '1', '0', '4', '1', '宝马7系 2009款 740Li领先型', '', '', '', '皖A95K88', '0', '14.00', '1350057600', '5', '2.5', '3', '5', '3', '1', '0', '3', '46', '1510814246', '1511509730', '0', '0', '0', '0', '', '', '', '{\"car_seating\":\"5\",\"car_color\":\"3\",\"car_length\":\"\",\"car_age\":\"\",\"car_effluent\":\"5\",\"car_fuel\":\"1\",\"car_displacement\":\"2.5~3\",\"car_mileage\":\"\",\"car_gearbox\":\"3\",\"thumbnail\":\"\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/car01.jpg\"}', '1', '1', '{\"username\":\"贝尔\",\"contact\":\"QQ：456876646\",\"plateNo\":\"皖A95K88\",\"driving_license\":\"https:\\/\\/c1.xinstatic.com\\/f2\\/20171113\\/1802\\/5a096daf09902191543_18.jpg\"}', '', '', '', '10000', '1', '1510552638', '128.95', '0', '0.00', '0.00', '1', '');
+INSERT INTO `cmf_usual_car` VALUES ('4', '2', '8', '2', '3', '洛萨的车子：', '', '', '', '', '1', '0.00', '0', '', '0', '', '', '', '', '0', '3', '37', '1511595559', '1511934154', '0', '0', '0', '0', '', '', '', '{\"car_seating\":\"\",\"car_color\":\"\",\"car_length\":\"\",\"car_age\":\"\",\"car_effluent\":\"\",\"car_fuel\":\"\",\"car_displacement\":\"\",\"car_mileage\":\"\",\"car_gearbox\":\"\",\"thumbnail\":\"https:\\/\\/c1.xinstatic.com\\/f2\\/20171113\\/1802\\/5a096daf09902191543_18.jpg\"}', '1', '0', '{\"username\":\"洛萨\",\"contact\":\"手机：13333333333\",\"plateNo\":\"粤B6863R\",\"driving_license\":\"https:\\/\\/s5.xinstatic.com\\/www\\/img\\/cp05\\/114.png?v=17112101\",\"identity_card\":[{\"url\":\"https:\\/\\/s5.xinstatic.com\\/www\\/img\\/cp05\\/197.png?v=17112101\",\"name\":\"\"},{\"url\":\"https:\\/\\/s5.xinstatic.com\\/www\\/img\\/cp05\\/185.png?v=17112101\",\"name\":\"\"}]}', '', '', '', '10000', '0', '0', '0.00', '0', '0.00', '0.00', '1', '');
 
 -- ----------------------------
 -- Table structure for cmf_usual_company
@@ -5434,7 +5430,7 @@ DROP TABLE IF EXISTS `cmf_verify`;
 CREATE TABLE `cmf_verify` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` int(11) unsigned NOT NULL COMMENT '认证用户ID',
-  `auth_code` char(20) NOT NULL COMMENT '认证项目code，注意这里没有根据ID来做',
+  `auth_code` char(20) NOT NULL DEFAULT '' COMMENT '认证项目code，注意这里没有根据ID来做',
   `auth_count` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '认证次数',
   `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
   `end_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '结束时间',

@@ -15,6 +15,7 @@ use think\Validate;
 use think\Image;
 use cmf\controller\UserBaseController;
 use app\user\model\UserModel;
+use app\usual\model\VerifyModel;
 use think\Db;
 
 class ProfileController extends UserBaseController
@@ -57,6 +58,7 @@ class ProfileController extends UserBaseController
      */
     public function editPost()
     {
+        $userId = cmf_get_current_user_id();
         if ($this->request->isPost()) {
             $validate = new Validate([
                 'user_nickname' => 'chsDash|max:32',
@@ -80,9 +82,10 @@ class ProfileController extends UserBaseController
             ]);
 
             $data = $this->request->post();
-            if (!empty($data['verify'])) {
-                // $verify = $data['verify'];
-                // 处理认证资料
+
+            // 处理认证资料 手机号 邮箱 身份证
+            $verifyModel = new VerifyModel();
+            if (!empty($data['identity_card'])) {
                 // $file_var = ['driving_license','identity_card'];
                 // $file_var = ['identify1','identify2'];
                 // $ups = $carModel->uploadPhotos($file_var);
@@ -92,7 +95,23 @@ class ProfileController extends UserBaseController
                 //     }
                 //     $verify['more'][$key] = $it['data'];
                 // }
+                // 直接拿官版的
+                $veri['more']['identity_card'] = $verifyModel->dealFiles($data['identity_card']);
+                $verify = lothar_verify($userId,'certification',true);
+                if (empty($verify)) {
+                    $veri = [
+                        'user_id'   => $userId,
+                        'auth_code'      => 'certification',
+                    ];
+                    $verifyModel->adminAddArticle($veri);
+                } else {
+                    $veri['id'] = $verify['id'];
+                    // $veri['auth_status'] = 0;
+                    $verifyModel->adminEditArticle($veri);
+                }
             }
+
+
             if (!empty($data['user'])) {
                 $data = $data['user'];
             }

@@ -118,18 +118,17 @@ class PostController extends HomeBaseController
                 }
 
                 // 行驶证 单图不需要额外处理
-                // $cardata['identi']['driving_license'];
-                // 身份证
-                // if (!empty($cardata['identi']['identity_card'])) {
-                //     $cardata['identi']['identity_card'] = $carModel->dealFiles($cardata['identi']['identity_card']);
+                // $file_var = ['driving_license','identity_card'];
+                // $carUp = $carModel->uploadPhotos($file_var);
+                // foreach ($carUp as $key => $it) {
+                //     if (!empty($it['err'])) {
+                //         $this->error($it['err']);
+                //     }
+                //     $cardata['identi'][$key] = $it['data'];
                 // }
-                $file_var = ['driving_license','identity_card'];
-                $carUp = $carModel->uploadPhotos($file_var);
-                foreach ($carUp as $key => $it) {
-                    if (!empty($it['err'])) {
-                        $this->error($it['err']);
-                    }
-                    $cardata['identi'][$key] = $it['data'];
+                // 直接拿官版的
+                if (!empty($data['identity_card'])) {
+                    $cardata['identi']['identity_card'] = $carModel->dealFiles($data['identity_card']);
                 }
 
                 $carModel->adminAddArticle($cardata);
@@ -143,6 +142,7 @@ class PostController extends HomeBaseController
             $post_pre = session('insuranceStep1');
             $post = array_merge($post,$post_pre);
             $post['user_id'] = $userId;
+            $post['create_time'] = time();
             $result = $this->validate($post, 'Post.step3');
             if ($result !== true) {
                 $this->error($result);

@@ -170,6 +170,8 @@ class TradeController extends UserBaseController
             $post['user_id'] = $userId;
             $post['update_time'] = time();
 
+            $carModel = new UsualCarModel();
+
             if (empty($post['sell_status'])) {
                 $valid = 'seller';
             } else {
@@ -211,23 +213,23 @@ class TradeController extends UserBaseController
 
             // 直接拿官版的
             if (!empty($data['photo'])) {
-                $post['more']['photos'] = $this->Model->dealFiles($data['photo']);
+                $post['more']['photos'] = $carModel->dealFiles($data['photo']);
             }
             if (!empty($data['identity_card'])) {
-                $post['identi']['identity_card'] = $this->Model->dealFiles($data['identity_card']);
+                $post['identi']['identity_card'] = $carModel->dealFiles($data['identity_card']);
             }
             if (!empty($data['file'])) {
-                $post['more']['files'] = $this->Model->dealFiles($data['file']);
+                $post['more']['files'] = $carModel->dealFiles($data['file']);
             }
 
 // dump($post);
 // die;
 
             if (!empty($id)) {
-                $result = model('usual/UsualCar')->adminAddArticle($post);
+                $result = $carModel->adminAddArticle($post);
                 $id = $result->id;
             } else {
-                $result = model('usual/UsualCar')->adminEditArticle($post);
+                $result = $carModel->adminEditArticle($post);
             }
 
             $this->success('提交成功',url('Trade/sellerCar',['id'=>$id]));

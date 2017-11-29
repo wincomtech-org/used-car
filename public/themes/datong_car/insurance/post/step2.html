@@ -7,6 +7,23 @@
 
     <include file="public@head"/>
     <hook name="before_head_end"/>
+
+    <style type="text/css">
+        .pic-list li {
+            margin-bottom: 5px;
+        }
+    </style>
+    <script type="text/html" id="identity_card-item-tpl">
+        <li id="saved-identity_card{id}">
+            <input id="identity_card-{id}" type="hidden" name="identity_card[urls][]" value="{filepath}">
+            <input class="form-control" id="identity_card-{id}-name" type="text" name="identity_card[names][]" value="{name}"
+                   style="width: 200px;" title="图片名称">
+            <img id="identity_card-{id}-preview" src="{url}" style="height:36px;width:36px;"
+                 onclick="imagePreviewDialog(this.src);">
+            <a href="javascript:uploadOneImage('图片上传','#identity_card-{id}');">替换</a>
+            <a href="javascript:(function(){$('#saved-identity_card{id}').remove();})();">移除</a>
+        </li>
+    </script>
 </head>
 <body>
     <!-- 头部 -->
@@ -55,16 +72,14 @@
                         <li class="left">行车照片</li>
                         <li class="right">
                             <div class="file">
-                                <span class="file_con">
-                                    <input type="file" name="driving_license" id="xcz">
-                                    <label for="xcz"></label>
-                                </span>
+                                <input type="hidden" name="car[identi][driving_license]" id="driving_license" value="">
+                                <a href="javascript:uploadOneImage('图片上传','#driving_license');">
+                                    <img src="__TMPL__/public/assets/images/default-thumbnail.png"
+                                         id="driving_license-preview"
+                                         width="135" style="cursor:pointer"/>
+                                </a>
                                 <p><i>请上传行车本照片（尽可能的小）</i></p>
                             </div>
-                            <div class="img_div" style="display:none;">
-                                <img class="show_img" src=""></img>
-                            </div>
-                            <b class="red" style="display:none">*请上传行车本照片</b>
                         </li>
                     </ul>
 
@@ -72,16 +87,10 @@
                         <li class="left">身份证照片</li>
                         <li class="right">
                             <div class="file">
-                                <span class="file_con">
-                                    <input type="file" name="identity_card" id="sfz">
-                                    <label for="sfz"></label>
-                                </span>
+                                <ul id="identity_card" class="pic-list list-unstyled form-inline"></ul>
+                                <a href="javascript:uploadMultiImage('图片上传','#identity_card','identity_card-item-tpl');" class="btn btn-default btn-sm">选择图片</a>
                                 <p><i>请上传身份证正面照片（尽可能的小）</i></p>
                             </div>
-                            <div class="img_div" style="display:none;">
-                                <img class="show_img" src=""></img>
-                            </div>
-                            <b class="red" style="display:none">*请上传身份证正面照片</b>
                         </li>
                     </ul>
                     <p class="data_filling_btn">
