@@ -31,8 +31,8 @@
                                     <thead>
                                         <tr>
                                             <th>车辆信息</th>
-                                            <th>客户信息</th>
                                             <th>费用</th>
+                                            <th>客户姓名</th>
                                             <th>状态</th>
                                             <th>操作</th>
                                         </tr>
@@ -53,21 +53,23 @@
                                         </tr>
                                         <tr>
                                             <td class="order_detail">
-                                                <div class="left"><img src="{:cmf_get_image_preview_url($car_more.thumbnail)}" alt=""></div>
+                                                <div class="left">
+                                                    <a href="{:url('Trade/sellercar',['id'=>$vo.car_id])}"><img src="{:cmf_get_image_preview_url($car_more.thumbnail)}" alt=""></a>
+                                                </div>
                                                 <div class="right">
-                                                    <h6>{$vo.car_name}</h6>
+                                                    <h6><a href="{:url('Trade/sellercar',['id'=>$vo.car_id])}">{$vo.car_name}</a></h6>
                                                     <p><span>所属车服：</span><span>大通车服</span></p>
                                                 </div>
-                                            </td>
-                                            <td class="subscription">
-                                                <span>姓名：<a href="#">{$vo.buyer_username?$vo.buyer_username:$vo.buyer_nickname}</a></span>
-                                                <span>联系方式：{$vo.buyer_contact}</span>
-                                                <span>认证：<a class="state1">已认证</a><a class="state2">未认证</a></span>
                                             </td>
                                             <td class="state">
                                                 <span>订金：<a class="state1">￥{$vo.bargain_money}</a></span>
                                                 <span>全额：<a class="state1">￥{$vo.order_amount}</a></span>
                                                 <span>支付方式：<a class="state1">{$vo.pay_id}</a></span>
+                                            </td>
+                                            <td class="subscription">
+                                                <span>姓名：<a href="#">{$vo.buyer_username?$vo.buyer_username:$vo.buyer_nickname}</a></span>
+                                                <!-- <span>联系方式：{$vo.buyer_contact}</span> -->
+                                                <!-- <span>认证：<a class="state1">已认证</a><a class="state2">未认证</a></span> -->
                                             </td>
                                             <td class="operate">
                                                 <span>

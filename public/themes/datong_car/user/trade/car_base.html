@@ -4,12 +4,12 @@
         <li class="details_item">
             <span class="details_tit">车辆标题</span>
             <div class="idetails_con">
-                <input type="text" name="" placeholder="车辆名称" class="placeholder" >
+                <input type="text" name="post[name]" placeholder="起个漂亮的标题吧" class="placeholder" >
                  <!-- <p><i class="tip">请核实后在填写</i></p> -->
             </div>
         </li>
         <li class="details_item">
-            <span class="details_tit">车辆标题</span>
+            <span class="details_tit">购入价格</span>
             <div class="idetails_con">
                 <input class="form-control" type="text" name="post[price]" value="{$post.price|default='0.00'}" /> 万元
             </div>
@@ -72,7 +72,7 @@
         <li class="details_item">
             <span class="details_tit">详情介绍</span>
             <div class="idetails_con">
-                <textarea name=""></textarea>
+                <textarea name="post[content]"></textarea>
             </div>
         </li>
 
@@ -86,3 +86,27 @@
         </li>
     </ul>
 </div>
+<script type="text/javascript">
+    $(function () {
+
+        $('#input-province').change(function() {
+            var Id = $(this).val();
+            $.ajax({
+                url: '{:url("usual/Ajax/getCitys")}',
+                type: 'POST',
+                // dataType: 'json',
+                data: {parentId: Id},
+                success:function(data){
+                    $('#input-city').show().html(data);
+                }
+            });
+        });
+
+        $('#input-series').change(function() {
+            var Id = $(this).val();
+            $.post('{:url("AdminSeries/getSecondSeries")}', {parentId: Id}, function(data) {
+                $('#input-serie').show().html(data);
+            });
+        });
+    })
+</script>

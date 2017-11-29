@@ -81,7 +81,7 @@ class PostController extends HomeBaseController
             'identi'    => ['username'=>'','contact'=>'手机：'.$tel],
         ];
 
-        $result = $this->validate($post, 'usual/Car.sell');
+        $result = $this->validate($post, 'usual/Car.seller');
         if ($result !== true) {
             return lothar_toJson(0,$result);
         }

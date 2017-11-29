@@ -149,21 +149,45 @@ class TradeController extends UserBaseController
         $userId = cmf_get_current_user_id();
 
         if ($this->request->isPost()) {
-            $post = $this->request->post();
-            $post['user_id'] = $userId;
+            $data = $this->request->post();
+            $post = $data['post'];
+            $more = $data['post']['more'];
 
-            if (!empty($id)) {
-                $post['update_time'] = $post['create_time'] = time();
-                $valid = 'add';
-            } else {
-                $post['update_time'] = time();
-                $valid = 'edit';
+            $id = intval($post['id']);
+
+            $post   = model('usual/UsualItem')->ItemMulti($post,$more);
+
+            if (empty($post['serie_id'])) {
+                $post['serie_id'] = $post['serie_pid'];
             }
+            $post['user_id'] = $userId;
+            $post['update_time'] = time();
 
+            if (empty($post['sell_status'])) {
+                $valid = 'seller';
+            } else {
+                if (!empty($id)) {
+                    $post['create_time'] = time();
+                    $valid = 'add';
+                } else {
+                    $valid = 'edit';
+                }
+            }
             $result = $this->validate($post,'usual/Car.'.$valid);
             if ($result!==true) {
                 $this->error($result->getError());
             }
+
+            // if (!empty($data['photo'])) {
+            //     $post['more']['photos'] = $this->Model->dealFiles($data['photo']);
+            // }
+            // if (!empty($data['identity_card'])) {
+            //     $post['identi']['identity_card'] = $this->Model->dealFiles($data['identity_card']);
+            // }
+            // if (!empty($data['file'])) {
+            //     $post['more']['files'] = $this->Model->dealFiles($data['file']);
+            // }
+
 
             if (!empty($id)) {
                 $result = model('usual/UsualCar')->adminAddArticle($post);
@@ -173,7 +197,6 @@ class TradeController extends UserBaseController
             }
 
             $this->success('提交成功',url('Trade/sellerCar',['id'=>$id]));
-
         }
     }
 
@@ -185,8 +208,8 @@ class TradeController extends UserBaseController
         $userId = cmf_get_current_user_id();
 
         $extra = [
-            'seller_uid' => $userId,
-            // 'seller_uid' => 1,
+            // 'seller_uid' => $userId,
+            'seller_uid' => 1,
         ];
 
         $list = model('trade/TradeOrder')->getLists([],'','',$extra);

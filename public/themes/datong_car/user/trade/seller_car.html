@@ -23,7 +23,7 @@
                     <include file="trade/sellernav" />
                 </div>
                 <div class="person_right_con">
-                    <form action="" method="post" accept-charset="utf-8">
+                    <form action="{:url('user/Trade/sellerCarPost')}" method="post" accept-charset="utf-8">
                         <!-- 一下是有几个步骤的，点击上下页可以看到之前的 -->
                         <div class="seller_center" >
                             <include file="trade/car_base" />
@@ -45,6 +45,7 @@
                             <include file="trade/car_shop" />
                         </div>
                         </notempty>
+                        <input type="hidden" name="post[id]" value="{$post.id|default=''}">
                     </form>
                     <div class="custom_service">
                         <span class="icon"><img src="__TMPL__/public/assets/images/example/custorm.png" alt=""></span>
