@@ -772,7 +772,8 @@
 .user_login_lists li{width:100%;padding:14px 0;position:relative;}
 .user_login_lists li.user_login_input label{margin-left:43px !important;}
 .user_login_lists li input{width:100%;height:40px;line-height:40px;padding-left:16px;font-size:16px;color:#999;border:1px solid #ddd;box-sizing:border-box;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;-ms-box-sizing:border-box;-o-box-sizing:border-box;}
-.user_login_lists li .yanzheng{position:absolute;right:0px;top:14px;display:block;width:87px;height:40px;line-height:40px;text-align:center;font-size:16px;border:1px solid #ddd;box-sizing:border-box;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;-ms-box-sizing:border-box;-o-box-sizing:border-box;}
+.user_login_lists li .yanzheng{position:absolute;right:0px;top:14px;display:block;width:107px;height:40px;line-height:40px;text-align:center;font-size:16px;border:1px solid #ddd;box-sizing:border-box;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;-ms-box-sizing:border-box;-o-box-sizing:border-box;}
+.user_login_lists li .yanzheng img{width:100%;height:100%;}
 .user_login_lists li.user_login_input input{padding-left:40px;}
 .user_login_lists li .tel_icon{background:url(../images/example/login_icon.png) no-repeat 10px 5px;}
 .user_login_lists li .password_icon{background:url(../images/example/login_icon.png) no-repeat 10px -35px;}
@@ -878,7 +879,7 @@
 
 .person_right_con{width:100%;padding:1rem 2rem;margin:1rem 0;box-sizing:border-box;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;-ms-box-sizing:border-box;-o-box-sizing:border-box;}
 .person .info_tit{font-size:16px;padding:10px 0;border-bottom:1px solid #ddd;}
-.info_tit_tip{font-size:12px;color:#d00000;margin-left:10px;}
+.info_tit_tip{font-size:12px;color:#d00000;margin-left:10px;display:none;}
 .person .info_tit:after{content:"";display:block;clear:both;}
 .person .info_tit .page_turning{float:right;}
 .page_turning li{float:left;width:62px;height:30px;line-height:30px;text-align:center;border:1px solid #ddd;margin-left:10px;}
@@ -886,12 +887,13 @@
 .person .info_tit a{color:#666;font-size:12px;}
 .details_item{display:table;margin:15px 0;}
 .details_item .details_tit{display:table-cell;width:120px;font-size:16px;vertical-align:middle;}
-.details_item .idetails_con{display:table-cell;}
+.details_item .idetails_con{display:table-cell;font-size:16px;}
 .details_item .idetails_con ul:after{content:"";display:block;clear:both;}
 .details_item .idetails_con li{float:Left;}
 .details_item .idetails_con li:first-child{margin-right:3rem;}
 .details_item .idetails_con li span{display:inline-block;vertical-align:middle;margin-right:1rem;font-size:16px;}
 .details_item .idetails_con li .img{display:inline-block;vertical-align:middle;position:relative;}
+
 .details_item .idetails_con li .img img{width:93px;height:58px;}
 .details_item .idetails_con input{height:40px;line-height:40px;min-width:380px;font-size:14px;border:1px solid #ddd;padding-left:6px;box-sizing:border-box;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;-ms-box-sizing:border-box;-o-box-sizing:border-box;}
 .details_item .idetails_con textarea{font-size:16px;width:380px;border:1px solid #ddd;height:4rem;padding:5px;box-sizing:border-box;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;-ms-box-sizing:border-box;-o-box-sizing:border-box;}
@@ -900,7 +902,13 @@
 .details_item .idetails_con p.no{color:#d00000;}
 .btn-red{display:inline-block;cursor:pointer;width:120px !important;min-width:0 !important;height:40px;line-height:40px;color:#fff;background-color:#d00000;text-align:center;font-size:14px;margin:20px 10px;}
 .details_item.authenticated .idetails_con li .img .file{position:absolute;top:0;}
-.details_item.authenticated .idetails_con li .img .file .file_con{background:none;}
+.details_item.authenticated .idetails_con li .img .file .file_con{background:none;position:relative;}
+.details_item.authenticated .idetails_con li .img .file .file_con img{position:absolute;top:0;left:0;width:93px;height:58px;}
+.details_item .idetails_con select[name="user[sex]"]{border:1px solid #ddd;height:40px;line-height:40px;}
+.idetails_con .analogy select{width:49%;font-size:16px;border:1px solid #ddd;height:40px;line-height:40px;min-width:92px;}
+.idetails_con .analogy select:first-child{margin-right:2%;}
+.idetails_con .analogy select:last-child{width:49% !important;}
+
 
 /*卖家中心*/
 .seller_center .info_detail_list{width:600px;float:left;}
@@ -911,7 +919,7 @@
 .custom_service dd{font-size:14px;padding:0 10px;box-sizing:border-box;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;-ms-box-sizing:border-box;-o-box-sizing:border-box;}
 .custom_service dd a{display:block;width:100%;height:100%;color:#333;border-bottom:1px solid #ddd;padding-top:10px;padding-bottom:10px;}
 .seller_center .analogy{width:380px;border:none;}
-.seller_center .analogy p{padding:0;width:auto;}
+.seller_center .analogy p{padding:0;width:auto;position:static;}
 .details_item .idetails_con .analogy_con input{border:none;}
 
 /*个人中心车辆业务*/
@@ -967,22 +975,22 @@
 .home_list{width:100%;margin-top:.5rem;}
 .home_list table{width:100%;border-collapse: collapse;}
 .home_list table:not(:first-child){margin-bottom:20px;}
-.home_list table td{font-size:16px;}
+.home_list table td{font-size:16px;box-sizing:border-box;}
 .home_list table thead th{padding:36px 14px 14px;font-size:16px;font-weight:normal;text-align:center; white-space: nowrap;}
-.home_list table thead th:first-child{width:46%;}
-.home_list table thead th:nth-child(2){width:10%;}
-.home_list table thead th:nth-child(3){width:11%;}
-.home_list table thead th:nth-child(4){width:15%;}
-.home_list table thead th:nth-child(5){width:15%;}
+.home_list table thead th:first-child{width:42%;}
+.home_list table thead th:nth-child(2){width:20%;}
+.home_list table thead th:nth-child(3){width:13%;}
+.home_list table thead th:nth-child(4){width:10%;}
+.home_list table thead th:nth-child(5){width:14%;}
 .home_list table tbody tr{border:1px solid #ddd;}
 .home_list table tbody tr:first-child{background-color:#f0f0f0;}
-.home_list table tbody tr:nth-child(2) td{text-align:center;text-align:left;  padding: 27px 14px;}
+.home_list table tbody tr:nth-child(2) td{text-align:center;text-align:left;  padding: 15px 10px;}
 .home_list table tbody tr:first-child td{padding:14px 10px;}
-.home_list table tbody tr td:first-child{width:46%;}
-.home_list table tbody tr td:nth-child(2){width:10%;}
-.home_list table tbody tr td:nth-child(3){width:11%;}
-.home_list table tbody tr td:nth-child(4){width:15%;}
-.home_list table tbody tr td:nth-child(5){width:15%;}
+.home_list table tbody tr td:first-child{width:42%;}
+.home_list table tbody tr td:nth-child(2){width:20%;}
+.home_list table tbody tr td:nth-child(3){width:13%;}
+.home_list table tbody tr td:nth-child(4){width:10%;}
+.home_list table tbody tr td:nth-child(5){width:14%;}
 .table_caption li{float:left;}
 .table_caption li:not(:last-child){margin-right:30px;}
 .table_caption:after{content:"";display:block;}
@@ -998,12 +1006,18 @@
 .state span a,.operate span a,.detail span a{font-size:16px;white-space: nowrap;}
 
 .state1,.operate1{color:#d00000;}
+.state2{color:green;}
 /*.state2,.operate2,.detail2{color:#083090;}*/
 .detail3{color:green;}
+.expense span{display:block;margin:9px 0;}
+.home_list table tbody tr:nth-child(2) td.subscription{text-align:center;}
+.subscription span{display:block;text-align:center;}
 
-.home_list .detail1{display:block;width:80px;height:30px;line-height:30px;background-color:#d00000;color:#fff;font-size:14px !important;margin:3px auto;}
-.home_list .detail2{display:block;width:80px;height:30px;line-height:30px;background-color:#2662f1;color:#fff;font-size:14px !important;margin:3px auto;}
-.home_list .detail3{display:block;width:80px;height:30px;line-height:30px;background-color:transparent;color:#fff;font-size:14px !important;margin:3px auto;color:#666;}
+
+.home_list .detail1,.home_list .detail2,.home_list .detail3{display:block;width:80px;height:30px;line-height:30px;font-size:14px !important;margin:3px auto;color:#fff;}
+.home_list .detail1{background-color:#d00000;}
+.home_list .detail2{background-color:#2662f1;}
+.home_list .detail3{background-color:transparent;color:#666;}
 
 /*资金管理*/
 .fund_managemen_title{font-size:16px;padding: 10px 0;}
@@ -1722,7 +1736,7 @@
  /*个人中心*/
 
   @media only screen and (max-width:1199px){
-    .person_right_con{padding:.4rem .8rem;}
+    .person_right_con{padding:.4rem 0rem;}
      /*个人中心资料详情*/
     .form_details .txt{display:inline-block;line-height:1.3;vertical-align:middle;font-size:15px;width:calc(100% - 139px);width:-webkit-calc(100% - 139px);width:-moz-calc(100% - 139px);;width:-ms-calc(100% - 139px);;width:-o-calc(100% - 139px);}
   }
@@ -1740,9 +1754,8 @@
 
     /*买家中心*/
     .home_list table tbody tr:nth-child(2) td{padding:10px 6px;}
-    .table_caption li:not(:last-child){margin-bottom:10px;margin-right:0;display:block;width:100%;}
     .state span a, .operate span a, .detail span a{font-size:14px;}
-    .order_detail .right h6{    white-space: nowrap;font-size:14px;}
+    .order_detail .right h6{word-break:break-all;font-size:14px;}
     .home_list table td{font-size:14px;}
     .order_detail .right h6, .order_detail .right span{font-size:14px;}
 
@@ -1766,6 +1779,7 @@
 
     /*卖家中心*/
     .seller_center .info_detail_list{width:500px;}
+    .home_list .detail1, .home_list .detail2, .home_list .detail3{width:66px;height:26px;line-height:26px;font-size:12px !important;}
 
    }
     @media only screen and (max-width:1199px) and (min-width:1024px){
@@ -1779,15 +1793,22 @@
         .seller_center .info_detail_list{float:none;}
         .custom_service{float:none;}
         .custom_service{max-width:434px;width:80%;min-width:260px;margin:0 auto;}
-
-   }
-   @media only screen and (max-width:1024px) and (min-width:768px){
-    .vehicle_con_detail_items .txt{padding:10px;}
-    .order_detail .left{display:block;}
-   }
-   @media only screen and (max-width:767px){
+        .order_detail .right{width:calc(100% - 104px);width:-webkit-calc(100% - 104px);width:-moz-calc(100% - 104px);width:-ms-calc(100% - 104px);}
+        
         /*滚动条提示*/
         .scroll_tip{display:block;}
+        .info_tit_tip{display:inline-block;}
+   
+   }
+
+   @media only screen and (max-width:1023px) and (min-width:768px){
+    .vehicle_con_detail_items .txt{padding:10px;}
+    .order_detail .left{display:inline-block;}
+    .table_div {width: 100%;overflow-x: scroll;}
+    .home_list table{width:768px;}
+   }
+   @media only screen and (max-width:767px){
+        
 
 
         .person_left{width:100%;}
@@ -1820,7 +1841,7 @@
 
         .home_list{width:100%;}
         .table_div{width:100%;overflow-x:scroll;}
-        .home_list table{width:700px;}
+        .home_list table{width:768px;}
         .home_list table thead th{padding:21px 5px 14px;}
         .home_list .page2_con{}
 
@@ -1835,6 +1856,9 @@
         .home_list table tbody tr:nth-child(2) td{padding:20px 11px;}
         .order_detail .right h6, .order_detail .right span{font-size:14px;}
         .state span a, .operate span a, .detail span a{font-size:14px;}
+
+        
+        .home_list .detail1, .home_list .detail2, .home_list .detail3{width:66px;height:26px;line-height:26px;font-size:12px !important;}
 
 
 
@@ -1907,8 +1931,10 @@
 
      @media only screen and (max-width:375px){
         .details_item .details_tit{width:75px;min-width:75px;}
-        .details_item .idetails_con input{min-width:202px;}
+        .details_item .idetails_con input{min-width:201px;}
         .details_item .idetails_con li:first-child{margin-right:0;}
+        .details_item .idetails_con{font-size:12px;}
+
      }
 
 

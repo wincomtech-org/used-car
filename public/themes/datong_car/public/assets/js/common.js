@@ -816,13 +816,13 @@ function msgDialog(data) {
 		"list4_txt": data.addr,
 		"buttons": {
 			"确定": function() {
-				onlyChoseAlert.close();
+				$(this).parent().parent().hide();
 			}
 		}
 	};
 	simpleAlert(opts);
-}
 
+}
 
 /*引入 douphp 的*/
 /**
