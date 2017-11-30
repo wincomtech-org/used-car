@@ -7,7 +7,8 @@ class PostValidate extends Validate
 {
     protected $rule = [
         'id' => 'gt:0',
-        'insurance_id'   => 'gt:0',
+        'insurance_id' => 'gt:0',
+        'car_id'=>'require',
         'username'=>'require',
         'contact'=>'require',
         'driving_license'=>'require',
@@ -15,6 +16,8 @@ class PostValidate extends Validate
         'mobile' => 'checkMobile',
     ];
     protected $message = [
+        'insurance_id.gt' => '保险ID丢失',
+        'car_id.require' => '车子信息丢失',
         'username.require' => '姓名必填',
         'contact.require' => '联系方式必填',
         'driving_license.require' => '行车本照片必填',
@@ -24,7 +27,7 @@ class PostValidate extends Validate
     ];
     protected $scene = [
        'step2'  => ['insurance_id'],
-       'step3'  => ['id','plateNo'],
+       'step3'  => ['car_id'],
        'car'    => ['username','contact','driving_license','plateNo'],
     ];
 

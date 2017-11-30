@@ -121,6 +121,7 @@ class PostController extends HomeBaseController
 
                 $carValid = $cardata['identi'];
                 $carModel = new UsualCarModel();
+                // dump($carValid);die;
                 // $result = $this->validate($cardata, 'usual/Car.insurance');
                 $result = $this->validate($carValid, 'Post.car');
                 if ($result !== true) {
