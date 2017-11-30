@@ -66,10 +66,10 @@ class CarValidate extends Validate
     protected function isPlateNo($value)
     {
         $pattern = '/^[京津沪渝冀豫云辽黑湘皖鲁新苏浙赣鄂桂甘晋蒙陕吉闽贵粤青藏川宁琼使领A-Z]{1}[A-Z]{1}[A-Z_0-9]{5}$/';
-        if (!preg_match($pattern,$value)) {
-            return false;
+        if (preg_match($pattern,$value)) {
+            return true;
         }
-        return true;
+        return false;
     }
     protected function checkPlateNo($value)
     {

@@ -12,7 +12,7 @@ class PostValidate extends Validate
         'username'=>'require',
         'contact'=>'require',
         'driving_license'=>'require',
-        'plateNo' => 'require|checkCarNum',
+        'plateNo' => 'require|isPlateNo',
         'mobile' => 'checkMobile',
     ];
     protected $message = [
@@ -22,7 +22,7 @@ class PostValidate extends Validate
         'contact.require' => '联系方式必填',
         'driving_license.require' => '行车本照片必填',
         'plateNo.require' => '车牌号必填',
-        'plateNo.checkCarNum' => '车牌号格式不对',
+        'plateNo.isPlateNo' => '车牌号格式不对',
         'mobile.checkMobile' => '手机号格式不对',
     ];
     protected $scene = [
@@ -32,10 +32,13 @@ class PostValidate extends Validate
     ];
 
 
-
-    protected function checkCarNum($value)
+    protected function isPlateNo($value)
     {
-        return true;
+        $pattern = '/^[京津沪渝冀豫云辽黑湘皖鲁新苏浙赣鄂桂甘晋蒙陕吉闽贵粤青藏川宁琼使领A-Z]{1}[A-Z]{1}[A-Z_0-9]{5}$/';
+        if (preg_match($pattern,$value)) {
+            return true;
+        }
+        return false;
     }
     protected function checkMobile($value)
     {

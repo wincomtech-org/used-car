@@ -42,7 +42,7 @@ class InsuranceController extends UserBaseController
 
         if (!empty($page['car_id'])) {
             $identiInfo = Db::name('usual_car')->where('id',$page['car_id'])->value('identi');
-            $identiInfo = (array)json_decode(Db::name('usual_car')->where('id',$page['car_id'])->value('identi'));
+            $identiInfo = json_decode(Db::name('usual_car')->where('id',$page['car_id'])->value('identi'),true);
         } else {
             $identiInfo = $page['more'];
         }

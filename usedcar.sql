@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50540
 File Encoding         : 65001
 
-Date: 2017-11-30 19:37:48
+Date: 2017-11-30 20:30:57
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -4016,8 +4016,8 @@ CREATE TABLE `cmf_insurance` (
   `update_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '修改时间',
   `published_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '启用时间',
   `delete_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '删除时间',
-  `content` text NOT NULL COMMENT '总则',
-  `information` text NOT NULL COMMENT '投保须知',
+  `content` text COMMENT '总则',
+  `information` text COMMENT '投保须知',
   `more` text NOT NULL COMMENT '扩展属性：coverage勾选的公共险种模型',
   `remark` varchar(255) NOT NULL COMMENT '备注',
   `description` varchar(255) NOT NULL DEFAULT '' COMMENT '描述',
@@ -4066,9 +4066,9 @@ CREATE TABLE `cmf_insurance_coverage` (
   `published_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '启用时间',
   `delete_time` int(10) unsigned NOT NULL COMMENT '删除时间',
   `remark` varchar(255) NOT NULL COMMENT '备注',
-  `description` tinytext NOT NULL COMMENT '描述',
-  `content` text NOT NULL COMMENT '险种内容',
-  `more` text NOT NULL COMMENT '扩展属性',
+  `description` tinytext COMMENT '描述',
+  `content` text COMMENT '险种内容',
+  `more` text COMMENT '扩展属性',
   `is_top` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '置顶',
   `is_rec` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '推荐',
   `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '状态：-1禁用 0未启用 1启用',
@@ -4095,25 +4095,25 @@ INSERT INTO `cmf_insurance_coverage` VALUES ('9', '0', '2', '不计免额险', '
 DROP TABLE IF EXISTS `cmf_insurance_order`;
 CREATE TABLE `cmf_insurance_order` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `insurance_id` int(11) unsigned NOT NULL COMMENT '保险业务ID',
+  `insurance_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '保险业务ID',
   `coverIds` varchar(255) NOT NULL DEFAULT '' COMMENT '自选险种',
-  `car_id` int(11) unsigned NOT NULL COMMENT '车辆ID',
-  `user_id` int(11) unsigned NOT NULL COMMENT '用户ID',
-  `order_sn` varchar(30) NOT NULL COMMENT '保单编号',
-  `name` varchar(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '保险业务名称',
-  `amount` decimal(10,2) unsigned NOT NULL COMMENT '投保金额',
-  `company_name` varchar(150) NOT NULL COMMENT '投保公司名',
+  `car_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '车辆ID',
+  `user_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '用户ID',
+  `order_sn` varchar(30) NOT NULL DEFAULT '' COMMENT '保单编号',
+  `name` varchar(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '保险业务名称',
+  `amount` decimal(10,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '投保金额',
+  `company_name` varchar(150) NOT NULL DEFAULT '' COMMENT '投保公司名',
   `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
   `pay_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '支付时间(生效时间)',
   `appoint_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '预约时间',
   `finish_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '完成时间',
   `dead_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '失效时间',
   `delete_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '删除时间',
-  `more` text NOT NULL COMMENT '扩展属性：审核资料',
-  `remark` varchar(255) NOT NULL COMMENT '备注',
-  `description` varchar(255) NOT NULL COMMENT '描述',
+  `more` text COMMENT '扩展属性：审核资料',
+  `remark` varchar(255) NOT NULL DEFAULT '' COMMENT '备注',
+  `description` varchar(255) NOT NULL DEFAULT '' COMMENT '描述',
   `type` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT '投保类型：1线上 2线下',
-  `status` tinyint(2) NOT NULL COMMENT '状态：-11过期失效 -3管理员取消 -2卖家取消 -1取消/关闭 0待审核未支付 1已审核 5已确认合同 6已支付 10完成',
+  `status` tinyint(2) NOT NULL DEFAULT '0' COMMENT '状态：-11过期失效 -3管理员取消 -2卖家取消 -1取消/关闭 0待审核未支付 1已审核 5已确认合同 6已支付 10完成',
   `list_order` float unsigned NOT NULL DEFAULT '10000' COMMENT '排序：从小到大',
   PRIMARY KEY (`id`),
   KEY `idx1` (`user_id`),
@@ -4121,7 +4121,7 @@ CREATE TABLE `cmf_insurance_order` (
   KEY `idx3` (`insurance_id`),
   KEY `idx4` (`order_sn`),
   KEY `idx5` (`status`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COMMENT='保单表';
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COMMENT='保单表';
 
 -- ----------------------------
 -- Records of cmf_insurance_order
@@ -4129,6 +4129,7 @@ CREATE TABLE `cmf_insurance_order` (
 INSERT INTO `cmf_insurance_order` VALUES ('1', '1', '', '1', '1', 'ION1578875567', '', '0.00', '', '1477531500', '0', '0', '0', '1514337840', '0', '', '', '', '1', '0', '10000');
 INSERT INTO `cmf_insurance_order` VALUES ('2', '3', '', '2', '0', 'ION159995567', '', '0.00', '', '1477531500', '0', '0', '0', '1540261200', '0', '', '', '', '1', '0', '10000');
 INSERT INTO `cmf_insurance_order` VALUES ('3', '2', '', '3', '3', 'ION21958567', '', '1000.00', '', '1477531500', '1477542500', '0', '0', '1509067440', '0', '{\"plateNo\":\"皖A158578\",\"username\":\"王华\",\"contact\":\"13369852147\",\"driving_license\":\"\"}', '', '', '1', '1', '10000');
+INSERT INTO `cmf_insurance_order` VALUES ('4', '4', '[\"1\",\"2\"]', '5', '5', '', '', '0.00', '', '1512043775', '0', '0', '0', '0', '0', null, '', '', '1', '0', '10000');
 
 -- ----------------------------
 -- Table structure for cmf_link
@@ -4215,17 +4216,18 @@ CREATE TABLE `cmf_news` (
   `action` varchar(100) NOT NULL DEFAULT '' COMMENT '来源所在名称;格式:应用名+控制器+操作名,也可自己定义格式只要不发生冲突且惟一;',
   `app` varchar(50) NOT NULL DEFAULT '' COMMENT '消息的来源所在应用名或插件名等',
   `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
-  `content` text NOT NULL COMMENT '详情',
+  `content` text COMMENT '详情',
   `ip` char(15) NOT NULL DEFAULT '' COMMENT '用户ip',
   `status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '状态：0未读 1已读',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Records of cmf_news
 -- ----------------------------
 INSERT INTO `cmf_news` VALUES ('1', '免费登记卖车信息', 'usual_car:4', 'trade/post/regcar', 'trade', '1511595559', '客户ID：3，车子ID：4', '127.0.0.1', '0');
 INSERT INTO `cmf_news` VALUES ('2', '预约车辆服务：菜鸟验车', 'service:1', 'service/post/appointpost', 'service', '1511781898', '客户ID：3，公司ID：1', '127.0.0.1', '0');
+INSERT INTO `cmf_news` VALUES ('3', '预约保险', 'insurance_order:4', 'insurance/post/step2post', 'insurance', '1512043775', '客户ID：5，保单ID：4', '127.0.0.1', '0');
 
 -- ----------------------------
 -- Table structure for cmf_option
@@ -4570,17 +4572,17 @@ CREATE TABLE `cmf_service` (
   `seller_name` varchar(50) NOT NULL DEFAULT '' COMMENT '卖家名',
   `seller_contact` varchar(255) NOT NULL DEFAULT '' COMMENT '卖家联系方式',
   `seller_birthday` varchar(30) NOT NULL DEFAULT '' COMMENT '卖家生日',
-  `plateNo` char(7) NOT NULL DEFAULT '' COMMENT '车牌号',
-  `car_vin` char(17) NOT NULL DEFAULT '' COMMENT '车架号',
+  `plateNo` varchar(7) NOT NULL DEFAULT '' COMMENT '车牌号',
+  `car_vin` varchar(17) NOT NULL DEFAULT '' COMMENT '车架号',
   `reg_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '注册时间',
   `appoint_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '预约时间',
   `service_point` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '服务点',
   `service_address` varchar(255) NOT NULL DEFAULT '' COMMENT '服务详细地址',
   `coordinate` varchar(50) NOT NULL DEFAULT '' COMMENT '自定义服务点坐标',
-  `fix_history` text NOT NULL COMMENT '维修历史',
+  `fix_history` text COMMENT '维修历史',
   `remark` varchar(255) NOT NULL DEFAULT '' COMMENT '备注，给管理员区分记录类型用',
-  `description` text NOT NULL COMMENT '描述给前台用户用',
-  `more` text NOT NULL COMMENT '扩展属性',
+  `description` text COMMENT '描述给前台用户用',
+  `more` text COMMENT '扩展属性',
   `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
   `end_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '结束时间',
   `delete_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '删除时间',
@@ -4609,9 +4611,9 @@ CREATE TABLE `cmf_service_category` (
   `dev` varchar(20) NOT NULL DEFAULT '' COMMENT '开发者',
   `remark` varchar(255) NOT NULL DEFAULT '' COMMENT '备注',
   `description` varchar(255) NOT NULL DEFAULT '' COMMENT '业务描述',
-  `content` text NOT NULL COMMENT '内容',
-  `more` text NOT NULL COMMENT '业务扩展配置',
-  `indus_bid` tinytext NOT NULL COMMENT '绑定行业',
+  `content` text COMMENT '内容',
+  `more` text COMMENT '业务扩展配置',
+  `indus_bid` tinytext COMMENT '绑定行业',
   `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '安装时间',
   `delete_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '删除时间',
   `is_top` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '是否置顶： 0否 1是',
@@ -4798,7 +4800,7 @@ CREATE TABLE `cmf_trade_order` (
   `refund` decimal(10,2) NOT NULL COMMENT '退款',
   `remark` varchar(255) NOT NULL COMMENT '备注，给管理员区分记录类型用',
   `description` varchar(255) NOT NULL COMMENT '描述，给前台用户用',
-  `more` text NOT NULL COMMENT '扩展数据',
+  `more` text COMMENT '扩展数据',
   `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '下单时间',
   `pay_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '支付时间',
   `end_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '完成时间',
@@ -4823,13 +4825,13 @@ INSERT INTO `cmf_trade_order` VALUES ('1', '1', 'DSC20171025-f5re4e', '', '3', '
 DROP TABLE IF EXISTS `cmf_trade_order_detail`;
 CREATE TABLE `cmf_trade_order_detail` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '订单明细编号',
-  `order_id` int(11) DEFAULT NULL COMMENT '订单编号',
-  `obj_id` int(11) DEFAULT NULL COMMENT '对象编号：车子ID',
-  `obj_name` varchar(100) DEFAULT NULL COMMENT '对象名称',
-  `obj_type` varchar(20) DEFAULT NULL COMMENT '对象类型',
-  `price` decimal(10,2) DEFAULT NULL COMMENT '单价',
-  `num` int(11) DEFAULT NULL COMMENT '数量',
-  `detail_type` varchar(20) DEFAULT NULL COMMENT '用于增值服务code记录',
+  `order_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '订单编号',
+  `obj_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '对象编号：车子ID',
+  `obj_name` varchar(100) NOT NULL DEFAULT '' COMMENT '对象名称',
+  `obj_type` varchar(20) NOT NULL DEFAULT '' COMMENT '对象类型',
+  `price` decimal(10,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '单价',
+  `num` int(11) unsigned NOT NULL DEFAULT '1' COMMENT '数量',
+  `detail_type` varchar(20) NOT NULL DEFAULT '' COMMENT '用于增值服务code记录',
   `more` text COMMENT '拓展属性',
   PRIMARY KEY (`id`),
   KEY `order_id` (`order_id`),
@@ -5041,12 +5043,12 @@ CREATE TABLE `cmf_usual_brand` (
   `remark` varchar(255) NOT NULL DEFAULT '' COMMENT '备注',
   `description` varchar(255) NOT NULL DEFAULT '' COMMENT '描述',
   `status` tinyint(2) NOT NULL DEFAULT '1' COMMENT '状态,1:发布,0:不发布',
-  `more` text NOT NULL COMMENT '扩展',
+  `more` text COMMENT '扩展',
   `path` varchar(255) NOT NULL DEFAULT '' COMMENT '分类层级关系路径',
   `list_order` float unsigned NOT NULL DEFAULT '10000' COMMENT '排序：从小到大',
   `seo_title` varchar(100) NOT NULL DEFAULT '',
-  `seo_keywords` varchar(255) DEFAULT '',
-  `seo_description` varchar(255) DEFAULT '',
+  `seo_keywords` varchar(255) NOT NULL DEFAULT '',
+  `seo_description` varchar(255) NOT NULL DEFAULT '',
   PRIMARY KEY (`id`),
   KEY `idx1` (`index`)
 ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COMMENT='品牌表';
@@ -5100,11 +5102,11 @@ CREATE TABLE `cmf_usual_car` (
   `is_rec` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '是否推荐',
   `remark` varchar(255) NOT NULL DEFAULT '' COMMENT '备注',
   `description` varchar(255) NOT NULL DEFAULT '' COMMENT '描述',
-  `content` text NOT NULL COMMENT '内容x详情',
-  `more` text NOT NULL COMMENT '扩展属性',
+  `content` text COMMENT '内容详情',
+  `more` text COMMENT '扩展属性',
   `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '状态：-1禁用 0隐藏 1显示 ',
   `identi_status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '认证审核状态： -1审核不通过 0未审核 1审核通过 2禁止操作',
-  `identi` text NOT NULL COMMENT '认证体系 认证资料',
+  `identi` text COMMENT '认证体系 认证资料',
   `seo_title` varchar(100) NOT NULL DEFAULT '' COMMENT 'SEO标题',
   `seo_keywords` varchar(255) NOT NULL DEFAULT '' COMMENT 'SEO关键字',
   `seo_description` varchar(255) NOT NULL DEFAULT '' COMMENT 'SEO描述',
@@ -5120,7 +5122,7 @@ CREATE TABLE `cmf_usual_car` (
   `inventory` smallint(6) unsigned NOT NULL DEFAULT '1' COMMENT '库存',
   `old_user` varchar(255) NOT NULL DEFAULT '' COMMENT '以前的车主',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COMMENT='车辆表';
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COMMENT='车辆表';
 
 -- ----------------------------
 -- Records of cmf_usual_car
@@ -5129,6 +5131,7 @@ INSERT INTO `cmf_usual_car` VALUES ('1', '2', '2', '2', '1', '大众 CC 2015款 
 INSERT INTO `cmf_usual_car` VALUES ('2', '4', '11', '2', '1', '福特 嘉年华两厢 2011款 1.5 自动 时尚型', '', '', 'xzuih433hf7463343', '皖H967JN', '5', '4.40', '1352563200', '>=4', '1.5', '1', '5', '5', '1', '0', '3', '3401', '1510814246', '1512012266', '0', '0', '0', '0', '', '', '', '{\"car_seating\":\"5\",\"car_color\":\"5\",\"car_length\":\"121\",\"car_age\":\"\",\"car_effluent\":\">=4\",\"car_fuel\":\"1\",\"car_displacement\":\"2.1~2.5\",\"car_mileage\":\"\",\"car_gearbox\":\"1\",\"thumbnail\":\"https:\\/\\/c3.xinstatic.com\\/f2\\/20171129\\/1752\\/5a1e8372a23ff749974_19.jpg\",\"photos\":[{\"url\":\"https:\\/\\/c3.xinstatic.com\\/f2\\/20171129\\/1752\\/5a1e8372a23ff749974_19.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c3.xinstatic.com\\/f2\\/20171129\\/1755\\/5a1e83fe9df67478481_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c3.xinstatic.com\\/f2\\/20171129\\/1752\\/5a1e8369598d4375149_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c3.xinstatic.com\\/f2\\/20171129\\/1754\\/5a1e83e7b0d7b426279_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c3.xinstatic.com\\/f2\\/20171129\\/1752\\/5a1e836d94e07827031_20.jpg\",\"name\":\"\"}]}', '1', '1', '{\"username\":\"澄迈\",\"contact\":\"\",\"plateNo\":\"皖H967JN\",\"driving_license\":\"\"}', '', '', '', '10000', '1', '1510392426', '9.80', '2', '10.63', '4.78', '1.43', '0.00', '1', '');
 INSERT INTO `cmf_usual_car` VALUES ('3', '1', '17', '2', '1', '宝马 1系两厢五门版 2012款 1.6T 自动 116i都市版', '', '', '', '皖A95K88', '0', '14.00', '1350057600', '5', '2.5', '3', '5', '3', '1', '0', '3', '3401', '1510814246', '1512012312', '0', '0', '0', '0', '', '', '', '{\"car_seating\":\"5\",\"car_color\":\"3\",\"car_length\":\"\",\"car_age\":\"\",\"car_effluent\":\"5\",\"car_fuel\":\"1\",\"car_displacement\":\"2.5~3\",\"car_mileage\":\"\",\"car_gearbox\":\"3\",\"thumbnail\":\"https:\\/\\/c2.xinstatic.com\\/f2\\/20171129\\/1726\\/5a1e7d3fa651c407670_19.jpg\",\"photos\":[{\"url\":\"https:\\/\\/c2.xinstatic.com\\/f2\\/20171129\\/1726\\/5a1e7d3fa651c407670_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c2.xinstatic.com\\/f2\\/20171129\\/1727\\/5a1e7d7a28744241112_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c2.xinstatic.com\\/f2\\/20171129\\/1726\\/5a1e7d2fbae64486662_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c2.xinstatic.com\\/f2\\/20171129\\/1727\\/5a1e7d741c49c885807_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c2.xinstatic.com\\/f2\\/20171129\\/1726\\/5a1e7d3c7ab05985442_20.jpg\",\"name\":\"\"}]}', '1', '1', '{\"username\":\"贝尔\",\"contact\":\"QQ：456876646\",\"plateNo\":\"皖A95K88\",\"driving_license\":\"https:\\/\\/c1.xinstatic.com\\/f2\\/20171113\\/1802\\/5a096daf09902191543_18.jpg\"}', '', '', '', '10000', '1', '1510552638', '30.00', '3', '30.18', '17.98', '5.39', '0.00', '1', '');
 INSERT INTO `cmf_usual_car` VALUES ('4', '2', '8', '2', '3', '洛萨的车子：', '', '', '', '', '1', '0.00', '0', '', '0', '', '', '', '', '0', '3', '37', '1511595559', '1511934154', '0', '0', '0', '0', '', '', '', '{\"car_seating\":\"\",\"car_color\":\"\",\"car_length\":\"\",\"car_age\":\"\",\"car_effluent\":\"\",\"car_fuel\":\"\",\"car_displacement\":\"\",\"car_mileage\":\"\",\"car_gearbox\":\"\",\"thumbnail\":\"https:\\/\\/c1.xinstatic.com\\/f2\\/20171113\\/1802\\/5a096daf09902191543_18.jpg\"}', '1', '0', '{\"username\":\"洛萨\",\"contact\":\"手机：13333333333\",\"plateNo\":\"粤B6863R\",\"driving_license\":\"https:\\/\\/s5.xinstatic.com\\/www\\/img\\/cp05\\/114.png?v=17112101\",\"identity_card\":[{\"url\":\"https:\\/\\/s5.xinstatic.com\\/www\\/img\\/cp05\\/197.png?v=17112101\",\"name\":\"\"},{\"url\":\"https:\\/\\/s5.xinstatic.com\\/www\\/img\\/cp05\\/185.png?v=17112101\",\"name\":\"\"}]}', '', '', '', '10000', '0', '0', '0.00', '0', '0.00', '0.00', '0.00', '0.00', '1', '');
+INSERT INTO `cmf_usual_car` VALUES ('5', '0', '0', '0', '5', '', '', '', '', '43434', '1', '0.00', '0', '0', '0', '0', '1', '0', '0', '0', '0', '0', '1512043775', '1512043775', '0', '0', '0', '0', '', '', null, null, '1', '0', '{\"username\":\"分为\",\"contact\":\"而我 \",\"plateNo\":\"43434\",\"driving_license\":\"https:\\/\\/c6.xinstatic.com\\/f2\\/20171129\\/1810\\/5a1e878d1b5ee650709_18.jpg\",\"identity_card\":[{\"url\":\"https:\\/\\/c6.xinstatic.com\\/f2\\/20171129\\/1810\\/5a1e878d1b5ee650709_18.jpg\",\"name\":\"\"}]}', '', '', '', '10000', '0', '0', '0.00', '0', '0.00', '0.00', '0.00', '0.00', '1', '');
 
 -- ----------------------------
 -- Table structure for cmf_usual_company
@@ -5151,8 +5154,8 @@ CREATE TABLE `cmf_usual_company` (
   `remark` varchar(255) NOT NULL DEFAULT '' COMMENT '备注',
   `description` varchar(255) NOT NULL DEFAULT '' COMMENT '主描述',
   `desc2` varchar(255) NOT NULL DEFAULT '' COMMENT '次级描述',
-  `content` text NOT NULL COMMENT '内容',
-  `more` text NOT NULL COMMENT '扩展属性',
+  `content` text COMMENT '内容',
+  `more` text COMMENT '扩展属性',
   `is_top` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '是否置顶',
   `is_rec` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '是否推荐',
   `is_baoxian` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '是否保险公司',
@@ -5211,7 +5214,7 @@ CREATE TABLE `cmf_usual_item` (
   `exch` varchar(255) NOT NULL DEFAULT '' COMMENT '替换规则',
   `remark` varchar(255) NOT NULL DEFAULT '' COMMENT '备注',
   `description` varchar(255) NOT NULL DEFAULT '' COMMENT '描述',
-  `more` text NOT NULL COMMENT '扩展属性：',
+  `more` text COMMENT '扩展属性：',
   `update_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
   `delete_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '删除时间',
   `is_top` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '是否置顶：1是 0否',
@@ -5275,7 +5278,7 @@ CREATE TABLE `cmf_usual_item_cate` (
   `path` varchar(255) NOT NULL DEFAULT '' COMMENT '分类层级关系路径',
   `remark` varchar(255) NOT NULL DEFAULT '' COMMENT '备注',
   `description` varchar(255) NOT NULL DEFAULT '' COMMENT '描述',
-  `more` text NOT NULL COMMENT '扩展属性',
+  `more` text COMMENT '扩展属性',
   `delete_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '删除时间',
   `is_top` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '是否置顶',
   `is_rec` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '是否推荐：1是 0否',
@@ -5330,7 +5333,7 @@ CREATE TABLE `cmf_usual_models` (
   `is_top` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '是否置顶：1是 0否',
   `is_rec` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '是否推荐：1是 0否',
   `status` tinyint(2) NOT NULL DEFAULT '1' COMMENT '状态,1:发布,0:不发布',
-  `more` text NOT NULL COMMENT '扩展',
+  `more` text COMMENT '扩展',
   `path` varchar(255) NOT NULL DEFAULT '' COMMENT '分类层级关系路径',
   `list_order` float unsigned NOT NULL DEFAULT '10000' COMMENT '排序：从小到大',
   `seo_title` varchar(100) NOT NULL DEFAULT '',
@@ -5372,11 +5375,11 @@ CREATE TABLE `cmf_usual_series` (
   `delete_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '删除时间',
   `remark` varchar(255) NOT NULL COMMENT '备注',
   `description` varchar(255) NOT NULL COMMENT '描述',
-  `content` text NOT NULL COMMENT '内容',
+  `content` text COMMENT '内容',
   `is_top` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否置顶:1是 0否',
   `is_rec` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否推荐：1是 0否',
   `status` tinyint(2) NOT NULL COMMENT '状态,1:发布,0:不发布',
-  `more` text NOT NULL COMMENT '扩展',
+  `more` text COMMENT '扩展',
   `path` varchar(255) NOT NULL COMMENT '分类层级关系路径',
   `list_order` float unsigned NOT NULL DEFAULT '10000' COMMENT '排序：从小到大',
   `seo_title` varchar(100) NOT NULL,
@@ -5443,7 +5446,7 @@ CREATE TABLE `cmf_verify` (
   `auth_count` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '认证次数',
   `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
   `end_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '结束时间',
-  `more` text NOT NULL COMMENT '扩展数据：认证数据',
+  `more` text COMMENT '扩展数据：认证数据',
   `is_top` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '置顶：0否 1是',
   `auth_status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '认证状态：-1禁止认证 0未认证 1已认证 2取消 3认证失败',
   PRIMARY KEY (`id`)
@@ -5462,7 +5465,7 @@ CREATE TABLE `cmf_verify_model` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(20) NOT NULL DEFAULT '' COMMENT '认证项目名称',
   `code` varchar(20) NOT NULL DEFAULT '' COMMENT '认证项目code',
-  `more` text NOT NULL COMMENT '扩展数据：选择相关认证内容',
+  `more` text COMMENT '扩展数据：选择相关认证内容',
   `status` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT '状态：0关闭 1开启',
   `list_order` float unsigned NOT NULL DEFAULT '10000' COMMENT '排序：从小到大',
   PRIMARY KEY (`id`)

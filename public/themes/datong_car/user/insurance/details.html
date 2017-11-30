@@ -70,15 +70,18 @@
                                 </li>
                                 <li>
                                     <span class="icon">身份证</span>
-                                    <span class="txt"><img src="
-                                        <empty name='identi.identity_card'>
-                                            __TMPL__/public/assets/images/example/sfz.jpg
-                                        <else/>
-                                        {:cmf_get_image_preview_url($identi.identity_card)}
-                                        </empty>
-                                    " alt="identity_card"></span>
+                                    <span class="txt">
+                                    <ul class="pic-list ">
+                                        <notempty name="identi.identity_card">
+                                            <foreach name="identi.identity_card" item="vo">
+                                                <li >
+                                                    <img src="{:cmf_get_image_preview_url($vo.url)}" alt="">
+                                                </li>
+                                            </foreach>
+                                        </notempty>
+                                    </ul>
+                                    </span>
                                 </li>
-
                                 <!-- <li>
                                     <span class="icon">服&nbsp;&nbsp;务&nbsp;&nbsp;点</span>
                                     <span class="txt">安徽省合肥市马鞍山路4店</span>
