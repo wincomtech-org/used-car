@@ -90,7 +90,6 @@ class PostController extends HomeBaseController
         //         $new_var[] = $value;
         //     }
         // }
-
         // $files = model('Service')->uploadPhotos($new_var);
         // foreach ($files as $key => $it) {
         //     if (!empty($it['err'])) {
@@ -122,10 +121,15 @@ class PostController extends HomeBaseController
             Db::rollback();
         }
 
-        if ($sta===true) {
-            $this->success('提交成功，请等待工作人员回复',url('user/Service/index',['id'=>$post['model_id']]));
+        if ($sta===false) {
+            $this->error('提交失败');
         }
-        $this->error('提交失败');
+
+        // $this->success('提交成功，请等待工作人员回复',url('user/Service/index',['id'=>$post['model_id']]));
+        $servName = Db::name('service_category')->where('id',$post['model_id'])->value('name');
+        $this->assign('modelId',$post['model_id']);
+        $this->assign('servName',$servName);
+        return $this->fetch('appoint_tip');
 
 
 

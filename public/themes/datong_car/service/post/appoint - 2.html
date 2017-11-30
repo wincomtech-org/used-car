@@ -26,8 +26,8 @@
             <ul class="brash">
                 <li>当前位置：</li>
                 <li><a href="{:url('Index/index')}">检车预约 </a></li>
-                <li class="active"><a href="{:url('Post/index',['compId'=>$compId,'html'=>'vehicle_business'])}">{$companyInfo} </a></li>
-                <li class="active"><a href="{:url('Post/appoint',['servId'=>$servId,'html'=>'rookie_scrutineering'])}">菜鸟验车</a></li>
+                <li class="active"><a href="{:url('Post/index',['compId'=>$compId])}">{$companyInfo} </a></li>
+                <li class="active"><a href="{:url('Post/appoint',['servId'=>$servId])}">菜鸟验车</a></li>
             </ul>
             <div class="selection_insurance_con">
                 <form action="{:url('Post/appointPost')}" name="car_booking_form" method="post" accept-charset="utf-8" class="data_filling" id="data_filling">

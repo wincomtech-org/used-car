@@ -129,11 +129,11 @@
                     <ul class="vehiTrad_con_con_list">
                         <foreach name="carlist" item="vo">
                         <li class="vehicle_con_detail_items">
-                            <div class="img"><a href="{:url('Post/details',['id'=>$vo.id,'html'=>'car_message'])}">
+                            <div class="img"><a href="{:url('Post/details',['id'=>$vo.id])}">
                                 <img src="{:cmf_get_image_preview_url($vo.more.thumbnail)}" alt="">
                             </a></div>
                             <div class="txt">
-                                <h6><a href="{:url('Post/details',['id'=>$vo.id,'html'=>'car_message'])}">{$vo.name}</a></h6>
+                                <h6><a href="{:url('Post/details',['id'=>$vo.id])}">{$vo.name}</a></h6>
                                 <p>
                                     <span>{$vo.car_mileage}万公里</span>
                                     <span>{:date('Y-m-d',$vo.car_license_time)}上牌</span>

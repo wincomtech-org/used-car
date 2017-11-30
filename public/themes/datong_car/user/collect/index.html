@@ -36,10 +36,10 @@
                             <li class="vehicle_con_detail_items">
                                 <div class="img">
                                     <a href="{:url('user/Collect/delete',['id'=>$vo.id])}"><i></i>取消收藏</a>
-                                    <a href="{:url($url['action'],$url['param'])}"><img src="__TMPL__/public/assets/images/example/car01.jpg" alt=""></a>
+                                    <img src="__TMPL__/public/assets/images/example/car01.jpg" alt="">
                                 </div>
                                 <div class="txt">
-                                    <h6><a href="car_message.html">{$vo.title}</a></h6>
+                                    <h6><a href="{:url($url['action'],$url['param'])}">{$vo.title}</a></h6>
                                     <p>
                                         <span>14万公里</span>
                                         <span>2012-10</span>
