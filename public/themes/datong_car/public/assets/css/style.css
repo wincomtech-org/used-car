@@ -408,8 +408,8 @@
 .lanrenzhijia{ width:100%; height:auto; margin:0 auto; overflow:hidden;}
 .jqzoom{float:left;border:none;position:relative;padding:0px;cursor:pointer;margin:0px;display:block;width:100%;}
 .jqzoom img{width:100%; background:url(http://www.lanrenzhijia.com/demo/images/loading.gif) no-repeat center center;margin:0 auto;}
-.jqzoom a{text-align:center;display:inline-block;position:absolute;right:0;bottom:0;width:101px;height:34px;line-height:34px;z-index:101;background-color:rgba(255,255,255,.5);}
-.jqzoom a i{display:inline-block;width:29px;height:20px;background:url(../images/example/car_icon.png) no-repeat -11px -138px;    vertical-align: text-top;}
+.jqzoom a{text-align:center;display:inline-block;position:absolute;right:0;bottom:3px;width:101px;height:34px;line-height:34px;z-index:101;background-color:rgba(255,255,255,.5);font-size:18px;}
+.jqzoom a i{display:inline-block;width:29px;height:20px;background:url(../images/example/car_icon.png) no-repeat -11px -138px;    vertical-align:middle;}
 .zoomdiv{z-index:100;position:absolute;top:0px;left:0px;width:20px;height:20px;background:#ffffff;border:1px solid #CCCCCC;display:none;text-align:center;overflow:hidden;}
 .jqZoomPup{z-index:10;visibility:hidden;position:absolute;top:0px;left:0px;display:block;width:20px;height:20px;border:1px solid #aaa;background:#ffffff /*url(../images/zoom.png) 50% center no-repeat*/;opacity: 0.5;-moz-opacity: 0.5;-khtml-opacity: 0.5;filter: alpha(Opacity=50);}
 /*图片小图预览列表*/
@@ -615,7 +615,7 @@
 /*车辆信息*/
 .car_message_con_list{width:100%;}
 .car_message_con_item .jiance img{max-width:100%;}
-.car_message_con_item{width:100%;margin-top:30px;}
+.car_message_con_item{width:100%;padding-top:27px;}
 .car_message_con_tit{font-size:18px;color:#000;font-weight:normal;padding-left:10px;line-height:22px;margin-bottom:20px;border-left:4px solid #d00000;box-sizing:border-box;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;-ms-box-sizing:border-box;-o-box-sizing:border-box;}
 .car_mess_list{width:100%;}
 .car_mess_item:nth-child(4n+2){margin-left:2%;margin-right:1%;}
@@ -721,7 +721,9 @@
 .data_filling_list.required li.right .img_div img{max-width:300px;max-height:300px;min-width:160px;min-height:120px;}
 .data_filling_list.required li.right .file_con  input{display:none;}
 .data_filling_list.required li.right .file_con label{display:block;width:100%;height:100%;}
+.data_filling_list.required li.right .file p i{font-size:14px;color:#666;}
 .data_filling_list.required li.right .file i{font-size:16px;margin-left:10px;}
+.data_filling_list.required li.right .file i.photo_tip,.photo_tip{font-size:14px;color:#d00000;display:block;margin:0;line-height:1.6;}
 .data_filling_list li.right{width:62%;text-align:left;padding-left:20px;box-sizing:border-box;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;-ms-box-sizing:border-box;-o-box-sizing:border-box;}
 .data_filling_list li.right input{font-size:16px;display:block;width:240px;height:40px;padding-left:12px;border:1px solid #ddd;box-sizing:border-box;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;-ms-box-sizing:border-box;-o-box-sizing:border-box;}
 .data_filling_list li.right i{font-size: 13px;line-height: 1.5;margin: 5px 0;display: inline-block;}
@@ -887,7 +889,9 @@
 .person .info_tit a{color:#666;font-size:12px;}
 .details_item{display:table;margin:15px 0;}
 .details_item .details_tit{display:table-cell;width:120px;font-size:16px;vertical-align:middle;}
+.details_item .details_tit i.photo{line-height:2;font-size:12px;}
 .details_item .idetails_con{display:table-cell;font-size:16px;}
+.details_item .idetails_con .stauts{height:40px;line-height:40px;}
 .details_item .idetails_con ul:after{content:"";display:block;clear:both;}
 .details_item .idetails_con li{float:Left;}
 .details_item .idetails_con li:first-child{margin-right:3rem;}
@@ -909,10 +913,20 @@
 .idetails_con .analogy select:first-child{margin-right:2%;}
 .idetails_con .analogy select:last-child{width:49% !important;}
 
-
-#identity_card li{float:left;width:50%;}
-#identity_card input{height:auto;line-height:auto;border:none;}
+#identity_card{width:380px;}
+/*#identity_card+a{height:40px;line-height:40px;font-size:16px;}*/
+#identity_card li{float:left;width:50%;margin-right:0;}
+#identity_card input{height:auto;line-height:auto;border:none;min-width:0;font-size:15px;margin:5px 0;padding-left:0;}
+#identity_card li a{color:#666;font-size:14px;}
 #identity_card:after{content:"";display:block;clear:both;}
+
+
+@media only screen and (max-width:500px){
+    #identity_card{width:100%;}
+    #identity_card li{float:none;width:auto;}
+    #identity_card li img{display:block;}
+    #identity_card li a{display:inline-block;line-height:1.8;}
+}
 
 
 /*卖家中心*/
@@ -1075,7 +1089,7 @@
 .ash_withdrawa {font-size:16px;}
 .ash_withdrawa span {display:inline-block;width:100px;}
 .ash_withdrawa span i{color:#d00000;}
-.ash_withdrawa input{width:240px;height:36px;line-height:36px;border:1px solid #ddd;}
+.ash_withdrawa input{width:240px;height:36px;line-height:36px;border:1px solid #ddd;padding-left:10px;box-sizing:border-box;box-sizing:-webkit-border-box;box-sizing:-moz-border-box;box-sizing:-ms-border-box;box-sizing:-o-border-box;}
 .cz_btn_p .btn-red{margin-left:100px;}
 
 .replenish_amount{font-size:16px;margin-bottom:10px;}
@@ -1418,6 +1432,7 @@
 
 
 @media only screen and (max-width: 600px){
+    .data_filling_list li.left{font-size:15px;}
     .data_filling_list{width:100%;padding: 6px 0;}
     @media only screen and (min-width: 415px){
         .data_filling_list li.left{width:28%;padding-right:1px;}
@@ -1805,6 +1820,12 @@
         /*滚动条提示*/
         .scroll_tip{display:block;}
         .info_tit_tip{display:inline-block;}
+
+        /*个人中心车辆业务*/
+        .person_car_buss{width:100%;overflow-x:scroll;}
+        .person_carBuss{width:768px;}
+        .person_right_con .info_tit_tip{margin-top:8px;margin-bottom:8px;}
+
    
    }
 
@@ -1825,7 +1846,7 @@
         .details_item .details_tit{font-size:14px;min-width:90px;width:90px;}
         .details_item .idetails_con input{font-size:14px;}
         .details_item .idetails_con input{min-width:283px;}
-        .business_person .person_right_item{width:33.333%;}
+        .business_person .person_right_item{width:25%;}
          .person_right_item{width:25%;padding:0;text-align: center;height:40px;line-height:40px;box-sizing:border-box;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;-ms-box-sizing:border-box;-o-box-sizing:border-box;}
 
         /*收藏记录 */
@@ -1860,6 +1881,7 @@
 
 
          /*买家中心*/
+         .home_list table td{font-size:14px;}
         .home_list table tbody tr:nth-child(2) td{padding:20px 11px;}
         .order_detail .right h6, .order_detail .right span{font-size:14px;}
         .state span a, .operate span a, .detail span a{font-size:14px;}

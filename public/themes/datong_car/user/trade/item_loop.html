@@ -5,7 +5,7 @@
             <div class="analogy">
                 <switch name="vo.code_type">
                     <case value="select">
-                        <select class="" style="width:140px;" name="{$biz}[{$vo.code}]">
+                        <select class="" style="" name="{$biz}[{$vo.code}]">
                             <option value="">--请选择--</option>
                             <notempty name="vo.form_element">
                             <foreach name="vo.form_element" item="it">
@@ -42,7 +42,8 @@
                     </case>
                     <default /><input class="" placeholder="{$vo.description}" type="text" name="{$biz}[{$vo.code}]" value="{$post[$vo.code]|default=''}">
                 </switch>
-                <p class="analogy_tit">{$vo.description|default=''} <i class="tip">{$vo.unit?='单位：'.$vo.unit}</i></p>
+                <div class="analogy_tip">{$vo.description|default=''} <i class="tip">{$vo.unit?='单位：'.$vo.unit}</i></div>
+        
             </div>
         </div>
     </li>

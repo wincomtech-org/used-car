@@ -43,11 +43,11 @@
 
 
     <foreach name="searchCode" item="vo">
-        <php>
+      <!--   <php>
             $post[$vo['code']] = empty($post[$vo['code']]) ?  '': $post[$vo['code']];
             echo $post[$vo['code']];
             $biz = 'post';
-        </php>
+        </php> -->
         <include file="trade/item_loop" />
     </foreach>
     <foreach name="recItems" item="vo">

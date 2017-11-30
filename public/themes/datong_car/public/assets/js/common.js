@@ -239,7 +239,7 @@ $('.yuyue_guang').hover(function() {
 
 if (screen.width > 768) {
 	// alert(123)
-	$('.yuyue_guang a').click(function() {
+	$('.yuyue_guang:last-child a').click(function() {
 		$(this).html('400-2263-6547')
 	})
 }
@@ -354,13 +354,12 @@ function scroll() {
 		var height = $(window).height();
 
 		if (targetTop > divTop) {
-			// alert(1)
+
 			$('.car_message_nav ').addClass('fixed_nav');
-			// $('.empty-placeholder').removeClass('empty_hidden');
-		} else {
-			// alert(2)
+		}else {
+			
 			$('.car_message_nav ').removeClass('fixed_nav');
-			// $('.empty-placeholder').addClass('empty_hidden');
+			
 		}
 
 		$('.car_message_con_item').each(function() {
@@ -374,6 +373,7 @@ function scroll() {
 				$('.car_message_nav_list a').each(function() {
 
 					if ($(this).attr('href') == "#" + liId) {
+				
 						subNav_scroll($(this))
 					}
 				})
@@ -479,7 +479,6 @@ $(function(){
 })
 
 // 结束车辆买卖
-
 
 
 /**车险服务 --投保流程*/

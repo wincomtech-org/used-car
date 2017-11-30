@@ -38,12 +38,13 @@
             <input type="hidden" name="post[identi][driving_license]" id="driving_license" value="{$post.identi.driving_license|default=''}" />
             <a href="javascript:uploadOneImage('图片上传','#driving_license');">
                 <if condition="empty($post.identi.driving_license)">
-                    <img src="__TMPL__/public/assets/images/default-thumbnail.png" id="driving_license-preview" width="135" style="cursor: pointer"/>
+                    <img src="__TMPL__/public/assets/images/add.png" id="driving_license-preview"  style="cursor: pointer;max-width:200px"/>
                 <else/>
                     <img src="{:cmf_get_image_preview_url($post.identi.driving_license)}" id="driving_license-preview" width="135" style="cursor: pointer"/>
                 </if>
+                <i class="photo_tip">请上传行车本照片（尽可能的小）</i>
             </a>
-            <input type="button" class="btn btn-sm btn-cancel-driving_license" value="取消图片" />
+            
         </div>
     </li>
 
@@ -58,10 +59,10 @@
                                    name="identity_card[urls][]" value="{$vo.url}" />
                             <input id="identity_card-{$key}-name" type="text"
                                    name="identity_card[names][]" value="{$vo.name|default=''}"
-                                   class="form-control" style="width: 200px;" title="图片名称" />
+                                   class="form-control"  title="图片名称" />
                             <img id="identity_card-{$key}-preview"
                                  src="{:cmf_get_image_preview_url($vo['url'])}"
-                                 style="height:36px;width: 36px;"
+                                 style="height:108px;width:180px;"
                                  onclick="parent.imagePreviewDialog(this.src);">
                             <a href="javascript:uploadOneImage('图片上传','#identity_card-{$key}');">替换</a>
                             <a href="javascript:(function(){$('#saved-identity_card{$key}').remove();})();">移除</a>
@@ -70,7 +71,11 @@
                 </notempty>
             </ul>
             <a href="javascript:uploadMultiImage('图片上传','#identity_card','identity_card-item-tpl');"
-               class="btn btn-default btn-sm">选择图片</a>
+               class="btn btn-default btn-sm">
+                   <img src="__TMPL__/public/assets/images/add.png"
+                                                      style="cursor: pointer:"/>
+                    <i class="photo_tip">请上传身份证正反面照片</i>                                  
+               </a>
         </div>
     </li>
 
