@@ -34,8 +34,8 @@ class PostValidate extends Validate
 
     protected function isPlateNo($value)
     {
-        $pattern = '/^[京津沪渝冀豫云辽黑湘皖鲁新苏浙赣鄂桂甘晋蒙陕吉闽贵粤青藏川宁琼使领A-Z]{1}[A-Z]{1}[A-Z_0-9]{5}$/';
-        if (preg_match($pattern,$value)) {
+        $regular = "/^[京津冀晋蒙辽吉黑沪苏浙皖闽赣鲁豫鄂湘粤桂琼川贵云渝藏陕甘青宁新使]{1}[A-Z]{1}[0-9a-zA-Z]{5}$/u";
+        if (preg_match($regular, $value)) {
             return true;
         }
         return false;
