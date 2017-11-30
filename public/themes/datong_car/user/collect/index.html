@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>个人中心 - 我的收藏 - {$site_info.site_name|default=''}</title>
+    <meta name="keywords" content="{$site_info.site_seo_keywords|default=''}"/>
+    <meta name="description" content="{$site_info.site_seo_description|default=''}">
+
+    <include file="public@head"/>
+</head>
+<body>
+    <!-- 头部 -->
+    <include file="public@header" />
+    <!-- 导航 -->
+    <include file="public@nav" />
+
+    <!-- 我的收藏 -->
+    <section class="person">
+        <div class="main">
+            <include file="public@usernav" />
+
+            <div class="person_right">
+                <div class="person_right_tit">
+                    <ul>
+                        <li class="person_right_item active">
+                            <a href="#">收藏记录</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="person_right_con">
+                    <div class="favorite">
+                        <ul class="favorite_list">
+                            <foreach name="list" item="vo">
+                            <php>
+                                $url = json_decode($vo['url'],true);
+                            </php>
+                            <li class="vehicle_con_detail_items">
+                                <div class="img">
+                                    <a href="{:url('user/Collect/delete',['id'=>$vo.id])}"><i></i>取消收藏</a>
+                                    <a href="{:url($url['action'],$url['param'])}"><img src="__TMPL__/public/assets/images/example/car01.jpg" alt=""></a>
+                                </div>
+                                <div class="txt">
+                                    <h6><a href="car_message.html">{$vo.title}</a></h6>
+                                    <p>
+                                        <span>14万公里</span>
+                                        <span>2012-10</span>
+                                        <span>马鞍山</span>
+                                    </p>
+                                    <p><b>43.88万</b> <s>128.95万</s></p>
+                                    <p class="tel"><s class="icon"></s>400-2263-6547</p>
+                                </div>
+                            </li>
+                            </foreach>
+                            <!-- <li class="vehicle_con_detail_items">
+                                <div class="img">
+                                    <a href="car_message.html"><i></i>取消收藏</a>
+                                    <img src="__TMPL__/public/assets/images/example/car01.jpg" alt="">
+                                </div>
+                                <div class="txt">
+                                    <h6><a href="car_message.html">宝马7系 2009款 740Li领先型</a></h6>
+                                    <span class='partOf'>车辆所属：<i>大通车服</i></span>
+                                    <p>
+                                        <span>14万公里</span>
+                                        <span>2012-10</span>
+                                        <span>马鞍山</span>
+                                    </p>
+                                    <p><b>43.88万</b> <s>128.95万</s></p>
+                                    <p class="tel"><s class="icon"></s>400-2263-6547</p>
+                                </div>
+                            </li> -->
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 底部 -->
+    <include file="public@footer" />
+    <include file="public@scripts" />
+</body>
+<include file="public@morejs" />
+<script type="text/javascript" src="__TMPL__/public/assets/js/laydate/laydate.js"></script>
+<script>
+
+</script>
+</html>

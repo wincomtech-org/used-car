@@ -11,11 +11,11 @@ use think\Db;
 */
 class PostController extends HomeBaseController
 {
-
     public function details()
     {
         $id = $this->request->param('id',0,'intval');
-        $page = model('usual/UsualCar')->getPost($id);
+        // $page = model('usual/UsualCar')->getPost($id);
+        // $page = model('usual/UsualCar')->getPostRelate($id);
         // $company = DB::name('UsualCompany')->where(['car_id'=>$page['id']])->find();
 
         // dump($page);
@@ -48,7 +48,7 @@ class PostController extends HomeBaseController
         // 是否登录
         $userId = cmf_get_current_user_id();
         if (empty($userId)) {
-            return lothar_toJson(0,'用户尚未登录',url("user/Login/index"));
+            return lothar_toJson(0,'您尚未登录',url("user/Login/index"));
         }
         // 是否认证
         // $identify = lothar_verify();
@@ -138,5 +138,41 @@ class PostController extends HomeBaseController
         //     $this->success('提交成功',url('user/Profile/center'));
         // }
         // $this->error('提交失败');
+    }
+
+    public function collect()
+    {
+        // 是否登录
+        $userInfo = cmf_get_current_user();
+        if (empty($userInfo)) {
+            $this->error('您尚未登录',url("user/Login/index"));
+        }
+        $id = $this->request->param('id/d');
+        if (empty($id)) {
+            $this->error('请求出错');
+        }
+
+        $info = Db::name('usual_car')->where('id',$id)->value('name');
+        $url = [
+            'action' => 'trade/Post/details',
+            'param'  => ['id'=>$id]
+        ];
+        $url = json_encode($url);
+
+        $data = [
+            'title'       => $info,
+            'url'         => $url,
+            'description' => '操作用户['.$userInfo['id'].']'.($userInfo['user_nickname']?$userInfo['user_nickname']:$userInfo['user_login']),
+            'table_name'  => 'usual_car',
+            'object_id'   => $id,
+            'user_id'     => $userId,
+            'create_time' => time(),
+        ];
+
+        $res = Db::name('user_favorite')->insertGetId($data);
+        if (!empty($res)) {
+            $this->success('收藏成功',url('user/'));
+        }
+        $this->error('收藏失败');
     }
 }

@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50540
 File Encoding         : 65001
 
-Date: 2017-11-29 18:38:56
+Date: 2017-11-29 20:29:29
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -4200,8 +4200,8 @@ INSERT INTO `cmf_nav_menu` VALUES ('19', '1', '0', '1', '40', '车辆买卖', ''
 INSERT INTO `cmf_nav_menu` VALUES ('20', '1', '0', '1', '50', '检车预约', '', 'service', 'ion-person', '');
 INSERT INTO `cmf_nav_menu` VALUES ('21', '1', '0', '1', '60', '活动推荐', '', '{\"action\":\"portal\\/List\\/index\",\"param\":{\"id\":2}}', 'ion-search', '');
 INSERT INTO `cmf_nav_menu` VALUES ('22', '1', '0', '1', '70', '新闻资讯', '', '{\"action\":\"portal\\/List\\/index\",\"param\":{\"id\":1}}', 'ion-star', '');
-INSERT INTO `cmf_nav_menu` VALUES ('23', '1', '19', '1', '10000', '新车', '', 'trade/list/stype/new', 'ion-android-arrow-dr', '');
-INSERT INTO `cmf_nav_menu` VALUES ('24', '1', '19', '1', '10000', '二手车', '', 'trade/list/stype/old', 'ion-android-arrow-dr', '');
+INSERT INTO `cmf_nav_menu` VALUES ('23', '1', '19', '1', '10000', '新车', '', 'trade/Index/index/stype/new', 'ion-android-arrow-dr', '');
+INSERT INTO `cmf_nav_menu` VALUES ('24', '1', '19', '1', '10000', '二手车', '', 'trade/Index/index/stype/old', 'ion-android-arrow-dr', '');
 INSERT INTO `cmf_nav_menu` VALUES ('25', '1', '22', '1', '10000', '热门新闻', '', '{\"action\":\"portal\\/List\\/index\",\"param\":{\"id\":5}}', 'ion-android-arrow-dr', '');
 
 -- ----------------------------
@@ -4593,7 +4593,7 @@ CREATE TABLE `cmf_service` (
 -- ----------------------------
 -- Records of cmf_service
 -- ----------------------------
-INSERT INTO `cmf_service` VALUES ('1', '1', '1', '3', '', 'QQ 2324242', '', '', '', '0', '', '', '', '皖A95K88', '', '0', '1511971200', '5', '', '', '', '', '', '{\"identity_card\":\"service\\/20171127\\/0878a7bdcaa4e7b2f9c0ce7d20f32367.jpg\",\"driving_license\":\"service\\/20171127\\/51fe921826e6425dac9e5d42f030106b.jpg\"}', '0', '0', '0', '0', '0', '10000');
+INSERT INTO `cmf_service` VALUES ('1', '1', '1', '3', '', 'QQ 2324242', '', '', '', '0', '', '', '', '皖A95K88', '', '0', '1511971200', '5', '', '', '', '', '', '', '0', '0', '0', '0', '0', '10000');
 
 -- ----------------------------
 -- Table structure for cmf_service_category
