@@ -36,6 +36,19 @@ $('.nav_item ').hover(function() {
 		if($(this).parent().hasClass('accordion-item-expanded')){
 
 			$(this).parent().removeClass('accordion-item-expanded')
+
+		}else{
+
+			$(this).parent().addClass('accordion-item-expanded')
+		}
+		e.stopPropagation()
+	})
+
+	$('.accordion-item>a.item-link').on('click',function(e){
+		if($(this).parent().hasClass('accordion-item-expanded')){
+
+			$(this).parent().removeClass('accordion-item-expanded')
+			
 		}else{
 
 			$(this).parent().addClass('accordion-item-expanded')

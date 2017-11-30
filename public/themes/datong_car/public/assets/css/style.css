@@ -136,7 +136,7 @@
 /*demo css*/
 .i_box{position:relative;overflow:hidden;width:100%;height:385px;}
 .i_imglist{width:100%;height:385px;z-index:0}
-.i_imglist li img{width:100%;height:385px;display:block}
+.i_imglist li img{min-width:100%;height:385px;display:block}
 .i_nav{position:absolute;bottom:0;overflow:hidden;width:100%;height:50px;z-index:2;}
 .i_nav ul li{float:left;_display:inline;width:445px;height:50px;line-height:50px;margin:0 1px;background-color:#000;opacity:0.5;filter:alpha(opacity=50);text-align:center;line-height:30px;cursor:pointer}
 .i_nav ul li.hover{opacity:0.8;filter:alpha(opacity=80)}
@@ -767,7 +767,7 @@
 
 /*登录按钮*/
 .regist_con{padding:1.428rem 1.428rem .7rem;border:1px solid #ddd;background-color:#fff;text-align:left;}
-.regist_con .tit{font-size:19px;color:#666;line-height:2;}
+.regist_con .tit{font-size:19px;color:#666;}
 .regist_con .tit span{color:#999;font-size:16px;}
 .regist_con .tit span a{color:#d00000;font-size:16px;margin-left:10px;}
 .user_login_lists{width:310px;}
