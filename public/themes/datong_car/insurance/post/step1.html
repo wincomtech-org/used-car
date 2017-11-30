@@ -26,7 +26,7 @@
                 <li class="active"><a >险种选择</a></li>
             </ul>
             <div class="selection_insurance_con">
-                <form action="{:url('Post/step2')}" method="post" id="selection_insurance">
+                <form action="{:url('Post/step2')}" method="post" class="js-ajax-form">
                     <div class="selection_insurance_form">
                         <div class="img">
                             <img src="
@@ -56,7 +56,7 @@
                         </div>
                     </div>
                     <input type="hidden" name="insurance_id" value="{$InsurId}">
-                    <button type="submit" for="selection_insurance" class="btn btn_submit">提交险种</button>
+                    <button type="submit" class="btn btn_submit js-ajax-submit1">提交险种</button>
                 </form>
             </div>
         </div>

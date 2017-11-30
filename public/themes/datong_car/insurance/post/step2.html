@@ -16,7 +16,6 @@
     <script type="text/html" id="identity_card-item-tpl">
         <li id="saved-identity_card{id}">
             <input id="identity_card-{id}" type="hidden" name="identity_card[urls][]" value="{filepath}">
-            
             <img id="identity_card-{id}-preview" src="{url}" style="height:108px;width:180px;"
                  onclick="imagePreviewDialog(this.src);">
             <a href="javascript:uploadOneImage('图片上传','#identity_card-{id}');">替换</a>
@@ -46,7 +45,7 @@
             </ul>
 
             <div class="selection_insurance_con">
-                <form action="{:url('Post/step2Post')}" method="post" enctype="multipart/form-data" class="data_filling" id="data_filling">
+                <form action="{:url('Post/step2Post')}" method="post" enctype="multipart/form-data" class="data_filling js-ajax-form">
                     <ul class="data_filling_list required">
                         <li class="left">姓名</li>
                         <li class="right">
@@ -91,7 +90,6 @@
                                 <ul id="identity_card" class="pic-list list-unstyled form-inline"></ul>
                                 <a href="javascript:uploadMultiImage('图片上传','#identity_card','identity_card-item-tpl');" class="btn btn-default btn-sm">
                                      <img src="__TMPL__/public/assets/images/add.png"
-                                        
                                          style="cursor:pointer"/>
                                 </a>
                                 <p><i class='photo_tip'>请上传身份证正面照片（尽可能的小）</i></p>
@@ -101,8 +99,8 @@
                     <p class="data_filling_btn">
                         <!-- 表单验证JS \public\themes\datong_car\public\assets\js\common.js is_submit() -->
                         <!-- js里有具体点击那一个上传按钮，action是什么文件 -->
-                        <input type="submit" name="data_filling_online" class="btn_submit" value='在线投保' >
-                        <input type="submit" name="data_filling_offline" class="btn_submit" value="线上投保" >
+                        <input type="submit" name="data_filling_online" class="btn_submit js-ajax-submit" value='在线投保' >
+                        <input type="submit" name="data_filling_offline" class="btn_submit js-ajax-submit" value="线下投保" >
                     </p>
                 </form>
             </div>

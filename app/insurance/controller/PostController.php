@@ -48,9 +48,12 @@ class PostController extends HomeBaseController
     // 个人资料
     public function step2()
     {
+        if (!cmf_is_user_login()) {
+            $this->error('请登录',url('user/Login/index'));
+        }
+
         if ($this->request->isPost()) {
             $data   = $this->request->param();
-            // dump($data);
 
             $result = $this->validate($data, 'Post.step2');
             if ($result !== true) {
@@ -86,10 +89,14 @@ class PostController extends HomeBaseController
 
     public function step2Post()
     {
+        if (!cmf_is_user_login()) {
+            $this->error('请登录',url('user/Login/index'));
+        }
         if ($this->request->isPost()) {
             $data   = $this->request->param();
             // $post = $data['post'];
             $cardata = $data['car'];
+            $userId = cmf_get_current_user_id();
 
             if (!empty($data['data_filling_online'])) {
                 $post['type'] = 1;
@@ -97,24 +104,27 @@ class PostController extends HomeBaseController
             if (!empty($data['data_filling_offline'])) {
                 $post['type'] = 2;
             }
-            $userId = cmf_get_current_user_id();
-
 
             // 处理车辆数据
+            if (empty($cardata['identi']['plateNo'])) {
+                $this->error('请填写车牌号码',url('Post/step2'));
+            }
             $carInfo = DB::name('usual_car')->field('id,user_id')->where('plateNo',$cardata['identi']['plateNo'])->find();
             if (!empty($carInfo)) {
                 if ($carInfo['user_id']!=$userId) {
-                    $this->error('该车牌号已被其他用户填写，请联系管理员');
+                    $this->error('该车牌号已被其他用户填写，请联系管理员',url('Index/index'));
                 }
                 $post['car_id'] = $carInfo['id'];
             } else {
                 $cardata['user_id'] = $userId;
                 $cardata['plateNo'] = $cardata['identi']['plateNo'];
 
+                $carValid = $cardata['identi'];
                 $carModel = new UsualCarModel();
-                $result = $this->validate($cardata, 'usual/Car.insurance');
+                // $result = $this->validate($cardata, 'usual/Car.insurance');
+                $result = $this->validate($carValid, 'Post.car');
                 if ($result !== true) {
-                    $this->error($result);
+                    $this->error($result,url('Post/step2'));
                 }
 
                 // 行驶证 单图不需要额外处理
@@ -143,9 +153,10 @@ class PostController extends HomeBaseController
             $post = array_merge($post,$post_pre);
             $post['user_id'] = $userId;
             $post['create_time'] = time();
+            // dump($post);die;
             $result = $this->validate($post, 'Post.step3');
             if ($result !== true) {
-                $this->error($result);
+                $this->error($result,url('Post/step2'));
             }
 
             Db::startTrans();
@@ -173,7 +184,7 @@ class PostController extends HomeBaseController
             if ($sta===true) {
                 $this->success('提交成功，请等待工作人员回复',url('user/Insurance/index'));
             }
-            $this->error('提交失败');
+            $this->error('提交失败',url('Index/index'));
         }
     }
 

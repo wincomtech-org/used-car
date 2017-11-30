@@ -40,7 +40,18 @@ class RegisterController extends HomeBaseController
     /**
      * 前台用户注册提交
      */
-    public function doRegister()
+    // PC端
+    public function doRegisterPC()
+    {
+        $this->doRegister(1);
+    }
+    // 移动端
+    public function doRegisterM()
+    {
+        $this->doRegister(2);
+    }
+
+    public function doRegister($captchaId)
     {
         if ($this->request->isPost()) {
             $rules = [
@@ -58,7 +69,7 @@ class RegisterController extends HomeBaseController
 
             $validate = new Validate($rules);
             $validate->message([
-                'code.require'     => '验证码不能为空',
+                'code.require'     => 'code码不能为空',
                 'password.require' => '密码不能为空',
                 'password.max'     => '密码不能超过32个字符',
                 'password.min'     => '密码不能小于6个字符',
@@ -66,17 +77,18 @@ class RegisterController extends HomeBaseController
             ]);
 
             $data = $this->request->post();
+
             if (!$validate->check($data)) {
                 $this->error($validate->getError());
             }
-            if (!cmf_captcha_check($data['captcha'])) {
-                $this->error('验证码错误');
+            if (!cmf_captcha_check($data['captcha'],$captchaId)) {
+                $this->error('验证码错误',url('index'));
             }
 
             if(!$isOpenRegistration){
                 $errMsg = cmf_check_verification_code($data['username'], $data['code']);
                 if (!empty($errMsg)) {
-                    $this->error($errMsg);
+                    $this->error($errMsg,url('index'));
                 }
             }
 
@@ -110,6 +122,5 @@ class RegisterController extends HomeBaseController
         } else {
             $this->error("请求错误");
         }
-
     }
 }
