@@ -43,8 +43,8 @@
             <ul class="brash">
                 <li>当前位置：</li>
                 <li><a href="{:url('Index/index')}">检车预约 </a></li>
-                <li><a href="{:url('Post/index',['compId'=>$compId,'html'=>'vehicle_business'])}">{$companyInfo} </a></li>
-                <li class="active"><a href="{:url('Post/appoint',['modelId'=>$modelId,'html'=>'rookie_scrutineering'])}">{$servInfo.name}</a></li>
+                <li><a href="{:url('Post/index',['compId'=>$compId])}">{$companyInfo} </a></li>
+                <li class="active"><a href="{:url('Post/appoint',['compId'=>$compId,'modelId'=>$modelId])}">{$servInfo.name}</a></li>
             </ul>
             <div class="selection_insurance_con">
                 <form action="{:url('Post/appointPost')}" method="post" enctype="multipart/form-data" name="car_booking_form" class="data_filling" id="data_filling">

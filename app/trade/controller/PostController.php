@@ -15,10 +15,10 @@ class PostController extends HomeBaseController
     {
         $id = $this->request->param('id',0,'intval');
         // $page = model('usual/UsualCar')->getPost($id);
-        // $page = model('usual/UsualCar')->getPostRelate($id);
-        // $company = DB::name('UsualCompany')->where(['car_id'=>$page['id']])->find();
+        $page = model('usual/UsualCar')->getPostRelate($id);
+        // $company = DB::name('UsualCompany')->where(['user_id'=>$page['user_id']])->find();
 
-        // dump($page);
+        // dump($page);die;
 
         $this->assign('page',$page);
         return $this->fetch();
@@ -31,20 +31,6 @@ class PostController extends HomeBaseController
 
     public function regCar()
     {
-        // return 'bp';
-        // $data = $this->request->param();
-        // $data = $_POST;
-// var_dump($data);die;
-        // $post = [
-        //     'brand_id' => $data['brandId'],
-        //     'serie_id' => $data['serieId'],
-        //     'model_id' => $data['modelId'],
-        //     'province_id' => $data['province'],
-        //     'city_id' => $data['city'],
-        //     'user_id' => cmf_get_current_user_id(),
-        //     'identi'   => ['contact'=>'手机：'.$data['tel']],
-        // ];
-
         // 是否登录
         $userId = cmf_get_current_user_id();
         if (empty($userId)) {
@@ -55,6 +41,21 @@ class PostController extends HomeBaseController
         // if (empty($identify)) {
         //     return lothar_toJson(0,'您未进行实名认证',url('user/Profile/center'));
         // }
+
+        // 获取数据
+        // $data = $this->request->param();
+        // $data = $_POST;
+// var_dump($data);die;
+        // $post = [
+        //     'brand_id' => $data['brandId'],
+        //     'serie_id' => $data['serieId'],
+        //     'model_id' => $data['modelId'],
+        //     'province_id' => $data['province'],
+        //     'city_id' => $data['city'],
+        //     'user_id' => $userId,
+        //     'identi'   => ['contact'=>'手机：'.$data['tel']],
+        // ];
+// var_dump($post);die;
 
         $brandId = $this->request->param('brandId');
         $serieId = $this->request->param('serieId');
@@ -151,6 +152,10 @@ class PostController extends HomeBaseController
         if (empty($id)) {
             $this->error('请求出错');
         }
+        $scount = Db::name('user_favorite')->where(['user_id'=>$userInfo['id'],'table_name'=>'usual_car','object_id'=>$id])->count();
+        if ($scount>0) {
+            $this->error('您已收藏过');
+        }
 
         $info = Db::name('usual_car')->where('id',$id)->value('name');
         $url = [
@@ -165,13 +170,13 @@ class PostController extends HomeBaseController
             'description' => '操作用户['.$userInfo['id'].']'.($userInfo['user_nickname']?$userInfo['user_nickname']:$userInfo['user_login']),
             'table_name'  => 'usual_car',
             'object_id'   => $id,
-            'user_id'     => $userId,
+            'user_id'     => $userInfo['id'],
             'create_time' => time(),
         ];
 
         $res = Db::name('user_favorite')->insertGetId($data);
         if (!empty($res)) {
-            $this->success('收藏成功',url('user/'));
+            $this->success('收藏成功',url('user/Collect/index'));
         }
         $this->error('收藏失败');
     }
