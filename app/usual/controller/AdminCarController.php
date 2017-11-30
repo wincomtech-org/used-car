@@ -124,16 +124,19 @@ class AdminCarController extends AdminBaseController
     {
         if ($this->request->isPost()) {
             // $data   = $this->request->param();
-            $data   = $_POST;
-            $data['post']['user_id'] = cmf_get_current_admin_id();
-            $post   = $data['post'];
+            $data = $_POST;
+            $post = $data['post'];
+            $post['user_id'] = cmf_get_current_admin_id();
+            $more = $data['post']['more'];
             if (empty($post['serie_id'])) {
                 $post['serie_id'] = $post['serie_pid'];
             }
-            $more   = $data['post']['more'];
-            $post   = model('UsualItem')->ItemMulti($post,$more);
+
+            $post = model('UsualItem')->ItemMulti($post,$more);
             // $postadd= model('UsualItem')->ItemMulti($post,$more);
             // $post   = array_merge($post,$postadd);
+
+            $post = $this->Model->identiStatus($post);
 
             $result = $this->validate($post, 'Car.add');
             if ($result !== true) {
@@ -235,13 +238,14 @@ class AdminCarController extends AdminBaseController
     {
         if ($this->request->isPost()) {
             // $data   = $this->request->param();
-            $data   = $_POST;
-            $post   = $data['post'];
-            $more   = $data['post']['more'];
+            $data = $_POST;
+            $post = $data['post'];
+            $more = $data['post']['more'];
             if (empty($post['serie_id'])) {
                 $post['serie_id'] = $post['serie_pid'];
             }
-            $post   = model('UsualItem')->ItemMulti($post,$more);
+            $post = model('UsualItem')->ItemMulti($post,$more);
+            $post = $this->Model->identiStatus($post);
 
             if ($post['sell_status']==0 || $post['sell_status']==-1 || $post['sell_status']==-2) {
                 $post['plateNo'] = empty($post['plateNo'])?$post['identi']['plateNo']:$post['plateNo'];

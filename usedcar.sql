@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50540
 File Encoding         : 65001
 
-Date: 2017-11-29 20:29:29
+Date: 2017-11-30 16:51:21
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -244,7 +244,7 @@ CREATE TABLE `cmf_asset` (
   `suffix` varchar(10) NOT NULL DEFAULT '' COMMENT '文件后缀名,不包括点',
   `more` text COMMENT '其它详细信息,JSON格式',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COMMENT='资源表';
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COMMENT='资源表';
 
 -- ----------------------------
 -- Records of cmf_asset
@@ -4904,7 +4904,7 @@ CREATE TABLE `cmf_user` (
 -- ----------------------------
 INSERT INTO `cmf_user` VALUES ('1', '1', 'admin', 'admin', '###b0b5b1441fcc40910db4b7d99d049ddf', 'admin@admin.com', '', '', '0', '0', '0', '0', '', '', '1507865317', '1509948972', '127.0.0.1', '1', '', '');
 INSERT INTO `cmf_user` VALUES ('2', '1', '超人不会飞', 'super', '###797fe4d0d1b299ac9b581f4fa4025dbb', 'super@qq.com', '', '', '0', '0', '0', '0', '', '', '0', '0', '', '1', '', '');
-INSERT INTO `cmf_user` VALUES ('3', '1', '洛萨', 'lothar', '###797fe4d0d1b299ac9b581f4fa4025dbb', 'lothar@qq.com', '13333333333', 'avatar/20171125/584d5aa4308ccc597df494da2b84700d.jpg', '0', '785865600', '0', '0', '', '', '0', '1511748208', '127.0.0.1', '1', '', '{\"qq\":\"34242432\",\"address\":\"56特有涂改液\"}');
+INSERT INTO `cmf_user` VALUES ('3', '1', '洛萨', 'lothar', '###797fe4d0d1b299ac9b581f4fa4025dbb', 'lothar@qq.com', '13333333333', 'avatar/20171125/584d5aa4308ccc597df494da2b84700d.jpg', '0', '785865600', '0', '0', '', '', '0', '1512008550', '127.0.0.1', '1', '', '{\"qq\":\"34242432\",\"address\":\"56特有涂改液\"}');
 
 -- ----------------------------
 -- Table structure for cmf_user_action
@@ -4964,11 +4964,12 @@ CREATE TABLE `cmf_user_favorite` (
   `create_time` int(10) unsigned DEFAULT '0' COMMENT '收藏时间',
   PRIMARY KEY (`id`),
   KEY `uid` (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户收藏表';
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COMMENT='用户收藏表';
 
 -- ----------------------------
 -- Records of cmf_user_favorite
 -- ----------------------------
+INSERT INTO `cmf_user_favorite` VALUES ('1', '3', '宝马7系 2009款 740Li领先型', '{\"action\":\"trade\\/Post\\/details\",\"param\":{\"id\":3}}', '操作用户[3]洛萨', 'usual_car', '3', '1512007448');
 
 -- ----------------------------
 -- Table structure for cmf_user_login_attempt
@@ -4996,7 +4997,7 @@ CREATE TABLE `cmf_user_score_log` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '用户 id',
   `create_time` int(11) NOT NULL DEFAULT '0' COMMENT '创建时间',
-  `action` varchar(50) NOT NULL DEFAULT '' COMMENT '用户操作名称：可自定义请说明',
+  `action` varchar(50) NOT NULL DEFAULT '' COMMENT '用户操作名称。自定义：regCar第一次登记申请开店',
   `score` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '更改积分，可以为负',
   `coin` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '更改金币，可以为负',
   PRIMARY KEY (`id`)
@@ -5114,6 +5115,8 @@ CREATE TABLE `cmf_usual_car` (
   `type` tinyint(4) unsigned NOT NULL DEFAULT '0' COMMENT '车源类别：0未分类 1准新车、2练手车、3分期购',
   `market_price` decimal(10,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '市场价',
   `shop_price` decimal(10,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '店铺价',
+  `down_payment` decimal(10,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '首付',
+  `bargain_money` decimal(10,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '订金、预约金',
   `inventory` smallint(6) unsigned NOT NULL DEFAULT '1' COMMENT '库存',
   `old_user` varchar(255) NOT NULL COMMENT '以前的车主',
   PRIMARY KEY (`id`)
@@ -5122,10 +5125,10 @@ CREATE TABLE `cmf_usual_car` (
 -- ----------------------------
 -- Records of cmf_usual_car
 -- ----------------------------
-INSERT INTO `cmf_usual_car` VALUES ('1', '2', '2', '2', '1', '大众 CC 2015款 3.0 自动 V6', '', '', 'eq123456789875463', '皖AH67XB', '2', '33.00', '1510243200', '', '0', '', '', '', '', '0', '3', '3401', '1510814246', '1510814246', '0', '0', '0', '0', '', '', '', '{\"car_seating\":\"\",\"car_color\":\"\",\"car_length\":\"\",\"car_effluent\":\"\",\"car_fuel\":\"\",\"car_displacement\":\"\",\"car_gearbox\":\"\",\"thumbnail\":\"http:\\/\\/tx.car\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/car02.jpg\"}', '1', '1', '{\"username\":\"王铮\",\"contact\":\"手机：13333333333\",\"plateNo\":\"皖AH67XB\",\"driving_license\":\"\"}', '', '', '', '10000', '1', '1509590656', '10.78', '3', '10.78', '10.21', '1', '');
-INSERT INTO `cmf_usual_car` VALUES ('2', '4', '3', '2', '1', '福特 福克斯两厢 2013款 1.8 手动 经典时尚型', '', '', 'xzuih433hf7463343', '皖H967JN', '0', '1.00', '1510329600', '5', '2.1', '1', '5', '3', '1', '0', '3', '3401', '1510814246', '1510814361', '0', '0', '0', '0', '', '', '', '{\"car_seating\":\"5\",\"car_color\":\"3\",\"car_length\":\"121\",\"car_effluent\":\"5\",\"car_fuel\":\"1\",\"car_displacement\":\"2.1~2.5\",\"car_gearbox\":\"1\",\"thumbnail\":\"http:\\/\\/tx.car\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/car01.jpg\"}', '1', '1', '{\"username\":\"澄迈\",\"contact\":\"\",\"plateNo\":\"皖H967JN\",\"driving_license\":\"\"}', '', '', '', '10000', '1', '1510392426', '12.24', '1', '12.24', '11.99', '1', '');
-INSERT INTO `cmf_usual_car` VALUES ('3', '1', '0', '4', '1', '宝马7系 2009款 740Li领先型', '', '', '', '皖A95K88', '0', '14.00', '1350057600', '5', '2.5', '3', '5', '3', '1', '0', '3', '46', '1510814246', '1511509730', '0', '0', '0', '0', '', '', '', '{\"car_seating\":\"5\",\"car_color\":\"3\",\"car_length\":\"\",\"car_age\":\"\",\"car_effluent\":\"5\",\"car_fuel\":\"1\",\"car_displacement\":\"2.5~3\",\"car_mileage\":\"\",\"car_gearbox\":\"3\",\"thumbnail\":\"\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/car01.jpg\"}', '1', '1', '{\"username\":\"贝尔\",\"contact\":\"QQ：456876646\",\"plateNo\":\"皖A95K88\",\"driving_license\":\"https:\\/\\/c1.xinstatic.com\\/f2\\/20171113\\/1802\\/5a096daf09902191543_18.jpg\"}', '', '', '', '10000', '1', '1510552638', '128.95', '0', '0.00', '0.00', '1', '');
-INSERT INTO `cmf_usual_car` VALUES ('4', '2', '8', '2', '3', '洛萨的车子：', '', '', '', '', '1', '0.00', '0', '', '0', '', '', '', '', '0', '3', '37', '1511595559', '1511934154', '0', '0', '0', '0', '', '', '', '{\"car_seating\":\"\",\"car_color\":\"\",\"car_length\":\"\",\"car_age\":\"\",\"car_effluent\":\"\",\"car_fuel\":\"\",\"car_displacement\":\"\",\"car_mileage\":\"\",\"car_gearbox\":\"\",\"thumbnail\":\"https:\\/\\/c1.xinstatic.com\\/f2\\/20171113\\/1802\\/5a096daf09902191543_18.jpg\"}', '1', '0', '{\"username\":\"洛萨\",\"contact\":\"手机：13333333333\",\"plateNo\":\"粤B6863R\",\"driving_license\":\"https:\\/\\/s5.xinstatic.com\\/www\\/img\\/cp05\\/114.png?v=17112101\",\"identity_card\":[{\"url\":\"https:\\/\\/s5.xinstatic.com\\/www\\/img\\/cp05\\/197.png?v=17112101\",\"name\":\"\"},{\"url\":\"https:\\/\\/s5.xinstatic.com\\/www\\/img\\/cp05\\/185.png?v=17112101\",\"name\":\"\"}]}', '', '', '', '10000', '0', '0', '0.00', '0', '0.00', '0.00', '1', '');
+INSERT INTO `cmf_usual_car` VALUES ('1', '2', '2', '2', '1', '大众 CC 2015款 1.8T 自动 豪华型', '', '', 'eq123456789875463', '皖AH67XB', '4', '7.50', '1510243200', '5', '1.8', '', '5', '1', '1', '0', '3', '3401', '1510814246', '1512012294', '0', '0', '0', '0', '', '', '', '{\"car_seating\":\"5\",\"car_color\":\"1\",\"car_length\":\"\",\"car_age\":\"\",\"car_effluent\":\"5\",\"car_fuel\":\"1\",\"car_displacement\":\"\",\"car_mileage\":\"\",\"car_gearbox\":\"\",\"thumbnail\":\"https:\\/\\/c2.xinstatic.com\\/f2\\/20171128\\/1746\\/5a1d306e39820645936_20.jpg\",\"photos\":[{\"url\":\"https:\\/\\/c2.xinstatic.com\\/f2\\/20171128\\/1746\\/5a1d306e39820645936_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c2.xinstatic.com\\/f2\\/20171128\\/1747\\/5a1d309c1a2f3394194_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c2.xinstatic.com\\/f2\\/20171128\\/1746\\/5a1d30692245f485179_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c2.xinstatic.com\\/f2\\/20171128\\/1747\\/5a1d3096e0b4a149087_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c2.xinstatic.com\\/f2\\/20171128\\/1746\\/5a1d30912c8eb290047_20.jpg\",\"name\":\"\"}]}', '1', '1', '{\"username\":\"王铮\",\"contact\":\"手机：13333333333\",\"plateNo\":\"皖AH67XB\",\"driving_license\":\"\"}', '', '', '', '10000', '1', '1509590656', '10.78', '1', '29.18', '19.98', '5.99', '0.00', '1', '');
+INSERT INTO `cmf_usual_car` VALUES ('2', '4', '11', '2', '1', '福特 嘉年华两厢 2011款 1.5 自动 时尚型', '', '', 'xzuih433hf7463343', '皖H967JN', '5', '4.40', '1352563200', '>=4', '1.5', '1', '5', '5', '1', '0', '3', '3401', '1510814246', '1512012266', '0', '0', '0', '0', '', '', '', '{\"car_seating\":\"5\",\"car_color\":\"5\",\"car_length\":\"121\",\"car_age\":\"\",\"car_effluent\":\">=4\",\"car_fuel\":\"1\",\"car_displacement\":\"2.1~2.5\",\"car_mileage\":\"\",\"car_gearbox\":\"1\",\"thumbnail\":\"https:\\/\\/c3.xinstatic.com\\/f2\\/20171129\\/1752\\/5a1e8372a23ff749974_19.jpg\",\"photos\":[{\"url\":\"https:\\/\\/c3.xinstatic.com\\/f2\\/20171129\\/1752\\/5a1e8372a23ff749974_19.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c3.xinstatic.com\\/f2\\/20171129\\/1755\\/5a1e83fe9df67478481_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c3.xinstatic.com\\/f2\\/20171129\\/1752\\/5a1e8369598d4375149_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c3.xinstatic.com\\/f2\\/20171129\\/1754\\/5a1e83e7b0d7b426279_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c3.xinstatic.com\\/f2\\/20171129\\/1752\\/5a1e836d94e07827031_20.jpg\",\"name\":\"\"}]}', '1', '1', '{\"username\":\"澄迈\",\"contact\":\"\",\"plateNo\":\"皖H967JN\",\"driving_license\":\"\"}', '', '', '', '10000', '1', '1510392426', '9.80', '2', '10.63', '4.78', '1.43', '0.00', '1', '');
+INSERT INTO `cmf_usual_car` VALUES ('3', '1', '17', '2', '1', '宝马 1系两厢五门版 2012款 1.6T 自动 116i都市版', '', '', '', '皖A95K88', '0', '14.00', '1350057600', '5', '2.5', '3', '5', '3', '1', '0', '3', '3401', '1510814246', '1512012312', '0', '0', '0', '0', '', '', '', '{\"car_seating\":\"5\",\"car_color\":\"3\",\"car_length\":\"\",\"car_age\":\"\",\"car_effluent\":\"5\",\"car_fuel\":\"1\",\"car_displacement\":\"2.5~3\",\"car_mileage\":\"\",\"car_gearbox\":\"3\",\"thumbnail\":\"https:\\/\\/c2.xinstatic.com\\/f2\\/20171129\\/1726\\/5a1e7d3fa651c407670_19.jpg\",\"photos\":[{\"url\":\"https:\\/\\/c2.xinstatic.com\\/f2\\/20171129\\/1726\\/5a1e7d3fa651c407670_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c2.xinstatic.com\\/f2\\/20171129\\/1727\\/5a1e7d7a28744241112_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c2.xinstatic.com\\/f2\\/20171129\\/1726\\/5a1e7d2fbae64486662_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c2.xinstatic.com\\/f2\\/20171129\\/1727\\/5a1e7d741c49c885807_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c2.xinstatic.com\\/f2\\/20171129\\/1726\\/5a1e7d3c7ab05985442_20.jpg\",\"name\":\"\"}]}', '1', '1', '{\"username\":\"贝尔\",\"contact\":\"QQ：456876646\",\"plateNo\":\"皖A95K88\",\"driving_license\":\"https:\\/\\/c1.xinstatic.com\\/f2\\/20171113\\/1802\\/5a096daf09902191543_18.jpg\"}', '', '', '', '10000', '1', '1510552638', '30.00', '3', '30.18', '17.98', '5.39', '0.00', '1', '');
+INSERT INTO `cmf_usual_car` VALUES ('4', '2', '8', '2', '3', '洛萨的车子：', '', '', '', '', '1', '0.00', '0', '', '0', '', '', '', '', '0', '3', '37', '1511595559', '1511934154', '0', '0', '0', '0', '', '', '', '{\"car_seating\":\"\",\"car_color\":\"\",\"car_length\":\"\",\"car_age\":\"\",\"car_effluent\":\"\",\"car_fuel\":\"\",\"car_displacement\":\"\",\"car_mileage\":\"\",\"car_gearbox\":\"\",\"thumbnail\":\"https:\\/\\/c1.xinstatic.com\\/f2\\/20171113\\/1802\\/5a096daf09902191543_18.jpg\"}', '1', '0', '{\"username\":\"洛萨\",\"contact\":\"手机：13333333333\",\"plateNo\":\"粤B6863R\",\"driving_license\":\"https:\\/\\/s5.xinstatic.com\\/www\\/img\\/cp05\\/114.png?v=17112101\",\"identity_card\":[{\"url\":\"https:\\/\\/s5.xinstatic.com\\/www\\/img\\/cp05\\/197.png?v=17112101\",\"name\":\"\"},{\"url\":\"https:\\/\\/s5.xinstatic.com\\/www\\/img\\/cp05\\/185.png?v=17112101\",\"name\":\"\"}]}', '', '', '', '10000', '0', '0', '0.00', '0', '0.00', '0.00', '0.00', '0.00', '1', '');
 
 -- ----------------------------
 -- Table structure for cmf_usual_company
@@ -5384,7 +5387,7 @@ CREATE TABLE `cmf_usual_series` (
   KEY `idx2` (`brand_id`),
   KEY `idx3` (`model_id`),
   KEY `idx4` (`index`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COMMENT='品牌表';
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4 COMMENT='品牌表';
 
 -- ----------------------------
 -- Records of cmf_usual_series
@@ -5404,6 +5407,12 @@ INSERT INTO `cmf_usual_series` VALUES ('12', '3', '4', '0', '福克斯', '', '',
 INSERT INTO `cmf_usual_series` VALUES ('13', '4', '4', '0', '全顺', '', '', '*', '0', '0', '0', '0', '0', '', '', '', '0', '0', '0', '{\"thumbnail\":\"\"}', '0-4-13', '10000', '', '', '');
 INSERT INTO `cmf_usual_series` VALUES ('14', '5', '4', '0', '野马', '', '', '*', '0', '0', '0', '0', '0', '', '', '', '0', '1', '0', '{\"thumbnail\":\"\"}', '0-5-14', '10000', '', '', '');
 INSERT INTO `cmf_usual_series` VALUES ('15', '7', '2', '0', '甲壳虫', '', '', '*', '0', '0', '0', '0', '0', '', '', '', '0', '0', '0', '{\"thumbnail\":\"\"}', '0-7-15', '10000', '', '', '');
+INSERT INTO `cmf_usual_series` VALUES ('16', '0', '1', '0', '华晨宝马', '', '', '*', '0', '0', '0', '0', '0', '', '', '', '0', '0', '0', '{\"thumbnail\":\"\"}', '0-16', '10000', '', '', '');
+INSERT INTO `cmf_usual_series` VALUES ('17', '16', '1', '0', '1系', '', '', '*', '0', '0', '0', '0', '0', '', '', '', '0', '1', '0', '{\"thumbnail\":\"\"}', '0-16-17', '10000', '', '', '');
+INSERT INTO `cmf_usual_series` VALUES ('18', '16', '1', '0', '2系', '', '', '*', '0', '0', '0', '0', '0', '', '', '', '0', '0', '0', '{\"thumbnail\":\"\"}', '0-16-18', '10000', '', '', '');
+INSERT INTO `cmf_usual_series` VALUES ('19', '16', '1', '0', '3系', '', '', '*', '0', '0', '0', '0', '0', '', '', '', '0', '0', '0', '{\"thumbnail\":\"\"}', '0-16-19', '10000', '', '', '');
+INSERT INTO `cmf_usual_series` VALUES ('20', '16', '1', '0', '5系', '', '', '*', '0', '0', '0', '0', '0', '', '', '', '0', '0', '0', '{\"thumbnail\":\"\"}', '0-16-20', '10000', '', '', '');
+INSERT INTO `cmf_usual_series` VALUES ('21', '16', '1', '0', 'X1', '', '', '*', '0', '0', '0', '0', '0', '', '', '', '0', '1', '0', '{\"thumbnail\":\"\"}', '0-16-21', '10000', '', '', '');
 
 -- ----------------------------
 -- Table structure for cmf_verification_code

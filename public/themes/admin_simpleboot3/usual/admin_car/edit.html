@@ -131,9 +131,9 @@
                                     <foreach name="post.more.photos" item="vo">
                                         <li id="saved-image{$key}">
                                             <input id="photo-{$key}" type="hidden"
-                                                   name="photo_urls[]" value="{$vo.url}">
+                                                   name="photo[urls][]" value="{$vo.url}">
                                             <input id="photo-{$key}-name" type="text"
-                                                   name="photo_names[]" value="{$vo.name|default=''}"
+                                                   name="photo[names][]" value="{$vo.name|default=''}"
                                                    class="form-control" style="width: 200px;" title="图片名称">
                                             <img id="photo-{$key}-preview"
                                                  src="{:cmf_get_image_preview_url($vo['url'])}"
@@ -350,9 +350,21 @@
                         </td>
                     </tr>
                     <tr>
+                        <th>首付价</th>
+                        <td>
+                            <input class="form-control" placeholder="" name="post[down_payment]" value="{$post.down_payment|default='0.00'}"> 万元
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>订金、预约金</th>
+                        <td>
+                            <input class="form-control" placeholder="" name="post[bargain_money]" value="{$post.bargain_money|default='0.00'}"> 元
+                        </td>
+                    </tr>
+                    <tr>
                         <th>库存</th>
                         <td>
-                            <input class="form-control" placeholder="" name="post[inventory]" value="{$post..inventory|default='1'}"> 辆
+                            <input class="form-control" placeholder="" name="post[inventory]" value="{$post.inventory|default='1'}"> 辆
                         </td>
                     </tr>
                     </table>
@@ -538,5 +550,6 @@
         });
     }
 </script>
+
 </body>
 </html>

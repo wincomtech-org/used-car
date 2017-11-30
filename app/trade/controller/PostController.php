@@ -16,8 +16,13 @@ class PostController extends HomeBaseController
         $id = $this->request->param('id',0,'intval');
         // $page = model('usual/UsualCar')->getPost($id);
         $page = model('usual/UsualCar')->getPostRelate($id);
+        if (empty($page)) {
+            abort(404,'数据不存在！');
+        }
         // $company = DB::name('UsualCompany')->where(['user_id'=>$page['user_id']])->find();
-
+        // 查找相关属性值 id
+        // $item_exchange_var = 'car_color,car_effluent,car_displacement,car_gearbox';
+        // $item_exchange = '';
         // dump($page);die;
 
         $this->assign('page',$page);
@@ -26,7 +31,23 @@ class PostController extends HomeBaseController
 
     public function seeCar()
     {
+        $id = $this->request->param('id',0,'intval');
+        $carInfo = Db::name('usual_car')->field('name,bargain_money')->where('id',$id)->find();
+
+        $this->assign('carInfo',$carInfo);
         return $this->fetch();
+    }
+
+    public function deposit()
+    {
+        return $this->fetch();
+    }
+
+
+// 提交无页面的 function
+    public function depositPost()
+    {
+        # \app\funds\controller\PayController.php
     }
 
     public function regCar()
@@ -34,13 +55,13 @@ class PostController extends HomeBaseController
         // 是否登录
         $userId = cmf_get_current_user_id();
         if (empty($userId)) {
-            return lothar_toJson(0,'您尚未登录',url("user/Login/index"));
+            echo lothar_toJson(0,'您尚未登录',url("user/Login/index"));exit();
         }
         // 是否认证
-        // $identify = lothar_verify();
-        // if (empty($identify)) {
-        //     return lothar_toJson(0,'您未进行实名认证',url('user/Profile/center'));
-        // }
+        $identify = lothar_verify();
+        if (empty($identify)) {
+            echo lothar_toJson(0,'您未进行实名认证，请上传身份证',url('user/Profile/center'));exit();
+        }
 
         // 获取数据
         // $data = $this->request->param();
@@ -66,6 +87,13 @@ class PostController extends HomeBaseController
         $code = $this->request->param('code');
         $userInfo = cmf_get_current_user();
 
+        // 验证验证码
+        // $isMob = cmf_is_mobile();
+        // if (!(cmf_captcha_check($code,1) || cmf_captcha_check($code,2))) {
+        if (!cmf_captcha_check($code,1) && !cmf_captcha_check($code,2)) {
+            echo lothar_toJson(0,'验证码错误');exit();
+        }
+
         $uname = $userInfo['user_nickname'] ? $userInfo['user_nickname'] : ($userInfo['user_login']?$userInfo['user_login']:$userInfo['user_email']);
 
         $post = [
@@ -81,15 +109,17 @@ class PostController extends HomeBaseController
             'identi'    => ['username'=>'','contact'=>'手机：'.$tel],
         ];
 
+        // 是否第一次登记 如果是交保证金 deposit
+        $rcount = Db::name('user_score_log')->where(['user_id'=>$userId,'action'=>'regCar'])->count();
+        if (empty($rcount)) {
+            // session('deposit_'.$userInfo['id'], $post);
+            // $this->redirect(url('deposit'));
+            echo lothar_toJson(0,'系统检测到您还未交保证金',url('deposit'));exit();
+        }
+
         $result = $this->validate($post, 'usual/Car.seller');
         if ($result !== true) {
-            return lothar_toJson(0,$result);
-        }
-        // 验证验证码
-        // $isMob = cmf_is_mobile();
-        // if (!(cmf_captcha_check($code,1) || cmf_captcha_check($code,2))) {
-        if (!cmf_captcha_check($code,1) && !cmf_captcha_check($code,2)) {
-            return lothar_toJson(0,'验证码错误');
+            echo lothar_toJson(0,$result);exit();
         }
 
         // 提交
@@ -106,6 +136,7 @@ class PostController extends HomeBaseController
                 'content'=>'客户ID：'.$userInfo['id'].'，车子ID：'.$id
             ];
             lothar_put_news($data);
+            // session('deposit_'.$userInfo['id'], null);
             $sta = true;
             // 提交事务
             Db::commit();
@@ -119,7 +150,7 @@ class PostController extends HomeBaseController
         } else {
             $result = lothar_toJson(0,'提交失败');
         }
-        return $result;
+        echo $result;exit();
     }
 
     public function order()

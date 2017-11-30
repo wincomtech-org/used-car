@@ -39,7 +39,7 @@ class CollectController extends UserBaseController
         $where['user_id'] = $userId;
         $data             = $userQuery->where($where)->delete();
 
-        if ($data) {
+        if (!empty($data)) {
             $this->success("取消收藏成功！");
         } else {
             $this->error("取消收藏失败！");

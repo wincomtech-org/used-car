@@ -172,7 +172,7 @@ function cmf_log($content, $file = "log.txt")
     file_put_contents($file, $content, FILE_APPEND);
 }
 /**
- * 消息记录
+ * 存放消息记录
  * @param $data 要写入的数据
     $data = [
         'title' => '预约保险',
@@ -209,8 +209,31 @@ function lothar_put_news($data, $file = null)
     // Db::name('news')->insert($data);
     // return Db::name('news')->getLastInsID();
 }
+/*取出未处理消息 提醒*/
+function lothar_get_news($type='', $dialog=false)
+{
+    $where['status'] = 0;
+    if (!empty($type)) {
+        $where['app'] = $type;
+    }
+    $news = Db::name('news')->where($where)->select();
+
+    // 执行JS弹窗
+    if ($dialog===true) {
+        // $new = json_encode($news);
+        $count = count($news);
+        if ($count>0) {
+            $msg = '您有 '.$count.' 条未处理消息！';
+            $jumpurl = url('usual/AdminNews/index');
+            // echo '<script type="text/javascript">alert("'.$msg.'");</script>';
+            echo "<script type=\"text/javascript\">if (confirm('".$msg."')) { window.location.href='".$jumpurl."'}</script>";
+        }
+    } else {
+        return $news;
+    }
+}
 /*
-* 判断用户认证状态
+* 用户认证状态信息
 * @param $uid 默认是当前用户
 * @param $code 默认是实名认证
 * @param $data 是否返回数据集、统计

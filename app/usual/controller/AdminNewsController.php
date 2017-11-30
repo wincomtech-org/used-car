@@ -17,6 +17,7 @@ class AdminNewsController extends AdminBaseController
 
     public function index()
     {
+        
         return '消息模块';
         return $this->fetch();
     }

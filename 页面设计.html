@@ -28,6 +28,7 @@
     <!-- <widget name="features"></widget> -->
     <!-- <article></article> -->
     <!-- <img src="__TMPL__/public/assets/images/example/cainiao.png" alt=""> -->
+    <!-- <img src="/themes/datong_car/public/assets/images/example/car_big.jpg" alt=""> -->
 
     <!-- 底部 -->
     <include file="public@footer" />
@@ -58,23 +59,48 @@ public@footer
     <title>系统自带</title>
 </head>
 <body>
-js-bootstrap-date  日期
-js-bootstrap-datetime 时间
+
+所有(预)处理JS
+    a.js-ajax-delete //删除 {:lang('DELETE')}
+    a.js-ajax-dialog-btn //更新 data-msg="确定更新此模板吗？"
+    a.js-ajax-dialog-btn___ //还原
+    a.js-ajax-btn //变成按钮了
+    a.js-ajax-refresh //刷新
+    a.js-dialog  //所有加了dialog类名的a链接，自动弹出它的href
+    #js-dialog-close //dialog弹窗内的关闭方法
+
+    .js-get-mobile-code //短信验证码
+    .js-get-email-code //邮件验证码
+
+    input.js-date //日期选择器
+    input.js-datetime //日期+时间选择器
+    input.js-bootstrap-date // bootstrap日期选择器
+    input.js-bootstrap-datetime // bootstrap日期选择器日期+时间选择器
+
+    a.js-count-btn //赞，拍等，有数量操作的按钮
+    .js-address-select //地址联动
+    a.js-action-btn //动作
+    a.js-favorite-btn //收藏
 
 
+示例：
     <form enctype="multipart/form-data">文件上传</form>
-    <form action="{:url('AdminArticle/editPost')}" method="post" class="form-horizontal js-ajax-form margin-top-20">
+    <form action="{:url('AdminArticle/editPost')}" method="post" class="form-horizontal margin-top-20 js-ajax-form">
         <button type="submit" class="btn btn-primary js-ajax-submit">{:lang('SAVE')}</button>
         <a class="btn btn-default" href="javascript:history.back(-1);">{:lang('BACK')}</a>
     </form>
+
     <a href="javascript:" class=""></a>
     <a href="{:url('Rbac/roledelete',array('id'=>$vo['id']))}" class="js-ajax-delete">{:lang('DELETE')}</a>
     <a href="{:U('user/delete',array('id'=>$vo['id']))}" class="js-ajax-delete">删除</a>
     <a href="{:url('theme/update',['theme'=>$vo.theme])}" class="js-ajax-dialog-btn" data-msg="确定更新此模板吗？">更新</a>
+    <a href="" class="js-ajax-btn">按钮提交</a>
     <a href="{:url('RecycleBin/restore',array('id'=>$vo['id']))}" class="js-ajax-dialog-btn___" data-msg="确定要还原吗？">还原</a>
+    <a href="" class="js-ajax-refresh">刷新</a>
+
+    <script src="__STATIC__/js/frontend.js"></script>
 </body>
 </html>
-
 
 
 

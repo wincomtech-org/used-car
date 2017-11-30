@@ -103,7 +103,7 @@ function RegCarSubmit(){
     // console.log(brandId,serieId,modelId,province,city,tel,code);
 
     $.post("{:url('trade/Post/regCar')}", {brandId:brandId, serieId:serieId, modelId:modelId, province:province, city:city, tel:tel, code: code}, function(data) {
-        alert(data.msg);
+        alert(data.msg);//可以换个像样的弹窗
         if (data.url) {
             window.location.href = data.url;
         } else {

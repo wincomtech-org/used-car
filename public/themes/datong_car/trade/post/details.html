@@ -27,24 +27,21 @@
                     <div class="lanrenzhijia" >
                         <!-- 大图begin -->
                         <div id="preview" class="spec-preview">
-                            <div class="jqzoom"><img jqimg="__TMPL__/public/assets/images/example/car_big.jpg" src="{:cmf_get_image_preview_url($page.more.thumbnail)}" /><a class="shoucang" href="{:url('Post/collect',['id'=>$page.id])}"><i></i>收藏</a></div>
+                            <div class="jqzoom">
+                                <img jqimg="{:cmf_get_image_preview_url($page.more.thumbnail)}" src="{:cmf_get_image_preview_url($page.more.thumbnail)}" />
+                                <a class="shoucang js-favorite-btn" href="{:url('Post/collect',['id'=>$page.id])}"><i></i>收藏</a>
+                            </div>
                         </div>
                         <!-- 大图end -->
                         <!-- 缩略图begin -->
                         <div class="spec-scroll"> <a class="prev">&lt;</a> <a class="next">&gt;</a>
                               <div class="items">
                                 <ul>
-                                  <li><img bimg="__TMPL__/public/assets/images/example/car_big.jpg" src="__TMPL__/public/assets/images/example/car_big.jpg" onmousemove="preview(this);"></li>
-                                  <li><img bimg="__TMPL__/public/assets/images/example/car_big.jpg" src="__TMPL__/public/assets/images/example/car01.jpg" onmousemove="preview(this);"></li>
-                                  <li><img bimg="__TMPL__/public/assets/images/example/car_big.jpg" src="__TMPL__/public/assets/images/example/car_big.jpg" onmousemove="preview(this);"></li>
-                                  <li><img bimg="__TMPL__/public/assets/images/example/car_big.jpg" src="__TMPL__/public/assets/images/example/car_big.jpg" onmousemove="preview(this);"></li>
-                                  <li><img bimg="__TMPL__/public/assets/images/example/car_big.jpg" src="__TMPL__/public/assets/images/example/car_big.jpg" onmousemove="preview(this);"></li>
-                                  <li><img bimg="__TMPL__/public/assets/images/example/car_big.jpg" src="__TMPL__/public/assets/images/example/car_big.jpg" onmousemove="preview(this);"></li>
-                                  <li><img bimg="__TMPL__/public/assets/images/example/car_big.jpg" src="__TMPL__/public/assets/images/example/car_big.jpg" onmousemove="preview(this);"></li>
-                                  <li><img bimg="__TMPL__/public/assets/images/example/car_big.jpg" src="__TMPL__/public/assets/images/example/car_big.jpg" onmousemove="preview(this);"></li>
-                                  <li><img bimg="__TMPL__/public/assets/images/example/car_big.jpg" src="__TMPL__/public/assets/images/example/car_big.jpg" onmousemove="preview(this);"></li>
-                                  <li><img bimg="__TMPL__/public/assets/images/example/car_big.jpg" src="__TMPL__/public/assets/images/example/car_big.jpg" onmousemove="preview(this);"></li>
-                                  <li><img bimg="__TMPL__/public/assets/images/example/car_big.jpg" src="__TMPL__/public/assets/images/example/car_big.jpg" onmousemove="preview(this);"></li>
+                                    <notempty name="page.more.photos">
+                                    <foreach name="page.more.photos" item="vo">
+                                    <li><img bimg="{:cmf_get_image_preview_url($vo.url)}" src="{:cmf_get_image_preview_url($vo['url'])}" onmousemove="preview(this);"></li>
+                                    </foreach>
+                                    </notempty>
                                 </ul>
                               </div>
                         </div>
@@ -62,7 +59,7 @@
                     <div class="down_payments">
                         <a href="" class="down_payments_a">
                             <span class="icon_img"><img src="__TMPL__/public/assets/images/example/down_price.png" alt=""></span>
-                            <span>首付<b> 11.94万 </b> 即刻拥有 > </span>
+                            <span>首付<b> {$page.down_payment}万 </b>即刻拥有</span>
                         </a>
                     </div>
                     <div class="detail2">
@@ -90,7 +87,7 @@
                                 <span>排量/变速箱</span>
                             </li>
                             <li class="offter">
-                                <b>{$page.city_id}</b>
+                                <b>{$page.cityname}</b>
                                 <span>所在城市</span>
                             </li>
 
@@ -98,7 +95,7 @@
                     </div>
                     <div class="yuyue">
                         <div class="yuyue_guang">
-                            <a href="booking_see_car.html" class="btn car"><span></span>预约看车</a>
+                            <a href="{:url('seeCar',['id'=>$page.id])}" class="btn car"><span></span>预约看车</a>
                         </div>
                         <div class="yuyue_guang">
                             <a class="btn iphone" href="tel:13205513306"><span></span>电话联系</a>

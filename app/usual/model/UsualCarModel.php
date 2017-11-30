@@ -86,6 +86,16 @@ class UsualCarModel extends UsualModel
     {
         return $this->getStatus($status,'usual_car_sell_status');
     }
+    // 解决状态冲突
+    public function identiStatus($data=[], $shape=false)
+    {
+        if ( isset($data['sell_status']) && isset($data['identi_status']) ) {
+            if (empty($data['identi_status']) && !empty($data['sell_status'])) {
+                $data['sell_status'] = 0;
+            }
+        }
+        return $data;
+    }
 
 
 

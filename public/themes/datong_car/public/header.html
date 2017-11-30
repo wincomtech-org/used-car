@@ -14,10 +14,19 @@
         <div class="list-block accordion-list panel-menu">
             <ul>
                 <foreach name="navMenus" item="nav" >
+                <php>$navchildcount=count($nav['children']);</php>
                 <li class="accordion-item">
-                    <a class="item-content item-link link" <empty name="nav.children">href="{$nav.href}"</empty> {$nav.target?='target="_blank"'} >
+                    <a class="item-content item-link link"
+                        href="{$nav.children?'#':$nav.href}"
+                        {$nav.target?='target="_blank"'} >
                         <div class="item-inner">
-                            <div class="item-title"><i class="icon {$nav.icon|default='ion-android-home'}"></i>{$nav.name}</div>
+                            <div class="item-title">
+                            <i class="icon {$nav.icon|default='ion-android-home'}"></i>
+                            {$nav.name}
+                            <notempty name="navchildcount">
+                            <span class="badge">{$navchildcount}</span>
+                            </notempty>
+                            </div>
                         </div>
                     </a>
                     <if condition="!empty($nav.children)">

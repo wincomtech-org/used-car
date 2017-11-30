@@ -9,7 +9,7 @@ use think\Db;
 /**
 * 公司企业模块
 */
-class AdminDepositController extends AdminBaseController
+class AdminConsignController extends AdminBaseController
 {
     function _initialize()
     {
@@ -53,7 +53,7 @@ class AdminDepositController extends AdminBaseController
         if ($this->request->isPost()) {
             $data   = $this->request->param();
             $post   = $data['post'];
-            $result = $this->validate($post, 'Deposit.add');
+            $result = $this->validate($post, 'Consign.add');
             if ($result !== true) {
                 $this->error($result);
             }
@@ -75,7 +75,7 @@ class AdminDepositController extends AdminBaseController
             // ];
             // hook('portal_admin_after_save_article', $hookParam);
 
-            $this->success('添加成功!', url('AdminDeposit/edit', ['id' => $this->uModel->id]));
+            $this->success('添加成功!', url('AdminConsign/edit', ['id' => $this->uModel->id]));
         }
     }
 
@@ -102,7 +102,7 @@ class AdminDepositController extends AdminBaseController
         if ($this->request->isPost()) {
             $data   = $this->request->param();
             $post   = $data['post'];
-            $result = $this->validate($post, 'Deposit.edit');
+            $result = $this->validate($post, 'Consign.edit');
             if ($result !== true) {
                 $this->error($result);
             }

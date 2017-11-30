@@ -3,7 +3,7 @@ namespace app\usual\validate;
 
 use think\Validate;
 
-class DepositValidate extends Validate
+class ConsignValidate extends Validate
 {
     protected $rule = [
         'company_id'  => 'require|gt:0',

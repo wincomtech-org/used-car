@@ -18,19 +18,14 @@
     <section class="booking_see_car">
         <div class="main">
             <div class="booking_see_car_con">
-                <h3>预约看车</h3>
-                <form action="booking_see_car_submit" method="post" accept-charset="utf-8">
+            <h3>开店保证金</h3>
+                <form action="{:url('Post/depositPost')}" method="post" accept-charset="utf-8" class="js-ajax-form">
                     <ul class="see_car_list">
                         <li class="see_car_items">
-                            <span class="icon">车子标题</span>
+                            <span class="icon">价格（保证金）</span>
                             <div class="item_con">
-                                <p class='text'>{$carInfo.name}</p>
-                            </div>
-                        </li>
-                        <li class="see_car_items">
-                            <span class="icon">价格（订金）</span>
-                            <div class="item_con">
-                                <p class='text'>￥{$carInfo.bargain_money}元（含过户费)</p>
+                                <!-- <input type="text" name="money" value="300" readonly disabled> -->
+                                <p class='text'>￥300元</p>
                             </div>
                         </li>
                         <li class="see_car_items">
@@ -43,16 +38,17 @@
                                     </ul>
                                 </div>
                                 <div class="payment_con">
+                                    <!-- 余额支付 -->
                                     <div class="payment_way_1_con" style="display:none">
                                         <div class="has_money list_money" style="display:block">
-
                                             <div class="middle">
-                                                <p>名称：{$carInfo.name}</p>
-                                                <p>订金：￥{$carInfo.bargain_money}元（含过户费)</p>
-
+                                                <p>保证金只需支付一次，便可终生享受卖车资格</p>
                                             </div>
                                             <div class="right">
-                                                <a href="{:url('funds/Pay/index',['type'=>'cash','action'=>'seecar'])}" class="sure_pay js-dialog">确认支付</a>
+                                                <a href="{:url('funds/Pay/index',['type'=>'cash','action'=>'deposit'])}" class="sure_pay js-dialog">确认支付</a>
+                                                <!-- <input type="hidden" name="type" value="cash">
+                                                <input type="hidden" name="action" value="deposit">
+                                                <button type="submit" class="js-ajax-submit">确认支付</button> -->
                                             </div>
                                         </div>
                                         <div class="nomoney list_money" style="display:none">
@@ -72,17 +68,16 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <!-- 在线支付 -->
                                     <div class="payment_way_2_con" style="display:none;">
                                         <div class="pay_mode">
                                             <div class="pay_tab">
                                                 <ul class="online_way pay_tab_list">
                                                     <li class="label_input pay_tab_list_item"><b></b><label><input type="radio" name="online_payment_way" ><span class="icon_img"></span></label></li>
                                                     <li class="label_input pay_tab_list_item"><b></b><label><input type="radio" name="online_payment_way" ><span class="icon_img"></span></label></li>
-
                                                 </ul>
                                                 <div class="pay_tab_con">
                                                     <ul class="pay_tab_con_list">
-
                                                         <li class="pay_tab_con_list_item" style="display:none">
                                                             <div class="zhifubao">
                                                                 <div class="left">
@@ -94,7 +89,6 @@
                                                                         <div class="rt">
                                                                             <img src="__TMPL__/public/assets/images/example/erweima_tip.png" alt="">
                                                                         </div>
-
                                                                     </div>
                                                                 </div>
                                                                 <div class="right">
@@ -102,9 +96,11 @@
                                                                         <img src="__TMPL__/public/assets/images/example/erweima_wangye.png" alt="">
                                                                     </div>
                                                                     <div class="button">
-                                                                        <a href="{:url('funds/Pay/index',['type'=>'alipay','action'=>'seecar'])}" class="js-dialog">立即支付</a>
+                                                                        <a href="{:url('funds/Pay/index',['type'=>'alipay','action'=>'deposit'])}" class="js-dialog">立即支付</a>
+                                                                        <!-- <input type="hidden" name="type" value="alipay">
+                                                                        <input type="hidden" name="action" value="deposit">
+                                                                        <button type="submit" class="js-ajax-submit">确认支付</button> -->
                                                                     </div>
-
                                                                 </div>
                                                                 <div class="clear"></div>
                                                             </div>
@@ -135,6 +131,7 @@
         </div>
     </section>
 
+
     <!-- 底部 -->
     <include file="public@footer" />
     <include file="public@scripts" />
@@ -152,9 +149,7 @@
         var $div=$('.payment_con>div')
         if($(this).prop('checked')){
             $(this).parent().parent().addClass('select').siblings().removeClass('select');
-
             $div.eq($t).show().siblings().hide();
-
         }
     })
 

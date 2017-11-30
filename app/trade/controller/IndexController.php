@@ -8,7 +8,7 @@ use think\Loader;
 
 /**
 * 车辆买卖 列表
-* 
+*
 */
 class IndexController extends HomeBaseController
 {
@@ -20,14 +20,15 @@ class IndexController extends HomeBaseController
     public function index()
     {
         // dump(Loader::parseName('brand_id',1));die;
-        // dump(Loader::parseName('brandId'));die;
-        // dump(Loader::parseName('car_seating'));die;
+        // dump(cmf_parse_name('brandId'));die;
+        // dump(cmf_parse_name('car_seating'));die;
         // 实例化
         $serieModel = new UsualSeriesModel();
 
         /*获取免费登记卖车信息相关数据 cache('?regCarInfo')*/
         $regCarInfo = cache('regCarInfo');
         if (empty($regCarInfo)) {
+            // $regCarSession = session('deposit_'.cmf_get_current_user_id());
             // $brandId = $this->request->param('brandId',0,'intval');
             $provId = $this->request->param('provId',1,'intval');
             // $cityId = $this->request->param('cityId',0,'intval');
@@ -123,7 +124,7 @@ class IndexController extends HomeBaseController
         $separator = '_';// 分隔符 避免被转义
         $cname = 'a.';// 别名
         $numeric = '000000000';// 预置
-        $limit = 1;//每页数据量
+        $limit = 12;//每页数据量
         $string = $jumpurl = $jumpext = '';
         $filter = $extra = $where = $order = $carlist = [];
         $filter['sell_status'] = 1;
@@ -159,7 +160,7 @@ class IndexController extends HomeBaseController
         //     $string = explode($separator,$string);
         // }
 
-        // 处理数字类型的 0,1,2 是否字段别名: 'a.'.Loader::parseName($idv)
+        // 处理数字类型的 0,1,2 是否字段别名: 'a.'.cmf_parse_name($idv)
         $numericArr = str_split($numeric,3);
         $newNumeric = '';
         foreach (['brandId','serieId','modelId'] as $key => $idv) {
@@ -169,7 +170,7 @@ class IndexController extends HomeBaseController
             if (empty($value)) {
                 $value = '000';
             } else {
-                $extra[$cname.Loader::parseName($idv)] = $value;
+                $extra[$cname.cmf_parse_name($idv)] = $value;
                 if ($value>0 && $value<10) {
                     $value = '00'.$value;
                 } elseif ($value<100) {

@@ -29,6 +29,18 @@
             <input type="text" name="post[shop_price]" value="{$post.shop_price|default='0.00'}" placeholder="" class="placeholder" /> 万元
         </div>
     </li>
+    <li class="details_item">
+        <span class="details_tit">首付</span>
+        <div class="idetails_con">
+            <input type="text" name="post[down_payment]" value="{$post.down_payment|default='0.00'}" placeholder="" class="placeholder" /> 万元
+        </div>
+    </li>
+    <li class="details_item">
+        <span class="details_tit">订金、预约金</span>
+        <div class="idetails_con">
+            <input type="text" name="post[bargain_money]" value="{$post.bargain_money|default='0.00'}" placeholder="" class="placeholder" /> 元
+        </div>
+    </li>
 
     <li class="details_item">
         <span class="details_tit">库存</span>
@@ -61,9 +73,9 @@
                     <foreach name="post.more.photos" item="vo">
                         <li id="saved-image{$key}">
                             <input id="photo-{$key}" type="hidden"
-                                   name="photo_urls[]" value="{$vo.url}">
+                                   name="photo[urls][]" value="{$vo.url}">
                             <input id="photo-{$key}-name" type="text"
-                                   name="photo_names[]" value="{$vo.name|default=''}"
+                                   name="photo[names][]" value="{$vo.name|default=''}"
                                    class="form-control" style="width: 200px;" title="图片名称">
                             <img id="photo-{$key}-preview"
                                  src="{:cmf_get_image_preview_url($vo['url'])}"

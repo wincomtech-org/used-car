@@ -41,6 +41,8 @@ class AdminBaseController extends BaseController
                 exit();
             }
         }
+
+        // lothar_get_news('',true);
     }
 
     public function _initializeView()

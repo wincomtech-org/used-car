@@ -70,7 +70,7 @@ class TradeController extends UserBaseController
         // $param = $this->request->param();
         // $id = $this->request->param('id/d');
         $userId = cmf_get_current_user_id();
-        $userId = 1;
+        // $userId = 1;
 
         $extra = ['a.user_id'=>$userId];
 
@@ -88,6 +88,7 @@ class TradeController extends UserBaseController
     {
         error_reporting(E_ALL^(E_WARNING|E_NOTICE));
         $id = $this->request->param('id/d',0,'intval');
+        $srcol = $this->request->param('srcol/s','base','strval');
         $userId = cmf_get_current_user_id();
         // 用户认证状态
         $identify = lothar_verify($userId);
@@ -149,6 +150,7 @@ class TradeController extends UserBaseController
 
         $this->assign('post',$post);
         $this->assign('identify',$identify);
+        $this->assign('srcol',$srcol);
         return $this->fetch('seller_car');
     }
 
@@ -167,7 +169,7 @@ class TradeController extends UserBaseController
             if (empty($post['serie_id'])) {
                 $post['serie_id'] = $post['serie_pid'];
             }
-            $post['user_id'] = $userId;
+            $post['user_id'] = !empty($post['user_id'])?$post['user_id']:$userId;
             $post['update_time'] = time();
 
             $carModel = new UsualCarModel();
@@ -244,8 +246,8 @@ class TradeController extends UserBaseController
         $userId = cmf_get_current_user_id();
 
         $extra = [
-            // 'seller_uid' => $userId,
-            'seller_uid' => 1,
+            'seller_uid' => $userId,
+            // 'seller_uid' => 1,
         ];
 
         $list = model('trade/TradeOrder')->getLists([],'','',$extra);
