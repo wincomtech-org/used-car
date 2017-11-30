@@ -910,6 +910,11 @@
 .idetails_con .analogy select:last-child{width:49% !important;}
 
 
+#identity_card li{float:left;width:50%;}
+#identity_card input{height:auto;line-height:auto;border:none;}
+#identity_card:after{content:"";display:block;clear:both;}
+
+
 /*卖家中心*/
 .seller_center .info_detail_list{width:600px;float:left;}
 .custom_service{float:right;width:260px;margin-top:.5rem;position:relative;}
@@ -918,9 +923,11 @@
 .custom_service dt{font-size:16px;background-color:#dcdcdc;border-bottom:1px solid #ddd;padding:15px 10px;}
 .custom_service dd{font-size:14px;padding:0 10px;box-sizing:border-box;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;-ms-box-sizing:border-box;-o-box-sizing:border-box;}
 .custom_service dd a{display:block;width:100%;height:100%;color:#333;border-bottom:1px solid #ddd;padding-top:10px;padding-bottom:10px;}
-.seller_center .analogy{width:380px;border:none;}
+.seller_center .analogy{width:380px;border:none;height:auto;}
 .seller_center .analogy p{padding:0;width:auto;position:static;}
 .details_item .idetails_con .analogy_con input{border:none;}
+.analogy_tip i{display:block;line-height:2;} 
+
 
 /*个人中心车辆业务*/
 .person_carBuss{width:100%;border:1px solid #ddd; border-collapse:collapse}
@@ -939,7 +946,7 @@
 .page_tip .page1{float:right;width:auto;}
 .page_tip .page1_con{display:inline-block;}
 .page_tip .page1_con li{float:left;}
-.page_tip .page1_con li{width:30px;height:30px;line-height:30px;text-align:center;border:1px solid #ddd;border-left:none;}
+.page_tip .page1_con li{width:30px;height:30px;line-height:30px;text-align:center;border:1px solid #ddd;border-left:none;z-index:1;}
 .page_tip .page1_con li:first-child{border-left:1px solid #ddd;}
 .page_tip .page1_con li.active{background-color:#d00000;}
 .page_tip .page1_con li.active a{color:#fff;}
