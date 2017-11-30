@@ -15,23 +15,23 @@
     <script type="text/html" id="photos-item-tpl">
         <li id="saved-image{id}">
             <input id="photo-{id}" type="hidden" name="photo[urls][]" value="{filepath}">
-            <input class="form-control" id="photo-{id}-name" type="text" name="photo[names][]" value="{name}"
-                   style="width: 200px;" title="图片名称">
-            <img id="photo-{id}-preview" src="{url}" style="height:36px;width: 36px;"
+            <img id="photo-{id}-preview" src="{url}" style="height:108px;width:180px;"
                  onclick="imagePreviewDialog(this.src);">
             <a href="javascript:uploadOneImage('图片上传','#photo-{id}');">替换</a>
             <a href="javascript:(function(){$('#saved-image{id}').remove();})();">移除</a>
+            <input class="form-control" id="photo-{id}-name" type="text" name="photo[names][]" value="{name}"
+                    title="图片名称">
         </li>
     </script>
     <script type="text/html" id="identity_card-item-tpl">
         <li id="saved-identity_card{id}">
             <input id="identity_card-{id}" type="hidden" name="identity_card[urls][]" value="{filepath}">
-            <input class="form-control" id="identity_card-{id}-name" type="text" name="identity_card[names][]" value="{name}"
-                   style="width: 200px;" title="图片名称">
-            <img id="identity_card-{id}-preview" src="{url}" style="height:36px;width:36px;"
+            <img id="identity_card-{id}-preview" src="{url}" style="height:108px;width:180px;"
                  onclick="imagePreviewDialog(this.src);">
             <a href="javascript:uploadOneImage('图片上传','#identity_card-{id}');">替换</a>
             <a href="javascript:(function(){$('#saved-identity_card{id}').remove();})();">移除</a>
+            <input class="form-control" id="identity_card-{id}-name" type="text" name="identity_card[names][]" value="{name}"
+                   title="图片名称">
         </li>
     </script>
 </head>
