@@ -4,27 +4,6 @@
         margin-bottom: 5px;
     }
 </style>
-<script type="text/html" id="photos-item-tpl">
-    <li id="saved-image{id}">
-        <input id="photo-{id}" type="hidden" name="photo_urls[]" value="{filepath}">
-        <input class="form-control" id="photo-{id}-name" type="text" name="photo_names[]" value="{name}"
-               style="width: 200px;" title="图片名称">
-        <img id="photo-{id}-preview" src="{url}" style="height:36px;width: 36px;"
-             onclick="imagePreviewDialog(this.src);">
-        <a href="javascript:uploadOneImage('图片上传','#photo-{id}');">替换</a>
-        <a href="javascript:(function(){$('#saved-image{id}').remove();})();">移除</a>
-    </li>
-</script>
-<script type="text/html" id="files-item-tpl">
-    <li id="saved-file{id}">
-        <input id="file-{id}" type="hidden" name="file_urls[]" value="{filepath}">
-        <input class="form-control" id="file-{id}-name" type="text" name="file_names[]" value="{name}"
-               style="width: 200px;" title="文件名称">
-        <a id="file-{id}-preview" href="{preview_url}" target="_blank">下载</a>
-        <a href="javascript:uploadOne('图片上传','#file-{id}','file');">替换</a>
-        <a href="javascript:(function(){$('#saved-file{id}').remove();})();">移除</a>
-    </li>
-</script>
 </head>
 <body>
 <div class="wrap js-check-wrap">
@@ -64,15 +43,44 @@
                         <th></th>
                         <td style="color:#F00;font-weight:700">以下是用户自填资料：</td>
                     </tr>
-                    <foreach name="define_data" item="vo" key="k">
+                    <foreach name="post.more" item="vo" key="k">
                     <tr>
-                        <th>{$vo}</th>
+                        <th>{$define_data[$k]}</th>
                         <td>
-                            <switch name="k">
-                                <case value="1"><select class="form-control" style="width:140px" name="post[more][{$k}]"></select></case>
-                                <case value="2"><textarea class="form-control" style="height:50px;" placeholder="请填写{$vo}" name="post[more][{$k}]"></textarea></case>
-                                <default /><input class="form-control" type="text" name="post[more][{$k}]" value="{$post.more.$k|default=''}" placeholder="请填写{$vo}">
-                            </switch>
+                        <switch name="k">
+                            <case value="identity_card">
+                                <ul class="pic-list list-unstyled form-inline">
+                                    <notempty name="vo">
+                                    <foreach name="vo" item="child">
+                                    <li>
+                                        <img src="{:cmf_get_image_preview_url($child.url)}" style="height:36px;width:36px;" onclick="parent.imagePreviewDialog(this.src);">
+                                    </li>
+                                    </foreach>
+                                    </notempty>
+                                </ul>
+                            </case>
+                            <case value="driving_license|booklet|house_certificate|marriage_lines|diploma|business_license">
+                                <div>
+                                <if condition="empty($vo)">
+                                    <img src="__TMPL__/public/assets/images/default-thumbnail.png" width="135" style="cursor:pointer"/>
+                                <else/>
+                                    <img src="{:cmf_get_image_preview_url($vo)}" style="cursor:pointer"/>
+                                </if>
+                                </div>
+                            </case>
+                            <case value="gender">
+                                <input type="radio" name="post[more][$k]" value="1" {!$vo?='checked'}> 保密
+                                <input type="radio" name="post[more][$k]" value="1" {$vo==1?='checked'}> 男
+                                <input type="radio" name="post[more][$k]" value="2" {$vo==2?='checked'}> 女
+                            </case>
+                            <case value="birthday">
+                                <input type="text" name="post[more][$k]" value="{$vo?=date('Y-m-d',$vo)}" class="js-bootstrap-date">
+                            </case>
+                            <case value="work_experience">
+                                <textarea class="form-control" name="post[more][$k]">{$vo}</textarea>
+                            </case>
+                            <default /><input class="form-control" name="post[more][{$k}]" value="{$vo|default=''}">
+                        </switch>
                         </td>
                     </tr>
                     </foreach>
@@ -80,30 +88,6 @@
             </div>
             <div class="col-md-3">
                 <table class="table table-bordered">
-                    <!-- <tr>
-                        <th>客户头像</th>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div style="text-align: center;">
-                                <input type="hidden" name="post[more][thumbnail]" id="thumbnail"
-                                       value="{//$post.more.thumbnail|default=''}">
-                                <a href="javascript:uploadOneImage('图片上传','#thumbnail');">
-                                    <if condition="empty($post.more.thumbnail)">
-                                        <img src="__TMPL__/public/assets/images/default-thumbnail.png"
-                                             id="thumbnail-preview"
-                                             width="135" style="cursor: pointer"/>
-                                        <else/>
-                                        <img src="{:cmf_get_image_preview_url($post.more.thumbnail)}"
-                                             id="thumbnail-preview"
-                                             width="135" style="cursor: pointer"/>
-                                    </if>
-                                </a>
-                                <input type="button" class="btn btn-sm btn-cancel-thumbnail" value="取消图片">
-                            </div>
-                        </td>
-                    </tr> -->
-
                     <tr>
                         <th><b>创建时间</b></th>
                     </tr>
@@ -163,51 +147,5 @@
     </form>
 </div>
 <script type="text/javascript" src="__STATIC__/js/admin.js"></script>
-<script type="text/javascript">
-    //编辑器路径定义
-    var editorURL = GV.WEB_ROOT;
-</script>
-<script type="text/javascript" src="__STATIC__/js/ueditor/ueditor.config.js"></script>
-<script type="text/javascript" src="__STATIC__/js/ueditor/ueditor.all.min.js"></script>
-<script type="text/javascript">
-    $(function(){
-        var ue = UE.getEditor('content');
-        var ue = UE.getEditor('information');
-        // editorcontent = new baidu.editor.ui.Editor();
-        // editorcontent.render('content');
-        // editorcontent.render('information');
-        // try {
-        //     editorcontent.sync();
-        // } catch (err) {
-        // }
-
-        $('.btn-cancel-driving_license').click(function () {
-            $('#driving_license-preview').attr('src', '__TMPL__/public/assets/images/default-thumbnail.png');
-            $('#driving_license').val('');
-        });
-
-        $('#more-template-select').val("{$post.more.template|default=''}");
-    });
-
-    function doSelectCategory() {
-        var selectedCategoriesId = $('#js-categories-id-input').val();
-        openIframeLayer("{:url('AdminInsurance/select')}?ids=" + selectedCategoriesId, '请选择分类', {
-            area: ['700px', '400px'],
-            btn: ['确定', '取消'],
-            yes: function (index, layero) {
-                var iframeWin          = window[layero.find('iframe')[0]['name']];
-                var selectedCategories = iframeWin.confirm();
-                if (selectedCategories.selectedCategoriesId.length == 0) {
-                    layer.msg('请选择分类');
-                    return;
-                }
-                $('#js-categories-id-input').val(selectedCategories.selectedCategoriesId.join(','));
-                $('#js-categories-name-input').val(selectedCategories.selectedCategoriesName.join(' '));
-                //console.log(layer.getFrameIndex(index));
-                layer.close(index); //如果设定了yes回调，需进行手工关闭
-            }
-        });
-    }
-</script>
 </body>
 </html>

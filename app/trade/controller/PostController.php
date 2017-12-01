@@ -31,8 +31,14 @@ class PostController extends HomeBaseController
 
     public function seeCar()
     {
+        if (!cmf_is_user_login()) {
+            $this->error('请登录',url('user/Login/index'));
+        }
         $id = $this->request->param('id',0,'intval');
         $carInfo = Db::name('usual_car')->field('name,bargain_money')->where('id',$id)->find();
+        if (empty($carInfo)) {
+            abort(404,'数据不存在！');
+        }
 
         $this->assign('carInfo',$carInfo);
         return $this->fetch();
@@ -40,6 +46,9 @@ class PostController extends HomeBaseController
 
     public function deposit()
     {
+        if (!cmf_is_user_login()) {
+            $this->error('请登录',url('user/Login/index'));
+        }
         return $this->fetch();
     }
 

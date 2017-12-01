@@ -22,24 +22,21 @@ class UsualCarModel extends UsualModel
         if (!empty($extra)) {
             $where = array_merge($where,$extra);
         }
-        // 暂定
-        if (!empty($filter['sell_status'])) {
-            $where['a.sell_status'] = $filter['sell_status'];
-        }
-        if (!empty($filter['typeId'])) {
-            $where['a.type'] = $filter['typeId'];
+        // 更多
+        if (!empty($filter['sellStatus'])) {
+            $where['a.sell_status'] = $filter['sellStatus'];
         }
         if (!empty($filter['brandId'])) {
-            $where['a.brand_id'] = $filter['brandId'];
+            $where['a.brand_id'] = intval($filter['brandId']);
         }
         if (!empty($filter['serieId'])) {
-            $where['a.serie_id'] = $filter['serieId'];
+            $where['a.serie_id'] = intval($filter['serieId']);
         }
         if (!empty($filter['modelId'])) {
-            $where['a.model_id'] = $filter['modelId'];
+            $where['a.model_id'] = intval($filter['modelId']);
         }
         if (!empty($filter['cityId'])) {
-            $where['a.city_id'] = $filter['cityId'];
+            $where['a.city_id'] = intval($filter['cityId']);
         }
 
         // 后台

@@ -56,7 +56,46 @@ public@footer
 <!DOCTYPE html>
 <html>
 <head>
+    <!-- 官版head -->
     <title>系统自带</title>
+    <meta charset="utf-8">
+    <meta name="author" content="Lothar">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"> -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#2196f3">
+
+    <!-- Set render engine for 360 browser -->
+    <!-- <meta name="renderer" content="webkit"> -->
+
+    <!-- No Baidu Siteapp-->
+    <!-- <meta http-equiv="Cache-Control" content="no-siteapp"/> -->
+
+    <style>
+        /*html{filter:progid:DXImageTransform.Microsoft.BasicImage(grayscale=1);-webkit-filter: grayscale(1);}*/
+        /*#backtotop { position: fixed; bottom: 50px; right: 20px; display: none; cursor: pointer; font-size: 50px; z-index: 9999; }
+        #backtotop:hover { color: #333 }
+        #main-menu-user li.user { display: none }*/
+    </style>
+
+    <!-- h5标签兼容性 https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js -->
+    <!-- HTML5 shim for IE8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+    <script src="__TMPL__/public/assets/js/html5shiv.js"></script>
+    <![endif]-->
+
+    <script type="text/javascript">
+        //全局变量
+        var GV = {
+            ROOT: "__ROOT__/",
+            WEB_ROOT: "__WEB_ROOT__/",
+            JS_ROOT: "static/js/"
+        };
+    </script>
+    <script src="__TMPL__/public/assets/js/jquery-1.10.2.min.js"></script>
+    <!-- <script src="__TMPL__/public/assets/js/jquery-migrate-1.2.1.js"></script> -->
+    <script src="__STATIC__/js/wind.js"></script>
 </head>
 <body>
 
@@ -66,7 +105,7 @@ public@footer
     a.js-ajax-dialog-btn___ //还原
     a.js-ajax-btn //变成按钮了
     a.js-ajax-refresh //刷新
-    a.js-dialog  //所有加了dialog类名的a链接，自动弹出它的href
+    a.js-dialog //弹窗，所有加了dialog类名的a链接，自动弹出它的href
     #js-dialog-close //dialog弹窗内的关闭方法
 
     .js-get-mobile-code //短信验证码
@@ -83,7 +122,7 @@ public@footer
     a.js-favorite-btn //收藏
 
 
-示例：
+js-*系列示例：  没有bootstrap就自定义样式
     <form enctype="multipart/form-data">文件上传</form>
     <form action="{:url('AdminArticle/editPost')}" method="post" class="form-horizontal margin-top-20 js-ajax-form">
         <button type="submit" class="btn btn-primary js-ajax-submit">{:lang('SAVE')}</button>
@@ -98,7 +137,240 @@ public@footer
     <a href="{:url('RecycleBin/restore',array('id'=>$vo['id']))}" class="js-ajax-dialog-btn___" data-msg="确定要还原吗？">还原</a>
     <a href="" class="js-ajax-refresh">刷新</a>
 
-    <script src="__STATIC__/js/frontend.js"></script>
+
+
+<!-- 必带JS -->
+<!-- 前台 引入位置： \public\themes\datong_car\public\scripts.html -->
+<script src="__STATIC__/js/frontend.js"></script>
+<!-- 后台 引入位置： 后台每个需要的文件中 -->
+<!-- <script type="text/javascript" src="__STATIC__/js/admin.js"></script> -->
+
+
+
+富文本
+<script type="text/plain" id="content" name="post[content]" value="{$post.content|default=''}"></script>
+<script type="text/javascript">
+    //编辑器路径定义
+    var editorURL = GV.WEB_ROOT;
+</script>
+<script type="text/javascript" src="__STATIC__/js/ueditor/ueditor.config.js"></script>
+<script type="text/javascript" src="__STATIC__/js/ueditor/ueditor.all.min.js"></script>
+<script type="text/javascript">
+    $(function () {
+        editorcontent = new baidu.editor.ui.Editor();
+        editorcontent.render('content');
+        try {
+            editorcontent.sync();
+        } catch (err) {
+        }
+    }
+</script>
+
+图片上传示例：
+单图
+    新增
+    <div>
+        <input type="hidden" name="post[identi][driving_license]" id="driving_license" value="">
+        <a href="javascript:uploadOneImage('图片上传','#driving_license');">
+            <img src="__TMPL__/public/assets/images/default-thumbnail.png"
+                 id="driving_license-preview"
+                 width="135" style="cursor:pointer"/>
+        </a>
+        <input type="button" class="btn btn-sm btn-cancel-driving_license" value="取消图片">
+    </div>
+    编辑
+    <div>
+        <input type="hidden" name="post[identi][driving_license]" id="driving_license" value="{$post.identi.driving_license|default=''}">
+        <a href="javascript:uploadOneImage('图片上传','#driving_license');">
+            <if condition="empty($post.identi.driving_license)">
+                <img src="__TMPL__/public/assets/images/default-thumbnail.png" id="driving_license-preview" width="135" style="cursor:pointer"/>
+            <else/>
+                <img src="{:cmf_get_image_preview_url($post.identi.driving_license)}" id="driving_license-preview" width="135" style="cursor:pointer"/>
+            </if>
+        </a>
+        <input type="button" class="btn btn-sm btn-cancel-driving_license" value="取消图片">
+    </div>
+    展示
+    <div>
+        <a href="javascript:uploadOneImage('图片上传','#driving_license');">
+            <if condition="empty($post.identi.driving_license)">
+                <img src="__TMPL__/public/assets/images/default-thumbnail.png" id="driving_license-preview" width="135" style="cursor:pointer"/>
+            <else/>
+                <img src="{:cmf_get_image_preview_url($post.identi.driving_license)}" id="driving_license-preview" width="135" style="cursor:pointer"/>
+            </if>
+        </a>
+    </div>
+多图
+    <style type="text/css">
+        .pic-list li {
+            margin-bottom: 5px;
+        }
+    </style>
+    <script type="text/html" id="identity_card-item-tpl">
+        <li id="saved-identity_card{id}">
+            <input id="identity_card-{id}" type="hidden" name="identity_card[urls][]" value="{filepath}">
+            <input class="form-control" id="identity_card-{id}-name" type="text"
+                   name="identity_card[names][]" value="{name}"
+                   style="width: 200px;" title="图片名称">
+            <img id="identity_card-{id}-preview" src="{url}"
+                 style="height:36px;width:36px;"
+                 onclick="imagePreviewDialog(this.src);">
+            <a href="javascript:uploadOneImage('图片上传','#identity_card-{id}');">替换</a>
+            <a href="javascript:(function(){$('#saved-identity_card{id}').remove();})();">移除</a>
+        </li>
+    </script>
+    新增
+    <ul id="identity_card" class="pic-list list-unstyled form-inline"></ul>
+    <a href="javascript:uploadMultiImage('图片上传','#identity_card','identity_card-item-tpl');" class="btn btn-default btn-sm">选择图片</a>
+    编辑
+    <ul id="identity_card" class="pic-list list-unstyled form-inline">
+        <notempty name="post.identi.identity_card">
+            <foreach name="post.identi.identity_card" item="vo">
+                <li id="saved-identity_card{$key}">
+                    <input id="identity_card-{$key}" type="hidden"
+                           name="identity_card[urls][]" value="{$vo.url}">
+                    <input id="identity_card-{$key}-name" type="text"
+                           name="identity_card[names][]" value="{$vo.name|default=''}"
+                           class="form-control" style="width: 200px;" title="图片名称">
+                    <img id="identity_card-{$key}-preview"
+                         src="{:cmf_get_image_preview_url($vo['url'])}"
+                         style="height:36px;width: 36px;"
+                         onclick="parent.imagePreviewDialog(this.src);">
+                    <a href="javascript:uploadOneImage('图片上传','#identity_card-{$key}');">替换</a>
+                    <a href="javascript:(function(){$('#saved-identity_card{$key}').remove();})();">移除</a>
+                </li>
+            </foreach>
+        </notempty>
+    </ul>
+    <a href="javascript:uploadMultiImage('图片上传','#identity_card','identity_card-item-tpl');" class="btn btn-default btn-sm">选择图片</a>
+    <script type="text/javascript">
+        $(function () {
+            $('.btn-cancel-driving_license').click(function () {
+                $('#driving_license-preview').attr('src', '__TMPL__/public/assets/images/default-thumbnail.png');
+                $('#driving_license').val('');
+            });
+        }
+    </script>
+    只展示
+    <ul id="identity_card" class="pic-list list-unstyled form-inline">
+        <notempty name="post.identi.identity_card">
+            <foreach name="post.identi.identity_card" item="vo">
+                <li id="saved-identity_card{$key}">
+                    <img id="identity_card-{$key}-preview"
+                         src="{:cmf_get_image_preview_url($vo['url'])}"
+                         style="height:36px;width:36px;"
+                         onclick="parent.imagePreviewDialog(this.src);">
+                </li>
+            </foreach>
+        </notempty>
+    </ul>
+裁剪:
+    <style type="text/css">
+        .tab-content {
+            overflow: visible;
+        }
+        .uploaded_avatar_area {
+            margin-top: 20px;
+        }
+        .uploaded_avatar_btns {
+            margin-top: 20px;
+        }
+        .uploaded_avatar_area .uploaded_avatar_btns {
+            display: none;
+        }
+    </style>
+    <div class="tab-content">
+        <div class="tab-pane active" id="one">
+            <br>
+            <if condition="empty($avatar)">
+                <img src="__TMPL__/public/assets/images/headicon_128.png" class="headicon" width="128"/>
+            <else/>
+                <img src="{:cmf_get_user_avatar_url($avatar)}?t={:time()}" class="headicon" width="128"/>
+            </if>
+            <input type="file" onchange="avatar_upload(this)" id="avatar_uploder" name="file"/>
+            <div class="uploaded_avatar_area">
+                <div class="uploaded_avatar_btns">
+                    <a class="btn btn-primary confirm_avatar_btn" onclick="update_avatar()">确定</a>
+                    <a class="btn" onclick="reloadPage()">取消</a>
+                </div>
+            </div>
+            <p class="help-block">头像支持jpg,png,jpeg格式,文件大小最大不能超过1M</p>
+        </div>
+    </div>
+    <script type="text/javascript">
+        function update_avatar() {
+            var area = $(".uploaded_avatar_area img").data("area");
+            $.post("{:url('Profile/avatarUpdate')}", area, function (data) {
+                if (data.code == 1) {
+                    reloadPage(window);
+                }
+            }, "json");
+        }
+        function avatar_upload(obj) {
+            var $fileinput = $(obj);
+            // $(obj).show().ajaxComplete(function(){
+            //     $(this).hide();
+            // });
+            Wind.css("jcrop");
+            Wind.use("ajaxfileupload", "jcrop", "noty", function () {
+                $.ajaxFileUpload({
+                    url: "{:url('Profile/avatarUpload')}",
+                    secureuri: false,
+                    fileElementId: "avatar_uploder",
+                    dataType: 'json',
+                    data: {},
+                    success: function (data, status) {
+                        if (data.code == 1) {
+                            $("#avatar_uploder").hide();
+                            var $uploaded_area = $(".uploaded_avatar_area");
+                            $uploaded_area.find("img").remove();
+                            var src  = "__ROOT__/upload/" + data.data.file;
+                            var $img = $("<img/>").attr("src", src);
+                            $img.prependTo($uploaded_area);
+                            $(".uploaded_avatar_btns").show();
+                            var img = new Image();
+                            img.src = src;
+
+                            var callback = function () {
+                                console.log(img.width);
+                                $img.Jcrop({
+                                    aspectRatio: 1,
+                                    trueSize: [img.width, img.height],
+                                    setSelect: [0, 0, 100, 100],
+                                    onSelect: function (c) {
+                                        $img.data("area", c);
+                                    }
+                                });
+                            }
+
+                            if (img.complete) {
+                                callback();
+                            } else {
+                                img.onload = callback;
+                            }
+                        } else {
+                            noty({
+                                text: data.msg,
+                                type: 'error',
+                                layout: 'center',
+                                callback: {
+                                    afterClose: function () {
+                                        reloadPage(window);
+                                    }
+                                }
+                            });
+                        }
+                    },
+                    error: function (data, status, e) {
+                    }
+                });
+            });
+            return false;
+        }
+    </script>
+
+联动
+
 </body>
 </html>
 

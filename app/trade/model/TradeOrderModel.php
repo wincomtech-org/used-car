@@ -9,7 +9,7 @@ use app\usual\model\UsualModel;
 */
 class TradeOrderModel extends UsualModel
 {
-    public function getLists($filter, $order='', $limit='',$extra=[])
+    public function getLists($filter=[], $order='', $limit='',$extra=[])
     {
         // 支付插件 ,p.title pay_name
         $field = 'a.*,b.name car_name,b.car_mileage,b.car_license_time,b.shop_price,b.more as car_more,c.user_nickname buyer_nickname,d.user_nickname seller_nickname,e.name city_name';

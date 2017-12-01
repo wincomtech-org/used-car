@@ -26,15 +26,7 @@
             </div>
             <table class="table table-hover table-bordered table-list">
                 <thead>
-                    <tr>
-                        <th width="50">排序</th>
-                        <th width="50">ID</th>
-                        <th>业务模型名称</th>
-                        <th>业务类型</th>
-                        <th>业务代码</th>
-                        <th>描述</th>
-                        <th width="180">操作</th>
-                    </tr>
+                    <include file="admin_category/table-th" />
                 </thead>
                 <tbody>
                     <foreach name="categories" item="vo">
@@ -46,6 +38,13 @@
                         <td>{$vo.code|default=''}</td>
                         <td>{$vo.description|default=''}</td>
                         <td>
+                            <notempty name="vo.more.thumbnail">
+                                <a href="javascript:parent.imagePreviewDialog('{:cmf_get_image_preview_url($vo.more.thumbnail)}');">
+                                    <i class="fa fa-photo fa-fw"></i>
+                                </a>
+                            </notempty>
+                        </td>
+                        <td>
                             <a href="{:url('AdminCategory/edit', ['id'=>$vo['id']])}">编辑</a>&nbsp;&nbsp;
                             <!-- <a class="js-ajax-delete" href="{:url('AdminCategory/delete', ['id'=>$vo['id']])}">删除</a> -->
                         </td>
@@ -53,15 +52,7 @@
                     </foreach>
                 </tbody>
                 <tfoot>
-                    <tr>
-                        <th width="50">排序</th>
-                        <th width="50">ID</th>
-                        <th>业务模型名称</th>
-                        <th>业务类型</th>
-                        <th>业务代码</th>
-                        <th>描述</th>
-                        <th width="180">操作</th>
-                    </tr>
+                    <include file="admin_category/table-th" />
                 </tfoot>
             </table>
             <div class="table-actions">

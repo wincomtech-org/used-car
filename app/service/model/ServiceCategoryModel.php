@@ -10,13 +10,8 @@ use app\usual\model\UsualModel;
 
 class ServiceCategoryModel extends UsualModel
 {
-    // function _initialize()
-    // {
-    //     parent::_initialize();
-    // }
-
     // 获取列表数据
-    public function getLists($filter=[], $isPage = false)
+    public function getLists($filter=[], $order='', $limit='',$extra=[])
     {
         $where = [];
         if (!empty($filter['cateType'])) {
@@ -26,7 +21,7 @@ class ServiceCategoryModel extends UsualModel
             $where['name'] = ['like',"%$filter[keyword]%"];
         }
         // $categories = $this->field('id,name,description,list_order')->order("list_order ASC")->where($where)->select()->toArray();
-        $categories = $this->field('id,name,code,type,description,list_order')->where($where)->order("list_order ASC,id DESC")->paginate(config('pagerset.size'));
+        $categories = $this->field('id,name,code,type,description,more,list_order')->where($where)->order("list_order ASC,id DESC")->paginate(config('pagerset.size'));
         return $categories;
     }
 

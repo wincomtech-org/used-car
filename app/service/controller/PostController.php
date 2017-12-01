@@ -56,6 +56,9 @@ class PostController extends HomeBaseController
 
     public function appointPost()
     {
+        if (!cmf_is_user_login()) {
+            $this->error('请登录',url('user/Login/index'));
+        }
         // $data = $this->request->param(true); dump($data);die;
         // dump(ROOT_PATH);die;
         // 获取数据

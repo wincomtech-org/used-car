@@ -28,6 +28,7 @@ class AdminIndexController extends AdminBaseController
 
     public function config()
     {
+        $this->assign('卖车保证金300');
         return '二手车统一配置';
         return $this->fetch();
     }

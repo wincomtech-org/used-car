@@ -4,7 +4,8 @@ namespace app\trade\controller;
 use cmf\controller\HomeBaseController;
 use app\usual\model\UsualSeriesModel;
 use app\usual\model\UsualCarModel;
-use think\Loader;
+use think\Db;
+// use think\Loader;
 
 /**
 * 车辆买卖 列表
@@ -65,9 +66,10 @@ class IndexController extends HomeBaseController
         $carModel = new UsualCarModel();
 
         // 处理请求
-        $param = $this->request->param();
+        // $param = $this->request->param();
         $oxnum = $this->request->param('oxnum/s');
         $oxvar = $this->request->param('oxvar/s');
+        $keyword = $this->request->param('keyword/s');
         // $jumpext = $this->request->param('jumpext/s','','strval');
         // ID
         $typeId = $this->request->param('typeId','new');
@@ -84,6 +86,23 @@ class IndexController extends HomeBaseController
         $car_displacement = $this->request->param('car_displacement/s','','strval');
         $car_mileage = $this->request->param('car_mileage/s','','strval');
         $car_age = $this->request->param('car_age/s','','strval');
+
+        // 处理全站搜索 关键词
+        if (!empty($keyword)) {
+            $ooo = Db::name('usual_brand')->where(['name'=>['like',"%$keyword%"]])->value('id');
+            if (empty($ooo)) {
+                $ooo = Db::name('usual_series')->field('id,brand_id')->where(['name'=>['like',"%$keyword%"]])->find();
+                if (empty($ooo)) {
+                    $filter['keyword'] = $keyword;
+                } else {
+                // dump($ooo);
+                    $filter['serieId'] = $serieId = $ooo['id'];
+                    $filter['brandId'] = $brandId = $ooo['brand_id'];
+                }
+            } else {
+                $filter['brandId'] = $brandId = $ooo;
+            }
+        }
 
         // 获取筛选相关数据
         // 车源类别
@@ -127,25 +146,25 @@ class IndexController extends HomeBaseController
         $limit = 12;//每页数据量
         $string = $jumpurl = $jumpext = '';
         $filter = $extra = $where = $order = $carlist = [];
-        $filter['sell_status'] = 1;
+        $filter['sellStatus'] = 1;
 
         // 处理请求的数据
-        if (isset($typeId)) {
-            if (is_numeric($typeId)) {
-                $filter['typeId'] = (int)$typeId;
-            } elseif ($typeId=='new') {
-                $order = ['a.published_time'=>'DESC'];
-            } elseif ($typeId=='rec') {
-                $order = ['a.is_rec'=>'DESC'];
-            }
+        // 类别
+        if (is_numeric($typeId)) {
+            $filter['typeId'] = (int)$typeId;
+        } elseif ($typeId=='new') {
+            $order = ['a.published_time'=>'DESC'];
+        } elseif ($typeId=='rec') {
+            $order = ['a.is_rec'=>'DESC'];
         }
+        // 价格
         if (!empty($priceId)) {
             $extra['shop_price'] = $this->operatorSwitch($priceId);
         }
-        if (!empty($oxnum)) {
+        if (isset($oxnum)) {
             $numeric = trim($oxnum);
         }
-        if (!empty($oxvar)) {
+        if (isset($oxvar)) {
             $string = explode($separator,$oxvar);
         }
         // if (!empty($jumpext)) {

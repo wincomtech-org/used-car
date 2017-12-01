@@ -5,7 +5,7 @@ use app\insurance\model\InsuranceModel;
 
 class InsuranceCoverageModel extends InsuranceModel
 {
-    public function getLists($filter)
+    public function getLists($filter=[], $order='', $limit='',$extra=[])
     {
         $field = 'a.*,b.name AS bname,c.name AS cname';
         $where = [

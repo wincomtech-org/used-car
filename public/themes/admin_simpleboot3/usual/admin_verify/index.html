@@ -68,8 +68,8 @@
                         <php>echo config('verify_status')[$vo['auth_status']]</php>
                     </td>
                     <td>
-                        <a href="{:url('AdminVerify/edit',array('id'=>$vo['id']))}">{:lang('VIEW')}</a>
-                        <a href="{:url('AdminVerify/delete',array('id'=>$vo['id']))}" class="js-ajax-delete">{:lang('DELETE')}</a>
+                        <a href="{:url('AdminVerify/edit',['id'=>$vo.id])}">查看</a>
+                        <a href="{:url('AdminVerify/delete',['id'=>$vo.id])}" class="js-ajax-delete">{:lang('DELETE')}</a>
                     </td>
                 </tr>
             </foreach>

@@ -3,9 +3,65 @@ namespace app\usual\model;
 
 use app\usual\model\UsualCategoryModel;
 use tree\Tree;
+use think\Db;
 
 class UsualSeriesModel extends UsualCategoryModel
 {
+    public function getLists($filter=[], $order='', $limit='',$extra=[])
+    {
+        $field = 'a.id,a.parent_id,a.name,a.description,a.is_rec,a.list_order,b.name bname';
+        $join = [['usual_brand b','a.brand_id=b.id','LEFT']];
+
+        // 筛选条件
+        $where = ['a.delete_time' => 0];
+        if (!empty($extra)) {
+            $where = array_merge($where,$extra);
+        }
+        // 更多
+
+        // 后台
+        $startTime = empty($filter['start_time']) ? 0 : strtotime($filter['start_time']);
+        $endTime   = empty($filter['end_time']) ? 0 : strtotime($filter['end_time']);
+        if (!empty($startTime) && !empty($endTime)) {
+            $where['a.update_time'] = [['>= time', $startTime], ['<= time', $endTime]];
+        } else {
+            if (!empty($startTime)) {
+                $where['a.update_time'] = ['>= time', $startTime];
+            }
+            if (!empty($endTime)) {
+                $where['a.update_time'] = ['<= time', $endTime];
+            }
+        }
+        $keyword = empty($filter['keyword']) ? '' : $filter['keyword'];
+        if (!empty($keyword)) {
+            $find = Db::name('usual_brand')->where('name','like',"%$keyword%")->find();
+            if (!empty($find)) {
+                $filter['brandId'] = $find['id'];
+                $where['b.name'] = ['like', "%$keyword%"];
+            } else {
+                $where['a.name'] = ['like', "%$keyword%"];
+            }
+        }
+        if (!empty($filter['brandId'])) {
+            $where['a.brand_id'] = $filter['brandId'];
+        }
+
+        // 排序
+        $order = empty($order) ? 'a.list_order,a.brand_id' : $order;
+
+        // 数据量
+        $limit = empty($limit) ? config('pagerset.size') : $limit;
+
+        // 查数据
+        $series = $this->alias('a')->field($field)
+            ->join($join)
+            ->where($where)
+            ->order($order)
+            ->paginate($limit);
+
+        return $series;
+    }
+
     public function getSeries($selectId=0, $parentId=0, $level=1, $default_option=false)
     {
         if (!empty($selectId)) {

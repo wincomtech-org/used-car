@@ -7,7 +7,7 @@ use app\usual\model\UsualModel;
 
 class VerifyModel extends UsualModel
 {
-    public function getLists($filter, $isPage = false)
+    public function getLists($filter=[], $order='', $limit='',$extra=[])
     {
         $field = 'a.*,b.name model_name,c.user_nickname,c.user_login';
         $where = [];
@@ -71,7 +71,7 @@ class VerifyModel extends UsualModel
             ->field($field)
             ->join($join)
             ->where('a.id',$id)
-            ->find();
+            ->find()->toArray();
         $post['username'] = $post['user_nickname'] ? $post['user_nickname'] : $post['user_login'];
 
         return $post;

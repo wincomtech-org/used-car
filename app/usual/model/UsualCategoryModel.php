@@ -25,6 +25,8 @@ class UsualCategoryModel extends Model
     */
     // 创建时间
     // function setCreateTimeAttr($value){ return strtotime($value);}
+    // 更新时间
+    // function setUpdateTimeAttr($value){ return strtotime($value);}
     // dead_time 结束时间
     // function setEndTimeAttr($value){ return strtotime($value);}
 

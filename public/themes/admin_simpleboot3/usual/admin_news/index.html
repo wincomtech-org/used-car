@@ -4,11 +4,10 @@
 <div class="wrap js-check-wrap">
     <ul class="nav nav-tabs">
         <li class="active"><a href="javascript:;">所有站点消息</a></li>
-        <li><a href="{:url('AdminNews/add',['cid'=>$cateId])}">添加站点消息</a></li>
     </ul>
     <form class="well form-inline margin-top-20" method="post" action="{:url('AdminNews/index')}">
         消息分类:
-        <select class="form-control" name="cateId" style="width:140px;">
+        <select class="form-control" name="appId" style="width:140px;">
             {$categorys|default=''}
         </select> &nbsp;&nbsp;
         创建时间:
@@ -25,12 +24,12 @@
         <a class="btn btn-danger" href="{:url('AdminNews/index')}">清空</a>
     </form>
     <form class="js-ajax-form" action="" method="post">
-        <include file="admin_item/table-actions" />
+        <include file="admin_news/table-actions" />
         <table class="table table-hover table-bordered table-list">
             <thead>
-                <include file="admin_item/table-th" />
+                <include file="admin_news/table-th" />
             </thead>
-            <foreach name="lists" item="vo">
+            <foreach name="list" item="vo">
                 <tr>
                     <td>
                         <input name="ids[]" type="checkbox" class="js-check" data-yid="js-check-y" data-xid="js-check-x"
@@ -43,7 +42,7 @@
                     <td>{$vo.object}</td>
                     <td>{$vo.action}</td>
 
-                    <td>{$vo.description}</td>
+                    <td>{$vo.content}</td>
 
                     <td>{$vo.ip}</td>
                     <td>
@@ -53,23 +52,23 @@
                     </td>
                     <td>
                         <switch name="vo.status">
-                            <case value="-1">待处理</case>
-                            <case value="1">已处理</case>
-                            <default />未读
+                            <case value="1"><font color="#009243">已读</font></case>
+                            <case value="2"><font color="#BBB">已处理</font></case>
+                            <default /><font color="#F00">未读</font>
                         </switch>
                     </td>
-                    <td>
+                    <!-- <td>
                         <a href="{:url('AdminNews/edit',['id'=>$vo.id])}">{:lang('EDIT')}</a> &nbsp;
                         <a href="{:url('AdminNews/delete',['id'=>$vo.id])}" class="js-ajax-delete">{:lang('DELETE')}</a>
-                    </td>
+                    </td> -->
                 </tr>
             </foreach>
             <tfoot>
-                <include file="admin_item/table-th" />
+                <include file="admin_news/table-th" />
             </tfoot>
         </table>
-        <include file="admin_item/table-actions" />
-        <ul class="pagination">{$page|default=''}</ul>
+        <include file="admin_news/table-actions" />
+        <ul class="pagination">{$pager|default=''}</ul>
     </form>
 </div>
 <script src="__STATIC__/js/admin.js"></script>

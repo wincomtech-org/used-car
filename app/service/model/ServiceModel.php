@@ -12,7 +12,7 @@ class ServiceModel extends UsualModel
     //     parent::_initialize();
     // }
 
-    public function getLists($filter, $order='', $limit='', $extra=[])
+    public function getLists($filter=[], $order='', $limit='', $extra=[])
     {
         $field = 'a.*,b.name model_name,c.name company_name,d.user_nickname buyer_nickname,d.user_login buyer_login';
         $join = [

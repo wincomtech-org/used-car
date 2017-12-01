@@ -90,7 +90,7 @@ class PostController extends HomeBaseController
     public function step2Post()
     {
         if (!cmf_is_user_login()) {
-            $this->error('请登录',url('user/Login/index'));
+            $this->error('请登录',url('user/Login/index'),'',6);
         }
         if ($this->request->isPost()) {
             $data   = $this->request->param();
@@ -192,6 +192,9 @@ class PostController extends HomeBaseController
     // 合同
     public function step5()
     {
+        if (!cmf_is_user_login()) {
+            $this->error('请登录',url('user/Login/index'));
+        }
         $insurId = $this->request->param('id',0,'intval');
         $down = $this->request->param('down/d');
 
@@ -217,6 +220,9 @@ class PostController extends HomeBaseController
     // 付钱
     public function step6()
     {
+        if (!cmf_is_user_login()) {
+            $this->error('请登录',url('user/Login/index'));
+        }
         // $data = $this->request->param();
         // $agree = $this->request->param('agree',null);
         // $insurId = $this->request->param('id',null);
@@ -238,6 +244,9 @@ class PostController extends HomeBaseController
     // 结果
     public function step7()
     {
+        if (!cmf_is_user_login()) {
+            $this->error('请登录',url('user/Login/index'));
+        }
         return $this->fetch();
     }
 

@@ -83,10 +83,14 @@ class AdminVerifyController extends AdminBaseController
     {
         $id = $this->request->param('id', 0, 'intval');
         $post = model('Verify')->getPost($id);
-
-        $this->assign('category_tree', model('VerifyModel')->getOptions($post['auth_code'],0,0,true));
-        $this->assign('define_data',model('VerifyModel')->getDefineData('',''));
-        $this->assign('status_tree', model('Verify')->getVerifyStatus($post['auth_status']));
+        $vm = model('VerifyModel')->getOptions($post['auth_code'],0,0,true);
+        $define_data = model('VerifyModel')->getDefineData('','');
+        $statusTree = model('Verify')->getVerifyStatus($post['auth_status']);
+// dump($post['more']);
+// dump($define_data);die;
+        $this->assign('category_tree', $vm);
+        $this->assign('define_data', $define_data);
+        $this->assign('status_tree', $statusTree);
         $this->assign('post', $post);
         return $this->fetch();
     }

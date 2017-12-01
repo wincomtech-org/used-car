@@ -6,21 +6,7 @@ use app\insurance\model\InsuranceModel;
 
 class InsuranceOrderModel extends InsuranceModel
 {
-    //自定义初始化
-   /* protected function initialize()
-    {
-        //需要调用`Model`的`initialize`方法
-        // parent::initialize();
-        //TODO:自定义的初始化
-        $this->field = 'a.*,b.name insurance_name,c.name car_name,d.user_login';
-        $this->join = [
-            ['insurance b','a.insurance_id=b.id','LEFT'],
-            ['usual_car c','a.car_id=c.id','LEFT'],
-            ['user d','a.user_id=d.id','LEFT']
-        ];
-    }*/
-
-    public function getLists($filter, $extra=false)
+    public function getLists($filter=[], $order='', $limit='',$extra=[])
     {
         $field = 'a.*,b.name insurance_name,c.name car_name,d.user_login';
         $where = ['a.delete_time' => 0];
@@ -30,7 +16,7 @@ class InsuranceOrderModel extends InsuranceModel
             ['user d','a.user_id=d.id','LEFT']
         ];
 
-        if ($extra!==false) {
+        if (!empty($extra)) {
             $where = array_merge($where,$extra);
         }
 

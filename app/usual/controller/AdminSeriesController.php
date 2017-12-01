@@ -32,19 +32,21 @@ class AdminSeriesController extends AdminBaseController
      */
     public function index()
     {
-        // dump(CMF_ROOT);die;
-        $config = [
-            'm'=>'AdminSeries',
-            'url'=>'',
-            'add'=>true,
-            'edit'=>true,
-            'delete'=>true,
-            'table2'=>'usual_brand'
-        ];
-        $extra = ['is_rec'=>1];
-        $categoryTree    = $this->UsualModel->adminCategoryTableTree(0, '', $config, $extra);
+        $param = $this->request->param();
+        $brandId = $this->request->param('brandId',0,'intval');
 
-        $this->assign('category_tree', $categoryTree);
+        $list = model('UsualSeries')->getLists($param);
+        $categoryTree = model('UsualBrand')->getBrands($brandId);
+
+
+        $this->assign('start_time', isset($param['start_time']) ? $param['start_time'] : '');
+        $this->assign('end_time', isset($param['end_time']) ? $param['end_time'] : '');
+        $this->assign('keyword', isset($param['keyword']) ? $param['keyword'] : '');
+
+        $this->assign('categorys', $categoryTree);
+        $this->assign('list', $list->items());
+        $list->appends($param);
+        $this->assign('pager', $list->render());
         return $this->fetch();
     }
 
@@ -95,7 +97,7 @@ class AdminSeriesController extends AdminBaseController
         if ($result !== true) {
             $this->error($result);
         }
-
+        $data['create_time'] = $data['update_time'] = time();
         $result = $this->UsualModel->addCategory($data);
         if ($result === false) {
             $this->error('添加失败!');
@@ -158,7 +160,7 @@ class AdminSeriesController extends AdminBaseController
         if ($result !== true) {
             $this->error($result);
         }
-
+        $data['update_time'] = time();
         $result = $this->UsualModel->editCategory($data);
         if ($result === false) {
             $this->error('保存失败!');

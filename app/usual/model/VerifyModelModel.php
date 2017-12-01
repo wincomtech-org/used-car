@@ -7,13 +7,8 @@ use app\usual\model\UsualModel;
 
 class VerifyModelModel extends UsualModel
 {
-    // function _initialize()
-    // {
-    //     parent::_initialize();
-    // }
-
     // 获取列表数据
-    public function getLists($filter, $isPage = false)
+    public function getLists($filter=[], $order='', $limit='',$extra=[])
     {
         // $categories = $this->field('id,name,list_order')->order("list_order ASC")->where($where)->select()->toArray();
         $categories = $this->order("list_order ASC,id DESC")->paginate(config('pagerset.size'));

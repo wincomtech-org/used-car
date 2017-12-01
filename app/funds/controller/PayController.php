@@ -1,7 +1,8 @@
 <?php
 namespace app\funds\controller;
 
-use cmf\controller\UserBaseController;
+use cmf\controller\HomeBaseController;
+// use cmf\controller\UserBaseController;
 // use app\funds\model\FundsModel;
 // use think\Db;
 
@@ -9,7 +10,7 @@ use cmf\controller\UserBaseController;
 * 支付中心
 *
 */
-class PayController extends UserBaseController
+class PayController extends HomeBaseController
 {
     // function _initialize()
     // {
@@ -18,6 +19,9 @@ class PayController extends UserBaseController
 
     public function index()
     {
+        if (!cmf_is_user_login()) {
+            $this->error('请登录',url('user/Login/index'));
+        }
         $type = $this->request->param('type');
         $action = $this->request->param('action');
         return "支付中心 - 支付类型：".$type.'，应用模块：'.$action.'。（接口预留）';
