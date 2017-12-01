@@ -263,27 +263,27 @@
                     <div>审核时必填项</div>
                     <table class="table table-bordered">
                     <tr>
-                        <th width="100">姓名(车主)<span class="form-required">*</span></th>
+                        <th width="100">姓名(车主)</th>
                         <td>
                             <input class="form-control" placeholder=""
                                 type="text" name="post[identi][username]" value="{$post.identi.username|default=''}">
                         </td>
                     </tr>
                     <tr>
-                        <th>联系方式<span class="form-required">*</span></th>
+                        <th>联系方式</th>
                         <td>
                             <textarea class="form-control" placeholder="" name="post[identi][contact]">{$post.identi.contact|default=''}</textarea>
                         </td>
                     </tr>
                     <tr>
-                        <th>车牌号码<span class="form-required">*</span></th>
+                        <th>车牌号码</th>
                         <td>
                             <input class="form-control" maxlength="7" placeholder="7位的车牌号"
                                 type="text" name="post[identi][plateNo]" value="{$post.identi.plateNo?$post.identi.plateNo:$post.plateNo}">
                         </td>
                     </tr>
                     <tr>
-                        <th>行车本照片<span class="form-required">*</span></th>
+                        <th>行车本照片</th>
                         <td>
                             <div>
                                 <input type="hidden" name="post[identi][driving_license]" id="driving_license" value="{$post.identi.driving_license|default=''}">
@@ -299,7 +299,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <th>身份证<span class="form-required">*</span></th>
+                        <th>身份证</th>
                         <td>
                             <ul id="identity_card" class="pic-list list-unstyled form-inline">
                                 <notempty name="post.identi.identity_card">
@@ -329,7 +329,7 @@
                 <div class="tab-pane" id="SHOP_">
                     <table class="table table-bordered">
                     <tr>
-                        <th width="100">车源类别<span class="form-required">*</span></th>
+                        <th width="100">车源类别</th>
                         <td>
                             <select class="form-control" style="width:150px;" name="post[type]">
                                 <option value="">--请选择--</option>
@@ -369,7 +369,7 @@
                     </tr>
                     </table>
                 </div>
-                <div class="tab-pane" id="SEO">
+                <div class="tab-pane" id="SEO_">
                     <div class="form-group">
                         <label for="input-seo_title">SEO标题</label>
                         <div>
