@@ -1,5 +1,23 @@
+  <script>
+      $(window).on('load', function() {
+        $('.preloader-wrap').fadeOut('slow', function() { $(this).remove(); });
+    });
+  </script>
+
+<!-- Preloader -->
+<div class="preloader-wrap">
+    <div class="preloader-inside">
+        <div class="spinner spinner-1">
+            <img src="__TMPL__/public/assets/images/logod.png" alt="responsive img">
+        </div>
+    </div>
+</div>
+<!-- End Preloader -->
+
+
+
 <script>
-    if(navigator.appName == "Microsoft Internet Explorer"&&parseInt(navigator.appVersion.split(";")[1].replace(/[ ]/g, "").replace("MSIE",""))<9){
+if(navigator.appName == "Microsoft Internet Explorer"&&parseInt(navigator.appVersion.split(";")[1].replace(/[ ]/g, "").replace("MSIE",""))<9){
     alert("当前浏览器版本过低，为不影响网站体验效果，请下载最新版本的浏览器！");
 }
 </script>
