@@ -1,13 +1,22 @@
 /*手机目录页*/
 
+.with-panel-left-cover{
+	overflow: hidden;
+	height:100%;
+	position: fixed;
+}
 .panel-content {
   padding-bottom: 20px;
 }
 
 .panel-profile {
   padding: 20px;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  align-items: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
   margin-bottom: 5px;
   background-color: #d00000;
 }
@@ -123,10 +132,6 @@
   height: 0 !important;
 }
 
-
-
-
-
 .panel-overlay {
 	position: absolute;
 	left: 0;
@@ -152,7 +157,8 @@
 	z-index: 1000;
 	display: none;
 	background: #fff;
-	box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	        box-sizing: border-box;
 	overflow: auto;
 	-webkit-overflow-scrolling: touch;
 	position: absolute;
@@ -198,18 +204,18 @@
 	display: block;
 	-webkit-transform: translate3d(0,0,0)!important;
 	transform: translate3d(0,0,0)!important;
-	box-shadow: none!important
+	-webkit-box-shadow: none!important;
+	        box-shadow: none!important
 }
 
 .panel.panel-visible-by-breakpoint.panel-cover {
 	z-index: 5900
 }
 
-.with-panel-left-cover{
-	overflow: hidden
-}
+
 body.with-panel-left-cover .panel,body.with-panel-right-cover .panel {
-	box-shadow: 0 0 20px rgba(0,0,0,.5)
+	-webkit-box-shadow: 0 0 20px rgba(0,0,0,.5);
+	        box-shadow: 0 0 20px rgba(0,0,0,.5)
 }
 
 body.with-panel-left-cover .views,body.with-panel-right-cover .views {
@@ -264,7 +270,8 @@ body.with-panel-left-cover .panel-overlay,body.with-panel-right-cover .panel-ove
 	-webkit-box-flex: 1;
 	-webkit-flex-shrink: 1;
 	-ms-flex: 0 1 auto;
-	flex-shrink: 1;
+	-ms-flex-negative: 1;
+	    flex-shrink: 1;
 	white-space: nowrap;
 	position: relative;
 	overflow: hidden;
@@ -365,20 +372,18 @@ i.icon.icon-close {
 }
 
 .list-block .item-content {
-	box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	        box-sizing: border-box;
 	padding-left: 16px;
 	min-height: 48px;
 	display: -webkit-box;
 	display: -ms-flexbox;
-	display: -webkit-flex;
 	display: flex;
 	-webkit-box-pack: justify;
 	-ms-flex-pack: justify;
-	-webkit-justify-content: space-between;
 	justify-content: space-between;
 	-webkit-box-align: center;
 	-ms-flex-align: center;
-	-webkit-align-items: center;
 	align-items: center
 }
 
@@ -389,21 +394,19 @@ i.icon.icon-close {
 	padding-top: 8px;
 	padding-bottom: 8px;
 	min-height: 48px;
-	box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	        box-sizing: border-box;
 	-webkit-box-flex: 1;
 	-ms-flex: 1;
 	min-width: 0;
 	display: -webkit-box;
 	display: -ms-flexbox;
-	display: -webkit-flex;
 	display: flex;
 	-webkit-box-pack: justify;
 	-ms-flex-pack: justify;
-	-webkit-justify-content: space-between;
 	justify-content: space-between;
 	-webkit-box-align: center;
 	-ms-flex-align: center;
-	-webkit-align-items: center;
 	align-items: center;
 	-ms-flex-item-align: stretch;
 	-webkit-align-self: stretch;
@@ -415,7 +418,6 @@ i.icon.icon-close {
 	background-size: 10px 20px;
 	background-repeat: no-repeat;
 	background-position: 95% center;
-	background-position: -webkit-calc(100% - 16px) center;
 	background-position: calc(100% - 16px) center
 }
 
@@ -426,7 +428,8 @@ i.icon.icon-close {
 	background: #8e8e93;
 	border-radius: 3px;
 	padding: 1px 6px;
-	box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	        box-sizing: border-box;
 	vertical-align: middle
 }
 
@@ -442,7 +445,8 @@ i.icon.icon-close {
 }
 
 .list-block li {
-	box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	        box-sizing: border-box;
 	position: relative
 }
 
