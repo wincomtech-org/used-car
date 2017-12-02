@@ -92,7 +92,7 @@ class TradeController extends UserBaseController
         $userId = cmf_get_current_user_id();
         // 用户认证状态
         $identify = lothar_verify($userId);
-        $identify = 1;
+        // $identify = 1;
 
 
         $carModel = new UsualCarModel();

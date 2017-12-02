@@ -7,6 +7,8 @@
 			<li><a href="{:url('user/add')}">{:lang('ADMIN_USER_ADD')}</a></li>
 		</ul>
         <form class="well form-inline margin-top-20" method="post" action="{:url('User/index')}">
+            用户ID:
+            <input type="text" class="form-control" name="uid" style="width: 120px;" value="{:input('request.uid/s','')}" placeholder="请输入{:lang('USERNAME')}">
             用户名:
             <input type="text" class="form-control" name="user_login" style="width: 120px;" value="{:input('request.user_login/s','')}" placeholder="请输入{:lang('USERNAME')}">
             邮箱:

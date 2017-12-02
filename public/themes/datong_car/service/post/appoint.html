@@ -22,7 +22,6 @@
     <script type="text/html" id="identity_card-item-tpl">
         <li id="saved-identity_card{id}">
             <input id="identity_card-{id}" type="hidden" name="identity_card[urls][]" value="{filepath}">
-            
             <img id="identity_card-{id}-preview" src="{url}" style="height:108px;width:180px;"
                  onclick="imagePreviewDialog(this.src);">
             <a href="javascript:uploadOneImage('图片上传','#identity_card-{id}');">替换</a>
@@ -45,7 +44,7 @@
                 <li>当前位置：</li>
                 <li><a href="{:url('Index/index')}">检车预约 </a></li>
                 <li><a href="{:url('Post/index',['compId'=>$compId])}">{$companyInfo} </a></li>
-                <li class="active"><a href="{:url('Post/appoint',['compId'=>$compId,'modelId'=>$modelId])}">{$servInfo.name}</a></li>
+                <li class="active"><a href="{:url('Post/appoint',['compId'=>$compId,'servId'=>$servId])}">{$servInfo.name}</a></li>
             </ul>
             <div class="selection_insurance_con">
                 <form action="{:url('Post/appointPost')}" method="post" enctype="multipart/form-data" name="car_booking_form" class="data_filling" id="data_filling">
@@ -57,15 +56,15 @@
                             <li class="right">
                                 <switch name="vo.name">
                                     <case value="plateNo" break="1">
-                                        <input type="text" name="post[{$vo.name}]" maxlength="7">
+                                        <input type="text" name="post[{$vo.name}]" maxlength="7" required>
                                     </case>
                                     <case value="telephone">
-                                        <input type="tel" name="post[{$vo.name}]" maxlength="15">
+                                        <input type="tel" name="post[{$vo.name}]" maxlength="15" required>
                                         <i>请填写正确的号码，如是固话，请按照格式：0551-1234567</i>
                                         <!-- <b class="red">*请填写正确号码，如是固话，请按照0551-1234567格式</b> -->
                                     </case>
                                     <case value="appoint_time|reg_time|birthday|seller_birthday">
-                                        <input type="text" name="post[{$vo.name}]" id="{$vo.name}">
+                                        <input type="text" name="post[{$vo.name}]" id="{$vo.name}" required>
                                         <i>请填写正确的日期，按照格式：2017-11-11</i>
                                     </case>
                                     <case value="driving_license|qualified|loan_invoice">
@@ -100,16 +99,21 @@
                                         </select>&nbsp;&nbsp;
 
                                         <select name="post[service_point]" id="input-coordinate">
-                                            {$servicePoint|default=''}
+                                            <option value="">--请选择--</option>
+                                            <notempty name="servicePoint">
+                                            <foreach name="servicePoint" item="vo">
+                                            <option value="{$vo.id}">{$vo.name}</option>
+                                            </foreach>
+                                            </notempty>
                                         </select>
                                     </case>
-                                    <default /><input type="text" name="post[{$vo.name}]">
+                                    <default /><input type="text" name="post[{$vo.name}]" required>
                                 </switch>
                             </li>
                         </ul>
                     </foreach>
                     <p class="data_filling_btn">
-                        <input type="hidden" name="post[model_id]" value="{$modelId}">
+                        <input type="hidden" name="post[model_id]" value="{$servId}">
                         <input type="hidden" name="compId" value="{$compId}">
                         <input type="submit" name="data_filling_online" class="btn_submit" value='立即预约' onClick="car_booking_form.submit()">
                     </p>
@@ -124,46 +128,52 @@
                     <script type="text/javascript">
                         // 百度地图API功能
                         var map = new BMap.Map("allmap",{minZoom:10,maxZoom:16});
-                        var point = new BMap.Point(117.233443,31.826578);
+                        var point = new BMap.Point(117.281736,31.87001);
                         map.centerAndZoom(point, 15);
                         map.enableScrollWheelZoom(true);
                         var searchInfoWindow = null;
                         var opts={};
 
-                        // 随机向地图添加25个标注
-                        var z=[[117.233443,31.836578,"地址：12",'电话：0551-111','简介：111百度大厦位于北京市海淀区西二旗地铁站附近，为百度公司综合研发及办公总部。','标题1','分部1','合肥'],
-                              [117.243443,31.826578,"地址：666",'电话：0551-111','简介：222百度大厦位于北京市海淀区西二旗地铁站附近，为百度公司综合研发及办公总部。','标题2','分部2','合肥'],
-                              [117.253443,31.821578,"地址：777",'电话：0551-111','简介：333百度大厦位于北京市海淀区西二旗地铁站附近，为百度公司综合研发及办公总部。','标题3','分部3','合肥'],
-                              [117.263443,31.806578,"地址：888",'电话：0551-111','简介：444百度大厦位于北京市海淀区西二旗地铁站附近，为百度公司综合研发及办公总部。','标题4','分部4','合肥']]
+                        // 随机向地图添加多个标注
+                        console.log('{$servicePointJson}');
+                        // for (var i = 0; i < Things.length; i++) {
+                        //     Things[i]
+                        // }
+                        var z=[
+                            [117.233443,31.836578,"地址：12",'电话：0551-111','简介：111。','标题1','分部1','合肥'],
+                            [117.243443,31.826578,"地址：666",'电话：0551-222','简介：222。','标题2','分部2','合肥'],
+                            [117.253443,31.821578,"地址：777",'电话：0551-333','简介：333','标题3','分部3','合肥'],
+                            [117.263443,31.806578,"地址：888",'电话：0551-444','简介：444','标题4','分部4','合肥']
+                        ]
                         for (var i = 0; i < z.length; i ++) {
                             var point = new BMap.Point(z[i][0], z[i][1]);
                             /*定义小图标*/
                             var myIcon = new BMap.Icon("http://api.map.baidu.com/img/markers.png", new BMap.Size(23, 25), {
-                            offset: new BMap.Size(10, 25),
-                            imageOffset: new BMap.Size(0, 0 - i * 25)
+                                offset: new BMap.Size(10, 25),
+                                imageOffset: new BMap.Size(0, 0 - i * 25)
+                            });
 
-                        });
+                            var marker = new BMap.Marker(point, {icon: myIcon});
+                            var content =
+                            '<div class="map_div" style="margin:0;line-height:20px;padding:2px;" to="http://api.map.baidu.com/">' +
+                                '<img src="../img/baidu.jpg" alt="" style="float:right;zoom:1;overflow:hidden;width:100px;height:100px;margin-left:3px;"/>' +
+                                z[i][2]+'<br/>'+z[i][3]+'<br/>'+z[i][4] +
+                            '</div>'+
+                            '<form id="gotobaiduform" action="http://api.map.baidu.com/direction" target="_blank" method="get">'+
+                                '<span class="input">'+
+                                    '<strong>起点：</strong>'+
+                                    '<input class="outset" type="text" name="origin" value="合肥站" />'+
+                                    '<input class="outset-but" type="button" value="公交" onclick="gotobaidu(1)" />'+
+                                    '<input class="outset-but" type="button" value="驾车" onclick="gotobaidu(2)" />'+
+                                    '<a class="gotob"'+ 'href="url='+'"http://api.map.baidu.com/direction?destination=latlng:'+marker.getPosition().lat+"," +  marker.getPosition().lng+ '|name:'+  z[i][6] + '®ion='+z[i][7]+'&output=html"'+ 'target="_blank"></a>"'+
+                                '</span>'+
+                                '<input type="hidden" value="'+z[i][7]+'" name="region" />'+
+                                '<input type="hidden" value="html" name="output" />'+
+                                '<input type="hidden" value="driving" name="mode" />'+
+                                '<input type="hidden" value="latlng:' +  marker.getPosition().lat + "," + marker.getPosition().lng + '|name:' + z[i][6]+ '"' +' name="destination" />'+
+                            '</form>'
 
-                        var marker = new BMap.Marker(point, {icon: myIcon});
-                        var content = '<div class="map_div" style="margin:0;line-height:20px;padding:2px;" to="http://api.map.baidu.com/">' +
-                            '<img src="../img/baidu.jpg" alt="" style="float:right;zoom:1;overflow:hidden;width:100px;height:100px;margin-left:3px;"/>' +
-                          z[i][2]+'<br/>'+z[i][3]+'<br/>'+z[i][4] +
-                          '</div>'+
-                          '<form id="gotobaiduform" action="http://api.map.baidu.com/direction" target="_blank" method="get">'+
-                           '<span class="input">'+
-                                '<strong>起点：</strong>'+
-                                '<input class="outset" type="text" name="origin" value="合肥站" />'+
-                                '<input class="outset-but" type="button" value="公交" onclick="gotobaidu(1)" />'+
-                                '<input class="outset-but" type="button" value="驾车" onclick="gotobaidu(2)" />'+
-                                '<a class="gotob"'+ 'href="url='+'"http://api.map.baidu.com/direction?destination=latlng:'+marker.getPosition().lat+"," +  marker.getPosition().lng+ '|name:'+  z[i][6] + '®ion='+z[i][7]+'&output=html"'+ 'target="_blank"></a>"'+
-                          '</span>'+
-                          '<input type="hidden" value="'+z[i][7]+'" name="region" />'+
-                          '<input type="hidden" value="html" name="output" />'+
-                          '<input type="hidden" value="driving" name="mode" />'+
-                           '<input type="hidden" value="latlng:' +  marker.getPosition().lat + "," + marker.getPosition().lng + '|name:' + z[i][6]+ '"' +' name="destination" />'+
-                           '</form>'
-
-                         opts = {
+                            opts = {
                                 enableMessage:false,
                                 title  : z[i][5],      //标题
                                 width  : 290,             //宽度

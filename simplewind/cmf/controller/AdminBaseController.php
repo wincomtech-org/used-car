@@ -22,6 +22,10 @@ class AdminBaseController extends BaseController
         // 显示除了E_NOTICE(提示)和E_WARNING(警告)外的所有错误
         // error_reporting(E_ALL ^ (E_NOTICE | E_WARNING));
 
+        // 默认跳转页面对应的模板文件 区别于前台
+        config('dispatch_success_tmpl',THINK_PATH . 'tpl' . DS . 'dispatch_jump3.tpl');
+        config('dispatch_error_tmpl',THINK_PATH . 'tpl' . DS . 'dispatch_jump3.tpl');
+
         // 监听admin_init
         hook('admin_init');
         parent::_initialize();
@@ -41,8 +45,6 @@ class AdminBaseController extends BaseController
                 exit();
             }
         }
-
-        // lothar_get_news('',true);
     }
 
     public function _initializeView()

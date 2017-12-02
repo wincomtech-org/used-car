@@ -17,7 +17,6 @@ use app\admin\model\AdminMenuModel;
 
 class RbacController extends AdminBaseController
 {
-
     /**
      * 角色管理列表
      * @adminMenu(

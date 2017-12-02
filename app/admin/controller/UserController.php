@@ -46,16 +46,20 @@ class UserController extends AdminBaseController
     {
         $where = ["user_type" => 1];
         /**搜索条件**/
+        $uid = $this->request->param('uid');
         $user_login = $this->request->param('user_login');
         $user_email = trim($this->request->param('user_email'));
 
-        if ($user_login) {
+        if (!empty($uid)) {
+            $where['user_id'] = $uid;
+        }
+        if (!empty($user_login)) {
             $where['user_login'] = ['like', "%$user_login%"];
         }
-
-        if ($user_email) {
+        if (!empty($user_email)) {
             $where['user_email'] = ['like', "%$user_email%"];;
         }
+
         $users = Db::name('user')
             ->where($where)
             ->order("id DESC")

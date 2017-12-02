@@ -150,9 +150,9 @@ tpl;
         if (empty($lists)) {
             $lists = $this->field('id,name,description,more')
                     ->where('status',1)
-                    ->order('is_rec desc,id')
+                    ->order('is_top desc,id')
                     ->limit($limit)
-                    ->select()->toArray();
+                    ->select();
             cache($ckey, $lists, 3600);
         }
 

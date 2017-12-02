@@ -15,7 +15,7 @@ class DbBackupController extends AdminBaseController
 
     public function _initialize()
     {
-        // parent::_initialize();
+        parent::_initialize();
         $this->dir = CMF_ROOT .'data/'. $this->dir;//
         // $this->dir = getcwd() . $this->dir;// 使用当前工作空间
 

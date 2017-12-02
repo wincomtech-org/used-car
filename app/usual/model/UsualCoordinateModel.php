@@ -40,7 +40,7 @@ class UsualCoordinateModel extends UsualModel
             $where = array_merge($where,$condition);
         }
         // $data = $this->all()->toArray();
-        $data = $this->field(['id','name','ucs_x','ucs_y'])
+        $data = $this->field(['id','name','ucs_x','ucs_y','tel','addr','remark'])
             ->where($where)
             ->order('id')
             ->select()->toArray();

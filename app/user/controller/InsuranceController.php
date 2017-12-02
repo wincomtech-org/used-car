@@ -59,6 +59,8 @@ class InsuranceController extends UserBaseController
 
         $where = ['id'=>$orderId,'user_id'=>$uid];
 
+        // 预约金处理
+
         $result = Db::name('insurance_order')->where($where)->setField('status',-1);
         if ($result) {
             $this->success('您已取消预约保单');

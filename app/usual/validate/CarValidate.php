@@ -2,6 +2,7 @@
 namespace app\usual\validate;
 
 use think\Validate;
+use think\Db;
 
 class CarValidate extends Validate
 {
@@ -44,23 +45,19 @@ class CarValidate extends Validate
     // 检查名称是否存在
     protected function checkName($value)
     {
-        $find = model('usual/UsualCar')->where('name',$value)->count();
-        if ($find>0) {return false;}
-        return true;
+        $find = Db::name('usual_car')->where('name',$value)->count();
+        if ($find>0) return false; return true;
     }
     protected function checkNameEdit($value,$rule,$data)
     {
-        $find = model('usual/UsualCar')->where(['id'=>$data['id'],'name'=>$value])->count();
-        if ($find>0) return true; return false;
+        $find = Db::name('usual_car')->where(['id'=>['neq',$data['id']],'name'=>$value])->count();
+        if ($find==0) return true; return false;
     }
 
     protected function checkVin($value)
     {
-        $find = model('usual/UsualCar')->where('car_vin',$value)->count();
-        if ($find>0) {
-            return false;
-        }
-        return true;
+        $find = Db::name('usual_car')->where('car_vin',$value)->count();
+        if ($find>0) return false;return true;
     }
 
     protected function isPlateNo($value)
@@ -73,11 +70,8 @@ class CarValidate extends Validate
     }
     protected function checkPlateNo($value)
     {
-        $find = model('usual/UsualCar')->where('plateNo',$value)->count();
-        if ($find>0) {
-            return false;
-        }
-        return true;
+        $find = Db::name('usual_car')->where('plateNo',$value)->count();
+        if ($find>0) return false;return true;
     }
     protected function checkTel($value)
     {

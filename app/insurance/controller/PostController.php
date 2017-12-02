@@ -153,6 +153,7 @@ class PostController extends HomeBaseController
             $post_pre = session('insuranceStep1');
             $post = array_merge($post,$post_pre);
             $post['user_id'] = $userId;
+            $post['order_sn'] = cmf_get_order_sn('INSUR-');
             $post['create_time'] = time();
             // dump($post);die;
             $result = $this->validate($post, 'Post.step3');
@@ -170,6 +171,7 @@ class PostController extends HomeBaseController
                 $id = Db::getLastInsID();
                 $data = [
                     'title' => '预约保险',
+                    'user_id' => $userId,
                     'object'=> 'insurance_order:'.$id,
                     'content'=>'客户ID：'.$userId.'，保单ID：'.$id
                 ];

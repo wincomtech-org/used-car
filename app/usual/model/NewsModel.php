@@ -15,7 +15,7 @@ class NewsModel extends Model
 
     public function getLists($filter=[], $order='', $limit='',$extra=[])
     {
-        $field = 'id,title,object,action,app,create_time,content,ip,status';
+        $field = 'id,user_id,deal_uid,title,object,action,app,create_time,content,ip,status';
 
         // 筛选条件
         $where = [];
@@ -23,8 +23,11 @@ class NewsModel extends Model
             $where = array_merge($where,$extra);
         }
         // 更多
-        if (!empty($filter['app'])) {
-            $where['app'] = $filter['app'];
+        if (!empty($filter['appId'])) {
+            $where['app'] = $filter['appId'];
+        }
+        if (!empty($filter['userId'])) {
+            $where['user_id'] = $filter['userId'];
         }
         $startTime = empty($filter['start_time']) ? 0 : strtotime($filter['start_time']);
         $endTime   = empty($filter['end_time']) ? 0 : strtotime($filter['end_time']);
@@ -62,14 +65,19 @@ class NewsModel extends Model
     public function cateOptions($selectId=null, $option='请选择')
     {
         $data = $this->distinct(true)->field('app')->select()->toArray();
+        $setName = [
+            'trade'     => '车辆买卖',
+            'insurance' => '保险模块',
+            'service'   => '车辆业务',
+        ];
 
         if ($option===false) {
             return $data;
         } else {
             $options = (empty($option)) ? '':'<option value="">--'.$option.'--</option>';
             if (is_array($data)) {
-                foreach ($data as $k=>$v) {
-                    $options .= '<option value="'.$k.'" '.($selectId==$k?'selected':'').' >'.$v.'</option>';
+                foreach ($data as $row) {
+                    $options .= '<option value="'.$row['app'].'" '.($selectId==$row['app']?'selected':'').' >'.$setName[$row['app']].'</option>';
                 }
             }
             return $options;

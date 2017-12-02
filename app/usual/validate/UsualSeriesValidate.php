@@ -40,10 +40,7 @@ class UsualSeriesValidate extends Validate
     }
     protected function checkBrand($value)
     {
-        if (empty($value)) {
-            return false;
-        }
-        return true;
+        if (empty($value)) return false; return true;
     }
 
     // 检查名称是否存在
@@ -57,8 +54,8 @@ class UsualSeriesValidate extends Validate
     // 名称编辑检测
     protected function checkNameEdit($value,$rule,$data)
     {
-        $find = model('UsualSeries')->where(['parent_id'=>$data['parent_id'],'name'=>$value])->count();
-        if ($find>0) return true; return false;
+        $find = model('UsualSeries')->where(['id'=>['neq',$data['id']],'parent_id'=>$data['parent_id'],'name'=>$value])->count();
+        if ($find==0) return true; return false;
     }
 
 }

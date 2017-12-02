@@ -2,6 +2,7 @@
 namespace app\usual\validate;
 
 use think\Validate;
+use think\Db;
 
 class CompanyValidate extends Validate
 {
@@ -24,14 +25,14 @@ class CompanyValidate extends Validate
     // 检查名称是否存在
     protected function checkName($value)
     {
-        $find = model('UsualCompany')->where('name',$value)->count();
+        $find = Db::name('usual_company')->where('name',$value)->count();
         if ($find>0) {return false;}
         return true;
     }
     protected function checkNameEdit($value,$rule,$data)
     {
-        $find = model('UsualCompany')->where(['id'=>$data['id'],'name'=>$value])->count();
-        if ($find>0) return true; return false;
+        $find = Db::name('usual_company')->where(['id'=>['neq',$data['id']],'name'=>$value])->count();
+        if ($find==0) return true; return false;
     }
 
     protected function checkStatus($value,$rule,$data)

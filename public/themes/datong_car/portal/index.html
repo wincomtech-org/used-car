@@ -33,40 +33,7 @@
     <section class="our_service">
         <div class="main ">
             <h3 class="index_tit">我们的服务<span class="index_tit_supply">一体化的服务流程，为您带来便捷生活 </span></h3>
-            <div class="our_service_list our_service_list_pc">
-                <ul class="our_service_lists">
-                    <foreach name="coverages" item="vo">
-                    <li class="our_service_items">
-                        <div class="our_service_img">
-                            <span class="txt_foot">{$vo.name}</span>
-                            <img src="{:cmf_get_image_preview_url($vo.more.thumbnail)}" alt="">
-                        </div>
-                        <div class="our_service_txt">
-                            <a>{$vo.description}</a>
-                        </div>
-                    </li>
-                    </foreach>
-                </ul>
-            </div>
-            <!-- 移动版 -->
-            <div class="our_service_list our_service_list_m">
-                <div class="our_service_show">
-                    <div class="slick">
-                        <foreach name="coverages" item="vo">
-                        <div>
-                            <div class="our_service_img">
-                                <span class="txt_foot">{$vo.name}</span>
-                                <img src="{:cmf_get_image_preview_url($vo.more.thumbnail)}" alt="">
-                            </div>
-                            <div class="our_service_txt">
-                                <a href="javascript:void(0);">{$vo.description}</a>
-                            </div>
-                        </div>
-                         </foreach>
-                    </div>
-
-                </div>
-             </div>
+            <include file="index_ourcore" />
         </div>
     </section>
 
@@ -93,7 +60,7 @@
                     <p>放心的售后服务</p>
                 </li>
             </ul>
-            <p  class="more"><a href="about/about.html">了解更多>></a></p>
+            <p  class="more"><a href="about/19.html">了解更多>></a></p>
         </div>
     </section>
 
@@ -120,7 +87,7 @@
     </section>
 
 
-    <!-- 车辆买卖 -->
+    <!-- 车辆买卖 PC -->
     <section class="vehicle_trading vehicle_trading_pc">
         <div class="main">
             <div class="vehicle_trading_detail">
@@ -182,7 +149,7 @@
         </div>
     </section>
 
-    <!-- 车辆买卖 -->
+    <!-- 车辆买卖 M -->
     <section class="vehicle_trading vehicle_trading_m">
         <div class="main">
             <div class="vehicle_trading_detail">
@@ -257,16 +224,16 @@
                     <div class="i_box">
                         <div class="i_imglist">
                             <ul id="J_imgList">
-                                <foreach name="article_services" item="vo" >
-                                <li><a href="{:cmf_url('portal/Article/index',['id'=>$vo.id])}"><img src="{:cmf_get_image_preview_url($vo.more.thumbnail)}" alt="{$vo.post_title}" title="{$vo.post_title}" /></a></li>
+                                <foreach name="services" item="vo" >
+                                <li><a href="{:cmf_url('service/Index/index',['servId'=>$vo.id])}"><img src="{:cmf_get_image_preview_url($vo.more.thumbnail)}" alt="{$vo.name}" title="{$vo.name}" /></a></li>
                                 </foreach>
                             </ul>
                         </div><!--切换大图-->
                         <div class="i_nav">
                             <div class="i_navlist">
                                 <ul id="J_navList">
-                                    <foreach name="article_services" item="vo" >
-                                    <li><a href="{:cmf_url('portal/Article/index',['id'=>$vo.id])}">{$vo.post_title}</a></li>
+                                    <foreach name="services" item="vo" >
+                                    <li><a href="{:cmf_url('service/Index/index',['servId'=>$vo.id])}">{$vo.name}</a></li>
                                     </foreach>
                                     <div class="clear"></div>
                                 </ul>
@@ -279,10 +246,10 @@
                 <!-- 右侧文字 -->
                 <div class="vehicle_services_txt">
                     <ul class="vehicle_services_txt_lists">
-                        <foreach name="article_services" item="vo" key="key">
+                        <foreach name="services" item="vo" key="key">
                         <li class="vehicle_services_txt_item {$key==0?'active':''}">
                             <span class="icon">{$key+1}</span>
-                            <p><a href="{:cmf_url('portal/Article/index',['id'=>$vo.id])}"><b>{$vo.post_title}</b>{$vo.post_excerpt}</a></p>
+                            <p><a href="{:cmf_url('service/Index/index',['servId'=>$vo.id])}"><b>{$vo.name}</b>{$vo.description}</a></p>
                         </li>
                         </foreach>
                     </ul>

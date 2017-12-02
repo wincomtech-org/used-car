@@ -1289,9 +1289,9 @@ function cmf_current_lang()
  * 获取惟一订单号
  * @return string
  */
-function cmf_get_order_sn()
+function cmf_get_order_sn($extra='')
 {
-    return date('Ymd') . substr(implode(NULL, array_map('ord', str_split(substr(uniqid(), 7, 13), 1))), 0, 8);
+    return $extra . date('Ymd') . substr(implode(NULL, array_map('ord', str_split(substr(uniqid(), 7, 13), 1))), 0, 8);
 }
 
 /**

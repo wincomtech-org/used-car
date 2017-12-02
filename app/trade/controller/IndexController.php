@@ -72,6 +72,7 @@ class IndexController extends HomeBaseController
         $keyword = $this->request->param('keyword/s');
         // $jumpext = $this->request->param('jumpext/s','','strval');
         // ID
+        $platform = $this->request->param('platform',0,'intval');
         $typeId = $this->request->param('typeId','new');
         $brandId = $this->request->param('brandId/d');// 2大众 4福特
         $serieId = $this->request->param('serieId/d');
@@ -149,6 +150,10 @@ class IndexController extends HomeBaseController
         $filter['sellStatus'] = 1;
 
         // 处理请求的数据
+        // 平台
+        if (!empty($platform)) {
+            $extra['platform'] = $platform;
+        }
         // 类别
         if (is_numeric($typeId)) {
             $filter['typeId'] = (int)$typeId;

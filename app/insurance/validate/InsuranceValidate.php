@@ -2,6 +2,7 @@
 namespace app\insurance\validate;
 
 use think\Validate;
+use think\Db;
 
 class InsuranceValidate extends Validate
 {
@@ -26,13 +27,13 @@ class InsuranceValidate extends Validate
     // 检查名称是否存在
     protected function checkName($value)
     {
-        $find = model('Insurance')->where('name',$value)->value('id');
+        $find = Db::name('Insurance')->where('name',$value)->value('id');
         if ($find) {return false;}
         return true;
     }
     protected function checkNameEdit($value,$rule,$data)
     {
-        $find = model('Insurance')->where(['id'=>$data['id'],'name'=>$value])->count();
-        if ($find>0) return true; return false;
+        $find = Db::name('Insurance')->where(['id'=>['neq',$data['id']],'name'=>$value])->count();
+        if ($find==0) return true; return false;
     }
 }

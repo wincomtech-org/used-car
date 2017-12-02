@@ -141,6 +141,7 @@ class PostController extends HomeBaseController
             $id = $result->id;
             $data = [
                 'title' => '免费登记卖车信息',
+                'user_id'=>$userInfo['id'],
                 'object'=> 'usual_car:'.$id,
                 'content'=>'客户ID：'.$userInfo['id'].'，车子ID：'.$id
             ];

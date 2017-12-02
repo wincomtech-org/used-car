@@ -4,7 +4,7 @@
 <div class="wrap js-check-wrap">
     <ul class="nav nav-tabs">
         <li class="active"><a href="javascript:;">所有坐标</a></li>
-        <li><a href="{:url('AdminConsign/add')}">添加坐标</a></li>
+        <li><a href="{:url('AdminConsign/add',['compId'=>$compId])}">添加坐标</a></li>
     </ul>
     <form class="well form-inline margin-top-20" method="post" action="{:url('AdminConsign/index')}">
         所属公司:
@@ -19,10 +19,10 @@
         <a class="btn btn-danger" href="{:url('AdminConsign/index')}">清空</a>
     </form>
     <form class="js-ajax-form" action="" method="post">
-        <include file="admin_Consign/table-actions" />
+        <include file="admin_consign/table-actions" />
         <table class="table table-hover table-bordered table-list">
             <thead>
-                <include file="admin_Consign/table-th" />
+                <include file="admin_consign/table-th" />
             </thead>
             <foreach name="articles" item="vo">
                 <tr>
@@ -36,23 +36,23 @@
                     <td><span>{$vo.ucs_x}</span></td>
                     <td><span>{$vo.ucs_y}</span></td>
 
-                    <td><a href="{:url('AdminConsign/index',['keyword'=>$vo['company']])}">{$vo.company}</a></td>
+                    <td><a href="{:url('AdminCompany/index',['keyword'=>$vo['company']])}">{$vo.company}</a></td>
                     <td><span>{$vo.remark}</span></td>
 
                     <td>
                         <empty name="vo.status">不启用<else/>启用</empty>
                     </td>
                     <td>
-                        <a href="{:url('AdminConsign/edit',array('id'=>$vo['id']))}">{:lang('EDIT')}</a>
+                        <a href="{:url('AdminConsign/edit',array('id'=>$vo.id))}">{:lang('EDIT')}</a>
                         <a href="{:url('AdminConsign/delete',array('id'=>$vo['id']))}" class="js-ajax-delete">{:lang('DELETE')}</a>
                     </td>
                 </tr>
             </foreach>
             <tfoot>
-                <include file="admin_Consign/table-th" />
+                <include file="admin_consign/table-th" />
             </tfoot>
         </table>
-        <include file="admin_Consign/table-actions" />
+        <include file="admin_consign/table-actions" />
         <ul class="pagination">{$page|default=''}</ul>
     </form>
 </div>

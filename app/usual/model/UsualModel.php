@@ -286,7 +286,7 @@ class UsualModel extends Model
             $options = (empty($option)) ? '':'<option value="">--'.$option.'--</option>';
             if (is_array($data)) {
                 foreach ($data as $v) {
-                    $options .= '<option value="'.$v['id'].'" '.($selectId==$v['id']?'selected':'').' >'.$v['name'].'</option>';
+                    $options .= '<option value="'.$v['id'].'" '.($selectId==$v['id']?'selected':'').'>'.$v['name'].'</option>';
                 }
             }
             return $options;

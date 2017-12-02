@@ -88,7 +88,7 @@ class AdminCategoryController extends AdminBaseController
             $this->error('保存失败!');
         }
 
-        $this->success('保存成功!',url('AdminCategory/edit',['id'=>$cate['id']]));
+        $this->success('保存成功!',url('AdminCategory/index',['id'=>$cate['id']]));
     }
 
     public function select()

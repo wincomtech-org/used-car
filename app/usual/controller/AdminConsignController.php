@@ -32,6 +32,7 @@ class AdminConsignController extends AdminBaseController
         $this->assign('keyword', isset($param['keyword']) ? $param['keyword'] : '');
         $this->assign('articles', $data->items());
         $this->assign('company_tree', $CompanyTree);
+        $this->assign('compId', $compId);
         $this->assign('page', $data->render());
 
         return $this->fetch();
@@ -39,11 +40,13 @@ class AdminConsignController extends AdminBaseController
 
     public function add()
     {
+        $compId = $this->request->param('compId',0,'intval');
         $compModel  = new UsualCompanyModel();
-        $CompanyTree   = $compModel->getCompanys(0,0,0,true);
+        $CompanyTree   = $compModel->getCompanys($compId,0,0,true);
         $Provinces = model('admin/District')->getDistricts();
 
         $this->assign('company_tree', $CompanyTree);
+        $this->assign('compId', $compId);
         $this->assign('Provinces', $Provinces);
         return $this->fetch();
     }
