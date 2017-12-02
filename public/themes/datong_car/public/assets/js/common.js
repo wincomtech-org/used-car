@@ -74,8 +74,45 @@ function _closeAction(){
 	$('body').removeClass('with-panel-left-cover')
 }
 
-// 结束手机目录点击事件
+/*结束手机目录点击事件*/
 
+/**
+ * 查看图片对话框
+ * @param img 图片地址
+ */
+function imagePreviewDialog(img) {
+    Wind.css('layer');
+
+    Wind.use("layer", function () {
+        layer.photos({
+            photos: {
+                "title": "", //相册标题
+                "id": 'image_preview', //相册id
+                "start": 0, //初始显示的图片序号，默认0
+                "data": [   //相册包含的图片，数组格式
+                    {
+                        "alt": "",
+                        "pid": 666, //图片id
+                        "src": img, //原图地址
+                        "thumb": img //缩略图地址
+                    }
+                ]
+            } //格式见API文档手册页
+            , anim: 5, //0-6的选择，指定弹出图片动画类型，默认随机
+            shadeClose: true,
+            // skin: 'layui-layer-nobg',
+            shade: [0.5, '#000000'],
+            shadeClose: true,
+        })
+    });
+}
+
+
+
+/*图片预览*/
+$('.demonstrate_img img').click(function(){
+	imagePreviewDialog(this.src)
+})
 
 /*首页*/
 $(document).ready(function() {
@@ -947,5 +984,4 @@ function AddFavorite(url, title) {
 /**
  +----------------------------------------------------------
  * 返回顶部
- +----------------------------------------------------------
-*/
+ +----------------------------------------------------------*/

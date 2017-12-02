@@ -111,6 +111,22 @@
 								</div>
 							</li>
 							<li class="details_item">
+								<span class="details_tit">行车本照片</span>
+								<div class="idetails_con">
+									<ul class="pic-list list-unstyled form-inline">
+									    <notempty name="verify.more.identity_card">
+								        <foreach name="verify.more.identity_card" item="vo">
+								            <li id="saved-identity_card{$key}">
+								                <img id="identity_card-{$key}-preview"
+								                     src="{:cmf_get_image_preview_url($vo['url'])}"
+								                     style="height:108px;width:180px;">
+								            </li>
+								        </foreach>
+									    </notempty>
+									</ul>
+								</div>
+							</li>
+							<li class="details_item">
 								<span class="details_tit">实名认证</span>
 								<div class="idetails_con">
 									<div class="stauts">
@@ -212,13 +228,44 @@
 							                </notempty>
 							            </ul>
 							            <a href="javascript:uploadMultiImage('图片上传','#identity_card','identity_card-item-tpl');"
-							               class="btn btn-default btn-sm">
+							               class="btn btn-default btn-sm demonstrate_pre">
 							               	<img src="__TMPL__/public/assets/images/add.png"
                                                       style="cursor: pointer:"/>
 												<i class='photo_tip'>请上传身份证正反两面</i>
-							               </a>
+							              </a>
+							              <div class="demonstrate sf">
+							            	<div class="demonstrate_img">
+							            		<img src="__TMPL__/public/assets/images/example/6.jpg" alt="">
+							            		<img src="__TMPL__/public/assets/images/example/7.jpg" alt="">
+							            	</div>
+							            	<i class="photo_tip">请按照上图样式上传图片</i>
+							            </div>
+
 									</div>
 								</li>
+
+								<!-- 认证 -->
+								<li class="details_item unauthorized" >
+							        <span class="details_tit">行车本照片</span>
+							        <div class="idetails_con">
+							            <input type="hidden" name="post[identi][driving_license]" id="driving_license" value="{$post.identi.driving_license|default=''}" />
+							            <a href="javascript:uploadOneImage('图片上传','#driving_license');" class="demonstrate_pre">
+							                <if condition="empty($post.identi.driving_license)">
+							                    <img src="__TMPL__/public/assets/images/add.png" id="driving_license-preview"  style="cursor: pointer;max-width:200px"/>
+							                <else/>
+							                    <img src="{:cmf_get_image_preview_url($post.identi.driving_license)}" id="driving_license-preview" width="135" style="cursor: pointer"/>
+							                </if>
+							                <i class="photo_tip">请上传行车本照片（尽可能的小）</i>
+							            </a>
+							            <div class="demonstrate">
+							            	<div class="demonstrate_img">
+							            		<img src="__TMPL__/public/assets/images/example/5.jpg" alt="">
+							            	</div>
+							            	<i class="photo_tip">请按照上图样式上传图片</i>
+							            </div>
+							            
+							        </div>
+							    </li>
 
 								<li class="details_item">
 									<span class="details_tit">实名认证</span>
@@ -283,6 +330,9 @@ $('.c1').click(function(){
 		}
 	})
 })
+
+
+
 
 </script>
 </html>

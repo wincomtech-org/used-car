@@ -569,8 +569,8 @@
 
 
 /*预约看车*/
-.booking_see_car_con{width:auto;margin:0 auto;}
-.booking_see_car_con h3{font-size:30px;text-align:center;margin:65px 0;font-weight:400;}
+.booking_see_car_con{width:auto;margin:1rem auto;}
+.booking_see_car_con h3{font-size:30px;text-align:center;padding:1.2rem 0;font-weight:400;background-color:#3b719c;color:#fff;}
 .payment_tit{margin-bottom:20px;}
 .payment_way li{float:left;border:1px solid #ddd;background-color:#fff;margin-right:20px;box-sizing:border-box;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;-ms-box-sizing:border-box;-o-box-sizing:border-box;}
 .payment_way li.select{ border: 1px solid #d8271c; }
@@ -609,8 +609,10 @@
 .sure_pay{    float: right;padding: 7px 10px;color: #d8271c;background-color: #d00000;color: #fff;font-size: 14px;}
 
 /*.see_car_list{display:table;}*/
-.see_car_items {width:100%;display:table;margin:40px 0;}
-.see_car_items .icon{font-size:16px;display:table-cell;width:120px;    vertical-align: top;}
+.see_car_items {width:100%;display:table;padding:.6rem .5rem;border-bottom:1px solid #ddd;box-sizing:border-box;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;-ms-box-sizing:border-box;-o-box-sizing:border-box;}
+.see_car_items:nth-child(odd){background-color:#D3DFED;}
+.see_car_items:nth-child(even){background-color:#ecedef;}
+.see_car_items .icon{font-size:16px;display:table-cell;width:120px;    vertical-align: middle;}
 .see_car_items .item_con{font-size:16px;display:table-cell;}
 .see_car_items .item_con p{line-height:1.7;color:#666;}
 .see_car_items:nth-child(2) .item_con p{color:#d00000;}
@@ -789,7 +791,7 @@
 .selection_insurance_con .mess{margin-bottom:20px;}
 .selection_insurance_con .mess p{font-size:20px;color:#333;line-height:1.8;}
 .data_filling{width:100%;margin:0 auto;text-align:center;}
-.data_filling_list{padding:15px 0;width:690px;margin:0 auto;}
+.data_filling_list{padding:15px 0;width:810px;margin:0 auto;}
 .data_filling_list:after{content:"";display:block;clear:both;}
 .data_filling_list li{float:left;}
 .data_filling_list li.left{width:38%;text-align:right;font-size:18px;height:40px;line-height:40px;padding-right:20px;box-sizing:border-box;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;-ms-box-sizing:border-box;-o-box-sizing:border-box;}
@@ -998,7 +1000,10 @@
 #identity_card input{height:auto;line-height:auto;border:none;min-width:0;font-size:15px;margin:5px 0;padding-left:0;}
 #identity_card li a{color:#666;font-size:14px;}
 #identity_card:after{content:"";display:block;clear:both;}
-
+.demonstrate_pre{display:inline-block;}
+.demonstrate{display:inline-block;margin-left:1rem;}
+.demonstrate_img img{max-width:200px;}
+.sf .demonstrate_img img{max-width:100px;}
 
 @media only screen and (max-width:500px){
     #identity_card{width:100%;}
@@ -1774,13 +1779,11 @@
 
  @media only screen and (max-width: 767px){
 
-    .booking_see_car_con h3{margin:1rem 0;}
     .payment_way li label{padding:11px 21px;}
     .payment_way li.select b{border-top: 18px solid transparent; border-right: 18px solid #d8271c;}
     .payment_way li.select b:after{    width: 18px; height: 18px;background: url(../images/example/fit.png) no-repeat 8px 6px;    background-size: 70%;}
 
     .see_car_items .icon,.see_car_items .item_con{display:block;margin-bottom:.7rem;}
-    .see_car_items{margin:1rem 0;}
     .zhifubao{width:100%;}
     .zhifubao>div.left .erweima .lf img{max-width:142px;}
     .zhifubao>div.left .erweima .rt img{width:99px;}
@@ -1792,6 +1795,9 @@
     .weixin .weixin_bottom .lf:nth-child(2) img{width:109px;}
  }
 
+ @media only screen and (max-width: 360px){
+    .zhifubao>div.left .erweima .rt{margin-left:21px;}
+ }
 
  /*首页车辆服务*/
   @media only screen and (max-width: 1199px){
@@ -1957,8 +1963,6 @@
         .seller_center .analogy{width:100%;}
 
 
-
-
          /*买家中心*/
          .home_list table td{font-size:14px;}
         .home_list table tbody tr:nth-child(2) td{padding:20px 11px;}
@@ -1967,10 +1971,6 @@
 
         
         .home_list .detail1, .home_list .detail2, .home_list .detail3{width:66px;height:26px;line-height:26px;font-size:12px !important;}
-
-
-
-
     }
 
 
@@ -2052,3 +2052,9 @@
         footer p{font-size:14px;}
         footer p span{font-size:14px;}
       }
+
+/**上传图片旁的图片*/
+ @media only screen and (max-width:767px){
+    .demonstrate{display:block;margin-left:0;margin-top:1rem;}
+    
+ }

@@ -226,11 +226,27 @@ function lothar_get_news($type='', $dialog=false)
             $msg = '您有 '.$count.' 条未处理消息！';
             $jumpurl = url('usual/AdminNews/index');
             // echo '<script type="text/javascript">alert("'.$msg.'");</script>';
-            echo "<script type=\"text/javascript\">if (confirm('".$msg."')) { window.location.href='".$jumpurl."'}</script>";
+            // echo "<script type=\"text/javascript\">if (confirm('".$msg."')) { window.location.href='".$jumpurl."'}</script>";
+$html = <<<EOT
+    <style type="text/css">
+        /*提示信息消息*/
+        .alert_msg{position:absolute;width:320px;right:0;bottom:0;background-color:#FCEFCF;color:#6A5128;font-size:16px;font-weight:bold;padding:25px 15px;box-sizing:border-box;box-sizing:-webkit-border-box;box-sizing:-moz-border-box;box-sizing:-ms-border-box;box-sizing:-o-border-box;}
+        .alert_msg a{display:block;margin-top:4px;}
+        .alert_msg b{position:absolute;top:3px;right:17px;font-size:23px;cursor:pointer;}
+    </style>
+    <script type="text/javascript">
+        $("body").append("<div class='alert_msg'><b>x</b>{$msg}<br/><a href='{$jumpurl}'>点击查看</a></div>");
+        // 消息提示弹窗
+        $(document).delegate('.alert_msg b','click',function(){
+            $(this).parent().hide(600);
+        })
+    </script>
+EOT;
+            echo $html;
         }
     } else {
         return $news;
-    }
+    }   
 }
 /*
 * 用户认证状态信息

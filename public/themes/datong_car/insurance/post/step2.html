@@ -73,12 +73,16 @@
                         <li class="right">
                             <div class="file">
                                 <input type="hidden" name="car[identi][driving_license]" id="driving_license" value="">
-                                <a href="javascript:uploadOneImage('图片上传','#driving_license');">
-                                    <img src="__TMPL__/public/assets/images/add.png"
-                                         id="driving_license-preview"
-                                          style="cursor:pointer;max-width:200px"/>
+                                <a href="javascript:uploadOneImage('图片上传','#driving_license');" class="demonstrate_pre">
+                                    <img src="__TMPL__/public/assets/images/add.png" id="driving_license-preview" style="cursor:pointer;max-width:200px"/>
+                                    <i class='photo_tip'>请上传行车本照片（尽可能的小）</i>
                                 </a>
-                                <p><i class='photo_tip'>请上传行车本照片（尽可能的小）</i></p>
+                                <div class="demonstrate ">
+                                    <div class="demonstrate_img">
+                                        <img src="__TMPL__/public/assets/images/example/5.jpg" alt="">
+                                    </div>
+                                    <i class="photo_tip">请按照上图样式上传图片</i>
+                                </div>
                             </div>
                         </li>
                     </ul>
@@ -88,11 +92,19 @@
                         <li class="right">
                             <div class="file">
                                 <ul id="identity_card" class="pic-list list-unstyled form-inline"></ul>
-                                <a href="javascript:uploadMultiImage('图片上传','#identity_card','identity_card-item-tpl');" class="btn btn-default btn-sm">
-                                     <img src="__TMPL__/public/assets/images/add.png"
-                                         style="cursor:pointer"/>
+                                <a href="javascript:uploadMultiImage('图片上传','#identity_card','identity_card-item-tpl');" class="btn btn-default btn-sm demonstrate_pre">
+                                     <img src="__TMPL__/public/assets/images/add.png" style="cursor:pointer"/>
+                                     <i class='photo_tip'>请上传身份证正面照片（尽可能的小）</i>
                                 </a>
-                                <p><i class='photo_tip'>请上传身份证正面照片（尽可能的小）</i></p>
+                
+                                <div class="demonstrate sf">
+                                    <div class="demonstrate_img">
+                                        <img src="__TMPL__/public/assets/images/example/6.jpg" alt="">
+                                        <!-- <img src="__TMPL__/public/assets/images/example/7.jpg" alt=""> -->
+                                    </div>
+                                    <i class="photo_tip">请按照上图样式上传图片</i>
+                                </div>
+                               
                             </div>
                         </li>
                     </ul>

@@ -909,15 +909,15 @@ function(a) {
             case "notification":
                 this.$bar.css({
                     backgroundColor:
-                    "#FFF",
-                    borderColor: "#CCC",
+                    "#FCEFCF",
+                    borderColor: "#7B521D",
                     color: "#444"
                 });
                 break;
             case "warning":
                 this.$bar.css({
                     backgroundColor:
-                    "#FFEAA8",
+                    "#FCEFCF",
                     borderColor: "#FFC237",
                     color: "#826200"
                 }),
@@ -943,8 +943,8 @@ function(a) {
             case "information":
                 this.$bar.css({
                     backgroundColor:
-                    "#57B7E2",
-                    borderColor: "#0B90C4",
+                    "#FCEFCF",
+                    borderColor: "#7B521D",
                     color: "#FFF"
                 }),
                 this.$buttons.css({
@@ -965,8 +965,8 @@ function(a) {
             default:
                 this.$bar.css({
                     backgroundColor:
-                    "#FFF",
-                    borderColor: "#CCC",
+                    "#FCEFCF",
+                    borderColor: "#7B521D",
                     color: "#444"
                 })
             }
