@@ -13,7 +13,8 @@ class IndexController extends HomeBaseController
 
     public function index()
     {
-
+// $this->success('提交完成','','',100000);
+// $this->error('提交失败','','',100000);
         // 保险推荐
         $recommend = model('Insurance')->getPostList();
 

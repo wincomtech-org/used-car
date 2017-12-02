@@ -36,7 +36,7 @@
         <span class="details_tit">行车本照片</span>
         <div class="idetails_con">
             <input type="hidden" name="post[identi][driving_license]" id="driving_license" value="{$post.identi.driving_license|default=''}" />
-            <a href="javascript:uploadOneImage('图片上传','#driving_license');">
+            <a href="javascript:uploadOneImage('图片上传','#driving_license');" class="demonstrate_pre">
                 <if condition="empty($post.identi.driving_license)">
                     <img src="__TMPL__/public/assets/images/add.png" id="driving_license-preview"  style="cursor: pointer;max-width:200px"/>
                 <else/>
@@ -44,7 +44,12 @@
                 </if>
                 <i class="photo_tip">请上传行车本照片（尽可能的小）</i>
             </a>
-            
+            <div class="demonstrate ">
+                <div class="demonstrate_img">
+                    <img src="__TMPL__/public/assets/images/example/5.jpg" alt="">
+                </div>
+                <i class="photo_tip">请按照上图样式上传图片</i>
+            </div>
         </div>
     </li>
 
@@ -71,11 +76,17 @@
                 </notempty>
             </ul>
             <a href="javascript:uploadMultiImage('图片上传','#identity_card','identity_card-item-tpl');"
-               class="btn btn-default btn-sm">
-                   <img src="__TMPL__/public/assets/images/add.png"
-                                                      style="cursor: pointer:"/>
-                    <i class="photo_tip">请上传身份证正反面照片</i>                                  
-               </a>
+               class="btn btn-default btn-sm demonstrate_pre">
+                <img src="__TMPL__/public/assets/images/add.png" style="cursor: pointer:"/>
+                 <i class="photo_tip">请上传身份证正反面照片</i>                                  
+            </a>
+            <div class="demonstrate sf">
+                <div class="demonstrate_img">
+                    <img src="__TMPL__/public/assets/images/example/6.jpg" alt="">
+                    <img src="__TMPL__/public/assets/images/example/7.jpg" alt="">
+                </div>
+                <i class="photo_tip">请按照上图样式上传图片</i>
+            </div>
         </div>
     </li>
 
