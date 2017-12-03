@@ -23,6 +23,7 @@ class AdminNewsController extends AdminBaseController
 
         $newModel = new NewsModel();
         $data = $newModel->getLists($param);
+        $counts = $newModel->newsCounts();
         $apps = $newModel->cateOptions($appId);
         $statusOptions = $newModel->getStatus($status);
 
@@ -31,6 +32,7 @@ class AdminNewsController extends AdminBaseController
         $this->assign('end_time', isset($param['end_time']) ? $param['end_time'] : '');
         $this->assign('keyword', isset($param['keyword']) ? $param['keyword'] : '');
 
+        $this->assign('counts',$counts);
         $this->assign('categorys',$apps);
         $this->assign('statusOptions',$statusOptions);
         $this->assign('list', $data->items());

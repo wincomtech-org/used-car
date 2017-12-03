@@ -3,6 +3,7 @@ namespace app\usual\model;
 
 // use app\usual\model\UsualModel;
 use think\Model;
+use think\Db;
 
 class NewsModel extends Model
 {
@@ -91,6 +92,26 @@ class NewsModel extends Model
             // dump($post);
 
         return $post;
+    }
+
+    public function newsCounts($status='')
+    {
+        if (empty($status)) {
+            $count[0] = Db::name('news')->where('status',0)->count();
+            $count[1] = Db::name('news')->where('status',1)->count();
+            $count[2] = Db::name('news')->where('status',2)->count();
+        } elseif ($status==0) {
+            $count[0] = Db::name('news')->where('status',0)->count();
+            $count[1] = $count[2] = 0;
+        } elseif ($status==1) {
+            $count[1] = Db::name('news')->where('status',1)->count();
+            $count[0] = $count[2] = 0;
+        } elseif ($status==2) {
+            $count[2] = Db::name('news')->where('status',2)->count();
+            $count[0] = $count[1] = 0;
+        }
+
+        return $count;
     }
 
     // 选择框
