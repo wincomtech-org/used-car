@@ -23,6 +23,9 @@ class NewsModel extends Model
             $where = array_merge($where,$extra);
         }
         // 更多
+        if (!empty($filter['status'])) {
+            $where['status'] = $filter['status'];
+        }
         if (!empty($filter['appId'])) {
             $where['app'] = $filter['appId'];
         }
@@ -61,6 +64,35 @@ class NewsModel extends Model
         return $series;
     }
 
+    public function getPost($id)
+    {
+        $field = 'a.*,d.user_nickname,d.user_login';
+        $join = [
+            ['user d','a.user_id=d.id','LEFT'],
+            // ['user e','a.deal_uid=e.id','LEFT'],
+        ];
+        $post = $this->alias('a')
+            ->field($field)
+            ->join($join)
+            ->where('a.id',$id)
+            ->find();
+        $post['username'] = $post['user_nickname'] ? $post['user_nickname'] : $post['user_login'];
+        if (!empty($post['object'])) {
+            # insurance_order:1
+            $objId = explode(':',$post['object'])[1];
+            switch ($post['app']) {
+                case 'trade': 
+                case 'insurance': $vr = cmf_url($post['app'].'/AdminOrder/index',['id'=>$objId]); break;
+                case 'service': $vr = cmf_url($post['app'].'/AdminService/index',['id'=>$objId]); break;
+                case 'register': $vr = cmf_url($post['app'].'/AdminIndex/index',['uid'=>$objId]); break;
+            }
+            $post['objurl'] = $vr;
+        }
+            // dump($post);
+
+        return $post;
+    }
+
     // 选择框
     public function cateOptions($selectId=null, $option='请选择')
     {
@@ -69,6 +101,7 @@ class NewsModel extends Model
             'trade'     => '车辆买卖',
             'insurance' => '保险模块',
             'service'   => '车辆业务',
+            'register'  => '注册',
         ];
 
         if ($option===false) {
@@ -82,6 +115,17 @@ class NewsModel extends Model
             }
             return $options;
         }
+    }
+
+    public function getStatus($status='',$config=null)
+    {
+        $ufoconfig = empty($config) ? [0=>'未读',1=>'已读',2=>'已处理'] : config($config);
+        $options = '';
+        foreach ($ufoconfig as $key => $vo) {
+            $options .= '<option value="'.$key.'" '.($status==$key?'selected':'').'>'.$vo.'</option>';
+        }
+
+        return $options;
     }
 
 }

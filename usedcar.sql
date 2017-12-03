@@ -2,15 +2,15 @@
 Navicat MySQL Data Transfer
 
 Source Server         : localhost
-Source Server Version : 50540
+Source Server Version : 50553
 Source Host           : localhost:3306
 Source Database       : usedcar
 
 Target Server Type    : MYSQL
-Target Server Version : 50540
+Target Server Version : 50553
 File Encoding         : 65001
 
-Date: 2017-12-02 18:36:20
+Date: 2017-12-03 13:04:45
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -4364,8 +4364,9 @@ CREATE TABLE `cmf_news` (
   `object` varchar(100) NOT NULL DEFAULT '' COMMENT '消息对象的id,格式:不带前缀的表名+id;如posts:1表示xx_posts表里id为1的记录',
   `action` varchar(100) NOT NULL DEFAULT '' COMMENT '来源所在名称;格式:应用名+控制器+操作名,也可自己定义格式只要不发生冲突且惟一;',
   `app` varchar(50) NOT NULL DEFAULT '' COMMENT '消息的来源所在应用名或插件名等',
-  `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
+  `remark` varchar(255) NOT NULL DEFAULT '' COMMENT '备注',
   `content` text COMMENT '详情',
+  `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
   `ip` char(15) NOT NULL DEFAULT '' COMMENT '用户ip',
   `status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '状态：0未读 1已读 2已处理',
   PRIMARY KEY (`id`)
@@ -4374,11 +4375,7 @@ CREATE TABLE `cmf_news` (
 -- ----------------------------
 -- Records of cmf_news
 -- ----------------------------
-INSERT INTO `cmf_news` VALUES ('1', '0', '0', '预约保险', 'insurance_order:1', 'insurance/post/step2post', 'insurance', '1512181733', '客户ID：3，保单ID：1', '127.0.0.1', '0');
-INSERT INTO `cmf_news` VALUES ('2', '1', '0', '预约车辆服务：菜鸟验车', 'service:1', 'service/post/appointpost', 'service', '1512208162', '客户ID：1，公司ID：1', '127.0.0.1', '0');
-INSERT INTO `cmf_news` VALUES ('3', '1', '0', '预约车辆服务：菜鸟验车', 'service:2', 'service/post/appointpost', 'service', '1512208169', '客户ID：1，公司ID：1', '127.0.0.1', '0');
-INSERT INTO `cmf_news` VALUES ('4', '1', '0', '预约车辆服务：菜鸟验车', 'service:3', 'service/post/appointpost', 'service', '1512208202', '客户ID：1，公司ID：1', '127.0.0.1', '0');
-INSERT INTO `cmf_news` VALUES ('5', '1', '0', '预约车辆服务：菜鸟验车', 'service:4', 'service/post/appointpost', 'service', '1512210570', '客户ID：1，公司ID：1', '127.0.0.1', '0');
+INSERT INTO `cmf_news` VALUES ('1', '3', '0', '预约保险', 'insurance_order:1', 'insurance/post/step2post', 'insurance', '', '客户ID：3，保单ID：1', '1512181733', '127.0.0.1', '0');
 
 -- ----------------------------
 -- Table structure for cmf_option
@@ -4748,10 +4745,6 @@ CREATE TABLE `cmf_service` (
 -- ----------------------------
 -- Records of cmf_service
 -- ----------------------------
-INSERT INTO `cmf_service` VALUES ('1', '1', '1', '1', '0', '', '', '', '', '', '0', '', '', '', '', '', '0', '0', '0', '', '', null, '', null, null, '0', '0', '0', '0', '0', '10000');
-INSERT INTO `cmf_service` VALUES ('2', '1', '1', '1', '0', '', '', '', '', '', '0', '', '', '', '', '', '0', '0', '0', '', '', null, '', null, null, '0', '0', '0', '0', '0', '10000');
-INSERT INTO `cmf_service` VALUES ('3', '1', '1', '1', '0', '', '', '', '', '', '0', '', '', '', '', '', '0', '0', '0', '', '', null, '', null, null, '0', '0', '0', '0', '0', '10000');
-INSERT INTO `cmf_service` VALUES ('4', '1', '1', '1', '0', 'ew', '', 'rwr', '', '', '0', '', '', '', '4324344', '', '0', '0', '0', '', '', null, '', null, null, '0', '0', '0', '0', '0', '10000');
 
 -- ----------------------------
 -- Table structure for cmf_service_category

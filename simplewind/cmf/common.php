@@ -224,7 +224,7 @@ function lothar_get_news($type='', $dialog=false)
         $count = count($news);
         if ($count>0) {
             $msg = '您有 '.$count.' 条未处理消息！';
-            $jumpurl = url('usual/AdminNews/index');
+            $jumpurl = url('usual/AdminNews/index',['status'=>0]);
             // echo '<script type="text/javascript">alert("'.$msg.'");</script>';
             // echo "<script type=\"text/javascript\">if (confirm('".$msg."')) { window.location.href='".$jumpurl."'}</script>";
 $html = <<<EOT

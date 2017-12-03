@@ -1,0 +1,104 @@
+<include file="public@header"/>
+</head>
+<body>
+<div class="wrap js-check-wrap">
+    <ul class="nav nav-tabs">
+        <li><a href="{:url('AdminNews/index')}">消息列表</a></li>
+        <li class="active"><a href="#">处理消息</a></li>
+    </ul>
+    <form action="{:url('AdminNews/editPost')}" method="post" class="form-horizontal js-ajax-form margin-top-20">
+        <div class="row">
+            <div class="col-md-9">
+                <table class="table table-bordered">
+                    <tr>
+                        <th>分类</th>
+                        <td>
+                            <select class="form-control" style="width:140px;" disabled>
+                                {$categorys|default=''}
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th width="100">标题</th>
+                        <td>
+                            <input class="form-control" type="text" value="{$post.title}" disabled />
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>用户</th>
+                        <td>
+                            <p class="help-block"><a href="{$post.objurl}">{$post.username}</a></p>
+                            <p class="help-block">点击会跳到相应模块。</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>描述</th>
+                        <td>
+                            <textarea class="form-control" disabled>{$post.content}</textarea>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>数据库对象</th>
+                        <td>
+                            <span class="form-control">{$post.object}</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>来源</th>
+                        <td>
+                            <span class="form-control">{$post.action}</span>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th>操作员备注</th>
+                        <td>
+                            <textarea class="form-control" name="post[remark]" placeholder="请填写描述">{$post.remark}</textarea>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-md-3">
+                <table class="table table-bordered">
+                    <tr>
+                        <th>创建时间</th>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span class="form-control">{:date('Y-m-d H:i',$post['create_time'])}</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>用户IP</th>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span class="form-control">{$post.ip}</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>状态</th>
+                    </tr>
+                    <tr>
+                        <td>
+                            <select class="form-control" name="post[status]">
+                                {$statusOptions|default=''}
+                            </select>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <input type="hidden" name="post[id]" value="{$post.id}">
+                <button type="submit" class="btn btn-primary js-ajax-submit">{:lang('SAVE')}</button>
+                <a class="btn btn-default" href="javascript:history.back(-1);">{:lang('BACK')}</a>
+            </div>
+        </div>
+    </form>
+</div>
+<script type="text/javascript" src="__STATIC__/js/admin.js"></script>
+
+</body>
+</html>
