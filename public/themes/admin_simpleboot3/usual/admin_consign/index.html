@@ -33,10 +33,10 @@
                     <td><b>{$vo.id}</b></td>
 
                     <td><a href="" target="_blank">{$vo.name|default='[暂未设置]'}</a></td>
+                    <td><a href="{:url('AdminCompany/index',['keyword'=>$vo['company']])}">{$vo.company}</a></td>
+
                     <td><span>{$vo.ucs_x}</span></td>
                     <td><span>{$vo.ucs_y}</span></td>
-
-                    <td><a href="{:url('AdminCompany/index',['keyword'=>$vo['company']])}">{$vo.company}</a></td>
                     <td><span>{$vo.remark}</span></td>
 
                     <td>

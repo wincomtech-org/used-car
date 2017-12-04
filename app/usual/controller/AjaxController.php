@@ -70,6 +70,10 @@ class AjaxController extends BaseController
         }
         return '<option>--数据错误--</option>';
     }
+    public function coords()
+    {
+        $compId = $this->request->param('compId',0,'intval');
+    }
 
     /*
     * 点击品牌 获取车系数据 series

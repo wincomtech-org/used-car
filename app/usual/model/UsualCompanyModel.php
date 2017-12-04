@@ -7,12 +7,6 @@ class UsualCompanyModel extends UsualModel
 {
     public function getLists($filter)
     {
-        // $join = [
-        //     ['__USUAL_MODELS__ m', 'a.model_id = m.id']
-        // ];
-        // $field = 'a.*,m.name mname';
-        // array_push($join, ['__USUAL_BRAND__ b', 'a.brand_id = b.id']);
-        // $field .= ',b.id AS bid,b.name bname';
         $field = 'id,name,province_id,city_id,description,update_time,published_time,more,is_baoxian,is_yewu,status,list_order';
 
         $where = [

@@ -14,7 +14,6 @@ class AdminConsignController extends AdminBaseController
     function _initialize()
     {
         parent::_initialize();
-        // $data = $this->request->param();
         $this->uModel = new UsualCoordinateModel();
     }
 

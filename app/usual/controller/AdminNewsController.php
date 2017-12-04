@@ -51,6 +51,10 @@ class AdminNewsController extends AdminBaseController
         $apps = $newModel->cateOptions($post['app']);
         $statusOptions = $newModel->getStatus($post['status']);
 
+        if ($post['status']!=1) {
+            $newModel->where('id',$id)->update(['status'=>1]);
+        }
+
         $this->assign('categorys',$apps);
         $this->assign('statusOptions',$statusOptions);
         $this->assign('post',$post);

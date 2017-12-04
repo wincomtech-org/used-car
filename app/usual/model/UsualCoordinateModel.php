@@ -52,7 +52,7 @@ class UsualCoordinateModel extends UsualModel
 
 
 // 前台
-    /*车业务服务*/
+    /*车业务服务点*/
     public function getPostList($where=[], $order=[], $limit=12)
     {
         $where = array_merge(['status' => 1],$where);
@@ -66,5 +66,10 @@ class UsualCoordinateModel extends UsualModel
             // ->paginate($limit);
 
         return $lists;
+    }
+
+    public function getPost($id)
+    {
+        # code...
     }
 }

@@ -60,13 +60,10 @@ class RegisterController extends HomeBaseController
                 'password' => 'require|min:6|max:32',
 
             ];
-
             $isOpenRegistration=cmf_is_open_registration();
-
             if ($isOpenRegistration) {
                 unset($rules['code']);
             }
-
             $validate = new Validate($rules);
             $validate->message([
                 'code.require'     => 'code码不能为空',
@@ -94,6 +91,8 @@ class RegisterController extends HomeBaseController
 
             $register          = new UserModel();
             $user['user_pass'] = $data['password'];
+
+            // 判断账号类型
             if (Validate::is($data['username'], 'email')) {
                 $user['user_email'] = $data['username'];
                 $log                = $register->registerEmail($user);
@@ -101,13 +100,27 @@ class RegisterController extends HomeBaseController
                 $user['mobile'] = $data['username'];
                 $log            = $register->registerMobile($user);
             } else {
+                $user['user_login'] = $data['username'];
                 $log = 2;
             }
             $sessionLoginHttpReferer = session('login_http_referer');
             $redirect                = empty($sessionLoginHttpReferer) ? cmf_get_root() . '/' : $sessionLoginHttpReferer;
             switch ($log) {
                 case 0:
-                    $this->success('注册成功', $redirect);
+                    $userId = cmf_get_current_user_id();
+                    $data = [
+                        'title'     => '用户注册：'. $data['username'],
+                        'user_id'   => $userId,
+                        'object'    => 'user:'. $userId,
+                        'app'    => 'register',
+                        'content'   => '客户ID：'. $userId
+                    ];
+                    $result = lothar_put_news($data);
+                    if ($result) {
+                        $this->success('注册成功', $redirect);
+                    } else {
+                        $this->success('注册成功但消息记录添加失败', $redirect);
+                    }
                     break;
                 case 1:
                     $this->error("您的账户已注册过");
