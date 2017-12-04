@@ -94,14 +94,16 @@
                                 </foreach>
                             </ul>
                         </div>
-                        <!-- 以下在item -->
+                        <!-- 普通级 optimize -->
+
+                        <!-- 以下针对item -->
                         <foreach name="moreTree" item="vo">
                         <div class="vehiTrad_tit_item_other_list">
                             <p>{$vo.name}</p>
                             <notempty name="vo.form_element">
                             <ul style="display:none;">
                                 <foreach name="vo.form_element" item="v">
-                                <li {$$vo.code==$v.name?='class="active"'}><a href="{:url('Index/index', $jumpext.'&'.$vo.code.'='.$v.name)}#AAA">{$v.description?$v.description:$v.name.$vo.unit}</a></li>
+                                <li {$$vo.code==$v.id?='class="active"'}><a href="{:url('Index/index', $jumpext.'&'.$vo.code.'='.$v.id)}#AAA">{$v.description?$v.description:$v.name.$vo.unit}</a></li>
                                 </foreach>
                             </ul>
                             </notempty>

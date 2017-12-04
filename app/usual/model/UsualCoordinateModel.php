@@ -67,9 +67,4 @@ class UsualCoordinateModel extends UsualModel
 
         return $lists;
     }
-
-    public function getPost($id)
-    {
-        # code...
-    }
 }

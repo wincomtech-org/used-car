@@ -5,11 +5,11 @@
             <div class="analogy">
                 <switch name="vo.code_type">
                     <case value="select">
-                        <select class="" style="" name="{$biz}[{$vo.code}]">
+                        <select class="" style="" name="{$biz}">
                             <option value="">--请选择--</option>
                             <notempty name="vo.form_element">
                             <foreach name="vo.form_element" item="it">
-                            <option {$post[$vo.code]==$it.name?'selected':''} value="{$it.name}">{$it.description?$it.description:$it.name.$vo.unit}</option>
+                            <option {$biz_compare==$it.id?'selected':''} value="{$it.id}">{$it.description?$it.description:$it.name.$vo.unit}</option>
                             </foreach>
                             </notempty>
                         </select>
@@ -18,7 +18,7 @@
                         <notempty name="vo.form_element">
                         <foreach name="vo.form_element" item="it">
                         <label>
-                            <input type="radio" {$post[$vo.code]==$it.name?'checked':''} name="{$biz}[{$vo.code}]" value="{$it.name}"> 
+                            <input type="radio" {$biz_compare==$it.id?'checked':''} name="{$biz}" value="{$it.id}"> 
                             {$it.description?$it.description:$it.name.$vo.unit} &nbsp; &nbsp;
                         </label>
                         </foreach>
@@ -28,19 +28,19 @@
                         <notempty name="vo.form_element">
                         <foreach name="vo.form_element" item="it">
                         <label>
-                            <input type="checkbox" {$post[$vo.code]==$it.name?'checked':''} name="{$biz}[{$vo.code}][]" value="{$it.name}"> 
+                            <input type="checkbox" {$biz_compare==$it.id?'checked':''} name="{$biz}[]" value="{$it.id}"> 
                             {$it.description?$it.description:$it.name.$vo.unit}
                         </label> &nbsp; &nbsp;
                         </foreach>
                         </notempty>
                     </case>
                     <case value="number">
-                        <input class="" placeholder="{$vo.description}" type="number" name="{$biz}[{$vo.code}]" value="{$post[$vo.code]|default=''}">
+                        <input class="" placeholder="{$vo.description}" type="number" name="{$biz}" value="{$biz_compare|default=''}">
                     </case>
                     <case value="hidden">
-                        <input class="" type="hidden" name="{$biz}[{$vo.code}]" value="{$post[$vo.code]|default=''}">
+                        <input class="" type="hidden" name="{$biz}" value="{$biz_compare|default=''}">
                     </case>
-                    <default /><input class="" placeholder="{$vo.description}" type="text" name="{$biz}[{$vo.code}]" value="{$post[$vo.code]|default=''}">
+                    <default /><input class="" placeholder="{$vo.description}" type="text" name="{$biz}" value="{$biz_compare|default=''}">
                 </switch>
                 <div class="analogy_tip">{$vo.description|default=''} <i class="tip">{$vo.unit?='单位：'.$vo.unit}</i></div>
         

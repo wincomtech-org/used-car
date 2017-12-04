@@ -247,33 +247,4 @@ class HomeBaseController extends BaseController
         return $tpl;
     }
 
-    // 运算符转换
-    public function operatorSwitch($value,$rule=[])
-    {
-        $newV = intval(preg_replace('/>=/','',$value,1));
-        // $newV = intval(preg_replace('/^<=/','',$value));
-
-        if (empty($value)) {
-            $condition = [];
-        } else {
-            if (stripos($value,'>=')!==false) {
-                $condition = ['egt',$newV];
-            } elseif (stripos($value, '<=')!==false) {
-                $condition = ['elt',$newV];
-            } elseif (stripos($value, '>')!==false) {
-                $condition = ['gt',$newV];
-            } elseif (strrpos($value, '<')!==false) {
-                $condition = ['lt',$newV];
-            } elseif (strrpos($value, '=')!==false) {
-                $condition = ['eq',$newV];
-            } elseif (strrpos($value, '~')!==false) {
-                $condition = ['between',str_replace('~',',',$value)];
-            } else {
-                $condition = $value;
-            }
-        }
-
-        return $condition;
-    }
-
 }

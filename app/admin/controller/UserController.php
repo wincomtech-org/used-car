@@ -46,12 +46,12 @@ class UserController extends AdminBaseController
     {
         $where = ["user_type" => 1];
         /**搜索条件**/
-        $uid = $this->request->param('uid');
+        $uid = $this->request->param('uid',null);
         $user_login = $this->request->param('user_login');
         $user_email = trim($this->request->param('user_email'));
 
         if (!empty($uid)) {
-            $where['user_id'] = $uid;
+            $where['id'] = $uid;
         }
         if (!empty($user_login)) {
             $where['user_login'] = ['like', "%$user_login%"];

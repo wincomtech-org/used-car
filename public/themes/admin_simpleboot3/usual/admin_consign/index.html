@@ -43,8 +43,8 @@
                         <empty name="vo.status">不启用<else/>启用</empty>
                     </td>
                     <td>
-                        <a href="{:url('AdminConsign/edit',array('id'=>$vo.id))}">{:lang('EDIT')}</a>
-                        <a href="{:url('AdminConsign/delete',array('id'=>$vo['id']))}" class="js-ajax-delete">{:lang('DELETE')}</a>
+                        <a href="{:url('AdminConsign/edit',['id'=>$vo.id])}">{:lang('EDIT')}</a>
+                        <a href="{:url('AdminConsign/delete',['id'=>$vo.id])}" class="js-ajax-delete">{:lang('DELETE')}</a>
                     </td>
                 </tr>
             </foreach>

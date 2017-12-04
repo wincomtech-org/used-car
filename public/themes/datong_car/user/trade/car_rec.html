@@ -43,18 +43,18 @@
 
 
     <foreach name="searchCode" item="vo">
-      <!--   <php>
-            $post[$vo['code']] = empty($post[$vo['code']]) ?  '': $post[$vo['code']];
-            echo $post[$vo['code']];
-            $biz = 'post';
-        </php> -->
+        <php>
+            $biz_compare = empty($post[$vo['code']]) ?  '': $post[$vo['code']];
+            //echo $biz_compare;
+            $biz = 'post['.$vo['code'].']';
+        </php>
         <include file="trade/item_loop" />
     </foreach>
     <foreach name="recItems" item="vo">
         <php>
-            $post['more'][$vo['code']] = empty($post['more'][$vo['code']]) ?  '': $post['more'][$vo['code']];
-            echo $post['more'][$vo['code']];
-            $biz = 'post[more]';
+            $biz_compare = empty($post['more'][$vo['code']]) ?  '': $post['more'][$vo['code']];
+            //echo $biz_compare;
+            $biz = 'post[more]['.$vo['code'].']';
         </php>
         <include file="trade/item_loop" />
     </foreach>

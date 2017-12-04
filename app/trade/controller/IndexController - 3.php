@@ -169,17 +169,20 @@ class IndexController extends HomeBaseController
         if (!empty($priceId)) {
             $extra['shop_price'] = $this->operatorSwitch($priceId,true);
         }
-        // 处理格式参
         $oxnum = empty($oxnum) ? $placeholder : $oxnum;
-        $oxnum = trim($oxnum);
-        // brandId,serieId,modelId
-        $string1 = substr($oxnum,0,9);
-        $remain = substr($oxnum, strlen($string1));
-
+        // if (isset($oxnum)) {
+            $oxnum = trim($oxnum);
+            // brandId,serieId,modelId
+            $string1 = substr($oxnum,0,9);
+            $remain = substr($oxnum, strlen($string1));
+            $string2 = substr($remain,0,12);
+            $string3 = substr($remain, 12);
+        // }
 
 // dump($oxnum);
 // dump($string1);
-// dump($remain);
+// dump($string2);
+// dump($string3);
 // die;
         // 处理数字类型的 大类 。$$idv 用于 assign()赋值。是否字段别名: 'a.'.cmf_parse_name($idv)。
         $string1Arr = str_split($string1,3);
@@ -195,37 +198,62 @@ class IndexController extends HomeBaseController
             $newString1 .= $value;
         }
         $string1 = empty($newString1) ? $string1 : $newString1;
-// dump($extra);
-// dump($string1);die;
+
         // 处理 普通级。 将usual_item的name与usual_car中的对应值作比较
+        $newString2 = '';$filter_var_0 = explode(',',$filter_var_0);
+        $string2Arr = str_split($string2,4);
+        foreach ($filter_var_0 as $key=>$idv) {
+            $value = $$idv;
+            $value = !empty($value) ? $value: (empty($value)?null:$string2Arr[$key]);
+            $value = $$idv = intval($value);
 
-        // 处理 item 。 直接将usual_item的id与usual_car中的对应值作比较即可
-
-        // 合并处理
-        $newString4 = '';$filter_var_0 = explode(',',$filter_var_0);
-        $string4Arr = str_split($remain,4);
-        foreach ($moreTree as $key=>$val) {
-            $value = $$val['code'];
-            $value = !empty($value) ? $value: (empty($value)?null:$string4Arr[$key]);
-            $value = intval($value);
-            // dump($val['code'].'='.$value);
             if (!empty($value)) {
-                $$val['code'] = $value;
-                if (in_array($val['code'], $filter_var_0)) {
-                    $extra[$cname.$val['code']] = $this->operatorSwitch($value);
-                } else {
-                    $extra[$cname.$val['code']] = $value;
-                    // dump($val['code'].'='.$value);
-                }
+                $extra[$cname.$idv] = $this->operatorSwitch($value);
             }
             $value = $this->dealPlaceholder($value,4);
-            // dump($value);
-            $newString4 .= $value;
+            $newString2 .= $value;
         }
-        $string4 = empty($newString4) ? $remain : $newString4;
+        $string2 = empty($newString2) ? $string2 : $newString2;
+
+        // 处理 item 。 直接将usual_item的id与usual_car中的对应值作比较即可
+        $newString3 = '';$filter_var_1 = explode(',',$filter_var_1);
+        $string3Arr = str_split($string3,4);
+        foreach ($filter_var_1 as $key=>$idv) {
+            $value = $$idv;
+            $value = !empty($value) ? $value: (empty($value)?null:$string3Arr[$key]);
+            $value = $$idv = intval($value);
+
+            if (!empty($value)) {
+                // $extra[$cname.$idv] = $this->operatorSwitch($value);
+                $extra[$cname.$idv] = $value;
+            }
+            $value = $this->dealPlaceholder($value,4);
+            $newString3 .= $value;
+        }
+        $string3 = empty($newString3) ? $string3 : $newString3;
+
+        // 合并处理
+        // $newString4 = '';$filter_var_0 = explode(',',$filter_var_0);
+        // $string4Arr = str_split($remain,4);
+        // foreach ($moreTree as $key=>$val) {
+        //     $value = $$val['code'];
+        //     $value = !empty($value) ? $value: (empty($value)?null:$string4Arr[$key]);
+        //     $value = $$idv = intval($value);
+
+        //     if (!empty($value)) {
+        //         if (in_array($val['code'], $filter_var_0)) {
+        //             $extra[$cname.$idv] = $this->operatorSwitch($value);
+        //         } else {
+        //             $extra[$cname.$idv] = $value;
+        //         }
+        //     }
+        //     $value = $this->dealPlaceholder($value,4);
+        //     $newString4 .= $value;
+        // }
+        // $string4 = empty($newString4) ? $remain : $newString4;
 
         // URL 参数
-        $string = $string1 . $string4;
+        $string = $string1 . $string2 . $string3;
         $jumpext = 'oxnum='.$string
                  . ($typeId ? '&typeId='.$typeId : '')
                  . (empty($priceId) ? '&priceId='.$priceId : '');
@@ -233,13 +261,13 @@ class IndexController extends HomeBaseController
 // dump($brandId);
 // dump($priceId);
 // dump($car_gearbox);
-// dump($filter_var_0);
-// dump($filter_var_1);
-// dump($moreTree);
+dump($filter_var_0);
+dump($filter_var_1);
+dump($moreTree);
 // dump($extra);
 // dump($string);
 // dump($jumpext);
-// die;
+die;
 
         /*车辆买卖 车辆数据*/
 

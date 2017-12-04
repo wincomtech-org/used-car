@@ -205,58 +205,26 @@
                         <td align="center"><big><b>以下仍作为前台筛选项</b></big></td>
                     </tr>
                     <foreach name="searchCode" item="vo">
-                    <tr>
-                        <th>{$vo.name}</th>
-                        <td>
-                            <switch name="vo.code_type">
-                                <case value="select">
-                                    <select class="form-control" style="width:140px;" name="post[{$vo.code}]">
-                                        <option value="">--请选择--</option>
-                                        <notempty name="vo.form_element">
-                                        <foreach name="vo.form_element" item="it">
-                                        <option {$post[$vo.code]==$it.name?'selected':''} value="{$it.name}">{$it.description?$it.description:$it.name.$vo.unit}</option>
-                                        </foreach>
-                                        </notempty>
-                                    </select>
-                                </case>
-                                <case value="radio">
-                                    <notempty name="vo.form_element">
-                                    <foreach name="vo.form_element" item="it">
-                                    <label>
-                                        <input type="radio" {$post[$vo.code]==$it.name?'checked':''} name="post[{$vo.code}]" value="{$it.name}"> 
-                                        {$it.description?$it.description:$it.name.$vo.unit} &nbsp; &nbsp;
-                                    </label>
-                                    </foreach>
-                                    </notempty>
-                                </case>
-                                <case value="checkbox">
-                                    <notempty name="vo.form_element">
-                                    <foreach name="vo.form_element" item="it">
-                                    <label>
-                                        <input type="checkbox" {$post[$vo.code]==$it.name?'checked':''} name="post[{$vo.code}][]" value="{$it.name}"> 
-                                        {$it.description?$it.description:$it.name.$vo.unit}
-                                    </label> &nbsp; &nbsp;
-                                    </foreach>
-                                    </notempty>
-                                </case>
-                                <case value="number">
-                                    <input class="form-control" placeholder="{$vo.description}" type="number" name="post[{$vo.code}]" value="{$post[$vo.code]|default=''}">
-                                </case>
-                                <case value="hidden">
-                                    <input class="form-control" type="hidden" name="post[{$vo.code}]" value="{$post[$vo.code]|default=''}">
-                                </case>
-                                <default /><input class="form-control" placeholder="{$vo.description}" type="text" name="post[{$vo.code}]" value="{$post[$vo.code]|default=''}">
-                            </switch>
-                            <p class="help-block">{$vo.description|default=''} <notempty name="vo.unit">单位：{$vo.unit}</notempty></p>
-                        </td>
-                    </tr>
+                        <php>
+                            $biz_compare = empty($post[$vo['code']]) ?  '': $post[$vo['code']];
+                            //echo $biz_compare;
+                            $biz = 'post['.$vo['code'].']';
+                        </php>
+                        <include file="admin_car/recItems" />
                     </foreach>
 
                     <tr>
                         <th></th>
                         <td align="center"><big><b>以下是属性分类推荐项</b></big></td>
                     </tr>
-                    <include file="admin_car/recItems" />
+                    <foreach name="recItems" item="vo">
+                        <php>
+                            $biz_compare = empty($post['more'][$vo['code']]) ?  '': $post['more'][$vo['code']];
+                            //echo $biz_compare;
+                            $biz = 'post[more]['.$vo['code'].']';
+                        </php>
+                        <include file="admin_car/recItems" />
+                    </foreach>
                     </table>
                 </div>
                 <div class="tab-pane" id="AUDIT_">

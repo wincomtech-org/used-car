@@ -8,7 +8,10 @@
         </td>
     </tr>
     <foreach name="pa.children" item="vo">
-    <php>$post['more'][$vo['code']] = empty($post['more'][$vo['code']]) ? '': $post['more'][$vo['code']];</php>
+        <php>
+            $biz_compare = empty($post['more'][$vo['code']]) ? '': $post['more'][$vo['code']];
+            $biz = 'post[more]['.$vo['code'].']';
+        </php>
         <tr>
             <th>{$vo.name}</th>
             <td>
@@ -18,7 +21,7 @@
                             <option value="">--请选择--</option>
                             <notempty name="vo.form_element">
                                 <foreach name="vo.form_element" item="it">
-                                    <option {$post['more'][$vo.code]==$it.name?'selected':''} value="{$it.name}">{$it.description?$it.description:$it.name.$vo.unit}</option>
+                                    <option {$biz_compare==$it.name?'selected':''} value="{$it.name}">{$it.description?$it.description:$it.name.$vo.unit}</option>
                                 </foreach>
                             </notempty>
                         </select>
@@ -27,7 +30,7 @@
                         <notempty name="vo.form_element">
                             <foreach name="vo.form_element" item="it">
                                 <label>
-                                    <input type="radio" {$post['more'][$vo.code]==$it.name?'checked':''} name="post[more][{$vo.code}]" value="{$it.name}"> 
+                                    <input type="radio" {$biz_compare==$it.name?'checked':''} name="post[more][{$vo.code}]" value="{$it.name}"> 
                                     {$it.description?$it.description:$it.name.$vo.unit} &nbsp; &nbsp;
                                 </label>
                             </foreach>
@@ -37,19 +40,19 @@
                         <notempty name="vo.form_element">
                             <foreach name="vo.form_element" item="it">
                                 <label>
-                                    <input type="checkbox" {$post['more'][$vo.code]==$it.name?'checked':''} name="post[more][{$vo.code}][]" value="{$it.name}"> 
+                                    <input type="checkbox" {$biz_compare==$it.name?'checked':''} name="post[more][{$vo.code}][]" value="{$it.name}"> 
                                     {$it.description?$it.description:$it.name.$vo.unit} &nbsp; &nbsp;
                                 </label>
                             </foreach>
                         </notempty>
                     </case>
                     <case value="number">
-                        <input class="form-control" placeholder="{$vo.description}" type="number" name="post[more][{$vo.code}]" value="{$post['more'][$vo.code]|default=''}">
+                        <input class="form-control" placeholder="{$vo.description}" type="number" name="post[more][{$vo.code}]" value="{$biz_compare|default=''}">
                     </case>
                     <case value="hidden">
                         <input class="form-control" type="hidden" name="post[more][{$vo.code}]" value="{$it.name}">
                     </case>
-                    <default /><input class="form-control" placeholder="{$vo.description}" type="text" name="post[more][{$vo.code}]" value="{$post['more'][$vo.code]|default=''}">
+                    <default /><input class="form-control" placeholder="{$vo.description}" type="text" name="post[more][{$vo.code}]" value="{$biz_compare|default=''}">
                 </switch>
                 <p class="help-block">{$vo.description|default=''} <notempty name="vo.unit">单位：{$vo.unit}</notempty></p>
             </td>
