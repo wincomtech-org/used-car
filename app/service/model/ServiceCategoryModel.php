@@ -142,7 +142,7 @@ tpl;
 
 // 前台
     /*首页*/
-    public function getIndexServiceList($limit=3)
+    public function getIndexServiceList($limit=7)
     {
         $ckey = 'giservicel'.$limit;
 

@@ -246,7 +246,7 @@ EOT;
         }
     } else {
         return $news;
-    }   
+    }
 }
 /*
 * 用户认证状态信息
