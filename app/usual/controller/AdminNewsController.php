@@ -19,21 +19,55 @@ class AdminNewsController extends AdminBaseController
     {
         $param = $this->request->param();//接收筛选条件
         $appId = $this->request->param('appId',null);
+        $status = $this->request->param('status',null);
 
         $newModel = new NewsModel();
         $data = $newModel->getLists($param);
+        $counts = $newModel->newsCounts();
         $apps = $newModel->cateOptions($appId);
+        $statusOptions = $newModel->getStatus($status);
 
+        $this->assign('start_time', isset($param['start_time']) ? $param['start_time'] : '');
         $this->assign('start_time', isset($param['start_time']) ? $param['start_time'] : '');
         $this->assign('end_time', isset($param['end_time']) ? $param['end_time'] : '');
         $this->assign('keyword', isset($param['keyword']) ? $param['keyword'] : '');
 
+        $this->assign('counts',$counts);
         $this->assign('categorys',$apps);
+        $this->assign('statusOptions',$statusOptions);
         $this->assign('list', $data->items());
         $data->appends($param);
         $this->assign('pager', $data->render());
 
         return $this->fetch();
+    }
+
+    public function edit()
+    {
+        $id = $this->request->param('id',0,'intval');
+
+        $newModel = new NewsModel();
+        $post = $newModel->getPost($id);
+        $apps = $newModel->cateOptions($post['app']);
+        $statusOptions = $newModel->getStatus($post['status']);
+
+        $this->assign('categorys',$apps);
+        $this->assign('statusOptions',$statusOptions);
+        $this->assign('post',$post);
+
+        return $this->fetch();
+    }
+    public function editPost()
+    {
+        $data = $this->request->param();
+        $post = $data['post'];
+        $post['deal_uid'] = cmf_get_current_admin_id();
+
+        $result = Db::name('news')->update($post);
+        if ($result) {
+            $this->success('提交成功',url('index'));
+        }
+        $this->error('提交失败');
     }
 
     // 批量处理
@@ -43,7 +77,7 @@ class AdminNewsController extends AdminBaseController
 
         if (isset($param['ids']) && isset($param['status'])) {
             $ids = $this->request->param('ids/a');
-            model('News')->where(['id' => ['in', $ids]])->update(['status'=>$param['status']]);
+            model('News')->where(['id' => ['in', $ids]])->update(['status'=>$param['status'],'deal_uid'=>cmf_get_current_admin_id()]);
             switch ($param['status']) {
                 case '1':$desc='已读';break;
                 case '2':$desc='已处理';break;
