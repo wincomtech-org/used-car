@@ -235,7 +235,7 @@ $html = <<<EOT
         .alert_msg b{position:absolute;top:3px;right:17px;font-size:23px;cursor:pointer;}
     </style>
     <script type="text/javascript">
-        $("body").append("<div class='alert_msg'><b>x</b>{$msg}<br/><a href='{$jumpurl}'>点击查看</a></div>");
+        $("body").append("<div class='alert_msg'><b>x</b>{$msg}<br/><a href='{$jumpurl}'>点击查看</a></div><audio id='sound' autoplay='autoplay' src='__STATIC__/audio/4182.mp3'>");
         // 消息提示弹窗
         $(document).delegate('.alert_msg b','click',function(){
             $(this).parent().hide(600);

@@ -86,8 +86,8 @@
 #BMapLib_bubble_content0{height:177px !important;}
 #gotobaiduform  span{display:block;margin-top:10px;}
 #gotobaiduform strong{display:inline-block;font-size:14px;}
-#gotobaiduform .outset{    width: 104px;border: 1px solid #ddd;height: 22px;line-height: 22px;padding-left: 5px;}
-#gotobaiduform  .outset-but{display:inline-block;background-color:#3385ff;color:#fff;padding:5px 6px;margin-left:6px;}
+#gotobaiduform .outset{    width: 130px;border: 1px solid #ddd;height: 22px;line-height: 22px;padding-left: 5px;}
+#gotobaiduform  .outset-but{display:inline-block;background-color:#3385ff;color:#fff;padding:5px 6px;margin-left:6px;margin-top:13px;}
 
 /*手机小图标样式*/
 .BMapLib_SearchInfoWindow .BMapLib_sendToPhone {
