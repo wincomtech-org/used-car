@@ -4,6 +4,7 @@ namespace app\trade\controller;
 use cmf\controller\HomeBaseController;
 use app\usual\model\UsualCarModel;
 use app\usual\model\UsualCompanyModel;
+use app\usual\model\UsualItemModel;
 use think\Db;
 
 /**
@@ -14,18 +15,32 @@ class PostController extends HomeBaseController
     public function details()
     {
         $id = $this->request->param('id',0,'intval');
-        // $page = model('usual/UsualCar')->getPost($id);
-        $page = model('usual/UsualCar')->getPostRelate($id);
+
+        $carModel = new UsualCarModel();
+        // $page = $carModel->getPost($id);
+        $page = $carModel->getPostRelate($id);
         if (empty($page)) {
             abort(404,'数据不存在！');
         }
+
         // $company = DB::name('UsualCompany')->where(['user_id'=>$page['user_id']])->find();
+
+        $itModel = new UsualItemModel();
         // 查找相关属性值 id
-        $item_exch_var = config('usual_car_filter_var');
-        // $item_exchange = '';
-        // dump($page);die;
+        $page2 = $itModel->getItemFilterVar($id);
+        $page = array_merge($page,$page2);
+        // dump($page['more']);die;
+
+        $allItems = $itModel->getItemShow($page['more']);
+        // dump($allItems);die;
+
+        // 获取推荐车辆
+        $carTuis = $carModel->getLists([],'',12,['a.is_rec'=>1]);
+        // dump($carTuis);
 
         $this->assign('page',$page);
+        $this->assign('allItems',$allItems);
+        $this->assign('carTuis',$carTuis);
         return $this->fetch();
     }
 

@@ -66,7 +66,7 @@
                         <ul >
                             <li class="offter">
                                 <b>{$page.car_mileage}万公里</b>
-                                <span>表显历程</span>
+                                <span>表显里程</span>
                             </li>
                             <li class="offter">
                                 <b>{$page.car_license_time?=date('Y-m-d',$page.car_license_time)}</b>
@@ -83,7 +83,7 @@
                                 <span>排放标准</span>
                             </li>
                             <li class="offter">
-                                <b>{$page.car_gearbox}</b>
+                                <b>{$page.car_displacement}L/{$page.car_gearbox}</b>
                                 <span>排量/变速箱</span>
                             </li>
                             <li class="offter">
@@ -125,70 +125,65 @@
                             <div class="img"><span></span></div>
                             <div class="txt">车况信息</div>
                             <ul class="con">
-                                <li><span>行驶时间</span><i>11个月</i></li>
-                                <li><span>行驶时间</span><i>11个月</i></li>
+                                <li><span>行驶时间</span><i>{$page.car_age}年</i></li>
+                                <li><span>座位数</span><i>{$page.car_seating}座</i></li>
                             </ul>
                         </li>
                         <li class="car_mess_item">
                             <div class="img"><span></span></div>
-                            <div class="txt">车辆维护情况</div>
+                            <div class="txt">品牌车系</div>
                             <ul class="con">
-                                <li><span>保养方式</span><i>4S店定期保养</i></li>
-                                <li><span>使用类型</span><i>非营运车</i></li>
+                                <li><span>品牌</span><i>{$page.brandname}</i></li>
+                                <li><span>车系</span><i>{$page.seriename}</i></li>
                             </ul>
                         </li>
                         <li class="car_mess_item">
                             <div class="img"><span></span></div>
                             <div class="txt">符合本地环保标准</div>
                             <ul class="con">
-                                <li><span>所在地</span><i>合肥</i></li>
-                                <li><span>环保标准</span><i>国4,京5</i></li>
+                                <li><span>所在地</span><i>{$page.cityname}</i></li>
+                                <li><span>环保标准</span><i>{$page.car_effluent}</i></li>
                             </ul>
                         </li>
                         <li class="car_mess_item">
                             <div class="img"><span></span></div>
                             <div class="txt">无需年检，保险未到期</div>
                             <ul class="con">
-                                <li><span>年检到期日</span><i>2018年11月</i></li>
-                                <li><span>保险到期日</span><i>2017年11月</i></li>
+                                <li><span>年检到期日</span><i>{$car_check_time?date('Y年m月',$page.car_check_time):'未知'}</i></li>
+                                <li><span>保险到期日</span><i>{$page.car_insur_time?date('Y年m月',$page.car_insur_time):'未知'}</i></li>
                             </ul>
                         </li>
                     </ul>
                     <div class="base_mess">
                         <dl class="base_mess_item">
                             <dt><strong class="base">基本信息</strong></dt>
-                            <dd><span>厂商</span>上海大众</dd>
-                            <dd><span>级别</span>小型车</dd>
-                            <dd><span>上市时间 </span>Feb-16</dd>
-                            <dd><span>发动机  </span>1.4L L4</dd>
-                            <dd><span>工信部综合油耗（L/100km）</span>-</dd>
+                            <dd><span>厂商 </span>{$page.brandname}</dd>
+                            <dd><span>级别 </span>{$page.modelname}</dd>
+                            <dd><span>上牌时间 </span>{$page.car_license_time?=date('Y-m-d',$page.car_license_time)}</dd>
+                            <dd><span>发动机 </span>{$page.more.car_engine}</dd>
+                            <dd><span>综合油耗（L/100km）</span>-</dd>
                             <dd><span>保养情况</span>无</dd>
                         </dl>
+                        <foreach name="allItems" item="cate">
                         <dl class="base_mess_item">
-                            <dt><strong  class="base">车身</strong></dt>
-                            <dd><span>车身参配看图 </span>
-                                <a href="javascript:;" class="c1">查看车身图片
-                                    <img src="__TMPL__/public/assets/images/example/car03.jpg" alt="">
-                                    <img src="__TMPL__/public/assets/images/example/car02.jpg" alt="">
-                                    <img src="__TMPL__/public/assets/images/example/car01.jpg" alt="">
-                                </a>
+                            <dt><strong class="base">{$cate.name}</strong></dt>
+                            <foreach name="cate.child" item="child">
+                            <dd>
+                            <switch name="child.code_type">
+                                <case value="file">
+                                    <span>{$child.name} </span>
+                                    <a href="javascript:;" class="c1">点击查看车身图片
+                                        <img src="__TMPL__/public/assets/images/example/car03.jpg" alt="">
+                                        <img src="__TMPL__/public/assets/images/example/car02.jpg" alt="">
+                                        <img src="__TMPL__/public/assets/images/example/car01.jpg" alt="">
+                                    </a>
+                                </case>
+                                <default/><span>{$child.name}</span>{$child.sketch}
+                            </switch>
                             </dd>
-
-                            <dd><span>车辆级别 </span>紧凑型</dd>
-                            <dd><span>颜色</span>白色</dd>
-                            <dd><span>车身结构</span>4门 5座 轿车-三厢车</dd>
-                            <dd><span>整备质量      </span>--</dd>
-                            <dd><span>轴距 </span>2685 mm</dd>
+                            </foreach>
                         </dl>
-                        <dl class="base_mess_item">
-                            <dt><strong  class="base">发动机参数</strong></dt>
-                            <dd><span>发动机</span>--</dd>
-                            <dd><span>变速器</span>MT手动</dd>
-                            <dd><span>排量</span>1598 mL</dd>
-                            <dd><span>燃料类型</span>汽油</dd>
-                            <dd><span>驱动方式</span>前驱</dd>
-                            <dd><span>综合油耗</span>6.9 L/100km</dd>
-                        </dl>
+                        </foreach>
                     </div>
                 </div>
                 <div class="car_message_con_item" id="li2">
@@ -207,16 +202,19 @@
                     <h4 class="car_message_con_tit">车辆实拍</h4>
                     <div class="car_realShot">
                         <ul class="car_realShot_list">
-                            <li class="car_realShot_item"><img src="__TMPL__/public/assets/images/example/car1.jpg" alt=""></li>
-                            <li class="car_realShot_item"><img src="__TMPL__/public/assets/images/example/car2.jpg" alt=""></li>
-                            <li class="car_realShot_item"><img src="__TMPL__/public/assets/images/example/car3.jpg" alt=""></li>
-                            <li class="car_realShot_item"><img src="__TMPL__/public/assets/images/example/car1.jpg" alt=""></li>
-                            <li class="car_realShot_item"><img src="__TMPL__/public/assets/images/example/car2.jpg" alt=""></li>
-                            <li class="car_realShot_item"><img src="__TMPL__/public/assets/images/example/car3.jpg" alt=""></li>
+                            <notempty name="page.more.photos">
+                            <foreach name="page.more.photos" item="vo">
+                            <li class="car_realShot_item">
+                                <img src="{:cmf_get_image_preview_url($vo.url)}" alt="" onmousemove="preview(this);">
+                            </li>
+                            </foreach>
+                            </notempty>
                         </ul>
-                        <p><a href="btn btn_more">查看更多 >> </a></p>
+                        <!-- <p><a href="btn btn_more">查看更多 >> </a></p> -->
                     </div>
                 </div>
+
+                <!-- 推荐 -->
                 <div class="car_message_con_item" id="li5">
                     <h4 class="car_message_con_tit">相似推荐</h4>
                     <div class="simila_recommendation">

@@ -97,6 +97,7 @@ return [
     'checkbox' => '复选框',
     'number' => '数字型',
     'hidden' => '隐藏域',
+    // 'file' => '文件',
   ],
   'verify_status' => 
   [

@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50540
 File Encoding         : 65001
 
-Date: 2017-12-04 18:42:24
+Date: 2017-12-05 18:33:37
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -4370,7 +4370,7 @@ CREATE TABLE `cmf_news` (
   `ip` char(15) NOT NULL DEFAULT '' COMMENT '用户ip',
   `status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '状态：0未读 1已读 2已处理',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Records of cmf_news
@@ -4740,7 +4740,7 @@ CREATE TABLE `cmf_service` (
   `status` tinyint(4) NOT NULL DEFAULT '0' COMMENT '状态：-11过期 -5卖家取消失败 -4买家取消失败 -3管理员取消 -2卖家取消 -1买家取消 0预约中 1预约成功 2取消 10完成结束',
   `list_order` float unsigned NOT NULL DEFAULT '10000' COMMENT '默认值10000，默认排序按从小到大',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COMMENT='业务表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='业务表';
 
 -- ----------------------------
 -- Records of cmf_service
@@ -5119,12 +5119,13 @@ CREATE TABLE `cmf_user_favorite` (
   `create_time` int(10) unsigned DEFAULT '0' COMMENT '收藏时间',
   PRIMARY KEY (`id`),
   KEY `uid` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COMMENT='用户收藏表';
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COMMENT='用户收藏表';
 
 -- ----------------------------
 -- Records of cmf_user_favorite
 -- ----------------------------
 INSERT INTO `cmf_user_favorite` VALUES ('1', '3', '宝马7系 2009款 740Li领先型', '{\"action\":\"trade\\/Post\\/details\",\"param\":{\"id\":3}}', '操作用户[3]洛萨', 'usual_car', '3', '1512007448');
+INSERT INTO `cmf_user_favorite` VALUES ('2', '1', '福特 嘉年华两厢 2011款 1.5 自动 时尚型', '{\"action\":\"trade\\/Post\\/details\",\"param\":{\"id\":2}}', '操作用户[1]admin', 'usual_car', '2', '1512457570');
 
 -- ----------------------------
 -- Table structure for cmf_user_login_attempt
@@ -5228,7 +5229,7 @@ INSERT INTO `cmf_usual_brand` VALUES ('10', '0', '0', '奥迪', '', '', '*', '0'
 DROP TABLE IF EXISTS `cmf_usual_car`;
 CREATE TABLE `cmf_usual_car` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `platform` tinyint(3) unsigned NOT NULL DEFAULT '1' COMMENT '平台ID',
+  `platform` tinyint(3) unsigned NOT NULL DEFAULT '1' COMMENT '车源平台： 1新车 2旧车',
   `brand_id` smallint(6) unsigned NOT NULL DEFAULT '0' COMMENT '品牌ID',
   `serie_id` smallint(6) unsigned NOT NULL DEFAULT '0' COMMENT '车系ID',
   `model_id` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '车型ID',
@@ -5242,9 +5243,11 @@ CREATE TABLE `cmf_usual_car` (
   `image` varchar(255) NOT NULL DEFAULT '' COMMENT '图片',
   `car_vin` varchar(17) NOT NULL DEFAULT '' COMMENT '车架号（Vehicle Identification Number），中文名叫车辆识别代码， 是制造厂为了识别而给一辆车指定的一组字码。VIN码是由17位字母、数字组成的编码',
   `plateNo` varchar(7) NOT NULL DEFAULT '' COMMENT '车牌号',
+  `car_license_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '上牌时间',
+  `car_check_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '年检到期日',
+  `car_insur_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '保险到期日',
   `car_age` tinyint(3) unsigned NOT NULL DEFAULT '1' COMMENT '车龄',
   `car_mileage` decimal(10,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '里程',
-  `car_license_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '上牌时间',
   `car_displacement` float unsigned NOT NULL DEFAULT '0' COMMENT '排量：单位L',
   `car_seating` smallint(6) unsigned NOT NULL DEFAULT '5' COMMENT '座位数',
   `car_gearbox` smallint(6) unsigned NOT NULL DEFAULT '0' COMMENT '变速箱：0不限 1自动 2手动',
@@ -5279,16 +5282,16 @@ CREATE TABLE `cmf_usual_car` (
   `inventory` smallint(6) unsigned NOT NULL DEFAULT '1' COMMENT '库存',
   `old_user` varchar(255) NOT NULL DEFAULT '' COMMENT '以前的车主',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COMMENT='车辆表';
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COMMENT='车辆表';
 
 -- ----------------------------
 -- Records of cmf_usual_car
 -- ----------------------------
-INSERT INTO `cmf_usual_car` VALUES ('1', '1', '2', '2', '2', '1', '0', '3', '3401', '0', '大众 CC 2015款 1.8T 自动 豪华型', '', '', 'eq123456789875463', '皖AH67XB', '4', '7.50', '1510243200', '1.8', '3', '26', '14', '15', '6', '1510814246', '1512370132', '0', '0', '0', '0', '', '', '', '{\"car_seating\":\"3\",\"car_color\":\"6\",\"car_length\":\"\",\"car_age\":\"\",\"car_effluent\":\"14\",\"car_fuel\":\"15\",\"car_displacement\":\"\",\"car_mileage\":\"\",\"car_gearbox\":\"26\",\"thumbnail\":\"https:\\/\\/c1.xinstatic.com\\/f2\\/20171129\\/1213\\/5a1e3406f185c449197_18.jpg\",\"photos\":[{\"url\":\"https:\\/\\/c1.xinstatic.com\\/f2\\/20171129\\/1213\\/5a1e3406f185c449197_18.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c2.xinstatic.com\\/f2\\/20171128\\/1747\\/5a1d309c1a2f3394194_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c2.xinstatic.com\\/f2\\/20171128\\/1746\\/5a1d30692245f485179_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c2.xinstatic.com\\/f2\\/20171128\\/1747\\/5a1d3096e0b4a149087_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c2.xinstatic.com\\/f2\\/20171128\\/1746\\/5a1d30912c8eb290047_20.jpg\",\"name\":\"\"}]}', '1', '1', '{\"username\":\"王铮\",\"contact\":\"手机：13333333333\",\"plateNo\":\"皖AH67XB\",\"driving_license\":\"\"}', '', '', '', '10000', '1', '1509590656', '10.78', '1', '29.18', '19.98', '5.99', '0.00', '1', '');
-INSERT INTO `cmf_usual_car` VALUES ('2', '1', '4', '11', '2', '1', '0', '3', '3401', '0', '福特 嘉年华两厢 2011款 1.5 自动 时尚型', '', '', 'xzuih433hf7463343', '皖H967JN', '5', '4.40', '1352563200', '1.5', '3', '26', '13', '15', '10', '1510814246', '1512369414', '0', '0', '0', '0', '', '', '', '{\"car_seating\":\"3\",\"car_color\":\"10\",\"car_length\":\"121\",\"car_age\":\"\",\"car_effluent\":\"13\",\"car_fuel\":\"15\",\"car_displacement\":\"2.1~2.5\",\"car_mileage\":\"\",\"car_gearbox\":\"26\",\"thumbnail\":\"https:\\/\\/c3.xinstatic.com\\/f2\\/20171129\\/1752\\/5a1e8372a23ff749974_19.jpg\",\"photos\":[{\"url\":\"https:\\/\\/c3.xinstatic.com\\/f2\\/20171129\\/1752\\/5a1e8372a23ff749974_19.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c3.xinstatic.com\\/f2\\/20171129\\/1755\\/5a1e83fe9df67478481_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c3.xinstatic.com\\/f2\\/20171129\\/1752\\/5a1e8369598d4375149_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c3.xinstatic.com\\/f2\\/20171129\\/1754\\/5a1e83e7b0d7b426279_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c3.xinstatic.com\\/f2\\/20171129\\/1752\\/5a1e836d94e07827031_20.jpg\",\"name\":\"\"}]}', '1', '1', '{\"username\":\"澄迈\",\"contact\":\"\",\"plateNo\":\"皖H967JN\",\"driving_license\":\"\"}', '', '', '', '10000', '1', '1510392426', '9.80', '2', '10.63', '4.78', '1.43', '0.00', '1', '');
-INSERT INTO `cmf_usual_car` VALUES ('3', '1', '1', '17', '2', '1', '0', '3', '3401', '0', '宝马 1系两厢五门版 2012款 1.6T 自动 116i都市版', '', '', '', '皖A95K88', '0', '14.00', '1350057600', '2.5', '3', '28', '14', '15', '8', '1510814246', '1512369397', '0', '0', '0', '0', '', '', '', '{\"car_seating\":\"3\",\"car_color\":\"8\",\"car_length\":\"\",\"car_age\":\"\",\"car_effluent\":\"14\",\"car_fuel\":\"15\",\"car_displacement\":\"2.5~3\",\"car_mileage\":\"\",\"car_gearbox\":\"28\",\"thumbnail\":\"https:\\/\\/c2.xinstatic.com\\/f2\\/20171129\\/1726\\/5a1e7d3fa651c407670_19.jpg\",\"photos\":[{\"url\":\"https:\\/\\/c2.xinstatic.com\\/f2\\/20171129\\/1726\\/5a1e7d3fa651c407670_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c2.xinstatic.com\\/f2\\/20171129\\/1727\\/5a1e7d7a28744241112_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c2.xinstatic.com\\/f2\\/20171129\\/1726\\/5a1e7d2fbae64486662_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c2.xinstatic.com\\/f2\\/20171129\\/1727\\/5a1e7d741c49c885807_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c2.xinstatic.com\\/f2\\/20171129\\/1726\\/5a1e7d3c7ab05985442_20.jpg\",\"name\":\"\"}]}', '1', '1', '{\"username\":\"贝尔\",\"contact\":\"QQ：456876646\",\"plateNo\":\"皖A95K88\",\"driving_license\":\"https:\\/\\/c1.xinstatic.com\\/f2\\/20171113\\/1802\\/5a096daf09902191543_18.jpg\"}', '', '', '', '10000', '1', '1510552638', '30.00', '3', '30.18', '17.98', '5.39', '0.00', '1', '');
-INSERT INTO `cmf_usual_car` VALUES ('4', '1', '4', '14', '4', '1', '0', '31', '383', '0', '福特 Mustang 2015款 2.3T 自动 性能版', '', '', '', '皖A85K88', '5', '2.80', '1325433600', '2.3', '3', '26', '14', '15', '7', '1512119386', '1512369308', '0', '0', '0', '0', '', '', null, '{\"car_seating\":\"3\",\"car_color\":\"7\",\"car_length\":\"\",\"car_age\":\"\",\"car_effluent\":\"14\",\"car_fuel\":\"15\",\"car_displacement\":\"\",\"car_mileage\":\"\",\"car_gearbox\":\"26\",\"thumbnail\":\"https:\\/\\/c4.xinstatic.com\\/f2\\/20171130\\/1712\\/5a1fcb9209ee7452880_19.jpg\",\"photos\":[{\"url\":\"https:\\/\\/c4.xinstatic.com\\/f2\\/20171130\\/1712\\/5a1fcb9209ee7452880_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c4.xinstatic.com\\/f2\\/20171130\\/1713\\/5a1fcbc848c81733344_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c4.xinstatic.com\\/f2\\/20171130\\/1712\\/5a1fcb8c75a67422131_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c4.xinstatic.com\\/f2\\/20171130\\/1713\\/5a1fcbc2394c8716043_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c4.xinstatic.com\\/f2\\/20171130\\/1712\\/5a1fcb8f3e9ca641995_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c4.xinstatic.com\\/f2\\/20171130\\/1713\\/5a1fcb9f9b50d944989_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c4.xinstatic.com\\/f2\\/20171130\\/1713\\/5a1fcba31ed87538246_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c4.xinstatic.com\\/f2\\/20171130\\/1713\\/5a1fcba68b7c0631568_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c4.xinstatic.com\\/f2\\/20171130\\/1713\\/5a1fcbbc7e6c5748880_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c4.xinstatic.com\\/f2\\/20171130\\/1713\\/5a1fcbd0d8804237222_20.jpg\",\"name\":\"\"}]}', '1', '1', '{\"username\":\"陈东\",\"contact\":\"18956743215\",\"plateNo\":\"皖A85K88\",\"driving_license\":\"\"}', '', '', '', '10000', '1', '1512118965', '37.06', '0', '43.40', '37.06', '10.74', '0.00', '1', '');
-INSERT INTO `cmf_usual_car` VALUES ('5', '1', '4', '13', '5', '1', '0', '3', '3401', '0', '福特 全顺经典 2009款 2.8T 手动 标准型短轴中顶JX493ZLQ3 柴油', '', '', '', '皖A55K88', '3', '9.30', '1391443200', '2.8', '4', '27', '12', '16', '6', '1512119920', '1512369327', '0', '0', '0', '0', '', '', null, '{\"car_seating\":\"4\",\"car_color\":\"6\",\"car_length\":\"\",\"car_age\":\"\",\"car_effluent\":\"12\",\"car_fuel\":\"16\",\"car_displacement\":\"\",\"car_mileage\":\"\",\"car_gearbox\":\"27\",\"thumbnail\":\"https:\\/\\/c5.xinstatic.com\\/f2\\/20171119\\/1642\\/5a1143e6ca019161901_20.jpg\",\"photos\":[{\"url\":\"https:\\/\\/c5.xinstatic.com\\/f2\\/20171119\\/1642\\/5a1143e6ca019161901_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c5.xinstatic.com\\/f2\\/20171119\\/1643\\/5a114442b77d2947738_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c5.xinstatic.com\\/f2\\/20171119\\/1642\\/5a1143dd2f6ca814522_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c5.xinstatic.com\\/f2\\/20171119\\/1643\\/5a1144305ccc7526465_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c5.xinstatic.com\\/f2\\/20171119\\/1642\\/5a1143e202340843673_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c5.xinstatic.com\\/f2\\/20171119\\/1642\\/5a1143f8d7695187119_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c5.xinstatic.com\\/f2\\/20171119\\/1642\\/5a1143fd311fa347233_20.jpg\",\"name\":\"\"}]}', '1', '1', '{\"username\":\"\",\"contact\":\"\",\"plateNo\":\"皖A55K88\",\"driving_license\":\"\"}', '', '', '', '10000', '1', '1512119643', '0.00', '0', '15.72', '8.88', '1.36', '200.00', '1', '');
+INSERT INTO `cmf_usual_car` VALUES ('1', '1', '2', '2', '2', '1', '0', '3', '3401', '0', '大众 CC 2015款 1.8T 自动 豪华型', '', '', 'eq123456789875463', '皖AH67XB', '1510243200', '0', '0', '3', '7.50', '1.8', '5', '26', '14', '15', '6', '1510814246', '1512465505', '0', '0', '0', '0', '', '', '', '{\"car_seating\":\"3\",\"car_color\":\"6\",\"car_length\":\"144\",\"car_age\":\"30\",\"car_effluent\":\"14\",\"car_fuel\":\"15\",\"car_displacement\":\"21\",\"car_mileage\":\"36\",\"car_engine\":\"\",\"car_gearbox\":\"26\",\"thumbnail\":\"https:\\/\\/c1.xinstatic.com\\/f2\\/20171129\\/1213\\/5a1e3406f185c449197_18.jpg\",\"photos\":[{\"url\":\"https:\\/\\/c1.xinstatic.com\\/f2\\/20171129\\/1213\\/5a1e3406f185c449197_18.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c2.xinstatic.com\\/f2\\/20171128\\/1747\\/5a1d309c1a2f3394194_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c2.xinstatic.com\\/f2\\/20171128\\/1746\\/5a1d30692245f485179_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c2.xinstatic.com\\/f2\\/20171128\\/1747\\/5a1d3096e0b4a149087_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c2.xinstatic.com\\/f2\\/20171128\\/1746\\/5a1d30912c8eb290047_20.jpg\",\"name\":\"\"}]}', '1', '1', '{\"username\":\"王铮\",\"contact\":\"手机：13333333333\",\"plateNo\":\"皖AH67XB\",\"driving_license\":\"\"}', '', '', '', '10000', '1', '1509590656', '10.78', '1', '29.18', '19.98', '5.99', '0.00', '1', '');
+INSERT INTO `cmf_usual_car` VALUES ('2', '1', '4', '11', '2', '1', '0', '3', '3401', '0', '福特 嘉年华两厢 2011款 1.5 自动 时尚型', '', '', 'xzuih433hf7463343', '皖H967JN', '1352563200', '0', '0', '5', '4.40', '1.5', '5', '26', '13', '15', '10', '1510814220', '1512469993', '0', '0', '0', '1', '', '', '', '{\"car_seating\":\"3\",\"car_color\":\"10\",\"car_length\":\"121\",\"car_age\":\"31\",\"car_effluent\":\"13\",\"car_fuel\":\"15\",\"car_displacement\":\"20\",\"car_mileage\":\"35\",\"car_engine\":\"JX493ZLQ3\",\"car_gearbox\":\"26\",\"thumbnail\":\"https:\\/\\/c3.xinstatic.com\\/f2\\/20171129\\/1752\\/5a1e8372a23ff749974_19.jpg\",\"photos\":[{\"url\":\"https:\\/\\/c3.xinstatic.com\\/f2\\/20171129\\/1752\\/5a1e8372a23ff749974_19.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c3.xinstatic.com\\/f2\\/20171129\\/1755\\/5a1e83fe9df67478481_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c3.xinstatic.com\\/f2\\/20171129\\/1752\\/5a1e8369598d4375149_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c3.xinstatic.com\\/f2\\/20171129\\/1754\\/5a1e83e7b0d7b426279_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c3.xinstatic.com\\/f2\\/20171129\\/1752\\/5a1e836d94e07827031_20.jpg\",\"name\":\"\"}]}', '1', '1', '{\"username\":\"澄迈\",\"contact\":\"\",\"plateNo\":\"皖H967JN\",\"driving_license\":\"\"}', '', '', '', '10000', '1', '1510392426', '9.80', '2', '10.63', '4.78', '1.43', '0.00', '1', '');
+INSERT INTO `cmf_usual_car` VALUES ('3', '1', '1', '17', '2', '1', '0', '3', '3401', '0', '宝马 1系两厢五门版 2012款 1.6T 自动 116i都市版', '', '', '', '皖A95K88', '1350057600', '0', '0', '0', '14.00', '2.5', '3', '28', '14', '15', '8', '1510814246', '1512465531', '0', '0', '0', '0', '', '', '', '{\"car_seating\":\"3\",\"car_color\":\"8\",\"car_length\":\"\",\"car_age\":\"\",\"car_effluent\":\"14\",\"car_fuel\":\"15\",\"car_displacement\":\"\",\"car_mileage\":\"\",\"car_engine\":\"\",\"car_gearbox\":\"28\",\"thumbnail\":\"https:\\/\\/c2.xinstatic.com\\/f2\\/20171129\\/1726\\/5a1e7d3fa651c407670_19.jpg\",\"photos\":[{\"url\":\"https:\\/\\/c2.xinstatic.com\\/f2\\/20171129\\/1726\\/5a1e7d3fa651c407670_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c2.xinstatic.com\\/f2\\/20171129\\/1727\\/5a1e7d7a28744241112_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c2.xinstatic.com\\/f2\\/20171129\\/1726\\/5a1e7d2fbae64486662_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c2.xinstatic.com\\/f2\\/20171129\\/1727\\/5a1e7d741c49c885807_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c2.xinstatic.com\\/f2\\/20171129\\/1726\\/5a1e7d3c7ab05985442_20.jpg\",\"name\":\"\"}]}', '1', '1', '{\"username\":\"贝尔\",\"contact\":\"QQ：456876646\",\"plateNo\":\"皖A95K88\",\"driving_license\":\"https:\\/\\/c1.xinstatic.com\\/f2\\/20171113\\/1802\\/5a096daf09902191543_18.jpg\"}', '', '', '', '10000', '1', '1510552638', '30.00', '3', '30.18', '17.98', '5.39', '0.00', '1', '');
+INSERT INTO `cmf_usual_car` VALUES ('4', '1', '4', '14', '4', '1', '0', '31', '383', '0', '福特 Mustang 2015款 2.3T 自动 性能版', '', '', '', '皖A85K88', '1325433600', '0', '0', '5', '2.80', '2.3', '3', '26', '14', '15', '7', '1512119386', '1512465543', '0', '0', '0', '0', '', '', null, '{\"car_seating\":\"3\",\"car_color\":\"7\",\"car_length\":\"160\",\"car_age\":\"\",\"car_effluent\":\"14\",\"car_fuel\":\"15\",\"car_displacement\":\"\",\"car_mileage\":\"\",\"car_engine\":\"\",\"car_gearbox\":\"26\",\"thumbnail\":\"https:\\/\\/c4.xinstatic.com\\/f2\\/20171130\\/1712\\/5a1fcb9209ee7452880_19.jpg\",\"photos\":[{\"url\":\"https:\\/\\/c4.xinstatic.com\\/f2\\/20171130\\/1712\\/5a1fcb9209ee7452880_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c4.xinstatic.com\\/f2\\/20171130\\/1713\\/5a1fcbc848c81733344_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c4.xinstatic.com\\/f2\\/20171130\\/1712\\/5a1fcb8c75a67422131_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c4.xinstatic.com\\/f2\\/20171130\\/1713\\/5a1fcbc2394c8716043_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c4.xinstatic.com\\/f2\\/20171130\\/1712\\/5a1fcb8f3e9ca641995_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c4.xinstatic.com\\/f2\\/20171130\\/1713\\/5a1fcb9f9b50d944989_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c4.xinstatic.com\\/f2\\/20171130\\/1713\\/5a1fcba31ed87538246_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c4.xinstatic.com\\/f2\\/20171130\\/1713\\/5a1fcba68b7c0631568_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c4.xinstatic.com\\/f2\\/20171130\\/1713\\/5a1fcbbc7e6c5748880_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c4.xinstatic.com\\/f2\\/20171130\\/1713\\/5a1fcbd0d8804237222_20.jpg\",\"name\":\"\"}]}', '1', '1', '{\"username\":\"陈东\",\"contact\":\"18956743215\",\"plateNo\":\"皖A85K88\",\"driving_license\":\"\"}', '', '', '', '10000', '1', '1512118965', '37.06', '0', '43.40', '37.06', '10.74', '0.00', '1', '');
+INSERT INTO `cmf_usual_car` VALUES ('5', '1', '4', '13', '5', '1', '0', '3', '3401', '0', '福特 全顺经典 2009款 2.8T 手动 标准型短轴中顶JX493ZLQ3 柴油', '', '', '', '皖A55K88', '1391443200', '0', '0', '3', '9.30', '2.8', '4', '27', '12', '16', '6', '1512119920', '1512465558', '0', '0', '0', '0', '', '', null, '{\"car_seating\":\"2\",\"car_color\":\"6\",\"car_length\":\"220\",\"car_age\":\"\",\"car_effluent\":\"12\",\"car_fuel\":\"16\",\"car_displacement\":\"\",\"car_mileage\":\"\",\"car_engine\":\"\",\"car_gearbox\":\"27\",\"thumbnail\":\"https:\\/\\/c5.xinstatic.com\\/f2\\/20171119\\/1642\\/5a1143e6ca019161901_20.jpg\",\"photos\":[{\"url\":\"https:\\/\\/c5.xinstatic.com\\/f2\\/20171119\\/1642\\/5a1143e6ca019161901_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c5.xinstatic.com\\/f2\\/20171119\\/1643\\/5a114442b77d2947738_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c5.xinstatic.com\\/f2\\/20171119\\/1642\\/5a1143dd2f6ca814522_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c5.xinstatic.com\\/f2\\/20171119\\/1643\\/5a1144305ccc7526465_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c5.xinstatic.com\\/f2\\/20171119\\/1642\\/5a1143e202340843673_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c5.xinstatic.com\\/f2\\/20171119\\/1642\\/5a1143f8d7695187119_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c5.xinstatic.com\\/f2\\/20171119\\/1642\\/5a1143fd311fa347233_20.jpg\",\"name\":\"\"}]}', '1', '1', '{\"username\":\"\",\"contact\":\"\",\"plateNo\":\"皖A55K88\",\"driving_license\":\"\"}', '', '', '', '10000', '1', '1512119643', '16.52', '0', '15.72', '8.88', '1.36', '200.00', '1', '');
 
 -- ----------------------------
 -- Table structure for cmf_usual_company
@@ -5376,7 +5379,7 @@ CREATE TABLE `cmf_usual_item` (
   `cate_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '分类ID',
   `deal_uid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '处理人ID',
   `name` varchar(150) NOT NULL DEFAULT '' COMMENT '属性值的名称',
-  `exch` varchar(255) NOT NULL DEFAULT '' COMMENT '替换规则',
+  `rule` varchar(255) NOT NULL DEFAULT '' COMMENT '替换规则',
   `remark` varchar(255) NOT NULL DEFAULT '' COMMENT '备注',
   `description` varchar(255) NOT NULL DEFAULT '' COMMENT '描述',
   `more` text COMMENT '扩展属性：',
@@ -5451,7 +5454,7 @@ CREATE TABLE `cmf_usual_item_cate` (
   `status` tinyint(3) NOT NULL DEFAULT '1' COMMENT '状态：-1禁用 0隐藏 1显示',
   `list_order` float unsigned NOT NULL DEFAULT '10000' COMMENT '排序：从小到大',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8mb4 COMMENT='属性(分类)表';
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8mb4 COMMENT='属性(分类)表';
 
 -- ----------------------------
 -- Records of cmf_usual_item_cate
@@ -5481,6 +5484,7 @@ INSERT INTO `cmf_usual_item_cate` VALUES ('22', '1', '0', '座位数', '座', 'c
 INSERT INTO `cmf_usual_item_cate` VALUES ('23', '1', '0', '长度', 'mm', 'car_length', 'text', '0-1-23', '', '', '{\"thumbnail\":\"\"}', '0', '0', '1', '1', '10000');
 INSERT INTO `cmf_usual_item_cate` VALUES ('24', '2', '0', '里程', '万公里', 'car_mileage', 'select', '0-2-24', '', '', '{\"thumbnail\":\"\"}', '0', '0', '0', '1', '10000');
 INSERT INTO `cmf_usual_item_cate` VALUES ('25', '1', '0', '车龄', '年', 'car_age', 'select', '0-1-25', '', '', '{\"thumbnail\":\"\"}', '0', '0', '0', '1', '10000');
+INSERT INTO `cmf_usual_item_cate` VALUES ('26', '2', '0', '发动机', '', 'car_engine', 'text', '0-2-26', '', '', '{\"thumbnail\":\"\"}', '0', '0', '0', '1', '10000');
 
 -- ----------------------------
 -- Table structure for cmf_usual_models
@@ -5617,7 +5621,7 @@ CREATE TABLE `cmf_verify` (
   `end_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '结束时间',
   `more` text COMMENT '扩展数据：认证数据',
   `is_top` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '置顶：0否 1是',
-  `auth_status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '认证状态：-1禁止认证 0未认证 1已认证 2重新认证 3认证失败',
+  `auth_status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '认证状态：-1禁止认证 0未认证 1已认证 2取消 3认证失败',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
 

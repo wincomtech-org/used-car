@@ -167,7 +167,7 @@ class UsualCarModel extends UsualModel
             ->field($field)
             ->join($join)
             ->where($where)
-            ->find();
+            ->find()->toArray();
 
         return $page;
     }

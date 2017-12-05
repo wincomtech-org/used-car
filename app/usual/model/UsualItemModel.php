@@ -61,10 +61,20 @@ class UsualItemModel extends UsualModel
     // 合并项  筛选属性和拓展属性同时修改，以筛选属性为主，否则哪个被修改就用哪个。
     public function ItemMulti($post=[], $more=[])
     {
-        $filters = explode(',',$this->filter_var);
+        // 筛选项字段
+        
+        // 推荐项字段
+        $itemCateModel = new UsualItemCateModel();
+        $filterRec = $itemCateModel->field('code')->where('is_rec',1)->select()->toArray();
+        $rec = '';
+        foreach ($filterRec as $value) {
+            $rec .= ','.$value['code'];
+        }
+        // 开始过滤
+        $filters = explode(',',$this->filter_var.$rec);
         $newArr = $post;
         if (!empty($post['id'])) {
-            $data = model('UsualCar')->field($this->filter_var)->where('id',$post['id'])->find();
+            $data = model('usual/UsualCar')->field($this->filter_var)->where('id',$post['id'])->find();
         }
         foreach ($filters as $xx) {
             if (!empty($post[$xx]) && empty($more[$xx])) {
@@ -144,10 +154,88 @@ class UsualItemModel extends UsualModel
         return $itemCate;
     }
 
-    // 获取前台 展示给用户的 自定义数据集
+    // 获取前台 车子详情页 usual_car_filter_var 数据集
+    public function getItemFilterVar($id)
+    {
+        $data = model('usual/UsualCar')
+            ->field($this->filter_var)
+            ->where('id',$id)
+            ->find()->toArray();
+        $items = $this->alias('a')
+            ->field('a.name,a.description,b.code,b.unit')
+            ->join('usual_item_cate b','a.cate_id=b.id','LEFT')
+            ->where(['a.id'=>['in',array_values($data)]])
+            ->select()->toArray();
+        // 描述替代值
+        $newItem = [];
+        foreach ($items as $val) {
+            $newItem[$val['code']] = empty($val['description'])?$val['name'].$val['unit']:$val['description'];
+        }
+
+        return $newItem;
+    }
+
+    // 获取前台 车子详情页 自定义数据集描述 $data数据集非ID？
     public function getItemShow($data=[])
     {
-        # code...
+        $allItems = $this->getItemTable('','',true);
+// return $allItems;
+        $newData = $children = $element = [];
+        foreach ($allItems as  $key => $cate) {
+            // echo "1=>".$cate['name'].'<br>';
+            if (!empty($cate['children'])) {
+                foreach ($cate['children'] as $key2 => $child) {
+                    // echo "2=>".$child['name'].'<br>';
+                    switch ($child['code_type']) {
+                        case 'select':
+                        case 'checkbox':
+                        case 'radio':
+                            if (!empty($child['form_element'])) {
+                                foreach ($child['form_element'] as $key => $value) {
+                                    // echo "3=>".$value['name'].'<br>';
+                                    if ($value['id']==$data[$child['code']]) {
+                                        $element = $value;
+                                    }
+                                }
+                            }
+                            if (isset($element)) {
+                                $sketch = empty($element['description'])?(empty($element['name'])?'':$element['name'].$child['unit']):$element['description'];
+                            }
+                            break;
+                        case 'text':
+                        case 'number':
+                        case 'hidden':
+                            if ($data[$child['code']]) {
+                                $sketch = $data[$child['code']].$child['unit'];
+                            }
+                            break;
+                        case 'file':
+                            $sketch = $data[$child['code']];
+                            break;
+                    }
+                    if (!isset($sketch)) {
+                        $sketch = '';
+                    }
+                    $children[] = [
+                        'code_type'  => $child['code_type'],
+                        // 'code'  => $child['code'],
+                        'name'  => $child['name'],
+                        // 'unit'  => $child['unit'],
+                        'sketch'  => $sketch,
+                    ];
+                    unset($element,$sketch);
+                    // echo "<br>";
+                }
+            }
+            if (!isset($children)) {
+                $children = [];
+            }
+            $newData[] = ['name'=>$cate['name'],'child'=>$children];
+            unset($children);
+            // echo "<hr>";
+        }
+
+        return $newData;
     }
 
     /*

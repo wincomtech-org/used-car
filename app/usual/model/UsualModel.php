@@ -80,6 +80,8 @@ class UsualModel extends Model
 
     // car_license_time 上牌时间
     function setCarLicenseTimeAttr($value){ return strtotime($value);}
+    function setCarCheckTimeAttr($value){ return strtotime($value);}
+    function setCarInsurTimeAttr($value){ return strtotime($value);}
     // reg_time 注册时间
     function setRegTimeAttr($value){ return strtotime($value);}
     // appoint_time 预约时间

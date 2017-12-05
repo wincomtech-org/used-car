@@ -169,6 +169,7 @@ class TradeController extends UserBaseController
             if (empty($post['serie_id'])) {
                 $post['serie_id'] = $post['serie_pid'];
             }
+            $post['platform'] = 2;//新车平台自己发布
             $post['user_id'] = !empty($post['user_id'])?$post['user_id']:$userId;
             $post['update_time'] = time();
 

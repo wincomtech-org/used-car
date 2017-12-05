@@ -179,6 +179,19 @@
                         </td>
                     </tr>
                     <tr>
+                        <th>年检到期日</th>
+                        <td>
+                            <input class="form-control js-bootstrap-datetime" placeholder="" type="text" name="post[car_check_time]" value="{:date('Y-m-d',$post.car_check_time)}">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>保险到期日</th>
+                        <td>
+                            <input class="form-control js-bootstrap-datetime" placeholder="" type="text" name="post[car_insur_time]" value="{:date('Y-m-d',$post.car_insur_time)}">
+                        </td>
+                    </tr>
+
+                    <tr>
                         <th>车龄</th>
                         <td>
                             <input class="form-control" max="999" placeholder="" type="number" name="post[car_age]" value="{$post.car_age|default=''}">
@@ -397,7 +410,7 @@
                 </tr>
                 <tr>
                     <td>
-                        <input class="form-control js-bootstrap-datetime" type="text" name="post[create_time]" value="{:date('Y-m-d H:i:s',$post.create_time)}">
+                        <input class="form-control" type="text" value="{:date('Y-m-d H:i:s',$post.create_time)}">
                     </td>
                 </tr>
                 <tr>
