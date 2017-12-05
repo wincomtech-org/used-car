@@ -8,7 +8,7 @@ use tree\Tree;
 class UsualItemModel extends UsualModel
 {
     // protected $filter_var = config('usual_car_filter_var');
-    protected $filter_var = 'car_effluent,car_color,car_gearbox,car_seating,car_fuel';
+    protected $filter_var = 'car_gearbox,car_effluent,car_fuel,car_color';
 
     /*function _initialize()
     {

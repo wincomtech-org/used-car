@@ -35,10 +35,12 @@ class AdminItemController extends AdminBaseController
     public function add()
     {
         $cateId = $this->request->param('cid',0,'intval');
+        $insertId = intval(Db::name('usual_item')->max('id'))+1;
 
         $cates = model('UsualItemCate')->getCategoryTree($cateId,0,0,true);
 
         // $this->assign('cateId', $cateId);
+        $this->assign('insertId', $insertId);
         $this->assign('categorys', $cates);
 
         return $this->fetch();

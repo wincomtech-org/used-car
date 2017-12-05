@@ -134,7 +134,7 @@ class TradeController extends UserBaseController
         // $where['code'] = where('id','not in','1,5,8');
         $item_rec = Db::name('usual_item_cate')->where('is_rec',1)->column('code');
         $item_rec = implode(',',$item_rec);
-        $filter_var = 'car_age,car_mileage,car_displacement,'. $item_rec .','.config('usual_car_filter_var');
+        $filter_var = config('usual_car_filter_var0') .','. $item_rec .','.config('usual_car_filter_var');
         $where['code'] = ['not in',$filter_var];
         $allItems = $itemModel->getItemTable($where,'',true);
 

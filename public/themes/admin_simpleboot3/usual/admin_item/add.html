@@ -47,32 +47,35 @@
                     </tr>
 
                     <tr>
+                        <th>ID<span class="form-required">*</span></th>
+                        <td>
+                            <span class="form-control">{$insertId}</span>
+                        </td>
+                    </tr>
+                    <tr>
                         <th width="100">属性值<span class="form-required">*</span></th>
                         <td>
                             <input class="form-control" type="text" name="post[name]" required value="" placeholder="请输入名称"/>
                         </td>
                     </tr>
                     <tr>
-                        <th>替换规则</th>
-                        <td>
-                            <!-- <input class="form-control" type="text" name="post[exch]" value="" /> -->
-                            <p class="help-block">属性值推荐用含数字的值，避免用汉字可能出现的报错。</p>
-                            <p class="help-block">暂时制定这6个规则： >、>=、=、<=、<、~ ，如果不写则默认是 = 。</p>
-                            <p class="help-block">规则说明： >,大于* 、 >=,不低于* 、 =,等于* 、 <=,不高于* 、 <,小于* 、 ~,在*之间（即<*<=）。</p>
-                            <p class="help-block">如果 描述 不为空，则用之替代显示 属性值。。</p>
-                        </td>
-                    </tr>
-
-                    <tr>
                         <th>描述</th>
                         <td>
                             <textarea class="form-control" name="post[description]" placeholder="请填写描述"></textarea>
                         </td>
                     </tr>
+
+                    <tr>
+                        <th>替换规则</th>
+                        <td>
+                            <!-- <input class="form-control" type="text" name="post[rule]" value="" /> -->
+                            <include file="admin_item/help-block" />
+                        </td>
+                    </tr>
                 </table>
                 <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-10">
-                        <button type="submit" class="btn btn-primary js-ajax-submit">{:lang('ADD')}</button>
+                        <button type="submit" class="btn btn-primary js-ajax-submit">{:lang('ADD')}</button> &nbsp; &nbsp;
                         <a class="btn btn-default" href="{:url('AdminItem/index')}">{:lang('BACK')}</a>
                     </div>
                 </div>

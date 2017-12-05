@@ -27,7 +27,6 @@
                                 <p class='text'>{$carInfo.name}</p>
                             </div>
                         </li>
-                        
                         <li class="see_car_items">
                             <span class="icon">价格（订金）</span>
                             <div class="item_con">
@@ -50,39 +49,16 @@
                          <li class="see_car_items">
                             <span class="icon">表显里程</span>
                             <div class="item_con">
-                                <p class='text'>30.18万</p>
+                                <p class='text'>30.18万公里</p>
                             </div>
                         </li>
                         <li class="see_car_items">
-                            <span class="icon">颜色</span>
+                            <span class="icon">排量</span>
                             <div class="item_con">
-                                <p class='text'>2017-8-8</p>
+                                <p class='text'>2.1L</p>
                             </div>
                         </li>
-                        <li class="see_car_items">
-                            <span class="icon">排放标准</span>
-                            <div class="item_con">
-                                <p class='text'>30.18万</p>
-                            </div>
-                        </li>
-                        <li class="see_car_items">
-                            <span class="icon">排量/变速箱</span>
-                            <div class="item_con">
-                                <p class='text'>2017-8-8</p>
-                            </div>
-                        </li>
-                         <li class="see_car_items">
-                            <span class="icon">所在城市</span>
-                            <div class="item_con">
-                                <p class='text'>30.18万</p>
-                            </div>
-                        </li>
-                        <li class="see_car_items">
-                            <span class="icon">颜色</span>
-                            <div class="item_con">
-                                <p class='text'>2017-8-8</p>
-                            </div>
-                        </li>
+
                         <li class="see_car_items">
                             <span class="icon">支付订金</span>
                             <div class="item_con">
@@ -95,11 +71,9 @@
                                 <div class="payment_con">
                                     <div class="payment_way_1_con" style="display:none">
                                         <div class="has_money list_money" style="display:block">
-
                                             <div class="middle">
                                                 <p>名称：{$carInfo.name}</p>
                                                 <p>订金：￥{$carInfo.bargain_money}元（含过户费)</p>
-
                                             </div>
                                             <div class="right">
                                                 <a href="{:url('funds/Pay/index',['type'=>'cash','action'=>'seecar'])}" class="sure_pay js-dialog">确认支付</a>
@@ -126,13 +100,11 @@
                                         <div class="pay_mode">
                                             <div class="pay_tab">
                                                 <ul class="online_way pay_tab_list">
+                                                    <li class="label_input pay_tab_list_item"><b></b><label><input type="radio" name="online_payment_way"><span class="icon_img"></span></label></li>
                                                     <li class="label_input pay_tab_list_item"><b></b><label><input type="radio" name="online_payment_way" ><span class="icon_img"></span></label></li>
-                                                    <li class="label_input pay_tab_list_item"><b></b><label><input type="radio" name="online_payment_way" ><span class="icon_img"></span></label></li>
-
                                                 </ul>
                                                 <div class="pay_tab_con">
                                                     <ul class="pay_tab_con_list">
-
                                                         <li class="pay_tab_con_list_item" style="display:none">
                                                             <div class="zhifubao">
                                                                 <div class="left">
@@ -144,7 +116,6 @@
                                                                         <div class="rt">
                                                                             <img src="__TMPL__/public/assets/images/example/erweima_tip.png" alt="">
                                                                         </div>
-
                                                                     </div>
                                                                 </div>
                                                                 <div class="right">
@@ -154,7 +125,6 @@
                                                                     <div class="button">
                                                                         <a href="{:url('funds/Pay/index',['type'=>'alipay','action'=>'seecar'])}" class="js-dialog">立即支付</a>
                                                                     </div>
-
                                                                 </div>
                                                                 <div class="clear"></div>
                                                             </div>
@@ -192,8 +162,8 @@
 </body>
 
 <!-- 放大镜效果 -->
-<script src="__TMPL__/public/assets/js/jquery.jqzoom.js"></script>
-<script src="__TMPL__/public/assets/js/lanrenzhijia.js"></script>
+<!-- <script src="__TMPL__/public/assets/js/jquery.jqzoom.js"></script>
+<script src="__TMPL__/public/assets/js/lanrenzhijia.js"></script> -->
 <!-- end -->
 
 <script>
@@ -202,9 +172,7 @@
         var $div=$('.payment_con>div')
         if($(this).prop('checked')){
             $(this).parent().parent().addClass('select').siblings().removeClass('select');
-
             $div.eq($t).show().siblings().hide();
-
         }
     })
 
@@ -226,12 +194,12 @@
         }
 
         /***银行支付**/
-        $(".pay_bank ").delegate('label',"click",function(){
-            var that=$(this);
-            var input_val=$(this).siblings('input').val();
-            that.parent().siblings('li').find('label').removeClass('select');
-            that.addClass('select');
-        })
+        // $(".pay_bank ").delegate('label',"click",function(){
+        //     var that=$(this);
+        //     var input_val=$(this).siblings('input').val();
+        //     that.parent().siblings('li').find('label').removeClass('select');
+        //     that.addClass('select');
+        // })
     })
 </script>
 </html>

@@ -132,7 +132,7 @@ class IndexController extends HomeBaseController
         // $Prices = model('usual/UsualItem')->getItems(0,21,false);
         $Prices = ['0~3'=>'3万以下','3~5'=>'3-5万','5~8'=>'5-8万','8~10'=>'8-10万','10~15'=>'10-15万','15~20'=>'15-20万','20~30'=>'20-30万','30~50'=>'30-50万','>50'=>'50万以上'];
         // 其它
-        $filter_var_0 = 'car_age,car_mileage,car_displacement';
+        $filter_var_0 = config('usual_car_filter_var0');
         $filter_var_1 = config('usual_car_filter_var');
         $moreTree = cache('moreTree');
         if (empty($moreTree)) {
@@ -313,17 +313,30 @@ die;
     }
 
 
-    // 运算符转换
+    /*
+    * 运算符转换
+    * @param $id 值
+    * @param $custom 自定义模式
+    * @param $rule 替换规则
+    * $newV = intval(preg_replace('/>=/','',$value,1));
+      $newV = intval(preg_replace('/^<=/','',$value));
+    * return array
+    */
     public function operatorSwitch($id, $custom=false, $rule='>=<')
     {
         if ($custom===true) {
+            // 外置 价格
             $value = $id;
-        } else {
+            $newV = cmf_strip_chars($value,$rule);
+        } elseif ($custom=='id') {
+            // 将usual_item的id与usual_car中的对应值作比较
             $value = Db::name('usual_item')->where('id',intval($id))->value('name');
+            $newV = $id;
+        } else {
+            // 将usual_item的name与usual_car中的对应值作比较
+            $value = Db::name('usual_item')->where('id',intval($id))->value('name');
+            $newV = cmf_strip_chars($value,$rule);
         }
-        $newV = cmf_strip_chars($value,$rule);
-        // $newV = intval(preg_replace('/>=/','',$value,1));
-        // $newV = intval(preg_replace('/^<=/','',$value));
 
         if (empty($value)) {
             $condition = [];
@@ -351,7 +364,7 @@ die;
     /*
     *占位符处理
     * @param $value 值
-    * @param $scaleplate 标尺
+    * @param $scaleplate 标尺大小
     * return string
     */
     public function dealPlaceholder($value=null, $scaleplate=3)
