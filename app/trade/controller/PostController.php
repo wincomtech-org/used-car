@@ -21,7 +21,7 @@ class PostController extends HomeBaseController
         }
         // $company = DB::name('UsualCompany')->where(['user_id'=>$page['user_id']])->find();
         // 查找相关属性值 id
-        // $item_exchange_var = 'car_color,car_effluent,car_displacement,car_gearbox';
+        $item_exch_var = config('usual_car_filter_var');
         // $item_exchange = '';
         // dump($page);die;
 
@@ -35,7 +35,7 @@ class PostController extends HomeBaseController
             $this->error('请登录',url('user/Login/index'));
         }
         $id = $this->request->param('id',0,'intval');
-        $carInfo = Db::name('usual_car')->field('name,bargain_money')->where('id',$id)->find();
+        $carInfo = Db::name('usual_car')->field('name,bargain_money,price,car_license_time,car_mileage,car_displacement')->where('id',$id)->find();
         if (empty($carInfo)) {
             abort(404,'数据不存在！');
         }

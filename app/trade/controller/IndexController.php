@@ -227,6 +227,7 @@ class IndexController extends HomeBaseController
 // dump($filter_var_1);
 // dump($moreTree);
 // dump($extra);
+// dump($arr);
 // dump($string);
 // dump($jumpext);
 // die;
@@ -316,7 +317,7 @@ class IndexController extends HomeBaseController
             } elseif (strrpos($value, '~')!==false) {
                 $condition = ['between',str_replace('~',',',$value)];
             } else {
-                $condition = $value;
+                $condition = $newV;
             }
         }
 
