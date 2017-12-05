@@ -107,8 +107,6 @@ function imagePreviewDialog(img) {
     });
 }
 
-
-
 /*图片预览*/
 $('.demonstrate_img img').click(function(){
 	imagePreviewDialog(this.src)
@@ -174,7 +172,6 @@ $(document).delegate('.detail_see', 'click', function() {
 		dataType: 'json',
 		data: {id: id},
 		success:function(data){
-			// console.log(data)
 			msgDialog(data);
 		}
 	});
@@ -373,68 +370,7 @@ function lunpic() {
 	}
 }
 
-function scroll() {
-	var subNav_active = $('.car_message_nav .active');
 
-	function subNav_scroll(tar) {
-		subNav_active.removeClass('active');
-		tar.parent().addClass('active');
-		subNav_active = tar.parent();
-	};
-
-	$('.car_message_nav a').click(function() {
-		var _this = $(this);
-		subNav_scroll(_this);
-		var target = _this.attr('href');
-		var targetScroll = $(target).offset().top - 50;
-		$('html,body').animate({
-			scrollTop: targetScroll
-		}, 300);
-		return false;
-	});
-
-	if (window.location.hash) {
-		var targetScroll = $(window.location.hash).offset().top;
-		$('html,body').animate({
-			scrollTop: targetScroll
-		}, 300);
-	}
-	var divTop = $('.car_message_con').offset().top;
-
-	$(window).scroll(function() {
-		var $this = $(this);
-		var targetTop = $(this).scrollTop();
-		var footerTop = $('footer').offset().top;
-		var height = $(window).height();
-
-		if (targetTop > divTop) {
-
-			$('.car_message_nav ').addClass('fixed_nav');
-		}else {
-			
-			$('.car_message_nav ').removeClass('fixed_nav');
-			
-		}
-
-		$('.car_message_con_item').each(function() {
-			var that = $(this)
-			var liTop = that.offset().top - 57;
-			var liHeight = that.height();
-			var divHeight = liTop + liHeight;
-
-			if (divHeight > targetTop && targetTop > liTop) {
-				var liId = that.prop('id');
-				$('.car_message_nav_list a').each(function() {
-
-					if ($(this).attr('href') == "#" + liId) {
-				
-						subNav_scroll($(this))
-					}
-				})
-			}
-		})
-	})
-}
 
 /*预约看车*/
 function car_mess_btn_submit() {
