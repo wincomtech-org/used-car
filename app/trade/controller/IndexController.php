@@ -52,8 +52,7 @@ class IndexController extends HomeBaseController
 
         /*
         * 车辆买卖 筛选
-        *
-            url美化：
+        * url美化：
             条件筛选先用a标签试试 占位符 效果(string类型：00000000)。
             001：车品牌、车系
             01：其它参数
@@ -74,16 +73,16 @@ class IndexController extends HomeBaseController
         // ID
         $platform = $this->request->param('platform',0,'intval');
         $typeId = $this->request->param('typeId','new');
-        $brandId = $this->request->param('brandId/d');// 2大众 4福特
-        $serieId = $this->request->param('serieId/d');
-        $modelId = $this->request->param('modelId/d');
-        $priceId = $this->request->param('priceId/s');
-        // 普通级
+        $brandId = $this->request->param('brandId');// 2大众 4福特
+        $serieId = $this->request->param('serieId');
+        $modelId = $this->request->param('modelId');
+        $priceId = $this->request->param('priceId');
+        // 普通级 optimize => name
         $car_age = $this->request->param('car_age/s','','strval');
         $car_mileage = $this->request->param('car_mileage/s','','strval');
         $car_displacement = $this->request->param('car_displacement/s','','strval');
-        // 以下为 item 处理 ID
         $car_seating = $this->request->param('car_seating/d',0,'intval');
+        // 以下针对item处理 moreTree => ID
         $car_gearbox = $this->request->param('car_gearbox/d',0,'intval');
         $car_effluent = $this->request->param('car_effluent/d',0,'intval');
         $car_fuel = $this->request->param('car_fuel/d',0,'intval');
@@ -118,7 +117,7 @@ class IndexController extends HomeBaseController
         $Brands = model('usual/UsualBrand')->getBrands($brandId,0,false);
         // 系列
         $serieModel = new UsualSeriesModel();
-        if (empty($brandId)) {
+        if (empty($brandId) || $brandId=='null') {
             $Series = $serieModel->recSeries();
         } else {
             $recSeries = $serieModel->recSeries($brandId);
@@ -132,7 +131,7 @@ class IndexController extends HomeBaseController
         // $Prices = model('usual/UsualItem')->getItems(0,21,false);
         $Prices = ['0~3'=>'3万以下','3~5'=>'3-5万','5~8'=>'5-8万','8~10'=>'8-10万','10~15'=>'10-15万','15~20'=>'15-20万','20~30'=>'20-30万','30~50'=>'30-50万','>50'=>'50万以上'];
         // 其它
-        $filter_var_0 = 'car_age,car_mileage,car_displacement';
+        $filter_var_0 = config('usual_car_filter_var0');
         $filter_var_1 = config('usual_car_filter_var');
         $moreTree = cache('moreTree');
         if (empty($moreTree)) {
@@ -177,16 +176,12 @@ class IndexController extends HomeBaseController
         $remain = substr($oxnum, strlen($string1));
 
 
-// dump($oxnum);
-// dump($string1);
-// dump($remain);
-// die;
         // 处理数字类型的 大类 。$$idv 用于 assign()赋值。是否字段别名: 'a.'.cmf_parse_name($idv)。
-        $string1Arr = str_split($string1,3);
         $newString1 = '';
+        $string1Arr = str_split($string1,3);
         foreach (['brandId','serieId','modelId'] as $key=>$idv) {
             $value = $$idv;
-            $value = !empty($value) ? $value: (is_null($value)?null:$string1Arr[$key]);
+            $value = !empty($value) ? ($value=='null'?null:$value) : (empty($string1)?null:$string1Arr[$key]);
             $value = $$idv = intval($value);
             if (!empty($value)) {
                 $extra[$cname.cmf_parse_name($idv)] = $value;
@@ -195,31 +190,26 @@ class IndexController extends HomeBaseController
             $newString1 .= $value;
         }
         $string1 = empty($newString1) ? $string1 : $newString1;
-// dump($extra);
-// dump($string1);die;
+
         // 处理 普通级。 将usual_item的name与usual_car中的对应值作比较
-
-        // 处理 item 。 直接将usual_item的id与usual_car中的对应值作比较即可
-
+        // 处理 item 。  将usual_item的id与usual_car中的对应值作比较
         // 合并处理
         $newString4 = '';$filter_var_0 = explode(',',$filter_var_0);
         $string4Arr = str_split($remain,4);
         foreach ($moreTree as $key=>$val) {
             $value = $$val['code'];
-            $value = !empty($value) ? $value: (empty($value)?null:$string4Arr[$key]);
+            $value = !empty($value) ? ($value=='null'?null:$value) : (empty($remain)?null:$string4Arr[$key]);
             $value = intval($value);
-            // dump($val['code'].'='.$value);
             if (!empty($value)) {
                 $$val['code'] = $value;
                 if (in_array($val['code'], $filter_var_0)) {
                     $extra[$cname.$val['code']] = $this->operatorSwitch($value);
                 } else {
-                    $extra[$cname.$val['code']] = $value;
-                    // dump($val['code'].'='.$value);
+                    // $extra[$cname.$val['code']] = $value;
+                    $extra[$cname.$val['code']] = $this->operatorSwitch($value,'id');
                 }
             }
             $value = $this->dealPlaceholder($value,4);
-            // dump($value);
             $newString4 .= $value;
         }
         $string4 = empty($newString4) ? $remain : $newString4;
@@ -228,7 +218,7 @@ class IndexController extends HomeBaseController
         $string = $string1 . $string4;
         $jumpext = 'oxnum='.$string
                  . ($typeId ? '&typeId='.$typeId : '')
-                 . (empty($priceId) ? '&priceId='.$priceId : '');
+                 . (empty($priceId) ? '' : '&priceId='.$priceId);
 
 // dump($brandId);
 // dump($priceId);
@@ -242,10 +232,10 @@ class IndexController extends HomeBaseController
 // die;
 
         /*车辆买卖 车辆数据*/
-
         // 列表 数据库查询
         $carlist = $carModel->getLists($filter, $order, $limit, $extra);
-
+// print_r($carlist);
+// echo Db::getLastSql();
 
 
         // 模板赋值
@@ -285,17 +275,30 @@ class IndexController extends HomeBaseController
     }
 
 
-    // 运算符转换
+    /*
+    * 运算符转换
+    * @param $id 值
+    * @param $custom 自定义模式
+    * @param $rule 替换规则
+    * $newV = intval(preg_replace('/>=/','',$value,1));
+      $newV = intval(preg_replace('/^<=/','',$value));
+    * return array
+    */
     public function operatorSwitch($id, $custom=false, $rule='>=<')
     {
         if ($custom===true) {
+            // 外置 价格
             $value = $id;
-        } else {
+            $newV = cmf_strip_chars($value,$rule);
+        } elseif ($custom=='id') {
+            // 将usual_item的id与usual_car中的对应值作比较
             $value = Db::name('usual_item')->where('id',intval($id))->value('name');
+            $newV = $id;
+        } else {
+            // 将usual_item的name与usual_car中的对应值作比较
+            $value = Db::name('usual_item')->where('id',intval($id))->value('name');
+            $newV = cmf_strip_chars($value,$rule);
         }
-        $newV = cmf_strip_chars($value,$rule);
-        // $newV = intval(preg_replace('/>=/','',$value,1));
-        // $newV = intval(preg_replace('/^<=/','',$value));
 
         if (empty($value)) {
             $condition = [];

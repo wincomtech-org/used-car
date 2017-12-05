@@ -133,7 +133,7 @@ class IndexController extends HomeBaseController
         // 其它
         $moreTree = cache('moreTree');
         if (empty($moreTree)) {
-            $filter_var = 'car_age,car_mileage,car_displacement,'.config('usual_car_filter_var');
+            $filter_var = config('usual_car_filter_var0').','.config('usual_car_filter_var');
             $moreTree = model('usual/UsualItem')->getItemTable(['code'=>['IN',$filter_var]]);
             cache('moreTree',$moreTree,3600);
         }
