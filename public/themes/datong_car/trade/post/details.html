@@ -98,7 +98,7 @@
                             <a class="btn " href="{:url('seeCar',['id'=>$page.id])}">预约看车</a>
                         </div>
                         <div class="yuyue_guang">
-                            <a class="btn iphone" href="tel:13205513306"><span></span>电话联系</a>
+                            <a class="btn iphone" href="tel:13205513303"><span></span>电话联系</a>
                         </div>
                     </div>
                 </div>
@@ -397,6 +397,75 @@
     <hook name="before_body_end" />
 </body>
 
+<script>
+    // 汽车信息
+    scroll()
+    function scroll() {
+    var subNav_active = $('.car_message_nav .active');
+
+    function subNav_scroll(tar) {
+        subNav_active.removeClass('active');
+        tar.parent().addClass('active');
+        subNav_active = tar.parent();
+    };
+
+    $('.car_message_nav a').click(function() {
+        var _this = $(this);
+        // subNav_scroll(_this);
+        var target = _this.attr('href');
+        var targetScroll = $(target).offset().top - 50;
+        $('html,body').animate({
+            scrollTop: targetScroll
+        }, 300);
+        return false;
+    });
+
+    if (window.location.hash) {
+        var targetScroll = $(window.location.hash).offset().top;
+        $('html,body').animate({
+            scrollTop: targetScroll
+        }, 300);
+    }
+    var divTop = $('.car_message_con').offset().top;
+
+    $(window).scroll(function() {
+        var $this = $(this);
+        var targetTop = $(this).scrollTop();
+        var footerTop = $('footer').offset().top;
+        var height = $(window).height();
+        var ht=$('.car_message_con_list').offset().top;
+        console.log(targetTop,height,ht)
+
+        if (targetTop > divTop - 57) {
+
+            $('.car_message_nav ').addClass('fixed_nav');
+        }else {
+            
+            $('.car_message_nav ').removeClass('fixed_nav');
+            
+        }
+
+        $('.car_message_con_item').each(function() {
+            var that = $(this)
+            var liTop = that.offset().top - 57;
+            var liHeight = that.height();
+            var divHeight = liTop + liHeight;
+
+            if (divHeight > targetTop && targetTop > liTop) {
+                var liId = that.prop('id');
+                $('.car_message_nav_list a').each(function() {
+
+                    if ($(this).attr('href') == "#" + liId) {
+                
+                        subNav_scroll($(this))
+                    }
+                })
+            }
+        })
+    })
+}
+</script>
+
 <!-- 放大镜效果 -->
 <script src="__TMPL__/public/assets/js/jquery.jqzoom.js"></script>
 <script src="__TMPL__/public/assets/js/lanrenzhijia.js"></script>
@@ -406,8 +475,7 @@
 <script src="__TMPL__/public/assets/js/jquery.qrcode.min.js"></script>
 
 <script>
-// 汽车信息
-scroll()
+
 
 /**相关推荐*/
 lunpic()

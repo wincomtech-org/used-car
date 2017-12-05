@@ -83,7 +83,7 @@
                 <ul class="claim_guidance_guide">
                     <foreach name="claim_guidance" item="vo" key="k">
                     <li class="{$k==0?='active'}">
-                        <div class="circle">{$vo.post_title}</div>
+                        <div class="circle"><span>{$vo.post_title}</span></div>
                         <if condition="$k<count($claim_guidance)-1">
                         <div class="arr">
                             <span class="icon1"></span>

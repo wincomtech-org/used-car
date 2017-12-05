@@ -25,8 +25,8 @@
     color: #fff;
 }
 .spinner {
-    width: 80px;
-    height: 80px;
+    width: 110px;
+    height: 110px;
     border-radius: 50%;
     position: relative;
     display: inline-block;
@@ -40,15 +40,15 @@
 .spinner:after {
     content: "";
     display: block;
-    width: 80px;
-    height: 80px;
+    width: 110px;
+    height: 110px;
     border-radius: 50%;
 }
 .spinner:before {
     content: "";
     display: block;
-    width: 80px;
-    height: 80px;
+    width: 110px;
+    height: 110px;
     border-radius: 50%;
 }
 .spinner-1:after {
@@ -56,8 +56,8 @@
     top: 0px;
     left: 0px;
     border: 4px solid transparent;
-    border-top-color: #FF0000;
-    border-bottom-color: #FF0000;
+    border-top-color: #ff0000;
+    border-bottom-color: #ff0000;
     animation: spinny 2s linear infinite;
 }
 @keyframes spinny {
@@ -69,6 +69,41 @@
     }
     100% {
         transform: rotate(360deg) scale(1);
+    }
+}
+
+@-webkit-keyframes spinny {
+    0% {
+        -webkit-transform: rotate(0deg) scale(1);
+    }
+    50% {
+        -webkit-transform: rotate(30deg) scale(1.2);
+    }
+    100% {
+        -webkit-transform: rotate(360deg) scale(1);
+    }
+}
+
+@-moz-keyframes spinny {
+    0% {
+        -moz-transform: rotate(0deg) scale(1);
+    }
+    50% {
+        -moz-transform: rotate(30deg) scale(1.2);
+    }
+    100% {
+        -moz-transform: rotate(360deg) scale(1);
+    }
+}
+@-o-keyframes spinny {
+    0% {
+        -o-transform: rotate(0deg) scale(1);
+    }
+    50% {
+        -o-transform: rotate(30deg) scale(1.2);
+    }
+    100% {
+        -o-transform: rotate(360deg) scale(1);
     }
 }
 
@@ -395,7 +430,8 @@
 .claim_guidance_guide:after{content:"";display:block;clear:both;}
 .claim_guidance_guide li.active .circle{border-color:#d00000;color:#d00000;}
 .claim_guidance_guide li{float:left;}
-.claim_guidance_guide li .circle{display:inline-block;width:110px;height:110px;cursor:default;line-height:1.6;font-size:18px;padding:25px 13px;vertical-align:middle;text-align:center;border:2px solid #a0a0a0;border-radius:50%;-webkit-border-radius:50%;-moz-border-radius:50%;-ms-border-radius:50%;-o-border-radius:50%;box-sizing:border-box;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;-ms-box-sizing:border-box;-o-box-sizing:border-box;}
+.claim_guidance_guide li .circle{display:inline-block;width:110px;height:110px;cursor:default;font-size:18px;padding:25px 13px;vertical-align:middle;text-align:center;position:relative;border:2px solid #a0a0a0;border-radius:50%;-webkit-border-radius:50%;-moz-border-radius:50%;-ms-border-radius:50%;-o-border-radius:50%;box-sizing:border-box;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;-ms-box-sizing:border-box;-o-box-sizing:border-box;}
+.claim_guidance_guide li .circle span{position:absolute;top:50%;left:50%;line-height:20px;transform:translate(-50%,-50%);}
 .claim_guidance_guide li .arr{display:inline-block;width:62px;height:24px;margin:0 4px;vertical-align:middle;}
 .claim_guidance_guide li .arr span{display:inline-block;vertical-align:middle;height:13px;background-color:#bfbfbf;}
 .claim_guidance_guide li .arr .icon1{width:6px;}
@@ -554,8 +590,8 @@
 .yuyue .btn.iphone {background-color:#d00000;}
 .yuyue .btn.iphone span{background-position:-2px -39px;}
 
-.car_message_nav{width:100%;max-width:1200px;border-bottom:1px solid #ddd;background-color:#fff;}
-.car_message_nav.fixed_nav{position:fixed;top:0;z-index:99;}
+.car_message_nav{width:100%;max-width:1200px;border-bottom:1px solid #ddd;background-color:#fff;display:none;}
+.car_message_nav.fixed_nav{display:block;position:fixed;top:0;z-index:99;}
 .car_message_nav:after{content:"";display:block;clear:both;}
 .car_message_nav_list{float:left;margin-right:20px;padding:15px 0;}
 .car_message_nav_list a{font-size:18px;}
@@ -971,7 +1007,7 @@
 .details_item{display:table;margin:15px 0;}
 .details_item .details_tit{display:table-cell;width:120px;font-size:16px;vertical-align:middle;}
 .details_item .details_tit i.photo{line-height:2;font-size:12px;}
-.details_item .idetails_con{display:table-cell;font-size:16px;}
+.details_item .idetails_con{display:table-cell;font-size:16px;height:40px;}
 .details_item .idetails_con .stauts{height:40px;line-height:40px;}
 .details_item .idetails_con ul:after{content:"";display:block;clear:both;}
 .details_item .idetails_con li{float:Left;}
