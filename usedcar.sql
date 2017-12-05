@@ -5617,7 +5617,7 @@ CREATE TABLE `cmf_verify` (
   `end_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '结束时间',
   `more` text COMMENT '扩展数据：认证数据',
   `is_top` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '置顶：0否 1是',
-  `auth_status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '认证状态：-1禁止认证 0未认证 1已认证 2取消 3认证失败',
+  `auth_status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '认证状态：-1禁止认证 0未认证 1已认证 2重新认证 3认证失败',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
 

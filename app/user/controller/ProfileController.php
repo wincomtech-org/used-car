@@ -85,33 +85,26 @@ class ProfileController extends UserBaseController
 
             // 处理认证资料 手机号 邮箱 身份证
             $verifyModel = new VerifyModel();
-            if (!empty($data['identity_card'])) {
-                // $file_var = ['driving_license','identity_card'];
-                // $file_var = ['identify1','identify2'];
-                // $ups = $carModel->uploadPhotos($file_var);
-                // foreach ($ups as $key => $it) {
-                //     if (!empty($it['err'])) {
-                //         $this->error($it['err']);
-                //     }
-                //     $verify['more'][$key] = $it['data'];
-                // }
+            if (!empty($data['identity_card']) || !empty($data['verify']['more']['driving_license'])) {
                 // 直接拿官版的
                 $veri['more']['identity_card'] = $verifyModel->dealFiles($data['identity_card']);
+                $veri['more']['driving_license'] = $data['verify']['more']['driving_license'];
                 $verify = lothar_verify($userId,'certification',true);
                 if (empty($verify)) {
-                    $veri = [
-                        'user_id'   => $userId,
-                        'auth_code'      => 'certification',
-                    ];
+                    $veri['user_id'] = $userId;
+                    $veri['auth_code'] = 'certification';
+                    $veri['create_time'] = time();
                     $verifyModel->adminAddArticle($veri);
                 } else {
                     $veri['id'] = $verify['id'];
                     // $veri['auth_status'] = 0;
+                    $veri['auth_status'] = 2;
+                    $veri['auth_count'] = $verify['auth_count']+1;
                     $verifyModel->adminEditArticle($veri);
                 }
             }
 
-
+            // 处理用户表信息
             if (!empty($data['user'])) {
                 $data = $data['user'];
             }

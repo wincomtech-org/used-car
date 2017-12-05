@@ -115,13 +115,9 @@
 								<div class="idetails_con">
 									<ul class="pic-list list-unstyled form-inline">
 									    <notempty name="verify.more.identity_card">
-								        <foreach name="verify.more.identity_card" item="vo">
-								            <li id="saved-identity_card{$key}">
-								                <img id="identity_card-{$key}-preview"
-								                     src="{:cmf_get_image_preview_url($vo['url'])}"
-								                     style="height:108px;width:180px;">
-								            </li>
-								        </foreach>
+                                        <li>
+                                            <img src="{:cmf_get_image_preview_url($verify.more.driving_license)}" style="height:108px;width:180px;">
+                                        </li>
 									    </notempty>
 									</ul>
 								</div>
@@ -247,13 +243,13 @@
 								<!-- 认证 -->
 								<li class="details_item unauthorized" >
 							        <span class="details_tit">行车本照片</span>
-							        <div class="idetails_con">
-							            <input type="hidden" name="post[identi][driving_license]" id="driving_license" value="{$post.identi.driving_license|default=''}" />
+							        <div class="idetails_con">$veri['more']['identity_card'] 
+							            <input type="hidden" name="verify[more][driving_license]" id="driving_license" value="{$verify.more.driving_license|default=''}" />
 							            <a href="javascript:uploadOneImage('图片上传','#driving_license');" class="demonstrate_pre">
-							                <if condition="empty($post.identi.driving_license)">
+							                <if condition="empty($verify.more.driving_license)">
 							                    <img src="__TMPL__/public/assets/images/add.png" id="driving_license-preview"  style="cursor: pointer;max-width:200px"/>
 							                <else/>
-							                    <img src="{:cmf_get_image_preview_url($post.identi.driving_license)}" id="driving_license-preview" width="135" style="cursor: pointer"/>
+							                    <img src="{:cmf_get_image_preview_url($verify.more.driving_license)}" id="driving_license-preview" width="135" style="cursor: pointer"/>
 							                </if>
 							                <i class="photo_tip">请上传行车本照片（尽可能的小）</i>
 							            </a>
