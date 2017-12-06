@@ -199,6 +199,11 @@ js-*系列示例：  没有bootstrap就自定义样式
             <img src="{:cmf_get_image_preview_url($post.identi.driving_license)}" width="135" style="cursor:pointer"/>
         </if>
     </div>
+    预览
+    <a href="javascript:parent.imagePreviewDialog('{:cmf_get_image_preview_url($vo.more.thumbnail)}');">
+        <!-- <i class="fa fa-photo fa-fw"></i> -->
+        <i class="fa fa-photo fa-fw"><img src="{:cmf_get_image_preview_url($vo.more.thumbnail)}" alt="photo"></i>
+    </a>
 多图
     <style type="text/css">
         .pic-list li {

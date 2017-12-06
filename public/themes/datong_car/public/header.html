@@ -1,10 +1,9 @@
-  <script>
-      $(window).on('load', function() {
-        $('.preloader-wrap').fadeOut('slow', function() { $(this).remove(); });
-    });
-  </script>
-
 <!-- Preloader -->
+<script>
+$(window).on('load', function() {
+    $('.preloader-wrap').fadeOut('slow', function() { $(this).remove(); });
+});
+</script>
 <div class="preloader-wrap">
     <div class="preloader-inside">
         <div class="spinner spinner-1">
@@ -14,15 +13,11 @@
 </div>
 <!-- End Preloader -->
 
-
-
 <script>
 if(navigator.appName == "Microsoft Internet Explorer"&&parseInt(navigator.appVersion.split(";")[1].replace(/[ ]/g, "").replace("MSIE",""))<9){
     alert("当前浏览器版本过低，为不影响网站体验效果，请下载最新版本的浏览器！");
 }
 </script>
-
-
 <!-- 手机端目录 -->
 <div class="statusbar-overlay"></div>
 <div class="panel-overlay"></div>
@@ -114,14 +109,8 @@ if(navigator.appName == "Microsoft Internet Explorer"&&parseInt(navigator.appVer
         <div class="logo lf">
             <h1><a href="__ROOT__/"><img src="{$site_info.site_logo_preview}" alt="{$site_info.site_name}" title="{$site_info.site_name}"></a></h1>
         </div>
-        <div class="search">
-            <form action="{:cmf_url('trade/Index/index')}" method="post">
-            <label>
-                <input class="ser_input placeholder" type="text" name="keyword" value="{:input('param.keyword','')}" placeholder="请输入感兴趣的品牌、车系">
-                <input class="ser_button" type="submit" value="立刻搜索">
-            </label>
-            </form>
-        </div>
+        <!-- 搜索 -->
+        <include file="public@search" />
         <div class="iphone rt">
             <div class="left">
                 <img src="__TMPL__/public/assets/images/example/icon_phone.png" alt="">
@@ -144,14 +133,8 @@ if(navigator.appName == "Microsoft Internet Explorer"&&parseInt(navigator.appVer
         <div class="menu"><span class="icon link open-panel"></span></div>
     </div>
     <div class="header_search">
-        <div class="search">
-            <form action="{:url('trade/Index/index')}" method="post">
-            <label>
-                <input type="text" name="ser_input" class="ser_input placeholder" placeholder="请输入感兴趣的品牌，车系">
-                <input type="submit" name="ser_button" class="ser_button" value="立刻搜索">
-            </label>
-            </form>
-        </div>
+        <!-- 搜索 -->
+        <include file="public@search" />
         <div class="user_m">
             <a href="{:cmf_url('user/Profile/center')}" class="icon"></a>
         </div>

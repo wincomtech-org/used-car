@@ -205,7 +205,9 @@
                             <notempty name="page.more.photos">
                             <foreach name="page.more.photos" item="vo">
                             <li class="car_realShot_item">
-                                <img src="{:cmf_get_image_preview_url($vo.url)}" alt="" onmousemove="preview(this);">
+                                <a href="javascript:parent.imagePreviewDialog('{:cmf_get_image_preview_url($vo.url)}');">
+                                    <i class="fa fa-photo fa-fw"><img src="{:cmf_get_image_preview_url($vo.url)}" alt=""></i>
+                                </a>
                             </li>
                             </foreach>
                             </notempty>
@@ -220,160 +222,22 @@
                     <div class="simila_recommendation">
                         <div class="simila_recommendation_list_con">
                             <ul class="simila_recommendation_list">
+                                <foreach name="carTuis" item="vo">
                                 <li class="vehicle_con_detail_items">
-                                    <div class="img"><a href="">
-                                        <img src="__TMPL__/public/assets/images/example/car01.jpg" alt="">
+                                    <div class="img"><a href="{:cmf_url('details',['id'=>$vo.id])}">
+                                        <img src="{:cmf_get_image_preview_url($vo.more.thumbnail)}" alt="">
                                     </a></div>
                                     <div class="txt">
-                                        <h6><a href="">宝马7系 2009款 740Li领先型</a></h6>
+                                        <h6><a href="{:cmf_url('details',['id'=>$vo.id])}">{$vo.name}</a></h6>
                                         <p>
-                                            <span>14万公里</span>
-                                            <span>2012-10</span>
-                                            <span>马鞍山</span>
+                                            <span>{$vo.car_mileage}万公里</span>
+                                            <span>{:date('Y-m-d',$vo.car_license_time)}</span>
+                                            <span>{$vo.ename}</span>
                                         </p>
-                                        <p><b>43.88万</b> <s>128.95万</s></p>
+                                        <p><b>{$vo.shop_price}万</b> <s>{$vo.market_price}万</s></p>
                                     </div>
                                 </li>
-                                <li class="vehicle_con_detail_items">
-                                    <div class="img"><a href="">
-                                        <img src="__TMPL__/public/assets/images/example/car01.jpg" alt="">
-                                    </a></div>
-                                    <div class="txt">
-                                        <h6><a href="">宝马7系 2009款 740Li领先型</a></h6>
-                                        <p>
-                                            <span>14万公里</span>
-                                            <span>2012-10</span>
-                                            <span>马鞍山</span>
-                                        </p>
-                                        <p><b>43.88万</b> <s>128.95万</s></p>
-                                    </div>
-                                </li>
-                                <li class="vehicle_con_detail_items">
-                                    <div class="img"><a href="">
-                                        <img src="__TMPL__/public/assets/images/example/car01.jpg" alt="">
-                                    </a></div>
-                                    <div class="txt">
-                                        <h6><a href="">宝马7系 2009款 740Li领先型</a></h6>
-                                        <p>
-                                            <span>14万公里</span>
-                                            <span>2012-10</span>
-                                            <span>马鞍山</span>
-                                        </p>
-                                        <p><b>43.88万</b> <s>128.95万</s></p>
-                                    </div>
-                                </li>
-                                <li class="vehicle_con_detail_items">
-                                    <div class="img"><a href="">
-                                        <img src="__TMPL__/public/assets/images/example/car01.jpg" alt="">
-                                    </a></div>
-                                    <div class="txt">
-                                        <h6><a href="">宝马7系 2009款 740Li领先型</a></h6>
-                                        <p>
-                                            <span>14万公里</span>
-                                            <span>2012-10</span>
-                                            <span>马鞍山</span>
-                                        </p>
-                                        <p><b>43.88万</b> <s>128.95万</s></p>
-                                    </div>
-                                </li>
-                                <li class="vehicle_con_detail_items">
-                                    <div class="img"><a href="">
-                                        <img src="__TMPL__/public/assets/images/example/car01.jpg" alt="">
-                                    </a></div>
-                                    <div class="txt">
-                                        <h6><a href="">宝马7系 2009款 740Li领先型</a></h6>
-                                        <p>
-                                            <span>14万公里</span>
-                                            <span>2012-10</span>
-                                            <span>马鞍山</span>
-                                        </p>
-                                        <p><b>43.88万</b> <s>128.95万</s></p>
-                                    </div>
-                                </li>
-                                <li class="vehicle_con_detail_items">
-                                    <div class="img"><a href="">
-                                        <img src="__TMPL__/public/assets/images/example/car01.jpg" alt="">
-                                    </a></div>
-                                    <div class="txt">
-                                        <h6><a href="">宝马7系 2009款 740Li领先型</a></h6>
-                                        <p>
-                                            <span>14万公里</span>
-                                            <span>2012-10</span>
-                                            <span>马鞍山</span>
-                                        </p>
-                                        <p><b>43.88万</b> <s>128.95万</s></p>
-                                    </div>
-                                </li>
-                                <li class="vehicle_con_detail_items">
-                                    <div class="img"><a href="">
-                                        <img src="__TMPL__/public/assets/images/example/car01.jpg" alt="">
-                                    </a></div>
-                                    <div class="txt">
-                                        <h6><a href="">宝马7系 2009款 740Li领先型</a></h6>
-                                        <p>
-                                            <span>14万公里</span>
-                                            <span>2012-10</span>
-                                            <span>马鞍山</span>
-                                        </p>
-                                        <p><b>43.88万</b> <s>128.95万</s></p>
-                                    </div>
-                                </li>
-                                <li class="vehicle_con_detail_items">
-                                    <div class="img"><a href="">
-                                        <img src="__TMPL__/public/assets/images/example/car01.jpg" alt="">
-                                    </a></div>
-                                    <div class="txt">
-                                        <h6><a href="">宝马7系 2009款 740Li领先型</a></h6>
-                                        <p>
-                                            <span>14万公里</span>
-                                            <span>2012-10</span>
-                                            <span>马鞍山</span>
-                                        </p>
-                                        <p><b>43.88万</b> <s>128.95万</s></p>
-                                    </div>
-                                </li>
-                                <li class="vehicle_con_detail_items">
-                                    <div class="img"><a href="">
-                                        <img src="__TMPL__/public/assets/images/example/car01.jpg" alt="">
-                                    </a></div>
-                                    <div class="txt">
-                                        <h6><a href="">宝马7系 2009款 740Li领先型</a></h6>
-                                        <p>
-                                            <span>14万公里</span>
-                                            <span>2012-10</span>
-                                            <span>马鞍山</span>
-                                        </p>
-                                        <p><b>43.88万</b> <s>128.95万</s></p>
-                                    </div>
-                                </li>
-                                <li class="vehicle_con_detail_items">
-                                    <div class="img"><a href="">
-                                        <img src="__TMPL__/public/assets/images/example/car01.jpg" alt="">
-                                    </a></div>
-                                    <div class="txt">
-                                        <h6><a href="">宝马7系 2009款 740Li领先型</a></h6>
-                                        <p>
-                                            <span>14万公里</span>
-                                            <span>2012-10</span>
-                                            <span>马鞍山</span>
-                                        </p>
-                                        <p><b>43.88万</b> <s>128.95万</s></p>
-                                    </div>
-                                </li>
-                                <li class="vehicle_con_detail_items">
-                                    <div class="img"><a href="">
-                                        <img src="__TMPL__/public/assets/images/example/car01.jpg" alt="">
-                                    </a></div>
-                                    <div class="txt">
-                                        <h6><a href="">宝马7系 2009款 740Li领先型</a></h6>
-                                        <p>
-                                            <span>14万公里</span>
-                                            <span>2012-10</span>
-                                            <span>马鞍山</span>
-                                        </p>
-                                        <p><b>43.88万</b> <s>128.95万</s></p>
-                                    </div>
-                                </li>
+                                </foreach>
                             </ul>
                         </div>
                         <div class="cycle">
@@ -424,23 +288,20 @@
             scrollTop: targetScroll
         }, 300);
     }
-    var divTop = $('.car_message_con').offset().top;
 
+    var divTop = $('.car_message_con').offset().top;
     $(window).scroll(function() {
         var $this = $(this);
         var targetTop = $(this).scrollTop();
         var footerTop = $('footer').offset().top;
         var height = $(window).height();
         var ht=$('.car_message_con_list').offset().top;
-        console.log(targetTop,height,ht)
+        // console.log(targetTop,height,ht)
 
         if (targetTop > divTop - 57) {
-
             $('.car_message_nav ').addClass('fixed_nav');
         }else {
-            
             $('.car_message_nav ').removeClass('fixed_nav');
-            
         }
 
         $('.car_message_con_item').each(function() {
@@ -448,13 +309,10 @@
             var liTop = that.offset().top - 57;
             var liHeight = that.height();
             var divHeight = liTop + liHeight;
-
             if (divHeight > targetTop && targetTop > liTop) {
                 var liId = that.prop('id');
                 $('.car_message_nav_list a').each(function() {
-
                     if ($(this).attr('href') == "#" + liId) {
-                
                         subNav_scroll($(this))
                     }
                 })
@@ -473,11 +331,8 @@
 <script src="__TMPL__/public/assets/js/jquery.qrcode.min.js"></script>
 
 <script>
-
-
 /**相关推荐*/
 lunpic()
-
 $(document).delegate('.base_mess_item dt strong','click',function(){
     if($(this).hasClass('base')){
         $(this).removeClass('base');
@@ -486,7 +341,6 @@ $(document).delegate('.base_mess_item dt strong','click',function(){
     }
     $(this).parent().siblings('dd').toggle();
 })
-
 
 // 车辆信息弹出窗口
 /*图片弹窗*/
@@ -497,7 +351,6 @@ $('.c1').click(function(){
         z+=Liimg[i].outerHTML;
         // return z;
     }
-
     var onlyChoseAlert = simpleAlert({
         "imgshow":0,
         "content":z,/**显示点击图片的*/
@@ -509,25 +362,21 @@ $('.c1').click(function(){
     })
 });
 
-
 // 弹窗轮播
 var changeTab_num=0;
-
 $(document).delegate('.left_btn','click',function(){
     changeTab_num--;
     pic_move()
-    console.log(changeTab_num)
+    // console.log(changeTab_num)
 })
 $(document).delegate('.right_btn','click',function(){
-
     changeTab_num++;
     pic_move()
-    console.log(changeTab_num)
+    // console.log(changeTab_num)
 })
 
 function pic(){
     tim=setinterval(pic_move,4000);
-
 }
 function pic_move(){
     if(Math.abs(changeTab_num) >  ($('.BodyDiv img').length - 1)){
@@ -536,9 +385,8 @@ function pic_move(){
         changeTab_num++;
         changeTab_num =changeTab_num*(-1)
     }
-    console.log(changeTab_num)
+    // console.log(changeTab_num)
     $('.BodyDiv').stop().animate({'left':(100*changeTab_num)+"%"},1000)
 }
-
 </script>
 </html>

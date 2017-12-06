@@ -16,13 +16,13 @@ class IndexController extends HomeBaseController
     // function _initialize()
     // {
     //     parent::_initialize();
+    //     dump(Loader::parseName('brand_id',1));die;
+    //     dump(cmf_parse_name('brandId'));die;
+    //     dump(cmf_parse_name('car_seating'));die;
     // }
 
     public function index()
     {
-        // dump(Loader::parseName('brand_id',1));die;
-        // dump(cmf_parse_name('brandId'));die;
-        // dump(cmf_parse_name('car_seating'));die;
         // 实例化
         $serieModel = new UsualSeriesModel();
 
@@ -64,7 +64,7 @@ class IndexController extends HomeBaseController
         */
         $carModel = new UsualCarModel();
 
-        // 处理请求
+        /*处理请求*/
         // $param = $this->request->param();
         // dump($param);die;
         $keyword = $this->request->param('keyword/s');
@@ -105,43 +105,9 @@ class IndexController extends HomeBaseController
             }
         }
 
-        // 获取筛选相关数据
-        // 车源类别
-        // $Types = model('usual/UsualCar')->getCarType();// option
-        $Types = config('usual_car_type');
-        // $Types = array_merge($Types,['new'=>'最新上架','rec'=>'新车推荐']);
-        // $Types['new'] = '最新上架';
-        // $Types['rec'] = '新车推荐';
-        $Types = ['new'=>'最新上架','rec'=>'新车推荐'] + $Types;
-        // 品牌
-        $Brands = model('usual/UsualBrand')->getBrands($brandId,0,false);
-        // 系列
-        $serieModel = new UsualSeriesModel();
-        if (empty($brandId) || $brandId=='null') {
-            $Series = $serieModel->recSeries();
-        } else {
-            $recSeries = $serieModel->recSeries($brandId);
-            $Series = $serieModel->SeriesTree($brandId,false);
-            $this->assign('recSeries',$recSeries);
-        }
-        // 车型
-        $Models = model('usual/UsualModels')->getModels($modelId,0,false);
-        // 。。。
-        // $Provinces = model('admin/District')->getDistricts(0,1);
-        // $Prices = model('usual/UsualItem')->getItems(0,21,false);
-        $Prices = ['0~3'=>'3万以下','3~5'=>'3-5万','5~8'=>'5-8万','8~10'=>'8-10万','10~15'=>'10-15万','15~20'=>'15-20万','20~30'=>'20-30万','30~50'=>'30-50万','>50'=>'50万以上'];
-        // 其它
-        $filter_var_0 = config('usual_car_filter_var0');
-        $filter_var_1 = config('usual_car_filter_var');
-        $moreTree = cache('moreTree');
-        if (empty($moreTree)) {
-            $filter_var = $filter_var_0 .','.$filter_var_1;
-            $moreTree = model('usual/UsualItem')->getItemTable(['code'=>['IN',$filter_var]]);
-            cache('moreTree',$moreTree,3600);
-        }
-        // dump($moreTree);die;
 
-        // 筛选机制
+
+        /*筛选机制*/
         // 初始化
         $separator = '_';// 分隔符 避免被转义
         $cname = 'a.';// 别名
@@ -175,7 +141,6 @@ class IndexController extends HomeBaseController
         $string1 = substr($oxnum,0,9);
         $remain = substr($oxnum, strlen($string1));
 
-
         // 处理数字类型的 大类 。$$idv 用于 assign()赋值。是否字段别名: 'a.'.cmf_parse_name($idv)。
         $newString1 = '';
         $string1Arr = str_split($string1,3);
@@ -183,6 +148,7 @@ class IndexController extends HomeBaseController
             $value = $$idv;
             $value = !empty($value) ? ($value=='null'?null:$value) : (empty($string1)?null:$string1Arr[$key]);
             $value = $$idv = intval($value);
+            if ($idv=='serieId' && $brandId!=$string1Arr[0]) $value = 0;
             if (!empty($value)) {
                 $extra[$cname.cmf_parse_name($idv)] = $value;
             }
@@ -191,6 +157,16 @@ class IndexController extends HomeBaseController
         }
         $string1 = empty($newString1) ? $string1 : $newString1;
 
+        // 获取树形结构的属性筛选
+        $filter_var_0 = config('usual_car_filter_var0');
+        $filter_var_1 = config('usual_car_filter_var');
+        $moreTree = cache('moreTree');
+        if (empty($moreTree)) {
+            $filter_var = $filter_var_0 .','.$filter_var_1;
+            $moreTree = model('usual/UsualItem')->getItemTable(['code'=>['IN',$filter_var]]);
+            cache('moreTree',$moreTree,3600);
+        }
+        // dump($moreTree);die;
         // 处理 普通级。 将usual_item的name与usual_car中的对应值作比较
         // 处理 item 。  将usual_item的id与usual_car中的对应值作比较
         // 合并处理
@@ -214,9 +190,39 @@ class IndexController extends HomeBaseController
         }
         $string4 = empty($newString4) ? $remain : $newString4;
 
-        // URL 参数
+
+
+        /*获取筛选相关数据*/
+        // 车源类别
+        // $Types = model('usual/UsualCar')->getCarType();// option
+        $Types = config('usual_car_type');
+        // $Types = array_merge($Types,['new'=>'最新上架','rec'=>'新车推荐']);
+        // $Types['new'] = '最新上架';
+        // $Types['rec'] = '新车推荐';
+        $Types = ['new'=>'最新上架','rec'=>'新车推荐'] + $Types;
+        // 品牌
+        $Brands = model('usual/UsualBrand')->getBrands($brandId,0,false);
+        // 系列
+        $serieModel = new UsualSeriesModel();
+        if (empty($brandId) || $brandId=='null') {
+            $Series = $serieModel->recSeries();
+        } else {
+            $recSeries = $serieModel->recSeries($brandId);
+            $Series = $serieModel->SeriesTree($brandId,false);
+            $this->assign('recSeries',$recSeries);
+        }
+        // 车型
+        $Models = model('usual/UsualModels')->getModels($modelId,0,false);
+        // 。。。
+        // $Provinces = model('admin/District')->getDistricts(0,1);
+        // $Prices = model('usual/UsualItem')->getItems(0,21,false);
+        $Prices = ['0~3'=>'3万以下','3~5'=>'3-5万','5~8'=>'5-8万','8~10'=>'8-10万','10~15'=>'10-15万','15~20'=>'15-20万','20~30'=>'20-30万','30~50'=>'30-50万','>50'=>'50万以上'];
+
+
+        /*URL 参数*/
         $string = $string1 . $string4;
         $jumpext = 'oxnum='.$string
+                 . ($platform ? '&platform='.$platform : '')
                  . ($typeId ? '&typeId='.$typeId : '')
                  . (empty($priceId) ? '' : '&priceId='.$priceId);
 
@@ -239,7 +245,7 @@ class IndexController extends HomeBaseController
 // echo Db::getLastSql();
 
 
-        // 模板赋值
+        /*模板赋值*/
         $this->assign('regCarInfo',$regCarInfo);
         $this->assign('jumpext',$jumpext);
 
