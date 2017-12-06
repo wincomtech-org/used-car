@@ -60,6 +60,7 @@ class ServiceController extends UserBaseController
         if (empty($page)) {
             abort(404,'数据不存在！');
         }
+        $page['statusV'] = config('service_status')[$page['status']];
 
         $servicePoint = Db::name('usual_coordinate')->where('id',$page['service_point'])->value('name');
 

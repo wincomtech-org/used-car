@@ -161,8 +161,8 @@
                             <dd><span>级别 </span>{$page.modelname}</dd>
                             <dd><span>上牌时间 </span>{$page.car_license_time?=date('Y-m-d',$page.car_license_time)}</dd>
                             <dd><span>发动机 </span>{$page.more.car_engine}</dd>
-                            <dd><span>综合油耗（L/100km）</span>-</dd>
-                            <dd><span>保养情况</span>无</dd>
+                            <dd><span>上牌时间</span>{$page.car_license_time?=date('Y-m-d',$page.car_license_time)}</dd>
+                            <dd><span>保养情况</span>--</dd>
                         </dl>
                         <foreach name="allItems" item="cate">
                         <dl class="base_mess_item">

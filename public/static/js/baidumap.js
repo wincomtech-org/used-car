@@ -1,8 +1,8 @@
 
-// 百度地图API功能
+/*百度地图API功能*/
 
+// 初始化设置
 function setMapIni(default_point){
-    // 初始化设置
     // 实例化 全局变量
     map = new BMap.Map("allmap", {minZoom:10,maxZoom:16});
     // window.map = new BMap.Map("allmap", {minZoom:10,maxZoom:16});
@@ -73,11 +73,10 @@ function createCoords(z){
         return document.getElementById(id);
     }
 
-   var ac = new BMap.Autocomplete(    //建立一个自动完成的对象
+    var ac = new BMap.Autocomplete(    //建立一个自动完成的对象
         {"input" : "origin"
         ,"location" : map
     });
-
 
     ac.addEventListener("onhighlight", function(e) {  //鼠标放在下拉列表上的事件
         var str = "";
@@ -85,14 +84,13 @@ function createCoords(z){
         var value = "";
         if (e.fromitem.index > -1) {
             value = _value.province +  _value.city +  _value.district +  _value.street +  _value.business;
-        }    
+        }
         str = "FromItem<br />index = " + e.fromitem.index + "<br />value = " + value;
-        
         value = "";
         if (e.toitem.index > -1) {
             _value = e.toitem.value;
             value = _value.province +  _value.city +  _value.district +  _value.street +  _value.business;
-        }    
+        }
         str += "<br />ToItem<br />index = " + e.toitem.index + "<br />value = " + value;
         G("searchResultPanel").innerHTML = str;
     });
@@ -102,10 +100,7 @@ function createCoords(z){
         var _value = e.item.value;
         myValue = _value.province +  _value.city +  _value.district +  _value.street +  _value.business;
         G("searchResultPanel").innerHTML ="onconfirm<br />index = " + e.item.index + "<br />myValue = " + myValue;
-        
-
     });
-
 }
 
 // 导航

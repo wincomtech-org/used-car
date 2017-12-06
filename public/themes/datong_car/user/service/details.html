@@ -28,8 +28,15 @@
                     <div class="form_details">
                         <ul>
                             <li>
+                                <php></php>
                                 <span class="icon">预&nbsp;&nbsp;约&nbsp;&nbsp;状&nbsp;&nbsp;态</span>
-                                <span class="txt succ">预约成功</span>
+                                <span class="txt 
+                                    <switch name='page.status'>
+                                        <case value='1|4|10'>succ</case>
+                                        <case value='-1|-2|-3|-4|-5|-11'>err</case>
+                                        <default />
+                                    </switch>
+                                ">{$page.statusV}</span>
                             </li>
 
                             <div class="mess">

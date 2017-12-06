@@ -56,23 +56,28 @@ class AjaxController extends BaseController
     */
     public function coordinate()
     {
+        $result =  $this->coords('请选择服务点');
+        if ($result) {
+            return $result;
+        } else {
+            return '<option>--暂无该区数据--</option>';
+        }
+    }
+    public function coords($option=false)
+    {
         // if ($this->request->isPjax()) {
         if ($this->request->isPost()) {
             $compId = $this->request->param('compId',0,'intval');
             $provId = $this->request->param('provId',0,'intval');
             $cityId = $this->request->param('cityId',0,'intval');
             if (!empty($cityId)) {
-                return model('UsualCoordinate')->getCoordinates(0, ['company_id'=>$compId,'city_id'=>$cityId], '请选择服务点');
+                return model('UsualCoordinate')->getCoordinates(0, ['company_id'=>$compId,'city_id'=>$cityId], $option);
             } elseif (!empty($provId)) {
-                return model('UsualCoordinate')->getCoordinates(0, ['company_id'=>$compId,'province_id'=>$provId], '请选择服务点');
+                return model('UsualCoordinate')->getCoordinates(0, ['company_id'=>$compId,'province_id'=>$provId], $option);
             }
-            return '<option>--暂无该区数据--</option>';
         }
-        return '<option>--数据错误--</option>';
-    }
-    public function coords()
-    {
-        $compId = $this->request->param('compId',0,'intval');
+        // return [];
+        // return json_encode([]);
     }
 
     /*

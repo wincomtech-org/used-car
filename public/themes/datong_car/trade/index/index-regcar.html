@@ -47,7 +47,7 @@
                         <span class="info_tit">所在城市</span>
                         <div class="analogy">
                             <li class="right required">
-                                <select name="province" id="input-province1" onchange="select_province();">
+                                <select name="province" id="input-province1" onchange="select_province(1);">
                                     <option value="">--请选择省份--</option>
                                     {$regCarInfo.prov}
                                 </select>&nbsp;&nbsp;
@@ -166,7 +166,7 @@ function RegCarSubmit(i){
                         <span class="info_tit">所在城市</span>
                         <div class="analogy">
                              <li class="right required">
-                                <select name="province" id="input-province2" onchange="select_province();">
+                                <select name="province" id="input-province2" onchange="select_province('2','{:url(\'usual/Ajax/getcitys\')}');">
                                     <option value="">--请选择省份--</option>
                                     {$regCarInfo.prov}
                                 </select>&nbsp;&nbsp;

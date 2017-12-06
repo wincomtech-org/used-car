@@ -91,8 +91,10 @@ class TradeOrderModel extends UsualModel
             ->join($join)
             ->where('a.id',$id)
             ->find();
-        $post['buyer_username'] = $post['buyer_nickname'] ? $post['buyer_nickname'] : $post['buyer_username'];
-        $post['seller_username'] = $post['seller_nickname'] ? $post['seller_nickname'] : $post['seller_username'];
+        if (!empty($post)) {
+            $post['buyer_username'] = $post['buyer_nickname'] ? $post['buyer_nickname'] : $post['buyer_username'];
+            $post['seller_username'] = $post['seller_nickname'] ? $post['seller_nickname'] : $post['seller_username'];
+        }
         return $post;
     }
 
