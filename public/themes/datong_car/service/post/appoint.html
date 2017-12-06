@@ -194,7 +194,7 @@ $(function(){
     //     });
     // });
 
-    // 地区选项
+    // 选省份时
     $('#input-province').change(function() {
         // var o = this = '#input-province';
         var url = '{:url("usual/Ajax/getCitys")}';
@@ -208,6 +208,7 @@ $(function(){
         coordJson(data);
     });
 
+    // 选城市时
     $('#input-city').change(function() {
         var provId = $('#input-province').val(),cityId = $(this).val();
         var data = {compId:'{$compId}', provId: provId, cityId: cityId};
