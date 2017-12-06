@@ -12,7 +12,7 @@ use app\usual\model\UsualSeriesModel;
     对于ajax返回数据
         echo $data;exit();
         return $data;
-    特别是对于 json 格式，这两个返回的数据集结果是不一样的。
+    特别是对于json格式，这两个返回的数据结果集是不一样的。建议统一使用echo $data;exit();保证数据的准确性。
 * 其它地方 ajax 操作以 function ajax*() 形式来创建方法体
 */
 class AjaxController extends BaseController
@@ -56,28 +56,33 @@ class AjaxController extends BaseController
     */
     public function coordinate()
     {
-        $result =  $this->coords('请选择服务点');
+        $result =  $this->coords('请选择服务点',false);
         if ($result) {
             return $result;
         } else {
             return '<option>--暂无该区数据--</option>';
         }
     }
-    public function coords($option=false)
+    public function coords($option=false, $json=true)
     {
-        // if ($this->request->isPjax()) {
-        if ($this->request->isPost()) {
-            $compId = $this->request->param('compId',0,'intval');
-            $provId = $this->request->param('provId',0,'intval');
-            $cityId = $this->request->param('cityId',0,'intval');
-            if (!empty($cityId)) {
-                return model('UsualCoordinate')->getCoordinates(0, ['company_id'=>$compId,'city_id'=>$cityId], $option);
-            } elseif (!empty($provId)) {
-                return model('UsualCoordinate')->getCoordinates(0, ['company_id'=>$compId,'province_id'=>$provId], $option);
-            }
+        $compId = $this->request->param('compId',0,'intval');
+        $provId = $this->request->param('provId',0,'intval');
+        $cityId = $this->request->param('cityId',0,'intval');
+        if (!empty($cityId)) {
+            $result = model('UsualCoordinate')->getCoordinates(0, ['company_id'=>$compId,'city_id'=>$cityId], $option);
+        } elseif (!empty($provId)) {
+            $result = model('UsualCoordinate')->getCoordinates(0, ['company_id'=>$compId,'province_id'=>$provId], $option);
         }
-        // return [];
-        // return json_encode([]);
+
+        if ($result) {
+            if ($json===true) {
+                echo json_encode($result);exit();
+            } else {
+                return $result;
+            }
+        } else {
+            return;
+        }
     }
 
     /*

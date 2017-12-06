@@ -143,27 +143,14 @@
                 <script type="text/javascript">
                 $(function(){
                     // 百度地图API功能 页面加载时
-
-                    // 起始点
-                    var default_point = [117.281736,31.87001];
-
                     // 随机向地图添加多个标注
                     // $.getJSON("{:url('usual/Ajax/coords')}", data, success);
                     var json_data = '{$servicePointJson}';
-                    // console.log(json_data);
                     var data = $.parseJSON(json_data);
-
-                    // for (var i = 0; i < data.length; i++) {
-                    //     data[i]
-                    // }
-
-                    // var data = [
-                    //     [117.233443,31.836578,"地址：12",'电话：0551-111','简介：111。','标题1','分部1','合肥'],
-                    //     [117.243443,31.826578,"地址：666",'电话：0551-222','简介：222。','标题2','分部2','合肥'],
-                    //     [117.253443,31.821578,"地址：777",'电话：0551-333','简介：333','标题3','分部3','合肥'],
-                    //     [117.263443,31.806578,"地址：888",'电话：0551-444','简介：444','标题4','分部4','合肥']
-                    // ];
-
+                    // console.log(data);
+                    // 起始点
+                    var default_point = [data[0]['ucs_x'],data[0]['ucs_y']];
+                    // 生效
                     setMapIni(default_point);
                     createCoords(data);
                 });
@@ -217,25 +204,30 @@ $(function(){
         // 坐标获取
         var Id = $(this).val();
         var data = {compId:'{$compId}', provId: Id};
-        $.post('{:url("usual/Ajax/coordinate")}', data, function(coord) {
-            console.log(coord)
-            $('#input-coordinate').html(coord);
-        });
-        // 地图坐标
-        $.getJSON("{:url('usual/Ajax/coords')}", data, function(result){
-            var json_data = result;
-            console.log(json_data);
-            var data = $.parseJSON(json_data);
-        });
+
+        coordJson(data);
     });
 
     $('#input-city').change(function() {
         var provId = $('#input-province').val(),cityId = $(this).val();
-        $.post('{:url("usual/Ajax/coordinate")}', {compId:'{$compId}', provId: provId, cityId: cityId}, function(coord) {
-            $('#input-coordinate').html(coord);
-        });
+        var data = {compId:'{$compId}', provId: provId, cityId: cityId};
+        coordJson(data);
     });
 
+    function coordJson(data) {
+        // 城市
+        $.post('{:url("usual/Ajax/coordinate")}', data, function(coord) {
+            // console.log(coord)
+            $('#input-coordinate').html(coord);
+        });
+        // 地图坐标
+        $.getJSON("{:url('usual/Ajax/coords')}", data, function(result){
+            // console.log(result);
+            var info = $.parseJSON(result);
+            setMapIni([info[0]['ucs_x'],info[0]['ucs_y']]);
+            createCoords(info);
+        });
+    }
 
 });
 </script>
