@@ -25,7 +25,7 @@ class AdminBaseController extends BaseController
         // 默认跳转页面对应的模板文件 区别于前台
         config('dispatch_success_tmpl',THINK_PATH . 'tpl' . DS . 'dispatch_jump3.tpl');
         config('dispatch_error_tmpl',THINK_PATH . 'tpl' . DS . 'dispatch_jump3.tpl');
-
+// var_dump(config());die;
         // 监听admin_init
         hook('admin_init');
         parent::_initialize();
