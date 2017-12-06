@@ -44,12 +44,12 @@
                     <td><b>{$vo.id}</b></td>
 
                     <td>
-                        <a href="{:cmf_url('AdminServiceCategory/edit',array('id'=>$vo['model_id']))}" target="_blank">{$vo.model_name}</a>
+                        <a href="{:cmf_url('AdminServiceCategory/edit',['id'=>$vo.model_id])}" target="_blank">{$vo.model_name}</a>
                     </td>
-                    <td><a href="{:url('usual/AdminCompany/edit',array('id'=>$vo.company_id))}">{$vo.company_name}</a></td>
+                    <td><a href="{:url('usual/AdminCompany/edit',['id'=>$vo.company_id])}">{$vo.company_name}</a></td>
 
-                    <!-- <td><a href="{//:url('user/AdminIndex/index',array('uid'=>$vo.seller_uid))}">{//$vo.seller_nickname ? $vo.seller_nickname : $vo.seller_login}</a></td> -->
-                    <td><a href="{:url('user/AdminIndex/index',array('uid'=>$vo.user_id))}">{$vo.buyer_nickname ? $vo.buyer_nickname : $vo.buyer_login}</a></td>
+                    <!-- <td><a href="{//:url('user/AdminIndex/index',['uid'=>$vo.seller_uid])}">{//$vo.seller_nickname ? $vo.seller_nickname : $vo.seller_login}</a></td> -->
+                    <td><a href="{:url('user/AdminIndex/index',['uid'=>$vo.user_id])}">{$vo.buyer_nickname ? $vo.buyer_nickname : $vo.buyer_login}</a></td>
 
                     <td>
                         <notempty name="vo.create_time">
@@ -66,13 +66,13 @@
                             {:date('Y-m-d H:i',$vo['end_time'])}
                         </notempty>
                     </td>
-                    <td>{$vo.remark}</td>
+                    <td><a href="{:url('admin/User/index',['uid'=>$vo.user_id])}">{$vo.deal_nickname ? $vo.deal_nickname : $vo.deal_login}</a></td>
                     <td>
                         <php>echo config('service_status')[$vo['status']]</php>
                     </td>
                     <td>
-                        <a href="{:url('AdminService/edit',array('id'=>$vo['id']))}">{:lang('EDIT')}</a>
-                        <a href="{:url('AdminService/delete',array('id'=>$vo['id']))}" class="js-ajax-delete">{:lang('DELETE')}</a>
+                        <a href="{:url('AdminService/edit',['id'=>$vo.id])}">{:lang('EDIT')}</a>
+                        <a href="{:url('AdminService/delete',['id'=>$vo.id])}" class="js-ajax-delete">{:lang('DELETE')}</a>
                     </td>
                 </tr>
             </foreach>

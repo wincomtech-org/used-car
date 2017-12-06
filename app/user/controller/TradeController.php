@@ -9,6 +9,7 @@ use app\usual\model\UsualSeriesModel;
 use app\usual\model\UsualModelsModel;
 use app\usual\model\UsualItemModel;
 use app\admin\model\DistrictModel;
+use app\portal\model\PortalPostModel;
 // use think\Validate;
 use think\Db;
 
@@ -17,11 +18,11 @@ use think\Db;
 */
 class TradeController extends UserBaseController
 {
-    function _initialize()
-    {
-        parent::_initialize();
-        // $this->userId = cmf_get_current_user_id();
-    }
+    // function _initialize()
+    // {
+    //     parent::_initialize();
+    //     $this->userId = cmf_get_current_user_id();
+    // }
 
     // public function index()
     // {
@@ -94,36 +95,36 @@ class TradeController extends UserBaseController
         $identify = lothar_verify($userId);
         // $identify = 1;
 
-
+        // 实例化
         $carModel = new UsualCarModel();
+        $brandModel = new UsualBrandModel();
+        $serieModel = new UsualSeriesModel();
+        $moModel = new UsualModelsModel();
+        $itemModel = new UsualItemModel();
+        $zoneModel = new DistrictModel();
+
         $post = $carModel->getPost($id);
 // dump($post);die;
-        $itemModel = new UsualItemModel();
-        $districtModel = new DistrictModel();
 
-        if (!empty($post)) {
-
-            $Brands = model('usual/UsualBrand')->getBrands($post['brand_id']);
-            $Models = model('usual/UsualModels')->getModels($post['model_id']);
-            $Series = model('usual/UsualSeries')->getSeries($post['serie_id']);
-            $Series2 = model('usual/UsualSeries')->getSeries($post['serie_id'],0,2);
-            $Provinces = $districtModel->getDistricts($post['province_id']);
-            $Citys = $districtModel->getDistricts($post['city_id'],$post['province_id']);
-            // 车源类别
-            $Types = $carModel->getCarType($post['type']);
-
-            $this->assign('Series2', $Series2);
-            $this->assign('Citys', $Citys);
-
-        } else {
-
-            $Brands = model('usual/UsualBrand')->getBrands();
-            $Models = model('usual/UsualModels')->getModels();
-            $Series = model('usual/UsualSeries')->getSeries();
+        if (empty($post)) {
+            $Brands = $brandModel->getBrands();
+            $Models = $moModel->getModels();
+            $Series = $serieModel->getSeries();
             $provId = $this->request->param('provId',1,'intval');
-            $Provinces = $districtModel->getDistricts(0,$provId);
+            $Provinces = $zoneModel->getDistricts(0,$provId);
             // 车源类别
             $Types = $carModel->getCarType();
+        } else {
+            $Brands = $brandModel->getBrands($post['brand_id']);
+            $Models = $moModel->getModels($post['model_id']);
+            $Series = $serieModel->getSeries($post['serie_id']);
+            $Series2 = $serieModel->getSeries($post['serie_id'],0,2);
+            $Provinces = $zoneModel->getDistricts($post['province_id']);
+            $Citys = $zoneModel->getDistricts($post['city_id'],$post['province_id']);
+            // 车源类别
+            $Types = $carModel->getCarType($post['type']);
+            $this->assign('Series2', $Series2);
+            $this->assign('Citys', $Citys);
         }
 
         // 用于前台车辆条件筛选且与属性表name同值的字段码
@@ -138,6 +139,12 @@ class TradeController extends UserBaseController
         $where['code'] = ['not in',$filter_var];
         $allItems = $itemModel->getItemTable($where,'',true);
 
+        // 新手帮助
+        $portalM = new PortalPostModel();
+        $noobCate = Db::name('portal_category')->field('name,description')->where(['id'=>9,'status'=>1])->find();
+        $noobHelps = $portalM->getIndexPortalList(9,'ASC',7,'a.id,a.post_title');
+
+        // 模板赋值
         $this->assign('Brands', $Brands);
         $this->assign('Models', $Models);
         $this->assign('Series', $Series);
@@ -147,6 +154,8 @@ class TradeController extends UserBaseController
         $this->assign('searchCode', $searchCode);
         $this->assign('recItems', $recItems);
         $this->assign('allItems', $allItems);
+        $this->assign('noobCate', $noobCate);
+        $this->assign('noobHelps', $noobHelps);
 
         $this->assign('post',$post);
         $this->assign('identify',$identify);
@@ -191,29 +200,6 @@ class TradeController extends UserBaseController
             }
 
             /*处理图片*/
-            // $file_var = ['driving_license','identity_card1','identity_card2'];
-            // // $file_var = ['driving_license','identity_card1','identity_card2','thumbnail'];
-            // $files = model('service/Service')->uploadPhotos($file_var);
-            // foreach ($files as $key => $it) {
-            //     if (!empty($it['err'])) {
-            //         // $this->error($it['err']);
-            //     }
-            //     if (!empty($it['data'])) {
-            //         if ($key=='identity_card1') {
-            //             $post['identi']['identity_card'][] = ['url'=>$it['data'],'name'=>''];
-            //         } elseif ($key=='identity_card2') {
-            //             $post['identi']['identity_card'][] = ['url'=>$it['data'],'name'=>''];
-            //         } elseif ($key=='driving_license') {
-            //             $post['identi']['driving_license'] = $it['data'];
-            //         } else {
-            //             $post['more'][$key] = $it['data'];
-            //         }
-            //     }
-            // }
-            // 多图上传 photos
-            // $pdata = model('service/Service')->uploadPhotoMulti('photos');
-            // $post['more']['photos'][] = [];
-
             // 直接拿官版的
             if (!empty($data['photo'])) {
                 $post['more']['photos'] = $carModel->dealFiles($data['photo']);
@@ -369,7 +355,33 @@ class TradeController extends UserBaseController
 
     public function more()
     {
-        $id = $this->request->param('id/d');
-        return $this->fetch();
+        // 多字段图片处理
+        // $file_var = ['driving_license','identity_card1','identity_card2'];
+        // // $file_var = ['driving_license','identity_card1','identity_card2','thumbnail'];
+        // $files = model('service/Service')->uploadPhotos($file_var);
+        // foreach ($files as $key => $it) {
+        //     if (!empty($it['err'])) {
+        //         // $this->error($it['err']);
+        //     }
+        //     if (!empty($it['data'])) {
+        //         if ($key=='identity_card1') {
+        //             $post['identi']['identity_card'][] = ['url'=>$it['data'],'name'=>''];
+        //         } elseif ($key=='identity_card2') {
+        //             $post['identi']['identity_card'][] = ['url'=>$it['data'],'name'=>''];
+        //         } elseif ($key=='driving_license') {
+        //             $post['identi']['driving_license'] = $it['data'];
+        //         } else {
+        //             $post['more'][$key] = $it['data'];
+        //         }
+        //     }
+        // }
+        // 多图上传 photos
+        // $pdata = model('service/Service')->uploadPhotoMulti('photos');
+        // $post['more']['photos'][] = [];
+
+
+
+        // $id = $this->request->param('id/d');
+        // return $this->fetch();
     }
 }

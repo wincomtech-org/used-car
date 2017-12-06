@@ -25,7 +25,6 @@ class AdminServiceController extends AdminBaseController
         // $companyId = $this->request->param('companyId', 0, 'intval');
 
         $data = model('Service')->getLists($param);
-        $data->appends($param);
         $categoryTree = model('usual/UsualCategory')->adminCategoryTree($modelId,0,'service_category');
 
         $this->assign('start_time', isset($param['start_time']) ? $param['start_time'] : '');
@@ -35,6 +34,7 @@ class AdminServiceController extends AdminBaseController
         $this->assign('modelId', $modelId);
         $this->assign('category_tree', $categoryTree);
         $this->assign('lists', $data->items());
+        $data->appends($param);
         $this->assign('page', $data->render());
 
         return $this->fetch();

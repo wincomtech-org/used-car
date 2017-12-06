@@ -47,19 +47,18 @@ class PostController extends HomeBaseController
         if (!empty($define_data)) {
             $new_data = $scModel->getDefineData($define_data,false);
             $this->assign('new_data',$new_data);
-            if (!empty(in_array('service_point',$define_data))) {
+            if (in_array('service_point',$define_data)) {
                 $Provinces = model('admin/District')->getDistricts(0,1);
+                $servicePoint = model('usual/UsualCoordinate')->getCoordinates(0, ['company_id'=>$this->compId], false);
                 $this->assign('Provinces', $Provinces);
+                $this->assign('servicePoint',$servicePoint);
+                $this->assign('servicePointJson',json_encode($servicePoint));
             }
         }
-
-        $servicePoint = model('usual/UsualCoordinate')->getCoordinates(0, ['company_id'=>$this->compId], false);
 
 // dump($servicePoint);die;
         $this->assign('servId',$servId);
         $this->assign('servInfo',$servInfo);
-        $this->assign('servicePoint',$servicePoint);
-        $this->assign('servicePointJson',json_encode($servicePoint));
         return $this->fetch();
     }
 

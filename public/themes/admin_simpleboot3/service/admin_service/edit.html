@@ -89,6 +89,9 @@
                     <tr>
                         <th>服务地址</th>
                         <td>
+                            <notempty name="post.servicePoint">
+                            <span class="form-control">{$post.servicePoint}</span>
+                            </notempty>
                             <textarea class="form-control" name="post[service_address]" style="height:50px;" placeholder="预约公司的服务点">{$post.service_address|default=''}</textarea>
                         </td>
                     </tr>

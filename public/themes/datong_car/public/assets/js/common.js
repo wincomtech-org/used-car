@@ -643,11 +643,12 @@ $(function () {
 
 // 地区 省份获取城市
 function select_province(o,url) {
-	if (!o) { var o ='#input-province'; }
+	var oo = '#input-province';
+	if (o) { var ooo = oo+o; } else { var ooo = oo; }
 	if (!url) { var url = '/usual/ajax/getcitys.html'; }
 
-    // $(o).change(function() {
-        var Id = $(o).val();
+    // $(ooo).change(function() {
+        var Id = $(ooo).val();
         $.ajax({
             url: url,
             type: 'POST',
@@ -656,7 +657,7 @@ function select_province(o,url) {
         })
         .done(function(data) {
             // console.log("success");
-            if (data) { $('#input-city').html(data); }
+            if (data) { $('#input-city'+o).html(data); }
         })
         .fail(function() {
             // console.log("error");

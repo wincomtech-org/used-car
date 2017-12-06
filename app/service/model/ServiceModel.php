@@ -14,12 +14,13 @@ class ServiceModel extends UsualModel
 
     public function getLists($filter=[], $order='', $limit='', $extra=[])
     {
-        $field = 'a.*,b.name model_name,c.name company_name,d.user_nickname buyer_nickname,d.user_login buyer_login';
+        $field = 'a.*,b.name AS model_name,c.name AS company_name,d.user_nickname AS buyer_nickname,d.user_login AS buyer_login,f.user_nickname AS deal_nickname,f.user_login AS deal_login';
         $join = [
             ['service_category b','a.model_id=b.id','LEFT'],
             ['usual_company c','a.company_id=c.id','LEFT'],
             ['user d','a.user_id=d.id','LEFT'],
             // ['user e','a.seller_uid=e.id','LEFT'],
+            ['user f','a.deal_uid=f.id','LEFT'],
         ];
 
 
@@ -82,21 +83,24 @@ class ServiceModel extends UsualModel
     {
         // $post = $this->get($id)->toArray();
         // $field = 'a.*,b.name model_name,c.name company_name,d.user_nickname buyer_nickname,d.user_login buyer_login,e.user_nickname seller_nickname,e.user_login seller_login';
-        $field = 'a.*,b.name model_name,c.name company_name,d.user_nickname buyer_nickname,d.user_login buyer_login';
+        $field = 'a.*,b.name model_name,c.name company_name,d.user_nickname buyer_nickname,d.user_login buyer_login,g.name AS servicePoint';
         // $where = ['a.id' => $id];
         $join = [
             ['service_category b','a.model_id=b.id','LEFT'],
             ['usual_company c','a.company_id=c.id','LEFT'],
             ['user d','a.user_id=d.id','LEFT'],
             // ['user e','a.seller_uid=e.id','LEFT'],
+            ['usual_coordinate g','a.service_point=g.id','LEFT'],
         ];
         $post = $this->alias('a')
             ->field($field)
             ->join($join)
             ->where('a.id',$id)
             ->find();
-        $post['buyer_username'] = $post['buyer_nickname'] ? $post['buyer_nickname'] : $post['buyer_login'];
-        // $post['seller_username'] = $post['seller_nickname'] ? $post['seller_nickname'] : $post['seller_login'];
+        if (!empty($post)) {
+            $post['buyer_username'] = $post['buyer_nickname'] ? $post['buyer_nickname'] : $post['buyer_login'];
+            $post['seller_username'] = $post['seller_nickname'] ? $post['seller_nickname'] : $post['seller_login'];
+        }
 
         return $post;
     }

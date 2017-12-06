@@ -83,12 +83,21 @@
                     <div class="custom_service">
                         <span class="icon"><img src="__TMPL__/public/assets/images/example/custorm.png" alt=""></span>
                         <dl>
-                            <dt>有问题找车服</dt>
-                            <dd><a href="#">信息提交不上怎么办？</a></dd>
-                            <dd><a href="#">信息提交不上怎么办？</a></dd>
-                            <dd><a href="#">信息提交不上怎么办？</a></dd>
-                            <dd><a href="#">信息提交不上怎么办？</a></dd>
-                            <dd><a href="#">信息提交不上怎么办？</a></dd>
+                            <notempty name="noobCate">
+                            <dt>
+                                {$noobCate.name}
+                                <font size="1">
+                                    {$noobCate.description?='（'.$noobCate.description.'）'}
+                                </font>
+                            </dt>
+                            </notempty>
+                            <notempty name="noobHelps">
+                            <foreach name="noobHelps" item="vo">
+                            <dd>
+                                <a href="{:cmf_url('portal/Article/index',['id'=>$vo.id])}">{$vo.post_title|default='帮助标题'}</a>
+                            </dd>
+                            </foreach>
+                            </notempty>
                         </dl>
                     </div>
                 </div>

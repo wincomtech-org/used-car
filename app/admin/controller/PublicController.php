@@ -17,7 +17,11 @@ class PublicController extends AdminBaseController
 {
     public function _initialize()
     {
+<<<<<<< HEAD
         // parent::_initialize();
+=======
+        parent::_initialize();
+>>>>>>> 420d29a5d336a745bb96f3937a5e857122eb5f0a
     }
 
     /**

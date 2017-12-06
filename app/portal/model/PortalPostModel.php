@@ -303,13 +303,13 @@ class PortalPostModel extends Model
 
 // 前台
     /*首页*/
-    public function getIndexPortalList($cateId=1, $order='DESC', $limit=9)
+    public function getIndexPortalList($cateId=1, $order='DESC', $limit=9, $field='')
     {
         $ckey = 'giportall'.$cateId.$order.$limit;
 
         $lists = cache($ckey);
         if (empty($lists)) {
-            $field = 'a.id,a.post_title,a.post_excerpt,a.more';
+            $field = empty($field)?'a.id,a.post_title,a.post_excerpt,a.more':$field;
             $join = [
                 ['__PORTAL_CATEGORY_POST__ b', 'a.id=b.post_id']
             ];
