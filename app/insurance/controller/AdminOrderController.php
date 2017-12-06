@@ -19,7 +19,6 @@ class AdminOrderController extends AdminBaseController
         $insuranceId = $this->request->param('insuranceId',0,'intval');
 
         $data = model('InsuranceOrder')->getLists($param);
-        $data->appends($param);
         $insurances = model('Insurance')->getInsurance($insuranceId);
 
         $this->assign('start_time', isset($param['start_time']) ? $param['start_time'] : '');
@@ -29,6 +28,7 @@ class AdminOrderController extends AdminBaseController
         $this->assign('insuranceId', $insuranceId);
         $this->assign('insurances', $insurances);
         $this->assign('lists', $data->items());
+        $data->appends($param);
         $this->assign('page', $data->render());
 
         return $this->fetch();

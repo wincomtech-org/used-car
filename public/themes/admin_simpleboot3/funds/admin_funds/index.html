@@ -1,3 +1,84 @@
-index.html
+<include file="public@header"/>
+</head>
+<body>
+<div class="wrap js-check-wrap">
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="javascript:;">所有资金列表</a></li>
+    </ul>
+    <form class="well form-inline margin-top-20" method="post" action="{:url('AdminFunds/index')}">
+        分类：
+        <select class="form-control" name="type">
+            {$categorys|default=''}
+        </select> &nbsp;&nbsp;
+        用户ID：
+        <input type="text" class="form-control" name="userId" style="width:80px"
+               value="{:input('request.userId/s','')}">
+        创建时间：
+        <input type="text" class="form-control js-bootstrap-datetime" name="start_time"
+               value="{$start_time|default=''}"
+               style="width: 140px;" autocomplete="off">-
+        <input type="text" class="form-control js-bootstrap-datetime" name="end_time"
+               value="{$end_time|default=''}"
+               style="width: 140px;" autocomplete="off"> &nbsp; &nbsp;
+        <input type="submit" class="btn btn-primary" value="搜索"/>
+        <a class="btn btn-danger" href="{:url('AdminFunds/index')}">清空</a>
+        <a class="btn btn-danger" href="">Excel导出功能</a>
+    </form>
+    <form class="js-ajax-form" action="" method="post">
+        <include file="admin_funds/table-actions" />
+        <table class="table table-hover table-bordered table-list">
+            <thead>
+                <include file="admin_funds/table-th" />
+            </thead>
+            <php>$types = config('funds_type');</php>
+            <foreach name="list" item="vo">
+                <tr>
+                    <!-- <td>
+                        <input name="ids[]" type="checkbox" class="js-check" data-yid="js-check-y" data-xid="js-check-x"
+                               value="{$vo.id}" title="ID:{$vo.id}">
+                    </td> -->
+                    <td><b>{$vo.id}</b></td>
 
-Excel导出功能
+                    <td><a href="{//:url('user/AdminIndex/index',['uid'=>$vo.user_id])}#">【{$vo.user_id}】</a></td>
+                    <td>
+                        <font size="4" color="
+                        <if condition='$vo.coin gt 0'>#009241
+                        <elseif condition='$vo.coin lt 0' />#F00
+                        <else/>#333
+                        </if>
+                        ">{$vo.coin}</font>
+                    </td>
+                    <td>{$types[$vo.type]}</td>
+                    <td>{$vo.app}</td>
+                    <td>{$vo.ip}</td>
+                    <td>
+                        <notempty name="vo.create_time">
+                            {:date('Y-m-d H:i',$vo['create_time'])}
+                        </notempty>
+                    </td>
+                    <!-- <td>
+                        <a href="{:url('AdminFunds/edit',['id'=>$vo.id])}">查看</a> &nbsp;
+                        <a href="{:url('AdminFunds/delete',['id'=>$vo.id])}" class="js-ajax-delete">{:lang('DELETE')}</a>
+                    </td> -->
+                </tr>
+            </foreach>
+            <tfoot>
+                <include file="admin_funds/table-th" />
+            </tfoot>
+        </table>
+        <include file="admin_funds/table-actions" />
+        <ul class="pagination">{$pager|default=''}</ul>
+    </form>
+</div>
+<script src="__STATIC__/js/admin.js"></script>
+<script>
+    function reloadPage(win) {
+        win.location.reload();
+    }
+
+    $(function () {
+        setCookie("refersh_time", 0);
+    });
+</script>
+</body>
+</html>

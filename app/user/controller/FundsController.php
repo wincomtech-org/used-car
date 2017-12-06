@@ -3,6 +3,7 @@ namespace app\user\controller;
 
 use cmf\controller\UserBaseController;
 use app\user\model\UserModel;
+use app\funds\model\UserFundsLogModel;
 // use think\Validate;
 use think\Db;
 
@@ -20,6 +21,20 @@ class FundsController extends UserBaseController
     // 列表页
     public function index()
     {
+        $param = $this->request->param();
+        $type = $this->request->param('type',0,'intval');
+
+        $fundsModel = new UserFundsLogModel();
+
+        $list = $fundsModel->getLists($param);
+
+        $categorys = $fundsModel->getTypes($type);
+
+        $this->assign('categorys', $categorys);
+        $this->assign('list', $list->items());
+        $list->appends($param);
+        $this->assign('pager', $list->render());
+
         return $this->fetch();
     }
 
@@ -45,7 +60,7 @@ class FundsController extends UserBaseController
 
     public function del()
     {
-        parent::dels(Db::name('funds'));
+        parent::dels(Db::name('user_funds_log'));
         $this->success("刪除成功！", '');
     }
 

@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50540
 File Encoding         : 65001
 
-Date: 2017-12-06 16:06:20
+Date: 2017-12-06 18:44:40
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -36,17 +36,17 @@ CREATE TABLE `cmf_admin_menu` (
   KEY `status` (`status`),
   KEY `parentid` (`parent_id`),
   KEY `model` (`controller`)
-) ENGINE=InnoDB AUTO_INCREMENT=185 DEFAULT CHARSET=utf8mb4 COMMENT='后台菜单表';
+) ENGINE=InnoDB AUTO_INCREMENT=189 DEFAULT CHARSET=utf8mb4 COMMENT='后台菜单表';
 
 -- ----------------------------
 -- Records of cmf_admin_menu
 -- ----------------------------
-INSERT INTO `cmf_admin_menu` VALUES ('1', '0', '0', '1', '80', 'admin', 'Plugin', 'default', '', '插件管理', 'cloud', '插件管理');
+INSERT INTO `cmf_admin_menu` VALUES ('1', '0', '0', '1', '90', 'admin', 'Plugin', 'default', '', '插件管理', 'cloud', '插件管理');
 INSERT INTO `cmf_admin_menu` VALUES ('2', '1', '1', '1', '10000', 'admin', 'Hook', 'index', '', '钩子管理', '', '钩子管理');
 INSERT INTO `cmf_admin_menu` VALUES ('3', '2', '1', '0', '10000', 'admin', 'Hook', 'plugins', '', '钩子插件管理', '', '钩子插件管理');
 INSERT INTO `cmf_admin_menu` VALUES ('4', '2', '2', '0', '10000', 'admin', 'Hook', 'pluginListOrder', '', '钩子插件排序', '', '钩子插件排序');
 INSERT INTO `cmf_admin_menu` VALUES ('5', '2', '1', '0', '10000', 'admin', 'Hook', 'sync', '', '同步钩子', '', '同步钩子');
-INSERT INTO `cmf_admin_menu` VALUES ('6', '0', '0', '1', '70', 'admin', 'Setting', 'default', '', '设置', 'cogs', '系统设置入口');
+INSERT INTO `cmf_admin_menu` VALUES ('6', '0', '0', '1', '80', 'admin', 'Setting', 'default', '', '设置', 'cogs', '系统设置入口');
 INSERT INTO `cmf_admin_menu` VALUES ('7', '6', '1', '1', '50', 'admin', 'Link', 'index', '', '友情链接', '', '友情链接管理');
 INSERT INTO `cmf_admin_menu` VALUES ('8', '7', '1', '0', '10000', 'admin', 'Link', 'add', '', '添加友情链接', '', '添加友情链接');
 INSERT INTO `cmf_admin_menu` VALUES ('9', '7', '2', '0', '10000', 'admin', 'Link', 'addPost', '', '添加友情链接提交保存', '', '添加友情链接提交保存');
@@ -160,7 +160,7 @@ INSERT INTO `cmf_admin_menu` VALUES ('116', '110', '2', '0', '10000', 'admin', '
 INSERT INTO `cmf_admin_menu` VALUES ('117', '110', '2', '0', '10000', 'admin', 'User', 'delete', '', '管理员删除', '', '管理员删除');
 INSERT INTO `cmf_admin_menu` VALUES ('118', '110', '2', '0', '10000', 'admin', 'User', 'ban', '', '停用管理员', '', '停用管理员');
 INSERT INTO `cmf_admin_menu` VALUES ('119', '110', '2', '0', '10000', 'admin', 'User', 'cancelBan', '', '启用管理员', '', '启用管理员');
-INSERT INTO `cmf_admin_menu` VALUES ('120', '0', '0', '1', '60', 'portal', 'AdminIndex', 'default', '', '门户管理', 'th', '门户管理');
+INSERT INTO `cmf_admin_menu` VALUES ('120', '0', '0', '1', '70', 'portal', 'AdminIndex', 'default', '', '门户管理', 'th', '门户管理');
 INSERT INTO `cmf_admin_menu` VALUES ('121', '120', '1', '1', '10000', 'portal', 'AdminArticle', 'index', '', '文章管理', '', '文章列表');
 INSERT INTO `cmf_admin_menu` VALUES ('122', '121', '1', '0', '10000', 'portal', 'AdminArticle', 'add', '', '添加文章', '', '添加文章');
 INSERT INTO `cmf_admin_menu` VALUES ('123', '121', '2', '0', '10000', 'portal', 'AdminArticle', 'addPost', '', '添加文章提交', '', '添加文章提交');
@@ -225,6 +225,10 @@ INSERT INTO `cmf_admin_menu` VALUES ('181', '162', '1', '1', '3', 'insurance', '
 INSERT INTO `cmf_admin_menu` VALUES ('182', '165', '1', '1', '1', 'usual', 'AdminCar', 'index', '', '车辆管理', '', '');
 INSERT INTO `cmf_admin_menu` VALUES ('183', '6', '1', '1', '1000', 'admin', 'DbBackup', 'index', '', '数据库管理', '', '');
 INSERT INTO `cmf_admin_menu` VALUES ('184', '165', '1', '1', '20', 'usual', 'AdminNews', 'index', '', '消息管理', '', '');
+INSERT INTO `cmf_admin_menu` VALUES ('185', '0', '0', '1', '60', 'funds', 'AdminFunds', 'default', '', '资金管理', '', '');
+INSERT INTO `cmf_admin_menu` VALUES ('186', '185', '1', '1', '10000', 'funds', 'AdminFunds', 'index', '', '资金列表', '', '');
+INSERT INTO `cmf_admin_menu` VALUES ('187', '185', '1', '1', '10000', 'funds', 'AdminRecharge', 'index', '', '充值管理', '', '');
+INSERT INTO `cmf_admin_menu` VALUES ('188', '185', '1', '1', '10000', 'funds', 'AdminWithdraw', 'index', '', '提现管理', '', '');
 
 -- ----------------------------
 -- Table structure for cmf_asset
@@ -427,7 +431,7 @@ CREATE TABLE `cmf_auth_rule` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`) USING BTREE,
   KEY `module` (`app`,`status`,`type`)
-) ENGINE=InnoDB AUTO_INCREMENT=186 DEFAULT CHARSET=utf8mb4 COMMENT='权限规则表';
+) ENGINE=InnoDB AUTO_INCREMENT=190 DEFAULT CHARSET=utf8mb4 COMMENT='权限规则表';
 
 -- ----------------------------
 -- Records of cmf_auth_rule
@@ -617,6 +621,10 @@ INSERT INTO `cmf_auth_rule` VALUES ('182', '1', 'insurance', 'admin_url', 'insur
 INSERT INTO `cmf_auth_rule` VALUES ('183', '1', 'usual', 'admin_url', 'usual/AdminCar/index', '', '车辆管理', '');
 INSERT INTO `cmf_auth_rule` VALUES ('184', '1', 'admin', 'admin_url', 'admin/DbBackup/index', '', '数据库管理', '');
 INSERT INTO `cmf_auth_rule` VALUES ('185', '1', 'usual', 'admin_url', 'usual/AdminNews/index', '', '消息管理', '');
+INSERT INTO `cmf_auth_rule` VALUES ('186', '1', 'funds', 'admin_url', 'funds/AdminFunds/default', '', '资金管理', '');
+INSERT INTO `cmf_auth_rule` VALUES ('187', '1', 'funds', 'admin_url', 'funds/AdminFunds/index', '', '资金列表', '');
+INSERT INTO `cmf_auth_rule` VALUES ('188', '1', 'funds', 'admin_url', 'funds/AdminRecharge/index', '', '充值管理', '');
+INSERT INTO `cmf_auth_rule` VALUES ('189', '1', 'funds', 'admin_url', 'funds/AdminWithdraw/index', '', '提现管理', '');
 
 -- ----------------------------
 -- Table structure for cmf_comment
@@ -4325,7 +4333,7 @@ INSERT INTO `cmf_nav` VALUES ('2', '0', '底部导航', '');
 -- ----------------------------
 DROP TABLE IF EXISTS `cmf_nav_menu`;
 CREATE TABLE `cmf_nav_menu` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `nav_id` int(11) NOT NULL COMMENT '导航 id',
   `parent_id` int(11) NOT NULL COMMENT '父 id',
   `status` tinyint(3) unsigned NOT NULL DEFAULT '1' COMMENT '状态;1:显示;0:隐藏',
@@ -4367,7 +4375,7 @@ CREATE TABLE `cmf_news` (
   `remark` varchar(255) NOT NULL DEFAULT '' COMMENT '备注',
   `content` text COMMENT '详情',
   `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
-  `ip` char(15) NOT NULL DEFAULT '' COMMENT '用户ip',
+  `ip` char(15) NOT NULL DEFAULT '' COMMENT '用户的ip',
   `status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '状态：0未读 1已读 2已处理',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
@@ -4610,7 +4618,7 @@ CREATE TABLE `cmf_portal_tag` (
 -- ----------------------------
 DROP TABLE IF EXISTS `cmf_portal_tag_post`;
 CREATE TABLE `cmf_portal_tag_post` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `tag_id` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT '标签 id',
   `post_id` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT '文章 id',
   `status` tinyint(3) unsigned NOT NULL DEFAULT '1' COMMENT '状态,1:发布;0:不发布',
@@ -4792,7 +4800,7 @@ INSERT INTO `cmf_service_category` VALUES ('4', '0', '0', 'service', '过户申�
 -- ----------------------------
 DROP TABLE IF EXISTS `cmf_slide`;
 CREATE TABLE `cmf_slide` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `status` tinyint(3) unsigned NOT NULL DEFAULT '1' COMMENT '状态,1:显示,0不显示',
   `delete_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '删除时间',
   `name` varchar(50) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '幻灯片分类',
@@ -4835,7 +4843,7 @@ INSERT INTO `cmf_slide_item` VALUES ('1', '1', '1', '10000', 'banner1', '/themes
 -- ----------------------------
 DROP TABLE IF EXISTS `cmf_theme`;
 CREATE TABLE `cmf_theme` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '安装时间',
   `update_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '最后升级时间',
   `status` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '模板状态,1:正在使用;0:未使用',
@@ -4864,7 +4872,7 @@ INSERT INTO `cmf_theme` VALUES ('2', '0', '0', '0', '0', 'datong_car', 'datong_c
 -- ----------------------------
 DROP TABLE IF EXISTS `cmf_theme_file`;
 CREATE TABLE `cmf_theme_file` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `is_public` tinyint(4) NOT NULL DEFAULT '0' COMMENT '是否公共的模板文件',
   `list_order` float NOT NULL DEFAULT '10000' COMMENT '排序',
   `theme` varchar(20) NOT NULL DEFAULT '' COMMENT '模板名称',
@@ -5068,7 +5076,7 @@ INSERT INTO `cmf_user` VALUES ('4', '2', '', '', '###797fe4d0d1b299ac9b581f4fa40
 -- ----------------------------
 DROP TABLE IF EXISTS `cmf_user_action`;
 CREATE TABLE `cmf_user_action` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `score` int(11) NOT NULL DEFAULT '0' COMMENT '更改积分，可以为负',
   `coin` int(11) NOT NULL DEFAULT '0' COMMENT '更改金币，可以为负',
   `reward_number` int(11) NOT NULL DEFAULT '0' COMMENT '奖励次数',
@@ -5130,6 +5138,35 @@ INSERT INTO `cmf_user_favorite` VALUES ('1', '3', '宝马7系 2009款 740Li领�
 INSERT INTO `cmf_user_favorite` VALUES ('2', '1', '福特 嘉年华两厢 2011款 1.5 自动 时尚型', '{\"action\":\"trade\\/Post\\/details\",\"param\":{\"id\":2}}', '操作用户[1]admin', 'usual_car', '2', '1512457570');
 
 -- ----------------------------
+-- Table structure for cmf_user_funds_log
+-- ----------------------------
+DROP TABLE IF EXISTS `cmf_user_funds_log`;
+CREATE TABLE `cmf_user_funds_log` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '用户 id',
+  `type` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '用户操作类型funds_type。自定义：',
+  `coin` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '更改金币，可以为负',
+  `remain` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '剩余金额',
+  `app` varchar(50) NOT NULL DEFAULT '' COMMENT '记录的来源所在应用名或插件名等',
+  `obj_id` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT '对象ID',
+  `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
+  `ip` char(15) NOT NULL DEFAULT '' COMMENT '用户的ip',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COMMENT='用户资金操作日志表';
+
+-- ----------------------------
+-- Records of cmf_user_funds_log
+-- ----------------------------
+INSERT INTO `cmf_user_funds_log` VALUES ('1', '3', '8', '20.00', '20.00', 'user', '0', '1512489600', '127.0.0.1');
+INSERT INTO `cmf_user_funds_log` VALUES ('2', '3', '2', '-10.00', '10.00', 'insurance', '0', '1512489600', '127.0.0.1');
+INSERT INTO `cmf_user_funds_log` VALUES ('3', '3', '8', '2000.00', '2010.00', 'recharge', '0', '1512489600', '127.0.0.1');
+INSERT INTO `cmf_user_funds_log` VALUES ('4', '3', '3', '-30.00', '1980.00', 'service', '0', '1512489600', '127.0.0.1');
+INSERT INTO `cmf_user_funds_log` VALUES ('5', '3', '5', '-300.00', '1680.00', 'trade', '0', '1512489600', '127.0.0.1');
+INSERT INTO `cmf_user_funds_log` VALUES ('6', '3', '9', '-100.00', '1880.00', 'user', '0', '1512489600', '127.0.0.1');
+INSERT INTO `cmf_user_funds_log` VALUES ('7', '3', '10', '-60.00', '1920.00', 'user', '0', '1512489600', '127.0.0.1');
+INSERT INTO `cmf_user_funds_log` VALUES ('8', '3', '10', '100.00', '2020.00', 'user', '0', '1512489600', '127.0.0.1');
+
+-- ----------------------------
 -- Table structure for cmf_user_login_attempt
 -- ----------------------------
 DROP TABLE IF EXISTS `cmf_user_login_attempt`;
@@ -5152,9 +5189,9 @@ CREATE TABLE `cmf_user_login_attempt` (
 -- ----------------------------
 DROP TABLE IF EXISTS `cmf_user_score_log`;
 CREATE TABLE `cmf_user_score_log` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '用户 id',
-  `create_time` int(11) NOT NULL DEFAULT '0' COMMENT '创建时间',
+  `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
   `action` varchar(50) NOT NULL DEFAULT '' COMMENT '用户操作名称。自定义：regCar第一次登记申请开店',
   `score` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '更改积分，可以为负',
   `coin` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '更改金币，可以为负',
@@ -5170,7 +5207,7 @@ CREATE TABLE `cmf_user_score_log` (
 -- ----------------------------
 DROP TABLE IF EXISTS `cmf_user_token`;
 CREATE TABLE `cmf_user_token` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '用户id',
   `expire_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT ' 过期时间',
   `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
@@ -5367,10 +5404,10 @@ INSERT INTO `cmf_usual_coordinate` VALUES ('2', '4', '3', '3401', '华通合肥�
 INSERT INTO `cmf_usual_coordinate` VALUES ('3', '3', '3', '3401', '开平合肥地区', '117.241405', '31.819577', '', '', '', '1', '0');
 INSERT INTO `cmf_usual_coordinate` VALUES ('4', '2', '3', '3401', '润之丰合肥地区', '117.241405', '31.819577', '', '', '', '1', '0');
 INSERT INTO `cmf_usual_coordinate` VALUES ('5', '6', '3', '3401', '锦平合肥地区', '117.241405', '31.819577', '', '', '', '1', '0');
-INSERT INTO `cmf_usual_coordinate` VALUES ('6', '1', '3', '3401', '瑶海区', '117.323274', '31.874181', '400-8358009', '合肥瑶海区地区', '全国', '1', '0');
-INSERT INTO `cmf_usual_coordinate` VALUES ('7', '1', '3', '3401', '蜀山区', '117.263339', '31.868048', '0551-63512518', '绿地蓝海B座605', '华创公司部', '1', '0');
-INSERT INTO `cmf_usual_coordinate` VALUES ('8', '1', '3', '3401', '包河区', '117.304876', '31.75832', '', '', '', '1', '0');
-INSERT INTO `cmf_usual_coordinate` VALUES ('9', '1', '3', '3401', '庐阳区', '117.279436', '31.925191', '18955172687', '庐阳蜀山森林公园', '曹翔', '1', '0');
+INSERT INTO `cmf_usual_coordinate` VALUES ('6', '1', '3', '3401', '三里街', '117.322762', '31.874442', '400-8358009', '合肥瑶海区地区', '全国', '1', '0');
+INSERT INTO `cmf_usual_coordinate` VALUES ('7', '1', '3', '3401', '万达广场', '117.227829', '31.826471', '0551-63512518', '绿地蓝海B座605', '华创公司部', '1', '0');
+INSERT INTO `cmf_usual_coordinate` VALUES ('8', '1', '3', '3401', '包河政府附近', '117.316366', '31.79996', '', '', '', '1', '0');
+INSERT INTO `cmf_usual_coordinate` VALUES ('9', '1', '3', '3401', '杏花公园', '117.278853', '31.875209', '18955172687', '庐阳杏花公园', '曹翔', '1', '0');
 INSERT INTO `cmf_usual_coordinate` VALUES ('10', '1', '2', '52', '北京总部', '116.676204', '40.02398', '010-4685789', '北京市区', '西乡', '1', '0');
 
 -- ----------------------------

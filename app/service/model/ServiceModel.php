@@ -59,22 +59,22 @@ class ServiceModel extends UsualModel
             $where['a.user_id'] = $uid;
         }
         // 关键词
-        $sn = empty($filter['keyword']) ? '' : $filter['keyword'];
-        if (!empty($sn)) {
+        $keyword = empty($filter['keyword']) ? '' : $filter['keyword'];
+        if (!empty($keyword)) {
             $where['a.description'] = ['like', "%$keyword%"];
         }
 
         // 排序
-        // $order = empty($order) ? 'is_top DESC,is_rec DESC,update_time DESC' : $order;
+        $order = empty($order) ? 'a.is_top DESC,a.id DESC' : $order;
 
         // 数据量
-        // $limit = empty($limit) ? config('pagerset.size') : $limit;
+        $limit = empty($limit) ? config('pagerset.size') : $limit;
 
         $series = $this->alias('a')->field($field)
             ->join($join)
             ->where($where)
-            ->order('a.is_top DESC,a.id DESC')
-            ->paginate(config('pagerset.size'));
+            ->order($order)
+            ->paginate($limit);
 
         return $series;
     }

@@ -133,8 +133,8 @@ class PostController extends HomeBaseController
             'identi'    => ['username'=>'','contact'=>'手机：'.$tel],
         ];
 
-        // 是否第一次登记 如果是交保证金 deposit
-        $rcount = Db::name('user_score_log')->where(['user_id'=>$userId,'action'=>'regCar'])->count();
+        // 是否第一次申请登记 如果是交保证金 deposit
+        $count = DB::name('user_funds_log')->where(['user_id'=>$userId,'type'=>6])->count();
         if (empty($rcount)) {
             // session('deposit_'.$userInfo['id'], $post);
             // $this->redirect(url('deposit'));

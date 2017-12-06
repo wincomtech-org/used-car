@@ -2,7 +2,7 @@
 namespace app\funds\controller;
 
 use cmf\controller\AdminBaseController;
-// use app\funds\model\FundsModel;
+use app\funds\model\UserFundsLogModel;
 // use think\Db;
 
 /**
@@ -18,7 +18,25 @@ class AdminFundsController extends AdminBaseController
 
     public function index()
     {
-        return "财务管理 - 资金动向";
+        $param = $this->request->param();
+        $type = $this->request->param('type',0,'intval');
+
+        $fundsModel = new UserFundsLogModel();
+
+        $list = $fundsModel->getLists($param);
+
+        $categorys = $fundsModel->getTypes($type);
+
+        $this->assign('categorys', $categorys);
+        $this->assign('list', $list->items());
+        $list->appends($param);
+        $this->assign('pager', $list->render());
+
         return $this->fetch();
+    }
+
+    public function more()
+    {
+        # code...
     }
 }
