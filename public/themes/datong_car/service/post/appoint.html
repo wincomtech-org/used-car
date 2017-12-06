@@ -216,6 +216,8 @@ $(function(){
     });
 
     function coordJson(data) {
+        console.log(data)
+
         // 城市
         $.post('{:url("usual/Ajax/coordinate")}', data, function(coord) {
             // console.log(coord)
@@ -223,10 +225,14 @@ $(function(){
         });
         // 地图坐标
         $.getJSON("{:url('usual/Ajax/coords')}", data, function(result){
-            // console.log(result);
-            var info = $.parseJSON(result);
-            setMapIni([info[0]['ucs_x'],info[0]['ucs_y']]);
-            createCoords(info);
+      
+            console.log(result[0]['ucs_x'],result[0]['ucs_y']);
+            var initialize=[];
+            initialize[0]=result[0]['ucs_x']
+            initialize[1]=result[0]['ucs_y']
+
+            setMapIni(initialize);
+            createCoords(result);
         });
     }
 

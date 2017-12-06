@@ -3,15 +3,16 @@
 
 // 初始化设置
 function setMapIni(default_point){
+
     // 实例化 全局变量
-    map = new BMap.Map("allmap", {minZoom:9,maxZoom:16});
+    map = new BMap.Map("allmap", {minZoom:1,maxZoom:16});
     // window.map = new BMap.Map("allmap", {minZoom:10,maxZoom:16});
     // 起始点
     var point = new BMap.Point(default_point[0], default_point[1]);
     // 中心点和缩放级别
-    map.centerAndZoom(point, 14);
+    map.centerAndZoom(point, 12);
     // 启用滚轮放大缩小,默认禁用
-    map.enableScrollWheelZoom(true);
+    map.enableScrollWheelZoom();
     var searchInfoWindow = null;
     var opts={};
 
