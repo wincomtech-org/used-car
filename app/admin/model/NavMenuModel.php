@@ -77,11 +77,28 @@ class NavMenuModel extends Model
             $hrefOld = $href;
             if (strpos($hrefOld, "{") !== false) {
                 $href = json_decode($navMenu['href'], true);
+                // $action = $href['action'];
                 $href = cmf_url($href['action'], $href['param']);
             } else {
                 if ($hrefOld == "home") {
+                    // $action = 'portal/Index/index';
                     $href = Request::instance()->root() . "/";
                 } else {
+                    // if (stripos($hrefOld,'/')) {
+                    //     $action = $hrefOld;
+                    // } else {
+                    //     if (substr_count($hrefOld,'/')==1) {
+                    //         $action = substr($hrefOld, 1) .'/Index/index';
+                    //     } else {
+                    //         $action = $hrefOld .'/Index/index';
+                    //     }
+                    // }
+                    // if (strpos($action,'.html')!==false) {
+                    //     $action = str_replace('.html','',$action);
+                    //     // $action = strstr($action,'.html',true);
+                    // }
+                    // 路由开启时 如何处理？
+                    // $action = RouteModel::getRoutes();
                     $qoute = '';
                     if (strpos($hrefOld,'/')!==0) {
                         $qoute = '/';
@@ -90,6 +107,7 @@ class NavMenuModel extends Model
                 }
             }
 
+            // $navMenu['action'] = $action;
             $navMenu['href'] = $href;
             $navMenus[$key]  = $navMenu;
         }

@@ -11,15 +11,20 @@ class TradeApi
      */
     public function nav()
     {
-        $carModel = new UsualCarModel();
-        $where = [];
-        $categories = $carModel->field('id,name')->where($where)->select();
+        // $carModel = new UsualCarModel();
+        // $where = ['sell_status'=>1];
+        // $categories = $carModel->field('id,name')->where($where)->select();
+        $categories = [
+            ['id'=>1,'name'=>'新车'],
+            ['id'=>2,'name'=>'二手车'],
+            ['id'=>3,'name'=>'服务商城'],
+        ];
 
         $return = [
             'rule'  => [
-                'action' => 'trade/List/index',
+                'action' => 'trade/Index/index',
                 'param'  => [
-                    'id' => 'id'
+                    'platform' => 'id'
                 ]
             ],//url规则
             'items' => $categories //每个子项item里必须包括id,name,如果想表示层级关系请加上 parent_id

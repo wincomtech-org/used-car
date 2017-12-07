@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>卖家中心 - 客户订单 - {$site_info.site_name|default=''}</title>
+    <meta name="keywords" content="{$site_info.site_seo_keywords|default=''}"/>
+    <meta name="description" content="{$site_info.site_seo_description|default=''}">
+
+    <include file="public@head"/>
+</head>
+<body>
+    <!-- 头部 -->
+    <include file="public@header" />
+    <!-- 导航 -->
+    <include file="public@nav" />
+
+    <!-- 卖家中心 -->
+    <section class="person">
+        <div class="main">
+            <include file="public@usernav" />
+
+            <div class="person_right">
+                <div class="person_right_tit">
+                    <include file="seller/nav" />
+                </div>
+                <div class="person_right_con">
+                    <div class="home_center">
+                        <p class="info_tit">订单信息<span class="info_tit_tip">以下内容可滚动</span></p>
+                        <div class="home_list">
+                            <div class="table_div">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>车辆信息</th>
+                                            <th>费用</th>
+                                            <th>客户姓名</th>
+                                            <th>状态</th>
+                                            <th>操作</th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                                <php>$statusV = config('trade_order_status');</php>
+                                <foreach name="list" item="vo">
+                                <php>if($vo['car_more']){ $car_more = json_decode($vo['car_more'],true); }</php>
+                                <table>
+                                    <tbody>
+                                        <tr>
+                                            <td colspan="5">
+                                                <ul class="table_caption">
+                                                    <li class="">编号：<span>{$vo.order_sn}</span></li>
+                                                    <li>下单时间：<span>{:date('Y-m-d H:i:s',$vo.create_time)}</span></li>
+                                                </ul>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="order_detail">
+                                                <div class="left">
+                                                    <a href="{:url('Seller/carInfo',['id'=>$vo.car_id])}"><img src="{:cmf_get_image_preview_url($car_more.thumbnail)}" alt=""></a>
+                                                </div>
+                                                <div class="right">
+                                                    <h6><a href="{:url('Seller/carInfo',['id'=>$vo.car_id])}">{$vo.car_name}</a></h6>
+                                                    <!-- <p><span>所属车服：</span><span>大通车服</span></p> -->
+                                                </div>
+                                            </td>
+                                            <td class="expense">
+                                                <span>订&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;金：<a class="state1">￥{$vo.bargain_money}</a></span>
+                                                <span>全&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;额：<a class="state1">￥{$vo.order_amount}</a></span>
+                                                <span>支付方式：<a class="state1">{$vo.pay_id}</a></span>
+                                            </td>
+                                            <td class="subscription">
+                                                <span><a href="#">{$vo.buyer_username?$vo.buyer_username:$vo.buyer_nickname}</a></span>
+                                                <!-- <span>联系方式：{$vo.buyer_contact}</span> -->
+                                                <!-- <span>认证：<a class="state1">已认证</a><a class="state2">未认证</a></span> -->
+                                            </td>
+                                            <td class="operate">
+                                                <span>
+                                                <a class="
+                                                    <switch name='vo.status'>
+                                                        <case value='-1|-2|-3|-4|-5|-11'>operate1</case>
+                                                        <case value='1|8|10'>operate2</case>
+                                                        <default/>operate3
+                                                    </switch>
+                                                ">{$statusV[$vo.status]}</a>
+                                                </span>
+                                            </td>
+                                            <td class="detail">
+                                                <span><a href="{:url('user/Seller/cancel',['id'=>$vo.id])}" class="detail2 order_cancel_btn" onclick="return confirm('确定？(系统将退回资金)')">确认取消</a></span>
+                                                <span><a href="#" data-url="{:url('user/Trade/ajaxBuyer')}" data-id="{$vo.id}" class="detail1 detail_see">查看详情</a></span>
+                                                <span><a href="{:url('user/Trade/del',['id'=>$vo.id])}" class="detail4 order_err_btn" onclick="return confirm('确定？')">删除</a></span>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                </foreach>
+                            </div>
+                            <!-- 分页 -->
+                            <div class="page_tip">
+                                <div class="page2_con">
+                                    <!-- <p>共<span>1</span>页</p> -->
+                                    <ul class="page2_list">
+                                        {$pager|default=''}
+                                        <!-- <li><a href=""><</a></li>
+                                        <li class="active"><a href="">1</a></li>
+                                        <li><a href="">></a></li> -->
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- 底部 -->
+    <include file="public@footer" />
+    <include file="public@scripts" />
+</body>
+<include file="public@morejs" />
+<script type="text/javascript" src="__TMPL__/public/assets/js/laydate/laydate.js"></script>
+
+ <!-- 图片弹窗 -->
+<script src="__TMPL__/public/assets/js/jquery.qrcode.min.js"></script>
+<script>
+    /**个人中心车辆业务**/
+    $(function(){
+        $('.home_list table  th').each(function(i,e){
+            var thWidth=$(this).width();
+            var thPad=$(this).css('padding');
+            var $t=$(this).index();
+        })
+        // $('.home_list table td:first-child').css('width',$('.home_list table  th:first-child').width())
+    })
+</script>
+</html>

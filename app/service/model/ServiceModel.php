@@ -97,8 +97,10 @@ class ServiceModel extends UsualModel
             ->join($join)
             ->where('a.id',$id)
             ->find();
-        if (!empty($post)) {
+        if (!empty($post['buyer_login'])) {
             $post['buyer_username'] = $post['buyer_nickname'] ? $post['buyer_nickname'] : $post['buyer_login'];
+        }
+        if (!empty($post['seller_login'])) {
             $post['seller_username'] = $post['seller_nickname'] ? $post['seller_nickname'] : $post['seller_login'];
         }
 

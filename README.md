@@ -18,16 +18,23 @@ DOMEvent DOMDocumentWrapper phpQueryEvents phpQuery Callback JSONP
 
 
 
-
-
 大通车服二手车设计
+修改内容：
+    <!-- 导航 二手买卖 换成 车商城 -->
+    <!-- 导航 检车预约 换成 车辆业务 -->
+    先填资料后选公司，服务点无公司限制
+    菜鸟验车和六年免检自营
+
+    导航变色
+
+
 
 接下来按顺序做的:
 1、车辆属性设计
-    // 筛选属性和拓展属性同时修改，以筛选属性为主，否则哪个被修改就用哪个。
-    // 属性循环单独模板
-    // 扩展属性显示所有属性
-    // 属性大类 下拉或分页？在车辆模板里TAB切换？
+    <!-- 筛选属性和拓展属性同时修改，以筛选属性为主，否则哪个被修改就用哪个。
+    属性循环单独模板
+    扩展属性显示所有属性
+    属性大类 下拉或分页？在车辆模板里TAB切换？ -->
 2、车辆保险
 3、车辆业务
 4、个人中心
@@ -46,25 +53,7 @@ instanceof
 
 
 
-车辆属性重新设计：
-属性(分类)表
-    字段：parent_id,name,unit(单位),code,code_type(text,select,radio,checkbox,number,hidden),path,remark,description,more,is_top,is_rec,status,list_order
-    数据库字段格式正则匹配，避免字段冲突thumbnail,photos,files
-    只能新增，编辑，不能删除，确保数据一致性。以后有必要再改
-    推荐的单独拿出来放，置顶的会靠前
-
-属性值表(select,radio,checkbox):提示属性分类必须为 select,radio,checkbox 多项型
-    cate_id,name,exch(替换规则：>,大于*、<,小于*、~,在*之间),description,more,is_top,status,list_order
-    暂时制定6个规则：>、>=、=、<=、<、~
-    如果 description 不为空，则用之。
-
-车辆表(car_seating,car_color,car_effluent,car_fuel,car_displacement,car_gearbox)
-    前台需要用于搜索的字段必须是独立字段。如何将属性值表里的数据提取出来放到车辆表相应字段？等值相互赋值？
-    用more字段保存这些数据
-
-
-
-格局:
+◎格局:
 主导航
     网站首页、车险服务、车辆买卖、车检服务、上牌过户、新闻资讯、APP下载
     突出车险服务放在首位
@@ -151,8 +140,6 @@ str_split($param2,2)
 #订单详情表(cmf_trade_order_detail)：
     订单编号、车子ID、对象名称、单价、数量
 
-
-
 ●车子管理：
 #车辆表(cmf_usual_car)：brand_id,serie_id,model_id,user_id,country_id,province_id,city_id,status,identi_status,identi,sell_status
     属性：价格、上牌时间、里程、车龄、排量、变速箱、座位数、
@@ -167,6 +154,23 @@ str_split($param2,2)
     ①传统设计：车子表、属性表、属性值表、车子＆属性中间表
     ②diy方式：获取所以相关数据数组(id,name)，根据不同父id区分，下标以对应id代替。$attr[1]=[9=>"自动挡",10=>"手动挡"]。品牌、车型、地区也都可以这样拼一起。
 车辆图集(cmf_usual_album？)：直接放在车辆表中。
+
+###车辆属性重新设计：
+属性(分类)表
+    字段：parent_id,name,unit(单位),code,code_type(text,select,radio,checkbox,number,hidden),path,remark,description,more,is_top,is_rec,status,list_order
+    数据库字段格式正则匹配，避免字段冲突thumbnail,photos,files
+    只能新增，编辑，不能删除，确保数据一致性。以后有必要再改
+    推荐的单独拿出来放，置顶的会靠前
+
+属性值表(select,radio,checkbox):提示属性分类必须为 select,radio,checkbox 多项型
+    cate_id,name,exch(替换规则：>,大于*、<,小于*、~,在*之间),description,more,is_top,status,list_order
+    暂时制定6个规则：>、>=、=、<=、<、~
+    如果 description 不为空，则用之。
+
+车辆表(car_seating,car_color,car_effluent,car_fuel,car_displacement,car_gearbox)
+    前台需要用于搜索的字段必须是独立字段。如何将属性值表里的数据提取出来放到车辆表相应字段？等值相互赋值？
+    用more字段保存这些数据
+
 
 
 ●公司企业管理：is_baoxian   is_yewu

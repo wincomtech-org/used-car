@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50540
 File Encoding         : 65001
 
-Date: 2017-12-06 18:44:40
+Date: 2017-12-07 15:21:07
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -4344,21 +4344,22 @@ CREATE TABLE `cmf_nav_menu` (
   `icon` varchar(20) NOT NULL DEFAULT '' COMMENT '图标',
   `path` varchar(255) NOT NULL DEFAULT '' COMMENT '层级关系',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8mb4 COMMENT='前台导航菜单表';
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8mb4 COMMENT='前台导航菜单表';
 
 -- ----------------------------
 -- Records of cmf_nav_menu
 -- ----------------------------
 INSERT INTO `cmf_nav_menu` VALUES ('1', '1', '0', '1', '10', '网站首页', '', 'home', 'ion-android-home', '0-1');
 INSERT INTO `cmf_nav_menu` VALUES ('17', '1', '0', '1', '20', '关于我们', '', 'about/19.html', 'ion-compose', '');
-INSERT INTO `cmf_nav_menu` VALUES ('18', '1', '0', '1', '30', '车险服务', '', 'insurance', 'ion-android-apps', '');
-INSERT INTO `cmf_nav_menu` VALUES ('19', '1', '0', '1', '40', '车辆买卖', '', 'trade', 'ion-android-home', '');
-INSERT INTO `cmf_nav_menu` VALUES ('20', '1', '0', '1', '50', '检车预约', '', 'service/Index/index/servId/1', 'ion-person', '');
+INSERT INTO `cmf_nav_menu` VALUES ('18', '1', '0', '1', '30', '车险服务', '', 'insurance.html', 'ion-android-apps', '');
+INSERT INTO `cmf_nav_menu` VALUES ('19', '1', '0', '1', '40', '车商城', '', 'trade.html', 'ion-android-home', '');
+INSERT INTO `cmf_nav_menu` VALUES ('20', '1', '0', '1', '50', '车辆业务', '', 'service.html', 'ion-person', '');
 INSERT INTO `cmf_nav_menu` VALUES ('21', '1', '0', '1', '60', '活动推荐', '', '{\"action\":\"portal\\/List\\/index\",\"param\":{\"id\":2}}', 'ion-search', '');
 INSERT INTO `cmf_nav_menu` VALUES ('22', '1', '0', '1', '70', '新闻资讯', '', '{\"action\":\"portal\\/List\\/index\",\"param\":{\"id\":1}}', 'ion-star', '');
-INSERT INTO `cmf_nav_menu` VALUES ('23', '1', '19', '1', '10000', '新车', '', 'trade/Index/index/platform/1', 'ion-android-arrow-dr', '');
-INSERT INTO `cmf_nav_menu` VALUES ('24', '1', '19', '1', '10000', '二手车', '', 'trade/Index/index/platform/2', 'ion-android-arrow-dr', '');
+INSERT INTO `cmf_nav_menu` VALUES ('23', '1', '19', '1', '10000', '新车', '', '{\"action\":\"trade\\/Index\\/index\",\"param\":{\"platform\":1}}', 'ion-android-arrow-dr', '');
+INSERT INTO `cmf_nav_menu` VALUES ('24', '1', '19', '1', '10000', '二手车', '', '{\"action\":\"trade\\/Index\\/index\",\"param\":{\"platform\":2}}', 'ion-android-arrow-dr', '');
 INSERT INTO `cmf_nav_menu` VALUES ('25', '1', '22', '1', '10000', '热门新闻', '', '{\"action\":\"portal\\/List\\/index\",\"param\":{\"id\":5}}', 'ion-android-arrow-dr', '');
+INSERT INTO `cmf_nav_menu` VALUES ('26', '1', '19', '1', '10000', '服务商城', '', '{\"action\":\"trade\\/Index\\/index\",\"param\":{\"platform\":3}}', '', '');
 
 -- ----------------------------
 -- Table structure for cmf_news
@@ -4582,7 +4583,7 @@ INSERT INTO `cmf_portal_post` VALUES ('15', '0', '1', '1', '1', '1', '1', '0', '
 INSERT INTO `cmf_portal_post` VALUES ('16', '0', '1', '1', '1', '1', '1', '0', '0', '0', '0', '0', '1510112820', '1510381166', '1510112760', '0', '预约看车', '', '专人带看\r\n安排售车顾问陪同您看车', '', null, null, '{\"thumbnail\":\"\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/icon_08.png\",\"template\":\"\"}');
 INSERT INTO `cmf_portal_post` VALUES ('17', '0', '1', '1', '1', '1', '1', '0', '0', '0', '0', '0', '1510113114', '1510113114', '1510113010', '0', '签订协议', '', '安排顾问指导您完成协议合同签订', '', null, null, '{\"thumbnail\":\"\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/icon_09.png\",\"template\":\"\"}');
 INSERT INTO `cmf_portal_post` VALUES ('18', '0', '1', '1', '1', '1', '1', '0', '0', '0', '0', '0', '1510113167', '1510113167', '1510113123', '0', '售后服务', '', 'GV预估个人', '', null, null, '{\"thumbnail\":\"\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/icon_10.png\",\"template\":\"\"}');
-INSERT INTO `cmf_portal_post` VALUES ('19', '0', '1', '1', '1', '1', '1', '0', '0', '33', '0', '0', '1510558406', '1510562058', '1510558260', '0', '公司介绍', '', '', '', '\n&lt;p style=&quot;text-indent:2em;&quot;&gt;大通车服有限公司是一家提供各种车险服务，二手车买卖，检车预约，车辆服务的的公司，致力于为广大车友提供最便捷，最安全，最省心的服务。&lt;/p&gt;\n&lt;p&gt;&lt;img src=&quot;/static/js/ueditor/themes/default/images/spacer.gif&quot; word_img=&quot;file:///E:/WXS/%E9%A1%B9%E7%9B%AE/%E4%BA%8C%E6%89%8B%E8%BD%A6%E4%BA%A4%E6%98%93/%E5%89%8D%E7%AB%AF%E4%BB%A3%E7%A0%81/second-hand_car1113/image/about.jpg&quot; style=&quot;background:url(http://tx.car/static/js/ueditor/lang/zh-cn/images/localimage.png) no-repeat center center;border:1px solid #ddd&quot;&gt;&lt;/p&gt;\n&lt;p style=&quot;text-indent:2em;&quot;&gt;华创在线服务领域涵盖网站建设，企业定制化系统（酒店管理系统，医疗管理系统，房产管理系统，金融管理系统，教育管理系统等），APP开发，微信公众号二次开发，商城网站开发，电子商务定制，百度推广服务等。\r\n \r\n华创在线创始团队多数来自百度，腾讯，阿里巴巴，Facebook等知名互联网公司，具备十年以上的互联网行业经验。公司60%以上为技术研发人员，均毕业于清华大学，浙江大学，中国科学技术大学等知名高校，公司技术实力雄厚。&lt;/p&gt;\n&lt;p&gt;&lt;br&gt;&lt;/p&gt;\n&lt;p style=&quot;text-indent: 2em;&quot;&gt;至臻品质，至真服务，华创在线与您携手共赢，共创未来！&lt;/p&gt;\n', null, '{\"thumbnail\":\"\",\"template\":\"about\"}');
+INSERT INTO `cmf_portal_post` VALUES ('19', '0', '1', '1', '1', '1', '1', '0', '0', '35', '0', '0', '1510558406', '1510562058', '1510558260', '0', '公司介绍', '', '', '', '\n&lt;p style=&quot;text-indent:2em;&quot;&gt;大通车服有限公司是一家提供各种车险服务，二手车买卖，检车预约，车辆服务的的公司，致力于为广大车友提供最便捷，最安全，最省心的服务。&lt;/p&gt;\n&lt;p&gt;&lt;img src=&quot;/static/js/ueditor/themes/default/images/spacer.gif&quot; word_img=&quot;file:///E:/WXS/%E9%A1%B9%E7%9B%AE/%E4%BA%8C%E6%89%8B%E8%BD%A6%E4%BA%A4%E6%98%93/%E5%89%8D%E7%AB%AF%E4%BB%A3%E7%A0%81/second-hand_car1113/image/about.jpg&quot; style=&quot;background:url(http://tx.car/static/js/ueditor/lang/zh-cn/images/localimage.png) no-repeat center center;border:1px solid #ddd&quot;&gt;&lt;/p&gt;\n&lt;p style=&quot;text-indent:2em;&quot;&gt;华创在线服务领域涵盖网站建设，企业定制化系统（酒店管理系统，医疗管理系统，房产管理系统，金融管理系统，教育管理系统等），APP开发，微信公众号二次开发，商城网站开发，电子商务定制，百度推广服务等。\r\n \r\n华创在线创始团队多数来自百度，腾讯，阿里巴巴，Facebook等知名互联网公司，具备十年以上的互联网行业经验。公司60%以上为技术研发人员，均毕业于清华大学，浙江大学，中国科学技术大学等知名高校，公司技术实力雄厚。&lt;/p&gt;\n&lt;p&gt;&lt;br&gt;&lt;/p&gt;\n&lt;p style=&quot;text-indent: 2em;&quot;&gt;至臻品质，至真服务，华创在线与您携手共赢，共创未来！&lt;/p&gt;\n', null, '{\"thumbnail\":\"\",\"template\":\"about\"}');
 INSERT INTO `cmf_portal_post` VALUES ('20', '0', '1', '1', '1', '1', '1', '0', '0', '6', '0', '0', '1510558939', '1510562398', '1510558860', '0', '服务理念', '', '', '', '&lt;p&gt;服务理念内容：&lt;/p&gt;', null, '{\"thumbnail\":\"\",\"template\":\"about\"}');
 INSERT INTO `cmf_portal_post` VALUES ('21', '0', '1', '1', '1', '1', '1', '0', '0', '2', '0', '0', '1510559032', '1510562441', '1510558980', '0', '保险服务', '', '', '', '&lt;p&gt;保险服务内容&lt;/p&gt;', null, '{\"thumbnail\":\"\",\"template\":\"about\"}');
 INSERT INTO `cmf_portal_post` VALUES ('22', '0', '1', '1', '1', '1', '1', '0', '0', '7', '0', '0', '1510559763', '1510562424', '1510559700', '0', '交易流程', '', '', '', '&lt;p&gt;交易流程内容&lt;/p&gt;', null, '{\"thumbnail\":\"\",\"template\":\"about\"}');

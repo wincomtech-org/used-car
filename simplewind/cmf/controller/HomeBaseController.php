@@ -29,7 +29,7 @@ class HomeBaseController extends BaseController
         $siteInfo = cmf_get_site_info();
         $navMenuModel = new NavMenuModel();
         $navMenus = $navMenuModel->navMenusTreeArray(null,2);
-
+// dump($navMenus);die;
         View::share('site_info', $siteInfo);
         View::share('navMenus', $navMenus);
     }

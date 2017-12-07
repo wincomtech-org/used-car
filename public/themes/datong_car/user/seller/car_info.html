@@ -48,31 +48,31 @@
 
             <div class="person_right">
                 <div class="person_right_tit">
-                    <include file="trade/sellernav" />
+                    <include file="seller/nav" />
                 </div>
                 <div class="person_right_con">
-                    <form action="{:url('user/Trade/sellerCarPost')}" method="post" accept-charset="utf-8" class="js-ajax-form">
+                    <form action="{:url('user/Seller/carInfoPost')}" method="post" accept-charset="utf-8" class="js-ajax-form">
                         <!-- 基本属性 -->
                         <div class="seller_center" style="display:{$srcol=='base'?'block':'none'};">
-                            <include file="trade/car_base" />
+                            <include file="seller/car_base" />
                         </div>
                         <!-- 优化属性 -->
                         <div class="seller_center" style="display:{$srcol=='rec'?'block':'none'};">
-                            <include file="trade/car_rec" />
+                            <include file="seller/car_rec" />
                         </div>
                         <!-- 扩展属性 -->
                         <div class="seller_center" style="display:{$srcol=='ext'?'block':'none'};">
-                            <include file="trade/car_ext" />
+                            <include file="seller/car_ext" />
                         </div>
                         <!-- 审核资料 -->
                         <div class="seller_center" style="display:{$srcol=='audit'?'block':'none'};">
-                            <include file="trade/car_audit" />
+                            <include file="seller/car_audit" />
                         </div>
 
                         <!-- 店铺相关 -->
                         <notempty name="post.identi_status">
                         <div class="seller_center" style="display:{$srcol=='shop'?'block':'none'};">
-                            <include file="trade/car_shop" />
+                            <include file="seller/car_shop" />
                         </div>
                         </notempty>
 

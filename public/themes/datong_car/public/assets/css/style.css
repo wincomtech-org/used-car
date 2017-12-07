@@ -1,5 +1,5 @@
 /*预加载样式*/
-/* 
+/*
 ----------------------------------
 - Preloader
 ----------------------------------
@@ -1060,7 +1060,7 @@
 .seller_center .analogy{width:380px;border:none;height:auto;}
 .seller_center .analogy p{padding:0;width:auto;position:static;}
 .details_item .idetails_con .analogy_con input{border:none;}
-.analogy_tip i{display:block;line-height:2;} 
+.analogy_tip i{display:block;line-height:2;}
 
 
 /*个人中心车辆业务*/
@@ -1117,7 +1117,7 @@
 .home_list table{width:100%;border-collapse: collapse;}
 .home_list table:not(:first-child){margin-bottom:20px;}
 .home_list table td{font-size:16px;box-sizing:border-box;}
-.home_list table thead th{padding:36px 14px 14px;font-size:16px;font-weight:normal;text-align:center; white-space: nowrap;}
+.home_list table thead th{padding:0px 40px 14px;font-size:16px;font-weight:normal;text-align:center; white-space: nowrap;}
 .home_list table thead th:first-child{width:42%;}
 .home_list table thead th:nth-child(2){width:20%;}
 .home_list table thead th:nth-child(3){width:13%;}
@@ -1137,7 +1137,7 @@
 .table_caption:after{content:"";display:block;}
 .order_detail .left,.order_detail .right{display:inline-block;vertical-align: text-top;}
 .order_detail .right{text-align:left;}
-.order_detail .left img{width:99px;min-height:75px;}
+.order_detail .left img{width:82px;min-height:75px;}
 .order_detail .right h6,.order_detail .right span{font-size:16px;}
 .order_detail .right h6{font-weight:400; line-height: 1.5;font-family: myFirstFont;margin-bottom: 5px;}
 .order_detail .right p{margin:10px 0;}
@@ -1279,8 +1279,8 @@
 /*手机端*/
 /**首页我们的服务*/
 @media only screen and (max-width: 1199px){
-    
-    .our_service{padding:.5rem 0;} 
+
+    .our_service{padding:.5rem 0;}
     .our_service_lists{margin:1rem 0;}
     .index_tit{font-size:1rem;}
     .index_tit:after{content:"";display:block;clear:both;}
@@ -1937,7 +1937,7 @@
         .custom_service{float:none;}
         .custom_service{max-width:434px;width:80%;min-width:260px;margin:0 auto;}
         .order_detail .right{width:calc(100% - 104px);width:-webkit-calc(100% - 104px);width:-moz-calc(100% - 104px);width:-ms-calc(100% - 104px);}
-        
+
         /*滚动条提示*/
         .scroll_tip{display:block;}
         .info_tit_tip{display:inline-block;}
@@ -1946,8 +1946,6 @@
         .person_car_buss{width:100%;overflow-x:scroll;}
         .person_carBuss{width:768px;}
         .person_right_con .info_tit_tip{margin-top:8px;margin-bottom:8px;}
-
-   
    }
 
    @media only screen and (max-width:1023px) and (min-width:768px){
@@ -1957,9 +1955,6 @@
     .home_list table{width:768px;}
    }
    @media only screen and (max-width:767px){
-        
-
-
         .person_left{width:100%;}
         .person_item{width:33.333%;padding:1.5rem 0;float:left;box-sizing:border-box;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;-ms-box-sizing:border-box;-o-box-sizing:border-box;}
         .person_right{width:100%;}
@@ -1991,7 +1986,7 @@
         .home_list{width:100%;}
         .table_div{width:100%;overflow-x:scroll;}
         .home_list table{width:768px;}
-        .home_list table thead th{padding:21px 5px 14px;}
+        .home_list table thead th{padding:9px 5px 14px;}
         .home_list .page2_con{}
 
         /*卖家中心*/
@@ -2005,7 +2000,7 @@
         .order_detail .right h6, .order_detail .right span{font-size:14px;}
         .state span a, .operate span a, .detail span a{font-size:14px;}
 
-        
+
         .home_list .detail1, .home_list .detail2, .home_list .detail3{width:66px;height:26px;line-height:26px;font-size:12px !important;}
     }
 
@@ -2092,5 +2087,5 @@
 /**上传图片旁的图片*/
  @media only screen and (max-width:767px){
     .demonstrate{display:block;margin-left:0;margin-top:1rem;}
-    
+
  }

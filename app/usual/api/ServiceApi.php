@@ -11,15 +11,15 @@ class ServiceApi
      */
     public function nav()
     {
-        $serviceModel = new ServiceCategoryModel();
-        $where = [];
-        $categories = $serviceModel->where($where)->select();
+        $scModel = new ServiceCategoryModel();
+        $where = ['status'=>1];
+        $categories = $scModel->field('id,name')->where($where)->select();
 
         $return = [
             'rule'  => [
-                'action' => 'service/List/index',
+                'action' => 'service/Index/index',
                 'param'  => [
-                    'id' => 'id'
+                    'servId' => 'id'
                 ]
             ],//url规则
             'items' => $categories //每个子项item里必须包括id,name,如果想表示层级关系请加上 parent_id

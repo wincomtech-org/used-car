@@ -22,13 +22,13 @@
                 <div class="person_right_tit">
                     <ul>
                         <li class="person_right_item active">
-                            <a href="">预约详情</a>
+                            <a href="#">订单列表</a>
                         </li>
                     </ul>
                 </div>
                 <div class="person_right_con">
                     <div class="home_center">
-                        <p class="info_tit">预约列表<span class="info_tit_tip">以下内容可滚动</span></p>
+                        <p class="info_tit">订单列表<span class="info_tit_tip">以下内容可滚动</span></p>
                         <div class="home_list">
                             <div class="table_div">
                                 <table>
@@ -53,7 +53,7 @@
                                                 <ul class="table_caption">
                                                     <li class="">订单号：<span>{$vo.order_sn}</span></li>
                                                     <li>下单时间：<span>{:date('Y-m-d H:i:s',$vo.create_time)}</span></li>
-                                                    <!-- <li>卖家：<a href="#">[{$vo.seller_uid}]{$vo.seller_username?$vo.seller_username:$vo.seller_nickname}</a></li> -->
+                                                    <!-- <li>卖家：<a href="#">【{$vo.seller_uid}】{$vo.seller_username?$vo.seller_username:$vo.seller_nickname}</a></li> -->
                                                 </ul>
                                             </td>
                                         </tr>
@@ -87,17 +87,23 @@
                                                 </in>
                                                 <!-- 退回订金可放在取消预约中操作 -->
                                                 <in name="vo.status" value="-1,-2,-3">
-                                                <span><a href=":url('user/Trade/backfund',['id'=>$id])" class="operate1">退回订金</a></span>
+                                                <span><a href="{//:url('user/Trade/backfund',['id'=>$vo.id])}" class="operate1">退回订金</a></span>
                                                 </in>
                                             </td>
                                             <td class="operate">
                                                 <in name="vo.status" value="-4,-5,0,1,8">
-                                                <span><a href="{:url('user/Trade/cancel',['id'=>$vo.id])}" onclick="return confirm('确定？(系统将不会退回资金)')" class="state2">取消预约</a></span>
+                                                    <span>
+                                                    <a href="{:url('user/Buyer/cancel',['id'=>$vo.id])}" onclick="return confirm('确定？(系统将不会退回资金)')" class="state2">取消预约</a>
+                                                    </span>
                                                 </in>
                                                 <in name="vo.status" value="0,1">
-                                                <span><a href="#" class="operate2">去支付</a></span>
+                                                    <span><a href="#" class="operate2">去支付</a></span>
                                                 </in>
-                                                <span><a href="{:url('user/Trade/del',['id'=>$vo.id])}" onclick="return confirm('确定？')" class="detail2">删除订单</a></span>
+                                                <in name="vo.status" value="0">
+                                                    <span>
+                                                    <a href="{:url('user/Trade/del',['id'=>$vo.id])}" onclick="return confirm('确定？')" class="detail2">删除订单</a>
+                                                    </span>
+                                                </in>
                                             </td>
                                             <!-- <td class="detail">
                                                 <span><a class="detail3">再次预约</a></span>
@@ -135,7 +141,6 @@
 <script type="text/javascript" src="__TMPL__/public/assets/js/laydate/laydate.js"></script>
 <script>
     /**个人中心车辆业务**/
-
     $('.del').on('click',function(){
         $(this).parent().parent().parent().parent().remove();
     })
@@ -144,12 +149,10 @@
         $('.home_list table  th').each(function(i,e){
             var thWidth=$(this).width();
             var thPad=$(this).css('padding');
-
             var $t=$(this).index();
             console.log(thWidth)
         })
         // $('.home_list table td:first-child').css('width',$('.home_list table  th:first-child').width())
-
     })
 
 </script>

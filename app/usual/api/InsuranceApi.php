@@ -11,13 +11,13 @@ class InsuranceApi
      */
     public function nav()
     {
-        $InsuranceModel = new InsuranceModel();
-        $where = [];
-        $categories = $InsuranceModel->where($where)->select();
+        $insurModel = new InsuranceModel();
+        $where = ['status'=>1,'identi_status'=>1];
+        $categories = $insurModel->field('id,name')->where($where)->select();
 
         $return = [
             'rule'  => [
-                'action' => 'insurance/List/index',
+                'action' => '/insurance/Post/step1',
                 'param'  => [
                     'id' => 'id'
                 ]

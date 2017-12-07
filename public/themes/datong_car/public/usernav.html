@@ -2,7 +2,7 @@
     <div class="users">
         <div class="users_con">
             <a href="{:url('profile/avatar')}"><img src="
-                <if condition="empty($user.avatar)">
+                <if condition='empty($user.avatar)'>
                     __TMPL__/public/assets/images/example/user.png
                 <else/>
                     {:cmf_get_user_avatar_url($user.avatar)}
@@ -12,30 +12,16 @@
             <span>欢迎您！</span>
         </div>
         <div class="person_list">
-            <ul >
-                <!-- <li class="person_item active"><a href="#"></a></li> -->
-                <li class="person_item"><a href="{:cmf_url('user/Profile/center')}">个人资料</a></li>
-                <li class="person_item"><a href="{:cmf_url('user/Insurance/index')}">车险管理</a></li>
-                <li class="person_item"><a href="{:cmf_url('user/Service/index',['id'=>1])}">车辆业务</a></li>
-                <li class="person_item"><a href="{:cmf_url('user/Collect/index')}">我的收藏</a></li>
-                <li class="person_item"><a href="{:cmf_url('user/Trade/buyer')}">买家中心</a></li>
-                <li class="person_item "><a href="{:cmf_url('user/Trade/sellerOrder')}">卖家中心</a></li>
-                <li class="person_item"><a href="{:cmf_url('user/Funds/index')}">资金管理</a></li>
+            <ul>
+                <li class="person_item {$usernav=='Profile'?='active'}"><a href="{:cmf_url('user/Profile/center')}">个人资料</a></li>
+                <li class="person_item {$usernav=='Insurance'?='active'}"><a href="{:cmf_url('user/Insurance/index')}">车险管理</a></li>
+                <li class="person_item {$usernav=='Service'?='active'}"><a href="{:cmf_url('user/Service/index',['id'=>1])}">车辆业务</a></li>
+                <li class="person_item {$usernav=='Collect'?='active'}"><a href="{:cmf_url('user/Collect/index')}">我的收藏</a></li>
+                <li class="person_item {$usernav=='Buyer'?='active'}"><a href="{:cmf_url('user/Buyer/index')}">买家中心</a></li>
+                <li class="person_item {$usernav=='Seller'?='active'}"><a href="{:cmf_url('user/Seller/index')}">卖家中心</a></li>
+                <li class="person_item {$usernav=='Funds'?='active'}"><a href="{:cmf_url('user/Funds/index')}">资金管理</a></li>
             </ul>
         </div>
     </div>
 </div>
-
-
-
-<!-- <div class="list-group">
-    <a class="list-group-item" href="{:cmf_url('user/Profile/edit')}"><i class="fa fa-list-alt fa-fw"></i> 修改资料</a>
-    <a class="list-group-item" href="{:cmf_url('user/Profile/password')}"><i class="fa fa-lock fa-fw"></i> 修改密码</a>
-    <a class="list-group-item" href="{:cmf_url('user/Profile/avatar')}"><i class="fa fa-user fa-fw"></i> 编辑头像</a>
-    <a class="list-group-item" href="{:cmf_url('user/Profile/binding')}"><i class="fa fa-exchange fa-fw"></i> 绑定账号</a>
-    <a class="list-group-item" href="{:cmf_url('user/favorite/index')}"><i class="fa fa-star-o fa-fw"></i> 我的收藏</a>
-    <a class="list-group-item" href="{:url('portal/article/myIndex')}"><i class="fa fa-file-text fa-fw"></i> 我的文章</a>
-    <a class="list-group-item" href="{:url('chem/order/index')}"><i class="fa fa-list fa-fw"></i> 我的订单</a>
-    <a class="list-group-item" href="{:cmf_url('user/comment/index')}"><i class="fa fa-comments-o fa-fw"></i> 我的评论</a>
-</div> -->
 
