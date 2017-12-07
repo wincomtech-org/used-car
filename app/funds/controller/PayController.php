@@ -8,7 +8,8 @@ use cmf\controller\HomeBaseController;
 
 /**
 * 支付中心
-*
+* 支付标识 pay_id：alipay支付宝 wxjs微信js  wxnative微信扫码
+* 
 */
 class PayController extends HomeBaseController
 {

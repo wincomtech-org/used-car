@@ -13,7 +13,7 @@
     <!-- 导航 -->
     <include file="public@nav" />
 
-    <!-- 热门资讯 -->
+    <!-- 资金管理 -->
     <section class="person">
         <div class="main">
             <include file="public@usernav" />
@@ -26,48 +26,29 @@
                     <div class="fund_management">
                         <div class="fund_management_detail">
                             <p class="fund_managemen_title">收支明细<a href="">使用遇到的问题？</a></p>
-                            <div class="detail_div">
-                                <ul class="detail_list">
-                                    <li class="tit">可用余额</li>
-                                    <li class="money">￥0.99</li>
-                                    <li class="operate">
-                                        <a href="" class="select"><b></b>充值</a>
-                                        <a href="" class=""><b></b>提现</a>
-                                    </li>
-                                </ul>
-                                <ul class="detail_list">
-                                    <li class="tit">押金</li>
-                                    <li class="money">￥0.99</li>
-                                    <li class="operate">
-                                        <a href="" class=""><b></b>支付</a>
-                                        <a href="" class=""><b></b>返回</a>
-                                    </li>
-                                </ul>
-                            </div>
+                            <include file="funds/comm"/>
                             <div class="stream">
                                 <p class="scroll_tip">以下内容可滚动</p>
                                 <div class="table_div">
-
                                     <div class="stream_tit">
-
                                         <dl>
                                             <dt>
-                                                <input type="text" name="" id='recent' value="最近天数">
+                                                <input type="text" id='recent' value="最近天数">
                                                 <b></b>
                                                 <ul id="recent_ul">
-                                                    <li><a>最近一个月</a></li>
-                                                    <li><a>最近两个月</a></li>
-                                                    <li><a>最近三个月</a></li>
-                                                    <li><a>最近四个月</a></li>
-                                                    <li><a>最近五个月</a></li>
-                                                    <li><a>最近六个月</a></li>
+                                                    <li><a href="{:url('user/Funds/index',['month'=>1])}">最近一个月</a></li>
+                                                    <li><a href="{:url('user/Funds/index',['month'=>2])}">最近两个月</a></li>
+                                                    <li><a href="{:url('user/Funds/index',['month'=>3])}">最近三个月</a></li>
+                                                    <li><a href="{:url('user/Funds/index',['month'=>4])}">最近四个月</a></li>
+                                                    <li><a href="{:url('user/Funds/index',['month'=>5])}">最近五个月</a></li>
+                                                    <li><a href="{:url('user/Funds/index',['month'=>6])}">最近六个月</a></li>
                                                 </ul>
                                             </dt>
                                             <dd>
-                                                收入：<span>￥2196.66</span>
+                                                收入：<span>￥{$income}</span>
                                             </dd>
                                             <dd>
-                                                收入：<span>￥2196.66</span>
+                                                支出：<span>￥{$expense}</span>
                                             </dd>
                                         </dl>
                                     </div>
@@ -76,41 +57,23 @@
                                             <thead>
                                                 <tr>
                                                     <th>流水号</th>
-                                                    <th>时间</th>
                                                     <th>操作</th>
                                                     <th>收支（+收、-支）</th>
                                                     <th>剩余金额</th>
+                                                    <th>时间</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
+                                                <php>$funds_type = config('funds_type');</php>
+                                                <foreach name="list" item="vo">
                                                 <tr>
-                                                    <td>10011441</td>
-                                                    <td>2017-12-20 12:12:20</td>
-                                                    <td>任务失败退款</td>
-                                                    <td>+0.99</td>
-                                                    <td>+10000</td>
+                                                    <td>{$vo.id}</td>
+                                                    <td>{$funds_type[$vo.type]}</td>
+                                                    <td>{$vo.coin>0?'+'.$vo.coin:$vo.coin}</td>
+                                                    <td>{$vo.remain}</td>
+                                                    <td>{:date('Y-m-d H:i:s',$vo.create_time)}</td>
                                                 </tr>
-                                                <tr>
-                                                    <td>10011441</td>
-                                                    <td>2017-12-20 12:12:20</td>
-                                                    <td>任务失败退款</td>
-                                                    <td>+0.99</td>
-                                                    <td>+10000</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>10011441</td>
-                                                    <td>2017-12-20 12:12:20</td>
-                                                    <td>任务失败退款</td>
-                                                    <td>+0.99</td>
-                                                    <td>+10000</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>10011441</td>
-                                                    <td>2017-12-20 12:12:20</td>
-                                                    <td>任务失败退款</td>
-                                                    <td>+0.99</td>
-                                                    <td>+10000</td>
-                                                </tr>
+                                                </foreach>
                                             </tbody>
                                         </table>
                                     </div>
@@ -118,20 +81,17 @@
 
                                 <div class="page_tip">
                                     <div class="page2_con">
-                                        <p>共<span>1</span>页</p>
+                                        <!-- <p>共<span>1</span>页</p> -->
                                         <ul class="page2_list">
-                                            <li><a href=""><</a></li>
+                                            {$pager|default=''}
+                                            <!-- <li><a href=""><</a></li>
                                             <li class="active"><a href="">1</a></li>
-                                            <li><a href="">></a></li>
-
+                                            <li><a href="">></a></li> -->
                                         </ul>
                                     </div>
-
                                 </div>
                             </div>
-
                         </div>
-
                     </div>
                 </div>
             </div>

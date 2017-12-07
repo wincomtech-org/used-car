@@ -56,6 +56,8 @@ class SellerController extends TradeController
 
         $orderInfo = Db::name('trade_order')->field('buyer_uid,bargain_money')->where('id',$id)->find();
         $bargain_money = floatval($orderInfo['bargain_money']);
+        $buyer_uid = $orderInfo['buyer_uid'];
+        $buyer_coin = DB::name('user')->where('id',$buyer_uid)->value('coin');
 
         if (empty($bargain_money)) {
             Db::name('trade_order')->where('id',$id)->setField('status',-2);
@@ -65,13 +67,8 @@ class SellerController extends TradeController
             try{
                 Db::name('trade_order')->where('id',$id)->setField('status',-2);
                 Db::name('user')->where('id',$userId)->dec('coin',$bargain_money);
-                Db::name('user')->where('id',$orderInfo['buyer_uid'])->setInc('coin', $bargain_money);
-                Db::name('user_score_log')->insert([
-                    'user_id'     => $orderInfo['buyer_uid'],
-                    'create_time' => time(),
-                    'action'      => 'trade_sellerCancel',
-                    'coin'        => $bargain_money,
-                ]);
+                Db::name('user')->where('id',$buyer_uid)->setInc('coin', $bargain_money);
+                lothar_put_funds_log($buyer_uid, -6, $bargain_money, $buyer_coin+$bargain_money, 'user', $userId, false);
                 $TransStatus = true;
                 // 提交事务
                 Db::commit();

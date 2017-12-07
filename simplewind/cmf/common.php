@@ -171,6 +171,7 @@ function cmf_log($content, $file = "log.txt")
 {
     file_put_contents($file, $content, FILE_APPEND);
 }
+
 /**
  * 存放消息记录
  * @param $data 要写入的数据
@@ -248,6 +249,53 @@ EOT;
         return $news;
     }
 }
+
+/*用户资金流动 - 增加*/
+function lothar_put_funds_log($data, $type, $coin,$remain, $app, $objId, $return=true)
+{
+    if (is_array($data)) {
+        $count = count($data);
+        if ($count!=8) {
+            $data = [
+                'user_id'     => (empty($data['user_id'])?0:$data['user_id']),
+                'type'        => (empty($data['type'])?0:$data['type']),
+                'coin'        => (empty($data['coin'])?0:$data['coin']),
+                'remain'      => (empty($data['remain'])?0.00:$data['remain']),
+                'app'         => (empty($data['app'])?'':$data['app']),
+                'obj_id'      => (empty($data['obj_id'])?0:$data['obj_id']),
+                'create_time' => time(),
+                'ip'          => get_client_ip(),
+            ];
+        }
+    } else {
+        $data = [
+            'user_id'     => $data,
+            'type'        => $type,
+            'coin'        => $coin,
+            'remain'      => $remain,
+            'app'         => $app,
+            'obj_id'      => $objId,
+            'create_time' => time(),
+            'ip'          => get_client_ip(),
+        ];
+    }
+
+    if ($return===true) {
+        return Db::name('user_funds_log')->insertGetId($data);
+    } else {
+        Db::name('user_funds_log')->insert($data);
+    }
+}
+/*用户资金流动 - 获取*/
+function lothar_get_funds_log($type='', $dialog=false)
+{
+    $where['status'] = 0;
+    if (!empty($type)) {
+        $where['app'] = $type;
+    }
+    $news = Db::name('news')->where($where)->select();
+}
+
 /*
 * 用户认证状态信息
 * @param $uid 默认是当前用户
@@ -279,6 +327,7 @@ function lothar_verify($uid=null, $code='certification', $data=false)
 
     return $result;
 }
+
 /*
 * JSON
 * json_decode(json,true) 为true时返回array而非object

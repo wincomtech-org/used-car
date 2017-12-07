@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50540
 File Encoding         : 65001
 
-Date: 2017-12-07 15:21:07
+Date: 2017-12-07 17:56:48
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -4259,6 +4259,7 @@ CREATE TABLE `cmf_insurance_order` (
   `order_sn` varchar(30) NOT NULL DEFAULT '' COMMENT '保单编号',
   `name` varchar(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '保险业务名称',
   `amount` decimal(10,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '投保金额',
+  `pay_id` varchar(30) NOT NULL DEFAULT '' COMMENT '支付标识：alipay支付宝 wxjs微信js  wxnative微信扫码',
   `company_name` varchar(150) NOT NULL DEFAULT '' COMMENT '投保公司名',
   `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
   `pay_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '支付时间(生效时间)',
@@ -4283,7 +4284,7 @@ CREATE TABLE `cmf_insurance_order` (
 -- ----------------------------
 -- Records of cmf_insurance_order
 -- ----------------------------
-INSERT INTO `cmf_insurance_order` VALUES ('1', '2', '[\"1\",\"2\"]', '6', '3', '0', 'INSUR-2017120253101494', '', '0.00', '', '1512181733', '0', '0', '0', '0', '0', null, '', '', '1', '0', '10000');
+INSERT INTO `cmf_insurance_order` VALUES ('1', '2', '[\"1\",\"2\"]', '6', '3', '0', 'INSUR-2017120253101494', '', '0.00', '', '', '1512181733', '0', '0', '0', '0', '0', null, '', '', '1', '0', '10000');
 
 -- ----------------------------
 -- Table structure for cmf_link
@@ -4951,7 +4952,7 @@ CREATE TABLE `cmf_trade_order` (
   `buyer_address` varchar(255) NOT NULL DEFAULT '' COMMENT '收货地址',
   `seller_uid` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '卖家编号',
   `seller_username` varchar(30) NOT NULL COMMENT '卖家用户名',
-  `pay_id` varchar(30) NOT NULL COMMENT '支付标识',
+  `pay_id` varchar(30) NOT NULL DEFAULT '' COMMENT '支付标识：alipay支付宝 wxjs微信js  wxnative微信扫码',
   `bargain_money` decimal(10,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '订金、预约金',
   `nums` tinyint(3) unsigned NOT NULL DEFAULT '1' COMMENT '数量',
   `product_amount` decimal(10,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '产品金额',
@@ -5145,7 +5146,7 @@ DROP TABLE IF EXISTS `cmf_user_funds_log`;
 CREATE TABLE `cmf_user_funds_log` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '用户 id',
-  `type` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '用户操作类型funds_type。自定义：',
+  `type` tinyint(3) NOT NULL DEFAULT '0' COMMENT '用户操作类型funds_type。自定义：',
   `coin` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '更改金币，可以为负',
   `remain` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '剩余金额',
   `app` varchar(50) NOT NULL DEFAULT '' COMMENT '记录的来源所在应用名或插件名等',
@@ -5163,9 +5164,9 @@ INSERT INTO `cmf_user_funds_log` VALUES ('2', '3', '2', '-10.00', '10.00', 'insu
 INSERT INTO `cmf_user_funds_log` VALUES ('3', '3', '8', '2000.00', '2010.00', 'recharge', '0', '1512489600', '127.0.0.1');
 INSERT INTO `cmf_user_funds_log` VALUES ('4', '3', '3', '-30.00', '1980.00', 'service', '0', '1512489600', '127.0.0.1');
 INSERT INTO `cmf_user_funds_log` VALUES ('5', '3', '5', '-300.00', '1680.00', 'trade', '0', '1512489600', '127.0.0.1');
-INSERT INTO `cmf_user_funds_log` VALUES ('6', '3', '9', '-100.00', '1880.00', 'user', '0', '1512489600', '127.0.0.1');
-INSERT INTO `cmf_user_funds_log` VALUES ('7', '3', '10', '-60.00', '1920.00', 'user', '0', '1512489600', '127.0.0.1');
-INSERT INTO `cmf_user_funds_log` VALUES ('8', '3', '10', '100.00', '2020.00', 'user', '0', '1512489600', '127.0.0.1');
+INSERT INTO `cmf_user_funds_log` VALUES ('6', '3', '9', '-100.00', '1580.00', 'user', '0', '1512489600', '127.0.0.1');
+INSERT INTO `cmf_user_funds_log` VALUES ('7', '3', '10', '-60.00', '1520.00', 'user', '0', '1512489600', '127.0.0.1');
+INSERT INTO `cmf_user_funds_log` VALUES ('8', '3', '10', '100.00', '1620.00', 'user', '0', '1512489600', '127.0.0.1');
 
 -- ----------------------------
 -- Table structure for cmf_user_login_attempt

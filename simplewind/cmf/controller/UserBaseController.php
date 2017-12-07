@@ -21,7 +21,10 @@ class UserBaseController extends HomeBaseController
 
         $usernav = $this->request->controller();
         $this->assign('usernav',$usernav);
+    }
 
+    public function navAction()
+    {
         // $navAction = $this->request->module().$this->request->controller().$this->request->action();
         // \simplewind\vendor\ezyang\htmlpurifier\library\HTMLPurifier\Encoder.php
         // $unichr = unichr($navAction);

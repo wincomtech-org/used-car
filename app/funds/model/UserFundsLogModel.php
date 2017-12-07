@@ -6,7 +6,7 @@ use app\usual\model\UsualModel;
 
 class UserFundsLogModel extends UsualModel
 {
-    public function getLists($filter=[], $order='', $limit='', $extra=[])
+    public function getLists($filter=[], $order='', $limit='3', $extra=[])
     {
         $where = [];
         if (!empty($extra)) {
@@ -54,6 +54,31 @@ class UserFundsLogModel extends UsualModel
     {
         $options = $this->getStatus($selectId,'funds_type');
         return $options;
+    }
+
+    // 统计 余额
+    public function sumCoin($uid=0, $type='', $startTime=0, $compare='')
+    {
+        $where = [];
+        if (!empty($uid)) {
+            $where['user_id'] = $uid;
+        }
+        if (!empty($type)) {
+            if (is_numeric($type)) {
+                $where['type'] = $type;
+            } else {
+                 $where['type'] = ['in',$type];
+            }
+        }
+        if (!empty($startTime)) {
+            $where['create_time'] = ['>= time', $startTime];
+        }
+        if (!empty($compare)) {
+            $where['coin'] = [$compare,0];
+        }
+
+        $sum = Db::name('user_funds_log')->where($where)->sum('coin');
+        return $sum;
     }
 
 }

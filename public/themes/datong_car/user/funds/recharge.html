@@ -13,7 +13,7 @@
     <!-- 导航 -->
     <include file="public@nav" />
 
-    <!-- 热门资讯 -->
+    <!-- 资金管理 -->
     <section class="person">
         <div class="main">
             <include file="public@usernav" />
@@ -26,60 +26,51 @@
                     <div class="fund_management">
                         <div class="fund_management_detail">
                             <p class="fund_management_tit_tip">在线充值</p>
-                            <div class="detail_div">
-                                <ul class="detail_list">
-                                    <li class="tit">可用余额</li>
-                                    <li class="money">￥0.99</li>
-                                    <li class="operate">
-                                        <a href="" class="select"><b></b>充值</a>
-                                        <a href="" class=""><b></b>提现</a>
-                                    </li>
-                                </ul>
-                                <ul class="detail_list">
-                                    <li class="tit">押金</li>
-                                    <li class="money">￥0.99</li>
-                                    <li class="operate">
-                                        <a href="" class=""><b></b>支付</a>
-                                        <a href="" class=""><b></b>返回</a>
-                                    </li>
-                                </ul>
-                            </div>
+                            <include file="funds/comm"/>
                             <div class="mode_payment">
-                                <form action="fund_management1_submit" method="get" accept-charset="utf-8">
+                                <form action="{:url('user/Funds/rechargePost')}" method="post" accept-charset="utf-8" class="js-ajax-form">
                                     <div class="mode_payment_con">
                                         <p class="fund_managemen_title">请选择充值金额</p>
-                                        
-                                        <ul class="online_way pay_tab_list">                    
-                                            <li class="label_input pay_tab_list_item select"><b></b><label><input type="radio" name="online_payment_money" ><span class="icon">5000</span></label></li>
-                                            <li class="label_input pay_tab_list_item"><b></b><label><input type="radio" name="online_payment_money" ><span class="icon">1000</span></label></li>    
-                                            <li class="label_input pay_tab_list_item"><b></b><label><input type="radio" name="online_payment_money" ><span class="icon">3000</span></label></li>    
-                                            <li class="label_input pay_tab_list_item"><b></b><label><input type="radio" name="online_payment_money" ><span class="icon">4000</span></label></li>    
-                                            <li class="label_input pay_tab_list_item"><b></b><label><input type="radio" name="online_payment_money" ><span class="icon">5000</span></label></li>    
-                                            <li class="label_input pay_tab_list_item"><b></b><label><input type="radio" name="online_payment_money" ><span class="icon other">其他金额</span></label></li>    
+                                        <ul class="online_way pay_tab_list">
+                                            <php>$dmoney = [100,500,1000,2000,5000];</php>
+                                            <foreach name="dmoney" item="vo" key="key">
+                                            <li class="label_input pay_tab_list_item {$key==0?='select'}"><b></b><label><input type="radio" name="recharge_money" value="{$vo}" ><span class="icon">{$vo}</span></label></li>
+                                            </foreach>
+                                            <li class="label_input pay_tab_list_item"><b></b><label><span class="icon other">其他金额</span></label></li>
                                         </ul>
+
                                         <dl class="custom_amount  replenish_amount" style="display:none">
                                             <dt>请自定义金额</dt>
-                                            <dd><input type="num" name="custom_amount" value=""></dd>
+                                            <dd><input type="num" name="custom_money" value=""></dd>
                                         </dl>
+
                                         <dl class="payment_amount replenish_amount">
                                             <dt>支付金额</dt>
-
-                                            <dd><input type="" name="payment_amount" value="" readonly></dd>
+                                            <dd><input type="text" name="payment_money" value="" readonly></dd>
                                         </dl>
+
                                         <p class="fund_managemen_title">请选择提现方式</p>
-                                        
-                                        <ul class="online_way pay_tab_list">                    
-                                            <li class="label_input pay_tab_list_item"><b></b><label><input type="radio" name="online_payment_way" ><span class="icon_img"></span></label></li>
-                                            <li class="label_input pay_tab_list_item"><b></b><label><input type="radio" name="online_payment_way"  ><span class="icon_img"></span></label></li>    
+                                        <ul class="online_way pay_tab_list">
+                                            <li class="label_input pay_tab_list_item">
+                                                <b></b>
+                                                <label>
+                                                    <input type="radio" name="payment_way" value="alipay">
+                                                    <span class="icon_img"></span>
+                                                </label>
+                                            </li>
+                                            <li class="label_input pay_tab_list_item">
+                                                <b></b>
+                                                <label>
+                                                    <input type="radio" name="payment_way" value="wxpay">
+                                                    <span class="icon_img"></span>
+                                                </label>
+                                            </li>
                                         </ul>
-                                        
                                     </div>
-                                   
-                                    <p class="cz_btn_p"><button type="submit" class="btn-red">确认提交</button></p>
+                                    <p class="cz_btn_p"><button type="submit" class="btn-red js-ajax-submit1">确认提交</button></p>
                                 </form>
                             </div>
                         </div>
-
                     </div>
                 </div>
             </div>
