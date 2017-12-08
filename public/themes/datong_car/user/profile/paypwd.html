@@ -43,28 +43,28 @@
 					<li class="person_right_item ">
 						<a href="{:cmf_url('user/Profile/center')}">资料中心</a>
 					</li>
-					<li class="person_right_item active">
+					<li class="person_right_item ">
 				        <a href="{:cmf_url('user/Profile/password')}">修改登录密码</a>
 				    </li>
-				    <li class="person_right_item ">
+				    <li class="person_right_item active">
 				        <a href="{:url('user/Profile/paypwd')}">修改支付密码</a>
 				    </li>
 				</ul>
 			</div>
 			<div class="person_right_con">
 				<div class="information_details">
-					<p class="info_tit">修改登录密码</p>
+					<p class="info_tit">修改支付密码</p>
 					<!-- 查看 -->
 					<div class="info_detail">
 						<div class="password_con">
-							<form action="" method="post" accept-charset="utf-8" class="find_password3 js-ajax-form" novalidate="novalidate">
+							<form action="" method="post" accept-charset="utf-8" class="find_password3 js-ajax-form" ">
 									<ul class="password_ul">
 										<li>
 											<div class="lists_input confirm">
 												<span class="tit">新密码</span>
 												<input type="password" name="password" class="password1 placeholder" placeholder="请填写密码">
 											</div>
-											<b style="display:block;">*密码为英文字母加数字，8-20位</b>
+											<b style="display:block;">*密码为6位数字</b>
 										</li>
 										<li>
 											<div class="lists_input confirm">
@@ -75,12 +75,11 @@
 										</li>
 									</ul>
 									<p class="submit">
-										<button type="button" class="btn btn_next js-ajax-submit" data-wait="1500" style="margin-left:0px;" onclick="return check_pwd(this)">确定</button>
+										<button type="button" class="btn btn_next js-ajax-submit" data-wait="1500" style="margin-left:0px;" onclick="return check_num(this)">确定</button>
 									</p>
 							</form>
-
 							<!-- 成功之后 -->
-							<div class="password_con"  style="display:none;>
+							<div class="password_con" style="display:none;">
 								<div class="passs_suss">	
 										
 									<div class="icon">	</div>	
@@ -90,13 +89,9 @@
 									</div>
 								</div>	
 							
-							</div>							
-						
+							</div>			
 						</div>
 					</div>
-
-
-
 				</div>
 			</div>
 		</div>
@@ -107,5 +102,18 @@
 <include file="public@footer" />
 <include file="public@scripts" />
 </body>
-
+<script >
+	// 正则验证是否为6位数字
+	function servicePwd() {       
+        var str = $("#numr").val().trim();      
+        if(str.length!=6){      
+            reg=/^\d{6}$/;      
+            if(!reg.test(str)){      
+                 alert("请输入6位服务密码");   
+             }  
+         }else{  
+            alert("服务密码保存成功");  
+         }  
+    }  
+</script>
 </html>

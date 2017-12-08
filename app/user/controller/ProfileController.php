@@ -122,13 +122,20 @@ class ProfileController extends UserBaseController
         }
     }
 
+public function paypwd()
+{
+    $user = cmf_get_current_user();
+    $this->assign('user',$user);
+    return $this->fetch();
+}
     /**
      * 个人中心修改密码
      */
     public function password()
     {
         $user = cmf_get_current_user();
-        $this->assign($user);
+        $this->assign('user',$user);
+        // $this->assign($user);
         return $this->fetch();
     }
 
