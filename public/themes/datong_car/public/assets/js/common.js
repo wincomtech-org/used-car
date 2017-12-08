@@ -90,7 +90,7 @@ function _closeAction(){
 	$('.panel-cover').hide();
 	$('.accordion-item>').removeClass('accordion-item-expanded');
 	$('body').removeClass('with-panel-left-cover')
-	
+
 }
 
 /*结束手机目录点击事件*/
@@ -177,6 +177,51 @@ $(document).ready(function() {
 $('.vehicle_ul .tit').on('click',function(){
 	$(this).siblings('.vehicle_con_detail').toggle(600)
 })
+
+
+// 重置密码找回密码
+	var password1=$('.password1').val();
+	var password2=$('.password2').val();
+
+	function check_pwd(obj){
+		if($.trim($('input[name="password1"]').val()).length == 0|| isPassword($.trim($('input[name="password1"]').val())) == false){
+			$('input[name="password1"]').parent().siblings('b').show();
+			return false;
+		}else if($.trim($('input[name="password2"]').val()).length == 0 ){
+			$('input[name="password1"]').parent().siblings('b').hide();
+			$('input[name="password2"]').parent().siblings('b').show();
+			return false;
+		}else if(password1 != password2){
+			$('input[name="password2"]').parent().siblings('b').show();
+			return false;
+		}
+		obj.prentDefault();
+
+		// $('.js-ajax-form').submit();
+	}
+
+
+
+	$('.password_ul input').blur(function(){
+		if($.trim($(this).val())== "" || isPassword($.trim($(this).val())) == false){
+			$(this).parent().siblings('b').show();
+		}else if( $(this).attr('name') == "password2" &&  password1 != password2 ){
+			$('input[name="password1"]').parent().siblings('b').hide();
+			$('input[name="password2"]').parent().siblings('b').show();
+		}else{
+			$(this).parent().siblings('b').hide();
+		}
+	})
+
+	function isPassword(password) {
+	  var pattern=/^[a-zA-z]{1}[0-9A-Za-z]{7,19}$/;
+	  return  pattern.test(password);
+	}
+
+//结束	 重置密码找回密码
+
+
+
 
 
 /*个人中心*/

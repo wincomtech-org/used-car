@@ -8,7 +8,7 @@
                     {:cmf_get_user_avatar_url($user.avatar)}
                 </if>
             " alt="" /></a>
-            <p>{$user.user_login}</p>
+            <p>{$user.user_login|default=''}</p>
             <span>欢迎您！</span>
         </div>
         <div class="person_list">
