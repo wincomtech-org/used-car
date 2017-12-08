@@ -34,9 +34,9 @@
                                         <ul class="online_way pay_tab_list">
                                             <php>$dmoney = [100,500,1000,2000,5000];</php>
                                             <foreach name="dmoney" item="vo" key="key">
-                                            <li class="label_input pay_tab_list_item {$key==0?='select'}"><b></b><label><input type="radio" name="recharge_money" value="{$vo}" ><span class="icon">{$vo}</span></label></li>
+                                            <li class="label_input other_pay pay_tab_list_item {$key==0?='select'}"><b></b><label><input type="radio" name="recharge_money" value="{$vo}" ><span class="icon">{$vo}</span></label></li>
                                             </foreach>
-                                            <li class="label_input pay_tab_list_item"><b></b><label><span class="icon other">其他金额</span></label></li>
+                                            <li class="label_input pay_tab_list_item other_pay"><b></b><label><span class="icon other">其他金额</span></label></li>
                                         </ul>
 
                                         <dl class="custom_amount  replenish_amount" style="display:none">
@@ -51,14 +51,14 @@
 
                                         <p class="fund_managemen_title">请选择提现方式</p>
                                         <ul class="online_way pay_tab_list">
-                                            <li class="label_input pay_tab_list_item">
+                                            <li class="label_input pay_tab_list_item zhifu_pay">
                                                 <b></b>
                                                 <label>
                                                     <input type="radio" name="payment_way" value="alipay">
                                                     <span class="icon_img"></span>
                                                 </label>
                                             </li>
-                                            <li class="label_input pay_tab_list_item">
+                                            <li class="label_input pay_tab_list_item zhifu_pay">
                                                 <b></b>
                                                 <label>
                                                     <input type="radio" name="payment_way" value="wxpay">
