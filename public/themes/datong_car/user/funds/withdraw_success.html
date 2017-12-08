@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>提现 - 个人中心 - {$site_info.site_name|default=''}</title>
+    <meta name="keywords" content="{$site_info.site_seo_keywords|default=''}"/>
+    <meta name="description" content="{$site_info.site_seo_description|default=''}">
+
+    <include file="public@head"/>
+</head>
+<body>
+    <!-- 头部 -->
+    <include file="public@header" />
+    <!-- 导航 -->
+    <include file="public@nav" />
+
+    <!-- 资金管理 -->
+    <section class="person">
+        <div class="main">
+            <!-- 个人中心 -->
+            <include file="public@usernav" />
+
+            <div class="person_right">
+                <div class="person_right_tit">
+                    <include file="funds/nav" />
+                </div>
+                <div class="person_right_con">
+                    <div class="fund_management">
+                        <div class="fund_management_detail">
+                            <p class="fund_management_tit_tip">尊敬的用户，为了您的账号安全，在进行此操作前，请先输入支付密码</p>
+                            <include file="funds/comm"/>
+                            <div class="mode_payment">
+                                <div class="mode_pay_tip">
+                                    <table>
+                                        <caption>提交请求已经提交，等待管理员处理</caption>
+                                        <tbody>
+                                            <tr>
+                                                <td colspan="2">
+                                                    如果信息填写错误，导致提现失败，资金自动退还到您的账户
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>编号 </td>
+                                                <td>#{$apply.id}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>日期 </td>
+                                                <td>{:date('Y-m-d H:i:s',$apply.create_time)}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>状态</td>
+                                                <switch name="apply.status">
+                                                    <case value="-1"><td>审核失败</td></case>
+                                                    <case value="1"><td class="">审核通过</td></case>
+                                                    <default/><td class="sucss">正在审核……</td>
+                                                </switch>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <eq name="apply.status" value="-1">
+                                <div class="mode_pay_supply">
+                                    <p>以上内容是都解决了你的问题？</p>
+                                    <dl>
+                                        <dd><a href="#">是，已解决</a></dd>
+                                        <dd><a href="#">否，尚未解决</a></dd>
+                                    </dl>
+                                </div>
+                                </eq>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 底部 -->
+    <include file="public@footer" />
+    <include file="public@scripts" />
+</body>
+<include file="public@morejs" />
+
+</html>

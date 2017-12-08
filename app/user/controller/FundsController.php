@@ -8,7 +8,7 @@ use app\funds\model\UserFundsLogModel;
 use think\Db;
 
 /**
-* 个人中心 
+* 个人中心
 * 财务管理 资金动向
 */
 class FundsController extends UserBaseController
@@ -66,6 +66,77 @@ class FundsController extends UserBaseController
         return $this->fetch();
     }
 
+    public function withdrawPost()
+    {
+        $data = $this->request->post();
+        // dump($data);
+
+        // 预处理数据
+        $data['account'] = $data[$data['payment_way']]['account'];
+
+        $post = [
+            'user_id'   => $this->user['id'],
+            'account'   => $data['account'],
+            'username'  => $data['w_name'],
+            'coin'      => $data['w_money'],
+            'payment'   => $data['payment_way'],
+            'create_time'=> time(),
+        ];
+
+        // 验证
+        $result = $this->validate($post,'Funds.withdraw');
+        if ($result!==true) {
+            $this->error($result);
+        }
+        if (empty($data['w_pwd'])) {
+            $this->error('请输入密码');
+        }
+
+        if (cmf_compare_password($data['w_pwd'],$this->user['user_pass'])===false) {
+            $this->error('您的密码不对');
+        }
+        // 点券是无法提现的 $this->user['ticket']
+        if ($data['w_money']>$this->user['coin']) {
+            $this->error('余额不足');
+        }
+
+        // 数据库操作
+        Db::startTrans();
+        $TransStatus = false;
+        try{
+            Db::name('user')->where('id',$this->user['id'])->setDec('coin',$post['coin']);
+            // Db::name('funds_apply')->insert($post);
+            $result = Db::name('funds_apply')->insertGetId($post);
+            $TransStatus = true;
+            // 提交事务
+            Db::commit();
+        } catch (\Exception $e) {
+            // 回滚事务
+            Db::rollback();
+            // throw $e;
+        }
+
+        if (empty($TransStatus)) {
+            $this->error('提交失败了');
+        } else {
+            $userNew   = Db::name('user')->where('id',$this->user['id'])->find();
+            cmf_update_current_user($userNew);
+            $this->success('提交成功',url('withdrawSuccess',['id'=>$result]));
+        }
+    }
+    public function withdrawSuccess()
+    {
+        $id = $this->request->param('id',1,'intval');
+        $apply = Db::name('funds_apply')->where('id',$id)->find();
+        if (empty($apply)) {
+            abort(404, ' 数据不存在!');
+        }
+
+        $this->assign('apply',$apply);
+
+        return $this->fetch('withdraw_success');
+    }
+
     public function recharge()
     {
         return $this->fetch();
@@ -79,6 +150,11 @@ class FundsController extends UserBaseController
 
     public function apply()
     {
+        $list = Db::name('funds_apply')->where('user_id',$this->user['id'])->paginate(1);
+
+        $this->assign('list', $list);
+        $this->assign('pager', $list->render());
+
         return $this->fetch();
     }
 

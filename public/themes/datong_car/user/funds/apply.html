@@ -8,97 +8,86 @@
     <include file="public@head"/>
 </head>
 <body>
-    <!-- 头部 -->
-    <include file="public@header" />
-    <!-- 导航 -->
-    <include file="public@nav" />
+<!-- 头部 -->
+<include file="public@header" />
+<!-- 导航 -->
+<include file="public@nav" />
 
-    <!-- 资金管理 -->
-    <section class="person">
-        <div class="main">
-            <include file="public@usernav" />
+<!-- 资金管理 -->
+<section class="person">
+    <div class="main">
+        <include file="public@usernav" />
 
-            <div class="person_right">
-                <div class="person_right_tit">
-                    <include file="funds/nav" />
-                </div>
-                <div class="person_right_con">
-                    <div class="fund_management">
-                        <div class="fund_management_detail">
-                            <p class="fund_managemen_title">收支明细<a href="">使用遇到的问题？</a></p>
-                            <include file="funds/comm"/>
-                            <div class="stream">
-                                <p class="scroll_tip">以下内容可滚动</p>
-                                <div class=" table_div">
-                                    <div class="stream_con">
-                                        <table>
-                                            <thead>
-                                                <tr>
-                                                    <th>流水号</th>
-                                                    <th>时间</th>
-                                                    <th>操作</th>
-                                                    <th>金额</th>
-                                                    <th>状态</th>
-                                                </tr>   
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td>10011441</td>
-                                                    <td>2017-12-20 12:12:20</td>
-                                                    <td>任务失败退款</td>
-                                                    <td>+0.99</td>
-                                                    <td>正在审核</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>10011441</td>
-                                                    <td>2017-12-20 12:12:20</td>
-                                                    <td>任务失败退款</td>
-                                                    <td>+0.99</td>
-                                                    <td>正在审核</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>10011441</td>
-                                                    <td>2017-12-20 12:12:20</td>
-                                                    <td>任务失败退款</td>
-                                                    <td>+0.99</td>
-                                                    <td>正在审核</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>10011441</td>
-                                                    <td>2017-12-20 12:12:20</td>
-                                                    <td>任务失败退款</td>
-                                                    <td>+0.99</td>
-                                                    <td>正在审核</td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                                <div class="page_tip">
-                                    <div class="page2_con">
-                                        <p>共<span>1</span>页</p>
-                                        <ul class="page2_list">
-                                            <li><a href=""><</a></li>
-                                            <li class="active"><a href="">1</a></li>
-                                            <li><a href="">></a></li>
-                                            
-                                        </ul>
-                                    </div>
-                                    
+        <div class="person_right">
+            <div class="person_right_tit">
+                <include file="funds/nav" />
+            </div>
+            <div class="person_right_con">
+                <div class="fund_management">
+                    <div class="fund_management_detail">
+                        <p class="fund_managemen_title">收支明细<a href="#">使用遇到的问题？</a></p>
+                        <include file="funds/comm"/>
+                        <div class="stream">
+                            <p class="scroll_tip">以下内容可滚动</p>
+                            <div class=" table_div">
+                                <div class="stream_con">
+                                    <table>
+                                        <thead>
+                                            <tr>
+                                                <th>流水号</th>
+                                                <th>时间</th>
+                                                <th>操作</th>
+                                                <th>金额</th>
+                                                <th>状态</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <foreach name="list" item="vo">
+                                            <tr>
+                                                <td>#{$vo.id}</td>
+                                                <td>{:date('Y-m-d H:i:s',$vo.create_time)}</td>
+                                                <td>
+                                                <switch name="vo.type">
+                                                    <case value="withdraw">提现</case>
+                                                    <default/>管理员
+                                                </switch>
+                                                </td>
+                                                <td>{$vo.coin>0?'+'.$vo.coin:$vo.coin}</td>
+                                                <td>
+                                                <switch name="vo.status">
+                                                    <case value="-1">审核失败</case>
+                                                    <case value="1">审核通过</case>
+                                                    <default/>正在审核……
+                                                </switch>
+                                                </td>
+                                            </tr>
+                                            </foreach>
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
-
+                            <div class="page_tip">
+                                <div class="page2_con">
+                                    <!-- <p>共<span>1</span>页</p> -->
+                                    <ul class="page2_list">
+                                        {$pager|default=""}
+                                        <!-- <li><a href=""><</a></li>
+                                        <li class="active"><a href="">1</a></li>
+                                        <li><a href="">></a></li> -->
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
-
                     </div>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
-    <!-- 底部 -->
-    <include file="public@footer" />
-    <include file="public@scripts" />
+<!-- 底部 -->
+<include file="public@footer" />
+<include file="public@scripts" />
 </body>
 
 <include file="public@morejs" />

@@ -31,6 +31,7 @@ class PayController extends HomeBaseController
 
     public function trans()
     {
+        bcscale(6);
         Db::startTrans();
         $TransStatus = false;
         try{

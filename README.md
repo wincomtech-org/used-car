@@ -38,6 +38,7 @@ DOMEvent DOMDocumentWrapper phpQueryEvents phpQuery Callback JSONP
 2、车辆保险
 3、车辆业务
 4、个人中心
+    优先使用点券
 5、车辆买卖
     买家需要实名认证，卖家需要实名认证资质认证缴纳开店保证金才能卖车。
 6、支付模块
@@ -52,6 +53,11 @@ instanceof
 状态：千分位：-4000交易失败 -3000系统取消 -2000卖家取消 -1000买家取消 0000初始化状态 1000交易完成。百分位：100已支付。十分位：10已发货。个分位：1买家已评论 2卖家已评论 3双方已评论。
 
 
+◎统配：
+开店保证金：300
+提现开关：充值开关：
+全局列表分页数：
+短信开关：
 
 ◎格局:
 主导航
@@ -123,16 +129,18 @@ str_split($param2,2)
     自己送过去，拖车
 ⊙服务地点
 合并还是拆分业务表？地点要有地图。
-    #业务分类表(cmf_service_category)：菜鸟验车、车检预约
-    #业务表(cmf_service)：业务代号，预约时间，车架号、联系人，联系方式、地址、维修历史、
-    检测项目表(cmf_service_items<==>usual_item？)：尾气检测，外观检测，灯光检测,喇叭、玻璃，座椅、轮胎、胎压、底盘、雨刷、点火、安全带
-    业务地点表(cmf_service_site？)：锦平车险、润之丰车险（是公司表吗）
+
+#业务分类表(cmf_service_category)：
+    检测项目：菜鸟验车、车检预约、尾气检测，外观检测，灯光检测,喇叭、玻璃，座椅、轮胎、胎压、底盘、雨刷、点火、安全带
+#业务表(cmf_service)：业务代号，预约时间，车架号、联系人，联系方式、地址、维修历史、
+
+服务点表(cmf_usual_coordinate)：
 
 
 
 ●车辆买卖：
 ⊙店铺管理
-#二手买卖店铺表(trade_shop)
+#二手买卖店铺表(cmf_trade_shop)
     店铺名来自 卖家，即用户数据
 ⊙订单管理
 #订单表(cmf_trade_order)：
@@ -150,19 +158,20 @@ str_split($param2,2)
     车系从属品牌（品牌子类）
 车系表(cmf_usual_series)：名称
 车型表(cmf_usual_models)：名称
+车辆图集(cmf_usual_album？)：直接放在车辆表中。
 #属性表(cmf_usual_item)：名称
     ①传统设计：车子表、属性表、属性值表、车子＆属性中间表
     ②diy方式：获取所以相关数据数组(id,name)，根据不同父id区分，下标以对应id代替。$attr[1]=[9=>"自动挡",10=>"手动挡"]。品牌、车型、地区也都可以这样拼一起。
-车辆图集(cmf_usual_album？)：直接放在车辆表中。
 
 ###车辆属性重新设计：
-属性(分类)表
+属性(分类)表(cmf_usual_item_cate)：
     字段：parent_id,name,unit(单位),code,code_type(text,select,radio,checkbox,number,hidden),path,remark,description,more,is_top,is_rec,status,list_order
     数据库字段格式正则匹配，避免字段冲突thumbnail,photos,files
     只能新增，编辑，不能删除，确保数据一致性。以后有必要再改
     推荐的单独拿出来放，置顶的会靠前
 
-属性值表(select,radio,checkbox):提示属性分类必须为 select,radio,checkbox 多项型
+属性值表(cmf_usual_item)：
+    属性分类必须为 select,radio,checkbox 多项型
     cate_id,name,exch(替换规则：>,大于*、<,小于*、~,在*之间),description,more,is_top,status,list_order
     暂时制定6个规则：>、>=、=、<=、<、~
     如果 description 不为空，则用之。
@@ -176,7 +185,6 @@ str_split($param2,2)
 ●公司企业管理：is_baoxian   is_yewu
 #公司表(usual_company)：名称、、置顶、推荐、认证状态、状态
     二手买卖的店铺与这个公司有关系吗？无
-
 
 ●认证体系：手机认证、邮箱认证、身份证认证、营业执照认证
 lothar_verify()
@@ -196,6 +204,11 @@ lothar_verify()
 地区表(cmf_district)：
 ●数据库备份：
 
+●资金管理
+cmf_user_funds_log
+cmf_funds_apply 申请
+●点券管理
+cmf_user_ticket_log
 
 
 

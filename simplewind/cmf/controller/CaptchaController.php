@@ -26,12 +26,18 @@ class CaptchaController
         $config = [
             // 验证码字体大小(px)
             'fontSize' => 25,
+            // 混淆曲线，默认true
+            'useCurve' => false,
+            // 杂点，默认true
+            'useNoise' => false,
             // 验证码图片高度
             'imageH'   => 0,
             // 验证码图片宽度
             'imageW'   => 0,
             // 验证码位数
             'length'   => 4,
+            // 字体，默认为空。如果设置则只能设置一个
+            'fontttf'  => '4.ttf',
             // 背景颜色
             'bg'       => [243, 251, 254],
         ];
