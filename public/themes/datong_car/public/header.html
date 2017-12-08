@@ -35,8 +35,11 @@ if(navigator.appName == "Microsoft Internet Explorer"&&parseInt(navigator.appVer
                 <foreach name="navMenus" item="nav" >
                 <php>$navchildcount=count($nav['children']);</php>
                 <li class="accordion-item">
-                    <a class="item-content item-link link"
+                   <!--  <a class="item-content item-link link"
                         href="{$nav.children?'javascript:void(0);':$nav.href}"
+                        {$nav.target?='target="_blank"'} > -->
+                     <a class="item-content item-link link"
+                        href="{$nav.href}"
                         {$nav.target?='target="_blank"'} >
                         <div class="item-inner">
                             <div class="item-title">

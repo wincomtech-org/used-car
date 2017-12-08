@@ -29,10 +29,12 @@ $('.list-block .item-content').on('touchend',function(e){
 	e.stopPropagation();
 })
 
-$('.accordion-item>a.item-link').on('click',function(e){
 
-	e.stopPropagation()
-})
+
+// $('.accordion-item>a.item-link').on('click',function(e){
+
+// 	e.stopPropagation()
+// })
 $('.accordion-item>a.item-link').on('touchend',function(e){
 
 	if($(this).parent().hasClass('accordion-item-expanded')){
@@ -44,6 +46,20 @@ $('.accordion-item>a.item-link').on('touchend',function(e){
 		$(this).parent().addClass('accordion-item-expanded')
 	}
 	e.stopPropagation()
+	return false;
+})
+
+// 点击目录的标题跳转
+$('.item-title').on('click',function(){
+
+	var a_href=$(this).parent().parent().attr('href');
+	window.location.href=a_href;
+})
+
+$('.item-title').on('touchend',function(){
+
+	var a_href=$(this).parent().parent().attr('href');
+	window.location.href=a_href;
 })
 
 $('.accordion-item>a.item-link').on('click',function(e){
@@ -56,7 +72,8 @@ $('.accordion-item>a.item-link').on('click',function(e){
 
 		$(this).parent().addClass('accordion-item-expanded')
 	}
-	e.stopPropagation()
+	e.stopPropagation();
+	return false;
 })
 
 $(document).on('click',function(){
@@ -69,9 +86,11 @@ $("body:not('.accordion-item')").on('touchend',function(){
 })
 
 function _closeAction(){
+
 	$('.panel-cover').hide();
 	$('.accordion-item>').removeClass('accordion-item-expanded');
 	$('body').removeClass('with-panel-left-cover')
+	
 }
 
 /*结束手机目录点击事件*/
@@ -232,38 +251,67 @@ window.onload = function() {
 		var $this = $(this);
 		var $index = $this.index();
 		var $length = $(this).parent().children().length - 1;
+		console.log($length)
 		$pay_li.siblings('.pay_tab_list_item').hide();
 		$pay_li.show();
 		$this.addClass('select').siblings().removeClass('select')
 		$pay_con.css('display', 'none');
 		$pay_con.eq($index).css('display', 'block');
-		var price = $(this).find('.icon').not(".other").text();
-		$(this).parent().siblings('.payment_amount ').find('input').val("￥" + powAmount(price, 2));
-		if ($index == $length) {
-			$(this).parent().siblings('.custom_amount ').show();
+		
+		if($(this).hasClass('other_pay')){
+
+			var price = $(this).find('.icon').not(".other").text();
+			$(this).parent().siblings('.payment_amount ').find('input').val("￥" +  toDecimal2(price));
+			$(this).parent().siblings('.custom_amount ').find('input').val( toDecimal2(0));
+			$(this).parent().siblings('.custom_amount ').find('input').attr("disabled",true); 
+			if ($index == $length) {
+				$(this).parent().siblings('.custom_amount ').find('input').attr("disabled",false); 
+				$(this).parent().siblings('.payment_amount ').find('input').val("￥" +  toDecimal2(0));
+				$(this).parent().siblings('.custom_amount ').show();
+			}
 		}
+		
 	})
 
 	$('.custom_amount input').change(function() {
 
 		var changeVal = $(this).val();
-		$(this).parent().parent().siblings('.payment_amount ').find('input').val("￥" + powAmount(changeVal, 2))
+		$(this).parent().parent().siblings('.payment_amount ').find('input').val("￥" + toDecimal2(changeVal))
 	})
 }
 
-function powAmount(amount, _pow_) {
-	var amount_bak = amount;
-	var base = 10;
-	if (isNaN(amount)) {
-		return "0.00";
-	} else if (amount < 0) {
-		return "0.00"
-	}
-	amount = Math.round((amount - Math.floor(amount)) * Math.pow(base, _pow_));
-	amount = amount < 10 ? '.0' + amount : '.' + amount
-	amount = Math.floor(amount_bak) + amount;
-	return amount;
-}
+// function powAmount(amount, _pow_) {
+// 	var amount_bak = amount;
+// 	var base = 10;
+// 	if (isNaN(amount)) {
+// 		return "0.00";
+// 	} else if (amount < 0) {
+// 		return "0.00"
+// 	}
+// 	amount = Math.round((amount - Math.floor(amount)) * Math.pow(base, _pow_));
+// 	amount = amount < 10 ? '.0' + amount : '.' + amount
+// 	amount = Math.floor(amount_bak) + amount;
+// 	return amount;
+// }
+  function toDecimal2(money) {    
+        var f = parseFloat(money);    
+        if (isNaN(f)) {    
+            return "100.00";    
+        }    
+        var f = Math.round(money*100)/100;    
+        var s = f.toString();    
+        var rs = s.indexOf('.');    
+        if (rs < 0) {    
+            rs = s.length;    
+            s += '.';    
+        }    
+        while (s.length <= rs + 2) {    
+            s += '0';    
+        }    
+        return s;    
+    }
+
+
 //结束 个人中心在线充值
 
 // 验证手机号
