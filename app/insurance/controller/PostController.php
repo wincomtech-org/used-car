@@ -214,9 +214,15 @@ class PostController extends HomeBaseController
         // }
 
         $this->assign('id',$insurId);
-        $this->assign('Order',$insurOrder);
+        $this->assign('order',$insurOrder);
         $this->assign('Info',$insurInfo);
         return $this->fetch();
+    }
+
+    public function step5Post()
+    {
+        $data = $this->request->param();
+        $this->redirect(url('funds/Pay/pay'),$data);
     }
 
     // 付钱

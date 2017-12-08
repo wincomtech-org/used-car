@@ -76,7 +76,7 @@
                                                 <p>订金：￥{$carInfo.bargain_money}元（含过户费)</p>
                                             </div>
                                             <div class="right">
-                                                <a href="{:url('funds/Pay/index',['type'=>'cash','action'=>'seecar'])}" class="sure_pay js-dialog">确认支付</a>
+                                                <a href="{:url('funds/Pay/pay',['type'=>'cash','action'=>'seecar','coin'=>$carInfo.bargain_money])}" class="sure_pay">确认支付</a>
                                             </div>
                                         </div>
                                         <div class="nomoney list_money" style="display:none">
@@ -123,7 +123,7 @@
                                                                         <img src="__TMPL__/public/assets/images/example/erweima_wangye.png" alt="">
                                                                     </div>
                                                                     <div class="button">
-                                                                        <a href="{:url('funds/Pay/index',['type'=>'alipay','action'=>'seecar'])}" class="js-dialog">立即支付</a>
+                                                                        <a href="{:url('funds/Pay/pay',['type'=>'alipay','action'=>'seecar','coin'=>$carInfo.bargain_money])}" class="">立即支付</a>
                                                                     </div>
                                                                 </div>
                                                                 <div class="clear"></div>

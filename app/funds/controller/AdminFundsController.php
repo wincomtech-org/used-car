@@ -35,6 +35,29 @@ class AdminFundsController extends AdminBaseController
         return $this->fetch();
     }
 
+    // 点券操作
+    public function ticket()
+    {
+        $data = $this->request->param();
+
+        return '点券';
+        return $this->fetch();
+    }
+    public function ticketAdd()
+    {
+        # code...
+    }
+
+    // 给用户加钱
+    public function coin()
+    {
+        # code...
+    }
+    public function coinAdd()
+    {
+        # code...
+    }
+
     public function more()
     {
         # code...

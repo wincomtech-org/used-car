@@ -34,19 +34,19 @@
                                         <ul class="online_way pay_tab_list">
                                             <php>$dmoney = [100,500,1000,2000,5000];</php>
                                             <foreach name="dmoney" item="vo" key="key">
-                                            <li class="label_input other_pay pay_tab_list_item {$key==0?='select'}"><b></b><label><input type="radio" name="recharge_money" value="{$vo}" ><span class="icon">{$vo}</span></label></li>
+                                            <li class="label_input other_pay pay_tab_list_item {$key==0?='select'}"><b></b><label><input type="radio" value="{$vo}" ><span class="icon">{$vo}</span></label></li>
                                             </foreach>
                                             <li class="label_input pay_tab_list_item other_pay"><b></b><label><span class="icon other">其他金额</span></label></li>
                                         </ul>
 
                                         <dl class="custom_amount  replenish_amount" style="display:none">
                                             <dt>请自定义金额</dt>
-                                            <dd><input type="number" name="custom_money" value=""></dd>
+                                            <dd><input type="number" value=""></dd>
                                         </dl>
 
                                         <dl class="payment_amount replenish_amount">
                                             <dt>支付金额</dt>
-                                            <dd><input type="text" name="payment_money" value="" readonly></dd>
+                                            <dd><b style="color:#F00;">￥</b><input type="text" name="r_money" value="100.00" readonly></dd>
                                         </dl>
 
                                         <p class="fund_managemen_title">请选择提现方式</p>

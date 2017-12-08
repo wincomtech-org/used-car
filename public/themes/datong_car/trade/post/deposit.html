@@ -45,7 +45,7 @@
                                                 <p>保证金只需支付一次，便可终生享受卖车资格</p>
                                             </div>
                                             <div class="right">
-                                                <a href="{:url('funds/Pay/index',['type'=>'cash','action'=>'deposit'])}" class="sure_pay js-dialog">确认支付</a>
+                                                <a href="{:url('funds/Pay/pay',['type'=>'cash','action'=>'deposit','coin'=>300])}" class="sure_pay">确认支付</a>
                                                 <!-- <input type="hidden" name="type" value="cash">
                                                 <input type="hidden" name="action" value="deposit">
                                                 <button type="submit" class="js-ajax-submit">确认支付</button> -->
@@ -96,7 +96,7 @@
                                                                         <img src="__TMPL__/public/assets/images/example/erweima_wangye.png" alt="">
                                                                     </div>
                                                                     <div class="button">
-                                                                        <a href="{:url('funds/Pay/index',['type'=>'alipay','action'=>'deposit'])}" class="js-dialog">立即支付</a>
+                                                                        <a href="{:url('funds/Pay/index',['type'=>'alipay','action'=>'deposit','coin'=>300])}" class="">立即支付</a>
                                                                         <!-- <input type="hidden" name="type" value="alipay">
                                                                         <input type="hidden" name="action" value="deposit">
                                                                         <button type="submit" class="js-ajax-submit">确认支付</button> -->

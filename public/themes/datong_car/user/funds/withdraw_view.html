@@ -35,7 +35,7 @@
                                         <tbody>
                                             <tr>
                                                 <td colspan="2">
-                                                    如果信息填写错误，导致提现失败，资金自动退还到您的账户
+                                                    如果提现失败，资金自动退还到您的账户。
                                                 </td>
                                             </tr>
                                             <tr>
@@ -45,6 +45,10 @@
                                             <tr>
                                                 <td>日期 </td>
                                                 <td>{:date('Y-m-d H:i:s',$apply.create_time)}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>金额 </td>
+                                                <td>{$apply.coin}</td>
                                             </tr>
                                             <tr>
                                                 <td>状态</td>
@@ -61,8 +65,8 @@
                                 <div class="mode_pay_supply">
                                     <p>以上内容是都解决了你的问题？</p>
                                     <dl>
-                                        <dd><a href="#">是，已解决</a></dd>
-                                        <dd><a href="#">否，尚未解决</a></dd>
+                                        <dd><a href="{:url('user/Funds/withdraw')}">是，已解决</a></dd>
+                                        <dd><a href="{:url('user/Funds/withdrawReset',['id'=>$apply.id])}">否，尚未解决</a></dd>
                                     </dl>
                                 </div>
                                 </eq>

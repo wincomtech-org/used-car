@@ -39,6 +39,7 @@
                                                 <th>操作</th>
                                                 <th>金额</th>
                                                 <th>状态</th>
+                                                <th>操作</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -47,18 +48,22 @@
                                                 <td>#{$vo.id}</td>
                                                 <td>{:date('Y-m-d H:i:s',$vo.create_time)}</td>
                                                 <td>
-                                                <switch name="vo.type">
-                                                    <case value="withdraw">提现</case>
-                                                    <default/>管理员
-                                                </switch>
+                                                    <switch name="vo.type">
+                                                        <case value="withdraw">提现</case>
+                                                        <default/>管理员
+                                                    </switch>
                                                 </td>
                                                 <td>{$vo.coin>0?'+'.$vo.coin:$vo.coin}</td>
                                                 <td>
-                                                <switch name="vo.status">
-                                                    <case value="-1">审核失败</case>
-                                                    <case value="1">审核通过</case>
-                                                    <default/>正在审核……
-                                                </switch>
+                                                    <switch name="vo.status">
+                                                        <case value="-1">审核失败</case>
+                                                        <case value="1">审核通过</case>
+                                                        <default/>正在审核……
+                                                    </switch>
+                                                </td>
+                                                <td>
+                                                    <a href="{:url('user/Funds/withdrawView',['id'=>$vo.id])}">查看</a>
+                                                    <!-- <a href="{:url('user/Funds/del')}">删除</a> -->
                                                 </td>
                                             </tr>
                                             </foreach>

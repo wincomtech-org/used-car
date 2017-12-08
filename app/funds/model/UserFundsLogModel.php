@@ -6,7 +6,7 @@ use app\usual\model\UsualModel;
 
 class UserFundsLogModel extends UsualModel
 {
-    public function getLists($filter=[], $order='', $limit='3', $extra=[])
+    public function getLists($filter=[], $order='', $limit='', $extra=[])
     {
         $where = [];
         if (!empty($extra)) {

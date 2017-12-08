@@ -72,6 +72,8 @@ class PostController extends HomeBaseController
     public function depositPost()
     {
         # \app\funds\controller\PayController.php
+        $data = $this->request->param();
+        $this->redirect(url('funds/Pay/pay'),$data);
     }
 
     public function regCar()

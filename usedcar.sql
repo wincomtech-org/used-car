@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50540
 File Encoding         : 65001
 
-Date: 2017-12-07 17:56:48
+Date: 2017-12-08 16:28:05
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -4088,6 +4088,30 @@ INSERT INTO `cmf_district` VALUES ('3407', '3401', '0', '肥东县', '3');
 INSERT INTO `cmf_district` VALUES ('3408', '3401', '0', '肥西县', '3');
 
 -- ----------------------------
+-- Table structure for cmf_funds_apply
+-- ----------------------------
+DROP TABLE IF EXISTS `cmf_funds_apply`;
+CREATE TABLE `cmf_funds_apply` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '申请',
+  `user_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '用户Id',
+  `account` varchar(50) NOT NULL DEFAULT '' COMMENT '账号',
+  `username` varchar(25) NOT NULL DEFAULT '' COMMENT '姓名',
+  `coin` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '提现金额',
+  `payment` varchar(15) NOT NULL DEFAULT '' COMMENT '提现方式',
+  `type` char(10) NOT NULL DEFAULT 'withdraw' COMMENT '用户操作类型',
+  `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
+  `status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '审核状态： -1失败 0审核中 1审核通过',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COMMENT='用户资金相关申请表';
+
+-- ----------------------------
+-- Records of cmf_funds_apply
+-- ----------------------------
+INSERT INTO `cmf_funds_apply` VALUES ('1', '3', '31', '33423', '100.00', 'alipay', 'withdraw', '1512717758', '0');
+INSERT INTO `cmf_funds_apply` VALUES ('2', '3', '13987564125', '王静', '120.00', 'alipay', 'withdraw', '1512720140', '0');
+INSERT INTO `cmf_funds_apply` VALUES ('3', '3', '234234', '问问', '100.00', 'wxpay', 'withdraw', '1512720472', '0');
+
+-- ----------------------------
 -- Table structure for cmf_hook
 -- ----------------------------
 DROP TABLE IF EXISTS `cmf_hook`;
@@ -5049,9 +5073,10 @@ CREATE TABLE `cmf_user` (
   `mobile` varchar(20) NOT NULL DEFAULT '' COMMENT '用户手机号',
   `avatar` varchar(255) NOT NULL DEFAULT '' COMMENT '用户头像',
   `sex` tinyint(2) NOT NULL DEFAULT '0' COMMENT '性别;0:保密,1:男,2:女',
-  `birthday` int(11) NOT NULL DEFAULT '0' COMMENT '生日',
   `score` int(11) NOT NULL DEFAULT '0' COMMENT '用户积分',
-  `coin` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '金币',
+  `coin` decimal(10,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '金币',
+  `ticket` decimal(10,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '点券',
+  `birthday` int(11) NOT NULL DEFAULT '0' COMMENT '生日',
   `signature` varchar(255) NOT NULL DEFAULT '' COMMENT '个性签名',
   `user_url` varchar(100) NOT NULL DEFAULT '' COMMENT '用户个人网址',
   `create_time` int(10) NOT NULL DEFAULT '0' COMMENT '注册时间',
@@ -5068,10 +5093,10 @@ CREATE TABLE `cmf_user` (
 -- ----------------------------
 -- Records of cmf_user
 -- ----------------------------
-INSERT INTO `cmf_user` VALUES ('1', '1', 'admin', 'admin', '###b0b5b1441fcc40910db4b7d99d049ddf', 'admin@admin.com', '', '', '0', '0', '0', '0', '', '', '1507865317', '1512545322', '127.0.0.1', '1', '', '');
-INSERT INTO `cmf_user` VALUES ('2', '1', '超人不会飞', 'super', '###797fe4d0d1b299ac9b581f4fa4025dbb', 'super@qq.com', '', '', '0', '0', '0', '0', '', '', '0', '0', '', '1', '', '');
-INSERT INTO `cmf_user` VALUES ('3', '1', '洛萨', 'lothar', '###797fe4d0d1b299ac9b581f4fa4025dbb', 'lothar@qq.com', '13333333333', 'avatar/20171125/584d5aa4308ccc597df494da2b84700d.jpg', '0', '785865600', '0', '0', '', '', '0', '1512541388', '127.0.0.1', '1', '', '{\"qq\":\"34242432\",\"address\":\"56特有涂改液\"}');
-INSERT INTO `cmf_user` VALUES ('4', '2', '', '', '###797fe4d0d1b299ac9b581f4fa4025dbb', '', '18956471234', '', '0', '0', '0', '0', '', '', '1512194173', '1512194173', '127.0.0.1', '2', '', null);
+INSERT INTO `cmf_user` VALUES ('1', '1', 'admin', 'admin', '###b0b5b1441fcc40910db4b7d99d049ddf', 'admin@admin.com', '', '', '0', '0', '0.00', '0.00', '0', '', '', '1507865317', '1512545322', '127.0.0.1', '1', '', '');
+INSERT INTO `cmf_user` VALUES ('2', '1', '超人不会飞', 'super', '###797fe4d0d1b299ac9b581f4fa4025dbb', 'super@qq.com', '', '', '0', '0', '0.00', '0.00', '0', '', '', '0', '0', '', '1', '', '');
+INSERT INTO `cmf_user` VALUES ('3', '1', '洛萨', 'lothar', '###797fe4d0d1b299ac9b581f4fa4025dbb', 'lothar@qq.com', '13333333333', 'avatar/20171125/584d5aa4308ccc597df494da2b84700d.jpg', '0', '0', '80.00', '0.00', '785865600', '', '', '0', '1512720077', '127.0.0.1', '1', '', '{\"qq\":\"34242432\",\"address\":\"56特有涂改液\"}');
+INSERT INTO `cmf_user` VALUES ('4', '2', '', '', '###797fe4d0d1b299ac9b581f4fa4025dbb', '', '18956471234', '', '0', '0', '0.00', '0.00', '0', '', '', '1512194173', '1512194173', '127.0.0.1', '2', '', null);
 
 -- ----------------------------
 -- Table structure for cmf_user_action
@@ -5202,6 +5227,24 @@ CREATE TABLE `cmf_user_score_log` (
 
 -- ----------------------------
 -- Records of cmf_user_score_log
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for cmf_user_ticket_log
+-- ----------------------------
+DROP TABLE IF EXISTS `cmf_user_ticket_log`;
+CREATE TABLE `cmf_user_ticket_log` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '用户 id',
+  `type` tinyint(3) NOT NULL DEFAULT '0' COMMENT '用户操作类型funds_type',
+  `ticket` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '点券数额，可以为负',
+  `deal_uid` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT '操作者ID',
+  `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户点券记录表';
+
+-- ----------------------------
+-- Records of cmf_user_ticket_log
 -- ----------------------------
 
 -- ----------------------------

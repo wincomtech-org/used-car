@@ -19,7 +19,8 @@ class FundsController extends UserBaseController
         $u_f_nav = $this->request->action();
 
         $this->user = cmf_get_current_user();
-// dump($user);
+
+// dump($u_f_nav);
 
         $this->assign('u_f_nav',$u_f_nav);
         $this->assign('user',$this->user);
@@ -61,6 +62,36 @@ class FundsController extends UserBaseController
         return $this->fetch();
     }
 
+    // 充值
+    public function recharge()
+    {
+        return $this->fetch();
+    }
+
+    public function rechargePost()
+    {
+        $data = $this->request->param();
+        // dump($data);
+
+        $post = [
+            'user_id'   => $this->user['id'],
+            'coin'      => empty($data['r_money'])?null:$data['r_money'],
+            'payment'   => empty($data['payment_way'])?null:$data['payment_way'],
+            'type'      => 'recharge',
+        ];
+
+        // 验证
+        $result = $this->validate($post,'Funds.recharge');
+        if ($result!==true) {
+            $this->error($result);
+        }
+
+        // 支付接口
+        $this->redirect(cmf_url('funds/Pay/pay',$post));
+
+    }
+
+    // 提现
     public function withdraw()
     {
         return $this->fetch();
@@ -121,12 +152,22 @@ class FundsController extends UserBaseController
         } else {
             $userNew   = Db::name('user')->where('id',$this->user['id'])->find();
             cmf_update_current_user($userNew);
-            $this->success('提交成功',url('withdrawSuccess',['id'=>$result]));
+            $this->success('提交成功',url('withdrawView',['id'=>$result]));
         }
     }
-    public function withdrawSuccess()
+    public function withdrawReset()
     {
-        $id = $this->request->param('id',1,'intval');
+        $id = $this->request->param('id',0,'intval');
+        if (empty($id)) {
+            $this->error('数据非法！');
+        } else {
+            Db::nmae('funds_apply')->where('id',$id)->setField('status',0);
+            $this->redirect(url('withdraw'));
+        }
+    }
+    public function withdrawView()
+    {
+        $id = $this->request->param('id',0,'intval');
         $apply = Db::name('funds_apply')->where('id',$id)->find();
         if (empty($apply)) {
             abort(404, ' 数据不存在!');
@@ -134,23 +175,12 @@ class FundsController extends UserBaseController
 
         $this->assign('apply',$apply);
 
-        return $this->fetch('withdraw_success');
-    }
-
-    public function recharge()
-    {
-        return $this->fetch();
-    }
-
-    public function rechargePost()
-    {
-        $data = $this->request->param();
-        dump($data);
+        return $this->fetch('withdraw_view');
     }
 
     public function apply()
     {
-        $list = Db::name('funds_apply')->where('user_id',$this->user['id'])->paginate(1);
+        $list = Db::name('funds_apply')->where('user_id',$this->user['id'])->paginate(15);
 
         $this->assign('list', $list);
         $this->assign('pager', $list->render());

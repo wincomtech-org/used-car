@@ -29,6 +29,24 @@ class PayController extends HomeBaseController
         return $this->fetch();
     }
 
+    public function pay()
+    {
+        if (!cmf_is_user_login()) {
+            $this->error('请登录',url('user/Login/index'));
+        }
+
+        $data = $this->request->param();
+        if (!empty($data)) {
+            dump($data);
+        }
+        $this->success('支付中心 - 模拟支付',cmf_url('user/Profile/center'),'',10);
+    }
+
+    public function payment()
+    {
+        # code...
+    }
+
     public function trans()
     {
         bcscale(6);

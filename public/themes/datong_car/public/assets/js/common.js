@@ -67,7 +67,7 @@ $('.accordion-item>a.item-link').on('click',function(e){
 	if($(this).parent().hasClass('accordion-item-expanded')){
 
 		$(this).parent().removeClass('accordion-item-expanded')
-		
+
 	}else{
 
 		$(this).parent().addClass('accordion-item-expanded')
@@ -90,7 +90,7 @@ function _closeAction(){
 	$('.panel-cover').hide();
 	$('.accordion-item>').removeClass('accordion-item-expanded');
 	$('body').removeClass('with-panel-left-cover')
-	
+
 }
 
 /*结束手机目录点击事件*/
@@ -257,26 +257,24 @@ window.onload = function() {
 		$this.addClass('select').siblings().removeClass('select')
 		$pay_con.css('display', 'none');
 		$pay_con.eq($index).css('display', 'block');
-		
-		if($(this).hasClass('other_pay')){
 
+		if($(this).hasClass('other_pay')){
 			var price = $(this).find('.icon').not(".other").text();
-			$(this).parent().siblings('.payment_amount ').find('input').val("￥" +  toDecimal2(price));
+			$(this).parent().siblings('.payment_amount ').find('input').val(toDecimal2(price));
 			$(this).parent().siblings('.custom_amount ').find('input').val( toDecimal2(0));
-			$(this).parent().siblings('.custom_amount ').find('input').attr("disabled",true); 
+			$(this).parent().siblings('.custom_amount ').find('input').attr("disabled",true);
 			if ($index == $length) {
-				$(this).parent().siblings('.custom_amount ').find('input').attr("disabled",false); 
-				$(this).parent().siblings('.payment_amount ').find('input').val("￥" +  toDecimal2(0));
+				$(this).parent().siblings('.custom_amount ').find('input').attr("disabled",false);
+				$(this).parent().siblings('.payment_amount ').find('input').val(toDecimal2(0));
 				$(this).parent().siblings('.custom_amount ').show();
 			}
 		}
-		
+
 	})
 
 	$('.custom_amount input').change(function() {
-
 		var changeVal = $(this).val();
-		$(this).parent().parent().siblings('.payment_amount ').find('input').val("￥" + toDecimal2(changeVal))
+		$(this).parent().parent().siblings('.payment_amount ').find('input').val(toDecimal2(changeVal))
 	})
 }
 
@@ -293,22 +291,22 @@ window.onload = function() {
 // 	amount = Math.floor(amount_bak) + amount;
 // 	return amount;
 // }
-  function toDecimal2(money) {    
-        var f = parseFloat(money);    
-        if (isNaN(f)) {    
-            return "100.00";    
-        }    
-        var f = Math.round(money*100)/100;    
-        var s = f.toString();    
-        var rs = s.indexOf('.');    
-        if (rs < 0) {    
-            rs = s.length;    
-            s += '.';    
-        }    
-        while (s.length <= rs + 2) {    
-            s += '0';    
-        }    
-        return s;    
+  function toDecimal2(money) {
+        var f = parseFloat(money);
+        if (isNaN(f)) {
+            return "100.00";
+        }
+        var f = Math.round(money*100)/100;
+        var s = f.toString();
+        var rs = s.indexOf('.');
+        if (rs < 0) {
+            rs = s.length;
+            s += '.';
+        }
+        while (s.length <= rs + 2) {
+            s += '0';
+        }
+        return s;
     }
 
 
