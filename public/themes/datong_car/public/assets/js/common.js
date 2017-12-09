@@ -45,21 +45,28 @@ $('.accordion-item>a.item-link').on('touchend',function(e){
 
 		$(this).parent().addClass('accordion-item-expanded')
 	}
-	e.stopPropagation()
+	e.stopPropagation();
+
 	return false;
 })
 
 // 点击目录的标题跳转
-$('.item-title').on('click',function(){
+$('.item-title').on('click',function(e){
 
 	var a_href=$(this).parent().parent().attr('href');
+
 	window.location.href=a_href;
+
+	e.stopPropagation();
 })
 
-$('.item-title').on('touchend',function(){
+$('.item-title').on('touchend',function(e){
 
 	var a_href=$(this).parent().parent().attr('href');
+
 	window.location.href=a_href;
+
+	e.stopPropagation();
 })
 
 $('.accordion-item>a.item-link').on('click',function(e){

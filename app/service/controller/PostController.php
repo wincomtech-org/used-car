@@ -35,6 +35,20 @@ class PostController extends HomeBaseController
         return $this->fetch();
     }
 
+    public function index2()
+    {
+        $servId = $this->request->param('servId',0,'intval');
+
+        $noobInfo = model('service/ServiceCategory')->getPost(1);
+
+        $this->assign('noobInfo',$noobInfo);
+
+         if (!empty($servId)) {
+            $this->redirect('appoint', ['compId'=>$this->compId,'servId'=>$servId]);
+        }
+
+        return $this->fetch();
+    }
     public function appoint()
     {
         $servId = $this->request->param('servId',0,'intval');
