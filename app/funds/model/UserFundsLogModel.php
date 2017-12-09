@@ -52,7 +52,7 @@ class UserFundsLogModel extends UsualModel
 
     public function getTypes($selectId=0, $parentId=0, $option='')
     {
-        $options = $this->getStatus($selectId,'funds_type');
+        $options = $this->getStatus($selectId,'user_funds_log_type');
         return $options;
     }
 

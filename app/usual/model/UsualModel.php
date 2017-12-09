@@ -91,20 +91,6 @@ class UsualModel extends Model
     // seller_birthday 卖家生日
     function setSellerBirthdayAttr($value){ return strtotime($value);}
 
-    /**
-     * status 用户名 自动完成
-     * @param $value
-     * @return int
-    */
-    // public function setBuyerUidAttr($value)
-    // {
-    //     return Db::name('user')->whereOr(['user_login|user_nickname|user_email'=>['like', "%$value%"]])->value('id');
-    // }
-    // public function setSellerUidAttr($value)
-    // {
-    //     return $this->setBuyerUidAttr($value);
-    // }
-
 
 
     /**

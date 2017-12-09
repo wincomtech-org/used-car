@@ -22,7 +22,7 @@ class OrderValidate extends Validate
     ];
     protected function checkName($value,$rule,$data)
     {
-        if (model('InsuranceOrder')->where('order_sn',$data['order_sn'])->count()) {
+        if (model('InsuranceOrder')->where('order_sn',$value)->count()) {
             return false;
         }
         return true;

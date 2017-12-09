@@ -40,12 +40,18 @@ class AdminFundsController extends AdminBaseController
     {
         $data = $this->request->param();
 
+
         return '点券';
         return $this->fetch();
     }
     public function ticketAdd()
     {
-        # code...
+
+        // 判断是否为新用户
+        $count = Db::name('user_funds_log')->where('user_id')->count();
+        if ($count>0) {
+            $this->error('不是新用户');
+        }
     }
 
     // 给用户加钱

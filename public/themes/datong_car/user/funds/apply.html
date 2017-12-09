@@ -25,7 +25,7 @@
             <div class="person_right_con">
                 <div class="fund_management">
                     <div class="fund_management_detail">
-                        <p class="fund_managemen_title">收支明细<a href="#">使用遇到的问题？</a></p>
+                        <p class="fund_managemen_title">申请列表<a href="#">使用遇到的问题？</a></p>
                         <include file="funds/comm"/>
                         <div class="stream">
                             <p class="scroll_tip">以下内容可滚动</p>
@@ -35,35 +35,42 @@
                                         <thead>
                                             <tr>
                                                 <th>流水号</th>
-                                                <th>时间</th>
-                                                <th>操作</th>
                                                 <th>金额</th>
+                                                <th>方式</th>
+                                                <th>类型</th>
+                                                <th>时间</th>
                                                 <th>状态</th>
                                                 <th>操作</th>
                                             </tr>
                                         </thead>
                                         <tbody>
+                                            <php>
+                                                $types = config('payment');
+                                                $statusV = config('funds_apply_status');
+                                            </php>
                                             <foreach name="list" item="vo">
                                             <tr>
                                                 <td>#{$vo.id}</td>
-                                                <td>{:date('Y-m-d H:i:s',$vo.create_time)}</td>
+                                                <td>{$vo.coin}</td>
+                                                <td>
+                                                    {$types[$vo.payment]}
+                                                </td>
                                                 <td>
                                                     <switch name="vo.type">
                                                         <case value="withdraw">提现</case>
-                                                        <default/>管理员
+                                                        <default/>管理员操作
                                                     </switch>
                                                 </td>
-                                                <td>{$vo.coin>0?'+'.$vo.coin:$vo.coin}</td>
+                                                <td>{:date('Y-m-d H:i:s',$vo.create_time)}</td>
                                                 <td>
-                                                    <switch name="vo.status">
-                                                        <case value="-1">审核失败</case>
-                                                        <case value="1">审核通过</case>
-                                                        <default/>正在审核……
-                                                    </switch>
+                                                    {$statusV[$vo.status]}
                                                 </td>
                                                 <td>
+                                                    <eq name="vo.status" value="0,-1">
+                                                    <a href="{:url('user/Funds/withdrawCancel',['id'=>$vo.id])}">取消</a>
+                                                    </eq>
                                                     <a href="{:url('user/Funds/withdrawView',['id'=>$vo.id])}">查看</a>
-                                                    <!-- <a href="{:url('user/Funds/del')}">删除</a> -->
+                                                    <!-- <a href="{//:url('user/Funds/del?',['id'=>$vo.id])}">删除</a> -->
                                                 </td>
                                             </tr>
                                             </foreach>

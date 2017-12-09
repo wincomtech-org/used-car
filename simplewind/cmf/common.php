@@ -251,7 +251,7 @@ EOT;
 }
 
 /*用户资金流动 - 增加*/
-function lothar_put_funds_log($data, $type, $coin,$remain, $app, $objId, $return=true)
+function lothar_put_funds_log($data, $type, $coin,$remain, $app, $objId, $return=false)
 {
     if (is_array($data)) {
         $count = count($data);
@@ -261,7 +261,7 @@ function lothar_put_funds_log($data, $type, $coin,$remain, $app, $objId, $return
                 'type'        => (empty($data['type'])?0:$data['type']),
                 'coin'        => (empty($data['coin'])?0:$data['coin']),
                 'remain'      => (empty($data['remain'])?0.00:$data['remain']),
-                'app'         => (empty($data['app'])?'':$data['app']),
+                'app'         => (empty($data['app'])?'user':$data['app']),
                 'obj_id'      => (empty($data['obj_id'])?0:$data['obj_id']),
                 'create_time' => time(),
                 'ip'          => get_client_ip(),

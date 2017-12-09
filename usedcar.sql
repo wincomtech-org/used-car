@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50540
 File Encoding         : 65001
 
-Date: 2017-12-08 16:28:05
+Date: 2017-12-09 16:05:40
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -4093,23 +4093,25 @@ INSERT INTO `cmf_district` VALUES ('3408', '3401', '0', '肥西县', '3');
 DROP TABLE IF EXISTS `cmf_funds_apply`;
 CREATE TABLE `cmf_funds_apply` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '申请',
-  `user_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '用户Id',
-  `account` varchar(50) NOT NULL DEFAULT '' COMMENT '账号',
-  `username` varchar(25) NOT NULL DEFAULT '' COMMENT '姓名',
-  `coin` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '提现金额',
-  `payment` varchar(15) NOT NULL DEFAULT '' COMMENT '提现方式',
   `type` char(10) NOT NULL DEFAULT 'withdraw' COMMENT '用户操作类型',
+  `user_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '用户Id',
+  `order_sn` varchar(150) NOT NULL DEFAULT '' COMMENT '订单号：type为recharge时',
+  `account` varchar(50) NOT NULL DEFAULT '' COMMENT '账号：type为withdraw时',
+  `username` varchar(25) NOT NULL DEFAULT '' COMMENT '姓名：type为withdraw时',
+  `coin` decimal(10,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '金额',
+  `payment` varchar(15) NOT NULL DEFAULT '' COMMENT '提现方式：alipay支付宝 wxpay微信',
   `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
-  `status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '审核状态： -1失败 0审核中 1审核通过',
+  `remark` varchar(255) NOT NULL DEFAULT '' COMMENT '管理员备注',
+  `status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '审核状态： -2取消 -1审核失败 0审核中 1审核通过 10完成',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COMMENT='用户资金相关申请表';
 
 -- ----------------------------
 -- Records of cmf_funds_apply
 -- ----------------------------
-INSERT INTO `cmf_funds_apply` VALUES ('1', '3', '31', '33423', '100.00', 'alipay', 'withdraw', '1512717758', '0');
-INSERT INTO `cmf_funds_apply` VALUES ('2', '3', '13987564125', '王静', '120.00', 'alipay', 'withdraw', '1512720140', '0');
-INSERT INTO `cmf_funds_apply` VALUES ('3', '3', '234234', '问问', '100.00', 'wxpay', 'withdraw', '1512720472', '0');
+INSERT INTO `cmf_funds_apply` VALUES ('1', 'withdraw', '3', '', '31', '33423', '100.00', 'alipay', '1512717758', '', '0');
+INSERT INTO `cmf_funds_apply` VALUES ('2', 'withdraw', '3', '', '13987564125', '王静', '120.00', 'alipay', '1512720140', '', '0');
+INSERT INTO `cmf_funds_apply` VALUES ('3', 'withdraw', '3', '', '234234', '问问', '100.00', 'wxpay', '1512720472', '', '0');
 
 -- ----------------------------
 -- Table structure for cmf_hook
@@ -5075,6 +5077,7 @@ CREATE TABLE `cmf_user` (
   `sex` tinyint(2) NOT NULL DEFAULT '0' COMMENT '性别;0:保密,1:男,2:女',
   `score` int(11) NOT NULL DEFAULT '0' COMMENT '用户积分',
   `coin` decimal(10,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '金币',
+  `freeze` decimal(10,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '冻结',
   `ticket` decimal(10,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '点券',
   `birthday` int(11) NOT NULL DEFAULT '0' COMMENT '生日',
   `signature` varchar(255) NOT NULL DEFAULT '' COMMENT '个性签名',
@@ -5093,10 +5096,10 @@ CREATE TABLE `cmf_user` (
 -- ----------------------------
 -- Records of cmf_user
 -- ----------------------------
-INSERT INTO `cmf_user` VALUES ('1', '1', 'admin', 'admin', '###b0b5b1441fcc40910db4b7d99d049ddf', 'admin@admin.com', '', '', '0', '0', '0.00', '0.00', '0', '', '', '1507865317', '1512545322', '127.0.0.1', '1', '', '');
-INSERT INTO `cmf_user` VALUES ('2', '1', '超人不会飞', 'super', '###797fe4d0d1b299ac9b581f4fa4025dbb', 'super@qq.com', '', '', '0', '0', '0.00', '0.00', '0', '', '', '0', '0', '', '1', '', '');
-INSERT INTO `cmf_user` VALUES ('3', '1', '洛萨', 'lothar', '###797fe4d0d1b299ac9b581f4fa4025dbb', 'lothar@qq.com', '13333333333', 'avatar/20171125/584d5aa4308ccc597df494da2b84700d.jpg', '0', '0', '80.00', '0.00', '785865600', '', '', '0', '1512720077', '127.0.0.1', '1', '', '{\"qq\":\"34242432\",\"address\":\"56特有涂改液\"}');
-INSERT INTO `cmf_user` VALUES ('4', '2', '', '', '###797fe4d0d1b299ac9b581f4fa4025dbb', '', '18956471234', '', '0', '0', '0.00', '0.00', '0', '', '', '1512194173', '1512194173', '127.0.0.1', '2', '', null);
+INSERT INTO `cmf_user` VALUES ('1', '1', 'admin', 'admin', '###b0b5b1441fcc40910db4b7d99d049ddf', 'admin@admin.com', '', '', '0', '0', '0.00', '0.00', '0.00', '0', '', '', '1507865317', '1512787745', '127.0.0.1', '1', '', '');
+INSERT INTO `cmf_user` VALUES ('2', '1', '超人不会飞', 'super', '###797fe4d0d1b299ac9b581f4fa4025dbb', 'super@qq.com', '', '', '0', '0', '0.00', '0.00', '0.00', '0', '', '', '0', '0', '', '1', '', '');
+INSERT INTO `cmf_user` VALUES ('3', '1', '洛萨', 'lothar', '###797fe4d0d1b299ac9b581f4fa4025dbb', 'lothar@qq.com', '13333333333', 'avatar/20171125/584d5aa4308ccc597df494da2b84700d.jpg', '0', '0', '80.00', '320.00', '0.00', '785865600', '', '', '0', '1512721893', '127.0.0.1', '1', '', '{\"qq\":\"34242432\",\"address\":\"56特有涂改液\"}');
+INSERT INTO `cmf_user` VALUES ('4', '2', '', '', '###797fe4d0d1b299ac9b581f4fa4025dbb', '', '18956471234', '', '0', '0', '0.00', '0.00', '0.00', '0', '', '', '1512194173', '1512194173', '127.0.0.1', '2', '', null);
 
 -- ----------------------------
 -- Table structure for cmf_user_action
@@ -5170,12 +5173,13 @@ INSERT INTO `cmf_user_favorite` VALUES ('2', '1', '福特 嘉年华两厢 2011�
 DROP TABLE IF EXISTS `cmf_user_funds_log`;
 CREATE TABLE `cmf_user_funds_log` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `type` tinyint(3) NOT NULL DEFAULT '0' COMMENT '用户操作类型 user_funds_log_type。自定义：',
   `user_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '用户 id',
-  `type` tinyint(3) NOT NULL DEFAULT '0' COMMENT '用户操作类型funds_type。自定义：',
   `coin` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '更改金币，可以为负',
   `remain` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '剩余金额',
-  `app` varchar(50) NOT NULL DEFAULT '' COMMENT '记录的来源所在应用名或插件名等',
   `obj_id` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT '对象ID',
+  `apply_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '申请ID',
+  `app` char(15) NOT NULL DEFAULT '' COMMENT '记录的来源所在应用名或插件名等',
   `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
   `ip` char(15) NOT NULL DEFAULT '' COMMENT '用户的ip',
   PRIMARY KEY (`id`)
@@ -5184,14 +5188,14 @@ CREATE TABLE `cmf_user_funds_log` (
 -- ----------------------------
 -- Records of cmf_user_funds_log
 -- ----------------------------
-INSERT INTO `cmf_user_funds_log` VALUES ('1', '3', '8', '20.00', '20.00', 'user', '0', '1512489600', '127.0.0.1');
-INSERT INTO `cmf_user_funds_log` VALUES ('2', '3', '2', '-10.00', '10.00', 'insurance', '0', '1512489600', '127.0.0.1');
-INSERT INTO `cmf_user_funds_log` VALUES ('3', '3', '8', '2000.00', '2010.00', 'recharge', '0', '1512489600', '127.0.0.1');
-INSERT INTO `cmf_user_funds_log` VALUES ('4', '3', '3', '-30.00', '1980.00', 'service', '0', '1512489600', '127.0.0.1');
-INSERT INTO `cmf_user_funds_log` VALUES ('5', '3', '5', '-300.00', '1680.00', 'trade', '0', '1512489600', '127.0.0.1');
-INSERT INTO `cmf_user_funds_log` VALUES ('6', '3', '9', '-100.00', '1580.00', 'user', '0', '1512489600', '127.0.0.1');
-INSERT INTO `cmf_user_funds_log` VALUES ('7', '3', '10', '-60.00', '1520.00', 'user', '0', '1512489600', '127.0.0.1');
-INSERT INTO `cmf_user_funds_log` VALUES ('8', '3', '10', '100.00', '1620.00', 'user', '0', '1512489600', '127.0.0.1');
+INSERT INTO `cmf_user_funds_log` VALUES ('1', '8', '3', '20.00', '20.00', '0', '0', 'user', '1512489600', '127.0.0.1');
+INSERT INTO `cmf_user_funds_log` VALUES ('2', '2', '3', '-10.00', '10.00', '0', '0', 'insurance', '1512489600', '127.0.0.1');
+INSERT INTO `cmf_user_funds_log` VALUES ('3', '8', '3', '2000.00', '2010.00', '0', '0', 'recharge', '1512489600', '127.0.0.1');
+INSERT INTO `cmf_user_funds_log` VALUES ('4', '3', '3', '-30.00', '1980.00', '0', '0', 'service', '1512489600', '127.0.0.1');
+INSERT INTO `cmf_user_funds_log` VALUES ('5', '5', '3', '-300.00', '1680.00', '0', '0', 'trade', '1512489600', '127.0.0.1');
+INSERT INTO `cmf_user_funds_log` VALUES ('6', '9', '3', '-100.00', '1580.00', '0', '0', 'user', '1512489600', '127.0.0.1');
+INSERT INTO `cmf_user_funds_log` VALUES ('7', '10', '3', '-60.00', '1520.00', '0', '0', 'user', '1512489600', '127.0.0.1');
+INSERT INTO `cmf_user_funds_log` VALUES ('8', '10', '3', '100.00', '1620.00', '0', '0', 'user', '1512489600', '127.0.0.1');
 
 -- ----------------------------
 -- Table structure for cmf_user_login_attempt
@@ -5264,7 +5268,7 @@ CREATE TABLE `cmf_user_token` (
 -- ----------------------------
 -- Records of cmf_user_token
 -- ----------------------------
-INSERT INTO `cmf_user_token` VALUES ('3', '1', '1528097322', '1512545322', 'd2baa43a7ac64d0d15f0c321f23a77f4d2baa43a7ac64d0d15f0c321f23a77f4', 'web');
+INSERT INTO `cmf_user_token` VALUES ('3', '1', '1528339745', '1512787745', '8a0974a4e71a6d4ca475899d8e76f3af8a0974a4e71a6d4ca475899d8e76f3af', 'web');
 INSERT INTO `cmf_user_token` VALUES ('4', '3', '1527744994', '1512192994', 'dc256e0c455256ac1b543488cfa766c7dc256e0c455256ac1b543488cfa766c7', 'web');
 
 -- ----------------------------

@@ -50,7 +50,7 @@ class InsuranceOrderModel extends InsuranceModel
         if (!empty($uname)) {
             $uid = intval($uname);
             if (empty($uid)) {
-                $uid = Db::name('user')->where('user_nickname',$uname)->whereOr('user_login',$uname)->value('id');
+                $uid = Db::name('user')->whereOr(['user_nickname|user_login|user_email|mobile'=>$uname])->value('id');
                 $uid = intval($uid);
             }
             $where['a.user_id'] = $uid;

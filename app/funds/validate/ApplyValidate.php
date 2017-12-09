@@ -6,11 +6,15 @@ use think\Validate;
 class FundsValidate extends Validate
 {
     protected $rule = [
+        // 'type' => 'require',
+        // 'user_id' => 'require',
+        // 'order_sn' => 'checkName',
         'account' => 'require',
         'username' => 'require',
         'coin' => 'require|float|between:100,99999',
         'payment' => 'require',
     ];
+
     protected $message = [
         'account.require' => '账户不能为空',
         'username.require' => '姓名不能为空',
@@ -24,4 +28,12 @@ class FundsValidate extends Validate
         'recharge'  => ['coin','payment'],
         'withdraw' => [],
     ];
+
+    protected function checkName($value,$rule,$data)
+    {
+        if (model('FundsApply')->where(['id'=>$data['id'],'order_sn'=>$value])->count()) {
+            return false;
+        }
+        return true;
+    }
 }

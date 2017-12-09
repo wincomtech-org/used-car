@@ -1,22 +1,10 @@
 <div class="detail_div">
     <ul class="detail_list">
-        <li class="tit">我的余额</li>
-        <li class="money">￥{$user.coin}</li>
-        <li class="tit">点券</li>
-        <li class="money">￥{$user.ticket}</li>
-        <!-- <li class="tit">押金</li>
-        <li class="money">￥{$user.coin}</li> -->
-        <!-- <li class="operate">
-            <a href="" class="<in name='u_f_nav' value='index,recharge'>select</in>"><b></b>充值</a>
-            <a href="" class="<in name='u_f_nav' value='withdraw,apply'>select</in>"><b></b>提现</a>
-        </li> -->
+        <li class="tit">我的余额：</li>
+        <li class="money">￥{$user.coin|default='0.00'}</li>
+        <li class="tit">冻结（提现）：</li>
+        <li class="money">￥{$user.freeze|default='0.00'}</li>
+        <li class="tit"><font color="<php>if(isset($type)&&$type==12){echo 'red';}</php>">我的点券：</font></li>
+        <li class="money"><a style="color:red" href="{:url('user/Funds/index',['type'=>12])}">￥{$user.ticket|default='0.00'}</a></li>
     </ul>
-    <!-- <ul class="detail_list">
-        <li class="tit">押金</li>
-        <li class="money">￥0.99</li>
-        <li class="operate">
-            <a href="" class=""><b></b>支付</a>
-            <a href="" class=""><b></b>返回</a>
-        </li>
-    </ul> -->
 </div>

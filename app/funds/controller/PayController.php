@@ -3,8 +3,8 @@ namespace app\funds\controller;
 
 use cmf\controller\HomeBaseController;
 // use cmf\controller\UserBaseController;
-// use app\funds\model\FundsModel;
-// use think\Db;
+use app\funds\model\PayModel;
+use think\Db;
 
 /**
 * 支付中心
@@ -29,6 +29,7 @@ class PayController extends HomeBaseController
         return $this->fetch();
     }
 
+    // 支付总入口
     public function pay()
     {
         if (!cmf_is_user_login()) {
@@ -36,15 +37,16 @@ class PayController extends HomeBaseController
         }
 
         $data = $this->request->param();
-        if (!empty($data)) {
-            dump($data);
-        }
-        $this->success('支付中心 - 模拟支付',cmf_url('user/Profile/center'),'',10);
+        // if (!empty($data)) {
+        //     dump($data);
+        // }
+        $this->success('支付中心 - 模拟支付',cmf_url('user/Profile/center'),$data,100);
     }
 
+    // 
     public function payment()
     {
-        # code...
+        $payModel = new PayModel();
     }
 
     public function trans()
