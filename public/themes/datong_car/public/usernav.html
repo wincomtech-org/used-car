@@ -1,13 +1,13 @@
 <div class="person_left">
     <div class="users">
         <div class="users_con">
-            <a href="{:url('profile/avatar')}"><img src="
+            <a href="{:url('user/Profile/avatar')}"><img src="
                 <if condition='empty($user.avatar)'>
                     __TMPL__/public/assets/images/example/user.png
                 <else/>
                     {:cmf_get_user_avatar_url($user.avatar)}
                 </if>
-            " alt="" /></a>
+            " alt="点击修改头像" title="点击修改头像" /></a>
             <p>{$user.user_login|default=''}</p>
             <span>欢迎您！</span>
         </div>

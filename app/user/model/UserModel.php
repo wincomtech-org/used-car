@@ -267,18 +267,19 @@ class UserModel extends Model
      * @param $user
      * @return int
      */
-    public function editPassword($user)
+    public function editPassword($user,$type='user_pass')
     {
         $userId    = cmf_get_current_user_id();
         $userQuery = Db::name("user");
         if ($user['password'] != $user['repassword']) {
             return 1;
         }
-        $pass = $userQuery->where('id', $userId)->find();
-        if (!cmf_compare_password($user['old_password'], $pass['user_pass'])) {
+        // $pass = $userQuery->where('id', $userId)->find();
+        $pass = $userQuery->where('id',$userId)->value($type);
+        if (!cmf_compare_password($user['old_password'], $pass)) {
             return 2;
         }
-        $data['user_pass'] = cmf_password($user['password']);
+        $data[$type] = cmf_password($user['password']);
         $userQuery->where('id', $userId)->update($data);
         return 0;
     }

@@ -122,12 +122,8 @@ class ProfileController extends UserBaseController
         }
     }
 
-public function paypwd()
-{
-    $user = cmf_get_current_user();
-    $this->assign('user',$user);
-    return $this->fetch();
-}
+
+
     /**
      * 个人中心修改密码
      */
@@ -136,6 +132,13 @@ public function paypwd()
         $user = cmf_get_current_user();
         $this->assign('user',$user);
         // $this->assign($user);
+        return $this->fetch();
+    }
+    // 修改支付密码 默认与注册密码一致
+    public function paypwd()
+    {
+        $user = cmf_get_current_user();
+        $this->assign('user',$user);
         return $this->fetch();
     }
 
@@ -168,7 +171,12 @@ public function paypwd()
             }
 
             $login = new UserModel();
-            $log   = $login->editPassword($data);
+            if (empty($data['is_paypwd'])) {
+                $log   = $login->editPassword($data);
+            } else {
+                $log   = $login->editPassword($data,'paypwd');
+            }
+            
             switch ($log) {
                 case 0:
                     $this->success('修改成功');
@@ -192,7 +200,7 @@ public function paypwd()
     public function avatar()
     {
         $user = cmf_get_current_user();
-        $this->assign($user);
+        $this->assign('user',$user);
         return $this->fetch();
     }
 
