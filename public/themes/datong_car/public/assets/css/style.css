@@ -979,7 +979,7 @@
 .person_right{width:971px;float:right;}
 .users{width:100%;}
 .users_con{width:100%;padding:1.7rem 0;background-color:#dcdcdc;text-align:center;line-height:1.638;}
-.users_con img{max-width:80px;min-width:60px;}
+.users_con img{max-width:80px;min-width:60px;font-size:16px;}
 .users_con p{font-size:18px;margin:12px 0;}
 .users_con span{font-size:16px;}
 
@@ -1167,8 +1167,8 @@
 .detail_list{padding:20px 40px;box-sizing:border-box;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;-ms-box-sizing:border-box;-o-box-sizing:border-box;}
 .detail_list li{float:left;font-size:16px;}
 .detail_list:after{content:"";display:block;clear:both;}
-.detail_list li.tit{width:90px;}
-.detail_list li.money{width:130px;color:#d00000;}
+.detail_list li.tit{}
+.detail_list li.money{width:110px;color:#d00000;}
 .detail_list li.operate a{display:inline-block;position:relative;padding:5px 27px;margin-right:10px;border:1px solid #ddd;border-radius:5px;-webkit-border-radius:5px;-moz-border-radius:5px;-o-border-radius:5px;-ms-border-radius:5px;}
 
 .detail_list li.operate a.select b{position: absolute;bottom: 0px;right: 0;width: 0px;height: 0px;border-top: 18px solid transparent;border-right: 18px solid #d8271c;}
