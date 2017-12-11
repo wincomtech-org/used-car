@@ -90,9 +90,9 @@ class RegisterController extends HomeBaseController
             }
 
             $register          = new UserModel();
-            $user['user_pass'] = $data['password'];
+            $user['user_pass'] = $user['password'];
 
-            // 判断账号类型
+            // 判断账号类型 实际只给出了邮箱注册 和 手机号注册
             if (Validate::is($data['username'], 'email')) {
                 $user['user_email'] = $data['username'];
                 $log                = $register->registerEmail($user);
@@ -101,6 +101,7 @@ class RegisterController extends HomeBaseController
                 $log            = $register->registerMobile($user);
             } else {
                 $user['user_login'] = $data['username'];
+                // $log = $register->registerUname($user);
                 $log = 2;
             }
             $sessionLoginHttpReferer = session('login_http_referer');

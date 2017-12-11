@@ -4,6 +4,7 @@
 <div class="wrap js-check-wrap">
     <ul class="nav nav-tabs">
         <li class="active"><a href="javascript:;">所有充值列表</a></li>
+        <li><a href="{:url('AdminRecharge/add')}">用户充值</a></li>
     </ul>
     <form class="well form-inline margin-top-20" method="post" action="{:url('AdminRecharge/index')}">
         <!-- 方式：
@@ -33,7 +34,7 @@
             </thead>
             <php>
                 $types = config('payment');
-                $statusV = config('funds_apply_status');
+                $statusV = config('user_funds_log_type');
             </php>
             <foreach name="list" item="vo">
                 <tr>

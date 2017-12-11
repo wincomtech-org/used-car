@@ -63,6 +63,20 @@ class FundsController extends UserBaseController
         return $this->fetch();
     }
 
+    // 点券
+    public function ticket()
+    {
+        // $param = $this->request->param();
+        $where['user_id'] = $this->user['id'];
+
+        $list = Db::name('user_ticket_log')->where($where)->paginate();
+
+        $this->assign('list', $list);
+        $this->assign('pager', $list->render());
+
+        return $this->fetch();
+    }
+
     // 充值
     public function recharge()
     {
@@ -97,11 +111,10 @@ class FundsController extends UserBaseController
     {
         return $this->fetch();
     }
-
     public function withdrawPost()
     {
         $data = $this->request->post();
-        // dump($data);
+        // dump($data);die;
 
         // 预处理数据
         $data['account'] = $data[$data['payment_way']]['account'];
@@ -114,8 +127,9 @@ class FundsController extends UserBaseController
             'payment'   => $data['payment_way'],
             'create_time'=> time(),
         ];
+        $post['coin'] = intval($post['coin']);
 
-        bcscale(6);
+        bcscale(2);
         // 验证
         $result = $this->validate($post,'Funds.withdraw');
         if ($result!==true) {
@@ -125,7 +139,7 @@ class FundsController extends UserBaseController
             $this->error('请输入密码');
         }
 
-        if (cmf_compare_password($data['w_pwd'],$this->user['user_pass'])===false) {
+        if (cmf_compare_password($data['w_pwd'],$this->user['paypwd'])===false) {
             $this->error('您的密码不对');
         }
         // 点券是无法提现的 $this->user['ticket']
@@ -133,16 +147,19 @@ class FundsController extends UserBaseController
             $this->error('余额不足');
         }
         $remain = bcsub($this->user['coin'], $post['coin']);
+        $freeze = bcadd($this->user['freeze'], $post['coin']);
 
         // 数据库操作
         Db::startTrans();
-        $TransStatus = false;
+        $transStatus = false;
         try{
+            // ->setInc('freeze',$post['coin'])
             Db::name('user')->where('id',$this->user['id'])->setDec('coin',$post['coin']);
+            Db::name('user')->where('id',$this->user['id'])->setInc('freeze',$post['coin']);
             // Db::name('funds_apply')->insert($post);
             $result = Db::name('funds_apply')->insertGetId($post);
-            lothar_put_funds_log($this->user['id'], 9, -$post['coin'], $remain);
-            $TransStatus = true;
+            // lothar_put_funds_log($this->user['id'], 9, -$post['coin'], $remain);
+            $transStatus = true;
             // 提交事务
             Db::commit();
         } catch (\Exception $e) {
@@ -151,11 +168,12 @@ class FundsController extends UserBaseController
             // throw $e;
         }
 
-        if (empty($TransStatus)) {
+        if (empty($transStatus)) {
             $this->error('提交失败了');
         } else {
             // $userNew   = Db::name('user')->where('id',$this->user['id'])->find();
             $this->user['coin'] = $remain;
+            $this->user['freeze'] = $freeze;
             cmf_update_current_user($this->user);
             $this->success('提交成功',url('withdrawView',['id'=>$result]));
         }
@@ -189,25 +207,29 @@ class FundsController extends UserBaseController
             $this->error('数据非法！');
         } else {
             $coin = Db::name('funds_apply')->where('id',$id)->value('coin');
-            bcscale(6);
+            bcscale(2);
             $remain = bcadd($coin,$this->user['coin']);
+            $freeze = bcsub($this->user['freeze'], $coin);
             // 更改数据
             Db::startTrans();
-            $TransStatus = false;
+            $transStatus = false;
             try{
+                // ->setDec('freeze',$coin)
                 Db::name('user')->where('id',$this->user['id'])->setInc('coin',$coin);
+                Db::name('user')->where('id',$this->user['id'])->setDec('freeze',$coin);
                 Db::name('funds_apply')->where('id',$id)->setField('status',-2);
-                lothar_put_funds_log($this->user['id'], -9, $coin, $remain);
-                $TransStatus = true;
+                // lothar_put_funds_log($this->user['id'], -9, $coin, $remain);
+                $transStatus = true;
                 Db::commit();
             } catch (\Exception $e) {
                 Db::rollback();
             }
 
-            if (empty($TransStatus)) {
+            if (empty($transStatus)) {
                 $this->error('取消失败了');
             } else {
                 $this->user['coin'] = $remain;
+                $this->user['freeze'] = $freeze;
                 cmf_update_current_user($this->user);
                 $this->success('取消成功，钱款被退回',url('user/Funds/index',['type'=>-9]));
             }
@@ -217,7 +239,7 @@ class FundsController extends UserBaseController
     public function apply()
     {
         $where = ['user_id'=>$this->user['id'],'type'=>'withdraw'];
-        $list = Db::name('funds_apply')->where($where)->paginate(15);
+        $list = Db::name('funds_apply')->where($where)->order('id','DESC')->paginate(15);
 
         $this->assign('list', $list);
         $this->assign('pager', $list->render());

@@ -143,12 +143,14 @@ class UserModel extends Model
         }
 
         if (empty($result)) {
+            $user_pass = cmf_password($user['user_pass']);
             $data   = [
                 'user_login'      => '',
                 'user_email'      => $user['user_email'],
                 'mobile'          => '',
                 'user_nickname'   => '',
-                'user_pass'       => cmf_password($user['user_pass']),
+                'user_pass'       => $user_pass,
+                'paypwd'          => $user_pass,
                 'last_login_ip'   => get_client_ip(0, true),
                 'create_time'     => time(),
                 'last_login_time' => time(),
@@ -174,12 +176,14 @@ class UserModel extends Model
         }
 
         if (empty($result)) {
+            $user_pass = cmf_password($user['user_pass']);
             $data   = [
                 'user_login'      => '',
                 'user_email'      => '',
                 'mobile'          => $user['mobile'],
                 'user_nickname'   => '',
-                'user_pass'       => cmf_password($user['user_pass']),
+                'user_pass'       => $user_pass,
+                'paypwd'          => $user_pass,
                 'last_login_ip'   => get_client_ip(0, true),
                 'create_time'     => time(),
                 'last_login_time' => time(),

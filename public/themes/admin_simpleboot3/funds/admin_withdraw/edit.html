@@ -58,25 +58,27 @@
                     </tr>
                     <tr>
                         <td>
-                            <input class="form-control js-bootstrap-datetime" type="text"
+                            <input class="form-control" type="text"
                                    value="{$post.create_time?=date('Y-m-d H:i',$post['create_time'])}">
                         </td>
                     </tr>
                     <tr>
                         <th><b>状态</b></th>
                     </tr>
+                    <php>$statusV = config('funds_apply_status');</php>
                     <tr>
                         <td>
-                            <div class="checkbox">
-                                <label><input class="form-control" type="radio" name="status" value="1"> 通过</label>
-                                <switch name="post.status">
-                                    <case value="0"><label><input class="form-control" type="radio" name="status" value="1"> 审核通过</label></case>
-                                    <default/><label><input class="form-control" type="radio" name="status" value="0"> 未审核</label>
-                                </switch>
-                                <eq name="post.status" value="1,10">
+                            <switch name="post.status">
+                                <case value="1|10">
                                     <span class="form-control">完成</span>
-                                </eq>
-                            </div>
+                                </case>
+                                <default/>
+                                    <select class="form-control">
+                                        <foreach name="statusV" item="vo" key="k">
+                                            <option {$post.status==$k?='selected'} value="{$k}">{$vo}</option>
+                                        </foreach>
+                                    </select>
+                            </switch>
                         </td>
                     </tr>
                 </table>

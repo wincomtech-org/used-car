@@ -40,7 +40,7 @@ class PayController extends HomeBaseController
         // if (!empty($data)) {
         //     dump($data);
         // }
-        $this->success('支付中心 - 模拟支付',cmf_url('user/Profile/center'),$data,100);
+        $this->success('支付中心 - 模拟支付',cmf_url('user/Funds/index'),$data,100);
     }
 
     // 
@@ -51,9 +51,9 @@ class PayController extends HomeBaseController
 
     public function trans()
     {
-        bcscale(6);
+        bcscale(2);
         Db::startTrans();
-        $TransStatus = false;
+        $transStatus = false;
         try{
             Db::name('trade_order')->where('id',$id)->setField('status',-2);
             Db::name('user')->where('id',$userId)->dec('coin',$bargain_money);
@@ -64,7 +64,7 @@ class PayController extends HomeBaseController
                 'action'      => 'trade_sellerCancel',
                 'coin'        => $bargain_money,
             ]);
-            $TransStatus = true;
+            $transStatus = true;
             // 提交事务
             Db::commit();
         } catch (\Exception $e) {
@@ -72,7 +72,7 @@ class PayController extends HomeBaseController
             Db::rollback();
             // throw $e;
         }
-        if ($TransStatus===false) {
+        if ($transStatus===false) {
             $this->error('取消失败');
         }
          $this->success('成功');

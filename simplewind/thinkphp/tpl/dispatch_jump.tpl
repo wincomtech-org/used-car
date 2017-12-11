@@ -43,18 +43,6 @@
                 <div>
                 <?php
                     if ($data):
-                        $ext = ['type'=>'支付方式','action'=>'来源','coin'=>'数额'];
-                        $ext2 = ['cash'=>'现金','alipay'=>'支付宝','wxpay'=>'微信'];
-                        foreach ($data as $key => $value):
-                            if ($key=='type') :
-                                $value = $ext2[$value];
-                            endif;
-                            if (in_array($key,['type','action','coin'])):
-                                 echo $ext[$key].' = '.$value.'<br>';
-                            else:
-                                 echo $key .' = '. $value .'<br>';
-                            endif;
-                        endforeach;
                         // print_r($data);echo "<br>";
                         // var_dump($data);echo "<br>";
                         var_export($data);echo "<br>";

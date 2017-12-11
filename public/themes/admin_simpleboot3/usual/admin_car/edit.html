@@ -51,6 +51,7 @@
         <form class="form-horizontal js-ajax-form" action="{:url('AdminCar/editPost')}" method="post">
         <div class="col-md-6">
             <div class="tab-content">
+                <!-- 基本属性S -->
                 <div class="tab-pane active" id="BASE_">
                     <table class="table table-bordered">
                     <tr>
@@ -151,6 +152,7 @@
                     </tr>
                     </table>
                 </div>
+                <!-- 基本属性E -->
                 <!-- 所有属性S -->
                 <div class="tab-pane " id="EXT_">
                     <table class="table table-bordered">
@@ -158,6 +160,7 @@
                     </table>
                 </div>
                 <!-- 所有属性E -->
+                <!-- 优化属性S -->
                 <div class="tab-pane " id="REC_">
                     <table class="table table-bordered">
                     <tr>
@@ -247,6 +250,9 @@
                     </foreach>
                     </table>
                 </div>
+                <!-- 优化属性E -->
+                <!-- 审核资料S -->
+                <!-- 开店资料审核 config('verify_define_data'); -->
                 <div class="tab-pane" id="AUDIT_">
                     <div>审核时必填项</div>
                     <table class="table table-bordered">
@@ -314,6 +320,8 @@
                     </tr>
                     </table>
                 </div>
+                <!-- 审核资料E -->
+                <!-- 店铺相关S -->
                 <div class="tab-pane" id="SHOP_">
                     <table class="table table-bordered">
                     <tr>
@@ -357,6 +365,7 @@
                     </tr>
                     </table>
                 </div>
+                <!-- 店铺相关E -->
                 <div class="tab-pane" id="SEO_">
                     <div class="form-group">
                         <label for="input-seo_title">SEO标题</label>

@@ -251,7 +251,7 @@ EOT;
 }
 
 /*用户资金流动 - 增加*/
-function lothar_put_funds_log($data, $type, $coin,$remain, $app, $objId, $return=false)
+function lothar_put_funds_log($data, $type='', $coin='',$remain='--', $app='--', $objId='', $return=false)
 {
     if (is_array($data)) {
         $count = count($data);

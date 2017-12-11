@@ -56,6 +56,16 @@ class UserFundsLogModel extends UsualModel
         return $options;
     }
 
+    public function addCoin($data)
+    {
+        # code...
+    }
+
+    public function addTicket($data)
+    {
+        # code...
+    }
+
     // 统计 余额
     public function sumCoin($uid=0, $type='', $startTime=0, $compare='')
     {

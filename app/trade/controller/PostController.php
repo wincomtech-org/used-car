@@ -69,6 +69,7 @@ class PostController extends HomeBaseController
 
 
 // 提交无页面的 function
+    // 开店资料审核 config('verify_define_data');
     public function depositPost()
     {
         # \app\funds\controller\PayController.php

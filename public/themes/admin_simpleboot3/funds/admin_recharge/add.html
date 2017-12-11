@@ -1,0 +1,52 @@
+<include file="public@header"/>
+</head>
+<body>
+<div class="wrap js-check-wrap">
+    <ul class="nav nav-tabs">
+        <li><a href="{:url('AdminRecharge/index')}">充值管理</a></li>
+        <li class="active"><a href="#">用户充值</a></li>
+    </ul>
+    <form action="{:url('AdminRecharge/addPost')}" method="post" class="form-horizontal js-ajax-form margin-top-20">
+        <div class="row">
+            <div class="col-md-3">
+                <php>
+                    $types = config('payment');
+                    $statusV = config('funds_apply_status');
+                </php>
+                <table class="table table-bordered">
+                    <tr>
+                        <th width="100">用户<span class="form-required">*</span></th>
+                        <td>
+                            <input class="form-control" type="text" name="uname" value="">
+                            <p style="cursor:pointer;" class="help-block" id="check_name">>>点击检测账号有效性<<</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>金额</th>
+                        <td><input class="form-control" type="text" name="coin" value=""></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-primary js-ajax-submit">{:lang('SAVE')}</button>
+                <a class="btn btn-default" href="javascript:history.back(-1);">{:lang('BACK')}</a>
+            </div>
+        </div>
+    </form>
+</div>
+<script type="text/javascript" src="__STATIC__/js/admin.js"></script>
+<script type="text/javascript">
+    $(function(){
+        $('#check_name').click(function() {
+            var uname = $("input[name='uname']:text").val();
+
+            $.post("{:url('usual/Ajax/checkUname')}", {uname:uname}, function (result) {
+                alert(result)
+            })
+        });
+    });
+</script>
+</body>
+</html>

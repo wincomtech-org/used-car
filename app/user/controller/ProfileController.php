@@ -176,7 +176,7 @@ class ProfileController extends UserBaseController
             } else {
                 $log   = $login->editPassword($data,'paypwd');
             }
-            
+
             switch ($log) {
                 case 0:
                     $this->success('修改成功');

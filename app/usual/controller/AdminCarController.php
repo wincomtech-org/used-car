@@ -88,6 +88,8 @@ class AdminCarController extends AdminBaseController
         $recItems = model('UsualItem')->getItemTable('is_rec',1);
         // 属性表里所有属性（不包含推荐的）
         $allItems = model('UsualItem')->getItemTable('','',true);
+        // 开店资料审核 config('verify_define_data');
+
 
         // 售卖状态
         $sell_status = $this->Model->getSellStatus();
@@ -192,6 +194,8 @@ class AdminCarController extends AdminBaseController
         $Citys = model('admin/District')->getDistricts($post['city_id'],$post['province_id']);
         // 车源类别
         $Types = $this->Model->getCarType($post['type']);
+        // 开店资料审核 config('verify_define_data');
+
 
         // 用于前台车辆条件筛选且与属性表name同值的字段码
         $searchCode = model('UsualItem')->getItemSearch();

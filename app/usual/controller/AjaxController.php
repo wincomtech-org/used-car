@@ -4,7 +4,7 @@ namespace app\usual\controller;
 use cmf\controller\BaseController;
 // use cmf\controller\HomeBaseController;
 use app\usual\model\UsualSeriesModel;
-// use think\Db;
+use think\Db;
 
 /**
 * Ajax 集中营
@@ -92,7 +92,6 @@ class AjaxController extends BaseController
     */
     public function serieByBrand()
     {
-        // if ($this->request->isPjax()) {
         if ($this->request->isPost()) {
             $brandId = $this->request->param('brandId',0,'intval');
 
@@ -116,4 +115,35 @@ class AjaxController extends BaseController
             return model('UsualSeries')->getSeries(0,$parentId,2,true);
         }
     }
+
+    /*
+    * 用户
+    * 验证用户
+    * 获取用户id
+    */
+    public function checkUname()
+    {
+        $uname = $this->request->param('uname','','strval');
+        if (empty($uname)) {
+            return '请输入用户信息';
+        }
+
+        $uid = intval($uname);
+        if (empty($uid)) {
+            $uid = Db::name('user')->whereOr(['user_nickname|user_login|user_email|mobile'=>$uname])->value('id');
+            $uid = intval($uid);
+            if (empty($uid)) {
+                return '不存在该用户！请检查';
+            }
+        } else {
+            $count = Db::name('user')->where('id',$uid)->count();
+            if (empty($count)) {
+                return '不存在该用户！请检查';
+            }
+        }
+        return '该用户可用';
+    }
+
+
+
 }

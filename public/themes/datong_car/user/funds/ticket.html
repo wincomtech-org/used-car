@@ -32,23 +32,11 @@
                                 <div class="table_div">
                                     <div class="stream_tit">
                                         <dl>
-                                            <dt>
-                                                <input type="text" id='recent' value="最近天数">
-                                                <b></b>
-                                                <ul id="recent_ul">
-                                                    <li><a href="{:url('user/Funds/index',['month'=>1])}">最近一个月</a></li>
-                                                    <li><a href="{:url('user/Funds/index',['month'=>2])}">最近两个月</a></li>
-                                                    <li><a href="{:url('user/Funds/index',['month'=>3])}">最近三个月</a></li>
-                                                    <li><a href="{:url('user/Funds/index',['month'=>4])}">最近四个月</a></li>
-                                                    <li><a href="{:url('user/Funds/index',['month'=>5])}">最近五个月</a></li>
-                                                    <li><a href="{:url('user/Funds/index',['month'=>6])}">最近六个月</a></li>
-                                                </ul>
-                                            </dt>
                                             <dd>
-                                                收入：<span>￥{$income}</span>
+                                                收入：<span>￥{$income|default=''}</span>
                                             </dd>
                                             <dd>
-                                                支出：<span>￥{$expense}</span>
+                                                支出：<span>￥{$expense|default=''}</span>
                                             </dd>
                                         </dl>
                                     </div>
@@ -59,7 +47,6 @@
                                                     <th>#</th>
                                                     <th>操作</th>
                                                     <th>收支（+收、-支）</th>
-                                                    <th>剩余金额</th>
                                                     <th>时间</th>
                                                 </tr>
                                             </thead>
@@ -69,13 +56,7 @@
                                                 <tr>
                                                     <td>{$vo.id}</td>
                                                     <td>{$funds_type[$vo.type]}</td>
-                                                    <td>{$vo.coin>0?'+'.$vo.coin:$vo.coin}</td>
-                                                    <td>
-                                                        <if condition="$vo.remain gt 0.00">+{$vo.remain}
-                                                        <elseif condition="$vo.coin lt 0.00"/>{$vo.remain}
-                                                        <else /> --
-                                                        </if>
-                                                    </td>
+                                                    <td>{$vo.ticket>0?'+'.$vo.ticket:$vo.ticket}</td>
                                                     <td>{:date('Y-m-d H:i:s',$vo.create_time)}</td>
                                                 </tr>
                                                 </foreach>
@@ -86,12 +67,8 @@
 
                                 <div class="page_tip">
                                     <div class="page2_con">
-                                        <!-- <p>共<span>1</span>页</p> -->
                                         <ul class="page2_list">
                                             {$pager|default=''}
-                                            <!-- <li><a href=""><</a></li>
-                                            <li class="active"><a href="">1</a></li>
-                                            <li><a href="">></a></li> -->
                                         </ul>
                                     </div>
                                 </div>
@@ -108,7 +85,6 @@
     <include file="public@scripts" />
 </body>
 <include file="public@morejs" />
-<script type="text/javascript" src="__TMPL__/public/assets/js/laydate/laydate.js"></script>
 
 <script>
     var ipt=document.getElementById('recent');
@@ -129,7 +105,5 @@
             ipt.value=this.innerText;
         }
     }
-
-
 </script>
 </html>

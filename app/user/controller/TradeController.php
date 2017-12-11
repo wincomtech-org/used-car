@@ -74,6 +74,7 @@ class TradeController extends UserBaseController
         // return $data;
     }
 
+
     public function more()
     {
         // 多字段图片处理
@@ -105,4 +106,5 @@ class TradeController extends UserBaseController
         // $id = $this->request->param('id/d');
         // return $this->fetch();
     }
+
 }

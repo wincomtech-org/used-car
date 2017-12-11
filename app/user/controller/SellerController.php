@@ -53,7 +53,7 @@ class SellerController extends TradeController
     {
         $id = $this->request->param('id/d');
         $userId = cmf_get_current_user_id();
-        bcscale(6);
+        bcscale(2);
         $orderInfo = Db::name('trade_order')->field('buyer_uid,bargain_money')->where('id',$id)->find();
         $bargain_money = floatval($orderInfo['bargain_money']);
         $buyer_uid = $orderInfo['buyer_uid'];
@@ -63,13 +63,13 @@ class SellerController extends TradeController
             Db::name('trade_order')->where('id',$id)->setField('status',-2);
         } else {
             Db::startTrans();
-            $TransStatus = false;
+            $transStatus = false;
             try{
                 Db::name('trade_order')->where('id',$id)->setField('status',-2);
                 Db::name('user')->where('id',$userId)->dec('coin',$bargain_money);
                 Db::name('user')->where('id',$buyer_uid)->setInc('coin', $bargain_money);
                 lothar_put_funds_log($buyer_uid, -6, $bargain_money, bcadd($buyer_coin,$bargain_money), 'user', $userId);
-                $TransStatus = true;
+                $transStatus = true;
                 // 提交事务
                 Db::commit();
             } catch (\Exception $e) {
@@ -77,7 +77,7 @@ class SellerController extends TradeController
                 Db::rollback();
                 // throw $e;
             }
-            if ($TransStatus===false) {
+            if ($transStatus===false) {
                 $this->error('取消失败');
             }
         }
@@ -115,6 +115,7 @@ class SellerController extends TradeController
         // 用户认证状态
         $identify = lothar_verify($userId);
         // $identify = 1;
+        // 开店资料审核 config('verify_define_data');
 
         // 实例化
         $carModel = new UsualCarModel();
@@ -232,48 +233,48 @@ class SellerController extends TradeController
                 $post['more']['files'] = $carModel->dealFiles($data['file']);
             }
 
-            if (!empty($id)) {
-                $result = $carModel->adminAddArticle($post);
-                $id = $result->id;
+            if (empty($id)) {
+                // $verify['more'] = $post['identi'];
+                // 事务处理
+                $transStatus = true;
+                Db::startTrans();
+                try{
+                     // 二维数组 需要被序列化，用模型处理
+                    $result = $carModel->adminAddArticle($post);
+                    $id = $result->id;
+                    // $result = model('usual/Verify')->adminAddArticle($verify);
+                    // $vid = $result->id;
+
+                    // $data = [
+                    //     'title' => '开店申请',
+                    //     'object'=> 'verify:'.$vid,
+                    //     'content'=>'客户ID：'.$userInfo['id'].'，车子ID：'.$id
+                    // ];
+                    // lothar_put_news($data);
+                    // 提交事务
+                    Db::commit();
+                } catch (\Exception $e) {
+                    // 回滚事务
+                    Db::rollback();
+                    $transStatus = false;
+                    // throw $e;
+                }
+
             } else {
                 $result = $carModel->adminEditArticle($post);
+                // 审核资料重新审核时
+
+                $transStatus = true;
             }
 
-            $this->success('提交成功',url('Trade/carInfo',['id'=>$id]));
+            if ($transStatus===true) {
+                $this->success('提交成功',url('Trade/carInfo',['id'=>$id]));
+            } else {
+                $this->error('提交失败',url('Trade/carInfo'));
+            }
         }
     }
 
 
 
-    public function more()
-    {
-        // 多字段图片处理
-        // $file_var = ['driving_license','identity_card1','identity_card2'];
-        // // $file_var = ['driving_license','identity_card1','identity_card2','thumbnail'];
-        // $files = model('service/Service')->uploadPhotos($file_var);
-        // foreach ($files as $key => $it) {
-        //     if (!empty($it['err'])) {
-        //         // $this->error($it['err']);
-        //     }
-        //     if (!empty($it['data'])) {
-        //         if ($key=='identity_card1') {
-        //             $post['identi']['identity_card'][] = ['url'=>$it['data'],'name'=>''];
-        //         } elseif ($key=='identity_card2') {
-        //             $post['identi']['identity_card'][] = ['url'=>$it['data'],'name'=>''];
-        //         } elseif ($key=='driving_license') {
-        //             $post['identi']['driving_license'] = $it['data'];
-        //         } else {
-        //             $post['more'][$key] = $it['data'];
-        //         }
-        //     }
-        // }
-        // 多图上传 photos
-        // $pdata = model('service/Service')->uploadPhotoMulti('photos');
-        // $post['more']['photos'][] = [];
-
-
-
-        // $id = $this->request->param('id/d');
-        // return $this->fetch();
-    }
 }

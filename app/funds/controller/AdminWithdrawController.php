@@ -49,8 +49,8 @@ class AdminWithdrawController extends AdminBaseController
             $this->error($result);
         }
 
-        // $result = model('FundsApply')->isUpdate(true)->save($data);
-        if (!empty($result)) {
+        // $res = model('FundsApply')->isUpdate(true)->save($data);
+        if (!empty($res)) {
             $this->success('修改成功');
         }
         $this->error('修改失败');

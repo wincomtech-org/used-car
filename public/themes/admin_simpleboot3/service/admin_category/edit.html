@@ -4,6 +4,7 @@
     .define_label{margin-right:50px;width:19%;}
     .define_input{width:30px;height:30px;float:left}
     .define_label span{vertical-align:middle;line-height:35px;}
+    .define_plat{float: left; height: 30px; line-height: 33px; display: block; width: 60px; font-weight: 700; margin-left: 100px;}
 </style>
 </head>
 <body>
@@ -28,10 +29,18 @@
                     <div class="form-group">
                         <label><span class="form-required">*</span>业务模型类型</label>
                         <div>
-                            <select class="form-control" style="width:140px" name="cate[type]">
-                                <option value="service" {$type=='service'?'selected':''}>业务</option>
-                                <option value="shop" {$type=='shop'?'selected':''}>店铺</option>
-                                <option value="flow" {$type=='flow'?'selected':''}>流程</option>
+                            <select class="form-control" style="width:140px;float:left;" name="cate[type]">
+                                <option {$type=='service'?'selected':''} value="service">业务</option>
+                                <option {$type=='shop'?'selected':''} value="shop">店铺</option>
+                                <option {$type=='flow'?'selected':''} value="flow">流程</option>
+                            </select>
+                        </div>
+                        <div>
+                            <span class="define_plat">平台类型 </span>
+                            <select class="form-control" style="width:140px" name="cate[platform]">
+                                <option {$platform==1?='selected'} value="1">自营</option>
+                                <option {$platform==2?='selected'} value="2">公司企业</option>
+                                <option {$platform==3?='selected'} value="3">外资</option>
                             </select>
                         </div>
                     </div>
