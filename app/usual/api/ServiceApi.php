@@ -17,9 +17,9 @@ class ServiceApi
 
         $return = [
             'rule'  => [
-                'action' => 'service/Index/index',
+                'action' => 'service/Index/step1',
                 'param'  => [
-                    'servId' => 'id'
+                    'id' => 'id'
                 ]
             ],//url规则
             'items' => $categories //每个子项item里必须包括id,name,如果想表示层级关系请加上 parent_id
