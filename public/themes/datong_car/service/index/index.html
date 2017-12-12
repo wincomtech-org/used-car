@@ -40,7 +40,7 @@
             </div>
         </div>
     </section>
-    <section class="vehicle_business">
+    <section class="vehicle_business" style="display:none;">
         <div class="main">
             <div class="vehicle_business_select">
                 <p>车辆业务</p>
@@ -55,7 +55,7 @@
                                 <h3>{$vo.name}</h3>
                                 <p>{$vo.description}</p>
                             </div>
-                            <a href="{:url('Index/step1',['id'=>$vo.id,'plat'=>$vo.platform])}" class="">去预约</a>
+                            <a href="{:url('Index/step1',['id'=>$vo.id])}" class="">去预约</a>
                         </div>
                     </li>
                     </foreach>
