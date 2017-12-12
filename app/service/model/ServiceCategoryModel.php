@@ -20,8 +20,14 @@ class ServiceCategoryModel extends UsualModel
         if (!empty($filter['keyword'])) {
             $where['name'] = ['like',"%$filter[keyword]%"];
         }
+        if (!empty($extra)) {
+            $where = array_merge($where,$extra);
+        }
         // $categories = $this->field('id,name,description,list_order')->order("list_order ASC")->where($where)->select()->toArray();
-        $categories = $this->field('id,name,code,type,description,more,list_order')->where($where)->order("list_order ASC,id DESC")->paginate(config('pagerset.size'));
+        $categories = $this->field('id,name,code,type,platform,description,more,list_order')
+                    ->where($where)
+                    ->order("is_top DESC,list_order ASC")
+                    ->paginate(config('pagerset.size'));
         return $categories;
     }
 

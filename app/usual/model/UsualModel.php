@@ -64,7 +64,7 @@ class UsualModel extends Model
      * @return false|int
     */
     // 创建时间
-    function setCreateTimeAttr($value){ return strtotime($value);}
+    // function setCreateTimeAttr($value){ return strtotime($value);}
     // 更新时间
     function setUpdateTimeAttr($value){ return strtotime($value);}
     // 发布时间
@@ -112,6 +112,8 @@ class UsualModel extends Model
         if (!empty($data['seller_username'])) {
             $data['seller_uid'] = Db::name('user')->whereOr(['user_login|user_nickname|user_email'=>['eq', $data['seller_username']]])->value('id');
         }
+
+        $data['create_time'] = time();
 
         $this->allowField(true)->data($data, true)->isUpdate(false)->save();
 

@@ -21,22 +21,45 @@
         <div class="main">
             <h3 class="index_tit">车辆业务<span class="index_tit_supply"> 大通车服联合多家车检单位为您提供车检服务</span></h3>
             <div class="Insurance_recommendation_list">
-                <notempty name="companys">
+                <notempty name="services">
                 <ul class="Insurance_recommendation_lists">
-                    <foreach name="companys" item="vo">
+                    <foreach name="services" item="vo">
                     <li class="Insurance_recommendation_item">
-                        <div class="tit"><a href="{:cmf_url('Post/index',['compId'=>$vo.id])}">{$vo.name}</a></div>
+                        <div class="tit"><a href="{:cmf_url('Index/step1',['id'=>$vo.id])}">{$vo.name}</a></div>
                         <div class="txt">
-                            <p><a >{$vo.description}</a></p>
-                            <span><a >{$vo.desc2}</a></span>
+                            <p><a >{$vo.description|default=''}</a></p>
+                            <span><a >{$vo.desc2|default=''}</a></span>
                         </div>
                         <div class="btn">
-                            <a href="{:cmf_url('Post/index',['compId'=>$vo.id,'servId'=>$servId])}">去检测</a>
+                            <a href="{:cmf_url('Index/step1',['id'=>$vo.id])}">去预约</a>
                         </div>
                     </li>
                     </foreach>
                 </ul>
                 </notempty>
+            </div>
+        </div>
+    </section>
+    <section class="vehicle_business">
+        <div class="main">
+            <div class="vehicle_business_select">
+                <p>车辆业务</p>
+                <ul class="vehicle_business_list">
+                    <foreach name="services" item="vo">
+                    <li class='vehicle_business_items'>
+                        <div class="img">
+                        <img src="{:cmf_get_image_preview_url($vo.more.thumbnail)}" alt="">
+                        </div>
+                        <div class="txt">
+                            <div class="top">
+                                <h3>{$vo.name}</h3>
+                                <p>{$vo.description}</p>
+                            </div>
+                            <a href="{:url('Index/step1',['id'=>$vo.id,'plat'=>$vo.platform])}" class="">去预约</a>
+                        </div>
+                    </li>
+                    </foreach>
+                </ul>
             </div>
         </div>
     </section>
@@ -48,7 +71,11 @@
             <h3 class="index_tit">菜鸟验车<span class="index_tit_supply"> 网上预约检车，不用排队等候</span></h3>
             <div class="rookie_inspection_con">
                 <div class="rookie_inspection_instruction">
-                    <img src="__TMPL__/public/assets/images/example/cainiao.jpg" alt="">
+                    <empty name="noobInfo.more.thumbnail">
+                        <img src="__TMPL__/public/assets/images/example/cainiao.jpg" alt="">
+                    <else/>
+                        <img src="{:cmf_get_image_preview_url($noobInfo.more.thumbnail)}" alt="">
+                    </empty>
                     <div class="instruction">
                         {$noobInfo.content|default=''}
                     </div>
@@ -58,7 +85,7 @@
                 </div>
                 <div class="rookie_inspection_form">
                     <h4>菜鸟预约上门服务</h4>
-                    <form action="{:url('Post/appointPost')}" method="post" class="inspection_form js-ajax-form">
+                    <form action="{:url('Index/appointPost')}" method="post" class="inspection_form js-ajax-form">
                         <p class="red">请确认您的机动车是否属于免检车型。</p>
                         <div class="inspection_list">
                             <span>姓 名</span>

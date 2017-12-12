@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>车辆业务 - {$site_info.site_name|default=''}</title>
+<meta name="keywords" content="{$site_info.site_seo_keywords|default=''}"/>
+<meta name="description" content="{$site_info.site_seo_description|default=''}">
+
+<include file="public@head"/>
+<hook name="before_head_end"/>
+
+<style type="text/css">
+    .pic-list li {
+        margin-bottom: 5px;
+    }
+</style>
+<script type="text/html" id="identity_card-item-tpl">
+    <li id="saved-identity_card{id}">
+        <input id="identity_card-{id}" type="hidden" name="identity_card[urls][]" value="{filepath}">
+        <img id="identity_card-{id}-preview" src="{url}" style="height:108px;width:180px;"
+             onclick="imagePreviewDialog(this.src);">
+        <a href="javascript:uploadOneImage('图片上传','#identity_card-{id}');">替换</a>
+        <a href="javascript:(function(){$('#saved-identity_card{id}').remove();})();">移除</a>
+        <input class="form-control" id="identity_card-{id}-name" type="text" name="identity_card[names][]" value="{name}"
+             title="图片名称">
+    </li>
+</script>
+</head>
+<body>
+<!-- 头部 -->
+<include file="public@header" />
+<!-- 导航 -->
+<include file="public@nav" />
+
+<!-- 预约 -->
+<section class="selection_insurance">
+    <div class="main">
+        <ul class="brash">
+            <li>当前位置：</li>
+            <li><a href="{:url('Index/index')}">车辆业务 </a></li>
+            <li class="active"><a href="{:url('Index/step2',['id'=>$page.id])}">{$page.name}</a></li>
+        </ul>
+        <div class="selection_insurance_con">
+            <form action="{:url('Index/appointPost')}" method="post" enctype="multipart/form-data" name="car_booking_form" class="data_filling" id="data_filling">
+                <foreach name="new_data" item="vo">
+                <ul class="data_filling_list required">
+                    <li class="left">{$vo.title}</li>
+                    <!-- <li class="right required"> -->
+                    <!-- <li class="right required date"> -->
+                    <li class="right">
+                        <switch name="vo.name">
+                            <case value="plateNo" break="1">
+                                <input type="text" name="post[{$vo.name}]" maxlength="7" required>
+                            </case>
+                            <case value="telephone">
+                                <input type="tel" name="post[{$vo.name}]" maxlength="15" required>
+                                <i>请填写正确的号码，如是固话，请按照格式：0551-1234567</i>
+                                <!-- <b class="red">*请填写正确号码，如是固话，请按照0551-1234567格式</b> -->
+                            </case>
+                            <case value="appoint_time|reg_time|birthday|seller_birthday">
+                                <input type="text" name="post[{$vo.name}]" id="{$vo.name}" required>
+                                <i>请填写正确的日期，按照格式：2017-11-11</i>
+                            </case>
+                            <case value="driving_license|qualified|loan_invoice">
+                                <div class="file">
+                                    <input type="hidden" name="post[more][{$vo.name}]" id="{$vo.name}" value="">
+                                    <a href="javascript:uploadOneImage('图片上传','#{$vo.name}');" class="demonstrate_pre">
+                                        <img src="__TMPL__/public/assets/images/add.png"
+                                             id="{$vo.name}-preview"
+                                              style="cursor: pointer;max-width:200px;"/>
+                                        <i class="photo_tip">请上传{$vo.title}照片，不宜过大</i>
+                                    </a>
+                                   <div class="demonstrate">
+                                        <div class="demonstrate_img">
+                                            <img src="__TMPL__/public/assets/images/example/5.jpg" alt="">
+                                        </div>
+                                        <i class="photo_tip">请按照上图样式上传图片</i>
+                                    </div>
+                                </div>
+                            </case>
+                            <case value="identity_card">
+                                <div class="file">
+                                    <ul id="identity_card" class="pic-list list-unstyled form-inline"></ul>
+                                    <a href="javascript:uploadMultiImage('图片上传','#identity_card','identity_card-item-tpl');"
+                                       class="btn btn-default btn-sm demonstrate_pre">
+                                            <img src="__TMPL__/public/assets/images/add.png"
+                                              style="cursor: pointer:"/>
+                                              <i class='photo_tip'>请上传{$vo.title}照片，不宜过大</i>
+                                     </a>
+                                     <div class="demonstrate sf">
+                                        <div class="demonstrate_img">
+                                            <img src="__TMPL__/public/assets/images/example/6.jpg" alt="">
+                                            <img src="__TMPL__/public/assets/images/example/7.jpg" alt="">
+                                        </div>
+                                        <i class="photo_tip">请按照上图样式上传图片</i>
+                                    </div>
+                                </div>
+                            </case>
+                            <case value="service_point">
+                                <select name="more[province_id]" id="input-province" >
+                                    <option value="" >--请选择省份--</option>
+                                    {$Provinces}
+                                </select>&nbsp;&nbsp;
+                                <select name="more[city_id]" id="input-city">
+                                    <option value="">--请选择城市--</option>
+                                </select>&nbsp;&nbsp;
+
+                                <select name="post[service_point]" id="input-coordinate">
+                                    <option value="">--请选择--</option>
+                                    <notempty name="servicePoint">
+                                    <foreach name="servicePoint" item="vo">
+                                    <option value="{$vo.id}">{$vo.name}</option>
+                                    </foreach>
+                                    </notempty>
+                                </select>
+                            </case>
+                            <default /><input type="text" name="post[{$vo.name}]" required>
+                        </switch>
+                    </li>
+                </ul>
+                </foreach>
+                <p class="data_filling_btn">
+                    <input type="hidden" name="post[model_id]" value="{$page.id}">
+                    <input type="submit" class="btn_submit" value='去选服务公司' onClick="car_booking_form.submit()">
+                </p>
+            </form>
+            <include file="index/map_container" />
+        </div>
+    </div>
+</section>
+
+<!-- 底部 -->
+<include file="public@footer" />
+<include file="public@scripts" />
+<hook name="before_body_end" />
+</body>
+
+<include file="index/step_js" />
+
+</html>

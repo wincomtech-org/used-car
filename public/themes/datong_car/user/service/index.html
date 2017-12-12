@@ -33,8 +33,8 @@
                                     <th>车牌号</th>
                                     <th>服务类型</th>
                                     <th>服务公司</th>
+                                    <th>联系方式</th>
                                     <th>创建时间</th>
-                                    <th>结束时间</th>
                                     <th>状态</th>
                                     <th>操作</th>
                                 </tr>
@@ -48,8 +48,8 @@
                                     <td class="company">{$vo.plateNo|default=''}</td>
                                     <td class="company">{$vo.model_name|default=''}</td>
                                     <td class="company">{$vo.company_name|default=''}</td>
+                                    <td>{$vo.telephone?$vo.telephone:$vo.contact}</td>
                                     <td class="date">{:date('Y-m-d H:i',$vo.create_time)}</td>
-                                    <td class="date">{:date('Y-m-d H:i',$vo.end_time)}</td>
                                     <td class="state 
                                         <switch name='vo.status'>
                                             <case value='1|4|10'>sucss</case>

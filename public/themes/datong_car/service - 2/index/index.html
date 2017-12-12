@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>检车预约 - {$site_info.site_name|default=''}</title>
+    <meta name="keywords" content="{$site_info.site_seo_keywords|default=''}"/>
+    <meta name="description" content="{$site_info.site_seo_description|default=''}">
+
+    <include file="public@head"/>
+    <hook name="before_head_end"/>
+</head>
+<body>
+    <!-- 头部 -->
+    <include file="public@header" />
+    <!-- 导航 -->
+    <include file="public@nav" />
+    <!-- banner -->
+    <include file="public@banner" />
+
+    <!-- 检车预约 -->
+    <section class="Insurance_recommendation" id="AAA">
+        <div class="main">
+            <h3 class="index_tit">车辆业务<span class="index_tit_supply"> 大通车服联合多家车检单位为您提供车检服务</span></h3>
+            <div class="Insurance_recommendation_list">
+                <notempty name="companys">
+                <ul class="Insurance_recommendation_lists">
+                    <foreach name="companys" item="vo">
+                    <li class="Insurance_recommendation_item">
+                        <div class="tit"><a href="{:cmf_url('Post/index',['compId'=>$vo.id])}">{$vo.name}</a></div>
+                        <div class="txt">
+                            <p><a >{$vo.description}</a></p>
+                            <span><a >{$vo.desc2}</a></span>
+                        </div>
+                        <div class="btn">
+                            <a href="{:cmf_url('Post/index',['compId'=>$vo.id,'servId'=>$servId])}">去检测</a>
+                        </div>
+                    </li>
+                    </foreach>
+                </ul>
+                </notempty>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- 菜鸟验车 -->
+    <section class="rookie_inspection">
+        <div class="main">
+            <h3 class="index_tit">菜鸟验车<span class="index_tit_supply"> 网上预约检车，不用排队等候</span></h3>
+            <div class="rookie_inspection_con">
+                <div class="rookie_inspection_instruction">
+                    <img src="__TMPL__/public/assets/images/example/cainiao.jpg" alt="">
+                    <div class="instruction">
+                        {$noobInfo.content|default=''}
+                    </div>
+                </div>
+                <div class="rookie_inspection_img">
+                    <img src="__TMPL__/public/assets/images/example/image.jpg" alt="">
+                </div>
+                <div class="rookie_inspection_form">
+                    <h4>菜鸟预约上门服务</h4>
+                    <form action="{:url('Post/appointPost')}" method="post" class="inspection_form js-ajax-form">
+                        <p class="red">请确认您的机动车是否属于免检车型。</p>
+                        <div class="inspection_list">
+                            <span>姓 名</span>
+                            <input type="text" name="post[username]" placeholder="请填写姓名" required="required">
+                            <b class="red" style="display:none;">*请填写姓名</b>
+                        </div>
+                        <div class="inspection_list">
+                            <span>电话</span>
+                            <input type="text" name="post[telephone]" placeholder="请填写正确联系方式" required="required">
+                            <b class="red" style="display:none;">*请填写正确联系方式,如是固话，请按格式：0551-1234567</b>
+                        </div>
+                        <div class="inspection_list">
+                            <span>车牌号</span>
+                            <input type="text" name="post[plateNo]" placeholder="请输入7位车牌号" minlength="7" maxlength="7" required="required">
+                            <b class="red" style="display:none;">*请输入7位车牌号</b>
+                        </div>
+                        <div class="inspection_list">
+                            <input type="hidden" name="post[model_id]" value="1">
+                            <input type="hidden" name="compId" value="1">
+                            <button type="submit" class="btn_submit js-ajax-submit1">立即预约</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 免检服务 -->
+    <section class="exemption_service">
+        <div class="main">
+            <h3 class="index_tit">免检服务<span class="index_tit_supply"> 6年内每年只需提供车主的身份证、行驶证即可通过</span></h3>
+            <div class="exemption_con">
+                <div class="img">
+                    <img src="__TMPL__/public/assets/images/example/mianjian.jpg" alt="">
+                    <div class="txt">
+                        <h3>6年内车辆免检新规</h3>
+                        <p>你的车符合“免检”标准吗</p>
+                        <a href="storage_point.html">查找寄存点</a>
+                    </div>
+                </div>
+                <p class="note">你的车子现在还属于“6年免检”范围吗？从2014年9月实行新车6年免检政策后，规定从2010年9月1日后购买的新车都享有6年免检的“福利”。而对于第一批享受“6年免检”福利的车，从今年起也将要一年一检查。</p>
+                <ul class="exemption_item">
+                    <foreach name="articles" item="vo" key="key">
+                    <li>
+                        <span class="subtitle">{$key+1}、</span>
+                        <p>{$vo.post_title}</p>
+                        <span>{$vo.post_excerpt}</span>
+                    </li>
+                    </foreach>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- 底部 -->
+    <include file="public@footer" />
+    <include file="public@scripts" />
+    <hook name="before_body_end" />
+</body>
+
+<include file="public@morejs" />
+
+</html>

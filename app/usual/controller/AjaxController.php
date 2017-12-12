@@ -69,10 +69,20 @@ class AjaxController extends BaseController
         $provId = $this->request->param('provId',0,'intval');
         $cityId = $this->request->param('cityId',0,'intval');
         if (!empty($cityId)) {
-            $result = model('UsualCoordinate')->getCoordinates(0, ['company_id'=>$compId,'city_id'=>$cityId], $option);
+            if (empty($compId)) {
+                $where = ['city_id'=>$cityId];
+            } else {
+                $where = ['company_id'=>$compId,'city_id'=>$cityId];
+            }
         } elseif (!empty($provId)) {
-            $result = model('UsualCoordinate')->getCoordinates(0, ['company_id'=>$compId,'province_id'=>$provId], $option);
+            if (empty($compId)) {
+                $where = ['province_id'=>$provId];
+            } else {
+                $where = ['company_id'=>$compId,'province_id'=>$provId];
+            }
         }
+
+        $result = model('UsualCoordinate')->getCoordinates(0, $where, $option);
 
         if ($result) {
             if ($json===true) {

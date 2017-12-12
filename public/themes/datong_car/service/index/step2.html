@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>检测公司选择 - {$site_info.site_name|default=''}</title>
+    <meta name="keywords" content="{$site_info.site_seo_keywords|default=''}"/>
+    <meta name="description" content="{$site_info.site_seo_description|default=''}">
+
+    <include file="public@head"/>
+    <hook name="before_head_end"/>
+</head>
+<body>
+    <!-- 头部 -->
+    <include file="public@header" />
+    <!-- 导航 -->
+    <include file="public@nav" />
+
+    <!-- 业务 -->
+    <section class="Insurance_recommendation" id="AAA">
+        <!-- 面包屑 -->
+        {$crumbs|default=''}
+        <div class="main">
+            <h3 class="index_tit">车辆业务<span class="index_tit_supply"> 大通车服联合多家车检单位为您提供车检服务</span></h3>
+            <div class="Insurance_recommendation_list">
+                <notempty name="companys">
+                <ul class="Insurance_recommendation_lists">
+                    <foreach name="companys" item="vo">
+                    <li class="Insurance_recommendation_item">
+                        <div class="tit"><a href="{:cmf_url('Index/step3',['compId'=>$vo.id,'id'=>$id])}">{$vo.name}</a></div>
+                        <div class="txt">
+                            <p><a >{$vo.description}</a></p>
+                            <span><a >{$vo.desc2}</a></span>
+                        </div>
+                        <div class="btn">
+                            <a class="js-action-btn" href="{:cmf_url('Index/step3',['compId'=>$vo.id,'id'=>$id])}">去检测</a>
+                        </div>
+                    </li>
+                    </foreach>
+                </ul>
+                </notempty>
+            </div>
+        </div>
+    </section>
+
+    <!-- 底部 -->
+    <include file="public@footer" />
+    <include file="public@scripts" />
+    <hook name="before_body_end" />
+</body>
+
+</html>

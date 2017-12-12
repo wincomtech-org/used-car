@@ -5,7 +5,7 @@ use app\usual\model\UsualModel;
 
 class UsualCompanyModel extends UsualModel
 {
-    public function getLists($filter)
+    public function getLists($filter=[], $order='', $limit='',$extra=[])
     {
         $field = 'id,name,province_id,city_id,description,update_time,published_time,more,is_baoxian,is_yewu,status,list_order';
 
@@ -28,6 +28,9 @@ class UsualCompanyModel extends UsualModel
         $keyword = empty($filter['keyword']) ? '' : $filter['keyword'];
         if (!empty($keyword)) {
             $where['a.name'] = ['like', "%$keyword%"];
+        }
+        if (!empty($extra)) {
+            $where = array_merge($where,$extra);
         }
 
         $series = $this->alias('a')->field($field)

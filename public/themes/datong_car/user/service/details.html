@@ -53,7 +53,7 @@
                                                 <if condition="empty($page.more[$vo.name])">
                                                     <img src="__TMPL__/public/assets/images/default_width.png" alt="">
                                                 <else/>
-                                                    <img src="{:cmf_get_image_preview_url($page.more[$vo.name])}" alt="">
+                                                    <img src="{:cmf_get_image_preview_url($page.more[$vo.name])}" alt="" width="135" onclick="imagePreviewDialog(this.src);">
                                                 </if>
                                             </span>
                                         </case>
@@ -65,9 +65,9 @@
                                                 <ul>
                                                     <foreach name="page.more.identity_card" item="vo">
                                                     <li class="">
-                                                        <img id="identity_card-{$key}-preview"
-                                                            src="{:cmf_get_image_preview_url($vo.url)}"
-                                                            style="height:36px;width:36px;" />
+                                                        <img src="{:cmf_get_image_preview_url($vo.url)}"
+                                                             alt="" width="135" 
+                                                             onclick="imagePreviewDialog(this.src);" />
                                                     </li>
                                                     </foreach>
                                                 </ul>

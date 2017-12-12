@@ -1,0 +1,32 @@
+<notempty name="servicePointJson">
+<div class="map_con" >
+    <div id="allmap"></div>
+   <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=x87CLuOuBaZ0Pet6KMjnTQKKl0zPO7Ku"></script>
+    <script type="text/javascript" src="http://api.map.baidu.com/library/SearchInfoWindow/1.5/src/SearchInfoWindow_min.js"></script>
+    <!-- 地图样式 -->
+    <link rel="stylesheet" href="http://api.map.baidu.com/library/SearchInfoWindow/1.5/src/SearchInfoWindow_min.css" />
+    <!-- 结束地图样式 -->
+    <style type="text/css">
+        #allmap {width: 100%;height: 100%;overflow: hidden;margin:0;font-family:"微软雅黑";}
+        #l-map{height:100%;width:78%;float:left;border-right:2px solid #bcbcbc;}
+        #r-result{height:100%;width:20%;float:left;}
+    </style>
+    <!-- 引入相关方法 -->
+    <script src="__STATIC__/js/baidumap.js"></script>
+    <script type="text/javascript">
+    $(function(){
+        // 百度地图API功能 页面加载时
+        // 随机向地图添加多个标注
+        // $.getJSON("{:url('usual/Ajax/coords')}", data, success);
+        var json_data = '{$servicePointJson}';
+        var data = $.parseJSON(json_data);
+        // console.log(data);
+        // 起始点
+        var default_point = [data[0]['ucs_x'],data[0]['ucs_y']];
+        // 生效
+        setMapIni(default_point);
+        createCoords(data);
+    });
+    </script>
+</div>
+</notempty>
