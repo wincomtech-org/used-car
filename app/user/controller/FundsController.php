@@ -4,6 +4,7 @@ namespace app\user\controller;
 use cmf\controller\UserBaseController;
 use app\user\model\UserModel;
 use app\funds\model\UserFundsLogModel;
+use app\funds\model\FundsApplyModel;
 // use think\Validate;
 use think\Db;
 
@@ -129,6 +130,16 @@ class FundsController extends UserBaseController
         ];
         $post['coin'] = intval($post['coin']);
 
+        $applyModel = new FundsApplyModel();
+        $count = $applyModel->counts($this->user['id']);
+        if ($count>=1) {
+            $this->error('您有提现待处理的数据',url('user/Funds/apply'));
+        }
+        $count = $applyModel->counts($this->user['id'],'time');
+        if ($count>=1) {
+            $this->error('每天仅限一次，请明天再来');
+        }
+
         bcscale(2);
         // 验证
         $result = $this->validate($post,'Funds.withdraw');
@@ -151,7 +162,7 @@ class FundsController extends UserBaseController
 
         // 数据库操作
         Db::startTrans();
-        $transStatus = false;
+        $transStatus = true;
         try{
             // ->setInc('freeze',$post['coin'])
             Db::name('user')->where('id',$this->user['id'])->setDec('coin',$post['coin']);
@@ -159,13 +170,18 @@ class FundsController extends UserBaseController
             // Db::name('funds_apply')->insert($post);
             $result = Db::name('funds_apply')->insertGetId($post);
             // lothar_put_funds_log($this->user['id'], 9, -$post['coin'], $remain);
-            $transStatus = true;
+            $data = [
+                'title' => '提现申请',
+                'user_id'=> $this->user['id'],
+                'object'=> 'funds_apply:'.$result
+            ];
+            lothar_put_news($data);
             // 提交事务
             Db::commit();
         } catch (\Exception $e) {
             // 回滚事务
             Db::rollback();
-            // throw $e;
+            $transStatus = false;
         }
 
         if (empty($transStatus)) {
@@ -212,17 +228,17 @@ class FundsController extends UserBaseController
             $freeze = bcsub($this->user['freeze'], $coin);
             // 更改数据
             Db::startTrans();
-            $transStatus = false;
+            $transStatus = true;
             try{
                 // ->setDec('freeze',$coin)
                 Db::name('user')->where('id',$this->user['id'])->setInc('coin',$coin);
                 Db::name('user')->where('id',$this->user['id'])->setDec('freeze',$coin);
                 Db::name('funds_apply')->where('id',$id)->setField('status',-2);
                 // lothar_put_funds_log($this->user['id'], -9, $coin, $remain);
-                $transStatus = true;
                 Db::commit();
             } catch (\Exception $e) {
                 Db::rollback();
+                $transStatus = false;
             }
 
             if (empty($transStatus)) {

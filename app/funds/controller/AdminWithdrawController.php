@@ -3,7 +3,7 @@ namespace app\funds\controller;
 
 use cmf\controller\AdminBaseController;
 use app\funds\model\FundsApplyModel;
-// use think\Db;
+use think\Db;
 
 /**
 * 后台 
@@ -48,12 +48,56 @@ class AdminWithdrawController extends AdminBaseController
         if ($result===false) {
             $this->error($result);
         }
+// dump($data);die;
 
-        // $res = model('FundsApply')->isUpdate(true)->save($data);
-        if (!empty($res)) {
-            $this->success('修改成功');
+        bcscale(2);
+        if ($data['status']==-1 || $data['status']==-2) {
+            $transStatus = true;
+            Db::startTrans();
+            try{
+                model('FundsApply')->allowField(true)->isUpdate(true)->data($data, true)->save();
+                Db::name('user')->where('id',$data['user_id'])->setInc('coin',$data['coin']);
+                Db::name('user')->where('id',$data['user_id'])->setDec('freeze',$data['coin']);
+
+                $userNew   = Db::name('user')->where('id',$data['user_id'])->find();
+                // lothar_put_funds_log($data['user_id'], -9, $data['coin'],$userNew['coin'], 'funds',cmf_get_current_admin_id());
+                cmf_update_current_user($userNew);
+                // 提交事务
+                Db::commit();
+            } catch (\Exception $e) {
+                // 回滚事务
+                Db::rollback();
+                $transStatus = false;
+            }
+        } elseif ($data['status']==10) {
+            $transStatus = true;
+            Db::startTrans();
+            try{
+                model('FundsApply')->allowField(true)->isUpdate(true)->data($data, true)->save();
+                Db::name('user')->where('id',$data['user_id'])->setDec('coin',$data['coin']);
+                Db::name('user')->where('id',$data['user_id'])->setDec('freeze',$data['coin']);
+
+                $userNew   = Db::name('user')->where('id',$data['user_id'])->find();
+                lothar_put_funds_log($data['user_id'], 9, -$data['coin'],$userNew['coin'], 'funds',cmf_get_current_admin_id());
+                cmf_update_current_user($userNew);
+                // 提交事务
+                Db::commit();
+            } catch (\Exception $e) {
+                // 回滚事务
+                Db::rollback();
+                $transStatus = false;
+            }
+        } else {
+            $transStatus = model('FundsApply')->allowField(true)->isUpdate(true)->data($data, true)->save();
         }
-        $this->error('修改失败');
+
+        // $result = model('FundsApply')->allowField(true)->isUpdate(true)->data($data, true)->save();
+        // $result = Db::name('funnds_apply')->update($data);
+
+        if (empty($transStatus)) {
+            $this->error('修改失败');
+        }
+        $this->success('修改成功',url('index'));
     }
 
     public function more()

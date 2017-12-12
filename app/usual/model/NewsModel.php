@@ -11,8 +11,8 @@ class NewsModel extends Model
     //     'more' => 'array',
     // ];
     // 开启自动写入时间戳字段
-    protected $autoWriteTimestamp = true;
-    function setCreateTimeAttr($value){ return strtotime($value);}
+    // protected $autoWriteTimestamp = true;
+    // function setCreateTimeAttr($value){ return strtotime($value);}
 
     public function getLists($filter=[], $order='', $limit='',$extra=[])
     {
@@ -65,6 +65,7 @@ class NewsModel extends Model
         return $series;
     }
 
+    // 获取单条数据
     public function getPost($id)
     {
         $field = 'a.*,d.user_nickname,d.user_login';
@@ -72,26 +73,27 @@ class NewsModel extends Model
             ['user d','a.user_id=d.id','LEFT'],
             // ['user e','a.deal_uid=e.id','LEFT'],
         ];
-        $post = $this->alias('a')
+        $data = $this->alias('a')
             ->field($field)
             ->join($join)
             ->where('a.id',$id)
             ->find();
-        $post['username'] = $post['user_nickname'] ? $post['user_nickname'] : $post['user_login'];
-        if (!empty($post['object'])) {
+        $data['username'] = $data['user_nickname'] ? $data['user_nickname'] : $data['user_login'];
+        if (!empty($data['object'])) {
             # insurance_order:1
-            $objId = explode(':',$post['object'])[1];
-            switch ($post['app']) {
+            $objId = explode(':',$data['object'])[1];
+            switch ($data['app']) {
                 case 'trade': 
-                case 'insurance': $vr = cmf_url($post['app'].'/AdminOrder/index',['id'=>$objId]); break;
-                case 'service': $vr = cmf_url($post['app'].'/AdminService/index',['id'=>$objId]); break;
-                case 'register': $vr = cmf_url($post['app'].'/AdminIndex/index',['uid'=>$objId]); break;
+                case 'insurance': $vr = cmf_url('insurance/AdminOrder/index',['id'=>$objId]); break;
+                case 'service': $vr = cmf_url('service/AdminService/index',['id'=>$objId]); break;
+                case 'register': $vr = cmf_url('register/AdminIndex/index',['uid'=>$objId]); break;
+                // case 'register': $vr = cmf_url('funds/AdminRecharge/addTicket',['uid'=>$data['user_id']]); break;
+                case 'funds': $vr = cmf_url('funds/AdminWithdraw/index',['id'=>$objId]); break;
             }
-            $post['objurl'] = $vr;
+            $data['objurl'] = $vr;
         }
-            // dump($post);
 
-        return $post;
+        return $data;
     }
 
     public function newsCounts($status='')

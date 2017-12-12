@@ -51,12 +51,15 @@
                                                 <td>{$apply.coin}</td>
                                             </tr>
                                             <tr>
+                                                <php>$statusV = config('funds_apply_status');</php>
                                                 <td>状态</td>
-                                                <switch name="apply.status">
-                                                    <case value="-1"><td>审核失败</td></case>
-                                                    <case value="1"><td class="">审核通过</td></case>
-                                                    <default/><td class="sucss">正在审核……</td>
-                                                </switch>
+                                                <td class="
+                                                    <switch name='apply.status'>
+                                                        <case value='-1|-2'>err</case>
+                                                        <case value='1|10'>sucss</case>
+                                                        <default/>
+                                                    </switch>
+                                                ">{$statusV[$apply.status]}</td>
                                             </tr>
                                         </tbody>
                                     </table>

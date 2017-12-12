@@ -78,4 +78,48 @@ class FundsApplyModel extends UsualModel
         $post['user_name'] = empty($post['user_nickname']) ? $post['user_login'] : $post['user_nickname'];
         return $post;
     }
+
+    // 统计
+    public function counts($userId,$type='status',$extra=[])
+    {
+        if ($type=='time') {
+            $time = [mktime(0, 0, 0, date('m'), date('d'), date('Y')),mktime(23, 59, 59, date('m'), date('d'), date('Y'))];
+            $where = [
+                'user_id'       => $userId,
+                'create_time'   => [['>= time', $time[0]], ['<= time', $time[1]]]
+            ];
+        } else {
+            $where = ['user_id'=>$userId,'status'=>0];
+        }
+        $count = $this->where($where)->count();
+        return $count;
+    }
+
+    // 提现操作
+    public function wdCancel($value='')
+    {
+        $transStatus = true;
+        Db::startTrans();
+        try{
+            // $id = Db::name('usual_car')->insertGetId($post);
+            // identi 需要被序列化，用模型处理
+            // $result = model('usual/UsualCar')->adminAddArticle($post);
+            // $id = $result->id;
+            // $data = [
+            //     'title' => '预约保险',
+            //     'object'=> 'insurance_order:'.$id,
+            //     'content'=>'客户ID：'.$userInfo['id'].'，保单ID：'.$id
+            // ];
+            // lothar_put_news($data);
+            // 提交事务
+            Db::commit();
+        } catch (\Exception $e) {
+            // 回滚事务
+            Db::rollback();
+            $transStatus = false;
+            // throw $e;
+        }
+    }
+
+
 }

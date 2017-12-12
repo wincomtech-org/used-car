@@ -46,7 +46,7 @@ class AdminRechargeController extends AdminBaseController
         // 获取uid
         $uid = intval($data['uname']);
         if (empty($uid)) {
-            $uid = Db::name('user')->whereOr(['user_nickname|user_login|user_email|mobile'=>$value])->value('id');
+            $uid = Db::name('user')->whereOr(['user_nickname|user_login|user_email|mobile'=>$data['uname']])->value('id');
             $uid = intval($uid);
         }
 
@@ -75,6 +75,8 @@ class AdminRechargeController extends AdminBaseController
         if ($transStatus===false) {
             $this->error('用户充值失败');
         }
+        $userNew   = Db::name('user')->where('id',$uid)->find();
+        cmf_update_current_user($userNew);
         $this->success('用户充值成功',url('AdminFunds/index'));
     }
 

@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50540
 File Encoding         : 65001
 
-Date: 2017-12-12 14:34:09
+Date: 2017-12-12 14:57:32
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -4385,8 +4385,8 @@ INSERT INTO `cmf_nav_menu` VALUES ('23', '1', '19', '1', '10000', '新车', '', 
 INSERT INTO `cmf_nav_menu` VALUES ('24', '1', '19', '1', '10000', '二手车', '', '{\"action\":\"trade\\/Index\\/index\",\"param\":{\"platform\":2}}', 'ion-android-arrow-dr', '');
 INSERT INTO `cmf_nav_menu` VALUES ('25', '1', '22', '1', '10000', '热门新闻', '', '{\"action\":\"portal\\/List\\/index\",\"param\":{\"id\":5}}', 'ion-android-arrow-dr', '');
 INSERT INTO `cmf_nav_menu` VALUES ('26', '1', '19', '1', '10000', '服务商城', '', '{\"action\":\"trade\\/Index\\/index\",\"param\":{\"platform\":3}}', '', '');
-INSERT INTO `cmf_nav_menu` VALUES ('27', '1', '20', '1', '10000', '菜鸟验车', '', '{\"action\":\"service\\/Index\\/index\",\"param\":{\"servId\":1}}', '', '');
-INSERT INTO `cmf_nav_menu` VALUES ('28', '1', '20', '1', '10000', '六年免检', '', '{\"action\":\"service\\/Index\\/index\",\"param\":{\"servId\":5}}', '', '');
+INSERT INTO `cmf_nav_menu` VALUES ('27', '1', '20', '1', '10000', '菜鸟验车', '', '{\"action\":\"service\\/Index\\/step1\",\"param\":{\"id\":1}}', '', '');
+INSERT INTO `cmf_nav_menu` VALUES ('28', '1', '20', '1', '10000', '六年免检', '', '{\"action\":\"service\\/Index\\/step1\",\"param\":{\"id\":5}}', '', '');
 
 -- ----------------------------
 -- Table structure for cmf_news
@@ -4824,7 +4824,7 @@ INSERT INTO `cmf_service_category` VALUES ('1', '0', '0', '1', 'service', '菜�
 INSERT INTO `cmf_service_category` VALUES ('2', '0', '0', '2', 'service', '预约检车', 'inspectcar', '', 'admin', '', '提供各大车险公司服务\r\n为您的安全保驾护航', '', '&lt;p&gt;预约检车详情&lt;/p&gt;', '{\"thumbnail\":\"\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/service2.jpg\"}', '', '1511768040', '0', '0', '1', '1', '[\"username\",\"contact\",\"plateNo\",\"reg_time\",\"identity_card\",\"driving_license\",\"appoint_time\",\"service_point\"]', '20', '', '', '');
 INSERT INTO `cmf_service_category` VALUES ('3', '0', '0', '2', 'service', '上牌预约', 'applylicense', '', 'admin', '', '随时预约', '', '', '{\"thumbnail\":\"http:\\/\\/tx.car\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/service1.jpg\"}', '', '1509692503', '0', '0', '1', '1', '[\"username\",\"telephone\",\"identity_card\",\"driving_license\",\"appoint_time\",\"service_point\"]', '30', '', '', '');
 INSERT INTO `cmf_service_category` VALUES ('4', '0', '0', '2', 'service', '过户申请', 'assigned', '', 'admin', '', '买卖双方当场过户', '', '', '{\"thumbnail\":\"http:\\/\\/tx.car\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/service2.jpg\"}', '', '1509692460', '0', '0', '1', '1', '[\"username\",\"contact\",\"address\",\"seller_name\",\"seller_contact\",\"plateNo\",\"reg_time\",\"identity_card\",\"driving_license\",\"qualified\",\"loan_invoice\",\"appoint_time\",\"service_point\"]', '40', '', '', '');
-INSERT INTO `cmf_service_category` VALUES ('5', '0', '0', '1', 'service', '六年免检', 'six_exempted', '', 'admin', '', '六年免检', '', '\n&lt;p&gt;六年免检业务介绍：&lt;/p&gt;\n&lt;p&gt;1、&lt;/p&gt;\n&lt;p&gt;2、&lt;/p&gt;\n&lt;p&gt;3、&lt;/p&gt;\n', '{\"thumbnail\":\"\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/cainiao.jpg\"}', null, '0', '0', '0', '1', '1', '[\"username\",\"contact\",\"plateNo\",\"appoint_time\"]', '10000', '', '', '');
+INSERT INTO `cmf_service_category` VALUES ('5', '0', '0', '1', 'service', '六年免检', 'six_exempted', '', 'admin', '', '六年免检', '', '\n&lt;p&gt;六年免检业务介绍：&lt;/p&gt;\n&lt;p&gt;1、&lt;/p&gt;\n&lt;p&gt;2、&lt;/p&gt;\n&lt;p&gt;3、&lt;/p&gt;\n', '{\"thumbnail\":\"\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/cainiao.jpg\"}', null, '0', '0', '0', '1', '1', '[\"username\",\"contact\",\"plateNo\",\"appoint_time\",\"service_point\"]', '10000', '', '', '');
 
 -- ----------------------------
 -- Table structure for cmf_slide

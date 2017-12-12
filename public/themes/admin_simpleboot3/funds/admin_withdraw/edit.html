@@ -21,6 +21,16 @@
                         </td>
                     </tr>
                     <tr>
+                        <th>提现方式</th>
+                        <td>
+                            <select class="form-control" name="payment" style="width:140px;">
+                                <option {$post.payment=='alipay'?='selected'} value="alipay">支付宝</option>
+                                <option {$post.payment=='wxpay'?='selected'} value="wxpay">微信</option>
+                                <option {$post.payment=='bank'?='selected'} value="bank">银行卡</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
                         <th>账号</th>
                         <td>
                             <input class="form-control" type="text" name="account" value="{$post.account|default=''}">
@@ -34,13 +44,7 @@
                     </tr>
                     <tr>
                         <th>金额</th>
-                        <td><input class="form-control" type="text" name="coin" value="{$post.coin|default='0.00'}"></td>
-                    </tr>
-                    <tr>
-                        <th>提现方式</th>
-                        <td>
-                        <span class="form-control">{$types[$post.payment]|default=''}</span>
-                        </td>
+                        <td><input class="form-control" type="text" name="coin" value="{$post.coin|default='0.00'}" readonly></td>
                     </tr>
 
                     <tr>
@@ -69,13 +73,13 @@
                     <tr>
                         <td>
                             <switch name="post.status">
-                                <case value="1|10">
-                                    <span class="form-control">完成</span>
+                                <case value="-1|-2|10">
+                                    <span class="form-control">{$statusV[$post.status]}</span>
                                 </case>
                                 <default/>
-                                    <select class="form-control">
+                                    <select name="status" class="form-control">
                                         <foreach name="statusV" item="vo" key="k">
-                                            <option {$post.status==$k?='selected'} value="{$k}">{$vo}</option>
+                                        <option {$post.status==$k?='selected'} value="{$k}">{$vo}</option>
                                         </foreach>
                                     </select>
                             </switch>
@@ -87,6 +91,7 @@
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
                 <input type="hidden" name="id" value="{$post.id}">
+                <input type="hidden" name="user_id" value="{$post.user_id}">
                 <button type="submit" class="btn btn-primary js-ajax-submit">{:lang('SAVE')}</button>
                 <a class="btn btn-default" href="javascript:history.back(-1);">{:lang('BACK')}</a>
             </div>
