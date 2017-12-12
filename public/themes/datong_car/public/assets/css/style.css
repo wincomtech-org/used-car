@@ -945,7 +945,7 @@
 .find_passwod .main .password_tit li.active:not(:first-child):before{
     content:"";display:block;position:absolute;top:0;left:0px;z-index:2;border-left:20px solid #eeeeee;border-top:20px solid transparent;border-bottom:20px solid transparent;
 }
-.password_con form{width:416px;margin:75px auto;}
+.password_con form{width:419px;margin:75px auto;}
 .password_con form ul  li{width:100%;margin:40px 0;}
 .password_con form ul  li .lists_input{font-size:16px;}
 .password_con form ul  li .lists_input span{font-size:inherit;padding-left:10px;}
@@ -960,7 +960,7 @@
 .password_con form ul li b{display:inline-block;color:#d00000;margin-top:10px;font-weight:normal;font-size:14px;}
 .password_con form  .submit{margin:margin:20px ;0}
 .password_con form  .submit .btn_next{display:block;background-color:#e80000;color:#fff;width:100%;height:44px;line-height:44px;font-size:18px;}
-.password_con form  li .confirm span.tit{display:inline-block;width:78px;height:40px;line-height:40px;text-align:left;font-size:16px;}
+.password_con form  li .confirm span.tit{display:inline-block;width:80px;height:40px;line-height:40px;text-align:left;font-size:16px;}
 .password_con form  li .confirm input{display:inline-block;width:323px;}
 .password_con form  li .confirm+b{margin-left:88px;}
 
@@ -2017,8 +2017,6 @@
         .person_carBuss tr td dd{margin-bottom:5px;}
         .person_carBuss tr td dd a{min-width:55px;}
 
-
-
     }
 
     @media only screen and (max-width:767px)  and (min-width:500px){
@@ -2030,7 +2028,8 @@
     }
 
     @media only screen and (max-width:499px){
-         .favorite_list .vehicle_con_detail_items{width:100%;}
+
+        .favorite_list .vehicle_con_detail_items{width:100%;}
         .favorite_list .vehicle_con_detail_items:nth-child(3n+2){margin-left:0;margin-right:0;}
 
         /*资金管理*/
@@ -2046,7 +2045,6 @@
         .analogy .analogy_con{min-width:201px;}
          .analogy .analogy_con li input{min-width:249px;}
          .details_item .idetails_con textarea{width:100%;}
-        }
 
 
         /*按钮*/
@@ -2055,6 +2053,7 @@
     }
 
      @media only screen and (max-width:414px) and (min-width:320px){
+
         .details_item .details_tit{display:block;}
         .details_item .idetails_con{display:block;margin-top:10px;}
         .details_item .idetails_con input{min-width:279px;width:100%;}
@@ -2066,6 +2065,9 @@
         .person_carBuss tr th{padding:20px 10px;font-size:14px;}
         .person_carBuss tr td dd a{padding:6px 5px;min-width:48px;}
         .person_carBuss tr td dd{margin:5px 0;}
+
+        /*个人资料公共头部*/
+        .person_right_item a{font-size:12px;}
      }
 
      @media only screen and (max-width:375px){
@@ -2084,8 +2086,8 @@
         footer p span{font-size:14px;}
       }
 
-/**上传图片旁的图片*/
- @media only screen and (max-width:767px){
-    .demonstrate{display:block;margin-left:0;margin-top:1rem;}
+   /**上传图片旁的图片*/
+    @media only screen and (max-width:767px){
+       .demonstrate{display:block;margin-left:0;margin-top:1rem;}
 
- }
+    }
