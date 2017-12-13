@@ -244,11 +244,12 @@ class SellerController extends TradeController
                     $id = $result->id;
                     // $result = model('usual/Verify')->adminAddArticle($verify);
                     // $vid = $result->id;
-
+                    // 这个申请审核要改
                     // $data = [
                     //     'title' => '开店申请',
                     //     'object'=> 'verify:'.$vid,
-                    //     'content'=>'客户ID：'.$userInfo['id'].'，车子ID：'.$id
+                    //     'content'=>'客户ID：'.$userInfo['id'].'，车子ID：'.$id,
+                    //     'adminurl'=>config('news_adminurl')[8],
                     // ];
                     // lothar_put_news($data);
                     // 提交事务

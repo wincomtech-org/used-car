@@ -161,7 +161,8 @@ class PostController extends HomeBaseController
                 'title' => '免费登记卖车信息',
                 'user_id'=>$userInfo['id'],
                 'object'=> 'usual_car:'.$id,
-                'content'=>'客户ID：'.$userInfo['id'].'，车子ID：'.$id
+                'content'=>'客户ID：'.$userInfo['id'].'，车子ID：'.$id,
+                'adminurl'=>config('news_adminurl')[1],
             ];
             lothar_put_news($data);
             // session('deposit_'.$userInfo['id'], null);

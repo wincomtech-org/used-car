@@ -156,7 +156,8 @@ class PostController extends HomeBaseController
                 'title' => '预约车辆服务：'.$servCates['name'],
                 'user_id'=> $userId,
                 'object'=> 'service:'.$id,
-                'content'=>'客户ID：'.$userId.'，公司ID：'.$this->compId
+                'content'=>'客户ID：'.$userId.'，公司ID：'.$this->compId,
+                'adminurl'=>config('news_adminurl')[3],
             ];
             lothar_put_news($data);
             $sta = true;

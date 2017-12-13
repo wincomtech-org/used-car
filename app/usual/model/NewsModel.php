@@ -16,7 +16,7 @@ class NewsModel extends Model
 
     public function getLists($filter=[], $order='', $limit='',$extra=[])
     {
-        $field = 'id,user_id,deal_uid,title,object,action,app,create_time,content,ip,status';
+        $field = 'id,user_id,deal_uid,title,object,action,app,create_time,content,status';
 
         // 筛选条件
         $where = [];
@@ -82,15 +82,7 @@ class NewsModel extends Model
         if (!empty($data['object'])) {
             # insurance_order:1
             $objId = explode(':',$data['object'])[1];
-            switch ($data['app']) {
-                case 'trade': 
-                case 'insurance': $vr = cmf_url('insurance/AdminOrder/index',['id'=>$objId]); break;
-                case 'service': $vr = cmf_url('service/AdminService/index',['id'=>$objId]); break;
-                case 'register': $vr = cmf_url('register/AdminIndex/index',['uid'=>$objId]); break;
-                // case 'register': $vr = cmf_url('funds/AdminRecharge/addTicket',['uid'=>$data['user_id']]); break;
-                case 'funds': $vr = cmf_url('funds/AdminWithdraw/index',['id'=>$objId]); break;
-            }
-            $data['objurl'] = $vr;
+            $data['objurl'] = cmf_url( $data['adminurl'], ['id'=>$objId] );
         }
 
         return $data;
@@ -125,6 +117,8 @@ class NewsModel extends Model
             'insurance' => '保险模块',
             'service'   => '车辆业务',
             'register'  => '注册',
+            'user'  => '用户中心',
+            'funds'  => '资金管理',
         ];
 
         if ($option===false) {

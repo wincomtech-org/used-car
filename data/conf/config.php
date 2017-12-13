@@ -178,6 +178,16 @@ return [
     'wxpaynative'=>'微信扫码支付',
     'bank'=>'银行卡',
   ],
+  'news_adminurl'  => [
+    '1' => 'trade/AdminOrder/index',
+    '2' => 'insurance/AdminOrder/index',
+    '3' => 'service/AdminService/index',
+    '4' => 'user/AdminIndex/index',
+    '5' => 'funds/AdminWithdraw/index',
+    '6' => 'funds/AdminRecharge/addTicket',
+    '7' => 'usual/AdminVerify/index',
+    '8' => 'usual/AdminCar/index',
+  ],
   'pagerset' => 
   [
     'size' => 12,

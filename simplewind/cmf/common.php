@@ -202,9 +202,6 @@ function lothar_put_news($data, $file = null)
     if (empty($data['create_time'])) {
         $data['create_time'] = time();
     }
-    if (empty($data['ip'])) {
-        $data['ip'] = get_client_ip();
-    }
 
     return Db::name('news')->insertGetId($data);
     // Db::name('news')->insert($data);

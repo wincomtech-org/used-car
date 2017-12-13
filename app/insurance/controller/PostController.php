@@ -173,7 +173,8 @@ class PostController extends HomeBaseController
                     'title' => '预约保险',
                     'user_id' => $userId,
                     'object'=> 'insurance_order:'.$id,
-                    'content'=>'客户ID：'.$userId.'，保单ID：'.$id
+                    'content'=>'客户ID：'.$userId.'，保单ID：'.$id,
+                    'adminurl'=>config('news_adminurl')[2],
                 ];
                 lothar_put_news($data);
                 $sta = true;

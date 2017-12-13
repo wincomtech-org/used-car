@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50540
 File Encoding         : 65001
 
-Date: 2017-12-12 14:57:32
+Date: 2017-12-13 11:02:31
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -4105,11 +4105,12 @@ CREATE TABLE `cmf_funds_apply` (
   `status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '审核状态： -2取消 -1审核失败 0审核中 1审核通过 10完成',
   PRIMARY KEY (`id`),
   KEY `uid` (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户资金相关申请表';
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COMMENT='用户资金相关申请表';
 
 -- ----------------------------
 -- Records of cmf_funds_apply
 -- ----------------------------
+INSERT INTO `cmf_funds_apply` VALUES ('1', 'withdraw', '3', '', 'ew3', 'lothar', '100.00', 'alipay', '1513067973', '', '0');
 
 -- ----------------------------
 -- Table structure for cmf_hook
@@ -4397,22 +4398,23 @@ CREATE TABLE `cmf_news` (
   `user_id` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT '用户id',
   `deal_uid` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '消息处理人',
   `title` varchar(255) NOT NULL DEFAULT '' COMMENT '消息标题',
-  `object` varchar(100) NOT NULL DEFAULT '' COMMENT '消息对象的id,格式:不带前缀的表名+id;如posts:1表示xx_posts表里id为1的记录',
-  `action` varchar(100) NOT NULL DEFAULT '' COMMENT '来源所在名称;格式:应用名+控制器+操作名,也可自己定义格式只要不发生冲突且惟一;',
   `app` varchar(50) NOT NULL DEFAULT '' COMMENT '消息的来源所在应用名或插件名等',
+  `action` varchar(100) NOT NULL DEFAULT '' COMMENT '来源所在名称;格式:应用名+控制器+操作名,也可自己定义格式只要不发生冲突且惟一;',
+  `object` varchar(100) NOT NULL DEFAULT '' COMMENT '消息对象的id,格式:不带前缀的表名+id;如posts:1表示xx_posts表里id为1的记录',
+  `adminurl` varchar(100) NOT NULL DEFAULT '' COMMENT '后台操作url',
   `remark` varchar(255) NOT NULL DEFAULT '' COMMENT '备注',
   `content` text COMMENT '详情',
   `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
-  `ip` char(15) NOT NULL DEFAULT '' COMMENT '用户的ip',
   `status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '状态：0未读 1已读 2已处理',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Records of cmf_news
 -- ----------------------------
-INSERT INTO `cmf_news` VALUES ('1', '3', '1', '预约保险', 'insurance_order:1', 'insurance/post/step2post', 'insurance', '', '客户ID：3，保单ID：1', '1512181733', '127.0.0.1', '0');
-INSERT INTO `cmf_news` VALUES ('2', '3', '0', '预约车辆服务：菜鸟验车', 'service:1', 'service/post/appointpost', 'service', '', '客户ID：3，公司ID：1', '1512541470', '127.0.0.1', '0');
+INSERT INTO `cmf_news` VALUES ('1', '3', '1', '预约保险', 'insurance', 'insurance/post/step2post', 'insurance_order:1', 'insurance/AdminOrder/index', '', '客户ID：3，保单ID：1', '1512181733', '1');
+INSERT INTO `cmf_news` VALUES ('2', '3', '0', '预约车辆服务：菜鸟验车', 'service', 'service/post/appointpost', 'service:1', 'service/AdminService/index', '', '客户ID：3，公司ID：1', '1512541470', '0');
+INSERT INTO `cmf_news` VALUES ('3', '3', '0', '提现申请', 'user', 'user/funds/withdrawpost', 'funds_apply:1', 'funds/AdminWithdraw/index', '', null, '1513067973', '0');
 
 -- ----------------------------
 -- Table structure for cmf_option
@@ -5102,7 +5104,7 @@ CREATE TABLE `cmf_user` (
 -- ----------------------------
 INSERT INTO `cmf_user` VALUES ('1', '1', 'admin', 'admin', '###b0b5b1441fcc40910db4b7d99d049ddf', '###b0b5b1441fcc40910db4b7d99d049ddf', 'admin@admin.com', '', '', '0', '0', '0.00', '0.00', '0.00', '0', '', '', '1507865317', '1512956476', '127.0.0.1', '1', '', '');
 INSERT INTO `cmf_user` VALUES ('2', '1', '超人不会飞', 'super', '###797fe4d0d1b299ac9b581f4fa4025dbb', '###797fe4d0d1b299ac9b581f4fa4025dbb', 'super@qq.com', '', '', '0', '0', '0.00', '0.00', '0.00', '0', '', '', '0', '0', '', '1', '', '');
-INSERT INTO `cmf_user` VALUES ('3', '1', '洛萨', 'lothar', '###797fe4d0d1b299ac9b581f4fa4025dbb', '###797fe4d0d1b299ac9b581f4fa4025dbb', 'lothar@qq.com', '13333333333', 'avatar/20171125/584d5aa4308ccc597df494da2b84700d.jpg', '0', '0', '0.00', '0.00', '0.00', '785865600', '', '', '0', '1512977074', '127.0.0.1', '1', '', '{\"qq\":\"34242432\",\"address\":\"56特有涂改液\"}');
+INSERT INTO `cmf_user` VALUES ('3', '1', '洛萨', 'lothar', '###797fe4d0d1b299ac9b581f4fa4025dbb', '###797fe4d0d1b299ac9b581f4fa4025dbb', 'lothar@qq.com', '13333333333', 'avatar/20171125/584d5aa4308ccc597df494da2b84700d.jpg', '0', '0', '8000.00', '100.00', '0.00', '785865600', '', '', '0', '1513072965', '127.0.0.1', '1', '', '{\"qq\":\"34242432\",\"address\":\"56特有涂改液\"}');
 INSERT INTO `cmf_user` VALUES ('4', '2', '', '', '###797fe4d0d1b299ac9b581f4fa4025dbb', '###797fe4d0d1b299ac9b581f4fa4025dbb', '', '18956471234', '', '0', '0', '0.00', '0.00', '0.00', '0', '', '', '1512194173', '1512194173', '127.0.0.1', '2', '', null);
 
 -- ----------------------------
@@ -5189,11 +5191,13 @@ CREATE TABLE `cmf_user_funds_log` (
   PRIMARY KEY (`id`),
   KEY `uid` (`user_id`),
   KEY `type` (`type`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户资金操作日志表';
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COMMENT='用户资金操作日志表';
 
 -- ----------------------------
 -- Records of cmf_user_funds_log
 -- ----------------------------
+INSERT INTO `cmf_user_funds_log` VALUES ('1', '11', '3', '8000.00', '0.00', '1', '0', 'funds', '1513067774', '127.0.0.1');
+INSERT INTO `cmf_user_funds_log` VALUES ('2', '11', '3', '100.00', '0.00', '1', '0', 'funds', '1513067948', '127.0.0.1');
 
 -- ----------------------------
 -- Table structure for cmf_user_login_attempt

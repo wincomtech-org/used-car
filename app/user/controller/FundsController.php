@@ -171,9 +171,10 @@ class FundsController extends UserBaseController
             $result = Db::name('funds_apply')->insertGetId($post);
             // lothar_put_funds_log($this->user['id'], 9, -$post['coin'], $remain);
             $data = [
-                'title' => '提现申请',
+                'title'  => '提现申请',
                 'user_id'=> $this->user['id'],
-                'object'=> 'funds_apply:'.$result
+                'object' => 'funds_apply:'.$result,
+                'adminurl'=>config('news_adminurl')[5],
             ];
             lothar_put_news($data);
             // 提交事务

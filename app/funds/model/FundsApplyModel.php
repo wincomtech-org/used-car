@@ -108,7 +108,8 @@ class FundsApplyModel extends UsualModel
             // $data = [
             //     'title' => '预约保险',
             //     'object'=> 'insurance_order:'.$id,
-            //     'content'=>'客户ID：'.$userInfo['id'].'，保单ID：'.$id
+            //     'content'=>'客户ID：'.$userInfo['id'].'，保单ID：'.$id,
+            //     'adminurl'=>config('news_adminurl')[5],
             // ];
             // lothar_put_news($data);
             // 提交事务

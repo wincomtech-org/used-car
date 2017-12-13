@@ -114,7 +114,8 @@ class RegisterController extends HomeBaseController
                         'user_id'   => $userId,
                         'object'    => 'user:'. $userId,
                         'app'    => 'register',
-                        'content'   => '客户ID：'. $userId
+                        'content'   => '客户ID：'. $userId,
+                        'adminurl'=>config('news_adminurl')[6],
                     ];
                     $result = lothar_put_news($data);
                     if ($result) {
