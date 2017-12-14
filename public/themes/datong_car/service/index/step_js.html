@@ -59,9 +59,9 @@ $(function(){
             // console.log(coord)
             $('#input-coordinate').html(coord);
         });
+
         // 地图坐标
         $.getJSON("{:url('usual/Ajax/coords')}", data, function(result){
-      
             // console.log(result[0]['ucs_x'],result[0]['ucs_y']);
             var initialize=[];
             initialize[0]=result[0]['ucs_x']

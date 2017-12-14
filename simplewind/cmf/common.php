@@ -207,7 +207,10 @@ function lothar_put_news($data, $file = null)
     // Db::name('news')->insert($data);
     // return Db::name('news')->getLastInsID();
 }
-/*取出未处理消息 提醒*/
+/*
+* 取出未处理消息 提醒
+* __STATIC__ 可换成 /static
+*/
 function lothar_get_news($type='', $dialog=false)
 {
     $where['status'] = 0;
@@ -223,8 +226,8 @@ function lothar_get_news($type='', $dialog=false)
         if ($count>0) {
             $msg = '您有 '.$count.' 条未处理消息！';
             $jumpurl = url('usual/AdminNews/index',['status'=>0]);
-            // echo '<script type="text/javascript">alert("'.$msg.'");</script>';
-            // echo "<script type=\"text/javascript\">if (confirm('".$msg."')) { window.location.href='".$jumpurl."'}</script>";
+            $audio = '/static/audio/4182.mp3';
+            $audio = '';
 $html = <<<EOT
     <style type="text/css">
         /*提示信息消息*/
@@ -233,9 +236,9 @@ $html = <<<EOT
         .alert_msg b{position:absolute;top:3px;right:17px;font-size:23px;cursor:pointer;}
     </style>
     <script type="text/javascript">
-        $("body").append("<div class='alert_msg'><b>x</b>{$msg}<br/><a href='{$jumpurl}'>点击查看</a></div><audio id='sound' autoplay='autoplay' src='__STATIC__/audio/4182.mp3'>");
+        $("body").append("<div class='alert_msg'><b>x</b>{$msg}<br/><a href='{$jumpurl}'>点击查看</a></div><audio id='sound' autoplay='autoplay' src='{$audio}'>");
         // 消息提示弹窗
-        $(document).delegate('.alert_msg b','click',function(){
+        $(document).delegate(".alert_msg b","click",function(){
             $(this).parent().hide(600);
         })
     </script>

@@ -154,6 +154,15 @@ class AjaxController extends BaseController
         return '该用户可用';
     }
 
+    public function news()
+    {
+        $html = lothar_get_news('',true);
+
+        // $html = str_replace('__STATIC__', '/static', $html);
+
+        echo $html;exit;
+    }
+
 
 
 }

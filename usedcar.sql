@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50540
 File Encoding         : 65001
 
-Date: 2017-12-14 13:06:15
+Date: 2017-12-14 18:16:09
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -4427,7 +4427,7 @@ CREATE TABLE `cmf_option` (
   `option_value` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci COMMENT '配置值',
   PRIMARY KEY (`id`),
   UNIQUE KEY `option_name` (`option_name`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT COMMENT='全站配置表';
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT COMMENT='全站配置表';
 
 -- ----------------------------
 -- Records of cmf_option
@@ -4438,6 +4438,9 @@ INSERT INTO `cmf_option` VALUES ('9', '1', 'admin_dashboard_widgets', '[{\"name\
 INSERT INTO `cmf_option` VALUES ('10', '1', 'cmf_settings', '{\"open_registration\":\"1\",\"banned_usernames\":\"\"}');
 INSERT INTO `cmf_option` VALUES ('11', '1', 'cdn_settings', '{\"cdn_static_root\":\"\"}');
 INSERT INTO `cmf_option` VALUES ('12', '1', 'admin_settings', '{\"admin_password\":\"\",\"admin_style\":\"flatadmin\"}');
+INSERT INTO `cmf_option` VALUES ('13', '1', 'usual_settings', '{\"default_img\":\"\\/upload\\/portal\\/20171013\\/1f661e0d9d9f0c97b17a50e6e06580c0.png\",\"news_switch\":\"1\",\"shop_switch\":\"1\",\"deposit\":\"300\",\"withdraw_switch\":\"1\",\"withdraw_num\":\"1\",\"recharge_switch\":\"1\",\"pagesize\":\"12\"}');
+INSERT INTO `cmf_option` VALUES ('14', '1', 'alipay_settings', '{\"account\":\"\",\"key\":\"\",\"partner\":\"\",\"switch\":\"0\"}');
+INSERT INTO `cmf_option` VALUES ('15', '1', 'weixin_settings', '{\"appid\":\"\",\"mchid\":\"\",\"key\":\"\",\"switch\":\"0\"}');
 
 -- ----------------------------
 -- Table structure for cmf_plugin
@@ -4752,10 +4755,10 @@ CREATE TABLE `cmf_service` (
   `company_id` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '服务公司ID ',
   `user_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '用户、联系人',
   `deal_uid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '处理人ID',
-  `username` varchar(50) NOT NULL DEFAULT '',
-  `contact` varchar(255) NOT NULL DEFAULT '' COMMENT '联系方式',
-  `telephone` varchar(15) NOT NULL DEFAULT '',
-  `birthday` varchar(30) NOT NULL DEFAULT '',
+  `username` varchar(50) NOT NULL DEFAULT '' COMMENT '用户名',
+  `contact` varchar(255) NOT NULL DEFAULT '' COMMENT '客户联系方式',
+  `telephone` varchar(15) NOT NULL DEFAULT '' COMMENT '客户电话',
+  `birthday` varchar(30) NOT NULL DEFAULT '' COMMENT '客户生日',
   `address` varchar(255) NOT NULL DEFAULT '' COMMENT '客户地址',
   `seller_uid` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '卖家ID',
   `seller_name` varchar(50) NOT NULL DEFAULT '' COMMENT '卖家名',
@@ -5104,7 +5107,7 @@ CREATE TABLE `cmf_user` (
 -- ----------------------------
 INSERT INTO `cmf_user` VALUES ('1', '1', 'admin', 'admin', '###b0b5b1441fcc40910db4b7d99d049ddf', '###b0b5b1441fcc40910db4b7d99d049ddf', 'admin@admin.com', '', '', '0', '0', '0.00', '0.00', '0.00', '0', '', '', '1507865317', '1513225427', '127.0.0.1', '1', '', '');
 INSERT INTO `cmf_user` VALUES ('2', '1', '超人不会飞', 'super', '###797fe4d0d1b299ac9b581f4fa4025dbb', '###797fe4d0d1b299ac9b581f4fa4025dbb', 'super@qq.com', '', '', '0', '0', '0.00', '0.00', '0.00', '0', '', '', '0', '0', '', '1', '', '');
-INSERT INTO `cmf_user` VALUES ('3', '1', '洛萨', 'lothar', '###797fe4d0d1b299ac9b581f4fa4025dbb', '###797fe4d0d1b299ac9b581f4fa4025dbb', 'lothar@qq.com', '13333333333', 'avatar/20171125/584d5aa4308ccc597df494da2b84700d.jpg', '0', '0', '8000.00', '100.00', '0.00', '785865600', '', '', '0', '1513072965', '127.0.0.1', '1', '', '{\"qq\":\"34242432\",\"address\":\"56特有涂改液\"}');
+INSERT INTO `cmf_user` VALUES ('3', '1', '洛萨', 'lothar', '###797fe4d0d1b299ac9b581f4fa4025dbb', '###797fe4d0d1b299ac9b581f4fa4025dbb', 'lothar@qq.com', '13333333333', 'avatar/20171125/584d5aa4308ccc597df494da2b84700d.jpg', '0', '0', '8000.00', '100.00', '0.00', '785865600', '', '', '0', '1513235912', '127.0.0.1', '1', '', '{\"qq\":\"34242432\",\"address\":\"56特有涂改液\"}');
 INSERT INTO `cmf_user` VALUES ('4', '2', '', '', '###797fe4d0d1b299ac9b581f4fa4025dbb', '###797fe4d0d1b299ac9b581f4fa4025dbb', '', '18956471234', '', '0', '0', '0.00', '0.00', '0.00', '0', '', '', '1512194173', '1512194173', '127.0.0.1', '2', '', null);
 
 -- ----------------------------

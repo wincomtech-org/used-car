@@ -23,7 +23,7 @@ class PostController extends HomeBaseController
             abort(404,'数据不存在！');
         }
 
-        // $company = DB::name('UsualCompany')->where(['user_id'=>$page['user_id']])->find();
+        // $company = Db::name('UsualCompany')->where(['user_id'=>$page['user_id']])->find();
 
         $itModel = new UsualItemModel();
         // 查找相关属性值 id
@@ -90,7 +90,15 @@ class PostController extends HomeBaseController
             echo lothar_toJson(0,'您未进行实名认证，请上传身份证',url('user/Profile/center'));exit();
         }
 
-        // 获取数据
+        // 是否第一次申请登记 如果是交保证金 deposit
+        $count = Db::name('user_funds_log')->where(['user_id'=>$userId,'type'=>5])->count();
+        if (empty($rcount)) {
+            // session('deposit_'.$userInfo['id'], $post);
+            // $this->redirect(url('deposit'));
+            echo lothar_toJson(0,'系统检测到您还未交保证金',url('deposit'));exit();
+        }
+
+        // 获取数据 直接获取不到数据？
         // $data = $this->request->param();
         // $data = $_POST;
 // var_dump($data);die;
@@ -135,14 +143,6 @@ class PostController extends HomeBaseController
             'user_id'   => $userInfo['id'],
             'identi'    => ['username'=>'','contact'=>'手机：'.$tel],
         ];
-
-        // 是否第一次申请登记 如果是交保证金 deposit
-        $count = DB::name('user_funds_log')->where(['user_id'=>$userId,'type'=>6])->count();
-        if (empty($rcount)) {
-            // session('deposit_'.$userInfo['id'], $post);
-            // $this->redirect(url('deposit'));
-            echo lothar_toJson(0,'系统检测到您还未交保证金',url('deposit'));exit();
-        }
 
         $result = $this->validate($post, 'usual/Car.seller');
         if ($result !== true) {

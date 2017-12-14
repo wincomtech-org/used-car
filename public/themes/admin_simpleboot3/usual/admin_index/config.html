@@ -1,1 +1,178 @@
-usual config
+<include file="public@header" />
+</head>
+<body>
+    <div class="wrap js-check-wrap">
+        <ul class="nav nav-tabs">
+            <li class="active"><a href="#A" data-toggle="tab">二手车统一配置(保留功能)</a></li>
+            <li><a href="#B" data-toggle="tab">支付宝支付</a></li>
+            <li><a href="#C" data-toggle="tab">微信支付</a></li>
+            <!-- <li><a href="#D" data-toggle="tab">网银在线</a></li> -->
+        </ul>
+        <form class="form-horizontal js-ajax-form margin-top-20" role="form" action="{:url('AdminIndex/configPost')}" method="post">
+            <fieldset>
+                <div class="tabbable">
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="A">
+                            <div class="form-group">
+                                <label for="thumbnail" class="col-sm-2 control-label">网站默认图片</label>
+                                <div class="col-md-6 col-sm-10">
+                                    <input type="hidden" name="usual[default_img]" id="thumbnail" value="{$usual.default_img|default=''}">
+                                    <a href="javascript:uploadOneImage('图片上传','#thumbnail');">
+                                        <empty name="site_logo">
+                                            <img src="__TMPL__/public/assets/images/default-thumbnail.png" id="thumbnail-preview" width="135" style="cursor: pointer"/>
+                                        <else/>
+                                            <img src="{:cmf_get_image_preview_url($usual.default_img)}" id="thumbnail-preview" width="135" style="cursor: pointer"/>
+                                        </empty>
+                                    </a>
+                                    <input type="button" class="btn btn-sm btn-cancel-thumbnail" value="取消图片">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">系统消息提醒开关</label>
+                                <div class="col-md-6 col-sm-10">
+                                    <input {$usual.news_switch==1?='checked'} type="radio" name="usual[news_switch]" value="1"> 开 &nbsp; &nbsp;
+                                    <input {$usual.news_switch!=1?='checked'} type="radio" name="usual[news_switch]" value="0"> 关 &nbsp; &nbsp;
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">店铺总开关</label>
+                                <div class="col-md-6 col-sm-10">
+                                    <input {$usual.shop_switch==1?='checked'} type="radio" name="usual[shop_switch]" value="1"> 开 &nbsp; &nbsp;
+                                    <input {$usual.shop_switch!=1?='checked'} type="radio" name="usual[shop_switch]" value="0"> 关 &nbsp; &nbsp;
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="input-deposit" class="col-sm-2 control-label"><span class="form-required">*</span>开店保证金</label>
+                                <div class="col-md-6 col-sm-10">
+                                    <input type="text" class="form-control" id="input-deposit" name="usual[deposit]" value="{$usual.deposit|default='10.00'}">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">提现总开关</label>
+                                <div class="col-md-6 col-sm-10">
+                                    <input {$usual.withdraw_switch==1?='checked'} type="radio" name="usual[withdraw_switch]" value="1"> 开 &nbsp; &nbsp;
+                                    <input {$usual.withdraw_switch!=1?='checked'} type="radio" name="usual[withdraw_switch]" value="0"> 关 &nbsp; &nbsp;
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="input-withdraw_num" class="col-sm-2 control-label">每日提现次数</label>
+                                <div class="col-md-6 col-sm-10">
+                                    <input type="number" class="form-control" id="input-withdraw_num" name="usual[withdraw_num]" value="{$usual.withdraw_num|default='1'}">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">充值总开关</label>
+                                <div class="col-md-6 col-sm-10">
+                                    <input {$usual.recharge_switch==1?='checked'} type="radio" name="usual[recharge_switch]" value="1"> 开 &nbsp; &nbsp;
+                                    <input {$usual.recharge_switch!=1?='checked'} type="radio" name="usual[recharge_switch]" value="0"> 关 &nbsp; &nbsp;
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="input-pagesize" class="col-sm-2 control-label">全局列表分页数</label>
+                                <div class="col-md-6 col-sm-10">
+                                    <input type="number" class="form-control" id="input-pagesize" name="usual[pagesize]" value="{$usual.pagesize|default='12'}">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-sm-offset-2 col-sm-10">
+                                    <button type="submit" class="btn btn-primary js-ajax-submit" data-refresh="1">{:lang('SAVE')}</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="tab-pane" id="B">
+                            <div class="form-group">
+                                <label for="input-alipay_account" class="col-sm-2 control-label">支付宝账号</label>
+                                <div class="col-md-6 col-sm-10">
+                                    <input type="text" class="form-control" id="input-alipay_account" name="alipay[account]" value="{$alipay.account|default=''}">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="input-alipay_key" class="col-sm-2 control-label">交易安全校验码（key）</label>
+                                <div class="col-md-6 col-sm-10">
+                                    <input type="text" class="form-control" id="input-alipay_key" name="alipay[key]" value="{$alipay.key|default=''}">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="input-alipay_partner" class="col-sm-2 control-label">合作者身份（partner ID）</label>
+                                <div class="col-md-6 col-sm-10">
+                                    <textarea class="form-control" id="input-alipay_partner" name="alipay[partner]">{$alipay.partner|default=''}</textarea>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">开关</label>
+                                <div class="col-md-6 col-sm-10">
+                                    <input {$alipay.switch==1?='checked'} type="radio" name="alipay[switch]" value="1"> 开 &nbsp; &nbsp;
+                                    <input {$alipay.switch!=1?='checked'} type="radio" name="alipay[switch]" value="0"> 关 &nbsp; &nbsp;
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-sm-offset-2 col-sm-10">
+                                    <button type="submit" class="btn btn-primary js-ajax-submit" data-refresh="0">{:lang('SAVE')}</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="tab-pane" id="C">
+                            <div class="form-group">
+                                <label for="input-weixin_appid" class="col-sm-2 control-label">公众号APPID</label>
+                                <div class="col-md-6 col-sm-10">
+                                    <input type="text" class="form-control" id="input-weixin_appid" name="weixin[appid]" value="{$weixin.appid|default=''}">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="input-weixin_mchid" class="col-sm-2 control-label">商户号</label>
+                                <div class="col-md-6 col-sm-10">
+                                    <input type="text" class="form-control" id="input-weixin_mchid" name="weixin[mchid]" value="{$weixin.mchid|default=''}">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="input-weixin_key" class="col-sm-2 control-label">密钥</label>
+                                <div class="col-md-6 col-sm-10">
+                                    <textarea class="form-control" id="input-weixin_key" name="weixin[key]">{$weixin.key|default=''}</textarea>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">开关</label>
+                                <div class="col-md-6 col-sm-10">
+                                    <input {$weixin.switch==1?='checked'} type="radio" name="weixin[switch]" value="1"> 开 &nbsp; &nbsp;
+                                    <input {$weixin.switch!=1?='checked'} type="radio" name="weixin[switch]" value="0"> 关 &nbsp; &nbsp;
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-sm-offset-2 col-sm-10">
+                                    <button type="submit" class="btn btn-primary js-ajax-submit" data-refresh="0">{:lang('SAVE')}</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="tab-pane" id="D">
+                            网银在线商户号:
+                            网银在线密钥:
+                        </div>
+
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+
+    </div>
+    <script type="text/javascript" src="__STATIC__/js/admin.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $('.btn-cancel-thumbnail').click(function () {
+                $('#thumbnail-preview').attr('src', '__TMPL__/public/assets/images/default-thumbnail.png');
+                $('#thumbnail').val('');
+            });
+        });
+    </script>
+</body>
+</html>

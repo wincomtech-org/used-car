@@ -163,9 +163,7 @@
                         <div class="dashboard-box">{$dashboard_widget_plugins[$vo.name]['view']}</div>
                     </div>
                 </present>
-
             </if>
-
         </foreach>
     </div>
 </div>
@@ -295,7 +293,7 @@
 
         });
 </script>
-<php>lothar_get_news('',true);</php>
+<include file="public@footer"/>
 <hook name="admin_before_body_end"/>
 </body>
 </html>

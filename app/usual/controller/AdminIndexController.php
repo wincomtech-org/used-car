@@ -28,39 +28,32 @@ class AdminIndexController extends AdminBaseController
 
     public function config()
     {
-        $this->assign('卖车保证金300');
-        return '二手车统一配置';
+        $usualSettings    = cmf_get_option('usual_settings');
+        $alipaySettings    = cmf_get_option('alipay_settings');
+        $weixinSettings    = cmf_get_option('weixin_settings');
+
+        $this->assign('usual', $usualSettings);
+        $this->assign('alipay', $alipaySettings);
+        $this->assign('weixin', $weixinSettings);
+
         return $this->fetch();
     }
     public function configPost()
     {
         if ($this->request->isPost()) {
-            $result = $this->validate($this->request->param(), 'SettingSite');
+            $result = $this->validate($this->request->param(), 'UsualSet');
             if ($result !== true) {
                 $this->error($result);
             }
+            // 轮流保存
+            $usual = $this->request->param('usual/a');
+            cmf_set_option('usual_settings', $usual);
 
-            $options = $this->request->param('options/a');
-            cmf_set_option('site_info', $options);
+            $alipay = $this->request->param('alipay/a');
+            cmf_set_option('alipay_settings', $alipay);
 
-            $cmfSettings = $this->request->param('cmf_settings/a');
-            $bannedUsernames                 = preg_replace("/[^0-9A-Za-z_\\x{4e00}-\\x{9fa5}-]/u", ",", $cmfSettings['banned_usernames']);
-            $cmfSettings['banned_usernames'] = $bannedUsernames;
-            cmf_set_option('cmf_settings', $cmfSettings);
-
-            $cdnSettings = $this->request->param('cdn_settings/a');
-            cmf_set_option('cdn_settings', $cdnSettings);
-
-            $adminSettings = $this->request->param('admin_settings/a');
-            // 路由定义 别名alias
-            // $routeModel = new RouteModel();
-            // if (!empty($adminSettings['admin_password'])) {
-            //     $routeModel->setRoute($adminSettings['admin_password'].'$', 'admin/Index/index', [], 2, 5000);
-            // } else {
-            //     $routeModel->deleteRoute('admin/Index/index', []);
-            // }
-            // $routeModel->getRoutes(true);
-            cmf_set_option('admin_settings', $adminSettings);
+            $weixin = $this->request->param('weixin/a');
+            cmf_set_option('weixin_settings', $weixin);
 
             $this->success("保存成功！", '');
         }

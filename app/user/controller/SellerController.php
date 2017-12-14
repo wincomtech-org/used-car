@@ -189,6 +189,13 @@ class SellerController extends TradeController
     {
         $userId = cmf_get_current_user_id();
 
+        // 是否第一次申请登记 如果是交保证金 deposit
+        $count = Db::name('user_funds_log')->where(['user_id'=>$userId,'type'=>5])->count();
+        if (empty($rcount)) {
+            // $this->redirect(url('trade/Post/deposit'));
+            $this->error('系统检测到您还未交开店保证金',url('trade/Post/deposit'));
+        }
+
         if ($this->request->isPost()) {
             $data = $this->request->post();
             $post = $data['post'];

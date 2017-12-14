@@ -22,33 +22,36 @@ DOMEvent DOMDocumentWrapper phpQueryEvents phpQuery Callback JSONP
 修改内容：
     <!-- 导航 二手买卖 换成 车商城 -->
     <!-- 导航 检车预约 换成 车辆业务 -->
-    先选服务填资料，后有公司选公司。服务点无公司限制。菜鸟验车、6年免检单独页面(自营)
+    <!-- 先选服务填资料，后有公司选公司。服务点无公司限制。菜鸟验车、6年免检单独页面(自营) -->
     导航变色
 
 
-设计遗漏：
-    充值，充值成功，新增funds_apply，user_funds_log。
+设计遗漏种种
+充值：
+    充值成功，新增funds_apply，user_funds_log。
     第三方到公账到账，但系统未能成功处理，二次订单查询。
 
-    提交提现，改user的coin、freeze，新增funds_apply，
+提现：
+    <!-- 提交提现，改user的coin、freeze，新增funds_apply，
     提现审核通过status=1，正在提现处理中，请耐心等待……
     提现成功，改funds_apply的status=10，新增user_funds_log
     取消改user的coin、freeze，funds_apply的status=-2
     审核不通过，funds_apply的status=-1，改user的coin
-    每日提现一次，取消次数限制
+    每日提现一次 -->
 
-    开店保证金申请，改user的coin，新增funds_apply=>type=shop，
+开店保证金：300
+    申请，改user的coin，新增funds_apply=>type=shop，
     审核失败，改user的coin，funds_apply的status=-1
     取消，改user的coin，funds_apply的status=-2
     成功，改funds_apply的status=1，新增user_funds_log
+    成功后归为开店保证金。
     后期管理员第二次更改状态的处理：
-    成功后是否归为冻结的资金。
 
+重复
     用户重新提交审核？管理员二次操作？
     无责取消 与 有责取消 ？
     我的点券怎么扣除退还？
     审核认证交钱 与 审核认证不用交钱的(身份证，手机号，邮箱)？
-
     在线支付的都需要订单号order_sn
 
 
@@ -63,7 +66,7 @@ DOMEvent DOMDocumentWrapper phpQueryEvents phpQuery Callback JSONP
 4、个人中心
     优先使用点券，我的点券怎么扣除退还？
 5、车辆买卖
-    买家需要实名认证，卖家需要实名认证资质认证缴纳开店保证金才能卖车。
+    <!-- 买家需要实名认证，卖家需要实名认证资质认证缴纳开店保证金才能卖车。 -->
     卖家开店：审核资料重新设计，转移到cmf_verify，代码结构修改。
         开店资料审核 config('verify_define_data');
     <!-- 前台车辆列表筛选采用占位符，简化url长度 -->
@@ -84,6 +87,7 @@ instanceof
 提现开关：充值开关：
 全局列表分页数：
 短信开关：
+消息开关
 
 ◎格局:
 主导航
