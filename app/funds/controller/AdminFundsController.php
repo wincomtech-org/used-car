@@ -3,7 +3,7 @@ namespace app\funds\controller;
 
 use cmf\controller\AdminBaseController;
 use app\funds\model\UserFundsLogModel;
-// use think\Db;
+use think\Db;
 
 /**
 * 后台 
@@ -35,33 +35,38 @@ class AdminFundsController extends AdminBaseController
         return $this->fetch();
     }
 
-    // 点券操作
-    public function ticket()
+    // Excel 导出
+    public function orderExcel()
     {
-        $data = $this->request->param();
-
-
-        return '点券';
-        return $this->fetch();
-    }
-    public function ticketAdd()
-    {
-
-        // 判断是否为新用户
-        $count = Db::name('user_funds_log')->where('user_id')->count();
-        if ($count>0) {
-            $this->error('不是新用户');
+        $ids = $this->request->param('ids/a');
+        $where = [];
+        if (!empty($ids)) {
+            $where = ['a.id'=>['in',$ids]];
         }
-    }
 
-    // 给用户加钱
-    public function coin()
-    {
-        # code...
-    }
-    public function coinAdd()
-    {
-        # code...
+        $title = '资金动向';
+        $head = ['类型','余额变动','用户ID','IP地址','创建时间'];
+        $field = 'a.type,a.coin,a.user_id,a.ip,a.create_time';
+        $dir = 'funds';
+        $types = config('user_funds_log_type');
+
+        $data = Db::name('user_funds_log')->alias('a')
+              ->join('user b','a.user_id=b.id')
+              ->field($field)
+              ->where($where)
+              ->select()->toArray();
+        if (empty($data)) {
+            $this->error('数据为空！');
+        }
+
+        $new = [];
+        foreach ($data as $key => $value) {
+            $value['type'] = $types[$value['type']];
+            $value['create_time'] = date('Y-m-d H:i',$value['create_time']);
+            $new[] = $value;
+        }
+
+        model('UserFundsLog')->excelPort($title, $head, $new, $where, $dir);
     }
 
     public function more()

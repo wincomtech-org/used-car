@@ -248,4 +248,26 @@ class AdminOrderController extends AdminBaseController
     {
 
     }
+
+    public function orderExcel()
+    {
+        $ids = $this->request->param('ids/a');
+        $where = [];
+        if (!empty($ids)) {
+            $where = ['id'=>['in',$ids]];
+        }
+
+        $title = '保险订单';
+        $head = ['订单号','投保金额','投保车子','投保人'];
+        $field = 'order_sn,amount,car_id,user_id';
+        $dir = 'insurance';
+
+        // $field = Db::name('insurance_order')->alias('a')
+        //       ->join('user b')
+        //       ->field($field)
+        //       ->where($where)
+        //       ->select();
+
+        model('InsuranceOrder')->excelPort($title, $head, $field, $where, $dir);
+    }
 }

@@ -27,12 +27,14 @@ DOMEvent DOMDocumentWrapper phpQueryEvents phpQuery Callback JSONP
 
 
 设计遗漏：
+    充值，充值成功，新增funds_apply，user_funds_log。
+    第三方到公账到账，但系统未能成功处理，二次订单查询。
+
     提交提现，改user的coin、freeze，新增funds_apply，
     提现审核通过status=1，正在提现处理中，请耐心等待……
     提现成功，改funds_apply的status=10，新增user_funds_log
     取消改user的coin、freeze，funds_apply的status=-2
     审核不通过，funds_apply的status=-1，改user的coin
-
     每日提现一次，取消次数限制
 
     开店保证金申请，改user的coin，新增funds_apply=>type=shop，

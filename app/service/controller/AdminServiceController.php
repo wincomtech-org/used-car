@@ -240,4 +240,38 @@ class AdminServiceController extends AdminBaseController
     {
 
     }
+
+    public function orderExcel()
+    {
+        $ids = $this->request->param('ids/a');
+        $where = [];
+        if (!empty($ids)) {
+            $where = ['a.id'=>['in',$ids]];
+        }
+
+        $title = '车辆业务';
+        $head = ['业务类型','车牌号','用户','联系方式','电话','预约时间'];
+        $field = 'b.name,a.plateNo,a.username,a.contact,a.telephone,a.appoint_time';
+        $dir = 'service';
+
+        $data = Db::name('service')->alias('a')
+              ->join('service_category b','a.model_id=b.id')
+              ->field($field)
+              ->where($where)
+              ->select()->toArray();
+        if (empty($data)) {
+            $this->error('数据为空！');
+        }
+
+        $new = [];
+        foreach ($data as $key => $value) {
+            $value['appoint_time'] = date('Y-m-d H:i',$value['appoint_time']);
+            $new[] = $value;
+        }
+
+        model('Service')->excelPort($title, $head, $new, $where, $dir);
+    }
+
+
+
 }

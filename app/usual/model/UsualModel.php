@@ -5,6 +5,7 @@ use think\Db;
 use think\Model;
 use think\Request;
 // use app\admin\model\RouteModel;
+use excel\Excel;
 
 /**
 * 车辆共用 模型类
@@ -284,6 +285,28 @@ class UsualModel extends Model
             }
             return $options;
         }
+    }
+
+    // Excel 处理
+    public function excelPort($title='', $head='', $field='*', $where=[], $dir='')
+    {
+        $dir = CMF_ROOT .'data/excel/'.$dir;//getcwd()使用当前工作空间
+        $excel = new Excel($dir);
+
+        if (is_string($field)) {
+            $dataTemp = $this->field($field)->where($where)->select()->toArray();
+        } else {
+            $dataTemp = $field;
+        }
+        if (empty($dataTemp)) {
+            return false;
+        }
+
+        foreach ($dataTemp as $key => $row) {
+            $data[] = array_values($row);
+        }
+
+        $excel->exportExcel($title, $head, $data);
     }
 
     // 后台 JS 插件获取文件

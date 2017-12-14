@@ -5,6 +5,7 @@ use cmf\controller\AdminBaseController;
 use think\Db;
 use think\Model;
 use think\Loader;
+// use dbbackup\SqlBack;
 
 /**
 * 数据库备份还原
@@ -16,7 +17,7 @@ class DbBackupController extends AdminBaseController
     public function _initialize()
     {
         parent::_initialize();
-        $this->dir = CMF_ROOT .'data/'. $this->dir;//
+        $this->dir = CMF_ROOT .'data'. $this->dir;//
         // $this->dir = getcwd() . $this->dir;// 使用当前工作空间
 
         // $dname = config('database.database');

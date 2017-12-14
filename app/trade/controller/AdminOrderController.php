@@ -221,4 +221,20 @@ class AdminOrderController extends AdminBaseController
     {
 
     }
+
+    public function orderExcel()
+    {
+        $ids = $this->request->param('ids/a');
+        $where = [];
+        if (!empty($ids)) {
+            $where = ['id'=>['in',$ids]];
+        }
+
+        $title = '二手车订单';
+        $head = ['订单号','订金','支付总额','买家','联系方式'];
+        $field = 'order_sn,bargain_money,order_amount,buyer_username,buyer_contact';
+        $dir = 'trade';
+        
+        model('TradeOrder')->excelPort($title, $head, $field, $where, $dir);
+    }
 }

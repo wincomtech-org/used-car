@@ -130,4 +130,52 @@ class AdminIndexController extends AdminBaseController
             $this->error('数据传入失败！');
         }
     }
+
+    /**
+     * Excel 导出
+     * @adminMenu(
+     *     'name'   => 'Excel 导出新用户',
+     *     'parent' => 'index',
+     *     'display'=> false,
+     *     'hasView'=> false,
+     *     'order'  => 10000,
+     *     'icon'   => '',
+     *     'remark' => '导出新用户',
+     *     'param'  => ''
+     * )
+    */
+    public function orderExcel()
+    {
+        $ids = $this->request->param('ids/a');
+        $where = [];
+        if (!empty($ids)) {
+            $where = ['id'=>['in',$ids]];
+        }
+
+        $title = '本站用户';
+        $head = ['注册时间','用户ID','用户名','昵称','手机号','余额','冻结','点券','状态'];
+        $field = 'create_time,id,user_login,user_nickname,mobile,coin,freeze,ticket,user_status';
+        $dir = 'user';
+        $types = [0=>'禁用',1=>'正常',2=>'未验证'];
+
+        $data = Db::name('user')
+              ->field($field)
+              ->where($where)
+              ->select()->toArray();
+        if (empty($data)) {
+            $this->error('数据为空！');
+        }
+
+        $new = [];
+        foreach ($data as $key => $value) {
+            $value['create_time'] = date('Y-m-d H:i',$value['create_time']);
+            $value['user_status'] = $types[$value['user_status']];
+            $new[] = $value;
+        }
+
+        model('usual/Usual')->excelPort($title, $head, $new, $where, $dir);
+    }
+
+
+
 }
