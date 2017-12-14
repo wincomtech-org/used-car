@@ -68,7 +68,7 @@ class Excel
         }
 
         // 渲染生成文件
-        $this->saveFile($fileName,$objPHPExcel,'servers');//存到服务器
+        // $this->saveFile($fileName,$objPHPExcel,'servers');//存到服务器
         $this->saveFile($fileName,$objPHPExcel);// 直接浏览器
     }
 
