@@ -99,7 +99,7 @@ class IndexController extends HomeBaseController
                 }
                 if ($servCates['platform']==1) {
                     if (empty($find['company_id'])) {
-                        $this->redirect(url('step2',['id'=>$find['id']]));
+                        $this->redirect('service/Index/step2', ['id'=>$find['id']]);
                     } else {
                         $this->error('请不要重复提交！');
                     }
@@ -169,11 +169,11 @@ class IndexController extends HomeBaseController
         try{
             $id = model('Service')->addAppoint($post);
             $data = [
-                'title' => '预约车辆服务：'.$servCates['name'],
-                'user_id'=> $userId,
-                'object'=> 'service:'.$id,
-                'content'=>'客户ID：'.$userId.'，公司ID：'.$compId,
-                'adminurl'=>config('news_adminurl')[3],
+                'title'     => '预约车辆服务：'.$servCates['name'],
+                'user_id'   => $userId,
+                'object'    => 'service:'.$id,
+                'content'   => '客户ID：'.$userId.'，公司ID：'.$compId,
+                'adminurl'  => 3,
             ];
             lothar_put_news($data);
             $sta = true;
@@ -193,7 +193,7 @@ class IndexController extends HomeBaseController
             $this->assign('servName',$servCates['name']);
             return $this->fetch('appoint_tip');
         } else {
-            $this->redirect(url('step2',['id'=>$id]));
+            $this->redirect('service/Index/step2', ['id'=>$id]);
         }
     }
 

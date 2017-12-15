@@ -79,10 +79,13 @@ class NewsModel extends Model
             ->where('a.id',$id)
             ->find();
         $data['username'] = $data['user_nickname'] ? $data['user_nickname'] : $data['user_login'];
+
+        // 处理对象操作地址
+        $objurl = config('news_adminurl')[$data['adminurl']];
         if (!empty($data['object'])) {
             # insurance_order:1
             $objId = explode(':',$data['object'])[1];
-            $data['objurl'] = cmf_url( $data['adminurl'], ['id'=>$objId] );
+            $data['objurl'] = cmf_url($objurl, ['id'=>$objId]);
         }
 
         return $data;

@@ -44,39 +44,72 @@ class PostController extends HomeBaseController
         return $this->fetch();
     }
 
+    /*预约看车*/
     public function seeCar()
     {
         if (!cmf_is_user_login()) {
             $this->error('请登录',url('user/Login/index'));
         }
         $id = $this->request->param('id',0,'intval');
-        $carInfo = Db::name('usual_car')->field('name,bargain_money,price,car_license_time,car_mileage,car_displacement')->where('id',$id)->find();
+        $where['id'] = $id;
+
+        $carInfo = Db::name('usual_car')->field('name,bargain_money,price,car_license_time,car_mileage,car_displacement')->where($where)->find();
         if (empty($carInfo)) {
             abort(404,'数据不存在！');
         }
 
         $this->assign('carInfo',$carInfo);
+        $this->assign('formurl',url('Post/seeCarPost', $where));
         return $this->fetch();
     }
+    public function seeCarPost()
+    {
+        $data = $this->request->param();
+        $data['action'] = 'seecar';
+        // $setting = cmf_get_option('usual_settings');
+        // $data['coin'] = $setting['deposit'];
 
+        $this->redirect('funds/Pay/pay',$data);
+    }
+
+    /*
+    * 第一次开店，
+    * 开店资料审核 config('verify_define_data');
+    */
     public function deposit()
     {
         if (!cmf_is_user_login()) {
             $this->error('请登录',url('user/Login/index'));
         }
+
+        $setting = cmf_get_option('usual_settings');
+
+        $this->assign('deposit',$setting['deposit']);
+        $this->assign('formurl',url('Post/depositPost'));
         return $this->fetch();
     }
-
-
-// 提交无页面的 function
-    // 开店资料审核 config('verify_define_data');
     public function depositPost()
     {
         # \app\funds\controller\PayController.php
         $data = $this->request->param();
-        $this->redirect(url('funds/Pay/pay'),$data);
+        $data['action'] = 'deposit';
+        // $setting = cmf_get_option('usual_settings');
+        // $data['coin'] = $setting['deposit'];
+
+        // 这个申请审核要改
+        // $data = [
+        //     'title'     => '开店申请',
+        //     'object'    => 'verify:'.$vid,
+        //     'content'   => '客户ID：'.$userInfo['id'].'，车子ID：'.$id,
+        //     'adminurl'  => 8,
+        // ];
+        // lothar_put_news($data);
+
+
+        $this->redirect('funds/Pay/pay',$data);
     }
 
+    // 登记卖车信息
     public function regCar()
     {
         // 是否登录
@@ -94,7 +127,7 @@ class PostController extends HomeBaseController
         $count = Db::name('user_funds_log')->where(['user_id'=>$userId,'type'=>5])->count();
         if (empty($rcount)) {
             // session('deposit_'.$userInfo['id'], $post);
-            // $this->redirect(url('deposit'));
+            // $this->redirect('deposit');
             echo lothar_toJson(0,'系统检测到您还未交保证金',url('deposit'));exit();
         }
 
@@ -102,16 +135,6 @@ class PostController extends HomeBaseController
         // $data = $this->request->param();
         // $data = $_POST;
 // var_dump($data);die;
-        // $post = [
-        //     'brand_id' => $data['brandId'],
-        //     'serie_id' => $data['serieId'],
-        //     'model_id' => $data['modelId'],
-        //     'province_id' => $data['province'],
-        //     'city_id' => $data['city'],
-        //     'user_id' => $userId,
-        //     'identi'   => ['contact'=>'手机：'.$data['tel']],
-        // ];
-// var_dump($post);die;
 
         $brandId = $this->request->param('brandId');
         $serieId = $this->request->param('serieId');
@@ -158,11 +181,11 @@ class PostController extends HomeBaseController
             $result = model('usual/UsualCar')->adminAddArticle($post);
             $id = $result->id;
             $data = [
-                'title' => '免费登记卖车信息',
-                'user_id'=>$userInfo['id'],
-                'object'=> 'usual_car:'.$id,
-                'content'=>'客户ID：'.$userInfo['id'].'，车子ID：'.$id,
-                'adminurl'=>config('news_adminurl')[1],
+                'title'     => '免费登记卖车信息',
+                'user_id'   => $userInfo['id'],
+                'object'    => 'usual_car:'.$id,
+                'content'   => '客户ID：'.$userInfo['id'].'，车子ID：'.$id,
+                'adminurl'  => 1,
             ];
             lothar_put_news($data);
             // session('deposit_'.$userInfo['id'], null);
@@ -190,8 +213,6 @@ class PostController extends HomeBaseController
         if ($result !== true) {
             $this->error($result);
         }
-
-
 
         // 提交
         // $result = model('Trade')->adminAddArticle($post);

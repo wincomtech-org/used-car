@@ -1,0 +1,36 @@
+
+<!-- PC端 -->
+<div class="our_service_list our_service_list_pc">
+    <ul class="our_service_lists">
+        <foreach name="platform" item="vo">
+        <li class="our_service_items">
+            <div class="our_service_img">
+                <span class="txt_foot">{$vo.name}</span>
+                <img src="__TMPL__/public/assets/images/example/service{$vo.id}.jpg" alt="">
+            </div>
+            <div class="our_service_txt">
+                <a href="{:cmf_url('trade/Index/platform',['plat'=>$vo.id])}#AAA">{$vo.description}</a>
+            </div>
+        </li>
+        </foreach>
+    </ul>
+</div>
+
+<!-- 移动版 -->
+<div class="our_service_list our_service_list_m">
+    <div class="our_service_show">
+        <div class="slick">
+            <foreach name="platform" item="vo">
+            <div>
+                <div class="our_service_img">
+                    <span class="txt_foot">{$vo.name}</span>
+                    <img src="__TMPL__/public/assets/images/example/service{$vo.id}.jpg" alt="">
+                </div>
+                <div class="our_service_txt">
+                    <a href="{:cmf_url('trade/Index/platform',['plat'=>$vo.id])}#AAA">{$vo.description}</a>
+                </div>
+            </div>
+            </foreach>
+        </div>
+    </div>
+</div>

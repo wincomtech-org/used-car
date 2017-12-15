@@ -665,13 +665,7 @@ $(".contract_p .check_span input").click(function() {
 })
 
 function insurance_contract(e) {
-	if ($(".contract_p .check_span>label").attr('tid') != 1) {
-		alert("您未同意服务条款");
-		return false;
-	}
 	var data = $('#contract_form').serialize();
-	alert(data)
-	// e.preventDefault();
 	$('#contract_form').submit();
 }
 

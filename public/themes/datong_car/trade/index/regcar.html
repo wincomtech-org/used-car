@@ -2,10 +2,10 @@
 <section class="veh_trading_pc">
     <div class="banner">
         <img src="__TMPL__/public/assets/images/example/banner.jpg" alt="">
-        <div class="main">
+        <div class="main" {$plat==1?='style="display:none;"'}>
             <div class="registration_information">
                 <div class="regist_info_tit">
-                    <p>免费登记卖车信息</p>
+                    <p>登记卖车信息</p>
                 </div>
                 <form action="{:url('trade/Post/regCar')}" method="post" class="regist_info">
                     <div class="regist_info_form_item requre">

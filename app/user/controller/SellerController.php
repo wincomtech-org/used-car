@@ -192,7 +192,7 @@ class SellerController extends TradeController
         // 是否第一次申请登记 如果是交保证金 deposit
         $count = Db::name('user_funds_log')->where(['user_id'=>$userId,'type'=>5])->count();
         if (empty($rcount)) {
-            // $this->redirect(url('trade/Post/deposit'));
+            // $this->redirect('trade/Post/deposit');
             $this->error('系统检测到您还未交开店保证金',url('trade/Post/deposit'));
         }
 
@@ -251,14 +251,7 @@ class SellerController extends TradeController
                     $id = $result->id;
                     // $result = model('usual/Verify')->adminAddArticle($verify);
                     // $vid = $result->id;
-                    // 这个申请审核要改
-                    // $data = [
-                    //     'title' => '开店申请',
-                    //     'object'=> 'verify:'.$vid,
-                    //     'content'=>'客户ID：'.$userInfo['id'].'，车子ID：'.$id,
-                    //     'adminurl'=>config('news_adminurl')[8],
-                    // ];
-                    // lothar_put_news($data);
+
                     // 提交事务
                     Db::commit();
                 } catch (\Exception $e) {

@@ -170,11 +170,11 @@ class PostController extends HomeBaseController
                 Db::name('insurance_order')->insert($post);
                 $id = Db::getLastInsID();
                 $data = [
-                    'title' => '预约保险',
-                    'user_id' => $userId,
-                    'object'=> 'insurance_order:'.$id,
-                    'content'=>'客户ID：'.$userId.'，保单ID：'.$id,
-                    'adminurl'=>config('news_adminurl')[2],
+                    'title'     => '预约保险',
+                    'user_id'   => $userId,
+                    'object'    => 'insurance_order:'.$id,
+                    'content'   => '客户ID：'.$userId.'，保单ID：'.$id,
+                    'adminurl'  => 2,
                 ];
                 lothar_put_news($data);
                 $sta = true;
@@ -192,16 +192,20 @@ class PostController extends HomeBaseController
         }
     }
 
-    // 合同
+    // 签合同
     public function step5()
     {
         if (!cmf_is_user_login()) {
             $this->error('请登录',url('user/Login/index'));
         }
-        $insurId = $this->request->param('id',0,'intval');
+        $orderId = $this->request->param('id',0,'intval');
         $down = $this->request->param('down/d');
+        if (empty($orderId)) {
+            $this->error('ID非法');
+        }
 
-        $insurOrder = Db::name('insurance_order')->field('status,insurance_id')->where('id',$insurId)->find();
+        $insurOrder = Db::name('insurance_order')->field('amount,status,insurance_id')->where('id',$orderId)->find();
+
         $where = ['id'=>$insurOrder['insurance_id'],'identi_status'=>1,'status'=>1];
         // $insurInfo = model('Insurance')->getPost($insurOrder['insurance_id']);
         $insurInfo = Db::name('insurance')->field('company_id,name,content,information,more')->where($where)->find();
@@ -214,16 +218,10 @@ class PostController extends HomeBaseController
         //     # code...
         // }
 
-        $this->assign('id',$insurId);
+        $this->assign('id',$orderId);
         $this->assign('order',$insurOrder);
         $this->assign('Info',$insurInfo);
         return $this->fetch();
-    }
-
-    public function step5Post()
-    {
-        $data = $this->request->param();
-        $this->redirect(url('funds/Pay/pay'),$data);
     }
 
     // 付钱
@@ -232,21 +230,24 @@ class PostController extends HomeBaseController
         if (!cmf_is_user_login()) {
             $this->error('请登录',url('user/Login/index'));
         }
-        // $data = $this->request->param();
-        // $agree = $this->request->param('agree',null);
-        // $insurId = $this->request->param('id',null);
-        // $uid = cmf_get_current_user_id();
 
-        // $result = $this->validate(['insurance_id'=>$insurId], 'insurance/Order.agree');
-        // if ($result !== true) {
-        //     $this->error($result);
-        // }
+        $data = $this->request->param();
+        $agree = $this->request->param('agree',null);
 
-        // if ($agree==1) {
-        //     $where = ['user_id'=>$uid,'insurance_id'=>$insurId];
-        //     Db::name('insurance_order')->where($where)->setField('status',8);
-        // }
+        if ($data['amount']<='0.00') {
+            $this->error('请等待管理员填写支付金额');
+        }
+        if ($agree==null) {
+            $this->error('请勾选同意按钮');
+        }
 
+        $where = ['id'=>$data['id']];
+        if ($agree==1) {
+            Db::name('insurance_order')->where($where)->setField('status',5);
+        }
+
+        $this->assign('formurl',url('step7',$where));
+        $this->assign($data);
         return $this->fetch();
     }
 
@@ -256,13 +257,16 @@ class PostController extends HomeBaseController
         if (!cmf_is_user_login()) {
             $this->error('请登录',url('user/Login/index'));
         }
-        return $this->fetch();
+        $data = $this->request->param();
+        $data['action'] = 'insurance';
+
+        $this->redirect('funds/Pay/pay',$data);
     }
 
     // 查看险种
     public function coverage()
     {
-        $insurId = $this->request->param('id');
+        $orderId = $this->request->param('id');
 
         return $this->fetch();
     }

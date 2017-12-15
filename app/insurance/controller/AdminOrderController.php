@@ -49,15 +49,6 @@ class AdminOrderController extends AdminBaseController
                 $this->error($result);
             }
             model('InsuranceOrder')->adminAddArticle($post);
-
-            // 钩子
-            // $post['id'] = model('InsuranceOrder')->id;
-            // $hookParam          = [
-            //     'is_add'  => true,
-            //     'article' => $post
-            // ];
-            // hook('portal_admin_after_save_article', $hookParam);
-
             $this->success('添加成功!', url('AdminOrder/edit', ['id' => model('InsuranceOrder')->id]));
         }
     }
@@ -83,6 +74,7 @@ class AdminOrderController extends AdminBaseController
             $post   = $data['post'];
             $cardata= $data['car'];
 
+            // 处理车子
             $car_id = DB::name('usual_car')->where('plateNo',$cardata['identi']['plateNo'])->value('id');
             if (!empty($car_id)) {
                 $post['car_id'] = $car_id;
@@ -107,27 +99,22 @@ class AdminOrderController extends AdminBaseController
                 // $post['car_id'] = Db::name('usual_car')->insertGetId($cardata);
             }
 
+            // 验证保单
             $result = $this->validate($post, 'Order.edit');
             if ($result !== true) {
                 $this->error($result);
             }
-
-            if ($post['status']==1 && empty($post['pay_time'])) {
-                $this->error('支付时间不能为空 <br>或者 支付状态不能为未支付、取消！');
+            if ($post['status']==6 && empty($post['pay_time'])) {
+                $this->error('支付时间不能为空 <br> 或者 支付状态为未支付！');
             }
+
             $iOrderModel = new InsuranceOrderModel();
             if (!empty($data['file_names'])) {
                 $post['more']['files'] = $iOrderModel->dealFiles(['names'=>$data['file_names'],'urls'=>$data['file_urls']]);
             }
 
+            $post['user_id'] = $cardata['user_id'];
             $iOrderModel->adminEditArticle($post);
-
-            // 钩子
-            // $hookParam = [
-            //     'is_add'  => false,
-            //     'article' => $post
-            // ];
-            // hook('portal_admin_after_save_article', $hookParam);
 
             $this->success('保存成功!');
         }

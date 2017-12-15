@@ -26,7 +26,13 @@ DOMEvent DOMDocumentWrapper phpQueryEvents phpQuery Callback JSONP
     导航变色
 
 
-设计遗漏种种
+设计种种
+涉及支付的地方：
+    trade/Post/seeCarPost
+    trade/Post/depositPost
+    insurance/Post/step5Post
+    user/Funds/rechargePost
+
 充值：
     充值成功，新增funds_apply，user_funds_log。
     第三方到公账到账，但系统未能成功处理，二次订单查询。

@@ -26,26 +26,29 @@
                 <li class="active"><a href="#">签订合同</a></li>
             </ul>
             <div class="selection_insurance_con">
-                <form action="{:url('Post/step5Post')}" method="post" accept-charset="utf-8" id="contract_form" class="contract_form">
-                    <div class="contrac_con">
-                        <div class="img">{$Info.name|default=''}条例</div>
-                        <div class="contract">
-                            {$Info.content|default=''}
-                        </div>
+                <div class="contrac_con">
+                    <div class="img">{$Info.name|default=''}条例</div>
+                    <div class="contract">
+                        {$Info.content|default=''}
                     </div>
-                    <in name='order.status' value='0,1,5'>
+                </div>
+                <in name='order.status' value='0,1,5'>
+                    <form action="{:url('Post/step6')}" method="post" id="contract_form" class="contract_form">
                         <p class="contract_p">
                             <span class="check_span">
-                                <input type="checkbox" name="agree" value="1" id="contract_label" class="no_input"><label for="contract_label"></label>
+                                <input type="checkbox" name="agree" value="1" checked id="contract_label" class="no_input">
+                                <label for="contract_label"></label>
                             </span>
                             <label for="contract_label">同意上述条例，自投保日30内成功支付首期保险费，方可生效。</label>
                         </p>
+                        <input type="hidden" name="amount" value="{$order.amount}">
+                        <input type="hidden" name="insurName" value="{$Info.name}">
                         <input type="hidden" name="id" value="{$id}">
-                        <button type="button" for="contract_form" class="btn btn_submit" onClick="insurance_contract(this);">同意</button>
-                    <else/>
-                        <a href="{:url('Post/coverage',['id'=>$id])}"><button type="button" class="btn btn_submit">查看险种 >></button></a>
-                    </in>
-                </form>
+                        <button type="button" for="contract_form" class="btn btn_submit" onClick="insurance_contract(this);">{$order.status==5?'去支付':'同意'}</button>
+                    </form>
+                <else/>
+                    <a href="{:url('Post/coverage',['id'=>$id])}"><button type="button" class="btn btn_submit">查看险种 >></button></a>
+                </in>
             </div>
         </div>
     </section>

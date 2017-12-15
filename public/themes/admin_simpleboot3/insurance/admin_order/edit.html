@@ -74,6 +74,7 @@
                     <tr>
                         <th></th>
                         <td align="center"><b style="color:#F00">以下是审核资料</b></td>
+                        <input type="hidden" name="car[user_id]" value="{$post.user_id}">
                     </tr>
                     <tr>
                         <th>车牌号码</th>
@@ -156,8 +157,7 @@
                     </tr>
                     <tr>
                         <td>
-                            <input class="form-control js-bootstrap-datetime" type="text" name="post[appoint_time]"
-                                   value="{$post.appoint_time?=date('Y-m-d H:i',$post['appoint_time'])}">
+                            <input class="form-control js-bootstrap-datetime" type="text" name="post[appoint_time]" value="{$post.appoint_time?=date('Y-m-d H:i',$post['appoint_time'])}">
                         </td>
                     </tr>
                     <tr>
@@ -165,8 +165,7 @@
                     </tr>
                     <tr>
                         <td>
-                            <input readonly class="form-control js-bootstrap-datetime" type="text" name="post[dead_time]"
-                                   value="{$post.dead_time?=date('Y-m-d H:i',$post['dead_time'])}">
+                            <input class="form-control js-bootstrap-datetime" type="text" name="post[dead_time]" value="{$post.dead_time?=date('Y-m-d H:i',$post['dead_time'])}" readonly>
                         </td>
                     </tr>
                     <tr>
@@ -187,7 +186,7 @@
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
                 <input type="hidden" name="post[id]" value="{$post.id}">
-                <button type="submit" class="btn btn-primary js-ajax-submit">{:lang('SAVE')}</button>
+                <button type="submit" class="btn btn-primary js-ajax-submit1">{:lang('SAVE')}</button>
                 <a class="btn btn-default" href="javascript:history.back(-1);">{:lang('BACK')}</a>
             </div>
         </div>

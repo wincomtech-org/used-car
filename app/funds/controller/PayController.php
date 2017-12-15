@@ -37,18 +37,42 @@ class PayController extends HomeBaseController
         }
 
         $data = $this->request->param();
-        // if (!empty($data)) {
-        //     dump($data);
-        // }
-        $this->success('支付中心 - 模拟支付',cmf_url('user/Funds/index'),$data,100);
+        if (empty($data)) {
+            $this->error('非法数据集');
+        }
+
+        // $this->success('支付中心 - 模拟支付',cmf_url('user/Funds/index'),$data,100);
+
+        $this->$data['action']($data);
     }
 
-    // 
+    // 对应支付模块
+    public function insurance($data)
+    {
+        $this->success('支付中心 - 模拟 保险 支付',cmf_url('user/Funds/index'),$data,100);
+    }
+    public function seecar($data)
+    {
+        $this->success('支付中心 - 模拟 预约看车 支付',cmf_url('user/Funds/index'),$data,100);
+    }
+    public function deposit($data)
+    {
+        $this->success('支付中心 - 模拟 店铺押金 支付',cmf_url('user/Funds/index'),$data,100);
+    }
+    public function recharge($data)
+    {
+        $this->success('支付中心 - 模拟 充值 支付',cmf_url('user/Funds/index'),$data,100);
+    }
+
+
+
+    // 支付方式
     public function payment()
     {
         $payModel = new PayModel();
     }
 
+    // 事务处理
     public function trans()
     {
         bcscale(2);
@@ -77,4 +101,7 @@ class PayController extends HomeBaseController
         }
          $this->success('成功');
     }
+
+
+
 }

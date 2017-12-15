@@ -23,6 +23,24 @@ class IndexController extends HomeBaseController
 
     public function index()
     {
+        $platform = [
+            ['id'=>1,'name'=>'新车','description'=>'新车选购<br>提供优质资源'],
+            ['id'=>2,'name'=>'二手车','description'=>'二手车买卖<br>为您的安全保驾护航'],
+            ['id'=>3,'name'=>'服务商城','description'=>'服务<br>汽车配件、服务、周边等'],
+        ];
+
+        $this->assign('platform',$platform);
+        return $this->fetch();
+    }
+
+    public function platform()
+    {
+        // 写在前面
+        $plat = $this->request->param('plat',0,'intval');
+        if ($plat==3) {
+            return $this->fetch('platform3');
+        }
+
         // 实例化
         $serieModel = new UsualSeriesModel();
 
@@ -71,7 +89,6 @@ class IndexController extends HomeBaseController
         $oxnum = $this->request->param('oxnum/s');
         // $jumpext = $this->request->param('jumpext/s','','strval');
         // ID
-        $platform = $this->request->param('platform',0,'intval');
         $typeId = $this->request->param('typeId','new');
         $brandId = $this->request->param('brandId');// 2大众 4福特
         $serieId = $this->request->param('serieId');
@@ -119,8 +136,8 @@ class IndexController extends HomeBaseController
 
         // 处理请求的数据
         // 平台
-        if (!empty($platform)) {
-            $extra['platform'] = $platform;
+        if (!empty($plat)) {
+            $extra['platform'] = $plat;
         }
         // 类别
         if (is_numeric($typeId)) {
@@ -222,7 +239,7 @@ class IndexController extends HomeBaseController
         /*URL 参数*/
         $string = $string1 . $string4;
         $jumpext = 'oxnum='.$string
-                 . ($platform ? '&platform='.$platform : '')
+                 . ($plat ? '&plat='.$plat : '')
                  . ($typeId ? '&typeId='.$typeId : '')
                  . (empty($priceId) ? '' : '&priceId='.$priceId);
 
@@ -249,6 +266,7 @@ class IndexController extends HomeBaseController
         $this->assign('regCarInfo',$regCarInfo);
         $this->assign('jumpext',$jumpext);
 
+        $this->assign('plat',$plat);
         $this->assign('typeId',$typeId);
         $this->assign('Types',$Types);
         $this->assign('brandId',$brandId);
@@ -280,6 +298,7 @@ class IndexController extends HomeBaseController
 
         return $this->fetch();
     }
+
 
 
     /*

@@ -43,13 +43,10 @@ class Excel
 
         // 设置单元格宽度, 如何自动列宽？
         // $objPHPExcel->getActiveSheet()->getColumnDimension()->setAutoSize(true);
-        $objPHPExcel->getActiveSheet()->getColumnDimension('A')->setWidth(24);
-        $objPHPExcel->getActiveSheet()->getColumnDimension('B')->setWidth(12);
-        $objPHPExcel->getActiveSheet()->getColumnDimension('C')->setWidth(12);
-        $objPHPExcel->getActiveSheet()->getColumnDimension('D')->setWidth(12);
-        $objPHPExcel->getActiveSheet()->getColumnDimension('E')->setWidth(15);
-        $objPHPExcel->getActiveSheet()->getColumnDimension('F')->setWidth(15);
-        $objPHPExcel->getActiveSheet()->getColumnDimension('G')->setWidth(20);
+        $prepare = [24,12,12,12,15,15,20];
+        foreach ($prepare as $key => $var) {
+            $objPHPExcel->getActiveSheet()->getColumnDimension($this->n_to_l($key))->setWidth($var);
+        }
 
         // 设置表格标题文字
         // $objPHPExcel->getActiveSheet(0)->mergeCells( 'A1:'. $this->n_to_l($cellNum-1) .'1' );//合并单元格，表格标题文字显示区域
@@ -102,11 +99,17 @@ class Excel
 
         // 设置单元格宽度
         // $objActSheet->getColumnDimension()->setAutoSize(true);
-        $objActSheet->getColumnDimension('A')->setWidth(16);
-        $objActSheet->getColumnDimension('B')->setWidth(10);
-        $objActSheet->getColumnDimension('C')->setWidth(10);
-        $objActSheet->getColumnDimension('D')->setWidth(10);
-        $objActSheet->getColumnDimension('E')->setWidth(10);
+        $prepare = [24,12,12,12,15,15,20];
+        foreach ($prepare as $key => $var) {
+            $objActSheet->getColumnDimension($this->n_to_l($key))->setWidth($var);
+        }
+        $objActSheet->getColumnDimension('A')->setWidth(24);
+        $objActSheet->getColumnDimension('B')->setWidth(12);
+        $objActSheet->getColumnDimension('C')->setWidth(12);
+        $objActSheet->getColumnDimension('D')->setWidth(12);
+        $objActSheet->getColumnDimension('E')->setWidth(15);
+        $objActSheet->getColumnDimension('F')->setWidth(15);
+        $objActSheet->getColumnDimension('G')->setWidth(20);
 
         $mergeNum = $cellNum>8 ? $cellNum : 8;
         // 设置表格标题文字

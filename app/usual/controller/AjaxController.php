@@ -154,6 +154,10 @@ class AjaxController extends BaseController
         return '该用户可用';
     }
 
+    /*
+    * 消息定时获取
+    * 使用 socket 实时获取新消息
+    */
     public function news()
     {
         $html = lothar_get_news('',true);
@@ -161,6 +165,15 @@ class AjaxController extends BaseController
         // $html = str_replace('__STATIC__', '/static', $html);
 
         echo $html;exit;
+    }
+
+    /*
+    * 微信扫码支付
+    * 订单轮询
+    */
+    public function wxpay()
+    {
+        echo 'ok';exit;
     }
 
 

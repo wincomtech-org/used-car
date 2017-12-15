@@ -103,8 +103,8 @@
                                     <span class="txt">
                                         <eq name='page.type' value='1'>
                                         <notin name='page.status' value='0,-1,-2,-3,-11'>
-                                            <a href="{:cmf_url('insurance/Post/step5',['id'=>$page.id])}" class="file">查看详情</a>
-                                            <a href="{:cmf_url('insurance/Post/step5',['id'=>$page.id,'down'=>1])}" class="file_down">下载</a>
+                                            <a href="{:url('insurance/Post/step5',['id'=>$page.id])}" class="file">查看详情</a>
+                                            <a href="{:url('insurance/Post/step5',['id'=>$page.id,'down'=>1])}" class="file_down">下载</a>
                                         </notin>
                                         <else/>
                                             线下操作

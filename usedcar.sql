@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50540
 File Encoding         : 65001
 
-Date: 2017-12-14 18:16:09
+Date: 2017-12-15 16:17:02
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -4309,7 +4309,7 @@ CREATE TABLE `cmf_insurance_order` (
 -- ----------------------------
 -- Records of cmf_insurance_order
 -- ----------------------------
-INSERT INTO `cmf_insurance_order` VALUES ('1', '2', '[\"1\",\"2\"]', '6', '3', '0', 'INSUR-2017120253101494', '', '0.00', '', '', '1512181733', '0', '0', '0', '0', '0', null, '', '', '1', '0', '10000');
+INSERT INTO `cmf_insurance_order` VALUES ('1', '2', '[\"1\",\"2\"]', '6', '3', '0', 'INSUR-2017120253101494', '', '0.00', '', '', '1512181733', '0', '1512711600', '0', '1544456400', '0', null, '', '', '1', '0', '10000');
 
 -- ----------------------------
 -- Table structure for cmf_link
@@ -4382,10 +4382,10 @@ INSERT INTO `cmf_nav_menu` VALUES ('19', '1', '0', '1', '40', '车商城', '', '
 INSERT INTO `cmf_nav_menu` VALUES ('20', '1', '0', '1', '50', '车辆业务', '', 'service.html', 'ion-person', '');
 INSERT INTO `cmf_nav_menu` VALUES ('21', '1', '0', '1', '60', '活动推荐', '', '{\"action\":\"portal\\/List\\/index\",\"param\":{\"id\":2}}', 'ion-search', '');
 INSERT INTO `cmf_nav_menu` VALUES ('22', '1', '0', '1', '70', '新闻资讯', '', '{\"action\":\"portal\\/List\\/index\",\"param\":{\"id\":1}}', 'ion-star', '');
-INSERT INTO `cmf_nav_menu` VALUES ('23', '1', '19', '1', '10000', '新车', '', '{\"action\":\"trade\\/Index\\/index\",\"param\":{\"platform\":1}}', 'ion-android-arrow-dr', '');
-INSERT INTO `cmf_nav_menu` VALUES ('24', '1', '19', '1', '10000', '二手车', '', '{\"action\":\"trade\\/Index\\/index\",\"param\":{\"platform\":2}}', 'ion-android-arrow-dr', '');
+INSERT INTO `cmf_nav_menu` VALUES ('23', '1', '19', '1', '10000', '新车', '', '{\"action\":\"trade\\/Index\\/platform\",\"param\":{\"plat\":1}}', 'ion-android-arrow-dr', '');
+INSERT INTO `cmf_nav_menu` VALUES ('24', '1', '19', '1', '10000', '二手车', '', '{\"action\":\"trade\\/Index\\/platform\",\"param\":{\"plat\":2}}', 'ion-android-arrow-dr', '');
 INSERT INTO `cmf_nav_menu` VALUES ('25', '1', '22', '1', '10000', '热门新闻', '', '{\"action\":\"portal\\/List\\/index\",\"param\":{\"id\":5}}', 'ion-android-arrow-dr', '');
-INSERT INTO `cmf_nav_menu` VALUES ('26', '1', '19', '1', '10000', '服务商城', '', '{\"action\":\"trade\\/Index\\/index\",\"param\":{\"platform\":3}}', '', '');
+INSERT INTO `cmf_nav_menu` VALUES ('26', '1', '19', '1', '10000', '服务商城', '', '{\"action\":\"trade\\/Index\\/platform\",\"param\":{\"plat\":3}}', '', '');
 INSERT INTO `cmf_nav_menu` VALUES ('27', '1', '20', '1', '10000', '菜鸟验车', '', '{\"action\":\"service\\/Index\\/step1\",\"param\":{\"id\":1}}', '', '');
 INSERT INTO `cmf_nav_menu` VALUES ('28', '1', '20', '1', '10000', '六年免检', '', '{\"action\":\"service\\/Index\\/step1\",\"param\":{\"id\":5}}', '', '');
 
@@ -4401,7 +4401,7 @@ CREATE TABLE `cmf_news` (
   `app` varchar(50) NOT NULL DEFAULT '' COMMENT '消息的来源所在应用名或插件名等',
   `action` varchar(100) NOT NULL DEFAULT '' COMMENT '来源所在名称;格式:应用名+控制器+操作名,也可自己定义格式只要不发生冲突且惟一;',
   `object` varchar(100) NOT NULL DEFAULT '' COMMENT '消息对象的id,格式:不带前缀的表名+id;如posts:1表示xx_posts表里id为1的记录',
-  `adminurl` varchar(100) NOT NULL DEFAULT '' COMMENT '后台操作url',
+  `adminurl` tinyint(3) NOT NULL DEFAULT '0' COMMENT '后台操作url',
   `remark` varchar(255) NOT NULL DEFAULT '' COMMENT '备注',
   `content` text COMMENT '详情',
   `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
@@ -4412,9 +4412,9 @@ CREATE TABLE `cmf_news` (
 -- ----------------------------
 -- Records of cmf_news
 -- ----------------------------
-INSERT INTO `cmf_news` VALUES ('1', '3', '1', '预约保险', 'insurance', 'insurance/post/step2post', 'insurance_order:1', 'insurance/AdminOrder/index', '', '客户ID：3，保单ID：1', '1512181733', '1');
-INSERT INTO `cmf_news` VALUES ('2', '3', '0', '预约车辆服务：菜鸟验车', 'service', 'service/post/appointpost', 'service:1', 'service/AdminService/index', '', '客户ID：3，公司ID：1', '1512541470', '0');
-INSERT INTO `cmf_news` VALUES ('3', '3', '0', '提现申请', 'user', 'user/funds/withdrawpost', 'funds_apply:1', 'funds/AdminWithdraw/index', '', null, '1513067973', '0');
+INSERT INTO `cmf_news` VALUES ('1', '3', '1', '预约保险', 'insurance', 'insurance/post/step2post', 'insurance_order:1', '2', '', '客户ID：3，保单ID：1', '1512181733', '1');
+INSERT INTO `cmf_news` VALUES ('2', '3', '0', '预约车辆服务：菜鸟验车', 'service', 'service/post/appointpost', 'service:1', '3', '', '客户ID：3，公司ID：1', '1512541470', '0');
+INSERT INTO `cmf_news` VALUES ('3', '3', '0', '提现申请', 'user', 'user/funds/withdrawpost', 'funds_apply:1', '5', '', null, '1513067973', '0');
 
 -- ----------------------------
 -- Table structure for cmf_option
@@ -4615,7 +4615,7 @@ INSERT INTO `cmf_portal_post` VALUES ('15', '0', '1', '1', '1', '1', '1', '0', '
 INSERT INTO `cmf_portal_post` VALUES ('16', '0', '1', '1', '1', '1', '1', '0', '0', '0', '0', '0', '1510112820', '1510381166', '1510112760', '0', '预约看车', '', '专人带看\r\n安排售车顾问陪同您看车', '', null, null, '{\"thumbnail\":\"\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/icon_08.png\",\"template\":\"\"}');
 INSERT INTO `cmf_portal_post` VALUES ('17', '0', '1', '1', '1', '1', '1', '0', '0', '0', '0', '0', '1510113114', '1510113114', '1510113010', '0', '签订协议', '', '安排顾问指导您完成协议合同签订', '', null, null, '{\"thumbnail\":\"\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/icon_09.png\",\"template\":\"\"}');
 INSERT INTO `cmf_portal_post` VALUES ('18', '0', '1', '1', '1', '1', '1', '0', '0', '0', '0', '0', '1510113167', '1510113167', '1510113123', '0', '售后服务', '', 'GV预估个人', '', null, null, '{\"thumbnail\":\"\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/icon_10.png\",\"template\":\"\"}');
-INSERT INTO `cmf_portal_post` VALUES ('19', '0', '1', '1', '1', '1', '1', '0', '0', '35', '0', '0', '1510558406', '1510562058', '1510558260', '0', '公司介绍', '', '', '', '\n&lt;p style=&quot;text-indent:2em;&quot;&gt;大通车服有限公司是一家提供各种车险服务，二手车买卖，检车预约，车辆服务的的公司，致力于为广大车友提供最便捷，最安全，最省心的服务。&lt;/p&gt;\n&lt;p&gt;&lt;img src=&quot;/static/js/ueditor/themes/default/images/spacer.gif&quot; word_img=&quot;file:///E:/WXS/%E9%A1%B9%E7%9B%AE/%E4%BA%8C%E6%89%8B%E8%BD%A6%E4%BA%A4%E6%98%93/%E5%89%8D%E7%AB%AF%E4%BB%A3%E7%A0%81/second-hand_car1113/image/about.jpg&quot; style=&quot;background:url(http://tx.car/static/js/ueditor/lang/zh-cn/images/localimage.png) no-repeat center center;border:1px solid #ddd&quot;&gt;&lt;/p&gt;\n&lt;p style=&quot;text-indent:2em;&quot;&gt;华创在线服务领域涵盖网站建设，企业定制化系统（酒店管理系统，医疗管理系统，房产管理系统，金融管理系统，教育管理系统等），APP开发，微信公众号二次开发，商城网站开发，电子商务定制，百度推广服务等。\r\n \r\n华创在线创始团队多数来自百度，腾讯，阿里巴巴，Facebook等知名互联网公司，具备十年以上的互联网行业经验。公司60%以上为技术研发人员，均毕业于清华大学，浙江大学，中国科学技术大学等知名高校，公司技术实力雄厚。&lt;/p&gt;\n&lt;p&gt;&lt;br&gt;&lt;/p&gt;\n&lt;p style=&quot;text-indent: 2em;&quot;&gt;至臻品质，至真服务，华创在线与您携手共赢，共创未来！&lt;/p&gt;\n', null, '{\"thumbnail\":\"\",\"template\":\"about\"}');
+INSERT INTO `cmf_portal_post` VALUES ('19', '0', '1', '1', '1', '1', '1', '0', '0', '36', '0', '0', '1510558406', '1510562058', '1510558260', '0', '公司介绍', '', '', '', '\n&lt;p style=&quot;text-indent:2em;&quot;&gt;大通车服有限公司是一家提供各种车险服务，二手车买卖，检车预约，车辆服务的的公司，致力于为广大车友提供最便捷，最安全，最省心的服务。&lt;/p&gt;\n&lt;p&gt;&lt;img src=&quot;/static/js/ueditor/themes/default/images/spacer.gif&quot; word_img=&quot;file:///E:/WXS/%E9%A1%B9%E7%9B%AE/%E4%BA%8C%E6%89%8B%E8%BD%A6%E4%BA%A4%E6%98%93/%E5%89%8D%E7%AB%AF%E4%BB%A3%E7%A0%81/second-hand_car1113/image/about.jpg&quot; style=&quot;background:url(http://tx.car/static/js/ueditor/lang/zh-cn/images/localimage.png) no-repeat center center;border:1px solid #ddd&quot;&gt;&lt;/p&gt;\n&lt;p style=&quot;text-indent:2em;&quot;&gt;华创在线服务领域涵盖网站建设，企业定制化系统（酒店管理系统，医疗管理系统，房产管理系统，金融管理系统，教育管理系统等），APP开发，微信公众号二次开发，商城网站开发，电子商务定制，百度推广服务等。\r\n \r\n华创在线创始团队多数来自百度，腾讯，阿里巴巴，Facebook等知名互联网公司，具备十年以上的互联网行业经验。公司60%以上为技术研发人员，均毕业于清华大学，浙江大学，中国科学技术大学等知名高校，公司技术实力雄厚。&lt;/p&gt;\n&lt;p&gt;&lt;br&gt;&lt;/p&gt;\n&lt;p style=&quot;text-indent: 2em;&quot;&gt;至臻品质，至真服务，华创在线与您携手共赢，共创未来！&lt;/p&gt;\n', null, '{\"thumbnail\":\"\",\"template\":\"about\"}');
 INSERT INTO `cmf_portal_post` VALUES ('20', '0', '1', '1', '1', '1', '1', '0', '0', '6', '0', '0', '1510558939', '1510562398', '1510558860', '0', '服务理念', '', '', '', '&lt;p&gt;服务理念内容：&lt;/p&gt;', null, '{\"thumbnail\":\"\",\"template\":\"about\"}');
 INSERT INTO `cmf_portal_post` VALUES ('21', '0', '1', '1', '1', '1', '1', '0', '0', '2', '0', '0', '1510559032', '1510562441', '1510558980', '0', '保险服务', '', '', '', '&lt;p&gt;保险服务内容&lt;/p&gt;', null, '{\"thumbnail\":\"\",\"template\":\"about\"}');
 INSERT INTO `cmf_portal_post` VALUES ('22', '0', '1', '1', '1', '1', '1', '0', '0', '7', '0', '0', '1510559763', '1510562424', '1510559700', '0', '交易流程', '', '', '', '&lt;p&gt;交易流程内容&lt;/p&gt;', null, '{\"thumbnail\":\"\",\"template\":\"about\"}');
@@ -5376,7 +5376,7 @@ CREATE TABLE `cmf_usual_car` (
   `inventory` smallint(6) unsigned NOT NULL DEFAULT '1' COMMENT '库存',
   `old_user` varchar(255) NOT NULL DEFAULT '' COMMENT '以前的车主',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COMMENT='车辆表';
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COMMENT='车辆表';
 
 -- ----------------------------
 -- Records of cmf_usual_car
@@ -5386,6 +5386,7 @@ INSERT INTO `cmf_usual_car` VALUES ('2', '1', '4', '11', '2', '1', '0', '3', '34
 INSERT INTO `cmf_usual_car` VALUES ('3', '1', '1', '17', '2', '1', '0', '3', '3401', '0', '宝马 1系两厢五门版 2012款 1.6T 自动 116i都市版', '', '', '', '皖A95K88', '1350057600', '0', '0', '0', '14.00', '2.5', '3', '28', '14', '15', '8', '1510814246', '1513222608', '0', '0', '0', '0', '', '', '', '{\"car_seating\":\"3\",\"car_color\":\"8\",\"car_length\":\"\",\"car_age\":\"\",\"car_effluent\":\"14\",\"car_fuel\":\"15\",\"car_displacement\":\"\",\"car_mileage\":\"\",\"car_engine\":\"\",\"car_gearbox\":\"28\",\"thumbnail\":\"https:\\/\\/c2.xinstatic.com\\/f2\\/20171129\\/1726\\/5a1e7d3fa651c407670_19.jpg\",\"photos\":[{\"url\":\"https:\\/\\/c2.xinstatic.com\\/f2\\/20171129\\/1726\\/5a1e7d3fa651c407670_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c2.xinstatic.com\\/f2\\/20171129\\/1727\\/5a1e7d7a28744241112_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c2.xinstatic.com\\/f2\\/20171129\\/1726\\/5a1e7d2fbae64486662_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c2.xinstatic.com\\/f2\\/20171129\\/1727\\/5a1e7d741c49c885807_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c2.xinstatic.com\\/f2\\/20171129\\/1726\\/5a1e7d3c7ab05985442_20.jpg\",\"name\":\"\"}]}', '1', '1', '{\"username\":\"贝尔\",\"contact\":\"QQ：456876646\",\"plateNo\":\"皖A95K88\",\"driving_license\":\"https:\\/\\/c1.xinstatic.com\\/f2\\/20171113\\/1802\\/5a096daf09902191543_18.jpg\"}', '', '', '', '10000', '1', '1510552638', '30.00', '3', '30.18', '17.98', '5.39', '200.00', '1', '');
 INSERT INTO `cmf_usual_car` VALUES ('4', '1', '4', '14', '4', '1', '0', '31', '383', '0', '福特 Mustang 2015款 2.3T 自动 性能版', '', '', '', '皖A85K88', '1325433600', '0', '0', '5', '2.80', '2.3', '3', '26', '14', '15', '7', '1512119386', '1513222595', '0', '0', '0', '0', '', '', null, '{\"car_seating\":\"3\",\"car_color\":\"7\",\"car_length\":\"160\",\"car_age\":\"\",\"car_effluent\":\"14\",\"car_fuel\":\"15\",\"car_displacement\":\"\",\"car_mileage\":\"\",\"car_engine\":\"\",\"car_gearbox\":\"26\",\"thumbnail\":\"https:\\/\\/c4.xinstatic.com\\/f2\\/20171130\\/1712\\/5a1fcb9209ee7452880_19.jpg\",\"photos\":[{\"url\":\"https:\\/\\/c4.xinstatic.com\\/f2\\/20171130\\/1712\\/5a1fcb9209ee7452880_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c4.xinstatic.com\\/f2\\/20171130\\/1713\\/5a1fcbc848c81733344_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c4.xinstatic.com\\/f2\\/20171130\\/1712\\/5a1fcb8c75a67422131_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c4.xinstatic.com\\/f2\\/20171130\\/1713\\/5a1fcbc2394c8716043_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c4.xinstatic.com\\/f2\\/20171130\\/1712\\/5a1fcb8f3e9ca641995_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c4.xinstatic.com\\/f2\\/20171130\\/1713\\/5a1fcb9f9b50d944989_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c4.xinstatic.com\\/f2\\/20171130\\/1713\\/5a1fcba31ed87538246_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c4.xinstatic.com\\/f2\\/20171130\\/1713\\/5a1fcba68b7c0631568_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c4.xinstatic.com\\/f2\\/20171130\\/1713\\/5a1fcbbc7e6c5748880_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c4.xinstatic.com\\/f2\\/20171130\\/1713\\/5a1fcbd0d8804237222_20.jpg\",\"name\":\"\"}]}', '1', '1', '{\"username\":\"陈东\",\"contact\":\"18956743215\",\"plateNo\":\"皖A85K88\",\"driving_license\":\"\"}', '', '', '', '10000', '1', '1512118965', '37.06', '0', '43.40', '37.06', '10.74', '500.00', '1', '');
 INSERT INTO `cmf_usual_car` VALUES ('5', '1', '4', '13', '5', '1', '0', '3', '3401', '0', '福特 全顺经典 2009款 2.8T 手动 标准型短轴中顶JX493ZLQ3 柴油', '', '', '', '皖A55K88', '1391443200', '0', '0', '3', '9.30', '2.8', '4', '27', '12', '16', '6', '1512119920', '1512465558', '0', '0', '0', '0', '', '', null, '{\"car_seating\":\"2\",\"car_color\":\"6\",\"car_length\":\"220\",\"car_age\":\"\",\"car_effluent\":\"12\",\"car_fuel\":\"16\",\"car_displacement\":\"\",\"car_mileage\":\"\",\"car_engine\":\"\",\"car_gearbox\":\"27\",\"thumbnail\":\"https:\\/\\/c5.xinstatic.com\\/f2\\/20171119\\/1642\\/5a1143e6ca019161901_20.jpg\",\"photos\":[{\"url\":\"https:\\/\\/c5.xinstatic.com\\/f2\\/20171119\\/1642\\/5a1143e6ca019161901_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c5.xinstatic.com\\/f2\\/20171119\\/1643\\/5a114442b77d2947738_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c5.xinstatic.com\\/f2\\/20171119\\/1642\\/5a1143dd2f6ca814522_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c5.xinstatic.com\\/f2\\/20171119\\/1643\\/5a1144305ccc7526465_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c5.xinstatic.com\\/f2\\/20171119\\/1642\\/5a1143e202340843673_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c5.xinstatic.com\\/f2\\/20171119\\/1642\\/5a1143f8d7695187119_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c5.xinstatic.com\\/f2\\/20171119\\/1642\\/5a1143fd311fa347233_20.jpg\",\"name\":\"\"}]}', '1', '1', '{\"username\":\"\",\"contact\":\"\",\"plateNo\":\"皖A55K88\",\"driving_license\":\"\"}', '', '', '', '10000', '1', '1512119643', '16.52', '0', '15.72', '8.88', '1.36', '200.00', '1', '');
+INSERT INTO `cmf_usual_car` VALUES ('6', '1', '0', '0', '0', '3', '0', '0', '0', '0', '', '', '', '', '皖A73K9L', '0', '0', '0', '1', '0.00', '0', '5', '0', '0', '0', '0', '1513316598', '1513316598', '0', '0', '0', '0', '', '', null, null, '1', '0', '{\"plateNo\":\"皖A73K9L\",\"username\":\"汪某人\",\"contact\":\"\",\"driving_license\":\"\"}', '', '', '', '10000', '0', '0', '0.00', '0', '0.00', '0.00', '0.00', '0.00', '1', '');
 
 -- ----------------------------
 -- Table structure for cmf_usual_company

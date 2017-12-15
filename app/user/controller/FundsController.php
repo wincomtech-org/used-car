@@ -89,7 +89,7 @@ class FundsController extends UserBaseController
         $data = $this->request->param();
         // dump($data);
 
-        $post = [
+        $valid = [
             'user_id'   => $this->user['id'],
             'coin'      => empty($data['r_money'])?null:$data['r_money'],
             'payment'   => empty($data['payment_way'])?null:$data['payment_way'],
@@ -97,13 +97,19 @@ class FundsController extends UserBaseController
         ];
 
         // 验证
-        $result = $this->validate($post,'Funds.recharge');
+        $result = $this->validate($valid, 'Funds.recharge');
         if ($result!==true) {
             $this->error($result);
         }
 
+        $post = [
+            'paytype'  => $valid['payment'],
+            'action'  => 'recharge',
+            'coin'  => $valid['coin'],
+        ];
+
         // 支付接口
-        $this->redirect(cmf_url('funds/Pay/pay',$post));
+        $this->redirect('funds/Pay/pay', $post);
 
     }
 
@@ -171,10 +177,10 @@ class FundsController extends UserBaseController
             $result = Db::name('funds_apply')->insertGetId($post);
             // lothar_put_funds_log($this->user['id'], 9, -$post['coin'], $remain);
             $data = [
-                'title'  => '提现申请',
-                'user_id'=> $this->user['id'],
-                'object' => 'funds_apply:'.$result,
-                'adminurl'=>config('news_adminurl')[5],
+                'title'     => '提现申请',
+                'user_id'   => $this->user['id'],
+                'object'    => 'funds_apply:'.$result,
+                'adminurl'  => 5,
             ];
             lothar_put_news($data);
             // 提交事务
@@ -214,7 +220,7 @@ class FundsController extends UserBaseController
             $this->error('数据非法！');
         } else {
             Db::nmae('funds_apply')->where('id',$id)->setField('status',0);
-            $this->redirect(url('withdraw'));
+            $this->redirect('Funds/withdraw');
         }
     }
     public function withdrawCancel()
