@@ -5,6 +5,7 @@ use cmf\controller\HomeBaseController;
 // use cmf\controller\UserBaseController;
 use app\funds\model\PayModel;
 use think\Db;
+use payment\test\Test;
 
 /**
 * 支付中心
@@ -17,6 +18,20 @@ class PayController extends HomeBaseController
     // {
     //     parent::_initialize();
     // }
+
+    public function test()
+    {
+        $data = $this->request->param();
+
+        $test = new Test();
+
+        // import('payment/test/Test',EXTEND_PATH);
+        // $test = new \Test('ok');
+
+        $post = $test->out($data);
+
+        dump($post);
+    }
 
     public function index()
     {
