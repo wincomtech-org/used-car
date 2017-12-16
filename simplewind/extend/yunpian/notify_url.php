@@ -11,10 +11,10 @@ $dou_order = new Order();
 require_once("work.plugin.php");
 $plugin = new Plugin();
 
-require_once("lib/alipay_notify.class.php");
+require_once("lib/AlipayNotify.php");
 
 //计算得出通知验证结果
-$alipayNotify = new AlipayNotify($plugin->p_config());
+$alipayNotify = new AlipayNotify($plugin->p_set());
 $verify_result = $alipayNotify->verifyNotify();
 
 if($verify_result) {//验证成功

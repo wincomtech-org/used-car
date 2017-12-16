@@ -12,7 +12,7 @@ class Plugin {
      */
     function __construct($mobile='') {
         $this->mobile = trim($mobile);
-        $this->config = $this->p_config();
+        $this->config = $this->p_set();
     }
 
     /**
@@ -120,26 +120,26 @@ class Plugin {
      * 配置信息
      * +----------------------------------------------------------
      */
-    function p_config() {
+    function p_set() {
         // 获取插件配置信息
         $plugin = $GLOBALS['dou']->get_plugin($this->plugin_id);
         
         // 短信账号
-        $p_config['account']  = $plugin['config']['account'];
+        $p_set['account']  = $plugin['config']['account'];
         
         // 签名
-        $p_config['sign'] = $plugin['config']['sign'];
+        $p_set['sign'] = $plugin['config']['sign'];
         
         // 安全检验码，以数字和字母组成的32位字符
-        $p_config['apikey']   = $plugin['config']['apikey'];
+        $p_set['apikey']   = $plugin['config']['apikey'];
         
         // 重发间隔，纯数字
-        $p_config['retry_times']    = $plugin['config']['retry_times'];
+        $p_set['retry_times']    = $plugin['config']['retry_times'];
         
         // 字符编码
-        $p_config['charset']    = $plugin['config']['charset'];
+        $p_set['charset']    = $plugin['config']['charset'];
         
-        return $p_config;
+        return $p_set;
     }
 
     /**

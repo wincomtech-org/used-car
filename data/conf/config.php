@@ -173,10 +173,10 @@ return [
     'alipay'  =>'支付宝',
     'wxpay'   =>'微信',
     'alipayQR'=>'支付宝扫码支付',
-    'alipaym' =>'支付宝手机支付',
+    'alipaywap' =>'支付宝手机支付',
     'wxpayjs' =>'微信在线支付',
     'wxpaynative'=>'微信扫码支付',
-    'bank'=>'银行卡',
+    'bankpay'=>'网银在线',
   ],
   'news_adminurl'  => [
     '1' => 'trade/AdminOrder/index',

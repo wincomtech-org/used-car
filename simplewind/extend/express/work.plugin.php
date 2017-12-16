@@ -40,33 +40,33 @@ class Plugin {
      * 配置信息
      * +----------------------------------------------------------
      */
-    function p_config() {
+    function p_set() {
         // 获取插件配置信息
         $plugin = $GLOBALS['dou']->get_plugin($this->plugin_id);
         
         // 合作身份者id，以2088开头的16位纯数字
-        $p_config['partner']  = $plugin['config']['partner'];
+        $p_set['partner']  = $plugin['config']['partner'];
         
         // 收款支付宝账号
-        $p_config['seller_email'] = $plugin['config']['seller_email'];
+        $p_set['seller_email'] = $plugin['config']['seller_email'];
         
         // 安全检验码，以数字和字母组成的32位字符
-        $p_config['key']   = $plugin['config']['key'];
+        $p_set['key']   = $plugin['config']['key'];
         
         // 签名方式 不需修改
-        $p_config['sign_type']    = strtoupper('MD5');
+        $p_set['sign_type']    = strtoupper('MD5');
         
         // 字符编码格式 目前支持 gbk 或 utf-8
-        $p_config['input_charset']= strtolower('utf-8');
+        $p_set['input_charset']= strtolower('utf-8');
         
         // ca证书路径地址，用于curl中ssl校验
         // 请保证cacert.pem文件在当前文件夹目录中
-        $p_config['cacert']    = ROOT_PATH . 'include/plugin/' . $this->plugin_id . '/cacert.pem';
+        $p_set['cacert']    = ROOT_PATH . 'include/plugin/' . $this->plugin_id . '/cacert.pem';
         
         // 访问模式,根据自己的服务器是否支持ssl访问，若支持请选择https；若不支持请选择http
-        $p_config['transport']    = 'http';
+        $p_set['transport']    = 'http';
         
-        return $p_config;
+        return $p_set;
     }
 
     /**

@@ -5,7 +5,8 @@ use cmf\controller\HomeBaseController;
 // use cmf\controller\UserBaseController;
 use app\funds\model\PayModel;
 use think\Db;
-use payment\test\Test;
+use test\Test;
+use paymentOld\alipay\WorkPlugin;
 
 /**
 * 支付中心
@@ -21,16 +22,27 @@ class PayController extends HomeBaseController
 
     public function test()
     {
+        // dump(cmf_get_order_sn());die;
         $data = $this->request->param();
 
         $test = new Test();
-
         // import('payment/test/Test',EXTEND_PATH);
         // $test = new \Test('ok');
-
         $post = $test->out($data);
-
         dump($post);
+
+        // $work = new WorkPlugin();
+        $work = new \paymentOld\alipay\WorkPlugin();
+        // $work->workForm();
+        // $work->log();
+        // dump($work->log());
+
+
+        // $work->test();
+        dump($work->test());
+
+
+        
     }
 
     public function index()
@@ -65,18 +77,30 @@ class PayController extends HomeBaseController
     public function insurance($data)
     {
         $this->success('支付中心 - 模拟 保险 支付',cmf_url('user/Funds/index'),$data,100);
+        $payModel = new PayModel();
+
+        $payModel->pay();
     }
     public function seecar($data)
     {
         $this->success('支付中心 - 模拟 预约看车 支付',cmf_url('user/Funds/index'),$data,100);
+        $payModel = new PayModel();
+
+        $payModel->pay();
     }
     public function deposit($data)
     {
         $this->success('支付中心 - 模拟 店铺押金 支付',cmf_url('user/Funds/index'),$data,100);
+        $payModel = new PayModel();
+
+        $payModel->pay();
     }
     public function recharge($data)
     {
         $this->success('支付中心 - 模拟 充值 支付',cmf_url('user/Funds/index'),$data,100);
+        $payModel = new PayModel();
+
+        $payModel->pay();
     }
 
 
@@ -85,7 +109,34 @@ class PayController extends HomeBaseController
     public function payment()
     {
         $payModel = new PayModel();
+
     }
+
+    // 回调处理
+    public function callBack()
+    {
+        // $payModel = new PayModel();
+        $work = new \paymentOld\alipay\WorkPlugin();
+        $method = $this->request->isGet() ? 'get' : ($this->request->isPost()?'post':'null');
+
+        if ($this->request->isGet()) {
+            $result = $work->getReturn();
+        } elseif ($this->request->isPost()) {
+            $result = $work->getNotify();
+        } else {
+            return false;
+        }
+
+        if (!empty($result)) {
+            // if (!checkorderstatus($out_trade_no)) {
+            //     orderhandle($parameter);
+            //     //进行订单处理，并传送从支付宝返回的参数；
+            // }
+        }
+
+    }
+
+
 
     // 事务处理
     public function trans()

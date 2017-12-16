@@ -1,8 +1,9 @@
 <!-- <php>echo '1';</php> -->
 
-<php>lothar_get_news('',true);</php>
+<div id="news_clock">
+    <php>lothar_get_news('',true);</php>
+</div>
 
-<div id="news_clock"></div>
 <script type="text/javascript">
     // 定时执行
     var int = self.setInterval("clock()",60*1000);
