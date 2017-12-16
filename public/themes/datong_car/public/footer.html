@@ -1,6 +1,4 @@
-<style type="text/css" media="screen">
-   
-</style>
+
 <footer>
     <div class="main">
         <div class="footer_top">
@@ -71,34 +69,32 @@ $(function() {
 });
 
 /**结束 回到顶部*/
-</script>
 
-<script>
     // 手机目录点击事件
-    $('.open-panel').click(function(e){
-        if($('body').hasClass('with-panel-left-cover')){
+    // $('.open-panel').click(function(e){
+    //     if($('body').hasClass('with-panel-left-cover')){
 
-        }else{
-            $('body').addClass('with-panel-left-cover');
-            $('.panel-cover').show()
-            $('.panel-cover').addClass('active');
-        }
-        e.stopPropagation()
-    })
-    $('.accordion-item>a.item-link').on('click',function(e){
-        if($(this).parent().hasClass('accordion-item-expanded')){
-            $(this).parent().removeClass('accordion-item-expanded')
-        }else{
-            $(this).parent().addClass('accordion-item-expanded')
-        }
-        e.stopPropagation()
-    })
+    //     }else{
+    //         $('body').addClass('with-panel-left-cover');
+    //         $('.panel-cover').show()
+    //         $('.panel-cover').addClass('active');
+    //     }
+    //     e.stopPropagation()
+    // })
+    // $('.accordion-item>a.item-link').on('click',function(e){
+    //     if($(this).parent().hasClass('accordion-item-expanded')){
+    //         $(this).parent().removeClass('accordion-item-expanded')
+    //     }else{
+    //         $(this).parent().addClass('accordion-item-expanded')
+    //     }
+    //     e.stopPropagation()
+    // })
 
-    $(document).click(function(){
-        $('.panel-cover').hide();
-        $('.accordion-item>').removeClass('accordion-item-expanded');
-        $('body').removeClass('with-panel-left-cover')
-    })
+    // $(document).click(function(){
+    //     $('.panel-cover').hide();
+    //     $('.accordion-item>').removeClass('accordion-item-expanded');
+    //     $('body').removeClass('with-panel-left-cover')
+    // })
 
 
 </script>

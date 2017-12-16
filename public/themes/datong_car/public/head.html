@@ -21,12 +21,13 @@
 <link rel="shortcut icon" href="__TMPL__/public/assets/images/favicon.png" type="image/png">
 
 <!-- Mobile目录 -->
-<link rel="stylesheet" href="__TMPL__/public/assets/css/framework7.material.min.css">
-<link rel="stylesheet" href="__TMPL__/public/assets/css/ionicons.min.css">
+<link rel="stylesheet" href="__TMPL__/public/assets/css/framework7.material.min.css" class="m1">
+<link rel="stylesheet" href="__TMPL__/public/assets/css/ionicons.min.css" class="m2">
 
 <!-- PC -->
 <link rel="stylesheet" type="text/css" href="__TMPL__/public/assets/css/common.css">
 <link rel="stylesheet" type="text/css" href="__TMPL__/public/assets/css/style.css">
+<!-- 首页轮播的css -->
 <link href="__TMPL__/public/assets/css/flickerplate.css" type="text/css" rel="stylesheet">
 
 <!-- HTML5 shim for IE8 support of HTML5 elements -->
@@ -43,7 +44,18 @@
     };
 </script>
 <script src="__TMPL__/public/assets/js/jquery-1.11.3.min.js"></script>
-
+<!-- 对jq的补充，向前兼容 -->
 <script src="__TMPL__/public/assets/js/jquery-migrate-1.2.1.js"></script>
 <script src="__STATIC__/js/wind.js"></script>
+
+<script>
+
+if(navigator.appName == "Microsoft Internet Explorer"&&parseInt(navigator.appVersion.split(";")[1].replace(/[ ]/g, "").replace("MSIE",""))<9){
+    alert("当前浏览器版本过低，为不影响网站体验效果，请下载最新版本的浏览器！");
+}
+
+$(window).on('load', function() {
+    $('.preloader-wrap').fadeOut('slow', function() { $(this).remove(); });
+});
+</script>
 
