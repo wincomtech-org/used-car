@@ -5,8 +5,9 @@ use cmf\controller\HomeBaseController;
 // use cmf\controller\UserBaseController;
 use app\funds\model\PayModel;
 use think\Db;
+// use paymentOld\alipay\WorkPlugin;
+
 use test\Test;
-use paymentOld\alipay\WorkPlugin;
 
 /**
 * 支付中心
@@ -25,21 +26,36 @@ class PayController extends HomeBaseController
         // dump(cmf_get_order_sn());die;
         $data = $this->request->param();
 
-        $test = new Test();
-        // import('payment/test/Test',EXTEND_PATH);
-        // $test = new \Test('ok');
+        // 对象有命名空间
+        // $test = new Test();//通过use引入过的
+        // $test = new \test\Test();//裸的
+        // 对象没有命名空间
+        import('test/Test',EXTEND_PATH);
+        $test = new \Test('ok');
         $post = $test->out($data);
         dump($post);
+        // $test->tp();
+        dump($test->tp());
+
+
 
         // $work = new WorkPlugin();
-        $work = new \paymentOld\alipay\WorkPlugin();
-        // $work->workForm();
+
+        // $work = new \paymentOld\alipay\WorkPlugin();
+
+        $paytype = 'alipay';
+        import('paymentOld/alipay/WorkPlugin',EXTEND_PATH);
+        $work = new \WorkPlugin(cmf_get_order_sn(),1);
+
+        echo $work->workForm();
+
+        // $work->workUrl();
+        // $work->workCurl();
+
         // $work->log();
         // dump($work->log());
 
 
-        // $work->test();
-        dump($work->test());
 
 
         
@@ -106,9 +122,10 @@ class PayController extends HomeBaseController
 
 
     // 支付方式
-    public function payment()
+    public function payment($paytype='')
     {
-        $payModel = new PayModel();
+        // $payModel = new PayModel();
+        $work = new \paymentOld\alipay\WorkPlugin();
 
     }
 

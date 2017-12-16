@@ -51,10 +51,10 @@ class AdminFundsController extends AdminBaseController
         $types = config('user_funds_log_type');
 
         $data = Db::name('user_funds_log')->alias('a')
-              ->join('user b','a.user_id=b.id')
-              ->field($field)
-              ->where($where)
-              ->select()->toArray();
+        ->join('user b','a.user_id=b.id')
+        ->field($field)
+        ->where($where)
+        ->select()->toArray();
         if (empty($data)) {
             $this->error('数据为空！');
         }

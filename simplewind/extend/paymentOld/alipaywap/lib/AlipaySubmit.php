@@ -1,4 +1,5 @@
 <?php
+namespace paymentOld\alipaywap\lib;
 /**
  * 类名：AlipaySubmit
  * 功能：支付宝各接口请求提交类
@@ -13,20 +14,13 @@
 
 class AlipaySubmit
 {
-
-    public $p_config;
-    /**
-     *支付宝网关地址（新）
-     */
+    public $p_set;
+    // 支付宝网关地址（新）
     public $alipay_gateway_new = 'https://mapi.alipay.com/gateway.do?';
 
-    public function __construct($p_config)
+    public function __construct($p_set)
     {
-        $this->p_config = $p_config;
-    }
-    public function AlipaySubmit($p_config)
-    {
-        $this->__construct($p_config);
+        $this->p_set = $p_set;
     }
 
     /**
@@ -40,9 +34,9 @@ class AlipaySubmit
         $prestr = createLinkstring($para_sort);
 
         $mysign = "";
-        switch (strtoupper(trim($this->p_config['sign_type']))) {
+        switch (strtoupper(trim($this->p_set['sign_type']))) {
             case "RSA":
-                $mysign = rsaSign($prestr, $this->p_config['private_key_path']);
+                $mysign = rsaSign($prestr, $this->p_set['private_key_path']);
                 break;
             default:
                 $mysign = "";
@@ -69,7 +63,7 @@ class AlipaySubmit
 
         //签名结果与签名方式加入请求提交参数组中
         $para_sort['sign']      = $mysign;
-        $para_sort['sign_type'] = strtoupper(trim($this->p_config['sign_type']));
+        $para_sort['sign_type'] = strtoupper(trim($this->p_set['sign_type']));
 
         return $para_sort;
     }
@@ -102,7 +96,7 @@ class AlipaySubmit
         //待请求参数数组
         $para = $this->buildRequestPara($para_temp);
 
-        $sHtml = "<form id='alipaysubmit' name='alipaysubmit' action='" . $this->alipay_gateway_new . "_input_charset=" . trim(strtolower($this->p_config['input_charset'])) . "' method='" . $method . "'>";
+        $sHtml = "<form id='alipaysubmit' name='alipaysubmit' action='" . $this->alipay_gateway_new . "_input_charset=" . trim(strtolower($this->p_set['input_charset'])) . "' method='" . $method . "'>";
         while (list($key, $val) = each($para)) {
             $sHtml .= "<input type='hidden' name='" . $key . "' value='" . $val . "'/>";
         }
@@ -128,7 +122,7 @@ class AlipaySubmit
         $request_data = $this->buildRequestPara($para_temp);
 
         //远程获取数据
-        $sResult = getHttpResponsePOST($this->alipay_gateway_new, $this->p_config['cacert'], $request_data, trim(strtolower($this->p_config['input_charset'])));
+        $sResult = getHttpResponsePOST($this->alipay_gateway_new, $this->p_set['cacert'], $request_data, trim(strtolower($this->p_set['input_charset'])));
 
         return $sResult;
     }
@@ -148,7 +142,7 @@ class AlipaySubmit
         $para[$file_para_name] = "@" . $file_name;
 
         //远程获取数据
-        $sResult = getHttpResponsePOST($this->alipay_gateway_new, $this->p_config['cacert'], $para, trim(strtolower($this->p_config['input_charset'])));
+        $sResult = getHttpResponsePOST($this->alipay_gateway_new, $this->p_set['cacert'], $para, trim(strtolower($this->p_set['input_charset'])));
 
         return $sResult;
     }
@@ -160,7 +154,7 @@ class AlipaySubmit
      */
     public function query_timestamp()
     {
-        $url         = $this->alipay_gateway_new . "service=query_timestamp&partner=" . trim(strtolower($this->p_config['partner'])) . "&_input_charset=" . trim(strtolower($this->p_config['input_charset']));
+        $url         = $this->alipay_gateway_new . "service=query_timestamp&partner=" . trim(strtolower($this->p_set['partner'])) . "&_input_charset=" . trim(strtolower($this->p_set['input_charset']));
         $encrypt_key = "";
 
         $doc = new DOMDocument();

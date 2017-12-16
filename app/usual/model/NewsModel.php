@@ -16,7 +16,7 @@ class NewsModel extends Model
 
     public function getLists($filter=[], $order='', $limit='',$extra=[])
     {
-        $field = 'id,user_id,deal_uid,title,object,action,app,create_time,content,status';
+        // $field = 'id,user_id,deal_uid,title,object,action,app,adminurl,create_time,content,status';
 
         // 筛选条件
         $where = [];
@@ -57,10 +57,7 @@ class NewsModel extends Model
         $limit = empty($limit) ? config('pagerset.size') : $limit;
 
         // 查数据
-        $series = $this->field($field)
-            ->where($where)
-            ->order($order)
-            ->paginate($limit);
+        $series = $this->where($where)->order($order)->paginate($limit);
 
         return $series;
     }

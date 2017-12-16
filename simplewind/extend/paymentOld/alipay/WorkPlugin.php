@@ -1,13 +1,10 @@
 <?php
-namespace paymentOld\alipay;
+// namespace paymentOld\alipay;
 
-// use coreFunc;
+// use paymentOld\alipay\lib\coreFunc;
 use paymentOld\alipay\lib\AlipaySubmit;
-use AlipayNotify;
+use paymentOld\alipay\lib\AlipayNotify;
 use traits\controller\Jump;
-// use think\Loader;
-
-// Loader::import('controller/Jump', TRAIT_PATH, EXT);
 
 /**
 * 支付宝支付接口
@@ -29,21 +26,6 @@ class WorkPlugin
         $this->host = cmf_get_domain();
         // TP写法 
         import('paymentOld/'.$this->plugin_id.'/lib/coreFunc',EXTEND_PATH);
-    }
-
-    // 临时测试
-    public function test($data='')
-    {
-        //如何识别返回参数？去除后缀.html即可
-        $str = cmf_get_domain();//末尾不带 '/'
-        $str = cmf_url('funds/Pay/callBack','',false,$this->host);
-        $str = url('funds/Pay/callBack','',false,$this->host);
-
-        // $jump = new Jump();
-        // $this->redirect('user/Profile/center');
-
-        return $str;
-        return false;
     }
 
     /*
@@ -80,7 +62,7 @@ class WorkPlugin
 
         // URL跳转
         $sResult = str_replace('&amp','&',$sResult);// 替换实体字符
-        echo '<script src="'.THEME_S.'js/jquery-1.12.1.min.js"></script><script type="text/javascript">window.location.href="'.$sResult.'"</script>';exit;
+        echo '<script src="static/js/jquery.js"></script><script type="text/javascript">window.location.href="'.$sResult.'"</script>';exit;
 
         // return $sResult;
     }
@@ -223,6 +205,18 @@ class WorkPlugin
 
 
 
+    /*退款*/
+    public function refund($value='')
+    {
+        # code...
+    }
+    public function refundStatus($value='')
+    {
+        # code...
+    }
+
+
+
 
 
     /**
@@ -230,7 +224,7 @@ class WorkPlugin
      * 配置信息
      * +----------------------------------------------------------
     */
-    function p_set() {
+    public function p_set() {
         // 获取插件配置信息
         // {"account":"","key":"","partner":"","switch":"0"}
         $option = cmf_get_option('alipay_settings');
@@ -265,7 +259,7 @@ class WorkPlugin
         
         // ca证书路径地址，用于curl中ssl校验
         // 请保证cacert.pem文件在当前文件夹目录中
-        $p_set['cacert']    = ROOT_PATH . 'include/plugin/' . $this->plugin_id . '/cacert.pem';
+        $p_set['cacert']    = EXTEND_PATH . 'paymentOld/' . $this->plugin_id . '/cacert.pem';
         
         return $p_set;
     }
@@ -275,8 +269,9 @@ class WorkPlugin
      * 请求参数
      * +----------------------------------------------------------
      */
-    function parameter() {
+    public function parameter() {
         $set = $this->p_set();
+        $siteInfo = cmf_get_option('site_info');
 
         $param['service'] = "create_direct_pay_by_user";
         //支付类型，必填，不能修改
@@ -297,7 +292,7 @@ class WorkPlugin
         //商户订单号，商户网站订单系统中唯一订单号，必填
         $param['out_trade_no'] = $this->order_sn;
         //订单名称，必填
-        $param['subject'] = 'Order Sn : ' . $this->order_sn . ' (' . $GLOBALS['_CFG']['site_name'] . ')';
+        $param['subject'] = 'Order Sn : ' . $this->order_sn . ' (' . $siteInfo['site_name'] . ')';
         //付款金额，必填
         $param['total_fee'] = $this->order_amount;
         //订单描述
@@ -329,11 +324,6 @@ class WorkPlugin
 
         return $param;
     }
-
-
-
-
-
 
 
 }

@@ -1,4 +1,5 @@
 <?php
+namespace paymentOld\alipaywap\lib;
 /**
  * 类名：AlipayNotify
  * 功能：支付宝通知处理类
@@ -17,24 +18,17 @@
 
 class AlipayNotify
 {
-    /**
-     * HTTPS形式消息验证地址
-     */
+    public $p_set;
+    // HTTPS形式消息验证地址
     public $https_verify_url = 'https://mapi.alipay.com/gateway.do?service=notify_verify&';
-    /**
-     * HTTP形式消息验证地址
-     */
+    // HTTP形式消息验证地址
     public $http_verify_url = 'http://notify.alipay.com/trade/notify_query.do?';
-    public $p_config;
 
-    public function __construct($p_config)
+    public function __construct($p_set)
     {
-        $this->p_config = $p_config;
+        $this->p_set = $p_set;
     }
-    public function AlipayNotify($p_config)
-    {
-        $this->__construct($p_config);
-    }
+
     /**
      * 针对notify_url验证消息是否是支付宝发出的合法消息
      * @return 验证结果
@@ -42,7 +36,7 @@ class AlipayNotify
     public function verifyNotify()
     {
         if (empty($_POST)) {
-//判断POST来的数组是否为空
+            //判断POST来的数组是否为空
             return false;
         } else {
             //生成签名结果
@@ -80,7 +74,7 @@ class AlipayNotify
     public function verifyReturn()
     {
         if (empty($_GET)) {
-//判断POST来的数组是否为空
+            //判断POST来的数组是否为空
             return false;
         } else {
             //生成签名结果
@@ -129,9 +123,9 @@ class AlipayNotify
         $prestr = createLinkstring($para_sort);
 
         $isSgin = false;
-        switch (strtoupper(trim($this->p_config['sign_type']))) {
+        switch (strtoupper(trim($this->p_set['sign_type']))) {
             case "RSA":
-                $isSgin = rsaVerify($prestr, trim($this->p_config['ali_public_key_path']), $sign);
+                $isSgin = rsaVerify($prestr, trim($this->p_set['ali_public_key_path']), $sign);
                 break;
             default:
                 $isSgin = false;
@@ -151,8 +145,8 @@ class AlipayNotify
      */
     public function getResponse($notify_id)
     {
-        $transport  = strtolower(trim($this->p_config['transport']));
-        $partner    = trim($this->p_config['partner']);
+        $transport  = strtolower(trim($this->p_set['transport']));
+        $partner    = trim($this->p_set['partner']);
         $veryfy_url = '';
         if ($transport == 'https') {
             $veryfy_url = $this->https_verify_url;
@@ -160,7 +154,7 @@ class AlipayNotify
             $veryfy_url = $this->http_verify_url;
         }
         $veryfy_url  = $veryfy_url . "partner=" . $partner . "&notify_id=" . $notify_id;
-        $responseTxt = getHttpResponseGET($veryfy_url, $this->p_config['cacert']);
+        $responseTxt = getHttpResponseGET($veryfy_url, $this->p_set['cacert']);
 
         return $responseTxt;
     }

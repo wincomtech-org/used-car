@@ -1,7 +1,11 @@
 <?php
-namespace test;
+// namespace test;
 
 // use app\funds\model\PayModel;
+use traits\controller\Jump;//代码复用的方法，称为 trait。
+// use think\Loader;
+
+// Loader::import('controller/Jump', TRAIT_PATH, EXT);
 
 /**
 * 测试
@@ -9,7 +13,11 @@ namespace test;
 // class Test extends PayModel
 class Test
 {
+    use Jump;
     var $constant = 'constant';
+    private $p_set = [];
+    private $dir = '';// getcwd()
+    private $host = '';
     
     function __construct($var='')
     {
@@ -30,10 +38,20 @@ class Test
         return $post;
     }
 
-    public function FunctionName($value='')
+    public function tp($value='')
     {
-        # code...
+        //如何识别返回参数？去除后缀.html即可
+        $str = cmf_get_domain();//末尾不带 '/'
+        $str = cmf_url('funds/Pay/callBack','',false,$this->host);
+        $str = url('funds/Pay/callBack','',false,$this->host);
+
+        // $jump = new Jump();//traits不需要
+        // $this->redirect('user/Profile/center');
+
+        return $str;
+        return false;
     }
+
 
 
 
