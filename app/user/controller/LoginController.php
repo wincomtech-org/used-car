@@ -103,18 +103,101 @@ class LoginController extends HomeBaseController
 
     /**
      * 找回密码
-     */
+    */
     public function findPassword()
     {
+        $data = $this->request->param();
+        if (!empty($data['username'])) {
+            if (!preg_match('/(^(13\d|15[^4\D]|17[013678]|18\d)\d{8})$/', $data['username'])) {
+                $this->error('手机号码填写错误！',url('findPassword'));
+            }
+            if (!cmf_captcha_check($data['captcha'])) {
+                $this->error('验证码错误',url('findPassword'));
+            }
+            session('findmypwd',$data);
+            $this->redirect('user/Login/findPassword2');
+        }
+
         return $this->fetch('/find_password');
     }
+
     public function findPassword2()
     {
+        $data = $this->request->param();
+        $user = session('findmypwd');
+
+        if (!empty($data['verification_code'])) {
+            $errMsg = cmf_check_verification_code($user['username'], $data['verification_code']);
+            // if (!empty($errMsg)) {
+            //     $this->error($errMsg,url('findPassword2'));
+            // }
+
+            session('findmypwd',array_merge($user,$data));
+            $this->redirect('user/Login/findPassword3');
+        }
+
+
+        $this->assign($user);
         return $this->fetch('/find_password2');
     }
+
     public function findPassword3()
     {
         return $this->fetch('/find_password3');
+    }
+    public function findPassword3Post()
+    {
+        if ($this->request->isPost()) {
+            $validate = new Validate([
+                'captcha'           => 'require',
+                'verification_code' => 'require',
+                'password'          => 'require|min:6|max:32',
+                'password2'         => 'require',
+            ]);
+            $validate->message([
+                'captcha.require'           => '验证码数据意外丢失',
+                'verification_code.require' => '短信验证码数据意外丢失',
+                'password.require'          => '密码不能为空',
+                'password.max'              => '密码不能超过32个字符',
+                'password.min'              => '密码不能小于6个字符',
+            ]);
+
+            $data = $this->request->post();
+            $data = array_merge(session('findmypwd'),$data);
+            echo "临时测试：<br>";
+            dump($data);die;
+            if (!$validate->check($data)) {
+                $this->error($validate->getError());
+            }
+            if ($data['password']!=$data['password2']) {
+                $this->error('两次密码不一样');
+            }
+
+            $userModel = new UserModel();
+            if ($validate::is($data['username'], 'email')) {
+                $log = $userModel->emailPasswordReset($data['username'], $data['password']);
+            } else if (preg_match('/(^(13\d|15[^4\D]|17[013678]|18\d)\d{8})$/', $data['username'])) {
+                $user['mobile'] = $data['username'];
+                $log            = $userModel->mobilePasswordReset($data['username'], $data['password']);
+            } else {
+                $log = 2;
+            }
+            switch ($log) {
+                case 0:
+                    $this->success('密码重置成功', $this->request->root());
+                    break;
+                case 1:
+                    $this->error("您的账户尚未注册");
+                    break;
+                case 2:
+                    $this->error("您输入的账号格式错误");
+                    break;
+                default :
+                    $this->error('未受理的请求');
+            }
+        } else {
+            $this->error("请求错误");
+        }
     }
 
     /**
@@ -122,7 +205,6 @@ class LoginController extends HomeBaseController
      */
     public function passwordReset()
     {
-
         if ($this->request->isPost()) {
             $validate = new Validate([
                 'captcha'           => 'require',
@@ -153,9 +235,7 @@ class LoginController extends HomeBaseController
 
             $userModel = new UserModel();
             if ($validate::is($data['username'], 'email')) {
-
                 $log = $userModel->emailPasswordReset($data['username'], $data['password']);
-
             } else if (preg_match('/(^(13\d|15[^4\D]|17[013678]|18\d)\d{8})$/', $data['username'])) {
                 $user['mobile'] = $data['username'];
                 $log            = $userModel->mobilePasswordReset($data['username'], $data['password']);
@@ -175,7 +255,6 @@ class LoginController extends HomeBaseController
                 default :
                     $this->error('未受理的请求');
             }
-
         } else {
             $this->error("请求错误");
         }

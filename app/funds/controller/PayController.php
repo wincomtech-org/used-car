@@ -169,12 +169,17 @@ exit;
             $out_trade_no = $result['out_trade_no'];
             $table = strstr($out_trade_no,'_',true);
 
-            echo "这是支付宝返回的数据：<br><hr>";
-            dump($result);
             // if (!checkorderstatus($out_trade_no)) {
             //     orderhandle($parameter);
             //     //进行订单处理，并传送从支付宝返回的参数；
             // }
+        }
+
+        if (!empty($result) && $method=='get') {
+            
+            echo $table;
+            echo "<br>以下是支付宝返回的数据：<br><hr>";
+            dump($result);
         }
 
     }
@@ -187,6 +192,31 @@ exit;
     public function ajaxWxpay()
     {
         echo 'ok';exit;
+    }
+
+
+    public function more()
+    {
+        // 支付宝 return返回结果
+        array(
+          'buyer_email' => '915273691@qq.com',
+          'buyer_id' => '2088702363744512',
+          'exterface' => 'create_direct_pay_by_user',
+          'is_success' => 'T',
+          'notify_id' => 'RqPnCoPT3K9%2Fvwbh3Ih30BdyClsK2NofpZAPy6W5XmUvRI%2Fu0BnH8fTq3xZAp3MOiGOJ',
+          'notify_time' => '2017-12-18 14:05:23',
+          'notify_type' => 'trade_status_sync',
+          'out_trade_no' => '2017121857515310',
+          'payment_type' => '1',
+          'seller_email' => 'lvshi908@163.com',
+          'seller_id' => '2088621675273401',
+          'subject' => 'Order Sn : 2017121857515310 (大通车服)',
+          'total_fee' => '0.01',
+          'trade_no' => '2017121821001004510236530042',
+          'trade_status' => 'TRADE_SUCCESS',
+          'sign' => 'c3686956f8cfeaf2508798649f66d74a',
+          'sign_type' => 'MD5',
+        );
     }
 
 

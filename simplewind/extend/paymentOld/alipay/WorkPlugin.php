@@ -80,7 +80,7 @@ class WorkPlugin
     /*
     * 功能：支付宝页面跳转同步通知页面
     */
-    public function getReturn($data=[])
+    public function getReturn()
     {
         //计算得出通知验证结果
         $alipayNotify = new AlipayNotify($this->p_set());
@@ -116,7 +116,7 @@ class WorkPlugin
     /*
     * 功能：支付宝服务器异步通知页面
     */
-    public function getNotify($data=[])
+    public function getNotify()
     {
         //计算得出通知验证结果
         $alipayNotify = new AlipayNotify($this->p_set());
