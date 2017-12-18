@@ -71,6 +71,126 @@ class PayModel extends Model
     }
 
 
+    /*对应支付模块*/
+    // 保险
+    public function insurance($data)
+    {
+        $status = $data['status'];//1 or 10
+        $status = $status==1?6:$status;
+        $userId = cmf_get_current_user_id();
+        $id = Db::name('insurance_order')->where('order_sn',$data['out_trade_no'])->value('id');
+
+        Db::startTrans();
+        $transStatus = true;
+        try{
+            if (empty($id)) {
+                $post['more'] = json_encode(['payreturn'=>$data]);
+                Db::name('insurance_order')->insertGetId($post);
+            } else {
+                Db::name('insurance_order')->where('id',$id)->setField('status',$status);
+            }
+            Db::commit();
+        } catch (\Exception $e) {
+            Db::rollback();
+            $transStatus = false;
+        }
+
+        return $transStatus;
+    }
+    // 看车
+    public function seecar($data)
+    {
+
+    }
+    // 开店
+    public function deposit($data)
+    {
+        $status = intval($data['status']);//1 or 10
+        $status = $status==1?10:$status;
+        $userId = cmf_get_current_user_id();
+        $id = Db::name('funds_apply')->where('order_sn',$data['out_trade_no'])->value('id');
+
+        Db::startTrans();
+        $transStatus = true;
+        try{
+            if (empty($id)) {
+                $post = [
+                    'type'      => 'openshop',
+                    'user_id'   => $userId,
+                    'order_sn'  => $data['out_trade_no'],
+                    'coin'      => $data['total_fee'],
+                    'payment'   => $data['paytype'],
+                    'create_time' => time(),
+                    'status'    => $data['paytype'],
+                    'more'      => json_encode(['payreturn'=>$data]),
+                ];
+                Db::name('funds_apply')->insertGetId($post);
+            } else {
+                Db::name('funds_apply')->where('id',$id)->setField('status',$status);
+            }
+            Db::commit();
+        } catch (\Exception $e) {
+            Db::rollback();
+            $transStatus = false;
+        }
+
+        return $transStatus;
+    }
+    // 充值
+    public function recharge($data)
+    {
+        $status = $data['status'];//1 or 10
+        $status = $status==1?10:$status;
+        $user = cmf_get_current_user();
+        // $userId = cmf_get_current_user_id();
+        $id = Db::name('funds_apply')->where('order_sn',$data['out_trade_no'])->value('id');
+
+        bcscale(2);
+        Db::startTrans();
+        $transStatus = true;
+        try{
+            if (empty($id)) {
+                $post = [
+                    'type'      => 'openshop',
+                    'user_id'   => $user['id'],
+                    'order_sn'  => $data['out_trade_no'],
+                    'coin'      => $data['total_fee'],
+                    'payment'   => $data['paytype'],
+                    'create_time' => time(),
+                    'status'    => $data['paytype'],
+                    'more'      => json_encode(['payreturn'=>$data]),
+                ];
+                Db::name('funds_apply')->insertGetId($post);
+            } else {
+                Db::name('funds_apply')->where('id',$id)->setField('status',$status);
+            }
+            $remain = bcadd($user['coin'],$data['total_fee']);
+            Db::name('user')->where('id',$user['id'])->setInc('coin',$data['total_fee']);
+            Db::name('user_funds_log')->insert([
+                'type'      => 8,
+                'user_id'   => $user['id'],
+                'coin'      => $data['total_fee'],
+                'remain'    => $remain,
+                'create_time' => time(),
+                'ip' => get_client_ip(),
+            ]);
+            $user['coin'] = $remain;
+            // 提交事务
+            Db::commit();
+        } catch (\Exception $e) {
+            // 回滚事务
+            Db::rollback();
+            // throw $e;
+            $transStatus = false;
+        }
+
+        if ($transStatus===true) {
+            cmf_update_current_user($user);
+        }
+        return $transStatus;
+    }
+
+
 
     /*
     * 获取支付方式

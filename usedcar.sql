@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50540
 File Encoding         : 65001
 
-Date: 2017-12-18 11:59:13
+Date: 2017-12-18 18:46:26
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -4095,7 +4095,7 @@ CREATE TABLE `cmf_funds_apply` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '申请',
   `type` char(10) NOT NULL DEFAULT 'withdraw' COMMENT '用户操作类型：withdraw充值 recharge充值 openshop开店 ',
   `user_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '用户Id',
-  `order_sn` varchar(150) NOT NULL DEFAULT '' COMMENT '订单号：type为recharge时',
+  `order_sn` varchar(30) NOT NULL DEFAULT '' COMMENT '订单号：type为recharge时',
   `account` varchar(50) NOT NULL DEFAULT '' COMMENT '账号：type为withdraw时',
   `username` varchar(25) NOT NULL DEFAULT '' COMMENT '姓名：type为withdraw时',
   `coin` decimal(10,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '金额',
@@ -4103,6 +4103,7 @@ CREATE TABLE `cmf_funds_apply` (
   `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
   `remark` varchar(255) NOT NULL DEFAULT '' COMMENT '管理员备注',
   `status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '审核状态： -2取消 -1审核失败 0审核中 1审核通过 10完成',
+  `more` text NOT NULL COMMENT '拓展属性:',
   PRIMARY KEY (`id`),
   KEY `uid` (`user_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COMMENT='用户资金相关申请表';
@@ -4110,7 +4111,7 @@ CREATE TABLE `cmf_funds_apply` (
 -- ----------------------------
 -- Records of cmf_funds_apply
 -- ----------------------------
-INSERT INTO `cmf_funds_apply` VALUES ('1', 'withdraw', '3', '', 'ew3', 'lothar', '100.00', 'alipay', '1513067973', '', '0');
+INSERT INTO `cmf_funds_apply` VALUES ('1', 'withdraw', '3', '', 'ew3', 'lothar', '100.00', 'alipay', '1513067973', '', '0', '');
 
 -- ----------------------------
 -- Table structure for cmf_hook
@@ -4281,7 +4282,7 @@ CREATE TABLE `cmf_insurance_order` (
   `car_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '车辆ID',
   `user_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '用户ID',
   `deal_uid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '处理人ID',
-  `order_sn` varchar(30) NOT NULL DEFAULT '' COMMENT '保单编号',
+  `order_sn` varchar(30) NOT NULL DEFAULT '' COMMENT '保单号',
   `name` varchar(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '保险业务名称',
   `amount` decimal(10,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '投保金额',
   `pay_id` varchar(30) NOT NULL DEFAULT '' COMMENT '支付标识：alipay支付宝 wxjs微信js  wxnative微信扫码',
@@ -4309,7 +4310,7 @@ CREATE TABLE `cmf_insurance_order` (
 -- ----------------------------
 -- Records of cmf_insurance_order
 -- ----------------------------
-INSERT INTO `cmf_insurance_order` VALUES ('1', '2', '[\"1\",\"2\"]', '6', '3', '0', 'INSUR-2017120253101494', '', '0.00', '', '', '1512181733', '0', '1512711600', '0', '1544456400', '0', null, '', '', '1', '0', '10000');
+INSERT INTO `cmf_insurance_order` VALUES ('1', '2', '[\"1\",\"2\"]', '6', '3', '0', 'insurance_2017120253101494', '', '0.00', '', '', '1512181733', '0', '1512711600', '0', '1544456400', '0', null, '', '', '1', '0', '10000');
 
 -- ----------------------------
 -- Table structure for cmf_link
@@ -4978,7 +4979,7 @@ CREATE TABLE `cmf_trade_order` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '订单编号',
   `car_id` int(11) unsigned NOT NULL COMMENT '车子ID',
   `deal_uid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '处理人ID',
-  `order_sn` varchar(150) NOT NULL COMMENT '订单号',
+  `order_sn` varchar(30) NOT NULL DEFAULT '' COMMENT '订单号',
   `order_name` varchar(150) NOT NULL COMMENT '订单名称',
   `buyer_uid` int(11) unsigned NOT NULL COMMENT '买家编号',
   `buyer_username` varchar(20) NOT NULL COMMENT '买家用户名',
@@ -4997,7 +4998,7 @@ CREATE TABLE `cmf_trade_order` (
   `refund` decimal(10,2) NOT NULL COMMENT '退款',
   `remark` varchar(255) NOT NULL COMMENT '备注，给管理员区分记录类型用',
   `description` varchar(255) NOT NULL COMMENT '描述，给前台用户用',
-  `more` text COMMENT '扩展数据',
+  `more` text COMMENT '扩展数据：',
   `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '下单时间',
   `pay_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '支付时间',
   `end_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '完成时间',
@@ -5748,4 +5749,3 @@ INSERT INTO `cmf_verify_model` VALUES ('1', '0', '手机认证', 'mobile', '{\"t
 INSERT INTO `cmf_verify_model` VALUES ('2', '0', '邮箱认证', 'email', '{\"thumbnail\":\"\",\"email\":\"email\"}', '1', '20');
 INSERT INTO `cmf_verify_model` VALUES ('3', '0', '实名认证', 'certification', '{\"thumbnail\":\"\",\"identity_card\":\"identity_card\",\"real_name\":\"real_name\"}', '1', '30');
 INSERT INTO `cmf_verify_model` VALUES ('4', '0', '企业资格认证', 'enterprise', '{\"thumbnail\":\"\",\"business_license\":\"business_license\",\"work_company\":\"work_company\"}', '1', '40');
-INSERT INTO `cmf_verify_model` VALUES ('5', '0', '开店资格认证', 'openshop', '{\"thumbnail\":\"\",\"driving_license\":\"driving_license\",\"identity_card\":\"identity_card\",\"real_name\":\"real_name\",\"contact\":\"contact\"}', '1', '10000');

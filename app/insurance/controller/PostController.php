@@ -153,7 +153,7 @@ class PostController extends HomeBaseController
             $post_pre = session('insuranceStep1');
             $post = array_merge($post,$post_pre);
             $post['user_id'] = $userId;
-            $post['order_sn'] = cmf_get_order_sn('INSUR-');
+            $post['order_sn'] = cmf_get_order_sn('insurance_');
             $post['create_time'] = time();
             // dump($post);die;
             $result = $this->validate($post, 'Post.step3');
@@ -259,6 +259,8 @@ class PostController extends HomeBaseController
         }
         $data = $this->request->param();
         $data['action'] = 'insurance';
+
+        $data['order_sn'] = Db::name('insurance_order')->where('id',$data['id'])->value('order_sn');
 
         $this->redirect('funds/Pay/pay',$data);
     }

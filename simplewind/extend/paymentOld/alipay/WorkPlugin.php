@@ -46,9 +46,8 @@ class WorkPlugin
      * +----------------------------------------------------------
      * 建立支付请求
      * +----------------------------------------------------------
-     * 
-     * +----------------------------------------------------------
     */
+    // 表单
     public function workForm() {
         // 建立请求
         $alipaySubmit = new AlipaySubmit($this->p_set());
@@ -56,6 +55,7 @@ class WorkPlugin
         return $html_text;
     }
 
+    // URL
     public function workUrl($data=[])
     {
         // 建立请求
@@ -69,12 +69,19 @@ class WorkPlugin
         // return $sResult;
     }
 
+    // CURL模式
     public function workCurl($data=[])
     {
         // 建立请求
         $alipaySubmit = new AlipaySubmit($this->p_set());
         $sResult = $alipaySubmit->buildRequestHttp($this->parameter());
         return $sResult;
+    }
+
+    // 二维码
+    public function QRcode($value='')
+    {
+        # code...
     }
 
     /*
@@ -99,8 +106,10 @@ class WorkPlugin
             // $notify_time    = $_GET['notify_time'];//通知的发送时间
             // $buyer_email    = $_GET['buyer_email'];//买家支付宝帐号
 
-            if($trade_status=='TRADE_FINISHED' || $trade_status=='TRADE_SUCCESS') {
-                return $_GET;//支付成功
+            if($trade_status=='TRADE_FINISHED') {
+                return array_merge($_GET,['status'=>10]);//支付完成
+            } elseif ($trade_status=='TRADE_SUCCESS') {
+                return array_merge($_GET,['status'=>1]);//支付成功
             } else {
                 return false;//支付失败
             }
@@ -108,7 +117,6 @@ class WorkPlugin
             //验证失败
             //调试
             $this->log($_GET);
-            
             return false;
         }
     }
@@ -123,9 +131,6 @@ class WorkPlugin
         $verify_result = $alipayNotify->verifyNotify();
 
         if($verify_result) { //验证成功
-            //请在这里加上商户的业务逻辑程序代码
-            //请根据您的业务逻辑来编写程序（以下代码仅作参考）
-            //获取支付宝的通知返回参数，可参考技术文档中服务器异步通知参数列表
             // print_r($_POST);die;
 
             //商户订单号
@@ -142,16 +147,13 @@ class WorkPlugin
                 // 支付成功
                 return array_merge($_POST,['status'=>1]);
             } else {
-                print_r($_POST);die;
+                return false;
             }
-            // echo "success";//请不要修改或删除
         } else {
             //验证失败
             // echo "fail";
-
             //调试用，写文本函数记录程序运行情况是否正常
             $this->log($_POST);
-
             return false;
         }
     }

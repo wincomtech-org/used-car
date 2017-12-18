@@ -76,6 +76,7 @@ class PayController extends HomeBaseController
 
     /*
     * 支付总入口
+    * 发起支付
     * @param $data 获取数据
     $data = [
         'paytype' => 'cash',
@@ -107,15 +108,15 @@ exit;
         $payModel = new PayModel();
 
         $paytype = $payModel->getPayment($data['paytype']);
-        $table = $payModel->getTableByType($data['action']);
+        // $table = $payModel->getTableByType($data['action']);
+        $order_sn = empty($data['order_sn'])?$data['order_sn']:cmf_get_order_sn($data['action'].'_');
         $amount = 0.01;
         import('paymentOld/'.$paytype.'/WorkPlugin',EXTEND_PATH);
-        $work = new \WorkPlugin(cmf_get_order_sn($table.'_'),$amount);
-
+        $work = new \WorkPlugin($order_sn,$amount);
 
     }
 
-    // 对应支付模块
+    /*对应支付模块*/
     public function insurance($data)
     {
         $this->success('支付中心 - 模拟 保险 支付',cmf_url('user/Funds/index'),$data,100);
@@ -146,7 +147,7 @@ exit;
     }
 
 
-    // 回调处理 支付宝
+    /*回调处理 支付宝*/
     public function callBack()
     {
         $method = $this->request->isGet() ? 'get' : ($this->request->isPost()?'post':'null');
@@ -162,26 +163,30 @@ exit;
         } elseif ($method=='post') {
             $result = $work->getNotify();
         } else {
-            return false;
+            $result =  false;
         }
 
         if (!empty($result)) {
+            $result['paytype'] = 'alipay';
             $out_trade_no = $result['out_trade_no'];
-            $table = strstr($out_trade_no,'_',true);
-
-            // if (!checkorderstatus($out_trade_no)) {
-            //     orderhandle($parameter);
-            //     //进行订单处理，并传送从支付宝返回的参数；
-            // }
+            if (!empty($out_trade_no)) {
+                $action = strstr($out_trade_no,'_',true);
+                $status = $payModel->$action($result);
+            }
         }
 
         if (!empty($result) && $method=='get') {
-            
             echo $table;
             echo "<br>以下是支付宝返回的数据：<br><hr>";
             dump($result);
+        } else {
+            $this->error('数据获取失败');
         }
 
+        // if ($status===false) {
+        //     $this->error('支付失败');
+        // }
+        // $this->success('恭喜你！支付成功');
     }
 
     /*
