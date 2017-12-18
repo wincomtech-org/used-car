@@ -19,11 +19,13 @@ class WorkPlugin
     private $dir = '';// getcwd()
     private $host = '';
 
-    function __construct($order_sn='', $order_amount='')
+    function __construct($order_sn='', $order_amount='', $pay_id='')
     {
         $this->order_sn = $order_sn;
         $this->order_amount = $order_amount;
         $this->host = cmf_get_domain();
+        // $this->plugin_id = $pay_id;
+
         // TP写法 
         import('paymentOld/'.$this->plugin_id.'/lib/coreFunc',EXTEND_PATH);
     }
@@ -285,14 +287,15 @@ class WorkPlugin
         $param['partner'] = trim($set['partner']);
         
         //服务器异步通知页面路径，需http://格式的完整路径，不能加?id=123这类自定义参数
-        $param['notify_url'] = cmf_url('funds/Pay/callBack','',false,$this->host);
+        // $param['notify_url'] = cmf_url('funds/Pay/callBack','',false,$this->host);
+        $param['notify_url'] = url('funds/Pay/callBack','',false,$this->host);
         //页面跳转同步通知页面路径，需http://格式的完整路径，不能加?id=123这类自定义参数，不能写成http://localhost/
-        $param['return_url'] = cmf_url('funds/Pay/callBack','',false,$this->host);
+        $param['return_url'] = url('funds/Pay/callBack','',false,$this->host);
 
         //商户订单号，商户网站订单系统中唯一订单号，必填
         $param['out_trade_no'] = $this->order_sn;
         //订单名称，必填
-        $param['subject'] = 'Order Sn : ' . $this->order_sn . ' (' . $siteInfo['site_name'] . ')';
+        $param['subject'] = 'OrderSn：' . $this->order_sn .' ('. $siteInfo['site_name'] .')';
         //付款金额，必填
         $param['total_fee'] = $this->order_amount;
         //订单描述

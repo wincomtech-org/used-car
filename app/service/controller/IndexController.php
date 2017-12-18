@@ -79,8 +79,10 @@ class IndexController extends HomeBaseController
         // 获取数据
         $data = $this->request->param();
         $compId = $this->request->param('compId',0,'intval');
-
         $userId = cmf_get_current_user_id();
+        if (empty($data)) {
+            $this->redirect('index');
+        }
 
         $post = $data['post'];
         $post['company_id'] = $compId;

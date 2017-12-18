@@ -92,14 +92,13 @@ class PostController extends HomeBaseController
     {
         # \app\funds\controller\PayController.php
         $data = $this->request->param();
-        $data['action'] = 'deposit';
+        $data['action'] = 'openshop';
         // $setting = cmf_get_option('usual_settings');
         // $data['coin'] = $setting['deposit'];
 
-        // 这个申请审核要改
         // $data = [
         //     'title'     => '开店申请',
-        //     'object'    => 'verify:'.$vid,
+        //     'object'    => 'funds_apply:'.$vid,
         //     'content'   => '客户ID：'.$userInfo['id'].'，车子ID：'.$id,
         //     'adminurl'  => 8,
         // ];

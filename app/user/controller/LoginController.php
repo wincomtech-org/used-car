@@ -77,7 +77,8 @@ class LoginController extends HomeBaseController
             }
             $session_login_http_referer = session('login_http_referer');
             // $redirect = empty($session_login_http_referer) ? $this->request->root() : $session_login_http_referer;
-            $redirect = empty($session_login_http_referer) ? cmf_url('user/Profile/center') : $session_login_http_referer;
+            // $redirect = empty($session_login_http_referer) ? cmf_url('user/Profile/center') : $session_login_http_referer;
+            $redirect = cmf_url('user/Profile/center');
             switch ($log) {
                 case 0:
                     cmf_user_action('login');

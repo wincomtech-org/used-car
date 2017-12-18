@@ -16,10 +16,15 @@ use test\Test;
 */
 class PayController extends HomeBaseController
 {
-    // function _initialize()
-    // {
-    //     parent::_initialize();
-    // }
+    function _initialize()
+    {
+        parent::_initialize();
+        // $this->work = new WorkPlugin(cmf_get_order_sn(),0.01);//使用了use引入
+        // $this->work = new \paymentOld\alipay\WorkPlugin(cmf_get_order_sn(),0.01);//直接使用命名空间实例化
+        // $paytype = 'alipay';$table = '';
+        // import('paymentOld/'.$paytype.'/WorkPlugin',EXTEND_PATH);
+        // $this->work = new \WorkPlugin(cmf_get_order_sn($table),0.01);//import引入
+    }
 
     public function test()
     {
@@ -38,28 +43,23 @@ class PayController extends HomeBaseController
         dump($test->tp());
 
 
+        $paytype = 'alipay';$table = '';$amount=0.01;
+        import('paymentOld/'.$paytype.'/WorkPlugin',EXTEND_PATH);
+        $work = new \WorkPlugin(cmf_get_order_sn($table),$amount);
 
-        // $work = new WorkPlugin();
-
-        // $work = new \paymentOld\alipay\WorkPlugin();
-
-        $paytype = 'alipay';
-        import('paymentOld/alipay/WorkPlugin',EXTEND_PATH);
-        $work = new \WorkPlugin(cmf_get_order_sn(),0.01);
-
-        // $result = $work->p_set();
+        // $dump = $work->p_set();
+        $dump = $work->parameter();
 
         // 调起支付
-        $result = $work->workForm();
-        // $result = $work->workUrl();
-        // $result = $work->workCurl();
+        $echo = $work->workForm();
+        // $echo = $work->workUrl();
+        // $echo = $work->workCurl();
 
-        // $result = $work->log();
+        // $echo = $work->log();
 
 
-
-        echo $result;
-        // dump($result);
+        echo $echo;
+        dump($dump);
         exit;
     }
 
@@ -74,7 +74,21 @@ class PayController extends HomeBaseController
         return $this->fetch();
     }
 
-    // 支付总入口
+    /*
+    * 支付总入口
+    * @param $data 获取数据
+    $data = [
+        'paytype' => 'cash',
+        'action' => 'seecar',
+        'id' => '5',
+    ];
+        自动识别是否为电脑、手机端、扫码？
+        paytype=cash|alipay|weixin
+        标识，可判断表名
+        action=insurance|seecar|openshop|recharge
+        ID完成未付款的订单
+        id=(int)
+    */
     public function pay()
     {
         if (!cmf_is_user_login()) {
@@ -89,6 +103,16 @@ class PayController extends HomeBaseController
         // $this->success('支付中心 - 模拟支付',cmf_url('user/Funds/index'),$data,100);
 
         $this->$data['action']($data);
+exit;
+        $payModel = new PayModel();
+
+        $paytype = $payModel->getPayment($data['paytype']);
+        $table = $payModel->getTableByType($data['action']);
+        $amount = 0.01;
+        import('paymentOld/'.$paytype.'/WorkPlugin',EXTEND_PATH);
+        $work = new \WorkPlugin(cmf_get_order_sn($table.'_'),$amount);
+
+
     }
 
     // 对应支付模块
@@ -122,21 +146,16 @@ class PayController extends HomeBaseController
     }
 
 
-
-    // 支付方式
-    public function payment($paytype='')
-    {
-        // $payModel = new PayModel();
-        $work = new \paymentOld\alipay\WorkPlugin();
-
-    }
-
-    // 回调处理
+    // 回调处理 支付宝
     public function callBack()
     {
-        // $payModel = new PayModel();
-        $work = new \paymentOld\alipay\WorkPlugin();
         $method = $this->request->isGet() ? 'get' : ($this->request->isPost()?'post':'null');
+
+        $payModel = new PayModel();
+
+        $paytype = $payModel->getPayment('alipay');
+        import('paymentOld/'.$paytype.'/WorkPlugin',EXTEND_PATH);
+        $work = new \WorkPlugin();
 
         if ($method=='get') {
             $result = $work->getReturn();
@@ -147,6 +166,10 @@ class PayController extends HomeBaseController
         }
 
         if (!empty($result)) {
+            $out_trade_no = $result['out_trade_no'];
+            $table = strstr($out_trade_no,'_',true);
+
+            echo "这是支付宝返回的数据：<br><hr>";
             dump($result);
             // if (!checkorderstatus($out_trade_no)) {
             //     orderhandle($parameter);
@@ -154,6 +177,16 @@ class PayController extends HomeBaseController
             // }
         }
 
+    }
+
+    /*
+    * 微信扫码支付
+    * 订单轮询
+    * 微信回调 二次查单
+    */
+    public function ajaxWxpay()
+    {
+        echo 'ok';exit;
     }
 
 
