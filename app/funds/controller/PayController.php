@@ -45,20 +45,22 @@ class PayController extends HomeBaseController
 
         $paytype = 'alipay';
         import('paymentOld/alipay/WorkPlugin',EXTEND_PATH);
-        $work = new \WorkPlugin(cmf_get_order_sn(),1);
+        $work = new \WorkPlugin(cmf_get_order_sn(),0.01);
 
-        echo $work->workForm();
+        // $result = $work->p_set();
 
-        // $work->workUrl();
-        // $work->workCurl();
+        // 调起支付
+        $result = $work->workForm();
+        // $result = $work->workUrl();
+        // $result = $work->workCurl();
 
-        // $work->log();
-        // dump($work->log());
+        // $result = $work->log();
 
 
 
-
-        
+        echo $result;
+        // dump($result);
+        exit;
     }
 
     public function index()
@@ -136,15 +138,16 @@ class PayController extends HomeBaseController
         $work = new \paymentOld\alipay\WorkPlugin();
         $method = $this->request->isGet() ? 'get' : ($this->request->isPost()?'post':'null');
 
-        if ($this->request->isGet()) {
+        if ($method=='get') {
             $result = $work->getReturn();
-        } elseif ($this->request->isPost()) {
+        } elseif ($method=='post') {
             $result = $work->getNotify();
         } else {
             return false;
         }
 
         if (!empty($result)) {
+            dump($result);
             // if (!checkorderstatus($out_trade_no)) {
             //     orderhandle($parameter);
             //     //进行订单处理，并传送从支付宝返回的参数；
