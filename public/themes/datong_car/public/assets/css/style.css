@@ -1333,7 +1333,7 @@
 @media only screen and (max-width: 768px){
     .Insurance_recommendation_item:nth-child(4n+2), .Insurance_recommendation_item:nth-child(4n+3){margin:0;}
     .Insurance_recommendation_item .txt p{margin-bottom:7px;}
-    .Insurance_recommendation_item .txt p a{font-size:16px;}
+    .Insurance_recommendation_item .txt p a{font-size:15px;padding:0 5px;box-sizing:border-box;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;-ms-box-sizing:border-box;-o-box-sizing:border-box;}
     .Insurance_recommendation_item .txt  span a{font-size:14px;}
 }
 @media only screen and (max-width:768px) and (min-width: 415px){

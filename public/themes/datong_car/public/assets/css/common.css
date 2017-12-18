@@ -335,6 +335,17 @@ nav{background-color:#000;}
 		/**手机端顶部和导航*/
 		.header_top .logo{width:32%;}
 	}
+	@media only screen and (max-width:414px){
+		.search{width:85%;}
+		.user_m{width:10%;}
+		.search input.ser_input{width:80%;}
+		.search input.ser_button{width:20%;}
+	}
+	@media only screen and (max-width:320px){
+		.search{width:92%;}
+		.user_m{width:7%;}
+		.search input.ser_input{padding-left:2px;}
+	}
 	
 }
 
