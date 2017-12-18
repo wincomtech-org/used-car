@@ -1164,7 +1164,7 @@
 /*资金管理*/
 .fund_managemen_title{font-size:16px;padding: 10px 0;}
 .fund_managemen_title a{color:#d00000;margin-left:6px;font-size:12px;}
-.detail_div{border:1px solid #ddd;}
+.detail_div{border:1px solid #ddd;max-width:477px;}
 .detail_list{padding:20px 40px;box-sizing:border-box;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;-ms-box-sizing:border-box;-o-box-sizing:border-box;}
 .detail_list li{float:left;font-size:16px;}
 .detail_list:after{content:"";display:block;clear:both;}
@@ -1970,6 +1970,9 @@
         .stream_tit,.stream_con{width:700px;}
         .stream_con table th{text-align:center;font-size:14px;}
         .stream_con table td{text-align:center;font-size:14px;}
+        .detail_div{max-width:100%;}
+        .detail_list li{margin:5px 0;}
+        .detail_list li.money a{display:inline-block;}
 
         /*在线充值*/
         .online_way li{margin-bottom:10px;}
@@ -2005,7 +2008,9 @@
         .person_right_item{font-size:14px;}
 
         .detail_list{padding:20px 27px;}
-        .detail_list li:last-child{display:block;margin-top:10px;}
+        .detail_list li.tit{width:22%;}
+        .detail_list li.money{width:28%;padding-right:5px;box-sizing:border-box;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;-ms-box-sizing:border-box;}
+
 
         /*个人中心车辆业务*/
         .person_carBuss tr td{padding:12px 4px;font-size:12px;}
@@ -2050,10 +2055,16 @@
      @media only screen and (max-width:414px) and (min-width:320px){
 
         .details_item .details_tit{display:block;}
-        .details_item .idetails_con{display:block;margin-top:10px;}
+        .details_item .idetails_con{display:block;margin-top:10px;height:auto;}
         .details_item .idetails_con input{min-width:279px;width:100%;}
         .person_right_item{font-size:14px;}
         .seller_center .analogy{min-width:278px;}
+
+        /*资金管理*/
+
+        .detail_list{padding:20px 14px;}
+        .detail_list li{font-size:14px;}
+
 
         /*车险预约*/
         .person_carBuss tr td{padding:12px 3px;font-size:12px;}
@@ -2073,7 +2084,12 @@
 
      }
 
-
+    @media only screen  and (max-width:320px){
+          /*资金管理*/
+        .detail_list{padding:14px 19px;}
+        .detail_list li.tit{width:50%;}
+        .detail_list li.money{width:50%;}
+    }
 
      /*尾部*/
       @media only screen and (max-width:767px) and (min-width:320px){

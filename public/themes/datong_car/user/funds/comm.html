@@ -3,12 +3,12 @@
         <li class="tit">我的余额：</li>
         <li class="money">￥{$user.coin|default='0.00'}</li>
         <li class="tit"><font color="{$u_f_nav=='ticket'?='red'}">我的点券：</font></li>
-        <li class="money"><a style="color:red" href="{:url('user/Funds/ticket')}" onclick="return confirm('查看点券记录？');">￥{//$user.ticket|default='0.00'}?.??</a></li>
+        <li class="money"><a style="color:#d00000" href="{:url('user/Funds/ticket')}" onclick="return confirm('查看点券记录？');">￥{//$user.ticket|default='0.00'}?.??</a></li>
     </ul>
     <ul class="detail_list">
         <li class="tit">提现冻结：</li>
         <li class="money">￥{$user.freeze|default='0.00'}</li>
         <li class="tit">开店押金：</li>
-        <li class="money"><a style="color:red;" href="" onclick="return confirm('关闭店铺，收回押金？');">￥?.??</a></li>
+        <li class="money"><a style="color:#d00000;" href="" onclick="return confirm('关闭店铺，收回押金？');">￥?.??</a></li>
     </ul>
 </div>
