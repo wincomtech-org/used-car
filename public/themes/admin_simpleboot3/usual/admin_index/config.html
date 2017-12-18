@@ -62,14 +62,19 @@
                                     <input type="number" class="form-control" id="input-withdraw_num" name="usual[withdraw_num]" value="{$usual.withdraw_num|default='1'}">
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">充值总开关</label>
+                            <div class="form-group" style="display:none">
+                                <label for="input-watering" class="col-sm-2 control-label">防灌水</label>
                                 <div class="col-md-6 col-sm-10">
-                                    <input {$usual.recharge_switch==1?='checked'} type="radio" name="usual[recharge_switch]" value="1"> 开 &nbsp; &nbsp;
-                                    <input {$usual.recharge_switch!=1?='checked'} type="radio" name="usual[recharge_switch]" value="0"> 关 &nbsp; &nbsp;
+                                    <textarea class="form-control" id="input-watering" name="usual[watering]">{$usual.watering|default=''}</textarea>
                                 </div>
                             </div>
 
+                            <div class="form-group">
+                                <label for="input-pagesize" class="col-sm-2 control-label">全局列表分页数</label>
+                                <div class="col-md-6 col-sm-10">
+                                    <input type="number" class="form-control" id="input-pagesize" name="usual[pagesize]" value="{$usual.pagesize|default='12'}">
+                                </div>
+                            </div>
                             <div class="form-group">
                                 <label for="input-pagesize" class="col-sm-2 control-label">全局列表分页数</label>
                                 <div class="col-md-6 col-sm-10">
@@ -84,6 +89,8 @@
                             </div>
                         </div>
 
+
+
                         <div class="tab-pane" id="B">
                             <div class="form-group">
                                 <label for="input-alipay_account" class="col-sm-2 control-label">支付宝账号</label>
@@ -92,15 +99,15 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="input-alipay_key" class="col-sm-2 control-label">交易安全校验码（key）</label>
+                                <label for="input-alipay_partner" class="col-sm-2 control-label">合作者身份（partner ID）</label>
                                 <div class="col-md-6 col-sm-10">
-                                    <input type="text" class="form-control" id="input-alipay_key" name="alipay[key]" value="{$alipay.key|default=''}">
+                                    <input type="text" class="form-control" id="input-alipay_partner" name="alipay[partner]" value="{$alipay.partner|default=''}" placeholder="或者PID或者APPID">
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="input-alipay_partner" class="col-sm-2 control-label">合作者身份（partner ID）</label>
+                                <label for="input-alipay_key" class="col-sm-2 control-label">安全校验码（key）</label>
                                 <div class="col-md-6 col-sm-10">
-                                    <textarea class="form-control" id="input-alipay_partner" name="alipay[partner]">{$alipay.partner|default=''}</textarea>
+                                    <input type="text" class="form-control" id="input-alipay_key" name="alipay[key]" value="{$alipay.key|default=''}" placeholder="合作伙伴密钥">
                                 </div>
                             </div>
 
@@ -119,23 +126,31 @@
                             </div>
                         </div>
 
+
+
                         <div class="tab-pane" id="C">
                             <div class="form-group">
-                                <label for="input-weixin_appid" class="col-sm-2 control-label">公众号APPID</label>
+                                <label for="input-weixin_appid" class="col-sm-2 control-label">AppID（应用ID）</label>
                                 <div class="col-md-6 col-sm-10">
                                     <input type="text" class="form-control" id="input-weixin_appid" name="weixin[appid]" value="{$weixin.appid|default=''}">
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="input-weixin_mchid" class="col-sm-2 control-label">商户号</label>
+                                <label for="input-weixin_appsecret" class="col-sm-2 control-label">AppSecret（应用密钥）</label>
+                                <div class="col-md-6 col-sm-10">
+                                    <input type="text" class="form-control" id="input-weixin_appsecret" name="weixin[appsecret]" value="{$weixin.appsecret|default=''}">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="input-weixin_mchid" class="col-sm-2 control-label">Mchid（商户号）</label>
                                 <div class="col-md-6 col-sm-10">
                                     <input type="text" class="form-control" id="input-weixin_mchid" name="weixin[mchid]" value="{$weixin.mchid|default=''}">
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="input-weixin_key" class="col-sm-2 control-label">密钥</label>
+                                <label for="input-weixin_key" class="col-sm-2 control-label">KEY（商户密钥）</label>
                                 <div class="col-md-6 col-sm-10">
-                                    <textarea class="form-control" id="input-weixin_key" name="weixin[key]">{$weixin.key|default=''}</textarea>
+                                    <input type="text" class="form-control" id="input-weixin_key" name="weixin[key]" value="{$weixin.key|default=''}">
                                 </div>
                             </div>
 

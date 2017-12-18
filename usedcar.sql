@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50540
 File Encoding         : 65001
 
-Date: 2017-12-15 16:17:02
+Date: 2017-12-18 11:59:13
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -4438,9 +4438,9 @@ INSERT INTO `cmf_option` VALUES ('9', '1', 'admin_dashboard_widgets', '[{\"name\
 INSERT INTO `cmf_option` VALUES ('10', '1', 'cmf_settings', '{\"open_registration\":\"1\",\"banned_usernames\":\"\"}');
 INSERT INTO `cmf_option` VALUES ('11', '1', 'cdn_settings', '{\"cdn_static_root\":\"\"}');
 INSERT INTO `cmf_option` VALUES ('12', '1', 'admin_settings', '{\"admin_password\":\"\",\"admin_style\":\"flatadmin\"}');
-INSERT INTO `cmf_option` VALUES ('13', '1', 'usual_settings', '{\"default_img\":\"\\/upload\\/portal\\/20171013\\/1f661e0d9d9f0c97b17a50e6e06580c0.png\",\"news_switch\":\"1\",\"shop_switch\":\"1\",\"deposit\":\"300\",\"withdraw_switch\":\"1\",\"withdraw_num\":\"1\",\"recharge_switch\":\"1\",\"pagesize\":\"12\"}');
-INSERT INTO `cmf_option` VALUES ('14', '1', 'alipay_settings', '{\"account\":\"\",\"key\":\"\",\"partner\":\"\",\"switch\":\"0\"}');
-INSERT INTO `cmf_option` VALUES ('15', '1', 'weixin_settings', '{\"appid\":\"\",\"mchid\":\"\",\"key\":\"\",\"switch\":\"0\"}');
+INSERT INTO `cmf_option` VALUES ('13', '1', 'usual_settings', '{\"default_img\":\"\\/upload\\/portal\\/20171013\\/1f661e0d9d9f0c97b17a50e6e06580c0.png\",\"news_switch\":\"1\",\"shop_switch\":\"1\",\"deposit\":\"300\",\"withdraw_switch\":\"1\",\"withdraw_num\":\"1\",\"recharge_switch\":\"1\",\"pagesize\":\"12\",\"watering\":\"\"}');
+INSERT INTO `cmf_option` VALUES ('14', '1', 'alipay_settings', '{\"account\":\"lvshi908@163.com\",\"key\":\"e3itw569hhqt3drxgyjsjta3mxd8ghf6\",\"partner\":\"2088621675273401\",\"switch\":\"0\"}');
+INSERT INTO `cmf_option` VALUES ('15', '1', 'weixin_settings', '{\"appid\":\"wxc81478fd3692f45c\",\"mchid\":\"1253198901\",\"key\":\"Zyy3508198186zyy9807620431989091\",\"switch\":\"0\",\"appsecret\":\"1419d07a2051e18888a72a1b06cf603f\"}');
 
 -- ----------------------------
 -- Table structure for cmf_plugin

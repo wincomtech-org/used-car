@@ -70,18 +70,66 @@ class PayModel extends Model
         // $result = $Ord->where('order_sn='.$ordid)->update($data);
     }
 
-}
 
 
-
-
-/**
-* payment
-*/
-class PaymentModel extends Model
-{
-    function __construct()
+    /*
+    * 获取支付方式
+    * 自动识别是否为电脑、手机端、扫码？
+        paytype=cash|alipay|weixin
+    */
+    public function getPayment($paytype='', $pay_id='')
     {
-        # code...
+        if (!empty($pay_id)) {
+            $paytype = $pay_id;
+        } elseif (!empty($paytype)) {
+            if ($paytype=='alipay') {
+                if (cmf_is_mobile()) {
+                    $paytype = 'alipaywap';
+                }
+            } elseif ($paytype='weixin') {
+                if (cmf_is_wechat()) {
+                    $paytype = 'wxpayjs';
+                } else {
+                    $paytype = 'wxpaynative';
+                }
+            }
+        }
+
+        return $paytype;
     }
+
+    /*
+    * 获取支付类型
+    * 标识，可判断表名
+        action=insurance|seecar|openshop|recharge
+    * 'funds/Pay/pay'
+    */
+    public function getTableByType($type='')
+    {
+        switch ($type) {
+            case 'seecar':
+                $table = 'trade_order';
+                break;
+            case 'openshop':
+                $table = 'funds_apply';
+                break;
+            case 'recharge':
+                $table = 'funds_apply';
+                break;
+            case 'insurance':
+                $table = 'insurance_order';
+                break;
+            default:
+                $table = $type;
+                break;
+        }
+
+        return $table;
+    }
+
+
+
+
 }
+
+

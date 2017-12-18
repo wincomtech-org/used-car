@@ -46,7 +46,7 @@ DOMEvent DOMDocumentWrapper phpQueryEvents phpQuery Callback JSONP
     每日提现一次 -->
 
 开店保证金：300
-    申请，改user的coin，新增funds_apply=>type=shop，
+    申请，改user的coin，新增funds_apply=>type=openshop，
     审核失败，改user的coin，funds_apply的status=-1
     取消，改user的coin，funds_apply的status=-2
     成功，改funds_apply的status=1，新增user_funds_log

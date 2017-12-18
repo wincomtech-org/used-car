@@ -167,15 +167,6 @@ class AjaxController extends BaseController
         echo $html;exit;
     }
 
-    /*
-    * 微信扫码支付
-    * 订单轮询
-    */
-    public function wxpay()
-    {
-        echo 'ok';exit;
-    }
-
 
 
 }
