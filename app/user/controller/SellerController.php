@@ -260,7 +260,6 @@ class SellerController extends TradeController
                     $transStatus = false;
                     // throw $e;
                 }
-
             } else {
                 $result = $carModel->adminEditArticle($post);
                 // 审核资料重新审核时

@@ -102,7 +102,6 @@ class UsualModel extends Model
     */
     public function adminAddArticle($data, $categories=null)
     {
-        // $data['user_id'] = cmf_get_current_admin_id();
         if (!empty($data['more']['thumbnail'])) {
             $data['more']['thumbnail'] = cmf_asset_relative_url($data['more']['thumbnail']);
         }
@@ -129,7 +128,6 @@ class UsualModel extends Model
      */
     public function adminEditArticle($data, $categories = null)
     {
-        $data['user_id'] = !empty($data['user_id']) ? $data['user_id'] : cmf_get_current_admin_id();
         if (!empty($data['more']['thumbnail'])) {
             $data['more']['thumbnail'] = cmf_asset_relative_url($data['more']['thumbnail']);
         }

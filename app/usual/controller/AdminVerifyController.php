@@ -52,6 +52,8 @@ class AdminVerifyController extends AdminBaseController
         if ($this->request->isPost()) {
             $data   = $this->request->param();
             $post   = $data['post'];
+
+            // 获取用户
             if (empty($post['user_id'])) {
                 $username = $this->request->param('username/s');
                 $user_id = Db::name('user')->whereOr(['user_nickname|user_login|user_email|mobile'=>['eq', $username]])->value('id');
@@ -59,21 +61,22 @@ class AdminVerifyController extends AdminBaseController
                     $this->error('系统未检测到该用户');
                 }
                 $post['user_id'] = intval($user_id);
+            } else {
+                $count = Db::name('user')->where('id',$post['user_id'])->count();
+                if ($count<1) {
+                    $this->error('对不起，该用户已不存在！');
+                }
+            }
+            if (empty($post['user_id'])) {
+                $this->error('请填写用户ID 或者用户名');
             }
 
+            // 验证
             $result = $this->validate($post,'Verify.add');
             if ($result !== true) {
                 $this->error($result);
             }
             model('Verify')->adminAddArticle($post);
-
-            // 钩子
-            // $post['id'] = model('Verify')->id;
-            // $hookParam          = [
-            //     'is_add'  => true,
-            //     'article' => $post
-            // ];
-            // hook('portal_admin_after_save_article', $hookParam);
 
             $this->success('添加成功!', url('AdminVerify/edit', ['id'=>model('Verify')->id]));
         }
@@ -86,8 +89,7 @@ class AdminVerifyController extends AdminBaseController
         $vm = model('VerifyModel')->getOptions($post['auth_code'],0,0,true);
         $define_data = model('VerifyModel')->getDefineData('','');
         $statusTree = model('Verify')->getVerifyStatus($post['auth_status']);
-// dump($post['more']);
-// dump($define_data);die;
+
         $this->assign('category_tree', $vm);
         $this->assign('define_data', $define_data);
         $this->assign('status_tree', $statusTree);
@@ -98,14 +100,29 @@ class AdminVerifyController extends AdminBaseController
     {
         if ($this->request->isPost()) {
             $data   = $this->request->param();
+            $post   = $data['post'];
+
+            // 检查用户
+            if (!empty($post['user_id'])) {
+                $count = Db::name('')->where('id',$post['user_id'])->count();
+                if ($count<1) {
+                    $this->error('对不起，该用户已不存在！');
+                }
+            }
             $username = $this->request->param('username/s');
             $user_id = Db::name('user')->whereOr(['user_nickname|user_login|user_email|mobile'=>['eq', $username]])->value('id');
             if (empty($user_id)) {
                 $this->error('系统未检测到该用户');
             }
-
-            $post   = $data['post'];
+            if ($post['user_id']!=$user_id) {
+                $this->error('用户ID 和 用户名 不一致！');
+            }
+            if (empty($post['user_id'])) {
+                $this->error('请填写用户ID 或者用户名');
+            }
             $post['user_id'] = intval($user_id);
+
+            // 验证
             $result = $this->validate($post, 'Verify.edit');
             if ($result !== true) {
                 $this->error($result);
