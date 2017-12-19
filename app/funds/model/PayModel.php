@@ -16,6 +16,217 @@ class PayModel extends Model
     // }
 
     /*
+    * 对应支付模块
+        $data = [
+            'paytype'=> 'cash',
+            'action' => 'seecar',
+            'coin'   => '0.01',
+            'order_sn' => 'seecar_2017120253101898',
+            'id'     => '5',
+        ];
+    */
+    // 现金支付
+    public function cash($data=[])
+    {
+        $user = cmf_get_current_user();
+        $user_coin = $user['coin'];
+        $order_sn = empty($data['order_sn'])?'':$data['order_sn'];
+        $coin = empty($data['coin'])?0:$data['coin'];
+
+        // 检查是否已支付过
+        if ($this->checkOrderStatus($order_sn)) {
+            return -2;
+        }
+        bcscale(2);
+        // 检查余额是否充足
+        if (bccomp($user_coin, $coin) < 0) {
+            return -1;
+        }
+
+        Db::startTrans();
+        $transStatus = true;
+        try{
+            // 更改用户余额
+            Db::name('user')->where(['id'=>$user['id']])->setDec('coin',$coin);
+            // 按需选择
+            $orz = [
+                'status'        => 10,
+                'out_trade_no'  => $order_sn,
+                'total_fee'     => $coin,
+            ];
+            $s = $this->$data['action']($orz,$data['paytype']);
+            // return $s;//如果$s不为true？
+            // 资金记录
+            $remain = bcsub($user_coin, $coin);
+            $log = [
+                'user_id' => $user['id'],
+                'type' => $this->getTypeByAction($data['action']),
+                'coin' => $coin,
+                'remain' => $remain,
+                'app' => '--',
+            ];
+            lothar_put_funds_log($log);
+            Db::commit();
+        } catch (\Exception $e) {
+            Db::rollback();
+            $transStatus = false;
+        }
+
+        if ($transStatus===true) {
+            $user['coin'] = $remain;
+            // return $user;
+            cmf_update_current_user($user);
+            // return 'coin';
+        }
+        return $transStatus;
+    }
+
+    /*
+    * 以下两种情况：余额支付 和 在线支付
+    * @param payreturn 支付返回结果
+    * 余额
+    * 支付宝
+    * 微信
+    */
+    // 保险 payreturn
+    public function insurance($data,$paytype)
+    {
+        $status = $data['status'];//1 or 10
+        $status = $status==1?6:$status;unset($data['status']);
+        $userId = cmf_get_current_user_id();
+        $id = Db::name('insurance_order')->where('order_sn',$data['out_trade_no'])->value('id');
+        if (empty($id)) return 0;
+
+        Db::startTrans();
+        $transStatus = true;
+        try{
+            if (empty($id)) {
+                $post['more'] = json_encode(['payreturn'=>$data]);
+                Db::name('insurance_order')->insertGetId($post);
+            } else {
+                Db::name('insurance_order')->where('id',$id)->setField('status',$status);
+            }
+            // lothar_put_news($log);
+            Db::commit();
+        } catch (\Exception $e) {
+            Db::rollback();
+            $transStatus = false;
+        }
+
+        return $transStatus;
+    }
+    // 看车
+    public function seecar($data,$paytype)
+    {
+        $status = intval($data['status']);//1 or 10
+        $status = $status==10?1:$status;unset($data['status']);
+        $userId = cmf_get_current_user_id();
+        $id = Db::name('trade_order')->where('order_sn',$data['out_trade_no'])->value('id');
+        if (empty($id)) return 0;
+
+        Db::startTrans();
+        $transStatus = true;
+        try{
+            Db::name('trade_order')->where('id',$id)->setField('status',$status);
+            // lothar_put_news($log);
+            Db::commit();
+        } catch (\Exception $e) {
+            Db::rollback();
+            $transStatus = false;
+        }
+
+        return $transStatus;
+    }
+    // 开店 payreturn
+    public function openshop($data,$paytype)
+    {
+        $status = intval($data['status']);//1 or 10
+        $status = $status==1?10:$status;unset($data['status']);
+        $userId = cmf_get_current_user_id();
+        $id = Db::name('funds_apply')->where('order_sn',$data['out_trade_no'])->value('id');
+        if (empty($id)) return 0;
+
+        Db::startTrans();
+        $transStatus = true;
+        try{
+            Db::name('funds_apply')->where('id',$id)->setField('status',$status);
+            $log = [
+                'title'     => '开店申请',
+                'object'    => 'funds_apply:'.$id,
+                'content'   => '客户ID：'.$userId .'，支付方式：'.config('payment')[$paytype],
+                'adminurl'  => 8,
+            ];
+            lothar_put_news($log);
+            Db::commit();
+        } catch (\Exception $e) {
+            Db::rollback();
+            $transStatus = false;
+        }
+
+        return $transStatus;
+    }
+    // 充值 payreturn ，不存在余额充值
+    public function recharge($data,$paytype)
+    {
+        if ($paytype=='cash') {
+            return false;
+        }
+        $status = $data['status'];//1 or 10
+        $status = $status==1?10:$status;unset($data['status']);
+        $user = cmf_get_current_user();
+        // $userId = cmf_get_current_user_id();
+        $id = Db::name('funds_apply')->where('order_sn',$data['out_trade_no'])->value('id');
+        $total_fee = $data['total_fee'];
+
+        bcscale(2);
+        Db::startTrans();
+        $transStatus = true;
+        try{
+            if (empty($id)) {
+                $post = [
+                    'type'      => 'recharge',
+                    'user_id'   => $user['id'],
+                    'order_sn'  => $data['out_trade_no'],
+                    'coin'      => $total_fee,
+                    'payment'   => $paytype,
+                    'create_time' => time(),
+                    'status'    => $status,
+                    'more'      => json_encode(['payreturn'=>$data]),
+                ];
+                Db::name('funds_apply')->insertGetId($post);
+            } else {
+                Db::name('funds_apply')->where('id',$id)->setField('status',$status);
+            }
+            $remain = bcadd($user['coin'],$total_fee);
+            Db::name('user')->where('id',$user['id'])->setInc('coin',$total_fee);
+            Db::name('user_funds_log')->insert([
+                'type'      => 8,
+                'user_id'   => $user['id'],
+                'coin'      => $total_fee,
+                'remain'    => $remain,
+                'create_time' => time(),
+                'ip' => get_client_ip(),
+            ]);
+            // lothar_put_news($log);
+            $user['coin'] = $remain;
+            // 提交事务
+            Db::commit();
+        } catch (\Exception $e) {
+            // 回滚事务
+            Db::rollback();
+            // throw $e;
+            $transStatus = false;
+        }
+
+        if ($transStatus===true) {
+            cmf_update_current_user($user);
+        }
+        return $transStatus;
+    }
+
+
+
+    /*
     * 生成订单
     * 获取一个随机且唯一的订单号； cmf_get_order_sn()
     * $table 不带前缀的表名
@@ -35,9 +246,14 @@ class PayModel extends Model
     */
     function checkOrderStatus($table='', $where=[])
     {
+        if (empty($where)) {
+            $where['order_sn'] = $table;
+            $action = strstr($table,'_',true);
+            $table = $this->getTableByAction($action);
+        }
         $Ord = Db::name($table);
-        $sta = $Ord->where($where)->value('status');
-        if ($sta == 1) {
+        $status = $Ord->where($where)->value('status');
+        if ($status==$this->getStatusByAction($action) || $status==10) {
             return true;
         } else {
             return false;
@@ -71,125 +287,6 @@ class PayModel extends Model
     }
 
 
-    /*对应支付模块*/
-    // 保险
-    public function insurance($data)
-    {
-        $status = $data['status'];//1 or 10
-        $status = $status==1?6:$status;
-        $userId = cmf_get_current_user_id();
-        $id = Db::name('insurance_order')->where('order_sn',$data['out_trade_no'])->value('id');
-
-        Db::startTrans();
-        $transStatus = true;
-        try{
-            if (empty($id)) {
-                $post['more'] = json_encode(['payreturn'=>$data]);
-                Db::name('insurance_order')->insertGetId($post);
-            } else {
-                Db::name('insurance_order')->where('id',$id)->setField('status',$status);
-            }
-            Db::commit();
-        } catch (\Exception $e) {
-            Db::rollback();
-            $transStatus = false;
-        }
-
-        return $transStatus;
-    }
-    // 看车
-    public function seecar($data)
-    {
-
-    }
-    // 开店
-    public function deposit($data)
-    {
-        $status = intval($data['status']);//1 or 10
-        $status = $status==1?10:$status;
-        $userId = cmf_get_current_user_id();
-        $id = Db::name('funds_apply')->where('order_sn',$data['out_trade_no'])->value('id');
-
-        Db::startTrans();
-        $transStatus = true;
-        try{
-            if (empty($id)) {
-                $post = [
-                    'type'      => 'openshop',
-                    'user_id'   => $userId,
-                    'order_sn'  => $data['out_trade_no'],
-                    'coin'      => $data['total_fee'],
-                    'payment'   => $data['paytype'],
-                    'create_time' => time(),
-                    'status'    => $data['paytype'],
-                    'more'      => json_encode(['payreturn'=>$data]),
-                ];
-                Db::name('funds_apply')->insertGetId($post);
-            } else {
-                Db::name('funds_apply')->where('id',$id)->setField('status',$status);
-            }
-            Db::commit();
-        } catch (\Exception $e) {
-            Db::rollback();
-            $transStatus = false;
-        }
-
-        return $transStatus;
-    }
-    // 充值
-    public function recharge($data)
-    {
-        $status = $data['status'];//1 or 10
-        $status = $status==1?10:$status;
-        $user = cmf_get_current_user();
-        // $userId = cmf_get_current_user_id();
-        $id = Db::name('funds_apply')->where('order_sn',$data['out_trade_no'])->value('id');
-
-        bcscale(2);
-        Db::startTrans();
-        $transStatus = true;
-        try{
-            if (empty($id)) {
-                $post = [
-                    'type'      => 'openshop',
-                    'user_id'   => $user['id'],
-                    'order_sn'  => $data['out_trade_no'],
-                    'coin'      => $data['total_fee'],
-                    'payment'   => $data['paytype'],
-                    'create_time' => time(),
-                    'status'    => $data['paytype'],
-                    'more'      => json_encode(['payreturn'=>$data]),
-                ];
-                Db::name('funds_apply')->insertGetId($post);
-            } else {
-                Db::name('funds_apply')->where('id',$id)->setField('status',$status);
-            }
-            $remain = bcadd($user['coin'],$data['total_fee']);
-            Db::name('user')->where('id',$user['id'])->setInc('coin',$data['total_fee']);
-            Db::name('user_funds_log')->insert([
-                'type'      => 8,
-                'user_id'   => $user['id'],
-                'coin'      => $data['total_fee'],
-                'remain'    => $remain,
-                'create_time' => time(),
-                'ip' => get_client_ip(),
-            ]);
-            $user['coin'] = $remain;
-            // 提交事务
-            Db::commit();
-        } catch (\Exception $e) {
-            // 回滚事务
-            Db::rollback();
-            // throw $e;
-            $transStatus = false;
-        }
-
-        if ($transStatus===true) {
-            cmf_update_current_user($user);
-        }
-        return $transStatus;
-    }
-
 
 
     /*
@@ -206,7 +303,7 @@ class PayModel extends Model
                 if (cmf_is_mobile()) {
                     $paytype = 'alipaywap';
                 }
-            } elseif ($paytype='weixin') {
+            } elseif ($paytype=='weixin') {
                 if (cmf_is_wechat()) {
                     $paytype = 'wxpayjs';
                 } else {
@@ -219,32 +316,66 @@ class PayModel extends Model
     }
 
     /*
-    * 获取支付类型
+    * 获取表名
     * 标识，可判断表名
         action=insurance|seecar|openshop|recharge
     * 'funds/Pay/pay'
     */
-    public function getTableByType($type='')
+    public function getTableByAction($action)
     {
-        switch ($type) {
-            case 'seecar':
-                $table = 'trade_order';
-                break;
-            case 'openshop':
-                $table = 'funds_apply';
-                break;
-            case 'recharge':
-                $table = 'funds_apply';
-                break;
-            case 'insurance':
-                $table = 'insurance_order';
-                break;
-            default:
-                $table = $type;
-                break;
+        switch ($action) {
+            case 'seecar':$table = 'trade_order';break;
+            case 'openshop':$table = 'funds_apply';break;
+            case 'recharge':$table = 'funds_apply';break;
+            case 'insurance':$table = 'insurance_order';break;
+            default:$table = $action;break;
         }
-
         return $table;
+    }
+
+    /*
+    * 订单支付成功状态
+    * 不包含 完成状态
+    */
+    public function getStatusByAction($action)
+    {
+        switch ($action) {
+            case 'seecar':$status = 1;break;
+            case 'openshop':$status = 10;break;
+            case 'recharge':$status = 10;break;
+            case 'insurance':$status = 6;break;
+            default:$status = 1;break;
+        }
+        return $status;
+    }
+
+    /*获取类型*/
+    public function getTypeByAction($action)
+    {
+        switch ($action) {
+            case 'seecar':$type = 6;break;
+            case 'openshop':$type = 5;break;
+            case 'recharge':$type = 8;break;
+            case 'insurance':$type = 2;break;
+            default:$type = 0;break;
+        }
+        return $type;
+    }
+
+    /*
+    * 支付成功的跳转链接
+    * $where=['id'=>$oId]
+    */
+    public function getJumpByAction($action,$where='')
+    {
+        switch ($action) {
+            case 'seecar':$jumpurl = url('user/Buyer/index',$where);break;
+            case 'openshop':$jumpurl = url('user/Funds/apply',$where);break;
+            case 'recharge':$jumpurl = url('user/Funds/index',$where);break;
+            case 'insurance':$jumpurl = url('user/Insurance/index',$where);break;
+            default:$jumpurl = '/';break;
+        }
+        return $jumpurl;
     }
 
 

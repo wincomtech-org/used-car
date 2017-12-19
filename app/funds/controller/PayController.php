@@ -26,6 +26,7 @@ class PayController extends HomeBaseController
         // $this->work = new \WorkPlugin(cmf_get_order_sn($table),0.01);//import引入
     }
 
+    // 临时测试
     public function test()
     {
         // dump(cmf_get_order_sn());die;
@@ -51,15 +52,15 @@ class PayController extends HomeBaseController
         $dump = $work->parameter();
 
         // 调起支付
-        $echo = $work->workForm();
-        // $echo = $work->workUrl();
+        $echo = $work->workForm(false);
+        // $echo = $work->workUrl(false);
         // $echo = $work->workCurl();
 
         // $echo = $work->log();
 
 
-        echo $echo;
-        dump($dump);
+        // echo $echo;
+        // dump($dump);
         exit;
     }
 
@@ -74,21 +75,27 @@ class PayController extends HomeBaseController
         return $this->fetch();
     }
 
+
+
     /*
     * 支付总入口
     * 发起支付
     * @param $data 获取数据
-    $data = [
-        'paytype' => 'cash',
-        'action' => 'seecar',
-        'id' => '5',
-    ];
+        $data = [
+            'paytype'=> 'cash',
+            'action' => 'seecar',
+            'coin'   => '0.01',
+            'order_sn' => 'seecar_2017120253101898',
+            'id'     => '5',
+        ];
         自动识别是否为电脑、手机端、扫码？
-        paytype=cash|alipay|weixin
+            paytype=cash|alipay|weixin
         标识，可判断表名
-        action=insurance|seecar|openshop|recharge
-        ID完成未付款的订单
-        id=(int)
+            action=insurance|seecar|openshop|recharge
+        价格
+            coin=(number)
+        完成未付款的订单
+            order_sn=out_trade_no(string,30),id=(int)
     */
     public function pay()
     {
@@ -101,51 +108,49 @@ class PayController extends HomeBaseController
             $this->error('非法数据集');
         }
 
-        // $this->success('支付中心 - 模拟支付',cmf_url('user/Funds/index'),$data,100);
 
-        $this->$data['action']($data);
-exit;
+        /*未开放 展示*/
+        $expression = ['insurance'=>'','seecar'=>'预约看车','openshop'=>'开店押金','recharge'=>'充值'];
+        $this->success('支付中心 - 模拟 '.$expression[$data['action']].' 支付',cmf_url('user/Funds/index'),$data,600);
+        // $this->$data['action']($data);
+        exit;
+
+        /*开放后 正式运营*/
         $payModel = new PayModel();
 
         $paytype = $payModel->getPayment($data['paytype']);
-        // $table = $payModel->getTableByType($data['action']);
-        $order_sn = empty($data['order_sn'])?$data['order_sn']:cmf_get_order_sn($data['action'].'_');
-        $amount = 0.01;
-        import('paymentOld/'.$paytype.'/WorkPlugin',EXTEND_PATH);
-        $work = new \WorkPlugin($order_sn,$amount);
+        // $table = $payModel->getTableByAction($data['action']);
 
+        // 余额支付与在线支付
+        if ($paytype=='cash') {
+            $status = $payModel->cash($data);
+            // dump($status);die;
+            if ($status==-1) {
+                $this->error('您的余额不足');
+            } elseif ($status==-2) {
+                $this->error('请勿重复支付');
+            } elseif ($status===false) {
+                $this->error('支付失败');
+            } elseif ($status===true) {
+                $this->success('支付成功');
+            }
+        } else {
+            // 发起在线支付
+            $order_sn = empty($data['order_sn'])?$data['order_sn']:cmf_get_order_sn($data['action'].'_');
+            $amount = $data['coin'];
+            $amount = 0.01;
+            import('paymentOld/'.$paytype.'/WorkPlugin',EXTEND_PATH);
+            $work = new \WorkPlugin($order_sn,$amount);
+
+            // 发起支付
+            echo $work->workUrl();
+            // $echo = $work->workForm();
+            // $echo = $work->workUrl();
+            // $echo = $work->workCurl();
+            // echo $echo;
+            // exit;
+        }
     }
-
-    /*对应支付模块*/
-    public function insurance($data)
-    {
-        $this->success('支付中心 - 模拟 保险 支付',cmf_url('user/Funds/index'),$data,100);
-        $payModel = new PayModel();
-
-        $payModel->pay();
-    }
-    public function seecar($data)
-    {
-        $this->success('支付中心 - 模拟 预约看车 支付',cmf_url('user/Funds/index'),$data,100);
-        $payModel = new PayModel();
-
-        $payModel->pay();
-    }
-    public function deposit($data)
-    {
-        $this->success('支付中心 - 模拟 店铺押金 支付',cmf_url('user/Funds/index'),$data,100);
-        $payModel = new PayModel();
-
-        $payModel->pay();
-    }
-    public function recharge($data)
-    {
-        $this->success('支付中心 - 模拟 充值 支付',cmf_url('user/Funds/index'),$data,100);
-        $payModel = new PayModel();
-
-        $payModel->pay();
-    }
-
 
     /*回调处理 支付宝*/
     public function callBack()
@@ -159,34 +164,59 @@ exit;
         $work = new \WorkPlugin();
 
         if ($method=='get') {
-            $result = $work->getReturn();
+            $orz = $work->getReturn();
         } elseif ($method=='post') {
-            $result = $work->getNotify();
+            $orz = $work->getNotify();
         } else {
-            $result =  false;
+            $orz =  false;
         }
+        /*// 测试的
+        $data = $this->request->param();
+        $orz = [
+            'status'        => 10,
+            'out_trade_no'  => empty($data['order_sn'])?'':$data['order_sn'],
+            'total_fee'     => $data['coin'],
+        ];*/
+// dump($orz);die;
 
-        if (!empty($result)) {
-            $result['paytype'] = 'alipay';
-            $out_trade_no = $result['out_trade_no'];
+        if (!empty($orz)) {
+            $out_trade_no = $orz['out_trade_no'];
             if (!empty($out_trade_no)) {
+                // 检查是否已支付过
+                // if ($payModel->checkOrderStatus($out_trade_no)) {
+                //     if ($method=='get') {
+                //         $this->error('请勿重复支付');
+                //     } else {
+                //         return false;
+                //     }
+                // }
+                // 按需选择
                 $action = strstr($out_trade_no,'_',true);
-                $status = $payModel->$action($result);
+                // dump($action);die;
+            } else {
+                $this->error('注意：订单号丢失');
             }
+            // $action = 'openshop';//方便测试
+            $status = $payModel->$action($orz,'alipay');
+        } else {
+            $this->error('数据返回方式无效');
         }
 
-        if (!empty($result) && $method=='get') {
-            echo $table;
+        if (!empty($orz) && $method=='get') {
+        // if (!empty($orz)) {
             echo "<br>以下是支付宝返回的数据：<br><hr>";
-            dump($result);
+            dump($orz);
         } else {
             $this->error('数据获取失败');
         }
-
-        // if ($status===false) {
-        //     $this->error('支付失败');
-        // }
-        // $this->success('恭喜你！支付成功');
+// sleep(600);
+        if ($status===false) {
+            $this->error('支付失败');
+        } elseif ($status==0) {
+            $this->error('该订单不存在');
+        } else {
+            $this->success('恭喜！支付成功，页面跳转中……',$payModel->getJumpByAction($action),'',5);
+        }
     }
 
     /*

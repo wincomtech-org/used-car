@@ -15,12 +15,13 @@ class BuyerController extends TradeController
     public function index()
     {
         // $param = $this->request->param();
-        // $id = $this->request->param('id/d');
+        $id = $this->request->param('id/d');
         $userId = cmf_get_current_user_id();
 
-        $extra = [
-            'buyer_uid' => $userId,
-        ];
+        $extra['a.buyer_uid'] = $userId;
+        if (!empty($id)) {
+            $extra['a.id'] = $id;
+        }
 
         $list = model('trade/TradeOrder')->getLists([],'','',$extra);
 

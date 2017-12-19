@@ -83,36 +83,46 @@ class AlipaySubmit
      * @param $button_name 确认按钮显示文字
      * @return 提交表单HTML文本  target='_blank'在苹果机上失效
      */
-    public function buildRequestForm($para_temp, $method, $button_name)
+    public function buildRequestForm($para_temp, $method='post', $button_name='', $auto=true, $target='_self')
     {
         //待请求参数数组
         $para = $this->buildRequestPara($para_temp);
 
-        $sHtml = "<form id='alipaysubmit' name='alipaysubmit' action='" . $this->alipay_gateway_new . "_input_charset=" . trim(strtolower($this->p_set['input_charset'])) . "' method='" . $method . "'>";
+        // 生成表单
+        $sHtml = "<form id='alipaysubmit' name='alipaysubmit' action='". $this->alipay_gateway_new ."_input_charset=" . trim(strtolower($this->p_set['input_charset'])) ."' method='". $method ."' target='". $target ."'>";
         while (list($key, $val) = each($para)) {
-            $sHtml .= "<input type='hidden' name='" . $key . "' value='" . $val . "'/>";
+            $sHtml .= "<input type='hidden' name='". $key ."' value='". $val ."'/>";
         }
         //submit按钮控件请不要含有name属性
-        $sHtml = $sHtml . "<input type='submit' class='btnPayment' value='" . $button_name . "'></form>";
+        $sHtml = $sHtml ."<input type='submit' class='btnPayment' value='". $button_name ."'></form>";
 
-        // $sHtml = $sHtml."<script>document.forms['alipaysubmit'].submit();</script>";
+        if ($auto===true) {
+            echo $sHtml."<script>document.forms['alipaysubmit'].submit();</script>";exit;
+        }
         return $sHtml;
     }
 
     /**
-     * 建立请求，以表单URL形式构造（默认）
+     * 建立请求，以URL形式构造（简单）
      * @param $para_temp 请求参数数组
      * @return URL 字串
      * &not 会被转译成 ¬ ，所以用 &amp 代替 &。但在实际生产时 $payurl = str_replace('&amp','&',$payurl);// 替换实体字符
      */
-    public function buildRequestURL($para_temp)
+    public function buildRequestURL($para_temp, $auto=true, $target='_self')
     {
         //待请求参数数组
         $para = $this->buildRequestPara($para_temp);
 
-        $sHtml = $this->alipay_gateway_new . "_input_charset=" . trim(strtolower($this->p_set['input_charset']));
+        $sHtml = $this->alipay_gateway_new ."_input_charset=". trim(strtolower($this->p_set['input_charset']));
         while (list($key, $val) = each($para)) {
-            $sHtml .= '&amp' . $key . '=' . $val;
+            $sHtml .= '&amp'. $key .'='. $val;
+        }
+
+        if ($auto==true) {
+            // URL跳转
+            $url = str_replace('&amp','&',$sHtml);// 替换实体字符
+            // echo '<script src="static/js/jquery.js"></script>';
+            echo '<script type="text/javascript">window.location.href="'.$url.'"</script>';exit;
         }
 
         // return urlencode($sHtml);// 不是所需的
@@ -160,7 +170,7 @@ class AlipaySubmit
      */
     public function query_timestamp()
     {
-        $url         = $this->alipay_gateway_new . "service=query_timestamp&partner=" . trim(strtolower($this->p_set['partner'])) . "&_input_charset=" . trim(strtolower($this->p_set['input_charset']));
+        $url = $this->alipay_gateway_new ."service=query_timestamp&partner=". trim(strtolower($this->p_set['partner'])) ."&_input_charset=". trim(strtolower($this->p_set['input_charset']));
         $encrypt_key = "";
 
         $doc = new DOMDocument();

@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50540
 File Encoding         : 65001
 
-Date: 2017-12-18 18:46:26
+Date: 2017-12-19 16:08:01
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -4093,7 +4093,7 @@ INSERT INTO `cmf_district` VALUES ('3408', '3401', '0', '肥西县', '3');
 DROP TABLE IF EXISTS `cmf_funds_apply`;
 CREATE TABLE `cmf_funds_apply` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '申请',
-  `type` char(10) NOT NULL DEFAULT 'withdraw' COMMENT '用户操作类型：withdraw充值 recharge充值 openshop开店 ',
+  `type` char(10) NOT NULL DEFAULT 'withdraw' COMMENT '用户操作类型：withdraw提现 recharge充值 openshop开店 ',
   `user_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '用户Id',
   `order_sn` varchar(30) NOT NULL DEFAULT '' COMMENT '订单号：type为recharge时',
   `account` varchar(50) NOT NULL DEFAULT '' COMMENT '账号：type为withdraw时',
@@ -4977,34 +4977,34 @@ CREATE TABLE `cmf_third_party_user` (
 DROP TABLE IF EXISTS `cmf_trade_order`;
 CREATE TABLE `cmf_trade_order` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '订单编号',
-  `car_id` int(11) unsigned NOT NULL COMMENT '车子ID',
+  `car_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '车子ID',
   `deal_uid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '处理人ID',
   `order_sn` varchar(30) NOT NULL DEFAULT '' COMMENT '订单号',
-  `order_name` varchar(150) NOT NULL COMMENT '订单名称',
-  `buyer_uid` int(11) unsigned NOT NULL COMMENT '买家编号',
-  `buyer_username` varchar(20) NOT NULL COMMENT '买家用户名',
-  `buyer_contact` varchar(60) NOT NULL COMMENT '买家联系方式',
+  `order_name` varchar(150) NOT NULL DEFAULT '' COMMENT '订单名称',
+  `buyer_uid` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '买家编号',
+  `buyer_username` varchar(20) NOT NULL DEFAULT '' COMMENT '买家用户名',
+  `buyer_contact` varchar(60) NOT NULL DEFAULT '' COMMENT '买家联系方式',
   `buyer_address` varchar(255) NOT NULL DEFAULT '' COMMENT '收货地址',
   `seller_uid` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '卖家编号',
-  `seller_username` varchar(30) NOT NULL COMMENT '卖家用户名',
-  `pay_id` varchar(30) NOT NULL DEFAULT '' COMMENT '支付标识：alipay支付宝 wxjs微信js  wxnative微信扫码',
+  `seller_username` varchar(30) NOT NULL DEFAULT '' COMMENT '卖家用户名',
+  `pay_id` varchar(30) NOT NULL DEFAULT '' COMMENT '支付标识：alipay支付宝 alipaywap支付宝移动端 wxpayjs微信js  wxpaynative微信扫码',
   `bargain_money` decimal(10,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '订金、预约金',
   `nums` tinyint(3) unsigned NOT NULL DEFAULT '1' COMMENT '数量',
   `product_amount` decimal(10,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '产品金额',
-  `shipping_id` varchar(30) NOT NULL COMMENT '快递标识',
+  `shipping_id` varchar(30) NOT NULL DEFAULT '' COMMENT '快递标识',
   `shipping_fee` decimal(10,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '快递费',
-  `tracking_no` varchar(30) NOT NULL COMMENT '快递单号',
+  `tracking_no` varchar(30) NOT NULL DEFAULT '' COMMENT '快递单号',
   `order_amount` decimal(10,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '总价',
-  `refund` decimal(10,2) NOT NULL COMMENT '退款',
-  `remark` varchar(255) NOT NULL COMMENT '备注，给管理员区分记录类型用',
-  `description` varchar(255) NOT NULL COMMENT '描述，给前台用户用',
+  `refund` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '退款',
+  `remark` varchar(255) NOT NULL DEFAULT '' COMMENT '备注，给管理员区分记录类型用',
+  `description` varchar(255) NOT NULL DEFAULT '' COMMENT '描述，给前台用户用',
   `more` text COMMENT '扩展数据：',
   `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '下单时间',
   `pay_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '支付时间',
   `end_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '完成时间',
   `delete_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '删除时间',
   `status` tinyint(3) NOT NULL DEFAULT '0' COMMENT '状态：-11过期 -5卖家取消失败,-4买家取消失败,-3管理员取消,-2卖家取消,-1买家取消,0未支付订金,1预约中,8支付全部,10完成(确认收货)',
-  `audit_data` varchar(255) NOT NULL COMMENT '审核资料：上传票据照片',
+  `audit_data` varchar(255) NOT NULL DEFAULT '' COMMENT '审核资料：上传票据照片',
   PRIMARY KEY (`id`),
   KEY `idx1` (`pay_id`),
   KEY `idx2` (`buyer_uid`),
@@ -5015,7 +5015,7 @@ CREATE TABLE `cmf_trade_order` (
 -- ----------------------------
 -- Records of cmf_trade_order
 -- ----------------------------
-INSERT INTO `cmf_trade_order` VALUES ('1', '1', '0', 'DSC20171025-f5re4e', '', '3', '洛萨', '18356082312', '合肥市蜀山区佛子岭路66号', '1', 'admin', 'alipay', '0.00', '1', '0.00', '', '0.00', '', '100.00', '0.00', '订单测试', '', '{\"username\":\"\",\"contact\":\"\",\"driving_license\":\"\"}', '1509613450', '0', '0', '0', '8', '');
+INSERT INTO `cmf_trade_order` VALUES ('1', '1', '0', 'seecar_2017120253101898', '', '3', '洛萨', '18356082312', '合肥市蜀山区佛子岭路66号', '1', 'admin', 'alipay', '0.00', '1', '0.00', '', '0.00', '', '100.00', '0.00', '订单测试', '', '{\"username\":\"\",\"contact\":\"\",\"driving_license\":\"\"}', '1509613450', '0', '0', '0', '8', '');
 
 -- ----------------------------
 -- Table structure for cmf_trade_order_detail
@@ -5108,7 +5108,7 @@ CREATE TABLE `cmf_user` (
 -- ----------------------------
 INSERT INTO `cmf_user` VALUES ('1', '1', 'admin', 'admin', '###b0b5b1441fcc40910db4b7d99d049ddf', '###b0b5b1441fcc40910db4b7d99d049ddf', 'admin@admin.com', '', '', '0', '0', '0.00', '0.00', '0.00', '0', '', '', '1507865317', '1513225427', '127.0.0.1', '1', '', '');
 INSERT INTO `cmf_user` VALUES ('2', '1', '超人不会飞', 'super', '###797fe4d0d1b299ac9b581f4fa4025dbb', '###797fe4d0d1b299ac9b581f4fa4025dbb', 'super@qq.com', '', '', '0', '0', '0.00', '0.00', '0.00', '0', '', '', '0', '0', '', '1', '', '');
-INSERT INTO `cmf_user` VALUES ('3', '1', '洛萨', 'lothar', '###797fe4d0d1b299ac9b581f4fa4025dbb', '###797fe4d0d1b299ac9b581f4fa4025dbb', 'lothar@qq.com', '13333333333', 'avatar/20171125/584d5aa4308ccc597df494da2b84700d.jpg', '0', '0', '8000.00', '100.00', '0.00', '785865600', '', '', '0', '1513235912', '127.0.0.1', '1', '', '{\"qq\":\"34242432\",\"address\":\"56特有涂改液\"}');
+INSERT INTO `cmf_user` VALUES ('3', '1', '洛萨', 'lothar', '###797fe4d0d1b299ac9b581f4fa4025dbb', '###797fe4d0d1b299ac9b581f4fa4025dbb', 'lothar@qq.com', '13333333333', 'avatar/20171125/584d5aa4308ccc597df494da2b84700d.jpg', '0', '0', '8000.00', '100.00', '0.00', '785865600', '', '', '0', '1513649941', '127.0.0.1', '1', '', '{\"qq\":\"34242432\",\"address\":\"56特有涂改液\"}');
 INSERT INTO `cmf_user` VALUES ('4', '2', '', '', '###797fe4d0d1b299ac9b581f4fa4025dbb', '###797fe4d0d1b299ac9b581f4fa4025dbb', '', '18956471234', '', '0', '0', '0.00', '0.00', '0.00', '0', '', '', '1512194173', '1512194173', '127.0.0.1', '2', '', null);
 
 -- ----------------------------
@@ -5740,7 +5740,7 @@ CREATE TABLE `cmf_verify_model` (
   `status` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT '状态：0关闭 1开启',
   `list_order` float unsigned NOT NULL DEFAULT '10000' COMMENT '排序：从小到大',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Records of cmf_verify_model

@@ -62,14 +62,63 @@ class PostController extends HomeBaseController
         $this->assign('formurl',url('Post/seeCarPost', $where));
         return $this->fetch();
     }
+    // 提交预约看车 paytype,action,order_sn,coin
     public function seeCarPost()
     {
+        if (!cmf_is_user_login()) {
+            $this->error('请登录',url('user/Login/index'));
+        }
+
+        // 前置数据
         $data = $this->request->param();
         $data['action'] = 'seecar';
-        // $setting = cmf_get_option('usual_settings');
-        // $data['coin'] = $setting['deposit'];
 
-        $this->redirect('funds/Pay/pay',$data);
+        // 获取用户数据
+        $user = cmf_get_current_user();
+        $username = empty($user['user_nickname']) ? (empty($user['mobile'])?$user['user_login']:$user['mobile']) : $user['user_nickname'];
+
+        $id = $this->request->param('id',0,'intval');
+        $jumpurl = url('trade/Post/seeCar',['id'=>$id]);
+        // 查重
+        $oId = Db::name('trade_order')->where(['buyer_uid'=>$user['id'],'car_id'=>$id])->value('id');
+        if (!empty($oId)) {
+            $this->error('请勿重复提交',url('user/Buyer/index',['id'=>$oId]));
+        }
+
+        // 获取车辆表数据
+        $where['a.id'] = $id;
+        $carInfo = Db::name('usual_car')->alias('a')
+                 ->join('user b','a.user_id=b.id')
+                 ->field('a.user_id,a.name,a.bargain_money,b.mobile,b.user_nickname,b.user_login')
+                 ->where($where)->find();
+        if (empty($carInfo)) {
+            $this->error('数据不存在！',url('trade/Index/index'));
+        }
+        $seller_username = empty($carInfo['user_nickname']) ? (empty($carInfo['mobile'])?$carInfo['user_login']:$carInfo['mobile']) : $carInfo['user_nickname'];
+
+        // 生成车单
+        $post = [
+            'car_id'            => $id,
+            'order_sn'          => cmf_get_order_sn($data['action'].'_'),
+            'buyer_uid'         => $user['id'],
+            'buyer_username'    => $username,
+            'buyer_contact'     => $user['mobile'],
+            'seller_uid'        => $carInfo['user_id'],
+            'seller_username'   => $seller_username,
+            // 'pay_id'            => $data['paytype'],
+            'bargain_money'     => $carInfo['bargain_money'],
+            'description'       => $carInfo['name'],
+            'create_time'       => time(),
+        ];
+        $intId = Db::name('trade_order')->insertGetId($post);
+        if (empty($intId)) {
+            $this->error('预约失败,请检查',$jumpurl);
+        } else {
+            $data['order_sn'] = $post['order_sn'];
+            $data['coin']     = $post['bargain_money'];
+            unset($data['id']);
+            $this->success('前往支付中心……',cmf_url('funds/Pay/callback',$data));
+        }
     }
 
     /*
@@ -88,24 +137,41 @@ class PostController extends HomeBaseController
         $this->assign('formurl',url('Post/depositPost'));
         return $this->fetch();
     }
+    // 提交开店押金 paytype,action,coin
     public function depositPost()
     {
+        if (!cmf_is_user_login()) {
+            $this->error('请登录',url('user/Login/index'));
+        }
         # \app\funds\controller\PayController.php
         $data = $this->request->param();
         $data['action'] = 'openshop';
-        // $setting = cmf_get_option('usual_settings');
-        // $data['coin'] = $setting['deposit'];
+        $setting = cmf_get_option('usual_settings');
+        $data['coin'] = $setting['deposit'];
 
-        // $data = [
-        //     'title'     => '开店申请',
-        //     'object'    => 'funds_apply:'.$vid,
-        //     'content'   => '客户ID：'.$userInfo['id'].'，车子ID：'.$id,
-        //     'adminurl'  => 8,
-        // ];
-        // lothar_put_news($data);
+        $userId = cmf_get_current_user_id();
 
+        // 检查是否已有记录
+        if (Db::name('funds_apply')->where(['user_id'=>$userId,'type'=>$data['action']])->count()>0) {
+            $this->error('开店申请记录已存在',url('user/Funds/apply'));
+        }
 
-        $this->redirect('funds/Pay/pay',$data);
+        // 开店申请
+        $post = [
+            'type'      => 'openshop',
+            'user_id'   => $userId,
+            'order_sn'  => cmf_get_order_sn($data['action'].'_'),
+            'coin'      => $data['coin'],
+            'payment'   => $data['paytype'],
+            'create_time' => time(),
+        ];
+        $id = Db::name('funds_apply')->insertGetId($post);
+
+        if (empty($id)) {
+            $this->error('开店申请失败');
+        }
+        $data['order_sn'] = $post['order_sn'];
+        $this->success('前往支付中心……',cmf_url('funds/Pay/pay',$data));
     }
 
     // 登记卖车信息

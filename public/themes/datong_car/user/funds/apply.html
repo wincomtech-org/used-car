@@ -45,21 +45,19 @@
                                         </thead>
                                         <tbody>
                                             <php>
-                                                $types = config('payment');
+                                                $paytype = config('payment');
                                                 $statusV = config('funds_apply_status');
+                                                $types = config('funds_apply_type');
                                             </php>
                                             <foreach name="list" item="vo">
                                             <tr>
                                                 <td>#{$vo.id}</td>
                                                 <td>{$vo.coin}</td>
                                                 <td>
-                                                    {$types[$vo.payment]}
+                                                    {$paytype[$vo.payment]}
                                                 </td>
                                                 <td>
-                                                    <switch name="vo.type">
-                                                        <case value="withdraw">提现</case>
-                                                        <default/>管理员操作
-                                                    </switch>
+                                                    {$types[$vo.type]}
                                                 </td>
                                                 <td>{:date('Y-m-d H:i:s',$vo.create_time)}</td>
                                                 <td>
@@ -69,7 +67,9 @@
                                                     <eq name="vo.status" value="0,-1">
                                                     <a href="{:url('user/Funds/withdrawCancel',['id'=>$vo.id])}">取消</a>
                                                     </eq>
+                                                    <eq name="vo.type" value="withdraw">
                                                     <a href="{:url('user/Funds/withdrawView',['id'=>$vo.id])}">查看</a>
+                                                    </eq>
                                                     <!-- <a href="{//:url('user/Funds/del?',['id'=>$vo.id])}">删除</a> -->
                                                 </td>
                                             </tr>

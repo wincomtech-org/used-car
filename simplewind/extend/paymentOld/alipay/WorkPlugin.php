@@ -48,29 +48,27 @@ class WorkPlugin
      * +----------------------------------------------------------
     */
     // 表单
-    public function workForm() {
+    public function workForm($auto=true) {
         // 建立请求
         $alipaySubmit = new AlipaySubmit($this->p_set());
-        $html_text = $alipaySubmit->buildRequestForm($this->parameter(),"post","付款");
+        $html_text = $alipaySubmit->buildRequestForm($this->parameter(),"post","付款",$auto);
         return $html_text;
     }
 
     // URL
-    public function workUrl($data=[])
+    public function workUrl($auto=true)
     {
         // 建立请求
         $alipaySubmit = new AlipaySubmit($this->p_set());
-        $sResult = $alipaySubmit->buildRequestURL($this->parameter());
+        $sResult = $alipaySubmit->buildRequestURL($this->parameter(),$auto);
 
         // URL跳转
-        $sResult = str_replace('&amp','&',$sResult);// 替换实体字符
-        echo '<script src="static/js/jquery.js"></script><script type="text/javascript">window.location.href="'.$sResult.'"</script>';exit;
-
-        // return $sResult;
+        // $sResult = str_replace('&amp','&',$sResult);// 替换实体字符
+        // echo '<script src="static/js/jquery.js"></script><script type="text/javascript">window.location.href="'.$sResult.'"</script>';exit;
     }
 
     // CURL模式
-    public function workCurl($data=[])
+    public function workCurl()
     {
         // 建立请求
         $alipaySubmit = new AlipaySubmit($this->p_set());
@@ -79,7 +77,7 @@ class WorkPlugin
     }
 
     // 二维码
-    public function QRcode($value='')
+    public function QRcode()
     {
         # code...
     }

@@ -204,7 +204,7 @@ class PostController extends HomeBaseController
             $this->error('ID非法');
         }
 
-        $insurOrder = Db::name('insurance_order')->field('amount,status,insurance_id')->where('id',$orderId)->find();
+        $insurOrder = Db::name('insurance_order')->field('order_sn,amount,status,insurance_id')->where('id',$orderId)->find();
 
         $where = ['id'=>$insurOrder['insurance_id'],'identi_status'=>1,'status'=>1];
         // $insurInfo = model('Insurance')->getPost($insurOrder['insurance_id']);
@@ -246,23 +246,21 @@ class PostController extends HomeBaseController
             Db::name('insurance_order')->where($where)->setField('status',5);
         }
 
-        $this->assign('formurl',url('step7',$where));
+        $this->assign('formurl',url('step7',['order_sn'=>$data['order_sn']]));
         $this->assign($data);
         return $this->fetch();
     }
 
-    // 结果
+    // 结果 paytype,order_sn,action
     public function step7()
     {
         if (!cmf_is_user_login()) {
             $this->error('请登录',url('user/Login/index'));
         }
+
         $data = $this->request->param();
         $data['action'] = 'insurance';
-
-        $data['order_sn'] = Db::name('insurance_order')->where('id',$data['id'])->value('order_sn');
-
-        $this->redirect('funds/Pay/pay',$data);
+        $this->success('前往支付中心……',cmf_url('funds/Pay/pay',$data));
     }
 
     // 查看险种

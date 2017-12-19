@@ -83,11 +83,10 @@ class FundsController extends UserBaseController
     {
         return $this->fetch();
     }
-
+    // 提交充值 paytype,action,coin
     public function rechargePost()
     {
         $data = $this->request->param();
-        // dump($data);
 
         $valid = [
             'user_id'   => $this->user['id'],
@@ -102,15 +101,13 @@ class FundsController extends UserBaseController
             $this->error($result);
         }
 
-        $post = [
+        // 支付接口
+        $data = [
             'paytype'  => $valid['payment'],
             'action'  => 'recharge',
             'coin'  => $valid['coin'],
         ];
-
-        // 支付接口
-        $this->redirect('funds/Pay/pay', $post);
-
+        $this->success('前往支付中心……',cmf_url('funds/Pay/pay',$data));
     }
 
     // 提现
@@ -259,9 +256,21 @@ class FundsController extends UserBaseController
         }
     }
 
+    /*
+    * 申请列表
+    * @param $type=withdraw|openshop
+    */
     public function apply()
     {
-        $where = ['user_id'=>$this->user['id'],'type'=>'withdraw'];
+        $type = $this->request->param('type','','strval');
+        if (!empty($type)) {
+            $where['type'] = $type;
+        } else {
+            $where['type'] = ['in','withdraw|openshop'];
+        }
+        $where = [
+            'user_id'=>$this->user['id'],
+        ];
         $list = Db::name('funds_apply')->where($where)->order('id','DESC')->paginate(15);
 
         $this->assign('list', $list);

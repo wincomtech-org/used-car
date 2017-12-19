@@ -41,6 +41,7 @@
                             </span>
                             <label for="contract_label">同意上述条例，自投保日30内成功支付首期保险费，方可生效。</label>
                         </p>
+                        <input type="hidden" name="order_sn" value="{$order.order_sn}">
                         <input type="hidden" name="amount" value="{$order.amount}">
                         <input type="hidden" name="insurName" value="{$Info.name}">
                         <input type="hidden" name="id" value="{$id}">

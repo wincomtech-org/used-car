@@ -18,9 +18,8 @@
                     <div class="right">
                         <form action="{$formurl}" method="post" class="js-ajax-form" onsubmit="getElementById('submitCash').disabled=true;return true;">
                             <input type="hidden" name="paytype" value="cash">
-                            <button id="submitCash" class="sure_pay js-ajax-submit1" type="submit">确认支付</button>
+                            <button id="submitCash" class="sure_pay js-ajax-submit" type="submit">确认支付</button>
                         </form>
-                        <!-- <a href="{:url('funds/Pay/pay',['type'=>'cash','action'=>'deposit'])}" class="sure_pay">确认支付</a> -->
                     </div>
                 </div>
             </div>
@@ -56,9 +55,8 @@
                                             <div class="button">
                                                 <form action="{$formurl}" method="post" class="js-ajax-form" onsubmit="getElementById('submitAlipay').disabled=true;return true;">
                                                     <input type="hidden" name="paytype" value="alipay">
-                                                    <button id="submitAlipay" class="sure_pay js-ajax-submit1" type="submit">立即支付</button>
+                                                    <button id="submitAlipay" class="sure_pay js-ajax-submit" type="submit">立即支付</button>
                                                 </form>
-                                                <!-- <a href="{//:url('funds/Pay/index',['type'=>'alipay','action'=>'deposit'])}" class="">立即支付</a> -->
                                             </div>
                                         </div>
                                         <div class="clear"></div>
