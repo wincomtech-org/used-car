@@ -139,6 +139,10 @@ class PayController extends HomeBaseController
                 }
                 $this->error($msg);
             } else {
+                // 临时判断
+                if ($data['paytype']=='wxpay') {
+                    $this->error('微信支付尚未开通,请联系管理员');
+                }
                 // 发起在线支付
                 $order_sn = empty($data['order_sn'])?cmf_get_order_sn($action.'_'):$data['order_sn'];
                 $amount = $data['coin'];
