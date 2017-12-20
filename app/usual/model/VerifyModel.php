@@ -82,5 +82,24 @@ class VerifyModel extends UsualModel
         return $this->getStatus($status,'verify_status');
     }
 
+    /*
+    * 用户认证状态信息
+    * @param $uid 默认是当前用户
+    * @param $code 默认是实名认证
+    * @param $data 是否返回数据集、统计
+    * @return boolean or array
+    */
+    public function verify($uid=null, $code='certification', $data=false)
+    {
+        $result = lothar_verify($uid, $code, $data);
+        return $result;
+    }
+
+    // 提交认证数据
+    public function addVerify($data,$userId)
+    {
+        # code...
+    }
+
 
 }

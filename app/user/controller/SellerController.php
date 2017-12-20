@@ -90,14 +90,16 @@ class SellerController extends TradeController
     public function car()
     {
         // $param = $this->request->param();
-        // $id = $this->request->param('id/d');
+        $id = $this->request->param('id/d');
         $userId = cmf_get_current_user_id();
         // $userId = 1;
 
         $extra = ['a.user_id'=>$userId];
+        if (!empty($id)) {
+            $extra = ['a.id'=>$id];
+        }
 
-        $list = model('usual/UsualCar')->getLists([],'','',$extra);
-// dump($list);die;
+        $list = model('usual/UsualCar')->getLists([],'a.id DESC','',$extra);
 
         $this->assign('list', $list->items());// 获取查询数据并赋到模板
         // $list->appends($param);//添加分页URL参数
@@ -112,10 +114,10 @@ class SellerController extends TradeController
         $id = $this->request->param('id/d',0,'intval');
         $srcol = $this->request->param('srcol/s','base','strval');
         $userId = cmf_get_current_user_id();
-        // 用户认证状态
+        // 用户实名认证状态
         $identify = lothar_verify($userId);
-        // $identify = 1;
         // 开店资料审核 config('verify_define_data');
+        $verifyinfo = lothar_verify($userId,'seller',true);
 
         // 实例化
         $carModel = new UsualCarModel();
@@ -125,10 +127,7 @@ class SellerController extends TradeController
         $itemModel = new UsualItemModel();
         $zoneModel = new DistrictModel();
 
-        $post = $carModel->getPost($id);
-// dump($post);die;
-
-        if (empty($post)) {
+        if (empty($id)) {
             $Brands = $brandModel->getBrands();
             $Models = $moModel->getModels();
             $Series = $serieModel->getSeries();
@@ -137,6 +136,7 @@ class SellerController extends TradeController
             // 车源类别
             $Types = $carModel->getCarType();
         } else {
+            $post = $carModel->getPost($id);
             $Brands = $brandModel->getBrands($post['brand_id']);
             $Models = $moModel->getModels($post['model_id']);
             $Series = $serieModel->getSeries($post['serie_id']);
@@ -147,6 +147,7 @@ class SellerController extends TradeController
             $Types = $carModel->getCarType($post['type']);
             $this->assign('Series2', $Series2);
             $this->assign('Citys', $Citys);
+            $this->assign('post',$post);
         }
 
         // 用于前台车辆条件筛选且与属性表name同值的字段码
@@ -179,8 +180,8 @@ class SellerController extends TradeController
         $this->assign('noobCate', $noobCate);
         $this->assign('noobHelps', $noobHelps);
 
-        $this->assign('post',$post);
         $this->assign('identify',$identify);
+        $this->assign('verifyinfo',$verifyinfo);
         $this->assign('srcol',$srcol);
         return $this->fetch('car_info');
     }
@@ -189,11 +190,10 @@ class SellerController extends TradeController
     {
         $userId = cmf_get_current_user_id();
 
-        // 是否第一次申请登记 如果是交保证金 deposit
-        $count = Db::name('user_funds_log')->where(['user_id'=>$userId,'type'=>5])->count();
-        if (empty($rcount)) {
-            // $this->redirect('trade/Post/deposit');
-            $this->error('系统检测到您还未交开店保证金',url('trade/Post/deposit'));
+        // 卖车资质证明
+        $rs = model('trade/Trade')->check_sell($userId);
+        if (!empty($rs)) {
+            $this->error($rs[1], $rs[2],'',5);
         }
 
         if ($this->request->isPost()) {
@@ -213,19 +213,16 @@ class SellerController extends TradeController
 
             $carModel = new UsualCarModel();
 
-            if (empty($post['sell_status'])) {
-                $valid = 'seller';
+            if (empty($id)) {
+                $post['create_time'] = time();
+                $valid = 'add';
             } else {
-                if (empty($id)) {
-                    $post['create_time'] = time();
-                    $valid = 'add';
-                } else {
-                    $valid = 'edit';
-                }
+                $valid = 'edit';
             }
+
             $result = $this->validate($post,'usual/Car.'.$valid);
             if ($result !== true) {
-                $this->error($result);
+                $this->error($result,null,'',5);
             }
 
             /*处理图片*/
@@ -233,46 +230,83 @@ class SellerController extends TradeController
             if (!empty($data['photo'])) {
                 $post['more']['photos'] = $carModel->dealFiles($data['photo']);
             }
-            if (!empty($data['identity_card'])) {
-                $post['identi']['identity_card'] = $carModel->dealFiles($data['identity_card']);
-            }
             if (!empty($data['file'])) {
                 $post['more']['files'] = $carModel->dealFiles($data['file']);
             }
 
             if (empty($id)) {
-                // $verify['more'] = $post['identi'];
-                // 事务处理
-                $transStatus = true;
-                Db::startTrans();
-                try{
-                     // 二维数组 需要被序列化，用模型处理
-                    $result = $carModel->adminAddArticle($post);
-                    $id = $result->id;
-                    // $result = model('usual/Verify')->adminAddArticle($verify);
-                    // $vid = $result->id;
-
-                    // 提交事务
-                    Db::commit();
-                } catch (\Exception $e) {
-                    // 回滚事务
-                    Db::rollback();
-                    $transStatus = false;
-                    // throw $e;
-                }
+                 // 二维数组 需要被序列化，用模型处理
+                $result = $carModel->adminAddArticle($post);
+                $id = $result->id;
             } else {
                 $result = $carModel->adminEditArticle($post);
                 // 审核资料重新审核时
-
-                $transStatus = true;
             }
 
-            if ($transStatus===true) {
-                $this->success('提交成功',url('Trade/carInfo',['id'=>$id]));
-            } else {
-                $this->error('提交失败',url('Trade/carInfo'));
-            }
+            $this->success('提交成功',url('Seller/car',['id'=>$id]));
         }
+    }
+
+    // 店铺 个人审核资料填写
+    public function audit()
+    {
+        $userId = cmf_get_current_user_id();
+        $verifyinfo = lothar_verify($userId,'seller',true);
+        // 如果审核通过，不予再审核
+
+        $this->assign('verifyinfo',$verifyinfo);
+        return $this->fetch();
+    }
+    public function auditPost()
+    {
+        $userId = cmf_get_current_user_id();
+        $data = $this->request->param();
+        $post = $data['verify'];
+        
+        // 直接拿官版的
+        if (!empty($data['identity_card'])) {
+            $post['more']['identity_card'] = model('usual/Usual')->dealFiles($data['identity_card']);
+        }
+
+        $post = array_merge([
+            'user_id'   =>$userId,
+            'auth_code' =>'seller',
+            'create_time'=>time()
+        ],$post);
+
+        // 验证数据的完备性
+        $result = $this->validate($post,'usual/Verify.seller');
+        if ($result!==true) {
+            $this->error($result);
+        }
+
+        // 事务处理
+        $transStatus = true;
+        Db::startTrans();
+        try{
+            if (empty($post['id'])) {
+                $result = model('usual/Verify')->adminAddArticle($post);
+            } else {
+                $result = model('usual/Verify')->adminEditArticle($post);
+            }
+            // $vid = $result->id;
+            // $log = [
+            //     'title'     => '店铺认证',
+            //     'object'    => 'verify:'.$vid,
+            //     'content'   => '客户ID：'.$userId,
+            //     'adminurl'  => 7,
+            // ];
+            // lothar_put_news($log);
+            Db::commit();
+        } catch (\Exception $e) {
+            Db::rollback();
+            $transStatus = false;
+        }
+
+        if ($transStatus===false) {
+            $this->error('提交失败');
+        }
+        $this->success('提交成功，请耐心等待后台审核……',url('Seller/audit'));
     }
 
 

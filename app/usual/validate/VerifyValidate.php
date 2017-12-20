@@ -7,7 +7,12 @@ class VerifyValidate extends Validate
 {
     protected $rule = [
         'auth_code' => 'require',
-        // 'user_id' => 'gt:0',
+        'user_id' => 'gt:0',
+        'more.username' => 'require',
+        'more.contact' => 'require',
+        'more.plateNo' => 'require',
+        'more.driving_license' => 'require',
+        'more.identity_card' => 'require',
     ];
     protected $message = [
         'auth_code' => '请选择模型',
@@ -16,6 +21,7 @@ class VerifyValidate extends Validate
     protected $scene = [
        'add'  => ['auth_code'],
        'edit' => ['auth_code'],
+       'seller'=>[],
     ];
 
     protected function checkUid($value)

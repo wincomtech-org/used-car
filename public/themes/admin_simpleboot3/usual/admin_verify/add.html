@@ -78,7 +78,7 @@
                 </table>
                 <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-10">
-                        <button type="submit" class="btn btn-primary js-ajax-submit1">{:lang('ADD')}</button>
+                        <button type="submit" class="btn btn-primary js-ajax-submit">{:lang('ADD')}</button>
                         <a class="btn btn-default" href="{:url('AdminVerify/index')}">{:lang('BACK')}</a>
                     </div>
                 </div>
@@ -93,15 +93,6 @@
                             <input class="form-control js-bootstrap-datetime"
                                     name="post[create_time]"
                                     value="{:date('Y-m-d H:i:s',time())}">
-                        </td>
-                    </tr>
-                    <tr>
-                        <th><b>完成时间</b></th>
-                    </tr>
-                    <tr>
-                        <td>
-                            <input class="form-control js-bootstrap-datetime" type="text" name="post[end_time]"
-                                   value="{:date('Y-m-d H:i:s',time())}">
                         </td>
                     </tr>
                     <tr>

@@ -1,47 +1,48 @@
 <div class="info_tit">
     个人审核资料填写 
-    <ul class="page_turning">
-        <li><a class="pre">上一页</a></li>
-        <notempty name="identify">
-            <li><a class="next">下一页</a></li>
-        </notempty>
-    </ul>
+    <neq name="u_s_nav" value="audit">
+        <a href="{:url('user/Seller/audit')}" style="color:#F00">>>去审核</a>
+        <ul class="page_turning">
+            <li><a class="pre">上一页</a></li>
+            <notempty name="post.identi_status">
+                <li><a class="next">下一页</a></li>
+            </notempty>
+        </ul>
+    </neq>
 </div>
 
 <!-- 开店资料审核 config('verify_define_data'); -->
 <div class="home_list">
 <ul class="info_detail_list">
     <li class="details_item">
-        <span class="details_tit">姓名</span>
+        <span class="details_tit">用户名（车主）</span>
         <div class="idetails_con">
-            <input class="placeholder" type="text" name="post[identi][username]" value="{$post.identi.username|default=''}" placeholder="姓名" />
+            <input class="placeholder" type="text" name="verify[more][username]" value="{$verifyinfo.more.username|default=''}" placeholder="姓名" />
         </div>
     </li>
     <li class="details_item">
         <span class="details_tit">联系方式</span>
         <div class="idetails_con">
-            <textarea class="placeholder" placeholder="" name="post[identi][contact]">{$post.identi.contact|default=''}</textarea>
+            <textarea class="placeholder" placeholder="" name="verify[more][contact]">{$verifyinfo.more.contact|default=''}</textarea>
         </div>
     </li>
     <li class="details_item">
         <span class="details_tit">车牌号码</span>
         <div class="idetails_con">
-            <input class="placeholder" type="text" 
-                name="post[identi][plateNo]" 
-                value="{$post.identi.plateNo?$post.identi.plateNo:$post.plateNo}" 
-                placeholder="7位的车牌号" maxlength="7" />
+            <php>if(empty($verifyinfo['more']['plateNo'])) { $verifyinfo_plateNo = ''; }</php>
+            <input class="placeholder" type="text" name="verify[more][plateNo]" value="{$post.plateNo?$post.plateNo:$verifyinfo.more.plateNo}" placeholder="7位的车牌号" minlength="7" maxlength="7" />
         </div>
     </li>
 
     <li class="details_item unauthorized" >
         <span class="details_tit">行车本照片</span>
         <div class="idetails_con">
-            <input type="hidden" name="post[identi][driving_license]" id="driving_license" value="{$post.identi.driving_license|default=''}" />
+            <input type="hidden" name="verify[more][driving_license]" id="driving_license" value="{$verifyinfo.more.driving_license|default=''}" />
             <a href="javascript:uploadOneImage('图片上传','#driving_license');" class="demonstrate_pre">
-                <if condition="empty($post.identi.driving_license)">
+                <if condition="empty($verifyinfo.more.driving_license)">
                     <img src="__TMPL__/public/assets/images/add.png" id="driving_license-preview"  style="cursor: pointer;max-width:200px"/>
                 <else/>
-                    <img src="{:cmf_get_image_preview_url($post.identi.driving_license)}" id="driving_license-preview" width="135" style="cursor: pointer"/>
+                    <img src="{:cmf_get_image_preview_url($verifyinfo.more.driving_license)}" id="driving_license-preview" width="135" style="cursor: pointer"/>
                 </if>
                 <i class="photo_tip">请上传行车本照片（尽可能的小）</i>
             </a>
@@ -58,8 +59,8 @@
         <span class="details_tit">身份证照片</span>
         <div class="idetails_con">
             <ul id="identity_card" class="pic-list list-unstyled form-inline">
-                <notempty name="post.identi.identity_card">
-                    <foreach name="post.identi.identity_card" item="vo">
+                <notempty name="verifyinfo.more.identity_card">
+                    <foreach name="verifyinfo.more.identity_card" item="vo">
                         <li id="saved-identity_card{$key}">
                             <input id="identity_card-{$key}" type="hidden"
                                    name="identity_card[urls][]" value="{$vo.url}" />
@@ -94,9 +95,10 @@
     <li class="details_item">
         <span class="details_tit"></span>
         <div class="idetails_con">
-            <empty name="identify">
+            <empty name="post.identi_status">
+                <input type="hidden" name="verify[id]" value="{$verifyinfo.id|default=''}">
                 <button type="submit" class="btn-red js-ajax-submit">{:lang('SAVE')}</button>
-                <a class="btn-red" href="{:url('Trade/seller')}">{:lang('BACK')}</a>
+                <!-- <a class="btn-red" href="javascript:history.back(-1);">{:lang('BACK')}</a> -->
             <else/>
                 <a class="btn-red pre">上一页</a>
                 <a class="btn-red next">下一页</a>

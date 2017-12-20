@@ -1,6 +1,2 @@
-执行日期：20171219152703
-
-执行日期：20171219153045
-
-执行日期：20171219153230
-
+执行日期：20171220115928
+{"buyer_email":"915273691@qq.com","buyer_id":"2088702363744512","exterface":"create_direct_pay_by_user","is_success":"T","notify_id":"RqPnCoPT3K9%2Fvwbh3Ih30BWhyC5T7PAr%2BE1Dj9UvxDhMdUUJL2XRYeL0Hopa1Pc8JYqe","notify_time":"2017-12-20 11:59:46","notify_type":"trade_status_sync","out_trade_no":"openshop_2017122051555110","payment_type":"1","seller_email":"lvshi908@163.com","seller_id":"2088621675273401","subject":"OrderSn\uff1aopenshop_2017122051555110 (\u5927\u901a\u8f66\u670d)","total_fee":"0.01","trade_no":"2017122021001004510243576044","trade_status":"TRADE_SUCCESS","sign":"0294022923893e9ac53ce0376e067bc6","sign_type":"MD5"}

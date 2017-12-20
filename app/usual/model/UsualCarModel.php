@@ -58,7 +58,7 @@ class UsualCarModel extends UsualModel
         }
 
         // 排序
-        $order = empty($order) ? 'is_top DESC,is_rec DESC,update_time DESC' : $order;
+        $order = empty($order) ? 'a.is_top DESC,a.is_rec DESC,a.update_time DESC' : $order;
 
         // 数据量
         $limit = empty($limit) ? config('pagerset.size') : $limit;

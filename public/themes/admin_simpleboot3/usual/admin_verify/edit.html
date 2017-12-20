@@ -20,7 +20,7 @@
                     <tr>
                         <th width="100">认证模型<span class="form-required">*</span></th>
                         <td>
-                            <select class="form-control" style="width:140px" name="post[model_id]" required>
+                            <select class="form-control" style="width:140px" required>
                                 {$category_tree}
                             </select>
                         </td>
@@ -29,13 +29,13 @@
                     <tr>
                         <th>用户ID<span class="form-required">*</span></th>
                         <td>
-                            <input class="form-control" type="text" name="post[user_id]" value="{$post.user_id|default=''}">
+                            <input class="form-control" type="text" value="{$post.user_id|default=''}" disabled>
                         </td>
                     </tr>
                     <tr>
                         <th>用户<span class="form-required">*</span></th>
                         <td>
-                            <input class="form-control" type="text" name="username" value="{$post.username|default=''}">
+                            <input class="form-control" type="text" value="{$post.username|default=''}">
                         </td>
                     </tr>
 
@@ -69,17 +69,17 @@
                                 </div>
                             </case>
                             <case value="gender">
-                                <input type="radio" name="post[more][$k]" value="1" {!$vo?='checked'}> 保密
-                                <input type="radio" name="post[more][$k]" value="1" {$vo==1?='checked'}> 男
-                                <input type="radio" name="post[more][$k]" value="2" {$vo==2?='checked'}> 女
+                                <input type="radio" value="1" {!$vo?='checked'}> 保密
+                                <input type="radio" value="1" {$vo==1?='checked'}> 男
+                                <input type="radio" value="2" {$vo==2?='checked'}> 女
                             </case>
                             <case value="birthday">
-                                <input type="text" name="post[more][$k]" value="{$vo?=date('Y-m-d',$vo)}" class="js-bootstrap-date">
+                                <input type="text" disabled value="{$vo?=date('Y-m-d',$vo)}" class="js-bootstrap-date">
                             </case>
                             <case value="work_experience">
-                                <textarea class="form-control" name="post[more][$k]">{$vo}</textarea>
+                                <textarea class="form-control" readonly>{$vo}</textarea>
                             </case>
-                            <default /><input class="form-control" name="post[more][{$k}]" value="{$vo|default=''}">
+                            <default /><input class="form-control" readonly value="{$vo|default=''}">
                         </switch>
                         </td>
                     </tr>
@@ -97,17 +97,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <th><b>预约时间</b></th>
-                    </tr>
-                    <tr>
-                        <td>
-                            <input class="form-control js-bootstrap-datetime" type="text"
-                                   name="post[appoint_time]"
-                                   value="{$post.appoint_time?=date('Y-m-d H:i',$post['appoint_time'])}">
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>失效时间</th>
+                        <th>结束时间</th>
                     </tr>
                     <tr>
                         <td>
@@ -128,7 +118,7 @@
                     <tr>
                         <td>
                             <div class="checkbox">
-                                <select class="form-control" name="post[status]" style="width:140px;">
+                                <select class="form-control" name="post[auth_status]" style="width:140px;">
                                     {$status_tree|default=''}
                                 </select>
                             </div>
@@ -140,7 +130,7 @@
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
                 <input type="hidden" name="post[id]" value="{$post.id}">
-                <button type="submit" class="btn btn-primary js-ajax-submit1">{:lang('SAVE')}</button>
+                <button type="submit" class="btn btn-primary js-ajax-submit">{:lang('SAVE')}</button>
                 <a class="btn btn-default" href="javascript:history.back(-1);">{:lang('BACK')}</a>
             </div>
         </div>

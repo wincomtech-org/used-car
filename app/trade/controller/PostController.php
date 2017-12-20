@@ -117,7 +117,7 @@ class PostController extends HomeBaseController
             $data['order_sn'] = $post['order_sn'];
             $data['coin']     = $post['bargain_money'];
             unset($data['id']);
-            $this->success('前往支付中心……',cmf_url('funds/Pay/callback',$data));
+            $this->success('前往支付中心……',cmf_url('funds/Pay/pay',$data));
         }
     }
 
@@ -158,7 +158,7 @@ class PostController extends HomeBaseController
 
         // 开店申请
         $post = [
-            'type'      => 'openshop',
+            'type'      => $data['action'],
             'user_id'   => $userId,
             'order_sn'  => cmf_get_order_sn($data['action'].'_'),
             'coin'      => $data['coin'],
@@ -182,18 +182,11 @@ class PostController extends HomeBaseController
         if (empty($userId)) {
             echo lothar_toJson(0,'您尚未登录',url("user/Login/index"));exit();
         }
-        // 是否认证
-        $identify = lothar_verify();
-        if (empty($identify)) {
-            echo lothar_toJson(0,'您未进行实名认证，请上传身份证',url('user/Profile/center'));exit();
-        }
 
-        // 是否第一次申请登记 如果是交保证金 deposit
-        $count = Db::name('user_funds_log')->where(['user_id'=>$userId,'type'=>5])->count();
-        if (empty($rcount)) {
-            // session('deposit_'.$userInfo['id'], $post);
-            // $this->redirect('deposit');
-            echo lothar_toJson(0,'系统检测到您还未交保证金',url('deposit'));exit();
+        // 卖车资质证明
+        $rs = model('Trade')->check_sell($userId);
+        if (!empty($rs)) {
+            echo lothar_toJson($rs[0], $rs[1], $rs[2]);exit();
         }
 
         // 获取数据 直接获取不到数据？
@@ -263,7 +256,7 @@ class PostController extends HomeBaseController
         }
 
         if ($sta===true) {
-            $result = lothar_toJson(1, '提交成功', url('user/Trade/sellerCar'), ['id'=>$id]);
+            $result = lothar_toJson(1, '提交成功', url('user/Seller/car'), ['id'=>$id]);
         } else {
             $result = lothar_toJson(0,'提交失败');
         }

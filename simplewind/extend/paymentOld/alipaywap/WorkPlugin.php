@@ -8,6 +8,7 @@ use traits\controller\Jump;
 
 /**
 * 支付宝支付接口
+* @@@ sign_type 签名方式需改
 */
 class WorkPlugin
 {
@@ -60,11 +61,7 @@ class WorkPlugin
     {
         // 建立请求
         $alipaySubmit = new AlipaySubmit($this->p_set());
-        $sResult = $alipaySubmit->buildRequestURL($this->parameter(),$auto);
-
-        // URL跳转
-        // $sResult = str_replace('&amp','&',$sResult);// 替换实体字符
-        // echo '<script src="static/js/jquery.js"></script><script type="text/javascript">window.location.href="'.$sResult.'"</script>';exit;
+        $alipaySubmit->buildRequestURL($this->parameter(),$auto);
     }
 
     // CURL模式
@@ -92,27 +89,10 @@ class WorkPlugin
         $verify_result = $alipayNotify->verifyReturn();
 
         if ($verify_result) { //验证成功
-            //请在这里加上商户的业务逻辑程序代码
-            //请根据您的业务逻辑来编写程序（以下代码仅作参考）
-            //获取支付宝的通知返回参数，可参考技术文档中页面跳转同步通知参数列表
-            // print_r($_GET);die;
-            // $out_trade_no   = $_GET['out_trade_no'];//商户订单号
-            // $trade_no       = $_GET['trade_no'];//支付宝交易号
-            $trade_status   = $_GET['trade_status'];//交易状态
-            // $total_fee      = $_GET['total_fee'];//交易金额
-            // $notify_id      = $_GET['notify_id'];//通知校验ID
-            // $notify_time    = $_GET['notify_time'];//通知的发送时间
-            // $buyer_email    = $_GET['buyer_email'];//买家支付宝帐号
-
-            if($trade_status=='TRADE_FINISHED') {
-                return array_merge($_GET,['status'=>10]);//支付完成
-            } elseif ($trade_status=='TRADE_SUCCESS') {
-                return array_merge($_GET,['status'=>1]);//支付成功
-            } else {
-                return false;//支付失败
-            }
-        } else {
-            //验证失败
+            $this->log($_GET);
+            // 在这里只管返回数据
+            return $_GET;
+        } else { //验证失败
             //调试
             $this->log($_GET);
             return false;
@@ -129,27 +109,10 @@ class WorkPlugin
         $verify_result = $alipayNotify->verifyNotify();
 
         if($verify_result) { //验证成功
-            // print_r($_POST);die;
-
-            //商户订单号
-            $out_trade_no = $_POST['out_trade_no'];
-            //支付宝交易号
-            $trade_no = $_POST['trade_no'];
-            //交易状态
-            $trade_status = $_POST['trade_status'];
-
-            if($trade_status == 'TRADE_FINISHED') {
-                // 完成
-                return array_merge($_POST,['status'=>10]);
-            } elseif ($trade_status == 'TRADE_SUCCESS') {
-                // 支付成功
-                return array_merge($_POST,['status'=>1]);
-            } else {
-                return false;
-            }
-        } else {
-            //验证失败
-            // echo "fail";
+            $this->log($_POST);
+            // 在这里只管返回数据
+            return $_POST;
+        } else { //验证失败
             //调试用，写文本函数记录程序运行情况是否正常
             $this->log($_POST);
             return false;
@@ -164,10 +127,7 @@ class WorkPlugin
         if (is_string($data)) {
             $content = $data;
         } elseif (is_array($data)) {
-            // foreach ($data as $key => $value) {
-            //     $content .= $key.'='.$value.",";
-            // }
-            $content = var_export($data); 
+            $content = json_encode($data);
         } else {
             $content = '非法数据！';
         }
@@ -248,8 +208,9 @@ class WorkPlugin
         //↑↑↑↑↑↑↑↑↑↑请在这里配置您的基本信息↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑
         
         // 签名方式 不需修改
-        $p_set['sign_type']    = 'MD5';
-        // $p_set['sign_type']    = strtoupper('MD5');
+        // $p_set['sign_type']    = 'RSA';//
+        $p_set['sign_type']    = 'MD5';// 推荐
+        // $p_set['sign_type']    = strtoupper('md5');
         
         // 字符编码格式 目前支持 gbk 或 utf-8
         $p_set['input_charset']= 'utf-8';

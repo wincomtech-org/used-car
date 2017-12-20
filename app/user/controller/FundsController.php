@@ -152,7 +152,6 @@ class FundsController extends UserBaseController
         if (empty($data['w_pwd'])) {
             $this->error('请输入密码');
         }
-
         if (cmf_compare_password($data['w_pwd'],$this->user['paypwd'])===false) {
             $this->error('您的密码不对');
         }
@@ -277,6 +276,11 @@ class FundsController extends UserBaseController
         $this->assign('pager', $list->render());
 
         return $this->fetch();
+    }
+    // 支付押金
+    public function applyPay()
+    {
+        return '预留';
     }
 
 

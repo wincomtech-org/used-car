@@ -100,11 +100,11 @@ return [
   ],
   'verify_status' => 
   [
+    -3 => '认证失败',
+    -2 => '取消',
     -1 => '禁止认证',
-    0 => '未认证',
-    1 => '已认证',
-    2 => '取消',
-    3 => '认证失败',
+    0  => '未认证',
+    1  => '已认证',
   ],
   'verify_define_data' => 
   [
@@ -112,6 +112,8 @@ return [
     'email'           => '邮箱',
     'driving_license' => '行驶证',
     'identity_card'   => '身份证',
+    'plateNo'         => '车牌号',
+    'username'        => '用户名',
     'real_name'       => '姓名',
     'contact'         => '联系方式',
     'telephone'       => '电话',
