@@ -2,7 +2,7 @@
 namespace app\user\controller;
 
 use cmf\controller\UserBaseController;
-// use app\user\model\UserFavoriteModel;
+use app\user\model\UserFavoriteModel;
 use think\Db;
 
 class CollectController extends UserBaseController
@@ -13,16 +13,25 @@ class CollectController extends UserBaseController
     */
     public function index()
     {
-        $userId        = cmf_get_current_user_id();
-        $userQuery     = Db::name("UserFavorite");
-        $list     = $userQuery->where(['user_id' => $userId])->order('id desc')->paginate(10);
-// dump($list);
+        $userId = cmf_get_current_user_id();
+
+        // 获取数据
+        $list = model('UserFavorite')->collects();
+
+        // 子查询
+        // 联表 table_name
+        // $subsql = Db::name('user_favorite')->field('table_name objname')->where(['?'=>'?'])->buildSql();
+        // dump($subsql);die;
+        // Db::name('user_favorite')->alias('a')->join([$subsql=> 'b'], 'a.object_id=b.id')->select();
 
         // $user = cmf_get_current_user();
         // $this->assign($user);
 
-        $this->assign("page", $list->render());
+        // 赋值
         $this->assign("list", $list->items());
+        // 分页
+        $this->assign('pager', $list->render());
+
         return $this->fetch();
     }
 
@@ -31,18 +40,17 @@ class CollectController extends UserBaseController
     */
     public function delete()
     {
-        $id               = $this->request->param("id", 0, "intval");
-        $userId           = cmf_get_current_user_id();
+        $id = $this->request->param("id", 0, "intval");
+        if (empty($id)) {
+            $this->error('数据非法！');
+        }
+        $where['id'] = $id;
+        $result = Db::name("UserFavorite")->where($where)->delete();
 
-        $userQuery        = Db::name("UserFavorite");
-        $where['id']      = $id;
-        $where['user_id'] = $userId;
-        $data             = $userQuery->where($where)->delete();
-
-        if (!empty($data)) {
-            $this->success("取消收藏成功！");
-        } else {
+        if (empty($result)) {
             $this->error("取消收藏失败！");
+        } else {
+            $this->success("取消收藏成功！");
         }
     }
 
@@ -52,41 +60,43 @@ class CollectController extends UserBaseController
     public function add()
     {
         $data   = $this->request->param();
-
+        // 验证参数
         $result = $this->validate($data, 'Favorite');
         if ($result !== true) {
             $this->error($result);
         }
 
-        $id    = $this->request->param('id', 0, 'intval');
-        $table = $this->request->param('table');
+        // 获取每个参数
+        $id = $this->request->param('id', 0, 'intval');
+        $table = $data['table'];
+        $userId = cmf_get_current_user_id();
+        $colQuery = Db::name("user_favorite");
 
-
-        $findFavoriteCount = Db::name("user_favorite")->where([
+        // 是否收藏过
+        $find = $colQuery->where([
             'object_id'  => $id,
             'table_name' => $table,
-            'user_id'    => cmf_get_current_user_id()
+            'user_id'    => $userId
         ])->count();
-
-        if ($findFavoriteCount > 0) {
+        if ($find > 0) {
             $this->error("您已收藏过啦");
         }
 
-
-        $title       = base64_decode($this->request->param('title'));
-        $url         = $this->request->param('url');
-        $url         = base64_decode($url);
+        $title       = base64_decode($data['title']);
+        $url         = base64_decode($data['url']);
         $description = $this->request->param('description', '', 'base64_decode');
         $description = empty($description) ? $title : $description;
-        Db::name("user_favorite")->insert([
-            'user_id'     => cmf_get_current_user_id(),
+
+        $post = [
+            'user_id'     => $userId,
             'title'       => $title,
             'description' => $description,
             'url'         => $url,
             'object_id'   => $id,
             'table_name'  => $table,
             'create_time' => time()
-        ]);
+        ];
+        $colQuery->insert($post);
 
         $this->success('收藏成功');
 

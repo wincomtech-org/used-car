@@ -145,4 +145,16 @@ class NewsModel extends Model
         return $options;
     }
 
+    // 新增 系统消息
+    public function inNews($data=[])
+    {
+        return lothar_put_news($data);
+    }
+
+    // 获取 系统消息
+    public function outNews($type='')
+    {
+        return lothar_get_news($type);
+    }
+
 }

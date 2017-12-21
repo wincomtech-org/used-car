@@ -160,11 +160,17 @@ class UsualItemModel extends UsualModel
         $data = model('usual/UsualCar')
             ->field($this->filter_var)
             ->where('id',$id)
-            ->find()->toArray();
+            ->find();
+        if (empty($data)) {
+            $where = [];
+        } else {
+            $data = $data->toArray();
+            $where = ['a.id'=>['in',array_values($data)]];
+        }
         $items = $this->alias('a')
             ->field('a.name,a.description,b.code,b.unit')
             ->join('usual_item_cate b','a.cate_id=b.id','LEFT')
-            ->where(['a.id'=>['in',array_values($data)]])
+            ->where($where)
             ->select()->toArray();
         // 描述替代值
         $newItem = [];

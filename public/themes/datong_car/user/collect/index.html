@@ -30,44 +30,38 @@
                     <div class="favorite">
                         <ul class="favorite_list">
                             <foreach name="list" item="vo">
-                            <php>
-                                $url = json_decode($vo['url'],true);
-                            </php>
                             <li class="vehicle_con_detail_items">
                                 <div class="img">
                                     <a href="{:url('user/Collect/delete',['id'=>$vo.id])}" class="js-favorite-btn"><i></i>取消收藏</a>
-                                    <img src="__TMPL__/public/assets/images/example/car01.jpg" alt="">
+                                    <empty name="vo.more.thumbnail">
+                                        <img src="__TMPL__/public/assets/images/example/car01.jpg" alt="">
+                                    <else/>
+                                        <img src="{:cmf_get_image_preview_url($vo.more.thumbnail)}" alt="">
+                                    </empty>
                                 </div>
                                 <div class="txt">
-                                    <h6><a href="{:url($url['action'],$url['param'])}">{$vo.title}</a></h6>
+                                    <h6><a href="{:url($vo.url.action,$vo.url.param)}">{$vo.title}</a></h6>
                                     <p>
-                                        <span>14万公里</span>
-                                        <span>2012-10</span>
-                                        <span>马鞍山</span>
+                                        <span>{$vo.car_mileage}万公里</span>
+                                        <span>{:date('Y-m-d',$vo.car_license_time)}</span>
                                     </p>
-                                    <p><b>43.88万</b> <s>128.95万</s></p>
-                                    <p class="tel"><s class="icon"></s>400-2263-6547</p>
+                                    <p><b>{$vo.shop_price}万</b> <s>{$vo.market_price}万</s></p>
+                                    <p class="tel"><s class="icon"></s>{$vo.shop_tel}</p>
                                 </div>
                             </li>
                             </foreach>
-                            <!-- <li class="vehicle_con_detail_items">
-                                <div class="img">
-                                    <a href="car_message.html"><i></i>取消收藏</a>
-                                    <img src="__TMPL__/public/assets/images/example/car01.jpg" alt="">
-                                </div>
-                                <div class="txt">
-                                    <h6><a href="car_message.html">宝马7系 2009款 740Li领先型</a></h6>
-                                    <span class='partOf'>车辆所属：<i>大通车服</i></span>
-                                    <p>
-                                        <span>14万公里</span>
-                                        <span>2012-10</span>
-                                        <span>马鞍山</span>
-                                    </p>
-                                    <p><b>43.88万</b> <s>128.95万</s></p>
-                                    <p class="tel"><s class="icon"></s>400-2263-6547</p>
-                                </div>
-                            </li> -->
                         </ul>
+                    </div>
+                    <div class="page_tip">
+                        <div class="page2_con">
+                            <!-- <p>共<span>1</span>页</p> -->
+                            <ul class="page2_list">
+                                {$pager|default=''}
+                                <!-- <li><a href=""><</a></li>
+                                <li class="active"><a href="">1</a></li>
+                                <li><a href="">></a></li> -->
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>

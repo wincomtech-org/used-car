@@ -16,7 +16,12 @@ class VerifyValidate extends Validate
     ];
     protected $message = [
         'auth_code' => '请选择模型',
-        // 'user_id' => '系统未检测到该用户！',
+        'user_id' => '系统未检测到该用户！',
+        'more.username' => '用户名不能为空！',
+        'more.contact' => '联系方式不能为空！',
+        'more.plateNo' => '车牌号不能为空！',
+        'more.driving_license' => '行车本不能为空！',
+        'more.identity_card' => '身份证不能为空！',
     ];
     protected $scene = [
        'add'  => ['auth_code'],

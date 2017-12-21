@@ -40,7 +40,7 @@
             <li class="active"><a href="{:url('Index/step2',['id'=>$page.id])}">{$page.name}</a></li>
         </ul>
         <div class="selection_insurance_con">
-            <form action="{:url('Index/appointPost')}" method="post" enctype="multipart/form-data" name="car_booking_form" class="data_filling" id="data_filling">
+            <form action="{:url('Index/appointPost')}" method="post" enctype="multipart/form-data" id="data_filling" class="data_filling js-ajax-form">
                 <foreach name="new_data" item="vo">
                 <ul class="data_filling_list required">
                     <li class="left">{$vo.title}</li>
@@ -49,7 +49,7 @@
                     <li class="right">
                         <switch name="vo.name">
                             <case value="plateNo" break="1">
-                                <input type="text" name="post[{$vo.name}]" maxlength="7" required>
+                                <input type="text" name="post[{$vo.name}]" minlength="7" maxlength="7" required>
                             </case>
                             <case value="telephone">
                                 <input type="tel" name="post[{$vo.name}]" maxlength="15" required>
@@ -121,7 +121,7 @@
 
                 <p class="data_filling_btn">
                     <input type="hidden" name="post[model_id]" value="{$page.id}">
-                    <input type="submit" class="btn_submit" value='去选服务公司' onClick="car_booking_form.submit()">
+                    <button type="submit" class="btn_submit js-ajax-submit">去选服务公司</button>
                 </p>
             </form>
             <include file="index/map_container" />

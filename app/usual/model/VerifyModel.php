@@ -71,7 +71,10 @@ class VerifyModel extends UsualModel
             ->field($field)
             ->join($join)
             ->where('a.id',$id)
-            ->find()->toArray();
+            ->find();
+        if (!empty($post)) {
+            $post = $post->toArray();
+        }
         $post['username'] = $post['user_nickname'] ? $post['user_nickname'] : $post['user_login'];
 
         return $post;
@@ -89,14 +92,14 @@ class VerifyModel extends UsualModel
     * @param $data 是否返回数据集、统计
     * @return boolean or array
     */
-    public function verify($uid=null, $code='certification', $data=false)
+    public function outVerify($uid=null, $code='certification', $data=false)
     {
         $result = lothar_verify($uid, $code, $data);
         return $result;
     }
 
     // 提交认证数据
-    public function addVerify($data,$userId)
+    public function inVerify($data,$userId)
     {
         # code...
     }
