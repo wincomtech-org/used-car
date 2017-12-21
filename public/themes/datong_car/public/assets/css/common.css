@@ -186,6 +186,9 @@ nav{background-color:#000;}
 .analogy .btn_submi{background-color:#d00000;color:#fff;font-size:16px;width:100%;height:100%;display:block;text-align:center;}
 
 
+/*前台引入官版JS弹窗样式修改 - button按钮样式*/
+.noty_buttons .btn{font-size:16px;padding:5px 15px;border-radius:5px;background-color:rgb(252,239,207);margin:10px 2px;color:#7b521d;}
+
 /*手机端*/
 .veh_trading_m  .registration_information{border:1px solid #ddd;}
 .veh_trading_m .registration_information{width:100%;max-width:636px;display:block;margin:0 auto;}

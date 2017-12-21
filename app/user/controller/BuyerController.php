@@ -14,7 +14,7 @@ class BuyerController extends TradeController
     // 买家订单列表页
     public function index()
     {
-        // $param = $this->request->param();
+        $param = $this->request->param();
         $id = $this->request->param('id/d');
         $userId = cmf_get_current_user_id();
 
@@ -23,7 +23,7 @@ class BuyerController extends TradeController
             $extra['a.id'] = $id;
         }
 
-        $list = model('trade/TradeOrder')->getLists([],'','',$extra);
+        $list = model('trade/TradeOrder')->getLists($param,'','',$extra);
 
         $this->assign('list', $list->items());// 获取查询数据并赋到模板
         // $list->appends($param);//添加分页URL参数

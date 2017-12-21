@@ -79,7 +79,7 @@
                                             <td class="detail">
                                                 <!-- <span><a class="detail1 detail_see">查看详情</a></span> -->
                                                 <span><a href="{:url('user/Seller/carInfo',['id'=>$vo.id])}" class="detail2">查看详情</a></span>
-                                                <span><a href="{:url('user/Trade/del',['id'=>$vo.id,'table'=>'usual_car'])}" onclick="return confirm('确定？(不可恢复)')" class="detail1">删除</a></span>
+                                                <span><a href="{:url('user/Trade/del',['id'=>$vo.id,'table'=>'usual_car'])}" class="detail1 js-ajax-delete">删除</a></span>
                                                 <notempty name="vo.identi_status">
                                                 <span><a href="{:url('user/Seller/carInfo',['id'=>$vo.id,'srcol'=>'audit'])}" class="detail3">认证资料</a></span>
                                                 </notempty>

@@ -15,6 +15,7 @@ class PostController extends HomeBaseController
     public function details()
     {
         $id = $this->request->param('id',0,'intval');
+        $userId = cmf_get_current_user_id();
 
         $carModel = new UsualCarModel();
         // $page = $carModel->getPost($id);
@@ -23,6 +24,11 @@ class PostController extends HomeBaseController
             abort(404,'数据不存在！');
         }
 
+        // 检查是否锁单
+        // $where = ['car_id'=>$id,'status'=>['in','1,8,10,-11']];
+        $where = ['car_id'=>$id];
+        $findOrder = Db::name('trade_order')->where($where)->value('buyer_uid');
+        // 所属公司
         // $company = Db::name('UsualCompany')->where(['user_id'=>$page['user_id']])->find();
 
         $itModel = new UsualItemModel();
@@ -31,13 +37,14 @@ class PostController extends HomeBaseController
         $page = array_merge($page,$page2);
         // dump($page['more']);die;
 
+        // 所有车辆属性
         $allItems = $itModel->getItemShow($page['more']);
-        // dump($allItems);die;
 
         // 获取推荐车辆
         $carTuis = $carModel->getLists([],'',12,['a.is_rec'=>1]);
-        // dump($carTuis);
 
+        $this->assign('findOrder',$findOrder);
+        $this->assign('userId',$userId);
         $this->assign('page',$page);
         $this->assign('allItems',$allItems);
         $this->assign('carTuis',$carTuis);

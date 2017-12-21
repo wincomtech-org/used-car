@@ -40,7 +40,7 @@ class TradeController extends UserBaseController
             $table = 'trade_order';
         }
         parent::dels(Db::name($table));
-        $this->success("刪除成功！", '');
+        $this->success("刪除成功！");
     }
 
     // 赎回资金 cancel中处理

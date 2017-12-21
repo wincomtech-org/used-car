@@ -27,6 +27,10 @@ class TradeOrderModel extends UsualModel
             $where = array_merge($where,$extra);
         }
 
+        // 车子ID
+        if (!empty($filter['carId'])) {
+            $where['a.car_id'] = $filter['carId'];
+        }
         // 支付方式
         if (!empty($filter['payId'])) {
             $where['a.pay_id'] = $filter['payId'];
