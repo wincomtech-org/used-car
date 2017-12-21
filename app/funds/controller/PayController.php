@@ -108,6 +108,10 @@ class PayController extends HomeBaseController
             $this->error('非法数据集');
         }
         $action = $data['action'];
+        if (empty($action)) {
+            $this->error('参数非法！');
+        }
+        $paytype = empty($data['paytype']) ? 'alipay' : $data['paytype'];
 
         if (!empty($openPay)) {
             /*未开放 展示*/
@@ -118,11 +122,11 @@ class PayController extends HomeBaseController
         } else {
             /*开放后 正式运营*/
             $payModel = new PayModel();
-            $paytype = $payModel->getPayment($data['paytype']);
+            $paymode = $payModel->getPayment($paytype);
             // $table = $payModel->getTableByAction($action);
 
             // 余额支付与在线支付
-            if ($paytype=='cash') {
+            if ($paymode=='cash') {
                 // 发起余额支付
                 $status = $payModel->cash($data);
                 // dump($status);die;
@@ -140,14 +144,14 @@ class PayController extends HomeBaseController
                 $this->error($msg);
             } else {
                 // 临时判断
-                if ($data['paytype']=='wxpay') {
+                if ($paytype=='wxpay') {
                     $this->error('微信支付尚未开通,请联系管理员');
                 }
                 // 发起在线支付
                 $order_sn = empty($data['order_sn'])?cmf_get_order_sn($action.'_'):$data['order_sn'];
                 $amount = $data['coin'];
                 $amount = 0.01;
-                import('paymentOld/'.$paytype.'/WorkPlugin',EXTEND_PATH);
+                import('paymentOld/'.$paymode.'/WorkPlugin',EXTEND_PATH);
                 $work = new \WorkPlugin($order_sn,$amount);
 
                 // $work->workForm();

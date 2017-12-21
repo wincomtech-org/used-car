@@ -86,10 +86,17 @@ class PostController extends HomeBaseController
 
         $id = $this->request->param('id',0,'intval');
         $jumpurl = url('trade/Post/seeCar',['id'=>$id]);
-        // 查重
-        $oId = Db::name('trade_order')->where(['buyer_uid'=>$user['id'],'car_id'=>$id])->value('id');
-        if (!empty($oId)) {
-            $this->error('请勿重复提交',url('user/Buyer/index',['id'=>$oId]));
+        // 查重 是否支付？
+        $findOrder =Db::name('trade_order')->field('id,pay_id,order_sn,bargain_money,status')->where(['buyer_uid'=>$user['id'],'car_id'=>$id])->find();
+        if (!empty($findOrder['id'])) {
+            if (empty($findOrder['status'])) {
+                $data['pay_id'] = $findOrder['pay_id'];
+                $data['order_sn'] = $findOrder['order_sn'];
+                $data['coin']     = $findOrder['bargain_money'];
+                $this->success('前往支付中心……',cmf_url('funds/Pay/pay',$data));
+            } else {
+                $this->error('请勿重复提交',url('user/Buyer/index',['id'=>$findOrder['id']]));
+            }
         }
 
         // 获取车辆表数据
@@ -112,7 +119,7 @@ class PostController extends HomeBaseController
             'buyer_contact'     => $user['mobile'],
             'seller_uid'        => $carInfo['user_id'],
             'seller_username'   => $seller_username,
-            // 'pay_id'            => $data['paytype'],
+            'pay_id'            => $data['paytype'],
             'bargain_money'     => $carInfo['bargain_money'],
             'description'       => $carInfo['name'],
             'create_time'       => time(),

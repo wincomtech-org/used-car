@@ -13,6 +13,7 @@ namespace cmf\controller;
 use think\Db;
 use app\admin\model\ThemeModel;
 use app\admin\model\NavMenuModel;
+use app\admin\service\ApiService;
 use think\View;
 use think\Request;
 
@@ -29,9 +30,13 @@ class HomeBaseController extends BaseController
         $siteInfo = cmf_get_site_info();
         $navMenuModel = new NavMenuModel();
         $navMenus = $navMenuModel->navMenusTreeArray(null,2);
-// dump($navMenus);die;
+        $apiModel = new ApiService();
+        $friendLink = $apiModel->links('url,name,target,description');
+
+// dump($friendLink);die;
         View::share('site_info', $siteInfo);
         View::share('navMenus', $navMenus);
+        View::share('friendLink', $friendLink);
     }
 
     public function _initializeView()

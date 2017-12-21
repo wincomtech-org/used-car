@@ -108,9 +108,8 @@
                                                     </gt>
                                                 </in>
                                                 <in name="vo.status" value="0">
-                                                    <span>
-                                                    <a href="{:url('user/Trade/del',['id'=>$vo.id])}" class="detail2 js-ajax-delete">删除订单</a>
-                                                    </span>
+                                                    <span><a href="{:url('trade/Post/seeCarPost',['id'=>$vo.car_id])}" class="detail2 js-ajax-dialog-btn" data-msg="去支付订金？">支付订金</a></span>
+                                                    <span><a href="{:url('user/Trade/del',['id'=>$vo.id])}" class="detail2 js-ajax-delete">删除订单</a></span>
                                                 </in>
                                             </td>
                                             <!-- <td class="detail">
