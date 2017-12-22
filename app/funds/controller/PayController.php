@@ -7,16 +7,13 @@ use app\funds\model\PayModel;
 use think\Db;
 // use paymentOld\alipay\WorkPlugin;
 
-use test\Test;
-
 /**
 * 支付中心
-* 支付标识 pay_id：alipay支付宝 wxjs微信js  wxnative微信扫码
-* 
+* 支付标识 pay_id：alipay支付宝 wxpayjs微信js  wxpaynative微信扫码
 */
 class PayController extends HomeBaseController
 {
-    function _initialize()
+    /*function _initialize()
     {
         parent::_initialize();
         // $this->work = new WorkPlugin(cmf_get_order_sn(),0.01);//使用了use引入
@@ -24,45 +21,7 @@ class PayController extends HomeBaseController
         // $paytype = 'alipay';$table = '';
         // import('paymentOld/'.$paytype.'/WorkPlugin',EXTEND_PATH);
         // $this->work = new \WorkPlugin(cmf_get_order_sn($table),0.01);//import引入
-    }
-
-    // 临时测试
-    public function test()
-    {
-        // dump(cmf_get_order_sn());die;
-        $data = $this->request->param();
-
-        // 对象有命名空间
-        // $test = new Test();//通过use引入过的
-        // $test = new \test\Test();//裸的
-        // 对象没有命名空间
-        import('test/Test',EXTEND_PATH);
-        $test = new \Test('ok');
-        $post = $test->out($data);
-        dump($post);
-        // $test->tp();
-        dump($test->tp());
-
-
-        $paytype = 'alipay';$action = '';$amount=0.01;
-        import('paymentOld/'.$paytype.'/WorkPlugin',EXTEND_PATH);
-        $work = new \WorkPlugin(cmf_get_order_sn($action),$amount);
-
-        // $dump = $work->p_set();
-        $dump = $work->parameter();
-
-        // 调起支付
-        $echo = $work->workForm(false);
-        // $echo = $work->workUrl(false);
-        // $echo = $work->workCurl();
-
-        // $echo = $work->log();
-
-
-        // echo $echo;
-        // dump($dump);
-        exit;
-    }
+    }*/
 
     public function index()
     {
@@ -74,8 +33,6 @@ class PayController extends HomeBaseController
         return "支付中心 - 支付类型：".$type.'，应用模块：'.$action.'。（接口预留）';
         return $this->fetch();
     }
-
-
 
     /*
     * 支付总入口
@@ -127,11 +84,11 @@ class PayController extends HomeBaseController
 
             // 余额支付与在线支付
             if ($paymode=='cash') {
+                if ($action=='recharge') $this->error('行为可疑');
                 // 发起余额支付
                 $status = $payModel->cash($data);
                 // dump($status);die;
                 if ($status===true) {
-                    $this->success('支付成功');
                     $this->success('恭喜！支付成功，页面跳转中……',$payModel->getJumpByAction($action),'',5);
                 }
                 if ($status==-1) {
@@ -141,7 +98,7 @@ class PayController extends HomeBaseController
                 } elseif ($status===false) {
                     $msg = '支付失败';
                 }
-                $this->error($msg);
+                $this->error($msg,$payModel->getJumpErrByAction($action));
             } else {
                 // 临时判断
                 if ($paytype=='wxpay') {
@@ -153,10 +110,9 @@ class PayController extends HomeBaseController
                 $amount = 0.01;
                 import('paymentOld/'.$paymode.'/WorkPlugin',EXTEND_PATH);
                 $work = new \WorkPlugin($order_sn,$amount);
+                // $work = new \WorkPlugin($order_sn,$amount,$order_id,$pay_id);
 
-                // $work->workForm();
-                echo $work->workUrl();
-                // $work->workCurl();
+                $work->work(true,$payModel->getJumpErrByAction($action));
             }
         }
     }
@@ -172,8 +128,8 @@ class PayController extends HomeBaseController
 
         // 实例化
         $payModel = new PayModel();
-        $paytype = $payModel->getPayment('alipay');
-        import('paymentOld/'.$paytype.'/WorkPlugin',EXTEND_PATH);
+        $paymode = $payModel->getPayment('alipay');
+        import('paymentOld/'.$paymode.'/WorkPlugin',EXTEND_PATH);
         $work = new \WorkPlugin();
 
         // 获取数据
@@ -253,9 +209,45 @@ class PayController extends HomeBaseController
     * 订单轮询
     * 微信回调 二次查单
     */
+    public function wxpayBack($value='')
+    {
+        // 前置处理
+        $action = $_GET['action'];
+        $jumpurl = url('user/Profile/center');
+        $jumpok = $payModel->getJumpByAction($action);
+        $jumperr = $payModel->getJumpErrByAction($action);
+
+        // 实例化
+        $payModel = new PayModel();
+        $paymode = $payModel->getPayment('wxpay');
+        import('paymentOld/'.$paymode.'/WorkPlugin',EXTEND_PATH);
+        $work = new \WorkPlugin();
+
+        $orz = $_GET;
+        $orz = $work->getReturn();
+        // $orz = [
+        //     'out_trade_no'  => $order_sn,
+        //     'total_fee'     => $coin,
+        // ];
+
+        $status = $payModel->$action($orz,10,'wxpay');
+
+        if ($status===true) {
+            $this->success('恭喜！支付成功，页面跳转中……',$jumpok,'',30);
+        }
+        if ($status==0) {
+            $msg = '该订单不存在';
+        } elseif ($status===false) {
+            $msg = '支付失败';
+        } else {
+            $msg = '意外~';
+        }
+        $this->error($msg,$jumperr);
+    }
+    // 扫码
     public function ajaxWxpay()
     {
-        echo 'ok';exit;
+
     }
 
 
@@ -281,9 +273,9 @@ class PayController extends HomeBaseController
           'sign' => 'c3686956f8cfeaf2508798649f66d74a',
           'sign_type' => 'MD5',
         );
+
+        // 微信 notify返回结果
     }
-
-
 
     // 事务处理
     public function trans()

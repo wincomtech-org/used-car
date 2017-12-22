@@ -94,49 +94,57 @@ class PayModel extends Model
     public function insurance($data,$statusCode,$paytype)
     {
         $status = $statusCode==1?6:$status;
-        $userId = cmf_get_current_user_id();
-        $id = Db::name('insurance_order')->where('order_sn',$data['out_trade_no'])->value('id');
-        if (empty($id)) return 0;
+        // $userId = cmf_get_current_user_id();
 
-        Db::startTrans();
-        $transStatus = true;
-        try{
-            if (empty($id)) {
-                $post = [];
-                $post['more'] = json_encode(['payreturn'=>$data]);
-                Db::name('insurance_order')->insertGetId($post);
-            } else {
-                Db::name('insurance_order')->where('id',$id)->setField('status',$status);
+        if ($paytype=='cash') {
+            Db::name('insurance_order')->where('order_sn',$data['out_trade_no'])->setField('status',$status);
+        } else {
+            $id = Db::name('insurance_order')->where('order_sn',$data['out_trade_no'])->value('id');
+            if (empty($id)) return 0;
+            Db::startTrans();
+            $transStatus = true;
+            try{
+                if (empty($id)) {
+                    $post = [];
+                    $post['more'] = json_encode(['payreturn'=>$data]);
+                    Db::name('insurance_order')->insertGetId($post);
+                } else {
+                    Db::name('insurance_order')->where('id',$id)->setField('status',$status);
+                }
+                // lothar_put_news($log);
+                Db::commit();
+            } catch (\Exception $e) {
+                Db::rollback();
+                $transStatus = false;
             }
-            // lothar_put_news($log);
-            Db::commit();
-        } catch (\Exception $e) {
-            Db::rollback();
-            $transStatus = false;
+            return $transStatus;
         }
-
-        return $transStatus;
     }
     // 看车
     public function seecar($data,$statusCode,$paytype)
     {
         $status = $statusCode==10?1:$status;
-        $userId = cmf_get_current_user_id();
-        $id = Db::name('trade_order')->where('order_sn',$data['out_trade_no'])->value('id');
-        if (empty($id)) return 0;
+        // $userId = cmf_get_current_user_id();
+        $info = Db::name('trade_order')->field('id,car_id')->where('order_sn',$data['out_trade_no'])->find();
 
-        Db::startTrans();
-        $transStatus = true;
-        try{
-            Db::name('trade_order')->where('id',$id)->setField('status',$status);
-            // lothar_put_news($log);
-            Db::commit();
-        } catch (\Exception $e) {
-            Db::rollback();
-            $transStatus = false;
+        if ($paytype=='cash') {
+            Db::name('trade_order')->where('id',$info['id'])->setField('status',$status);
+            Db::name('usual_car')->where('id',$info['car_id'])->setDec('inventory',1);
+        } else {
+            if (empty($info['id'])) return 0;
+            Db::startTrans();
+            $transStatus = true;
+            try{
+                Db::name('trade_order')->where('id',$info['id'])->setField('status',$status);
+                Db::name('usual_car')->where('id',$info['car_id'])->setDec('inventory',1);//减库存
+                // lothar_put_news($log);
+                Db::commit();
+            } catch (\Exception $e) {
+                Db::rollback();
+                $transStatus = false;
+            }
+            return $transStatus;
         }
-
-        return $transStatus;
     }
     // 开店 payreturn
     public function openshop($data,$statusCode,$paytype)
@@ -144,31 +152,35 @@ class PayModel extends Model
         $status = $statusCode==1?10:$status;
         $userId = cmf_get_current_user_id();
         $id = Db::name('funds_apply')->where('order_sn',$data['out_trade_no'])->value('id');
-        if (empty($id)) return 0;
+        $newData = [
+            'pay_time'  => time(),
+            'status'    => $status
+        ];
+        $log = [
+            'title'     => '开店申请',
+            'object'    => 'funds_apply:'.$id,
+            'content'   => '客户ID：'.$userId .'，支付方式：'.config('payment')[$paytype],
+            'adminurl'  => 8,
+        ];
 
-        Db::startTrans();
-        $transStatus = true;
-        try{
-            $newData = [
-                'pay_time'  => time(),
-                'status'    => $status
-            ];
+        if ($paytype=='cash') {
             Db::name('funds_apply')->where('id',$id)->update($newData);
-            // Db::name('funds_apply')->where('id',$id)->setField('status',$status);
-            $log = [
-                'title'     => '开店申请',
-                'object'    => 'funds_apply:'.$id,
-                'content'   => '客户ID：'.$userId .'，支付方式：'.config('payment')[$paytype],
-                'adminurl'  => 8,
-            ];
             lothar_put_news($log);
-            Db::commit();
-        } catch (\Exception $e) {
-            Db::rollback();
-            $transStatus = false;
+        } else {
+            if (empty($id)) return 0;
+            Db::startTrans();
+            $transStatus = true;
+            try{
+                Db::name('funds_apply')->where('id',$id)->update($newData);
+                // Db::name('funds_apply')->where('id',$id)->setField('status',$status);
+                lothar_put_news($log);
+                Db::commit();
+            } catch (\Exception $e) {
+                Db::rollback();
+                $transStatus = false;
+            }
+            return $transStatus;
         }
-
-        return $transStatus;
     }
     // 充值 payreturn ，不存在余额充值
     public function recharge($data,$statusCode,$paytype)
@@ -308,7 +320,8 @@ class PayModel extends Model
         } elseif (!empty($paytype)) {
             if ($paytype=='alipay') {
                 if (cmf_is_mobile()) {
-                    $paytype = 'alipaywap';
+                    // $paytype = 'alipaywap';
+                    $paytype = 'alipay';//不是RSA
                 }
             } elseif ($paytype=='weixin') {
                 if (cmf_is_wechat()) {

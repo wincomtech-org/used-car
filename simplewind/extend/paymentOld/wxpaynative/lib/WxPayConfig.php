@@ -1,6 +1,7 @@
 <?php
+namespace paymentOld\wxpaynative\lib;
 /**
-* 	配置账号信息
+* 配置账号信息
 */
 
 class WxPayConfig
@@ -22,11 +23,28 @@ class WxPayConfig
 	 * 获取地址：https://mp.weixin.qq.com/advanced/advanced?action=dev&t=advanced/dev&token=2005451881&lang=zh_CN
 	 * @var string
 	 */
-	const APPID = 'wx426b3015555a46be';
-	const MCHID = '1225312702';
+
+	// 默认使用常量
+	const APPID = 'wx30636ff7cf5301e0';
+	const MCHID = '1443692802';
 	const KEY = 'e10adc3949ba59abbe56e057f20f883e';
-	const APPSECRET = '01c6d59a3f9024db6336662ac95c8e74';
-	
+	const APPSECRET = 'f59828cf423fe033408e03290bdcccfd';
+
+	// 把常量改成静态变量
+	// public static $appid = '';
+	// public static $mchid = '';
+	// public static $key = '';
+	// public static $appsecret = '';
+
+	// 常量不可以动态赋值
+	// const APPID = self::$appid;
+	// const MCHID = self::$mchid;
+	// const KEY = self::$key;
+	// const APPSECRET = self::$appsecret;
+
+
+
+
 	//=======【证书路径设置】=====================================
 	/**
 	 * TODO：设置商户证书路径

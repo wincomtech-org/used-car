@@ -1,10 +1,9 @@
 <?php
+namespace paymentOld\wxpaynative\lib;
 /**
- * 
  * 微信支付API异常类
  * @author widyhu
- *
- */
+*/
 class WxPayException extends Exception {
 	public function errorMessage()
 	{

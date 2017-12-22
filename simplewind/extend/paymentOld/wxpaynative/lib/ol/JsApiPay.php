@@ -1,4 +1,5 @@
 <?php
+// namespace paymentOld\common\wxpay\lib;
 require_once "../lib/WxPay.Api.php";
 /**
  * 
@@ -13,8 +14,8 @@ require_once "../lib/WxPay.Api.php";
  */
 class JsApiPay
 {
+	public $p_set;
 	/**
-	 * 
 	 * 网页授权接口微信服务器返回的数据，返回样例如下
 	 * {
 	 *  "access_token":"ACCESS_TOKEN",
@@ -29,6 +30,12 @@ class JsApiPay
 	 * @var array
 	 */
 	public $data = null;
+
+	// 构造函数
+    public function __construct($p_set)
+    {
+        $this->p_set = $p_set;
+    }
 	
 	/**
 	 * 
@@ -102,10 +109,9 @@ class JsApiPay
 		curl_setopt($ch, CURLOPT_SSL_VERIFYHOST,FALSE);
 		curl_setopt($ch, CURLOPT_HEADER, FALSE);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
-		if(WxPayConfig::CURL_PROXY_HOST != "0.0.0.0" 
-			&& WxPayConfig::CURL_PROXY_PORT != 0){
-			curl_setopt($ch,CURLOPT_PROXY, WxPayConfig::CURL_PROXY_HOST);
-			curl_setopt($ch,CURLOPT_PROXYPORT, WxPayConfig::CURL_PROXY_PORT);
+		if($this->p_set['CURL_PROXY_HOST']!="0.0.0.0" && $this->p_set['CURL_PROXY_PORT']!=0){
+			curl_setopt($ch,CURLOPT_PROXY, $this->p_set['CURL_PROXY_HOST']);
+			curl_setopt($ch,CURLOPT_PROXYPORT, $this->p_set['CURL_PROXY_PORT']);
 		}
 		//运行curl，结果以jason形式返回
 		$res = curl_exec($ch);
@@ -148,7 +154,7 @@ class JsApiPay
 	{	
 		$getData = $this->data;
 		$data = array();
-		$data["appid"] = WxPayConfig::APPID;
+		$data["appid"] = $this->p_set['APPID'];
 		$data["url"] = "http://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
 		$time = time();
 		$data["timestamp"] = "$time";
@@ -162,7 +168,7 @@ class JsApiPay
 			"addrSign" => $addrSign,
 			"signType" => "sha1",
 			"scope" => "jsapi_address",
-			"appId" => WxPayConfig::APPID,
+			"appId" => $this->p_set['APPID'],
 			"timeStamp" => $data["timestamp"],
 			"nonceStr" => $data["noncestr"]
 		);
@@ -179,7 +185,7 @@ class JsApiPay
 	 */
 	private function __CreateOauthUrlForCode($redirectUrl)
 	{
-		$urlObj["appid"] = WxPayConfig::APPID;
+		$urlObj["appid"] = $this->p_set['APPID'];
 		$urlObj["redirect_uri"] = "$redirectUrl";
 		$urlObj["response_type"] = "code";
 		$urlObj["scope"] = "snsapi_base";
@@ -197,8 +203,8 @@ class JsApiPay
 	 */
 	private function __CreateOauthUrlForOpenid($code)
 	{
-		$urlObj["appid"] = WxPayConfig::APPID;
-		$urlObj["secret"] = WxPayConfig::APPSECRET;
+		$urlObj["appid"] = $this->p_set['APPID'];
+		$urlObj["secret"] = $this->p_set['APPSECRET'];
 		$urlObj["code"] = $code;
 		$urlObj["grant_type"] = "authorization_code";
 		$bizString = $this->ToUrlParams($urlObj);

@@ -1,9 +1,11 @@
 <?php
+namespace paymentOld\wxpaynative\lib;
+
 /**
 * 2015-06-29 修复签名问题
 **/
-require_once "WxPay.Config.php";
-require_once "WxPay.Exception.php";
+// require_once "WxPay.Config.php";
+// require_once "WxPay.Exception.php";
 
 /**
  * 
@@ -15,6 +17,13 @@ require_once "WxPay.Exception.php";
 class WxPayDataBase
 {
 	protected $values = array();
+	public $p_set;
+
+	// 构造函数
+    public function __construct($p_set)
+    {
+        $this->p_set = $p_set;
+    }
 	
 	/**
 	* 设置签名，详见签名生成算法
@@ -114,7 +123,7 @@ class WxPayDataBase
 		ksort($this->values);
 		$string = $this->ToUrlParams();
 		//签名步骤二：在string后加入KEY
-		$string = $string . "&key=".WxPayConfig::KEY;
+		$string = $string . "&key=".$this->p_set['KEY'];
 		//签名步骤三：MD5加密
 		$string = md5($string);
 		//签名步骤四：所有字符转为大写
@@ -279,7 +288,7 @@ class WxPayNotifyReply extends  WxPayDataBase
  *
  */
 class WxPayUnifiedOrder extends WxPayDataBase
-{	
+{
 	/**
 	* 设置微信分配的公众账号ID
 	* @param string $value 

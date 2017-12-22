@@ -32,21 +32,11 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
  */
- 
- 
-
 /*
  * Version: 1.1.4
  * Build: 2010100721
  */
-
-
-
 //---- qrconst.php -----------------------------
-
-
-
-
 
 /*
  * PHP QR Code encoder
@@ -105,9 +95,6 @@
 
 //---- merged_config.php -----------------------------
 
-
-
-
 /*
  * PHP QR Code encoder
  *
@@ -124,8 +111,6 @@
                                                   
     define('QR_PNG_MAXIMUM_SIZE',  1024);                                                       // maximum allowed png image width (in pixels), tune to make sure GD and PHP can handle such big images
                                                   
-
-
 
 //---- qrtools.php -----------------------------
 
@@ -3308,5 +3293,3 @@
             }
         }
     }
-
-

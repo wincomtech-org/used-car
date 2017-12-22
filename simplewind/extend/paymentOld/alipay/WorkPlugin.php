@@ -6,6 +6,8 @@ use paymentOld\alipay\lib\AlipaySubmit;
 use paymentOld\alipay\lib\AlipayNotify;
 use traits\controller\Jump;
 
+// import('paymentOld/common/alipay/coreFunc',EXTEND_PATH);
+
 /**
 * 支付宝支付接口
 */
@@ -19,12 +21,15 @@ class WorkPlugin
     private $dir = '';// getcwd()
     private $host = '';
 
-    function __construct($order_sn='', $order_amount='', $pay_id='')
+    function __construct($order_sn='', $order_amount='', $order_id='123', $pay_id='')
     {
         $this->order_sn = $order_sn;
         $this->order_amount = $order_amount;
-        $this->host = cmf_get_domain();
         // $this->plugin_id = $pay_id;
+        $this->host = cmf_get_domain();
+        // $this->notify_url = cmf_url('funds/Pay/callBack','',false,$this->host);
+        $this->notify_url = url('funds/Pay/callBack','',false,$this->host);
+        $this->return_url = url('funds/Pay/callBack','',false,$this->host);
 
         // TP写法 
         import('paymentOld/'.$this->plugin_id.'/lib/coreFunc',EXTEND_PATH);
@@ -47,6 +52,13 @@ class WorkPlugin
      * 建立支付请求
      * +----------------------------------------------------------
     */
+    // 默认
+    public function work($auto=true,$jumpurl='')
+    {
+        $result = $this->workForm($auto);
+        return $result;
+    }
+
     // 表单
     public function workForm($auto=true) {
         // 建立请求
@@ -162,6 +174,9 @@ class WorkPlugin
         return logResult($content);
     }
 
+
+
+
     /*
     * 功能：订单查询
     */
@@ -192,8 +207,6 @@ class WorkPlugin
         echo file_get_contents($url);
     }
 
-
-
     /*退款*/
     public function refund($value='')
     {
@@ -220,37 +233,37 @@ class WorkPlugin
 
         //↓↓↓↓↓↓↓↓↓↓请在这里配置您的基本信息↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
         // 合作身份者id，以2088开头的16位纯数字
-        $p_set['partner']  = $option['partner'];
+        $set['partner'] = $option['partner'];
         // 安全检验码，以数字和字母组成的32位字符
-        $p_set['key']   = $option['key'];
+        $set['key'] = $option['key'];
         // 签约支付宝账号或卖家支付宝帐户
-        $p_set['seller_email'] = $option['account'];
+        $set['seller_email'] = $option['account'];
 
         //页面跳转同步通知页面路径，要用 http://格式的完整路径，不允许加?id=123这类自定义参数
         //return_url的域名不能写成http://localhost/*** ，否则会导致return_url执行无效
-        // $p_set['return_url'] = 'http://127.0.0.1/create_direct_pay_by_user_php_utf8/return_url.php';
+        // $set['return_url'] = 'http://127.0.0.1/create_direct_pay_by_user_php_utf8/return_url.php';
 
         //服务器异步通知页面路径，要用 http://格式的完整路径，不允许加?id=123这类自定义参数
-        // $p_set['notify_url'] = 'http://www.xxx.com/create_direct_pay_by_user_php_utf8/notify_url.php';
+        // $set['notify_url'] = 'http://www.xxx.com/create_direct_pay_by_user_php_utf8/notify_url.php';
         //↑↑↑↑↑↑↑↑↑↑请在这里配置您的基本信息↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑
         
         // 签名方式 不需修改
-        $p_set['sign_type']    = 'MD5';
-        // $p_set['sign_type']    = strtoupper('MD5');
+        $set['sign_type'] = 'MD5';
+        // $set['sign_type']    = strtoupper('MD5');
         
         // 字符编码格式 目前支持 gbk 或 utf-8
-        $p_set['input_charset']= 'utf-8';
-        // $p_set['input_charset']= strtolower('utf-8');
-        // $p_set['input_charset']= strtolower('gbk');
+        $set['input_charset'] = 'utf-8';
+        // $set['input_charset']= strtolower('utf-8');
+        // $set['input_charset']= strtolower('gbk');
         
         // 访问模式,根据自己的服务器是否支持ssl访问，若支持请选择https；若不支持请选择http
-        $p_set['transport']    = 'http';
+        $set['transport'] = 'http';
         
         // ca证书路径地址，用于curl中ssl校验
         // 请保证cacert.pem文件在当前文件夹目录中
-        $p_set['cacert']    = EXTEND_PATH . 'paymentOld/' . $this->plugin_id . '/cacert.pem';
+        $set['cacert'] = EXTEND_PATH .'paymentOld/'. $this->plugin_id .'/cacert.pem';
         
-        return $p_set;
+        return $set;
     }
 
     /**
@@ -274,15 +287,14 @@ class WorkPlugin
         $param['partner'] = trim($set['partner']);
         
         //服务器异步通知页面路径，需http://格式的完整路径，不能加?id=123这类自定义参数
-        // $param['notify_url'] = cmf_url('funds/Pay/callBack','',false,$this->host);
-        $param['notify_url'] = url('funds/Pay/callBack','',false,$this->host);
+        $param['notify_url'] = $this->notify_url;
         //页面跳转同步通知页面路径，需http://格式的完整路径，不能加?id=123这类自定义参数，不能写成http://localhost/
-        $param['return_url'] = url('funds/Pay/callBack','',false,$this->host);
+        $param['return_url'] = $this->return_url;
 
         //商户订单号，商户网站订单系统中唯一订单号，必填
         $param['out_trade_no'] = $this->order_sn;
         //订单名称，必填
-        $param['subject'] = 'OrderSn：' . $this->order_sn .' ('. $siteInfo['site_name'] .')';
+        $param['subject'] = 'OrderSn：'. $this->order_sn .' ('. $siteInfo['site_name'] .')';
         //付款金额，必填
         $param['total_fee'] = $this->order_amount;
         //订单描述

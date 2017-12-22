@@ -1,5 +1,5 @@
 <?php
-// namespace test;
+namespace test;
 
 // use app\funds\model\PayModel;
 use traits\controller\Jump;//代码复用的方法，称为 trait。
@@ -51,11 +51,32 @@ class Test
         return $str;
         return false;
     }
+}
 
+/**
+* 第二个类
+*/
+class Test2 extends Test
+{
+    public function __construct($var2='')
+    {
+        parent::__construct();
+        // echo $this->var;die;
+    }
 
-
-
-
-
-
+    public function index($value='')
+    {
+        // return $this->var;
+        return $value;
+    }
+}
+/**
+* 第三个类
+*/
+class Test3
+{
+    public function index($value='')
+    {
+        return $value;
+    }
 }
