@@ -28,6 +28,7 @@ class HomeBaseController extends BaseController
         hook('home_init');
         parent::_initialize();
         $siteInfo = cmf_get_site_info();
+        // 导航（手机端）
         $navMenuModel = new NavMenuModel();
         $navMenus = $navMenuModel->navMenusTreeArray(null,2);
         $apiModel = new ApiService();
@@ -207,6 +208,9 @@ class HomeBaseController extends BaseController
         }
     }
 
+
+
+// 以下为自定义的
     /**
      * 面包屑导航
      * @param string $table 分类表名
@@ -251,5 +255,37 @@ class HomeBaseController extends BaseController
 
         return $tpl;
     }
+
+
+    // 支付模板展示 微信、支付宝
+    public function showPay($data='')
+    {
+        $alipay_show = 'pc';
+        $wxpay_show  = 'native';
+        if (cmf_is_mobile()) {
+            $alipay_show = 'wap';
+        }
+        if (cmf_is_wechat()) {
+            $alipay_show = 'ban';
+            $wxpay_show  = 'js';
+        }
+
+        // 微信的扫码支付
+        if ($wxpay_show=='native') {
+            import('paymentOld/wxpaynative/WorkPlugin',EXTEND_PATH);
+            $work = new \WorkPlugin($data['order_sn'],$data['coin'],$data['id'],$data['action']);
+            $qrcode = $work->work();
+            $this->assign('qrcode',$qrcode);
+        }
+        // 支付宝的扫码支付？
+        if ($alipay_show=='qr') {
+            
+        }
+
+        $this->assign('alipay_show',$alipay_show);
+        $this->assign('wxpay_show',$wxpay_show);
+    }
+
+
 
 }

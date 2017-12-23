@@ -113,9 +113,13 @@ class PayController extends HomeBaseController
                 import('paymentOld/'.$paymode.'/WorkPlugin',EXTEND_PATH);
                 $work = new \WorkPlugin($order_sn,$amount,$order_id,$action);
 
-                $work->work(true,$payModel->getJumpErrByAction($action));
-                // 如果是扫码
+                $result = $work->work(true,$payModel->getJumpErrByAction($action));
                 
+                // 如果是扫码则转到扫码页面
+                // if ($paymode=='wxpaynative') {
+                //     $this->assign('qrcode',$result);
+                //     $this->fetch();
+                // }
             }
         }
     }

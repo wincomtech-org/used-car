@@ -51,7 +51,10 @@ class PostController extends HomeBaseController
         return $this->fetch();
     }
 
-    /*预约看车*/
+    /*
+    * 预约看车
+    * pay.html
+    */
     public function seeCar()
     {
         if (!cmf_is_user_login()) {
@@ -64,6 +67,15 @@ class PostController extends HomeBaseController
         if (empty($carInfo)) {
             abort(404,'数据不存在！');
         }
+
+        // 判断是否为手机端、微信端
+        // $map = [
+        //     'action'  => 'seecar',
+        //     'order_sn'  => cmf_get_order_sn('seecar_'),
+        //     'coin'  => $carInfo['bargain_money'],
+        //     'id'  => $id,
+        // ];
+        // $this->showPay($map);
 
         $this->assign('carInfo',$carInfo);
         $this->assign('formurl',url('Post/seeCarPost', $where));
@@ -86,15 +98,18 @@ class PostController extends HomeBaseController
 
         $id = $this->request->param('id',0,'intval');
         $jumpurl = url('trade/Post/seeCar',['id'=>$id]);
-        // 查重 是否支付？
+
+        // 判断是否二次支付：
         $findOrder =Db::name('trade_order')->field('id,pay_id,order_sn,bargain_money,status')->where(['buyer_uid'=>$user['id'],'car_id'=>$id])->find();
         if (!empty($findOrder['id'])) {
             if (empty($findOrder['status'])) {
+                // 转向支付接口
                 $data['pay_id'] = $findOrder['pay_id'];
                 $data['order_sn'] = $findOrder['order_sn'];
                 $data['coin']     = $findOrder['bargain_money'];
                 $this->success('前往支付中心……',cmf_url('funds/Pay/pay',$data));
             } else {
+                // 不是未支付状态
                 $this->error('请勿重复提交',url('user/Buyer/index',['id'=>$findOrder['id']]));
             }
         }
@@ -128,9 +143,11 @@ class PostController extends HomeBaseController
         if (empty($intId)) {
             $this->error('预约失败,请检查',$jumpurl);
         } else {
+            // 判断是否二次支付：首单支付
             $data['order_sn'] = $post['order_sn'];
             $data['coin']     = $post['bargain_money'];
             unset($data['id']);
+            // 转向支付接口
             $this->success('前往支付中心……',cmf_url('funds/Pay/pay',$data));
         }
     }
@@ -138,6 +155,7 @@ class PostController extends HomeBaseController
     /*
     * 第一次开店，
     * 开店资料审核 config('verify_define_data');
+    * pay.html
     */
     public function deposit()
     {
@@ -146,6 +164,15 @@ class PostController extends HomeBaseController
         }
 
         $setting = cmf_get_option('usual_settings');
+
+        // 判断是否为手机端、微信端
+        // $map = [
+        //     'action'  => 'insurance',
+        //     'order_sn'  => $data['order_sn'],
+        //     'coin'  => $data['amount'],
+        //     'id'  => $data['id'],
+        // ];
+        // $this->showPay($map);
 
         $this->assign('deposit',$setting['deposit']);
         $this->assign('formurl',url('Post/depositPost'));
@@ -165,7 +192,7 @@ class PostController extends HomeBaseController
 
         $userId = cmf_get_current_user_id();
 
-        // 检查是否已有记录
+        // 判断是否二次支付：已有订单未付款，直接去支付；已有订单已支付，跳向用户中心审核页面
         if (Db::name('funds_apply')->where(['user_id'=>$userId,'type'=>$data['action']])->count()>0) {
             $this->error('开店申请记录已存在',url('user/Funds/apply'));
         }
@@ -184,7 +211,9 @@ class PostController extends HomeBaseController
         if (empty($id)) {
             $this->error('开店申请失败');
         }
+        // 判断是否二次支付：首单支付
         $data['order_sn'] = $post['order_sn'];
+        // 转向支付接口
         $this->success('前往支付中心……',cmf_url('funds/Pay/pay',$data));
     }
 

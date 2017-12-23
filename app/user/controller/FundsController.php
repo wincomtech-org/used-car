@@ -78,9 +78,19 @@ class FundsController extends UserBaseController
         return $this->fetch();
     }
 
-    // 充值
+    // 充值 
     public function recharge()
     {
+
+        // 判断是否为手机端、微信端
+        // $map = [
+        //     'action'  => 'recharge',
+        //     'order_sn'  => $data['order_sn'],
+        //     'coin'  => $data['amount'],
+        //     'id'  => $data['id'],
+        // ];
+        // $this->showPay($map);
+
         return $this->fetch();
     }
     // 提交充值 paytype,action,coin
@@ -101,12 +111,13 @@ class FundsController extends UserBaseController
             $this->error($result);
         }
 
-        // 支付接口
+        // 判断是否二次支付：无需生成订单，直接去支付
         $data = [
             'paytype'  => $valid['payment'],
             'action'  => 'recharge',
             'coin'  => $valid['coin'],
         ];
+        // 转向支付接口
         $this->success('前往支付中心……',cmf_url('funds/Pay/pay',$data));
     }
 

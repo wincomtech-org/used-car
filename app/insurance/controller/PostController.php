@@ -224,7 +224,7 @@ class PostController extends HomeBaseController
         return $this->fetch();
     }
 
-    // 付钱
+    // 付钱 pay.html
     public function step6()
     {
         if (!cmf_is_user_login()) {
@@ -246,6 +246,15 @@ class PostController extends HomeBaseController
             Db::name('insurance_order')->where($where)->setField('status',5);
         }
 
+        // 判断是否为手机端、微信端
+        // $map = [
+        //     'action'  => 'insurance',
+        //     'order_sn'  => $data['order_sn'],
+        //     'coin'  => $data['amount'],
+        //     'id'  => $data['id'],
+        // ];
+        // $this->showPay($map);
+
         $this->assign('formurl',url('step7',['order_sn'=>$data['order_sn']]));
         $this->assign($data);
         return $this->fetch();
@@ -259,7 +268,10 @@ class PostController extends HomeBaseController
         }
 
         $data = $this->request->param();
+
+        // 判断是否二次支付：已有订单未支付，直接去支付
         $data['action'] = 'insurance';
+        // 转向支付接口
         $this->success('前往支付中心……',cmf_url('funds/Pay/pay',$data));
     }
 
