@@ -2,8 +2,8 @@
 // namespace paymentOld\alipay;
 
 // use paymentOld\alipay\lib\coreFunc;
-use paymentOld\alipay\lib\AlipaySubmit;
-use paymentOld\alipay\lib\AlipayNotify;
+use paymentOld\common\alipay\immed\AlipaySubmit;
+use paymentOld\common\alipay\immed\AlipayNotify;
 use traits\controller\Jump;
 
 // import('paymentOld/common/alipay/coreFunc',EXTEND_PATH);
@@ -32,7 +32,7 @@ class WorkPlugin
         $this->return_url = url('funds/Pay/callBack','',false,$this->host);
 
         // TP写法 
-        import('paymentOld/'.$this->plugin_id.'/lib/coreFunc',EXTEND_PATH);
+        import('paymentOld/common/alipay/coreFunc',EXTEND_PATH);
     }
 
     /*
@@ -233,11 +233,11 @@ class WorkPlugin
 
         //↓↓↓↓↓↓↓↓↓↓请在这里配置您的基本信息↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
         // 合作身份者id，以2088开头的16位纯数字
-        $set['partner'] = $option['partner'];
+        $set['partner'] = trim($option['partner']);
         // 安全检验码，以数字和字母组成的32位字符
         $set['key'] = $option['key'];
         // 签约支付宝账号或卖家支付宝帐户
-        $set['seller_email'] = $option['account'];
+        $set['seller_email'] = trim($option['account']);
 
         //页面跳转同步通知页面路径，要用 http://格式的完整路径，不允许加?id=123这类自定义参数
         //return_url的域名不能写成http://localhost/*** ，否则会导致return_url执行无效
@@ -256,12 +256,14 @@ class WorkPlugin
         // $set['input_charset']= strtolower('utf-8');
         // $set['input_charset']= strtolower('gbk');
         
-        // 访问模式,根据自己的服务器是否支持ssl访问，若支持请选择https；若不支持请选择http
-        $set['transport'] = 'http';
-        
         // ca证书路径地址，用于curl中ssl校验
         // 请保证cacert.pem文件在当前文件夹目录中
         $set['cacert'] = EXTEND_PATH .'paymentOld/'. $this->plugin_id .'/cacert.pem';
+        // 支付宝的公钥文件路径
+        // $set['ali_public_key_path'] = '';
+        
+        // 访问模式,根据自己的服务器是否支持ssl访问，若支持请选择https；若不支持请选择http
+        $set['transport'] = 'http';
         
         return $set;
     }
@@ -281,10 +283,10 @@ class WorkPlugin
         // 字符编码格式 目前支持 gbk 或 utf-8
         $param['_input_charset'] = $set['input_charset'];
         
-        // 收款支付宝账号
-        $param['seller_email'] = trim($set['seller_email']);
         // 合作身份者id，以2088开头的16位纯数字
-        $param['partner'] = trim($set['partner']);
+        $param['partner'] = $set['partner'];
+        // 收款支付宝账号
+        $param['seller_email'] = $set['seller_email'];
         
         //服务器异步通知页面路径，需http://格式的完整路径，不能加?id=123这类自定义参数
         $param['notify_url'] = $this->notify_url;

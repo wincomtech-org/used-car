@@ -1,5 +1,5 @@
 <?php
-namespace paymentOld\alipaywap\lib;
+namespace paymentOld\common\alipay\immed;
 /**
  * 类名：AlipayNotify
  * 功能：支付宝通知处理类
@@ -13,7 +13,6 @@ namespace paymentOld\alipaywap\lib;
  *************************注意*************************
  * 调试通知返回时，可查看或改写log日志的写入TXT里的数据，来检查通知返回是否正常
  */
-
 // require_once "coreFunc.php";
 
 class AlipayNotify
@@ -28,6 +27,10 @@ class AlipayNotify
     {
         $this->p_set = $p_set;
     }
+    // public function AlipayNotify($p_set)
+    // {
+    //     $this->__construct($p_set);
+    // }
 
     /**
      * 针对notify_url验证消息是否是支付宝发出的合法消息
@@ -42,19 +45,19 @@ class AlipayNotify
             //生成签名结果
             $isSign = $this->getSignVeryfy($_POST, $_POST["sign"]);
             //获取支付宝远程服务器ATN结果（验证是否是支付宝发来的消息）
-            $responseTxt = 'false';
+            $responseTxt = 'true';
+            // $responseTxt = 'false';
             if (!empty($_POST["notify_id"])) {$responseTxt = $this->getResponse($_POST["notify_id"]);}
 
             //写日志记录
-            //if ($isSign) {
-            //  $isSignStr = 'true';
-            //}
-            //else {
-            //  $isSignStr = 'false';
-            //}
-            //$log_text = "responseTxt=".$responseTxt."\n notify_url_log:isSign=".$isSignStr.",";
-            //$log_text = $log_text.createLinkString($_POST);
-            //logResult($log_text);
+            // if ($isSign) {
+            //     $isSignStr = 'true';
+            // } else {
+            //     $isSignStr = 'false';
+            // }
+            // $log_text = "responseTxt=".$responseTxt."\n notify_url_log:isSign=".$isSignStr.",";
+            // $log_text = $log_text.createLinkString($_POST);
+            // logResult($log_text);
 
             //验证
             //$responsetTxt的结果不是true，与服务器设置问题、合作身份者ID、notify_id一分钟失效有关
@@ -80,16 +83,16 @@ class AlipayNotify
             //生成签名结果
             $isSign = $this->getSignVeryfy($_GET, $_GET["sign"]);
             //获取支付宝远程服务器ATN结果（验证是否是支付宝发来的消息）
-            $responseTxt = 'false';
+            $responseTxt = 'true';
+            // $responseTxt = 'false';
             if (!empty($_GET["notify_id"])) {$responseTxt = $this->getResponse($_GET["notify_id"]);}
 
             //写日志记录
-            //if ($isSign) {
-            //  $isSignStr = 'true';
-            //}
-            //else {
-            //  $isSignStr = 'false';
-            //}
+            // if ($isSign) {
+            //     $isSignStr = 'true';
+            // } else {
+            //     $isSignStr = 'false';
+            // }
             //$log_text = "responseTxt=".$responseTxt."\n return_url_log:isSign=".$isSignStr.",";
             //$log_text = $log_text.createLinkString($_GET);
             //logResult($log_text);
@@ -124,13 +127,15 @@ class AlipayNotify
 
         $isSgin = false;
         switch (strtoupper(trim($this->p_set['sign_type']))) {
+            case "MD5":
+                $isSgin = md5Verify($prestr, $sign, $this->p_set['key']);
+                break;
             case "RSA":
                 $isSgin = rsaVerify($prestr, trim($this->p_set['ali_public_key_path']), $sign);
                 break;
             default:
                 $isSgin = false;
         }
-
         return $isSgin;
     }
 
@@ -153,9 +158,10 @@ class AlipayNotify
         } else {
             $veryfy_url = $this->http_verify_url;
         }
-        $veryfy_url  = $veryfy_url . "partner=" . $partner . "&notify_id=" . $notify_id;
-        $responseTxt = getHttpResponseGET($veryfy_url, $this->p_set['cacert']);
 
+        $veryfy_url = $veryfy_url .'partner='. $partner .'&notify_id='. $notify_id;
+        $responseTxt = getHttpResponseGET($veryfy_url, $this->p_set['cacert']);
         return $responseTxt;
     }
+
 }

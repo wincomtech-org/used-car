@@ -1,5 +1,5 @@
 <?php
-namespace paymentOld\alipaywap\lib;
+namespace paymentOld\common\alipay\immed;
 /**
  * 类名：AlipaySubmit
  * 功能：支付宝各接口请求提交类
@@ -32,16 +32,17 @@ class AlipaySubmit
     {
         //把数组所有元素，按照“参数=参数值”的模式用“&”字符拼接成字符串
         $prestr = createLinkstring($para_sort);
-
         $mysign = "";
         switch (strtoupper(trim($this->p_set['sign_type']))) {
+            case "MD5":
+                $mysign = md5Sign($prestr, $this->p_set['key']);
+                break;
             case "RSA":
                 $mysign = rsaSign($prestr, $this->p_set['private_key_path']);
                 break;
             default:
-                $mysign = "";
+                $mysign = '';
         }
-
         return $mysign;
     }
 
@@ -54,17 +55,13 @@ class AlipaySubmit
     {
         //除去待签名参数数组中的空值和签名参数
         $para_filter = paraFilter($para_temp);
-
         //对待签名参数数组排序
         $para_sort = argSort($para_filter);
-
         //生成签名结果
         $mysign = $this->buildRequestMysign($para_sort);
-
         //签名结果与签名方式加入请求提交参数组中
         $para_sort['sign']      = $mysign;
         $para_sort['sign_type'] = strtoupper(trim($this->p_set['sign_type']));
-
         return $para_sort;
     }
 
@@ -77,10 +74,8 @@ class AlipaySubmit
     {
         //待请求参数数组
         $para = $this->buildRequestPara($para_temp);
-
         //把参数组中所有元素，按照“参数=参数值”的模式用“&”字符拼接成字符串，并对字符串做urlencode编码
         $request_data = createLinkstringUrlencode($para);
-
         return $request_data;
     }
 
@@ -89,18 +84,20 @@ class AlipaySubmit
      * @param $para_temp 请求参数数组
      * @param $method 提交方式。两个值可选：post、get
      * @param $button_name 确认按钮显示文字
-     * @return 提交表单HTML文本
+     * @return 提交表单HTML文本  target='_blank'在苹果机上失效
      */
     public function buildRequestForm($para_temp, $method='post', $button_name='', $auto=true, $target='_self')
     {
         //待请求参数数组
         $para = $this->buildRequestPara($para_temp);
 
-        $sHtml = "<form id='alipaysubmit' name='alipaysubmit' action='". $this->alipay_gateway_new ."_input_charset=". trim(strtolower($this->p_set['input_charset'])) ."' method='". $method ."' target='". $target ."'>";
+        // 生成表单
+        $sHtml = "<form id='alipaysubmit' name='alipaysubmit' action='". $this->alipay_gateway_new ."_input_charset=" . trim(strtolower($this->p_set['input_charset'])) ."' method='". $method ."' target='". $target ."'>";
         while (list($key, $val) = each($para)) {
             $sHtml .= "<input type='hidden' name='". $key ."' value='". $val ."'/>";
         }
-
+        
+        if ($auto===true) $button_name = '';
         //submit按钮控件请不要含有name属性
         $sHtml = $sHtml ."<input type='submit' class='btnPayment' value='". $button_name ."'></form>";
 
@@ -163,7 +160,7 @@ class AlipaySubmit
     {
         //待请求参数数组
         $para                  = $this->buildRequestPara($para_temp);
-        $para[$file_para_name] = "@" . $file_name;
+        $para[$file_para_name] = "@". $file_name;
 
         //远程获取数据
         $sResult = getHttpResponsePOST($this->alipay_gateway_new, $this->p_set['cacert'], $para, trim(strtolower($this->p_set['input_charset'])));
@@ -179,9 +176,9 @@ class AlipaySubmit
     public function query_timestamp()
     {
         $url = $this->alipay_gateway_new ."service=query_timestamp&partner=". trim(strtolower($this->p_set['partner'])) ."&_input_charset=". trim(strtolower($this->p_set['input_charset']));
-        $encrypt_key = "";
+        $encrypt_key = '';
 
-        $doc = new DOMDocument();
+        $doc = new DOMDocument();//哪来的？
         $doc->load($url);
         $itemEncrypt_key = $doc->getElementsByTagName("encrypt_key");
         $encrypt_key     = $itemEncrypt_key->item(0)->nodeValue;

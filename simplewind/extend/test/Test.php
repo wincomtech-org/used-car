@@ -38,7 +38,7 @@ class Test
         return $post;
     }
 
-    public function tp($value='')
+    public function cmf($value='')
     {
         //如何识别返回参数？去除后缀.html即可
         $str = cmf_get_domain();//末尾不带 '/'

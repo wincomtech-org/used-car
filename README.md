@@ -69,7 +69,7 @@ DOMEvent DOMDocumentWrapper phpQueryEvents phpQuery Callback JSONP
     在线支付的都需要订单号order_sn
 
 
-接下来按顺序做的:
+按顺序做的:
 1、车辆属性设计
     <!-- 筛选属性和拓展属性同时修改，以筛选属性为主，否则哪个被修改就用哪个。
     属性循环单独模板

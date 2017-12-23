@@ -85,8 +85,8 @@ class TestController extends HomeBaseController
         // $test = new \Test('ok');
         // $post = $test->out($data);
         // dump($post);
-        // $test->tp();
-        // dump($test->tp());
+        // $test->cmf();
+        // dump($test->cmf());
 
         $test2 = new Test2('子类构造');
         $result = $test2->index('test2');

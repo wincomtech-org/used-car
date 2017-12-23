@@ -136,7 +136,7 @@ class FundsController extends UserBaseController
         $applyModel = new FundsApplyModel();
         $count = $applyModel->counts($this->user['id']);
         if ($count>=1) {
-            $this->error('您有提现待处理的数据',url('user/Funds/apply'));
+            $this->error('您有提现待处理的数据',url('user/Funds/apply',['status'=>0,'type'=>'withdraw']));
         }
         $count = $applyModel->counts($this->user['id'],'time');
         if ($count>=1) {
@@ -216,7 +216,7 @@ class FundsController extends UserBaseController
             $this->error('数据非法！');
         } else {
             Db::nmae('funds_apply')->where('id',$id)->setField('status',0);
-            $this->redirect('Funds/withdraw');
+            $this->success('数据重置成功',url('Funds/withdraw'));
         }
     }
     public function withdrawCancel()
@@ -261,15 +261,20 @@ class FundsController extends UserBaseController
     */
     public function apply()
     {
+        $status = $this->request->param('status/d');
         $type = $this->request->param('type','','strval');
-        if (!empty($type)) {
-            $where['type'] = $type;
-        } else {
-            $where['type'] = ['in','withdraw|openshop'];
-        }
+
         $where = [
             'user_id'=>$this->user['id'],
         ];
+        if (isset($status)) {
+            $where['status'] = $status;
+        }
+        if (!empty($type)) {
+            $where['type'] = $type;
+        } else {
+            $where['type'] = ['in','withdraw,openshop'];
+        }
         $list = Db::name('funds_apply')->where($where)->order('id','DESC')->paginate(15);
 
         $this->assign('list', $list);
