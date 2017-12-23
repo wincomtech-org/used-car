@@ -320,8 +320,8 @@ class PayModel extends Model
         } elseif (!empty($paytype)) {
             if ($paytype=='alipay') {
                 if (cmf_is_mobile()) {
-                    // $paytype = 'alipaywap';
-                    $paytype = 'alipay';//不是RSA
+                    $paytype = 'alipaywap';
+                    // $paytype = 'alipay';//不是RSA
                 }
             } elseif ($paytype=='weixin') {
                 if (cmf_is_wechat()) {
