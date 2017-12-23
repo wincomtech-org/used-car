@@ -1,5 +1,5 @@
 <?php
-namespace paymentOld\wxpaynative\lib;
+namespace paymentOld\common\wxpay\lib;
 /**
  * 微信支付API异常类
  * @author widyhu

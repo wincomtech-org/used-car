@@ -21,11 +21,11 @@ class WorkPlugin
     private $dir = '';// getcwd()
     private $host = '';
 
-    function __construct($order_sn='', $order_amount='', $order_id='123', $pay_id='')
+    function __construct($order_sn='', $order_amount='', $order_id='123', $action='')
     {
         $this->order_sn = $order_sn;
         $this->order_amount = $order_amount;
-        // $this->plugin_id = $pay_id;
+        // $this->action = $action;
         $this->host = cmf_get_domain();
         // $this->notify_url = cmf_url('funds/Pay/callBack','',false,$this->host);
         $this->notify_url = url('funds/Pay/callBack','',false,$this->host);

@@ -1,5 +1,5 @@
 <?php
-namespace paymentOld\wxpaynative\lib;
+namespace paymentOld\common\wxpay\lib;
 
 /**
 * 2015-06-29 修复签名问题

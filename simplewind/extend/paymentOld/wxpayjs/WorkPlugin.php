@@ -1,11 +1,12 @@
 <?php
-// namespace paymentOld\alipay;
+// namespace paymentOld\wxpayjs;
 
-// use paymentOld\alipay\lib\coreFunc;
-use paymentOld\alipay\lib\AlipaySubmit;
-use paymentOld\alipay\lib\AlipayNotify;
-// use paymentOld\wxpaynative\lib\WxPayData;//WxPayData不是类，只是文件名
-use paymentOld\wxpaynative\lib\WxPayUnifiedOrder;
+use paymentOld\wxpayjs\lib\JsApiPay;
+use paymentOld\common\wxpay\lib\WxPayApi;
+use paymentOld\common\wxpay\lib\WxPayException;
+use paymentOld\common\wxpay\lib\WxPayConfig;
+// use paymentOld\common\wxpay\lib\WxPayData;//WxPayData不是类，只是文件名
+use paymentOld\common\wxpay\lib\WxPayUnifiedOrder;
 
 // import('paymentOld/common/wxpay/coreFunc',EXTEND_PATH);
 
@@ -22,11 +23,12 @@ class WorkPlugin
     private $dir = '';// getcwd()
     private $host = '';
 
-    function __construct($order_sn='', $order_amount='', $order_id='123', $pay_id='')
+    function __construct($order_sn='', $order_amount='', $order_id='123', $action='')
     {
         $this->order_sn = $order_sn;
-        $this->order_amount = $order_amount;
-        // $this->plugin_id = $pay_id;
+        $this->order_amount = intval(ceil($order_amount*100));
+        // $this->order_id = $order_id;
+        $this->action = $action;
         $this->host = cmf_get_domain();
         $this->notify_url = url('funds/Pay/wxpayBack','',false,$this->host);
         $this->return_url = url('funds/Pay/wxpayBack','',false,$this->host);
@@ -63,16 +65,16 @@ class WorkPlugin
         // $editAddress = $tools->GetEditAddressParameters();
 
         $jumpurl = [
-            'ok'        => $this->return_url,
-            'cancel'    => $jumpurl,
-            'fail'      => $jumpurl,
+            'ok'    => url('funds/Pay/wxpayBack',$this->getReturn(),false,$this->host),
+            'cancel'=> $jumpurl,
+            'fail'  => $jumpurl,
         ];
 
         return $this->jsApi($jsApiParameters,$jumpurl);
     }
 
     // 获取用户openid
-    public function getOpenid($value='')
+    public function getOpenid()
     {
         $tools = new JsApiPay();//sdk中有这个类
         $openid = $tools->GetOpenid();// 多次CURL后只能用cookie获取其它参数
@@ -80,6 +82,7 @@ class WorkPlugin
 
         return $openid;
     }
+
     // 调起 JS api
     public function jsApi($jsApiParameters='',$jumpurl)
     {
@@ -143,10 +146,16 @@ EOF;
     public function getReturn()
     {
         // 在这里只管返回数据
-        return [
-            'order_sn'  => $this->order_sn,
-            'order_sn'  => $this->order_sn,
+
+        $data = [
+            // 'paytype'   => 'wxpay',
+            'action'    => $this->action,//可根据订单号来获取
+            'coin'      => $this->order_amount,
+            'out_trade_no' => $this->order_sn,
+            // 'id'        => $this->order_id,
         ];
+
+        return $data;
     }
 
     /*
@@ -154,8 +163,20 @@ EOF;
     */
     public function getNotify()
     {
-
+        // paylog();
+        return false;
     }
+
+    /**
+     * 服务器点对点响应操作给支付接口方调用
+     * 
+     */
+    // function response()
+    // {
+    //     require_once("wxpay/example/notify.php");
+    //     $notify = new PayNotifyCallBack();
+    //     $notify->Handle(false);
+    // }
 
 
 
@@ -168,26 +189,29 @@ EOF;
         // 获取插件配置信息
         $set = $this->p_set();
 
-        $param['service']           = 'single_trade_query';
-        $param['partner']           = $set['partner'];// 合作者ID
-        $param['_input_charset']    = $set['input_charset'];
-        $param['out_trade_no']      = $this->order_sn;//商户订单号,唯一
-        ksort($param);
-        reset($param);
-         
-        $param = '';
-        $sign  = '';
-         
-        foreach ($param as $key => $val)
+        //查询订单
+        $inputObj = new WxPayOrderQuery($set);// WxPayDataBase($set);
+        $inputObj->SetOut_trade_no($this->order_sn);
+
+        // $result = WxPayApi::orderQuery($inputObj);
+        $payApi = new WxPayApi($set);
+        $result = $payApi->orderQuery($inputObj);
+
+        // Log::DEBUG("query:" . json_encode($result));
+
+        if ( array_key_exists('return_code',$result) && 
+            $result['return_code']=='SUCCESS' && 
+            array_key_exists('result_code',$result) && 
+            $result['result_code']=='SUCCESS' && 
+            $result['trade_state']=='SUCCESS' )
         {
-            $param .= "$key=" .urlencode($val). "&";
-            $sign  .= "$key=$val&";
+            return true;
+            // $result['wxpay_status'] = true;
+        } else {
+            return false;
+            // $result['wxpay_status'] = false;
         }
-             
-        $param = substr($param, 0, -1);
-        $sign  = substr($sign, 0, -1) . $plugin['config']['key'];
-        $url = 'https://mapi.alipay.com/gateway.do?'.$param. '&sign='.md5($sign).'&sign_type=MD5';
-        echo file_get_contents($url);
+        // return $result;
     }
 
     /*退款*/
@@ -202,8 +226,6 @@ EOF;
 
 
 
-
-
     /**
      * +----------------------------------------------------------
      * 配置信息
@@ -212,18 +234,25 @@ EOF;
     public function p_set() {
         // 获取插件配置信息
         // {"appid":"","mchid":"","key":"","switch":"0","appsecret":""}
-        $option = cmf_get_option('alipay_settings');
+        // $option = cmf_get_option('alipay_settings');
 
         //↓↓↓↓↓↓↓↓↓↓请在这里配置您的基本信息↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
 
+        // 将官版的常量改为静态变量
+        // APPID：绑定支付的APPID（必须配置，开户邮件中可查看）
+        // WxPayConfig::$appid = $option['appid'];
+        // MCHID：商户号（必须配置，开户邮件中可查看）
+        // WxPayConfig::$mchid = $option['mchid'];
+        // KEY：商户支付密钥，参考开户邮件设置（必须配置，登录商户平台自行设置）
+        // WxPayConfig::$key = $option['key'];
+        // 公众帐号secert（仅JSAPI支付的时候需要配置）
+        // WxPayConfig::$appsecret = $option['appsecret'];
+        // echo WxPayConfig::$appsecret;die;
+
         //↑↑↑↑↑↑↑↑↑↑请在这里配置您的基本信息↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑
-        
-        
-        // 证书路径地址，用于curl中ssl校验
-        // 请保证cacert.pem文件在当前文件夹目录中
-        $set['cacert']    = EXTEND_PATH . 'paymentOld/' . $this->plugin_id . '/cacert.pem';
-        
-        return $set;
+
+        // $set = [];
+        // return $set;
     }
 
     /**
@@ -232,7 +261,7 @@ EOF;
      * +----------------------------------------------------------
      */
     public function parameter() {
-        $set = $this->p_set();
+        // $set = $this->p_set();
         $siteInfo = cmf_get_option('site_info');
 
         $input = new WxPayUnifiedOrder();

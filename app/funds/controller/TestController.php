@@ -70,7 +70,10 @@ class TestController extends HomeBaseController
 
     public function wxpay()
     {
-        # code...
+        paylog();
+
+        echo "string";
+        die;
     }
 
     // 对Test类的测试

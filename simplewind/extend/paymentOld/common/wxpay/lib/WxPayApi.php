@@ -1,5 +1,5 @@
 <?php
-namespace paymentOld\wxpaynative\lib;
+namespace paymentOld\common\wxpay\lib;
 // require_once "WxPay.Exception.php";
 // require_once "WxPay.Config.php";
 // require_once "WxPay.Data.php";
@@ -589,4 +589,3 @@ class WxPayApi
 		return $time;
 	}
 }
-

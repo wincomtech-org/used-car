@@ -1,5 +1,5 @@
 <?php
-namespace paymentOld\wxpaynative\lib;
+namespace paymentOld\common\wxpay\lib;
 /**
 * 配置账号信息
 */

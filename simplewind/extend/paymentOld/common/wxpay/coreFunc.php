@@ -25,8 +25,10 @@ function paylog($data='string')
     } else {
         $content = '非法数据！';
     }
-
-    // return logResult($content);
+    require_once 'log.php';
+    //初始化日志
+    $logHandler= new CLogFileHandler("data/wxpaylog/".date('Y-m').'.log');
+    $log = Log::Init($logHandler, 15);
 }
 
 // 将URL生成二维码
@@ -51,5 +53,20 @@ function printf_info($data)
         echo "<font color='#00ff55;'>$key</font> : $value <br/>";
     }
 }
+
+/**
+ * 获取当前的 url 地址
+ * @return type
+*/
+function getThisUrl() {
+    $sys_protocal = isset($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] == '443' ? 'https://' : 'http://';
+    $php_self = $_SERVER['PHP_SELF'] ? $_SERVER['PHP_SELF'] : $_SERVER['SCRIPT_NAME'];
+    $path_info = isset($_SERVER['PATH_INFO']) ? $_SERVER['PATH_INFO'] : '';
+    $relate_url = isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : $php_self.(isset($_SERVER['QUERY_STRING']) ? '?'.$_SERVER['QUERY_STRING'] : $path_info);
+
+    return $sys_protocal.(isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : '').$relate_url;
+}
+
+
 
 ?>

@@ -158,25 +158,24 @@ $(function(){
         // })
     }
     var int = self.setInterval("checkWxpay()",1000);
-
-
-
-    // var int = self.setInterval("clock()",60*1000);
-    // function clock()
-    // {
-    //     $.ajax({
-    //         url: "{:url(\"usual/Ajax/news\")}",
-    //         data: {},
-    //         type: "POST",
-    //         // dataType:'json',
-    //         success:function(CallBack) {
-    //             // alert(CallBack);
-    //             $('#news_clock').html(CallBack);
-    //         }
-    //     })
-    // }
-    // int=window.clearInterval(int);
-
-
 })
+
+// $(function(){
+//     function checkpay() {
+//         $.post('{:url(funds/Pay/ajaxWxpay)}', {action:'{$action}',order_sn:'{$order_sn}'}, function(data) {
+//             if (data) {
+//                 clearInterval(pid);
+//                 // console.log('ok'+data);
+//                 $('.ewm_l').html('<p>已支付，请关闭窗口</p>');
+//             }
+//             //  else {
+//             //     // console.log('no');
+//             // }
+//         });
+//     }
+//     var pid = setInterval(checkpay,6000);
+//     // var pid = window.setInterval("checkpay()",2000);
+//     // window.clearInterval(pid);
+// })
+
 </script>

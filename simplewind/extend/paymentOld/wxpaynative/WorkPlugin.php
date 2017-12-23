@@ -3,11 +3,11 @@
 
 // use paymentOld\wxpaynative\lib\coreFunc;//不是类
 use paymentOld\wxpaynative\lib\NativePay;
-use paymentOld\wxpaynative\lib\WxPayApi;
-use paymentOld\wxpaynative\lib\WxPayException;
-// use paymentOld\wxpaynative\lib\WxPayConfig;//已改
-// use paymentOld\wxpaynative\lib\WxPayData;//WxPayData不是类，只是文件名
-use paymentOld\wxpaynative\lib\WxPayUnifiedOrder;
+use paymentOld\common\wxpay\lib\WxPayApi;
+use paymentOld\common\wxpay\lib\WxPayException;
+// use paymentOld\common\wxpay\lib\WxPayConfig;//已改
+// use paymentOld\common\wxpay\lib\WxPayData;//WxPayData不是类，只是文件名
+use paymentOld\common\wxpay\lib\WxPayUnifiedOrder;
 
 // import('paymentOld/common/wxpay/coreFunc',EXTEND_PATH);
 import('paymentOld/wxpaynative/lib/WxPayData',EXTEND_PATH);
@@ -25,12 +25,12 @@ class WorkPlugin
     private $dir = '';// getcwd()
     private $host = '';
 
-    function __construct($order_sn='', $order_amount='', $order_id='123', $pay_id='')
+    function __construct($order_sn='', $order_amount='', $order_id='123', $action='')
     {
         $this->order_sn = $order_sn;
         $this->order_amount = intval(ceil($order_amount*100));
         $this->order_id = $order_id;
-        // $this->plugin_id = $pay_id;
+        // $this->action = $action;
         $this->host = cmf_get_domain();
         // $this->notify_url = url('funds/Pay/callBack','',false,$this->host);
         $this->notify_url = url('funds/Pay/wxpayBack','',false,$this->host);
@@ -90,19 +90,8 @@ class WorkPlugin
     */
     public function getReturn()
     {
-        //计算得出通知验证结果
-        $alipayNotify = new AlipayNotify($this->p_set());
-        $verify_result = $alipayNotify->verifyReturn();
-
-        if ($verify_result) { //验证成功
-            $this->log($_GET);
-            // 在这里只管返回数据
-            return $_GET;
-        } else { //验证失败
-            //调试
-            $this->log($_GET);
-            return false;
-        }
+        // paylog();
+        return false;
     }
 
     /*
@@ -110,35 +99,8 @@ class WorkPlugin
     */
     public function getNotify()
     {
-        //计算得出通知验证结果
-        $alipayNotify = new AlipayNotify($this->p_set());
-        $verify_result = $alipayNotify->verifyNotify();
-
-        if($verify_result) { //验证成功
-            $this->log($_POST);
-            // 在这里只管返回数据
-            return $_POST;
-        } else { //验证失败
-            //调试用，写文本函数记录程序运行情况是否正常
-            $this->log($_POST);
-            return false;
-        }
-    }
-
-    /*
-    * 功能：日志
-    */
-    public function log($data='string')
-    {
-        if (is_string($data)) {
-            $content = $data;
-        } elseif (is_array($data)) {
-            $content = json_encode($data);
-        } else {
-            $content = '非法数据！';
-        }
-
-        return logResult($content);
+        // paylog();
+        return false;
     }
 
 
@@ -150,14 +112,14 @@ class WorkPlugin
     public function orderStatus()
     {
         // 获取插件配置信息
-        // $set = $this->p_set();
+        $set = $this->p_set();
 
         //查询订单
-        $inputObj = new WxPayOrderQuery($this->p_set());// WxPayDataBase($this->p_set());
+        $inputObj = new WxPayOrderQuery($set);// WxPayDataBase($set);
         $inputObj->SetOut_trade_no($this->order_sn);
 
         // $result = WxPayApi::orderQuery($inputObj);
-        $payApi = new WxPayApi($this->p_set());
+        $payApi = new WxPayApi($set);
         $result = $payApi->orderQuery($inputObj);
 
         // Log::DEBUG("query:" . json_encode($result));
@@ -206,17 +168,6 @@ class WorkPlugin
         $set['APPSECRET'] = $option['appsecret'];
         $set['MCHID'] = $option['mchid'];
         $set['KEY'] = $option['key'];
-
-        // 将官版的常量改为静态变量
-        // APPID：绑定支付的APPID（必须配置，开户邮件中可查看）
-        // WxPayConfig::$appid = $option['appid'];
-        // MCHID：商户号（必须配置，开户邮件中可查看）
-        // WxPayConfig::$mchid = $option['mchid'];
-        // KEY：商户支付密钥，参考开户邮件设置（必须配置，登录商户平台自行设置）
-        // WxPayConfig::$key = $option['key'];
-        // 公众帐号secert（仅JSAPI支付的时候需要配置）
-        // WxPayConfig::$appsecret = $option['appsecret'];
-        // echo WxPayConfig::$appsecret;die;
 
         //↑↑↑↑↑↑↑↑↑↑请在这里配置您的基本信息↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑
 

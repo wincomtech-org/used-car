@@ -17,9 +17,9 @@
  */
 function createLinkstring($para)
 {
-    $arg = "";
+    $arg = '';
     while (list($key, $val) = each($para)) {
-        $arg .= $key . "=" . $val . "&";
+        $arg .= $key .'='. $val .'&';
     }
     //去掉最后一个&字符
     $arg = substr($arg, 0, count($arg) - 2);
@@ -36,9 +36,9 @@ function createLinkstring($para)
  */
 function createLinkstringUrlencode($para)
 {
-    $arg = "";
+    $arg = '';
     while (list($key, $val) = each($para)) {
-        $arg .= $key . "=" . urlencode($val) . "&";
+        $arg .= $key .'='. urlencode($val) .'&';
     }
     //去掉最后一个&字符
     $arg = substr($arg, 0, count($arg) - 2);
@@ -86,9 +86,9 @@ function argSort($para)
  */
 function logResult($word='',$dir='')
 {
-    $dir = empty($dir) ? getcwd().'/data/paylog/' : $dir;
+    $dir = empty($dir) ? getcwd().'/data/alipaylog/' : $dir;
 
-    $fp = fopen($dir.'log.txt','a');
+    $fp = fopen($dir.date('Y-m').'.log','a');
     flock($fp, LOCK_EX);
     fwrite($fp, "执行日期：". strftime("%Y%m%d%H%M%S",time()) ."\n". $word ."\n");
     flock($fp, LOCK_UN);

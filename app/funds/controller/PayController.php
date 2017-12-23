@@ -64,11 +64,11 @@ class PayController extends HomeBaseController
         if (empty($data)) {
             $this->error('非法数据集');
         }
-        $action = $data['action'];
+        $paytype = empty($data['paytype']) ? 'alipay' : $data['paytype'];
+        $action = trim($data['action']);
         if (empty($action)) {
             $this->error('参数非法！');
         }
-        $paytype = empty($data['paytype']) ? 'alipay' : $data['paytype'];
 
         if (!empty($openPay)) {
             /*未开放 展示*/
@@ -108,11 +108,14 @@ class PayController extends HomeBaseController
                 $order_sn = empty($data['order_sn'])?cmf_get_order_sn($action.'_'):$data['order_sn'];
                 $amount = $data['coin'];
                 $amount = 0.01;
+                $order_id = empty($data['id']) ? 0 : $data['id'];
+
                 import('paymentOld/'.$paymode.'/WorkPlugin',EXTEND_PATH);
-                $work = new \WorkPlugin($order_sn,$amount);
-                // $work = new \WorkPlugin($order_sn,$amount,$order_id,$pay_id);
+                $work = new \WorkPlugin($order_sn,$amount,$order_id,$action);
 
                 $work->work(true,$payModel->getJumpErrByAction($action));
+                // 如果是扫码
+                
             }
         }
     }
@@ -164,8 +167,8 @@ class PayController extends HomeBaseController
             } else {
                 $statusCode = 0;//支付失败
             }
-            $out_trade_no = $orz['out_trade_no'];
-            if (!empty($out_trade_no)) {
+            if (!empty($orz['out_trade_no'])) {
+                $out_trade_no = $orz['out_trade_no'];
                 $action = strstr($out_trade_no,'_',true);
                 $jumpok = $payModel->getJumpByAction($action);
                 $jumperr = $payModel->getJumpErrByAction($action);
@@ -224,11 +227,24 @@ class PayController extends HomeBaseController
         $work = new \WorkPlugin();
 
         $orz = $_GET;
-        $orz = $work->getReturn();
+        // $orz = $work->getReturn();
         // $orz = [
         //     'out_trade_no'  => $order_sn,
         //     'total_fee'     => $coin,
         // ];
+
+        if (!empty($orz['out_trade_no'])) {
+            $out_trade_no = $orz['out_trade_no'];
+            // $action = strstr($out_trade_no,'_',true);
+            // $jumpok = $payModel->getJumpByAction($action);
+            // $jumperr = $payModel->getJumpErrByAction($action);
+            // 检查是否已支付过
+            if ($payModel->checkOrderStatus($out_trade_no)) {
+                $this->error('请勿重复支付',$jumpok);
+            }
+        } else {
+            $this->error('注意：订单号丢失',$jumpurl);
+        }
 
         $status = $payModel->$action($orz,10,'wxpay');
 
@@ -247,6 +263,14 @@ class PayController extends HomeBaseController
     // 扫码
     public function ajaxWxpay()
     {
+        $data = $this->request->param();
+        // 实例化
+        $payModel = new PayModel();
+        $paymode = $payModel->getPayment('wxpay');
+        import('paymentOld/'.$paymode.'/WorkPlugin',EXTEND_PATH);
+        $work = new \WorkPlugin($order_sn,$amount,$order_id,$action);
+
+        $work->orderStatus();
 
     }
 
