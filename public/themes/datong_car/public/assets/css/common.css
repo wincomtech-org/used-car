@@ -306,6 +306,7 @@ nav{background-color:#000;}
 @media only screen and (max-width: 768px){
 	/**顶部和导航*/
 	.navPc,.headerPc,.login_pc{display:none;}
+	.headerM{overflow:hidden;}
 
 	/**手机端顶部和导航*/
 	.header_top{display:-webkit-box;display: -ms-flexbox;display:flex;-ms-flex-wrap:wrap;flex-wrap:wrap;-webkit-box-pack:justify;-ms-flex-pack:justify;justify-content:space-between;padding:1%;align-items:center;}

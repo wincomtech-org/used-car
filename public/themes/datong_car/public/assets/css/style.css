@@ -1204,7 +1204,7 @@
 .mode_payment_con{margin:40px 0;border:1px solid #ddd;padding:30px 50px;box-sizing:border-box;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;-ms-box-sizing:border-box;-o-box-sizing:border-box;}
 .group_list{padding:10px 0;}
 .group_list .icon_tit{width:140px;font-size:16px;display:inline-block;text-align:right;margin-right:10px;}
-.group_list input{width:240px;height:36px;line-height:36px;padding-left:10px;border:1px solid #ddd;}
+.group_list input{width:240px;height:36px;line-height:36px;padding-left:10px;border:1px solid #ddd;font-size:16px;}
 .mode_payment_con .pay_tab_list,.mode_payment_con .pay_tab_con{width:80%;margin:0 auto;border-bottom:none;}
 .mode_payment_con .pay_tab_list{margin:10px auto 40px ;}
 .ash_withdrawa {font-size:16px;}
