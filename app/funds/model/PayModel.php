@@ -91,13 +91,18 @@ class PayModel extends Model
     * 微信
     */
     // 保险 payreturn
-    public function insurance($data,$statusCode,$paytype)
+    public function insurance($data,$statusCode=0,$paytype='')
     {
         $status = $statusCode==1?6:$status;
         // $userId = cmf_get_current_user_id();
+        $newData = [
+            'pay_time'  => time(),
+            'status'    => $status,
+            'payment'   => $paytype,
+        ];
 
         if ($paytype=='cash') {
-            Db::name('insurance_order')->where('order_sn',$data['out_trade_no'])->setField('status',$status);
+            Db::name('insurance_order')->where('order_sn',$data['out_trade_no'])->update($newData);
         } else {
             $id = Db::name('insurance_order')->where('order_sn',$data['out_trade_no'])->value('id');
             if (empty($id)) return 0;
@@ -105,11 +110,13 @@ class PayModel extends Model
             $transStatus = true;
             try{
                 if (empty($id)) {
-                    $post = [];
+                    $post = [
+                        'order_sn'  => $data['out_trade_no'],
+                    ];
                     $post['more'] = json_encode(['payreturn'=>$data]);
                     Db::name('insurance_order')->insertGetId($post);
                 } else {
-                    Db::name('insurance_order')->where('id',$id)->setField('status',$status);
+                    Db::name('insurance_order')->where('id',$id)->update($newData);
                 }
                 // lothar_put_news($log);
                 Db::commit();
@@ -121,21 +128,26 @@ class PayModel extends Model
         }
     }
     // 看车
-    public function seecar($data,$statusCode,$paytype)
+    public function seecar($data,$statusCode=0,$paytype='')
     {
         $status = $statusCode==10?1:$status;
         // $userId = cmf_get_current_user_id();
         $info = Db::name('trade_order')->field('id,car_id')->where('order_sn',$data['out_trade_no'])->find();
+        $newData = [
+            'pay_time'  => time(),
+            'status'    => $status,
+            'payment'   => $paytype,
+        ];
 
         if ($paytype=='cash') {
-            Db::name('trade_order')->where('id',$info['id'])->setField('status',$status);
+            Db::name('trade_order')->where('id',$info['id'])->update($newData);
             Db::name('usual_car')->where('id',$info['car_id'])->setDec('inventory',1);
         } else {
             if (empty($info['id'])) return 0;
             Db::startTrans();
             $transStatus = true;
             try{
-                Db::name('trade_order')->where('id',$info['id'])->setField('status',$status);
+                Db::name('trade_order')->where('id',$info['id'])->update($newData);
                 Db::name('usual_car')->where('id',$info['car_id'])->setDec('inventory',1);//减库存
                 // lothar_put_news($log);
                 Db::commit();
@@ -147,14 +159,15 @@ class PayModel extends Model
         }
     }
     // 开店 payreturn
-    public function openshop($data,$statusCode,$paytype)
+    public function openshop($data,$statusCode=0,$paytype='')
     {
         $status = $statusCode==1?10:$status;
         $userId = cmf_get_current_user_id();
         $id = Db::name('funds_apply')->where('order_sn',$data['out_trade_no'])->value('id');
         $newData = [
             'pay_time'  => time(),
-            'status'    => $status
+            'status'    => $status,
+            'payment'   => $paytype,
         ];
         $log = [
             'title'     => '开店申请',
@@ -183,7 +196,7 @@ class PayModel extends Model
         }
     }
     // 充值 payreturn ，不存在余额充值
-    public function recharge($data,$statusCode,$paytype)
+    public function recharge($data,$statusCode=0,$paytype='')
     {
         if ($paytype=='cash') return false;
         $status = $statusCode==1?10:$status;
@@ -212,7 +225,8 @@ class PayModel extends Model
             } else {
                 $newData = [
                     'pay_time'  => time(),
-                    'status'    => $status
+                    'status'    => $status,
+                    'payment'   => $paytype,
                 ];
                 Db::name('funds_apply')->where('id',$id)->update($newData);
             }

@@ -18,6 +18,7 @@
                     <div class="right">
                         <form action="{$formurl}" method="post" class="js-ajax-form" onsubmit="getElementById('submitCash').disabled=true;return true;">
                             <input type="hidden" name="paytype" value="cash">
+                            <input type="hidden" name="orderId" value="{$orderId|default=''}">
                             <button id="submitCash" class="sure_pay js-ajax-submit" type="submit">确认支付</button>
                         </form>
                     </div>
@@ -57,6 +58,7 @@
                                             <div class="button">
                                                 <form action="{$formurl}" method="post" class="js-ajax-form" onsubmit="getElementById('submitAlipay').disabled=true;return true;">
                                                     <input type="hidden" name="paytype" value="alipay">
+                                                    <input type="hidden" name="orderId" value="{$orderId|default=''}">
                                                     <button id="submitAlipay" class="sure_pay js-ajax-submit" type="submit">立即支付</button>
                                                 </form>
                                             </div>
@@ -79,6 +81,7 @@
                                                         <div class="lf">
                                                         <form action="{$formurl}" method="post" class="js-ajax-form" onsubmit="getElementById('submitWxpay').disabled=true;return true;">
                                                             <input type="hidden" name="paytype" value="wxpay">
+                                                            <input type="hidden" name="orderId" value="{$orderId|default=''}">
                                                             <button id="submitWxpay" class="sure_pay js-ajax-submit" type="submit">立即支付</button>
                                                         </form>
                                                         </div>

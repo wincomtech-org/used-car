@@ -78,7 +78,7 @@ class FundsController extends UserBaseController
         return $this->fetch();
     }
 
-    // 充值 
+    // 充值 无pay.html
     public function recharge()
     {
 
@@ -111,14 +111,14 @@ class FundsController extends UserBaseController
             $this->error($result);
         }
 
-        // 判断是否二次支付：无需生成订单，直接去支付
-        $data = [
+        // 判断是否二次支付：首单，订单在支付后生成，先去支付
+        $map = [
             'paytype'  => $valid['payment'],
             'action'  => 'recharge',
             'coin'  => $valid['coin'],
         ];
         // 转向支付接口
-        $this->success('前往支付中心……',cmf_url('funds/Pay/pay',$data));
+        $this->success('前往支付中心……',cmf_url('funds/Pay/pay',$map));
     }
 
     // 提现

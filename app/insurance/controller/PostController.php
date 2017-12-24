@@ -192,6 +192,9 @@ class PostController extends HomeBaseController
         }
     }
 
+
+
+// 后续处理
     // 签合同
     public function step5()
     {
@@ -201,13 +204,13 @@ class PostController extends HomeBaseController
         $orderId = $this->request->param('id',0,'intval');
         $down = $this->request->param('down/d');
         if (empty($orderId)) {
-            $this->error('ID非法');
+            $this->error('保单非法');
         }
 
-        $insurOrder = Db::name('insurance_order')->field('order_sn,amount,status,insurance_id')->where('id',$orderId)->find();
+        $findOrder = Db::name('insurance_order')->field('order_sn,amount,status,insurance_id')->where('id',$orderId)->find();
 
-        $where = ['id'=>$insurOrder['insurance_id'],'identi_status'=>1,'status'=>1];
-        // $insurInfo = model('Insurance')->getPost($insurOrder['insurance_id']);
+        $where = ['id'=>$findOrder['insurance_id'],'identi_status'=>1,'status'=>1];
+        // $insurInfo = model('Insurance')->getPost($findOrder['insurance_id']);
         $insurInfo = Db::name('insurance')->field('company_id,name,content,information,more')->where($where)->find();
         if (empty($insurInfo)) {
             $this->error('该保险已被关闭或者失效，请联系管理员');
@@ -218,21 +221,27 @@ class PostController extends HomeBaseController
         //     # code...
         // }
 
-        $this->assign('id',$orderId);
-        $this->assign('order',$insurOrder);
-        $this->assign('Info',$insurInfo);
+        $this->assign('orderId',$orderId);
+        $this->assign('order',$findOrder);
+        $this->assign('info',$insurInfo);
         return $this->fetch();
     }
 
-    // 付钱 pay.html
+    // 付钱页面 pay.html
     public function step6()
     {
         if (!cmf_is_user_login()) {
             $this->error('请登录',url('user/Login/index'));
         }
 
-        $data = $this->request->param();
+        $data = $this->request->param();//order_sn,amount
         $agree = $this->request->param('agree',null);
+        $orderId = $this->request->param('orderId/d');
+
+        // 判断是否二次支付：
+        // if (!empty($data['status'])) {
+        //     $this->error('请勿重复支付',url('user/Insurance/index'));
+        // }
 
         if ($data['amount']<='0.00') {
             $this->error('请等待管理员填写支付金额');
@@ -241,38 +250,54 @@ class PostController extends HomeBaseController
             $this->error('请勾选同意按钮');
         }
 
-        $where = ['id'=>$data['id']];
+        $where = ['id'=>$orderId];
         if ($agree==1) {
             Db::name('insurance_order')->where($where)->setField('status',5);
         }
 
         // 判断是否为手机端、微信端
         // $map = [
-        //     'action'  => 'insurance',
+        //     'action'    => 'insurance',
         //     'order_sn'  => $data['order_sn'],
-        //     'coin'  => $data['amount'],
-        //     'id'  => $data['id'],
+        //     'coin'      => $data['amount'],
+        //     'id'        => $orderId,
         // ];
         // $this->showPay($map);
 
-        $this->assign('formurl',url('step7',['order_sn'=>$data['order_sn']]));
         $this->assign($data);
+        $this->assign($orderId,$orderId);
+        $this->assign('formurl',url('step7',['order_sn'=>$data['order_sn']]));
         return $this->fetch();
     }
 
-    // 结果 paytype,order_sn,action
+    // 支付 paytype,order_sn,action
     public function step7()
     {
         if (!cmf_is_user_login()) {
             $this->error('请登录',url('user/Login/index'));
         }
 
-        $data = $this->request->param();
+        // 前置数据
+        $paytype = $this->request->param('paytype');
+        if (empty($paytype)) {
+            $this->error('请选择支付方式');
+        }
+        $orderId = $this->request->param('orderId/d');
+        if (empty($orderId)) {
+            $this->error('保单支付失败');
+        }
+        $order = Db::name('insurance_order')->field('order_sn,amount,pay_id')->where('id',$orderId)->find();
+        $map = [
+            'paytype'   => $paytype,
+            'action'    => 'insurance',
+            'order_sn'  => $order['order_sn'],
+            'coin'      => $order['amount'],
+            // 'id'        => $orderId,
+        ];
 
         // 判断是否二次支付：已有订单未支付，直接去支付
-        $data['action'] = 'insurance';
         // 转向支付接口
-        $this->success('前往支付中心……',cmf_url('funds/Pay/pay',$data));
+        $this->success('前往支付中心……',cmf_url('funds/Pay/pay',$map));
     }
 
     // 查看险种
