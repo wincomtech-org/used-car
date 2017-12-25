@@ -38,6 +38,9 @@ class UsualCarModel extends UsualModel
         if (!empty($filter['cityId'])) {
             $where['a.city_id'] = intval($filter['cityId']);
         }
+        if (!empty($filter['plat'])) {
+            $where['a.platform'] = intval($filter['plat']);
+        }
 
         // 后台
         $startTime = empty($filter['start_time']) ? 0 : strtotime($filter['start_time']);

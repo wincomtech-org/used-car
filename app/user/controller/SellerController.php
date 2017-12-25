@@ -117,7 +117,7 @@ class SellerController extends TradeController
         // 用户实名认证状态
         $identify = lothar_verify($userId);
         // 开店资料审核 config('verify_define_data');
-        $verifyinfo = lothar_verify($userId,'seller',true);
+        $verifyinfo = lothar_verify($userId,'openshop',true);
 
         // 实例化
         $carModel = new UsualCarModel();
@@ -251,7 +251,7 @@ class SellerController extends TradeController
     public function audit()
     {
         $userId = cmf_get_current_user_id();
-        $verifyinfo = lothar_verify($userId,'seller',true);
+        $verifyinfo = lothar_verify($userId,'openshop',true);
         // 如果审核通过，不予再审核
 
         $this->assign('verifyinfo',$verifyinfo);
@@ -262,17 +262,28 @@ class SellerController extends TradeController
         $userId = cmf_get_current_user_id();
         $data = $this->request->param();
         $post = $data['verify'];
+        $plateNo = $post['more']['plateNo'];
+
+        // 车牌号查重 verify、usual_car
+        $verifyinfo = DB::name('verify')->where('plateNo',$plateNo)->value('user_id');
+        if (empty($post['id'])) {
+            if (!empty($verifyinfo)) $this->error('该车牌号已存在');
+            $post = array_merge([
+                'user_id'       => $userId,
+                'auth_code'     => 'openshop',
+                'create_time'   => time(),
+            ],$post);
+        } else {
+            if (!empty($verifyinfo) && $verifyinfo != $userId) {
+                $this->error('该车牌号已被用户【ID】：'.$verifyinfo.'用于资料审核，请联系管理员');
+            }
+        }
+        $post['plateNo'] = $plateNo;
         
         // 直接拿官版的
         if (!empty($data['identity_card'])) {
             $post['more']['identity_card'] = model('usual/Usual')->dealFiles($data['identity_card']);
         }
-
-        $post = array_merge([
-            'user_id'   =>$userId,
-            'auth_code' =>'seller',
-            'create_time'=>time()
-        ],$post);
 
         // 验证数据的完备性
         $result = $this->validate($post,'usual/Verify.seller');

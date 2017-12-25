@@ -113,7 +113,7 @@ return [
     'identity_card' => '身份证',
     'plateNo' => '车牌号',
     'username' => '用户名',
-    'real_name' => '姓名',
+    'real_name' => '真名',
     'contact' => '联系方式',
     'telephone' => '电话',
     'gender' => '性别',

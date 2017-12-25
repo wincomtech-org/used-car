@@ -51,6 +51,7 @@ class AdminCarController extends AdminBaseController
         $this->assign('start_time', isset($param['start_time']) ? $param['start_time'] : '');
         $this->assign('end_time', isset($param['end_time']) ? $param['end_time'] : '');
         $this->assign('keyword', isset($param['keyword']) ? $param['keyword'] : '');
+        $this->assign('plat', isset($param['plat']) ? $param['plat'] : '');
         $this->assign('articles', $data->items());
         $this->assign('brand_tree', $brandTree);
         $this->assign('page', $data->render());
@@ -201,7 +202,7 @@ class AdminCarController extends AdminBaseController
         $sell_status = $this->Model->getSellStatus($post['sell_status']);
 
         // 个人审核资料
-        $verifyinfo = lothar_verify($post['user_id'],'seller',true);
+        $verifyinfo = lothar_verify($post['user_id'],'openshop',true);
 
         $this->assign('verifyinfo',$verifyinfo);
 
@@ -282,7 +283,7 @@ class AdminCarController extends AdminBaseController
             // 更新车主数据，如果审核通过，不予再审核
             if ($result===true) {
                 if (empty($verify['id'])) {
-                    $verify['auth_code'] = 'seller';
+                    $verify['auth_code'] = 'openshop';
                     $verify['create_time'] = time();
                     model('usual/Verify')->adminAddArticle($verify);
                 } else {

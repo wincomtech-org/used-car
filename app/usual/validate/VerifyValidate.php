@@ -24,9 +24,11 @@ class VerifyValidate extends Validate
         'more.identity_card' => '身份证不能为空！',
     ];
     protected $scene = [
-       'add'  => ['auth_code'],
-       'edit' => ['auth_code'],
-       'seller'=>[],
+       'add'        => ['auth_code'],
+       'edit'       => ['auth_code'],
+       'seller'     => [],
+       'openshop'   => [],
+       'insurance'  => [],
     ];
 
     protected function checkUid($value)

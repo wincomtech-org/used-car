@@ -2,7 +2,7 @@
 namespace app\insurance\controller;
 
 use cmf\controller\HomeBaseController;
-use app\usual\model\UsualCarModel;
+use app\usual\model\VerifyModel;
 use app\insurance\model\InsuranceModel;
 use app\insurance\model\InsuranceCoverageModel;
 use think\Db;
@@ -52,6 +52,8 @@ class PostController extends HomeBaseController
             $this->error('请登录',url('user/Login/index'));
         }
 
+        $verifyinfo = lothar_verify(cmf_get_current_user_id(),'openshop',true);
+
         if ($this->request->isPost()) {
             $data   = $this->request->param();
 
@@ -84,6 +86,7 @@ class PostController extends HomeBaseController
         $iName = $mainModel->where('id',$id)->value('name');
 
         $this->assign('iName', $iName);
+        $this->assign('verifyinfo', $verifyinfo['more']);
         return $this->fetch();
     }
 
@@ -93,72 +96,72 @@ class PostController extends HomeBaseController
             $this->error('请登录',url('user/Login/index'),'',6);
         }
         if ($this->request->isPost()) {
-            $data   = $this->request->param();
-            // $post = $data['post'];
-            $cardata = $data['car'];
             $userId = cmf_get_current_user_id();
+            $data = $this->request->param();
+            $vdata = $data['verify'];
+            $plateNo = $vdata['more']['plateNo'];
 
+
+            /*处理审核资料数据 verify[id]*/
+            if (empty($plateNo)) {
+                $this->error('请填写车牌号码');
+            }
+
+            // 车牌号查重 verify、usual_car
+            $carInfo = DB::name('usual_car')->field('id,user_id')->where('plateNo',$plateNo)->find();
+            if (!empty($carInfo)) {
+                if ($carInfo['user_id'] != $userId) {
+                    $this->error('该车牌号已被其他卖家填写，请联系管理员');
+                }
+                $post['car_id'] = $carInfo['id'];
+            }
+
+            $verifyinfo = DB::name('verify')->where('plateNo',$plateNo)->value('user_id');
+            if (!empty($verifyinfo) && $verifyinfo != $userId) {
+                $this->error('该车牌号已被用户【ID】：'.$verifyinfo.'用于资料审核，请联系管理员');
+            }
+            if (empty($verifyinfo)) {
+                $vdata = array_merge([
+                    'user_id'       => $userId,
+                    'auth_code'     => 'insurance',
+                    'create_time'   => time(),
+                    'plateNo'       => $plateNo,
+                ],$vdata);
+                // 直接拿官版的
+                if (!empty($data['identity_card'])) {
+                    $vdata['more']['identity_card'] = model('usual/Usual')->dealFiles($data['identity_card']);
+                }
+                // 验证数据的完备性
+                $result = $this->validate($vdata,'usual/Verify.seller');
+                if ($result!==true) {
+                    $this->error($result);
+                }
+                model('usual/Verify')->adminAddArticle($vdata);
+            }
+
+
+            /*处理保单数据*/
+            // $post_pre = json_decode(session('insuranceStep1'));
+            $post = session('insuranceStep1');
             if (!empty($data['data_filling_online'])) {
                 $post['type'] = 1;
             }
             if (!empty($data['data_filling_offline'])) {
                 $post['type'] = 2;
             }
+            // if (empty($post['car_id'])) {
+            //     $post['car_id'] = '0';
+            // }
+            // 车牌号可作为唯一标识
+            $post['plateNo'] = $plateNo;
 
-            // 处理车辆数据
-            if (empty($cardata['identi']['plateNo'])) {
-                $this->error('请填写车牌号码',url('Post/step2'));
-            }
-            $carInfo = DB::name('usual_car')->field('id,user_id')->where('plateNo',$cardata['identi']['plateNo'])->find();
-            if (!empty($carInfo)) {
-                if ($carInfo['user_id']!=$userId) {
-                    $this->error('该车牌号已被其他用户填写，请联系管理员',url('Index/index'));
-                }
-                $post['car_id'] = $carInfo['id'];
-            } else {
-                $cardata['user_id'] = $userId;
-                $cardata['plateNo'] = $cardata['identi']['plateNo'];
-
-                $carValid = $cardata['identi'];
-                $carModel = new UsualCarModel();
-                // dump($carValid);die;
-                // $result = $this->validate($cardata, 'usual/Car.insurance');
-                $result = $this->validate($carValid, 'Post.car');
-                if ($result !== true) {
-                    $this->error($result,url('Post/step2'));
-                }
-
-                // 行驶证 单图不需要额外处理
-                // $file_var = ['driving_license','identity_card'];
-                // $carUp = $carModel->uploadPhotos($file_var);
-                // foreach ($carUp as $key => $it) {
-                //     if (!empty($it['err'])) {
-                //         $this->error($it['err']);
-                //     }
-                //     $cardata['identi'][$key] = $it['data'];
-                // }
-                // 直接拿官版的
-                if (!empty($data['identity_card'])) {
-                    $cardata['identi']['identity_card'] = $carModel->dealFiles($data['identity_card']);
-                }
-
-                $carModel->adminAddArticle($cardata);
-                $post['car_id'] = $carModel->id;
-                // $post['car_id'] = Db::name('usual_car')->insertGetId($cardata);
-            }
-
-
-            // 处理保单数据
-            // $post_pre = json_decode(session('insuranceStep1'));
-            $post_pre = session('insuranceStep1');
-            $post = array_merge($post,$post_pre);
             $post['user_id'] = $userId;
             $post['order_sn'] = cmf_get_order_sn('insurance_');
             $post['create_time'] = time();
             // dump($post);die;
             $result = $this->validate($post, 'Post.step3');
             if ($result !== true) {
-                $this->error($result,url('Post/step2'));
+                $this->error($result);
             }
 
             Db::startTrans();
@@ -188,7 +191,7 @@ class PostController extends HomeBaseController
             if ($sta===true) {
                 $this->success('提交成功，请等待工作人员回复',url('user/Insurance/index'));
             }
-            $this->error('提交失败',url('Index/index'));
+            $this->error('提交失败');
         }
     }
 

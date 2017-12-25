@@ -65,6 +65,7 @@ DOMEvent DOMDocumentWrapper phpQueryEvents phpQuery Callback JSONP
     后期管理员第二次更改状态的处理：
 
 重复
+    车牌号的唯一性检测？车牌号查重
     用户重新提交审核？管理员二次操作？
     无责取消 与 有责取消 ？
     我的点券怎么扣除退还？

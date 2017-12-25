@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50540
 File Encoding         : 65001
 
-Date: 2017-12-25 17:51:31
+Date: 2017-12-25 20:36:46
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -4286,6 +4286,7 @@ CREATE TABLE `cmf_insurance_order` (
   `insurance_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '保险业务ID',
   `coverIds` varchar(255) NOT NULL DEFAULT '' COMMENT '自选险种',
   `car_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '车辆ID',
+  `plateNo` varchar(7) NOT NULL DEFAULT '' COMMENT '车牌号',
   `user_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '用户ID',
   `deal_uid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '处理人ID',
   `order_sn` varchar(30) NOT NULL DEFAULT '' COMMENT '保单号',
@@ -4311,13 +4312,13 @@ CREATE TABLE `cmf_insurance_order` (
   KEY `idx3` (`insurance_id`),
   KEY `idx4` (`order_sn`),
   KEY `idx5` (`status`),
-  KEY `idx6` (`user_id`,`car_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COMMENT='保单表';
+  KEY `idx6` (`user_id`,`car_id`),
+  KEY `idx7` (`user_id`,`plateNo`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='保单表';
 
 -- ----------------------------
 -- Records of cmf_insurance_order
 -- ----------------------------
-INSERT INTO `cmf_insurance_order` VALUES ('1', '2', '[\"1\",\"2\",\"4\"]', '6', '5', '0', 'insurance_2017122553571019', '', '1.00', '', '', '1514190277', '0', '0', '0', '0', '0', null, '', '', '1', '5', '10000');
 
 -- ----------------------------
 -- Table structure for cmf_link
@@ -5741,6 +5742,7 @@ CREATE TABLE `cmf_verify` (
   `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
   `end_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '结束时间',
   `more` text COMMENT '扩展数据：认证数据',
+  `plateNo` varchar(7) NOT NULL DEFAULT '' COMMENT '车牌号',
   `is_top` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '置顶：0否 1是',
   `auth_status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '认证状态： -3认证失败 -2取消 -1禁止认证 0未认证 1已认证',
   PRIMARY KEY (`id`),
@@ -5752,9 +5754,9 @@ CREATE TABLE `cmf_verify` (
 -- ----------------------------
 -- Records of cmf_verify
 -- ----------------------------
-INSERT INTO `cmf_verify` VALUES ('1', '3', '0', 'mobile', '0', '1511768040', '1512768040', '{\"mobile\":\"133654987\",\"email\":\"\",\"identity_card\":\"\",\"driving_license\":\"\",\"real_name\":\"\",\"gender\":\"\",\"birthday\":\"\",\"telephone\":\"\",\"alipay\":\"\",\"weixin\":\"\",\"ID_Type\":\"\",\"ID_No\":\"\",\"booklet\":\"\",\"house_certificate\":\"\",\"marriage_lines\":\"\",\"birthcity\":\"\",\"residecity\":\"\",\"diploma\":\"\",\"graduateschool\":\"\",\"education\":\"\",\"business_license\":\"\",\"work_occupation\":\"\",\"work_company\":\"\",\"work_position\":\"\",\"work_experience\":\"\"}', '0', '0');
-INSERT INTO `cmf_verify` VALUES ('2', '3', '0', 'certification', '0', '1514192573', '0', '{\"identity_card\":[{\"url\":\"http:\\/\\/tx.car\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/6.jpg\",\"name\":\"\"},{\"url\":\"http:\\/\\/tx.car\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/7.jpg\",\"name\":\"\"}],\"driving_license\":\"http:\\/\\/tx.car\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/5.jpg\"}', '0', '0');
-INSERT INTO `cmf_verify` VALUES ('3', '3', '0', 'seller', '0', '1514192868', '0', '{\"username\":\"汪某人\",\"contact\":\"13365897412\",\"plateNo\":\"皖A598H2\",\"driving_license\":\"http:\\/\\/tx.car\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/5.jpg\",\"identity_card\":[{\"url\":\"http:\\/\\/tx.car\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/6.jpg\",\"name\":\"\"},{\"url\":\"http:\\/\\/tx.car\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/7.jpg\",\"name\":\"\"}]}', '0', '0');
+INSERT INTO `cmf_verify` VALUES ('1', '3', '0', 'mobile', '0', '1511768040', '1512768040', '{\"mobile\":\"133654987\",\"email\":\"\",\"identity_card\":\"\",\"driving_license\":\"\",\"real_name\":\"\",\"gender\":\"\",\"birthday\":\"\",\"telephone\":\"\",\"alipay\":\"\",\"weixin\":\"\",\"ID_Type\":\"\",\"ID_No\":\"\",\"booklet\":\"\",\"house_certificate\":\"\",\"marriage_lines\":\"\",\"birthcity\":\"\",\"residecity\":\"\",\"diploma\":\"\",\"graduateschool\":\"\",\"education\":\"\",\"business_license\":\"\",\"work_occupation\":\"\",\"work_company\":\"\",\"work_position\":\"\",\"work_experience\":\"\"}', '', '0', '0');
+INSERT INTO `cmf_verify` VALUES ('2', '3', '0', 'certification', '0', '1514192573', '0', '{\"identity_card\":[{\"url\":\"http:\\/\\/tx.car\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/6.jpg\",\"name\":\"\"},{\"url\":\"http:\\/\\/tx.car\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/7.jpg\",\"name\":\"\"}],\"driving_license\":\"http:\\/\\/tx.car\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/5.jpg\"}', '', '0', '0');
+INSERT INTO `cmf_verify` VALUES ('3', '3', '0', 'openshop', '0', '1514192868', '0', '{\"username\":\"汪某人\",\"contact\":\"13365897412\",\"plateNo\":\"皖A598H2\",\"driving_license\":\"http:\\/\\/tx.car\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/5.jpg\",\"identity_card\":[{\"url\":\"http:\\/\\/tx.car\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/6.jpg\",\"name\":\"\"},{\"url\":\"http:\\/\\/tx.car\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/7.jpg\",\"name\":\"\"}]}', '皖A598H2', '0', '0');
 
 -- ----------------------------
 -- Table structure for cmf_verify_model
@@ -5769,7 +5771,7 @@ CREATE TABLE `cmf_verify_model` (
   `status` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT '状态：0关闭 1开启',
   `list_order` float unsigned NOT NULL DEFAULT '10000' COMMENT '排序：从小到大',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Records of cmf_verify_model
@@ -5778,4 +5780,5 @@ INSERT INTO `cmf_verify_model` VALUES ('1', '0', '手机认证', 'mobile', '{\"t
 INSERT INTO `cmf_verify_model` VALUES ('2', '0', '邮箱认证', 'email', '{\"thumbnail\":\"\",\"email\":\"email\"}', '1', '20');
 INSERT INTO `cmf_verify_model` VALUES ('3', '0', '实名认证', 'certification', '{\"thumbnail\":\"\",\"identity_card\":\"identity_card\",\"real_name\":\"real_name\"}', '1', '30');
 INSERT INTO `cmf_verify_model` VALUES ('4', '0', '企业资格认证', 'enterprise', '{\"thumbnail\":\"\",\"business_license\":\"business_license\",\"work_company\":\"work_company\"}', '1', '40');
-INSERT INTO `cmf_verify_model` VALUES ('5', '0', '卖车资质', 'seller', '{\"thumbnail\":\"\",\"driving_license\":\"driving_license\",\"identity_card\":\"identity_card\",\"plateNo\":\"plateNo\",\"real_name\":\"real_name\",\"contact\":\"contact\"}', '1', '10000');
+INSERT INTO `cmf_verify_model` VALUES ('5', '0', '卖车资质', 'openshop', '{\"thumbnail\":\"\",\"driving_license\":\"driving_license\",\"identity_card\":\"identity_card\",\"plateNo\":\"plateNo\",\"real_name\":\"real_name\",\"contact\":\"contact\"}', '1', '100');
+INSERT INTO `cmf_verify_model` VALUES ('6', '0', '保险资料', 'insurance', '{\"thumbnail\":\"\",\"driving_license\":\"driving_license\",\"identity_card\":\"identity_card\",\"plateNo\":\"plateNo\",\"username\":\"username\",\"contact\":\"contact\"}', '1', '110');

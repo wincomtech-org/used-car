@@ -19,7 +19,7 @@ class TradeModel extends Model
             return $rs;
         }
         // 开店资料审核 config('verify_define_data');
-        $verify = lothar_verify($uid,'seller');
+        $verify = lothar_verify($uid,'openshop');
         if ($verify!=1) {
             return [0,'您的个人审核资料未通过',url('user/Seller/audit')];
         }
