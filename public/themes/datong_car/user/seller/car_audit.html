@@ -1,5 +1,10 @@
 <div class="info_tit">
     个人审核资料填写 
+    <eq name="verifyinfo.auth_status" value="1">
+        <span style="font-size:12px;color:#009241">（已审核通过）</span>
+    <else/>
+        <span style="font-size:12px;color:#F00">（未通过）</span>
+    </eq>
     <neq name="u_s_nav" value="audit">
         <a href="{:url('user/Seller/audit')}" style="color:#F00">>>去审核</a>
         <ul class="page_turning">

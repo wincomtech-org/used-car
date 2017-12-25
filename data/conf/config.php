@@ -193,7 +193,7 @@ return [
     5 => 'funds/AdminWithdraw/index',
     6 => 'funds/AdminRecharge/addTicket',
     7 => 'usual/AdminVerify/index',
-    8 => 'usual/AdminCar/index',
+    8 => 'funds/AdminOpenshop/index',
   ],
   'pagerset' => 
   [

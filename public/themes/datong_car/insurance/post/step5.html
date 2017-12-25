@@ -42,9 +42,6 @@
                             <label for="contract_label">同意上述条例，自投保日30内成功支付首期保险费，方可生效。</label>
                         </p>
                         <input type="hidden" name="insurName" value="{$info.name}">
-                        <input type="hidden" name="order_sn" value="{$order.order_sn}">
-                        <input type="hidden" name="amount" value="{$order.amount}">
-                        <!-- <input type="hidden" name="status" value="{$order.status}"> -->
                         <input type="hidden" name="orderId" value="{$orderId}">
                         <button type="button" for="contract_form" class="btn btn_submit" onClick="insurance_contract(this);">{$order.status==5?'去支付':'同意'}</button>
                     </form>

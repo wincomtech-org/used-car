@@ -98,47 +98,9 @@ public@footer
     <script src="__STATIC__/js/wind.js"></script>
 </head>
 <body>
+前端：
 阻碍html的表单默认验证样式
     this.attr( "novalidate", "novalidate" );
-
-所有(预)处理JS
-当指向的页面不产生任何提示信息时，会阻塞跳转
-    a.js-ajax-delete //删除 {:lang('DELETE')}
-    a.js-ajax-dialog-btn //更新 data-msg="确定更新此模板吗？"
-    a.js-ajax-dialog-btn___ //还原
-    a.js-ajax-btn //变成按钮了（通用）
-    a.js-ajax-refresh //刷新
-    a.js-dialog //弹窗，所有加了dialog类名的a链接，自动弹出它的href
-    #js-dialog-close //dialog弹窗内的关闭方法
-
-    .js-get-mobile-code //短信验证码
-    .js-get-email-code //邮件验证码
-
-    input.js-date //日期选择器
-    input.js-datetime //日期+时间选择器
-    input.js-bootstrap-date // bootstrap日期选择器
-    input.js-bootstrap-datetime // bootstrap日期选择器日期+时间选择器
-
-    a.js-count-btn //赞，拍等，有数量操作的按钮
-    .js-address-select //地址联动
-    a.js-action-btn //动作
-    a.js-favorite-btn //收藏
-
-
-js-*系列示例：  没有bootstrap就自定义样式
-    <form enctype="multipart/form-data">文件上传</form>
-    <form action="{:url('AdminArticle/editPost')}" method="post" class="form-horizontal margin-top-20 js-ajax-form">
-        <button type="submit" class="btn btn-primary js-ajax-submit">{:lang('SAVE')}</button>
-        <a class="btn btn-default" href="javascript:history.back(-1);">{:lang('BACK')}</a>
-    </form>
-
-    <a href="javascript:" class=""></a>
-    <a href="{:url('Rbac/roledelete',array('id'=>$vo['id']))}" class="js-ajax-delete">{:lang('DELETE')}</a>
-    <a href="{:U('user/delete',array('id'=>$vo['id']))}" class="js-ajax-delete">删除</a>
-    <a href="{:url('theme/update',['theme'=>$vo.theme])}" class="js-ajax-dialog-btn" data-msg="确定更新此模板吗？">更新</a>
-    <a href="" class="js-ajax-btn">按钮提交</a>
-    <a href="{:url('RecycleBin/restore',array('id'=>$vo['id']))}" class="js-ajax-dialog-btn___" data-msg="确定要还原吗？">还原</a>
-    <a href="" class="js-ajax-refresh">刷新</a>
 
 
 
@@ -147,6 +109,98 @@ js-*系列示例：  没有bootstrap就自定义样式
 <script src="__STATIC__/js/frontend.js"></script>
 <!-- 后台 引入位置： 后台每个需要的文件中 -->
 <!-- <script type="text/javascript" src="__STATIC__/js/admin.js"></script> -->
+
+
+
+Wind.js是一个异步加载js 和 css 的类库，核心是基于 head.js 的，phpwind 团队在 head.js 基础上封装了一些方法，可以更加方便的异步加载 js 和 css。
+    异步加载js
+    同时 Wind.js 支持任意多个 js 文件加载，只要不断地增加 use方法的参数就可以了。
+        Wind.use('noty', function () {
+            noty({
+                text: "noty加载成功了",
+                type: 'success',
+                layout: 'center',
+                callback: {
+                    afterClose: function () {
+                        alert('noty 关闭了！');
+                    }
+                }
+            });
+        });
+        上面的 noty，其实是noty.js 的别名，可以换成 Wind.use('__STATIC__/js/noty/noty.js', function () {  });
+    异步加载 css
+    Wind.css()一次只能加载一个 css。
+    Wind.css('ueditor',function(){
+        alert('ueditor css 加载完成！');
+    });
+
+
+
+前端组件：
+    当指向的页面不产生任何提示信息时，会阻塞跳转
+
+form表单：
+    js-ajax-form 异步表单提交
+        请注意表单的class属性，button的 class和 type 属性
+        表单里有多个 button，你可以通过button 的data-action 属性定义 buttton的提交地址
+
+a标签：
+    a.js-ajax-delete //删除组件 {:lang('DELETE')}
+    a.js-ajax-dialog-btn //对话框组件
+    //a.js-ajax-dialog-btn___ //还原
+    //a.js-ajax-btn //变成按钮了（通用）
+    //a.js-ajax-refresh //刷新
+    //a.js-dialog //弹窗，所有加了dialog类名的a链接，自动弹出它的href
+    //#js-dialog-close //dialog弹窗内的关闭方法
+
+    a.js-count-btn //前台数量操作组件。赞，拍等，有数量操作的按钮
+        加上js-count-btn类名的a标签为可以实现数量增加的ajax操作；ajax执行成功返回后对其内类名包含count的标签进行数量加1操作;ajax请求的url为a标签的href属性。
+    //a.js-action-btn //动作
+    //a.js-favorite-btn //收藏
+
+input输入框：
+    input.js-date //日期选择组件
+    input.js-datetime //日期+时间选择器
+    input.js-bootstrap-date // bootstrap日期选择器
+    input.js-bootstrap-datetime // bootstrap日期选择器日期+时间选择器
+
+其它：
+    //.js-address-select //地址联动
+    //.js-get-mobile-code //短信验证码
+    //.js-get-email-code //邮件验证码
+
+js-*系列示例：  没有bootstrap就自定义样式
+    <form enctype="multipart/form-data">文件上传</form>
+    <form action="你的提交地址" method="post" class="js-ajax-form">
+        <input type="text" name="username">
+        <input type="text" name="password">
+        <button class="js-ajax-submit" type="submit">提交</button>
+        <button class="js-ajax-submit" type="submit" data-wait="1500">提交</button>
+        <button class="js-ajax-submit" type="submit" data-action="你的提交地址2">提交2</button>
+    </form>
+    后台通用：
+    <form action="{:url('AdminArticle/editPost')}" method="post" class="form-horizontal margin-top-20 js-ajax-form">
+        <button type="submit" class="btn btn-primary js-ajax-submit">{:lang('SAVE')}</button>
+        <a class="btn btn-default" href="javascript:history.back(-1);">{:lang('BACK')}</a>
+    </form>
+
+    <a href="javascript:" class=""></a>
+    <a href="你的删除url" class="js-ajax-delete" data-msg="确定删除它吗？">删除</a>
+    <a href="{:url('user/delete',array('id'=>$vo['id']))}" class="js-ajax-delete">{:lang('DELETE')}</a>
+
+    <a href="你的url" class="js-ajax-dialog-btn" data-msg="确定还原吗？">还原</a>
+    <a href="{:url('theme/update',['theme'=>$vo.theme])}" class="js-ajax-dialog-btn" data-msg="确定更新此模板吗？">更新</a>
+    <a href="{:url('RecycleBin/restore',array('id'=>$vo['id']))}" class="js-ajax-dialog-btn___" data-msg="确定要还原吗？">还原</a>
+    <a href="" class="js-ajax-btn">按钮提交</a>
+
+    <a href="这里定义自己的url" class="js-count-btn">
+        <i class="fa fa-thumbs-up"></i>
+        <span class="count">0</span>
+    </a>
+
+    <input type="text" name="birthday" class="js-date" id="input-birthday" placeholder="2013-01-04">
+    <input type="text" name="datetime" class="js-datetime" id="input-datetime" placeholder="2013-01-04 09:20">
+
 
 
 
@@ -166,7 +220,13 @@ js-*系列示例：  没有bootstrap就自定义样式
             editorcontent.sync();
         } catch (err) {
         }
-    }
+    })
+
+    // 多个富文本，提交到数据库备转译了？？
+    $(function() {
+        var ue = UE.getEditor('content');
+        var ue = UE.getEditor('information');
+    })
 </script>
 
 图片上传示例：
@@ -270,20 +330,13 @@ js-*系列示例：  没有bootstrap就自定义样式
             </foreach>
         </notempty>
     </ul>
+
 裁剪:
     <style type="text/css">
-        .tab-content {
-            overflow: visible;
-        }
-        .uploaded_avatar_area {
-            margin-top: 20px;
-        }
-        .uploaded_avatar_btns {
-            margin-top: 20px;
-        }
-        .uploaded_avatar_area .uploaded_avatar_btns {
-            display: none;
-        }
+        .tab-content{overflow:visible}
+        .uploaded_avatar_area{margin-top:20px}
+        .uploaded_avatar_btns{margin-top:20px}
+        .uploaded_avatar_area .uploaded_avatar_btns{display:none}
     </style>
     <div class="tab-content">
         <div class="tab-pane active" id="one">
@@ -386,7 +439,9 @@ js-*系列示例：  没有bootstrap就自定义样式
 
 
 
+菜鸟验车：
 
+html代码
 <h6>办理网上预约验车手续须知：</h6>
 <div class="txt">
     <p><span>1、</span>本市注册登记的在用机动车（号牌号码后部有汉字的除外）。</p>
@@ -395,5 +450,6 @@ js-*系列示例：  没有bootstrap就自定义样式
     <p><span>4、</span>如遇检测场网络设备故障或雨雪等恶劣天气检测场暂停验车的，请您接到通知或看到通报后不要再前往验车，不算爽约，可重新预约。如遇其它问题可联系我们查询检测场电话。</p>
     <p><span>5、</span>您在办理网上预约验车过程中遇到问题或有何建议意见请通过以下方 式反映：邮箱：1120594563@163.com；电话：87625172。 感谢 您的支持和关注。</p>
 </div>
+
 数据库中
 &lt;h6 style=&quot;padding: 0px; margin: 0px; color: rgb(51, 51, 51); list-style: none; font-size: 18px; font-weight: normal; font-family: 微软雅黑, &quot; microsoft yahei sans-serif white-space: normal&gt;办理网上预约验车手续须知：&lt;/h6&gt;&lt;p style=&quot;padding: 0px 0px 0px 23px; margin-top: 10px; margin-bottom: 0px; color: rgb(102, 102, 102); list-style: none; font-size: 16px; line-height: 1.78; position: relative;&quot;&gt;&lt;span style=&quot;padding: 0px; margin: 0px; list-style: none; position: absolute; top: 0px; left: 0px;&quot;&gt;1、&lt;/span&gt;本市注册登记的在用机动车（号牌号码后部有汉字的除外）。&lt;/p&gt;&lt;p style=&quot;padding: 0px 0px 0px 23px; margin-top: 10px; margin-bottom: 0px; color: rgb(102, 102, 102); list-style: none; font-size: 16px; line-height: 1.78; position: relative;&quot;&gt;&lt;span style=&quot;padding: 0px; margin: 0px; list-style: none; position: absolute; top: 0px; left: 0px;&quot;&gt;2、&lt;/span&gt;车辆检验有效期在截止前的三个月之内，检验有效期截止的具体日期 请查看您的行驶证副页，或登录交管局主站使用“车辆违法”查询功 能进行查看。&lt;/p&gt;&lt;p style=&quot;padding: 0px 0px 0px 23px; margin-top: 10px; margin-bottom: 0px; color: rgb(102, 102, 102); list-style: none; font-size: 16px; line-height: 1.78; position: relative;&quot;&gt;&lt;span style=&quot;padding: 0px; margin: 0px; list-style: none; position: absolute; top: 0px; left: 0px;&quot;&gt;3、&lt;/span&gt;您可以预约从第二日起连续一周之内的网上预约验车服务。（如：您在07月15日，可以预约07月16-21日之间的预约验车手续。）&lt;/p&gt;&lt;p style=&quot;padding: 0px 0px 0px 23px; margin-top: 10px; margin-bottom: 0px; color: rgb(102, 102, 102); list-style: none; font-size: 16px; line-height: 1.78; position: relative;&quot;&gt;&lt;span style=&quot;padding: 0px; margin: 0px; list-style: none; position: absolute; top: 0px; left: 0px;&quot;&gt;4、&lt;/span&gt;如遇检测场网络设备故障或雨雪等恶劣天气检测场暂停验车的，请您接到通知或看到通报后不要再前往验车，不算爽约，可重新预约。如遇其它问题可联系我们查询检测场电话。&lt;/p&gt;&lt;p style=&quot;padding: 0px 0px 0px 23px; margin-top: 10px; margin-bottom: 0px; color: rgb(102, 102, 102); list-style: none; font-size: 16px; line-height: 1.78; position: relative;&quot;&gt;&lt;span style=&quot;padding: 0px; margin: 0px; list-style: none; position: absolute; top: 0px; left: 0px;&quot;&gt;5、&lt;/span&gt;您在办理网上预约验车过程中遇到问题或有何建议意见请通过以下方 式反映：邮箱：1120594563@163.com；电话：87625172。 感谢 您的支持和关注。&lt;/p&gt;

@@ -24,6 +24,9 @@ DOMEvent DOMDocumentWrapper phpQueryEvents phpQuery Callback JSONP
     <!-- 导航 检车预约 换成 车辆业务 -->
     <!-- 先选服务填资料，后有公司选公司。服务点无公司限制。菜鸟验车、6年免检单独页面(自营) -->
 
+车险服务流程
+    查重
+
 流程测试。
     <!-- 全站搜索链接修改。 -->
     检查一些页面的跳转，是否可改用js的。

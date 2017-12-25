@@ -79,7 +79,7 @@ class RegisterController extends HomeBaseController
                 $this->error($validate->getError());
             }
             if (!cmf_captcha_check($data['captcha'],$captchaId)) {
-                $this->error('验证码错误',url('index'));
+                $this->error('验证码错误',url('user/Register/index'));
             }
 
             if(!$isOpenRegistration){
@@ -90,7 +90,7 @@ class RegisterController extends HomeBaseController
             }
 
             $register          = new UserModel();
-            $user['user_pass'] = $user['password'];
+            $user['user_pass'] = $data['password'];
 
             // 判断账号类型 实际只给出了邮箱注册 和 手机号注册
             if (Validate::is($data['username'], 'email')) {

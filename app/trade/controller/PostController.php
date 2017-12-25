@@ -117,7 +117,7 @@ class PostController extends HomeBaseController
 
         $this->assign('carInfo',$carInfo);
         $this->assign('orderId',$orderId);
-        $this->assign('formurl',url('Post/seeCarPost', ['id'=>$id]));
+        $this->assign('formurl',url('Post/seeCarPost'));
         return $this->fetch();
     }
     // 提交预约看车 paytype,action,order_sn,coin

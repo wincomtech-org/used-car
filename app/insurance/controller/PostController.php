@@ -234,39 +234,41 @@ class PostController extends HomeBaseController
             $this->error('请登录',url('user/Login/index'));
         }
 
-        $data = $this->request->param();//order_sn,amount
         $agree = $this->request->param('agree',null);
         $orderId = $this->request->param('orderId/d');
-
-        // 判断是否二次支付：
-        // if (!empty($data['status'])) {
-        //     $this->error('请勿重复支付',url('user/Insurance/index'));
-        // }
-
-        if ($data['amount']<='0.00') {
-            $this->error('请等待管理员填写支付金额');
+        if (empty($orderId)) {
+            $this->error('数据非法');
         }
+
         if ($agree==null) {
             $this->error('请勾选同意按钮');
         }
 
-        $where = ['id'=>$orderId];
+        $findOrder = Db::name('insurance_order')->field('order_sn,amount,status')->where('id',$orderId)->find();
+        // 判断是否二次支付：
+        if ($findOrder['status']==6 || $findOrder['status']==10) {
+            $this->error('请勿重复支付',url('user/Insurance/index'));
+        }
+        if ($findOrder['amount']<='0.00') {
+            $this->error('请等待管理员填写支付金额');
+        }
+
         if ($agree==1) {
-            Db::name('insurance_order')->where($where)->setField('status',5);
+            Db::name('insurance_order')->where('id',$orderId)->setField('status',5);
         }
 
         // 判断是否为手机端、微信端
         // $map = [
         //     'action'    => 'insurance',
-        //     'order_sn'  => $data['order_sn'],
-        //     'coin'      => $data['amount'],
+        //     'order_sn'  => $findOrder['order_sn'],
+        //     'coin'      => $findOrder['amount'],
         //     'id'        => $orderId,
         // ];
         // $this->showPay($map);
 
-        $this->assign($data);
-        $this->assign($orderId,$orderId);
-        $this->assign('formurl',url('step7',['order_sn'=>$data['order_sn']]));
+        $this->assign($findOrder);
+        $this->assign('orderId',$orderId);
+        $this->assign('formurl',url('step7'));
         return $this->fetch();
     }
 

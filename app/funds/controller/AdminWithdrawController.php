@@ -110,7 +110,7 @@ class AdminWithdrawController extends AdminBaseController
         $where['a.type'] = 'withdraw';
 
         $title = '提现管理';
-        $head = ['订单号','充值金额','用户ID','支付方式','创建时间','状态'];
+        $head = ['订单号','提现金额','用户ID','提现方式','创建时间','状态'];
         $field = 'a.order_sn,a.coin,a.user_id,a.payment,a.create_time,a.status';
         $dir = 'funds';
         $statusV = config('funds_apply_status');

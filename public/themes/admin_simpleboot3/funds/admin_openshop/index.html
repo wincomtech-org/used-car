@@ -3,10 +3,9 @@
 <body>
 <div class="wrap js-check-wrap">
     <ul class="nav nav-tabs">
-        <li class="active"><a href="javascript:;">所有充值列表</a></li>
-        <li><a href="{:url('AdminRecharge/add')}">用户充值</a></li>
+        <li class="active"><a href="javascript:;">所有开店申请列表</a></li>
     </ul>
-    <form class="well form-inline margin-top-20" method="post" action="{:url('AdminRecharge/index')}">
+    <form class="well form-inline margin-top-20" method="post" action="{:url('AdminOpenshop/index')}">
         <!-- 方式：
         <select class="form-control" name="payment">
             <option value="">--请选择--</option>
@@ -24,17 +23,17 @@
         <input type="text" class="form-control" name="uname" style="width:180px;"
                value="{:input('request.uname/s','')}" placeholder="ID,昵称,邮箱,手机号,账号"> &nbsp; &nbsp;
         <input type="submit" class="btn btn-primary" value="搜索"/>
-        <a class="btn btn-danger" href="{:url('AdminRecharge/index')}">清空</a>
+        <a class="btn btn-danger" href="{:url('AdminOpenshop/index')}">清空</a>
     </form>
-    <form class="js-ajax-form" action="{:url('AdminRecharge/orderExcel')}" method="post">
-        <include file="admin_recharge/table-actions" />
+    <form class="js-ajax-form" action="{:url('AdminOpenshop/orderExcel')}" method="post">
+        <include file="admin_openshop/table-actions" />
         <table class="table table-hover table-bordered table-list">
             <thead>
-                <include file="admin_recharge/table-th" />
+                <include file="admin_openshop/table-th" />
             </thead>
             <php>
                 $types = config('payment');
-                $statusV = config('user_funds_log_type');
+                $statusV = config('funds_apply_status');
             </php>
             <foreach name="list" item="vo">
                 <tr>
@@ -64,17 +63,17 @@
                         </notempty>
                     </td>
                     <td>{$statusV[$vo.status]}</td>
-                    <!-- <td>
-                        <a href="{:url('AdminRecharge/edit',['id'=>$vo.id])}">查看</a> &nbsp;
-                        <a href="{:url('AdminRecharge/delete',['id'=>$vo.id])}" class="js-ajax-delete">{:lang('DELETE')}</a>
-                    </td> -->
+                    <td>
+                        <a href="{:url('AdminOpenshop/edit',['id'=>$vo.id])}">查看</a> &nbsp;
+                        <!-- <a href="{:url('AdminOpenshop/delete',['id'=>$vo.id])}" class="js-ajax-delete">{:lang('DELETE')}</a> -->
+                    </td>
                 </tr>
             </foreach>
             <tfoot>
-                <include file="admin_recharge/table-th" />
+                <include file="admin_openshop/table-th" />
             </tfoot>
         </table>
-        <include file="admin_recharge/table-actions" />
+        <include file="admin_openshop/table-actions" />
         <ul class="pagination">{$pager|default=''}</ul>
     </form>
 </div>

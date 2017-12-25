@@ -65,8 +65,8 @@
                                                 </td>
                                                 <td>
                                                     <eq name="vo.type" value="openshop">
-                                                        <eq name="vo.status" value="1">
-                                                            <a href="#applyPay">去支付</a>
+                                                        <eq name="vo.status" value="0,1">
+                                                            <a href="{:url('trade/Post/deposit')}">去支付</a>
                                                         </eq>
                                                     </eq>
                                                     <eq name="vo.type" value="withdraw">

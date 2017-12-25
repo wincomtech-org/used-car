@@ -160,14 +160,13 @@
 									<span class="details_tit">昵称</span>
 									<div class="idetails_con">
 										<input type="text" name="user[user_nickname]" value="{$user.user_nickname|default=''}" placeholder="昵称">
-										<i class="tip">请核实后再填写</i>
+										<i class="tip">昵称唯一</i>
 									</div>
 								</li>
 								<li class="details_item">
 									<span class="details_tit">手机号码</span>
 									<div class="idetails_con">
 										<input type="text" name="user[mobile]" value="{$user.mobile|default=''}" placeholder="手机号" {$user.mobile?='readonly'}>
-										<i class="tip">请核实后再填写</i>
 									</div>
 								</li>
 								<li class="details_item">

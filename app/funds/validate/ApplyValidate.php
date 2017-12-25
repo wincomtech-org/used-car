@@ -22,6 +22,7 @@ class ApplyValidate extends Validate
     protected $scene = [
         'recharge'  => ['coin','payment'],
         'withdraw' => [],
+        'openshop' => ['coin','payment'],
     ];
 
     protected function checkName($value,$rule,$data)
