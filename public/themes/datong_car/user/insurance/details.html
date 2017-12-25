@@ -7,6 +7,11 @@
 
     <include file="public@head"/>
     <hook name="before_head_end"/>
+    <style type="text/css" media="screen">
+        .lingqu_input{display:inline-block;background-color:#fff;padding:16px 19px;border:1px solid #ddd;}
+        .lingqu_input.select{background-color:#d00000;}
+        .lingqu_input.select .icon_img{color:#fff;}
+    </style>
 </head>
 <body>
     <!-- 头部 -->
@@ -113,6 +118,47 @@
                                 </li>
                             </ul>
                         </div>
+                        <p class="info_tit">领取保单方式</p>
+                        <div class="form_details">
+                            <form action="" method="get" accept-charset="utf-8">
+                                <ul>
+                                     <li class="label_input lingqu_input ">
+                                        <b></b>
+                                        <label>
+                                            <input type="radio" name="payment_way" value="">
+                                            <span class="icon_img">在线付费邮寄</span>
+                                        </label>
+                                    </li>
+
+                                    <li class="label_input lingqu_input">
+                                        <b></b>
+                                        <label>
+                                            <input type="radio" name="payment_way" value="">
+                                            <span class="icon_img">现场收费领取</span>
+                                        </label>
+                                    </li>
+                                </ul>
+                               
+                                 <ul class="online_way pay_tab_list" style="display:none">
+                                    <li class="label_input pay_tab_list_item zhifu_pay" style="margin-right:15px">
+                                        <b></b>
+                                        <label>
+                                            <input type="radio" name="payment_way" value="alipay">
+                                            <span class="icon_img"></span>
+                                        </label>
+                                    </li>
+                                    <li class="label_input pay_tab_list_item zhifu_pay">
+                                        <b></b>
+                                        <label>
+                                            <input type="radio" name="payment_way" value="wxpay">
+                                            <span class="icon_img"></span>
+                                        </label>
+                                    </li>
+                                </ul>
+                                <p class="cz_btn_p"><button type="submit" class="btn-red js-ajax-submit1">确认提交</button></p>
+                            </form>
+
+                        </div>
                     </div>
                 </div>
             </div>
@@ -133,6 +179,9 @@
 
     $('.del').on('click',function(){
         $(this).parent().parent().parent().parent().remove();
+    })
+    $('.lingqu_input').click(function(){
+        $(this).addClass('select').siblings().removeClass('select');
     })
 
 </script>

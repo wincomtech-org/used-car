@@ -7,6 +7,17 @@
 
     <include file="public@head"/>
     <hook name="before_head_end"/>
+        <script type="text/html" id="identity_card-item-tpl">
+            <li id="saved-identity_card{id}">
+                <input id="identity_card-{id}" type="hidden" name="identity_card[urls][]" value="{filepath}">
+                <img id="identity_card-{id}-preview" src="{url}" style="height:108px;width:180px;"
+                     onclick="imagePreviewDialog(this.src);">
+                <a href="javascript:uploadOneImage('图片上传','#identity_card-{id}');">替换</a>
+                <a href="javascript:(function(){$('#saved-identity_card{id}').remove();})();">移除</a>
+                <input class="form-control" id="identity_card-{id}-name" type="text" name="identity_card[names][]" value="{name}"
+                        title="图片名称">
+            </li>
+        </script>
 </head>
 <body>
     <!-- 头部 -->
@@ -16,26 +27,107 @@
     <!-- banner -->
     <include file="public@banner" />
 
-    <!-- 保险推荐 -->
-    <section class="Insurance_recommendation color" id="AAA">
-        <div class="main">
-            <h3 class="index_tit">保险推荐 <span class="index_tit_supply"> 大通车服联合四家保险公司为您提供保险服务 </span></h3>
-            <div class="Insurance_recommendation_list">
-                <ul class="Insurance_recommendation_lists">
-                    <foreach name="recommend" item="vo">
-                    <li class="Insurance_recommendation_item">
-                        <div class="img"><a href="{:url('Post/step1',['id'=>$vo.id])}"><img src="{:cmf_get_image_preview_url($vo.more.thumbnail)}" alt=""></a></div>
-                        <div class="txt">
-                            <p><a >{$vo.description}</a></p>
-                            <span><a >{$vo.desc2}</a></span>
-                        </div>
-                        <div class="btn">
-                            <a href="{:url('Post/step1',['id'=>$vo.id])}">去投保</a>
-                        </div>
-                    </li>
 
-                    </foreach>
-                </ul>
+    <!-- 资料填写 -->
+    <section class="selection_insurance">
+        <div class="main">
+            <!-- 面包屑 -->
+            {$crumbs|default=''}
+            <ul class="brash">
+                <li>当前位置：</li>
+                <li><a href="{:url('Index/index')}">车险服务 </a></li>
+                <li><a href="#">{$iName|default=''} </a></li>
+                <li ><a href="#">险种选择</a></li>
+                <li  class="active"><a >资料填写</a></li>
+            </ul>
+
+            <div class="selection_insurance_con">
+                <form action="{:url('Post/step2Post')}" method="post" enctype="multipart/form-data" class="data_filling js-ajax-form">
+                    <ul class="data_filling_list required">
+                        <li class="left">姓名</li>
+                        <li class="right">
+                            <input type="text" name="car[identi][username]" maxlength="15" required>
+                            <b class="red" style="display:none">*请填写姓名</b>
+                        </li>
+                    </ul>
+                    <ul class="data_filling_list required">
+                        <li class="left">联系方式</li>
+                        <li class="right">
+                            <input type="tel" name="car[identi][contact]" required>
+                            <b class="red" style="display:none">*请填写正确号码，如是固话，请按照0551-1234567格式</b>
+                        </li>
+                    </ul>
+                    <ul class="data_filling_list required">
+                        <li class="left">车辆号牌</li>
+                        <li class="right required">
+                            <input type="text" name="car[identi][plateNo]" maxlength="7" required>
+                            <b class="red" style="display:none">*请填写正确车牌号</b>
+                        </li>
+                    </ul>
+
+                    <ul class="data_filling_list required">
+                        <li class="left">行车照片</li>
+                        <li class="right">
+                            <div class="file">
+                                <input type="hidden" name="car[identi][driving_license]" id="driving_license" value="">
+                                <a href="javascript:uploadOneImage('图片上传','#driving_license');" class="demonstrate_pre">
+                                    <img src="__TMPL__/public/assets/images/add.png" id="driving_license-preview" style="cursor:pointer;max-width:200px"/>
+                                    <i class='photo_tip'>请上传行车本照片（尽可能的小）</i>
+                                </a>
+                                <div class="demonstrate ">
+                                    <div class="demonstrate_img">
+                                        <img src="__TMPL__/public/assets/images/example/5.jpg" alt="">
+                                    </div>
+                                    <i class="photo_tip">请按照上图样式上传图片</i>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+
+                    <ul class="data_filling_list required">
+                        <li class="left">身份证照片</li>
+                        <li class="right">
+                            <div class="file">
+                                <ul id="identity_card" class="pic-list list-unstyled form-inline"></ul>
+                                <a href="javascript:uploadMultiImage('图片上传','#identity_card','identity_card-item-tpl');" class="btn btn-default btn-sm demonstrate_pre">
+                                     <img src="__TMPL__/public/assets/images/add.png" style="cursor:pointer"/>
+                                     <i class='photo_tip'>请上传身份证正面照片（尽可能的小）</i>
+                                </a>
+                
+                                <div class="demonstrate sf">
+                                    <div class="demonstrate_img">
+                                        <img src="__TMPL__/public/assets/images/example/6.jpg" alt="">
+                                        <!-- <img src="__TMPL__/public/assets/images/example/7.jpg" alt=""> -->
+                                    </div>
+                                    <i class="photo_tip">请按照上图样式上传图片</i>
+                                </div>
+                               
+                            </div>
+                        </li>
+                    </ul>
+                    <ul class="data_filling_list required">
+                        <li class="left">意向投保公司</li>
+                        <li class="right">
+                            
+                            <select name="intentional_insurance" id="intentional_insurance">
+                                <option value="0"   data-html="请选择保险公司">请选择保险公司</option>
+                                <option value="1" data-html="大通车险">大通车险</option>
+                                <option value="2" data-html="太平洋车险">太平洋车险</option>
+                                <option value="3" data-html="人寿车险">人寿车险</option>
+                                <option value="4" data-html="阳光车险">阳光车险</option>
+                            </select>
+                            <!-- 显示选择公司 -->
+                            <div class="show_company">
+                            </div>
+                        </li>
+                    </ul>
+                    <p class="data_filling_btn">
+                        <!-- 表单验证JS \public\themes\datong_car\public\assets\js\common.js is_submit() -->
+                        <!-- js里有具体点击那一个上传按钮，action是什么文件 -->
+                   
+                        <button type="submit" name="data_filling_offline" value="线下投保" class="btn_submit js-ajax-submit">提交</button>
+                    </p>
+                </form>
             </div>
         </div>
     </section>
@@ -121,4 +213,29 @@
 
 <include file="public@morejs"/>
 <hook name="before_body_end"/>
+<script>
+    // 车险服务意向投保公司选择
+    $('#intentional_insurance').change(function(){
+        var opt=$(this).val();
+        var optHtml=$(this).find("option:selected").attr("data-html");
+         
+         var arr=[];
+         for(var i=0;i<$('.show_company_detail').length;i++){
+           var divText=$('.show_company_detail')[i].innerText.split('x')[0];
+           arr.push(divText)
+
+         }   
+      
+        if( arr.indexOf(optHtml) == -1 && opt != 0){
+           $('.show_company').append('<div class="show_company_detail">'+
+                                      '<p>'+optHtml+'<b class="close">x</b></p>'+
+                               '<input type="hidden" name="" '+'value="'+opt+'">'+
+                           '</div>'); 
+        }
+    })
+
+    $(document).delegate('.show_company_detail .close','click',function(){
+        $(this).parent().parent().remove();
+    })
+</script>
 </html>

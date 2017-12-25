@@ -29,13 +29,7 @@
                 <form action="{:url('Post/step2')}" method="post" class="js-ajax-form">
                     <div class="selection_insurance_form">
                         <div class="img">
-                            <img src="
-                                <empty name="iInfo.more.thumbnail">
-                                __TMPL__/public/assets/images/example/insurance01.png
-                                <else/>
-                                {:cmf_get_image_preview_url($iInfo.more.thumbnail)}
-                                </empty>
-                            " alt="">
+                            
                         </div>
                         <div class="txt">
                             <p>险种选择</p>
@@ -58,6 +52,44 @@
                     <input type="hidden" name="insurance_id" value="{$InsurId}">
                     <button type="submit" class="btn btn_submit js-ajax-submit1">提交险种</button>
                 </form>
+            </div>
+        </div>
+    </section>
+     <!-- 保险小知识 -->
+    <section class="claim_guidance">
+        <div class="main">
+            <h3 class="index_tit">保险小知识  <span class="index_tit_supply">让你进一步了解保险 </span></h3>
+            <div class="claim_guidance_con">
+                
+                <div class="claim_guidance_guide_con">
+                    <div class="claim_guidance_guide_con_list">
+                        <div class="text">
+                            <h6>第一，买了“全险”并不意味着万事皆有保障。 </h6>
+                            <p>“全险”所谓的“全”并没有涵括所有的车险险种，车主在购买前要对其内容有比较清晰的认识。</p>
+                        </div>
+                         <div class="text">
+                            <h6>第二，避免超额保险和重复投保。</h6>
+                            <p>保险金额是根据保险价值来定的，超额保险和重复投保并不会带来超额赔偿，所以千万不要被保险员“忽悠”了。</p>
+                        </div>
+                         <div class="text">
+                            <h6>第三，保险公司的赔偿是有条件的。</h6>
+                            <p>酒驾、毒驾、无证驾驶时发生事故的话，保险公司可以免赔。车辆未年检、未及时续交保费、擅自改装车辆等情况，也会使保险公司开脱责任。</p>
+                        </div>
+                         <div class="text">
+                            <h6>第四，保险公司理赔对处理流程有要求。 </h6>
+                            <p>事故发生后，车主切忌先修理后向保险公司报案索赔。正确的流程应是先向警方报案，有了事故记录后再向保险公司报案，等待对方的探查和定损，之后才是修理和赔付。</p>
+                        </div>
+                       
+                    </div>
+                    <ul class="knowledge_show_company">
+                        <li><img src=" /themes/datong_car/public/assets/images/example/insurance01.png"></li>
+                        <li><img src=" /themes/datong_car/public/assets/images/example/insurance02.png"></li>
+                        <li><img src=" /themes/datong_car/public/assets/images/example/insurance03.png"></li>
+                        <li><img src=" /themes/datong_car/public/assets/images/example/insurance04.png"></li>
+
+                    </ul>
+                </div>
+               
             </div>
         </div>
     </section>
