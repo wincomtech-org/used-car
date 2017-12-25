@@ -6,6 +6,11 @@
     <meta name="description" content="{$site_info.site_seo_description|default=''}">
 
     <include file="public@head"/>
+    <style >
+        .banner_lunbo{width:100%;overflow:hidden;}
+        .banner_lunbo img{width:100%;}
+        .banner_lunbo  .slick-dots{bottom:25px;}
+    </style>
     <link rel="stylesheet" href="__TMPL__/public/assets/css/slick.css">
     <script src="__TMPL__/public/assets/js/slick.min.js"></script>
     <script>
@@ -27,7 +32,30 @@
     <!-- 导航 -->
     <include file="public@nav" />
     <!-- banner -->
-    <include file="public@banner" />
+    <!-- <include file="public@banner" /> -->
+    <section    >
+        <div class="banner_lunbo ">
+            <div class="our_service_show">
+                    <div class="slick">
+                        <div>
+                            <div class="banner_img">
+                                <img src="__TMPL__/public/assets/images/example/banner.jpg" alt="">
+                            </div>
+                        </div>
+                        <div>
+                            <div class="banner_img">
+                                <img src="__TMPL__/public/assets/images/example/banner.jpg" alt="">
+                            </div>
+                        </div>
+                        <div>
+                            <div class="banner_img">
+                                <img src="__TMPL__/public/assets/images/example/banner.jpg" alt="">
+                            </div>
+                        </div>
+                   </div>
+            </div>
+        </div>
+    </section>
 
     <!-- 我们的服务 -->
     <section class="our_service">
