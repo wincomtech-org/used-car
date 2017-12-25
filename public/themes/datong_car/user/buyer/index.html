@@ -93,20 +93,31 @@
                                                 </in>
                                                 <!-- 退回订金可放在取消预约中操作 -->
                                                 <in name="vo.status" value="-1,-2,-3">
-                                                <span><a href="{//:url('user/Trade/backfund',['id'=>$vo.id])}#" data-msg="确定退回吗？" class="operate1 js-ajax-dialog-btn">退回订金</a></span>
+                                                <!-- <span><a href="{//:url('user/Trade/backfund',['id'=>$vo.id])}#" data-msg="确定退回吗？" class="operate1 js-ajax-dialog-btn">退回订金</a></span> -->
                                                 </in>
                                             </td>
                                             <td class="operate">
+                                                <!-- 取消预约是否需要条件？ -->
                                                 <in name="vo.status" value="-4,-5,0,1,8">
                                                     <span>
                                                     <a href="{:url('user/Buyer/cancel',['id'=>$vo.id])}" data-msg="确定取消吗？" class="state2 js-ajax-dialog-btn">取消预约</a>
                                                     </span>
                                                 </in>
-                                                <in name="vo.status" value="0,1">
+
+                                                <eq name="vo.status" value="0">
+                                                    <span><a href="{:url('trade/Post/seeCar',['id'=>$vo.car_id])}">去预约</a></span>
+                                                </eq>
+
+                                                <eq name="vo.status" value="1">
+                                                    <span>
                                                     <gt name="vo.order_amount" value="0">
-                                                    <span><a href="#" class="operate2 js-ajax-btn">去支付全额</a></span>
+                                                        <a href="{:url('user/Buyer/pay',['id'=>$vo.id])}" class="operate1 js-ajax-btn">去支付全额</a>
+                                                    <else/>
+                                                        等待管理员给价……
                                                     </gt>
-                                                </in>
+                                                    </span>
+                                                </eq>
+
                                                 <in name="vo.status" value="0">
                                                     <span><a href="{:url('trade/Post/seeCarPost',['id'=>$vo.car_id])}" class="detail2 js-ajax-dialog-btn" data-msg="去支付订金？">支付订金</a></span>
                                                     <span><a href="{:url('user/Trade/del',['id'=>$vo.id])}" class="detail2 js-ajax-delete">删除订单</a></span>

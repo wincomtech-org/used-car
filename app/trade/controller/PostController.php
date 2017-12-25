@@ -61,6 +61,7 @@ class PostController extends HomeBaseController
             $this->error('请登录',url('user/Login/index'));
         }
         $id = $this->request->param('id',0,'intval');//车子ID
+        $user = cmf_get_current_user();
 
         // 判断是否二次支付：
         $findOrder =Db::name('trade_order')->field('id,pay_id,order_sn,bargain_money,status')->where(['buyer_uid'=>$user['id'],'car_id'=>$id])->find();
@@ -75,7 +76,6 @@ class PostController extends HomeBaseController
             }
         } else {
             // 获取用户数据
-            $user = cmf_get_current_user();
             $username = empty($user['user_nickname']) ? (empty($user['mobile'])?$user['user_login']:$user['mobile']) : $user['user_nickname'];
 
             // 获取车辆表数据
@@ -136,7 +136,7 @@ class PostController extends HomeBaseController
         if (empty($orderId)) {
             $this->error('预约失败,请检查',url('trade/Post/seeCar'));
         }
-        $order = Db::name('trade_order')->field('order_sn,bargain_money,pay_id')->where('id'=>$orderId)->find();
+        $order = Db::name('trade_order')->field('order_sn,bargain_money,pay_id')->where('id',$orderId)->find();
         $map = [
             'paytype'   => $paytype,
             'action'    => 'seecar',
@@ -220,7 +220,7 @@ class PostController extends HomeBaseController
         if (empty($orderId)) {
             $this->error('开店申请失败');
         }
-        $order = Db::name('funds_apply')->field('order_sn,coin,payment')->where('id'=>$orderId)->find();
+        $order = Db::name('funds_apply')->field('order_sn,coin,payment')->where('id',$orderId)->find();
         $map = [
             'paytype'   => $paytype,
             'action'    => 'openshop',

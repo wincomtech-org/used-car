@@ -31,6 +31,34 @@ class BuyerController extends TradeController
         return $this->fetch();
     }
 
+    // 支付 剩余金额 product_amount ，总价order_amount，预约价bargain_money
+    public function pay()
+    {
+        $this->error('暂未开放……');
+        // 前置数据
+        $orderId = $this->request->param('id/d');
+        if (empty($orderId)) {
+            $this->error('订单非法 或 已失效，请联系管理员');
+        }
+        $order = Db::name('trade_order')->field('order_sn,product_amount,pay_id')->where('id',$orderId)->find();
+        $paytype = $order['pay_id'];
+        if (empty($paytype)) {
+            $this->error('支付方式缺失，请联系管理员');
+        }
+        $map = [
+            'paytype'   => $paytype,
+            'action'    => 'seecar',
+            'order_sn'  => $order['order_sn'],
+            'coin'      => $order['product_amount'],
+            // 'id'        => $orderId,
+        ];
+
+        // 判断是否二次支付：支付剩余金额
+        // 转向支付接口
+        $this->success('前往支付中心……',cmf_url('funds/Pay/pay',$map));
+
+    }
+
     public function cancel()
     {
         $id = $this->request->param('id/d');
