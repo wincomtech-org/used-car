@@ -260,7 +260,6 @@ class AdminCarController extends AdminBaseController
             if ($result !== true) {
                 $this->error($result);
             }
-
             // 处理文件图片
             if (!empty($data['photo'])) {
                 $post['more']['photos'] = $this->Model->dealFiles($data['photo']);
@@ -269,15 +268,16 @@ class AdminCarController extends AdminBaseController
                 $post['more']['files'] = $this->Model->dealFiles($data['file']);
             }
 
-            // 个人审核资料填写
+            /*个人审核资料填写*/
             $verify = $data['verify'];
+            // 直接拿官版的
             if (!empty($data['identity_card'])) {
                 $verify['more']['identity_card'] = $this->Model->dealFiles($data['identity_card']);
             }
             // 验证数据的完备性
-            $result = $this->validate($post,'usual/Verify.seller');
+            $result = $this->validate($verify,'usual/Verify.openshop');
 
-            // 事务处理
+            // 事务处理？
             // 更新车子数据
             $this->Model->adminEditArticle($post);
             // 更新车主数据，如果审核通过，不予再审核

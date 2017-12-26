@@ -262,31 +262,16 @@ class SellerController extends TradeController
         $userId = cmf_get_current_user_id();
         $data = $this->request->param();
         $post = $data['verify'];
-        $plateNo = $post['more']['plateNo'];
 
-        // 车牌号查重 verify、usual_car
-        $verifyinfo = DB::name('verify')->where('plateNo',$plateNo)->value('user_id');
-        if (empty($post['id'])) {
-            if (!empty($verifyinfo)) $this->error('该车牌号已存在');
-            $post = array_merge([
-                'user_id'       => $userId,
-                'auth_code'     => 'openshop',
-                'create_time'   => time(),
-            ],$post);
-        } else {
-            if (!empty($verifyinfo) && $verifyinfo != $userId) {
-                $this->error('该车牌号已被用户【ID】：'.$verifyinfo.'用于资料审核，请联系管理员');
-            }
-        }
-        $post['plateNo'] = $plateNo;
+        // 不做车牌号唯一性检测，会省去很多不必要的麻烦。 cmf_verify,cmf_usual_car
+        // $this->more();
         
         // 直接拿官版的
         if (!empty($data['identity_card'])) {
             $post['more']['identity_card'] = model('usual/Usual')->dealFiles($data['identity_card']);
         }
-
         // 验证数据的完备性
-        $result = $this->validate($post,'usual/Verify.seller');
+        $result = $this->validate($post,'usual/Verify.openshop');
         if ($result!==true) {
             $this->error($result);
         }
@@ -318,6 +303,26 @@ class SellerController extends TradeController
             $this->error('提交失败');
         }
         $this->success('提交成功，请耐心等待后台审核……',url('Seller/audit'));
+    }
+
+    // 更多……  保留代码
+    public function more()
+    {
+        // 车牌号查重 verify、usual_car
+        $plateNo = $post['more']['plateNo'];
+        $verifyinfo = DB::name('verify')->where('plateNo',$plateNo)->value('user_id');
+        if (!empty($verifyinfo) && $verifyinfo != $userId) {
+            $this->error('该车牌号已被用户【ID】：'.$verifyinfo.'用于开店资料审核，请联系管理员');
+        }
+        if (empty($post['id'])) {
+            $post = array_merge([
+                'user_id'       => $userId,
+                'auth_code'     => 'openshop',
+                'create_time'   => time(),
+            ],$post);
+        } else {
+        }
+        $post['plateNo'] = $plateNo;
     }
 
 

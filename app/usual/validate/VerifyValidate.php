@@ -26,7 +26,6 @@ class VerifyValidate extends Validate
     protected $scene = [
        'add'        => ['auth_code'],
        'edit'       => ['auth_code'],
-       'seller'     => [],
        'openshop'   => [],
        'insurance'  => [],
     ];

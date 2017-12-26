@@ -24,9 +24,6 @@ DOMEvent DOMDocumentWrapper phpQueryEvents phpQuery Callback JSONP
     <!-- 导航 检车预约 换成 车辆业务 -->
     <!-- 先选服务填资料，后有公司选公司。服务点无公司限制。菜鸟验车、6年免检单独页面(自营) -->
 
-车险服务流程
-    查重
-
 流程测试。
     <!-- 全站搜索链接修改。 -->
     检查一些页面的跳转，是否可改用js的。
@@ -37,7 +34,16 @@ DOMEvent DOMDocumentWrapper phpQueryEvents phpQuery Callback JSONP
     清除缓存对session是否操作？
 
 
-设计种种
+【设计种种】
+车险服务流程
+    已存在的车险查重
+    险种的 保险责任、赔偿项目、赔偿额度？
+
+车险流程修改：
+    车险流程：填资料，选意向公司，选险种，提交到后台提醒，核算，电话联系，审核通过，个人中心显示核算价格和选择领取保单方式（在线付费邮寄或现场收费领取）
+    原版：
+    先是录入车辆信息，然后进行意向投保公司选择，下一步选取投保项目，然后点击核算保险，后台提醒工作人员查看信息，人工核算后进行电话联系，个人中心里面给予显示核算价格和选择领取保单方式，还是在线付费邮寄和现场收费领取
+
 涉及支付的地方：
     trade/Post/seeCarPost
     trade/Post/depositPost
@@ -45,7 +51,7 @@ DOMEvent DOMDocumentWrapper phpQueryEvents phpQuery Callback JSONP
     user/Funds/rechargePost
 
 充值：
-    充值成功，新增funds_apply，user_funds_log。
+    <!-- 充值成功，新增funds_apply，user_funds_log。 -->
     第三方到公账到账，但系统未能成功处理，二次订单查询。
 
 提现：
@@ -57,15 +63,18 @@ DOMEvent DOMDocumentWrapper phpQueryEvents phpQuery Callback JSONP
     每日提现一次 -->
 
 开店保证金：300
-    申请，改user的coin，新增funds_apply=>type=openshop，
+    <!-- 申请，改user的coin，新增funds_apply=>type=openshop，
     审核失败，改user的coin，funds_apply的status=-1
     取消，改user的coin，funds_apply的status=-2
-    成功，改funds_apply的status=1，新增user_funds_log
+    成功，改funds_apply的status=1，新增user_funds_log -->
     成功后归为开店保证金。
     后期管理员第二次更改状态的处理：
 
 重复
-    车牌号的唯一性检测？车牌号查重
+    车牌号的唯一性检测？车牌号查重。
+    <!-- 保单(insurance_order)一定要有车牌号，车辆表(cmf_usual_car)不一定有车牌号，如果有则必须唯一。资料审核表(cmf_verify)不需要专门的车牌号字段。 -->
+    <!-- 不做车牌号唯一性检测，会省去很多不必要的麻烦。 -->
+
     用户重新提交审核？管理员二次操作？
     无责取消 与 有责取消 ？
     我的点券怎么扣除退还？

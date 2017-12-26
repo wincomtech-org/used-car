@@ -278,7 +278,7 @@ class PayController extends HomeBaseController
 
     }
 
-
+    // 更多……  保留代码
     public function more()
     {
         // 支付宝 return返回结果

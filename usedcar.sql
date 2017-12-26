@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50540
 File Encoding         : 65001
 
-Date: 2017-12-25 20:36:46
+Date: 2017-12-26 14:44:51
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -4102,9 +4102,10 @@ CREATE TABLE `cmf_funds_apply` (
   `account` varchar(50) NOT NULL DEFAULT '' COMMENT '账号：type为withdraw时',
   `username` varchar(25) NOT NULL DEFAULT '' COMMENT '姓名：type为withdraw时',
   `coin` decimal(10,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '金额',
-  `payment` varchar(15) NOT NULL DEFAULT '' COMMENT '提现方式：alipay支付宝 wxpay微信',
+  `payment` varchar(15) NOT NULL DEFAULT '' COMMENT '交易方式：cash余额 alipay支付宝 wxpay微信',
   `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
   `pay_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '支付时间',
+  `ip` char(15) NOT NULL DEFAULT '' COMMENT '客户IP',
   `remark` varchar(255) NOT NULL DEFAULT '' COMMENT '管理员备注',
   `status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '审核状态： -2取消 -1审核失败 0审核中 1审核通过 10完成',
   `more` text NOT NULL COMMENT '拓展属性:',
@@ -4116,8 +4117,8 @@ CREATE TABLE `cmf_funds_apply` (
 -- ----------------------------
 -- Records of cmf_funds_apply
 -- ----------------------------
-INSERT INTO `cmf_funds_apply` VALUES ('1', 'withdraw', '3', '', 'ew3', 'lothar', '100.00', 'alipay', '1513067973', '0', '', '0', '');
-INSERT INTO `cmf_funds_apply` VALUES ('2', 'openshop', '3', 'openshop_2017122051555110', '', '', '300.00', 'alipay', '1513742323', '0', '', '10', '');
+INSERT INTO `cmf_funds_apply` VALUES ('1', 'withdraw', '3', '', 'ew3', 'lothar', '100.00', 'alipay', '1513067973', '0', '', '', '0', '');
+INSERT INTO `cmf_funds_apply` VALUES ('2', 'openshop', '3', 'openshop_2017122051555110', '', '', '300.00', 'alipay', '1513742323', '0', '', '', '10', '');
 
 -- ----------------------------
 -- Table structure for cmf_hook
@@ -4292,7 +4293,7 @@ CREATE TABLE `cmf_insurance_order` (
   `order_sn` varchar(30) NOT NULL DEFAULT '' COMMENT '保单号',
   `name` varchar(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '保险业务名称',
   `amount` decimal(10,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '投保金额',
-  `pay_id` varchar(30) NOT NULL DEFAULT '' COMMENT '支付标识：alipay支付宝 wxjs微信js  wxnative微信扫码',
+  `pay_id` varchar(30) NOT NULL DEFAULT '' COMMENT '支付标识：cash余额 alipay支付宝 wxpay微信',
   `company_name` varchar(150) NOT NULL DEFAULT '' COMMENT '投保公司名',
   `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
   `pay_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '支付时间(生效时间)',
@@ -4300,9 +4301,9 @@ CREATE TABLE `cmf_insurance_order` (
   `finish_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '完成时间',
   `dead_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '失效时间',
   `delete_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '删除时间',
-  `more` text COMMENT '扩展属性：审核资料',
   `remark` varchar(255) NOT NULL DEFAULT '' COMMENT '备注',
   `description` varchar(255) NOT NULL DEFAULT '' COMMENT '描述',
+  `more` text COMMENT '扩展属性：审核资料',
   `type` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT '投保类型：1线上 2线下',
   `status` tinyint(2) NOT NULL DEFAULT '0' COMMENT '状态：-11过期失效 -3管理员取消 -2卖家取消 -1取消/关闭 0待审核未支付 1已审核 5已确认合同 6已支付 10完成',
   `list_order` float unsigned NOT NULL DEFAULT '10000' COMMENT '排序：从小到大',
@@ -4798,6 +4799,7 @@ CREATE TABLE `cmf_service` (
   `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
   `end_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '结束时间',
   `delete_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '删除时间',
+  `ip` char(15) NOT NULL DEFAULT '' COMMENT '客户IP',
   `is_top` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '是否置顶：0否 1是',
   `status` tinyint(4) NOT NULL DEFAULT '0' COMMENT '状态：-11过期 -5卖家取消失败 -4买家取消失败 -3管理员取消 -2卖家取消 -1买家取消 0预约中 1预约成功 2取车中 3正在检测 4检测完成 9送回中 10完成结束',
   `list_order` float unsigned NOT NULL DEFAULT '10000' COMMENT '默认值10000，默认排序按从小到大',
@@ -4807,7 +4809,7 @@ CREATE TABLE `cmf_service` (
 -- ----------------------------
 -- Records of cmf_service
 -- ----------------------------
-INSERT INTO `cmf_service` VALUES ('1', '1', '1', '3', '0', '汪某人', '', '0551-63512518', '', '', '0', '', '', '', '皖AH67XB', '', '0', '0', '0', '', '', null, '', null, null, '1513057489', '0', '0', '0', '0', '10000');
+INSERT INTO `cmf_service` VALUES ('1', '1', '1', '3', '0', '汪某人', '', '0551-63512518', '', '', '0', '', '', '', '皖AH67XB', '', '0', '0', '0', '', '', null, '', null, null, '1513057489', '0', '0', '', '0', '0', '10000');
 
 -- ----------------------------
 -- Table structure for cmf_service_category
@@ -5012,7 +5014,7 @@ CREATE TABLE `cmf_trade_order` (
   `product_amount` decimal(10,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '产品金额',
   `order_amount` decimal(10,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '总价',
   `refund` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '退款',
-  `pay_id` varchar(30) NOT NULL DEFAULT '' COMMENT '支付标识：alipay支付宝 alipaywap支付宝移动端 wxpayjs微信js  wxpaynative微信扫码',
+  `pay_id` varchar(30) NOT NULL DEFAULT '' COMMENT '支付标识：cash余额 alipay支付宝 wxpay微信',
   `shipping_id` varchar(30) NOT NULL DEFAULT '' COMMENT '快递标识',
   `shipping_fee` decimal(10,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '快递费',
   `tracking_no` varchar(30) NOT NULL DEFAULT '' COMMENT '快递单号',
@@ -5023,6 +5025,7 @@ CREATE TABLE `cmf_trade_order` (
   `pay_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '支付时间',
   `end_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '完成时间',
   `delete_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '删除时间',
+  `ip` char(15) NOT NULL DEFAULT '' COMMENT '客户IP',
   `status` tinyint(3) NOT NULL DEFAULT '0' COMMENT '状态：-11过期 -5卖家取消失败,-4买家取消失败,-3管理员取消,-2卖家取消,-1买家取消,0未支付订金,1预约中,8支付全部,10完成(确认收货)',
   `audit_data` varchar(255) NOT NULL DEFAULT '' COMMENT '审核资料：上传票据照片',
   PRIMARY KEY (`id`),
@@ -5036,7 +5039,7 @@ CREATE TABLE `cmf_trade_order` (
 -- ----------------------------
 -- Records of cmf_trade_order
 -- ----------------------------
-INSERT INTO `cmf_trade_order` VALUES ('1', '5', '0', 'seecar_2017122098555151', '', '3', '洛萨', '13333333333', '', '1', 'admin', '1', '200.00', '0.00', '0.00', '0.00', '', '', '0.00', '', '', '福特 全顺经典 2009款 2.8T 手动 标准型短轴中顶JX493ZLQ3 柴油', null, '1513735867', '0', '0', '0', '-1', '');
+INSERT INTO `cmf_trade_order` VALUES ('1', '5', '0', 'seecar_2017122098555151', '', '3', '洛萨', '13333333333', '', '1', 'admin', '1', '200.00', '0.00', '0.00', '0.00', '', '', '0.00', '', '', '福特 全顺经典 2009款 2.8T 手动 标准型短轴中顶JX493ZLQ3 柴油', null, '1513735867', '0', '0', '0', '', '-1', '');
 
 -- ----------------------------
 -- Table structure for cmf_trade_order_detail
@@ -5742,7 +5745,6 @@ CREATE TABLE `cmf_verify` (
   `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
   `end_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '结束时间',
   `more` text COMMENT '扩展数据：认证数据',
-  `plateNo` varchar(7) NOT NULL DEFAULT '' COMMENT '车牌号',
   `is_top` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '置顶：0否 1是',
   `auth_status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '认证状态： -3认证失败 -2取消 -1禁止认证 0未认证 1已认证',
   PRIMARY KEY (`id`),
@@ -5754,9 +5756,9 @@ CREATE TABLE `cmf_verify` (
 -- ----------------------------
 -- Records of cmf_verify
 -- ----------------------------
-INSERT INTO `cmf_verify` VALUES ('1', '3', '0', 'mobile', '0', '1511768040', '1512768040', '{\"mobile\":\"133654987\",\"email\":\"\",\"identity_card\":\"\",\"driving_license\":\"\",\"real_name\":\"\",\"gender\":\"\",\"birthday\":\"\",\"telephone\":\"\",\"alipay\":\"\",\"weixin\":\"\",\"ID_Type\":\"\",\"ID_No\":\"\",\"booklet\":\"\",\"house_certificate\":\"\",\"marriage_lines\":\"\",\"birthcity\":\"\",\"residecity\":\"\",\"diploma\":\"\",\"graduateschool\":\"\",\"education\":\"\",\"business_license\":\"\",\"work_occupation\":\"\",\"work_company\":\"\",\"work_position\":\"\",\"work_experience\":\"\"}', '', '0', '0');
-INSERT INTO `cmf_verify` VALUES ('2', '3', '0', 'certification', '0', '1514192573', '0', '{\"identity_card\":[{\"url\":\"http:\\/\\/tx.car\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/6.jpg\",\"name\":\"\"},{\"url\":\"http:\\/\\/tx.car\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/7.jpg\",\"name\":\"\"}],\"driving_license\":\"http:\\/\\/tx.car\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/5.jpg\"}', '', '0', '0');
-INSERT INTO `cmf_verify` VALUES ('3', '3', '0', 'openshop', '0', '1514192868', '0', '{\"username\":\"汪某人\",\"contact\":\"13365897412\",\"plateNo\":\"皖A598H2\",\"driving_license\":\"http:\\/\\/tx.car\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/5.jpg\",\"identity_card\":[{\"url\":\"http:\\/\\/tx.car\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/6.jpg\",\"name\":\"\"},{\"url\":\"http:\\/\\/tx.car\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/7.jpg\",\"name\":\"\"}]}', '皖A598H2', '0', '0');
+INSERT INTO `cmf_verify` VALUES ('1', '3', '0', 'mobile', '0', '1511768040', '1512768040', '{\"mobile\":\"133654987\",\"email\":\"\",\"identity_card\":\"\",\"driving_license\":\"\",\"real_name\":\"\",\"gender\":\"\",\"birthday\":\"\",\"telephone\":\"\",\"alipay\":\"\",\"weixin\":\"\",\"ID_Type\":\"\",\"ID_No\":\"\",\"booklet\":\"\",\"house_certificate\":\"\",\"marriage_lines\":\"\",\"birthcity\":\"\",\"residecity\":\"\",\"diploma\":\"\",\"graduateschool\":\"\",\"education\":\"\",\"business_license\":\"\",\"work_occupation\":\"\",\"work_company\":\"\",\"work_position\":\"\",\"work_experience\":\"\"}', '0', '0');
+INSERT INTO `cmf_verify` VALUES ('2', '3', '0', 'certification', '0', '1514192573', '0', '{\"identity_card\":[{\"url\":\"http:\\/\\/tx.car\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/6.jpg\",\"name\":\"\"},{\"url\":\"http:\\/\\/tx.car\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/7.jpg\",\"name\":\"\"}],\"driving_license\":\"http:\\/\\/tx.car\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/5.jpg\"}', '0', '0');
+INSERT INTO `cmf_verify` VALUES ('3', '3', '0', 'openshop', '0', '1514192868', '0', '{\"username\":\"汪某人\",\"contact\":\"13365897412\",\"plateNo\":\"皖A598H2\",\"driving_license\":\"http:\\/\\/tx.car\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/5.jpg\",\"identity_card\":[{\"url\":\"http:\\/\\/tx.car\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/6.jpg\",\"name\":\"\"},{\"url\":\"http:\\/\\/tx.car\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/7.jpg\",\"name\":\"\"}]}', '0', '0');
 
 -- ----------------------------
 -- Table structure for cmf_verify_model

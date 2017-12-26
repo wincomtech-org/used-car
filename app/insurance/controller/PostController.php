@@ -101,43 +101,14 @@ class PostController extends HomeBaseController
             $vdata = $data['verify'];
             $plateNo = $vdata['more']['plateNo'];
 
-
-            /*处理审核资料数据 verify[id]*/
             if (empty($plateNo)) {
                 $this->error('请填写车牌号码');
             }
 
-            // 车牌号查重 verify、usual_car
-            $carInfo = DB::name('usual_car')->field('id,user_id')->where('plateNo',$plateNo)->find();
-            if (!empty($carInfo)) {
-                if ($carInfo['user_id'] != $userId) {
-                    $this->error('该车牌号已被其他卖家填写，请联系管理员');
-                }
-                $post['car_id'] = $carInfo['id'];
-            }
 
-            $verifyinfo = DB::name('verify')->where('plateNo',$plateNo)->value('user_id');
-            if (!empty($verifyinfo) && $verifyinfo != $userId) {
-                $this->error('该车牌号已被用户【ID】：'.$verifyinfo.'用于资料审核，请联系管理员');
-            }
-            if (empty($verifyinfo)) {
-                $vdata = array_merge([
-                    'user_id'       => $userId,
-                    'auth_code'     => 'insurance',
-                    'create_time'   => time(),
-                    'plateNo'       => $plateNo,
-                ],$vdata);
-                // 直接拿官版的
-                if (!empty($data['identity_card'])) {
-                    $vdata['more']['identity_card'] = model('usual/Usual')->dealFiles($data['identity_card']);
-                }
-                // 验证数据的完备性
-                $result = $this->validate($vdata,'usual/Verify.seller');
-                if ($result!==true) {
-                    $this->error($result);
-                }
-                model('usual/Verify')->adminAddArticle($vdata);
-            }
+            /*处理审核资料数据 verify[id]*/
+            // 不做车牌号唯一性检测，会省去很多不必要的麻烦。 cmf_verify,cmf_usual_car
+            // $this->more();
 
 
             /*处理保单数据*/
@@ -311,6 +282,42 @@ class PostController extends HomeBaseController
         $orderId = $this->request->param('id');
 
         return $this->fetch();
+    }
+
+    // 更多……  保留代码
+    public function more()
+    {
+        // 车牌号查重 cmf_verify,cmf_usual_car
+        $carInfo = DB::name('usual_car')->field('id,user_id')->where('plateNo',$plateNo)->find();
+        if (!empty($carInfo)) {
+            if ($carInfo['user_id'] != $userId) {
+                $this->error('该车牌号已被其他卖家填写，请联系管理员');
+            }
+            $post['car_id'] = $carInfo['id'];
+        }
+
+        $verifyinfo = DB::name('verify')->where('plateNo',$plateNo)->value('user_id');
+        if (!empty($verifyinfo) && $verifyinfo != $userId) {
+            $this->error('该车牌号已被用户【ID】：'.$verifyinfo.'用于资料审核，请联系管理员');
+        }
+        if (empty($verifyinfo)) {
+            $vdata = array_merge([
+                'user_id'       => $userId,
+                'auth_code'     => 'insurance',
+                'create_time'   => time(),
+                'plateNo'       => $plateNo,
+            ],$vdata);
+            // 直接拿官版的
+            if (!empty($data['identity_card'])) {
+                $vdata['more']['identity_card'] = model('usual/Usual')->dealFiles($data['identity_card']);
+            }
+            // 验证数据的完备性
+            $result = $this->validate($vdata,'usual/Verify.openshop');
+            if ($result!==true) {
+                $this->error($result);
+            }
+            model('usual/Verify')->adminAddArticle($vdata);
+        }
     }
 
 
