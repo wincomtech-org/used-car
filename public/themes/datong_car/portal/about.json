@@ -1,5 +1,5 @@
 {
-    "name": "文章页",
+    "name": "关于我们页",
     "action": "portal/Article/index",
     "description": "文章页模板文件",
     "order": 6.0,

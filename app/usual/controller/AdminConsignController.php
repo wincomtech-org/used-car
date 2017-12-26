@@ -7,7 +7,7 @@ use app\usual\model\UsualCompanyModel;
 use think\Db;
 
 /**
-* 公司企业模块
+* 公司服务点模块
 */
 class AdminConsignController extends AdminBaseController
 {

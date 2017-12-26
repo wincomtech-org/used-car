@@ -45,12 +45,21 @@ class AdminOrderController extends AdminBaseController
     {
         if ($this->request->isPost()) {
             $data   = $this->request->param();
+            // 获取买家
+            $username = $this->request->param('buyer_username/s');
+            $user_id = Db::name('user')->whereOr(['user_nickname|user_login|user_email|mobile'=>['eq', $username]])->value('id');
+            if (empty($user_id)) {
+                $this->error('系统未检测到该用户');
+            }
+            // 获取车子
             $car_title = $this->request->param('car_name/s');
             $car_id = Db::name('usual_car')->where(['name'=>['like', "%$car_title%"]])->value('id');
             if (empty($car_id)) {
                 $this->error('车子标题不存在！');
             }
+
             $post   = $data['post'];
+            $post['user_id'] = intval($user_id);
             $post['car_id'] = intval($car_id);
             $result = $this->validate($post,'Order.add');
             if ($result !== true) {

@@ -318,11 +318,18 @@ function lothar_verify($uid=null, $code='certification', $data=false)
     $obj = Db::name('verify');
     if ($data===false) {
         $result = $obj->where($where)->value('auth_status');
+    } elseif ($data===true) {
+        $result = $obj->where($where)->find();
+        if (!empty($result)) {
+            $result['more'] = json_decode($result['more'],true);
+        }
     } elseif ($data=='count') {
         $result = $obj->where($where)->count();
-    } else {
-        $result = $obj->where($where)->find();
-        $result['more'] = json_decode($result['more'],true);
+    } elseif ($data=='more') {
+        $more = $obj->where($where)->value('more');
+        if (!empty($more)) {
+            $result = json_decode($more,true);
+        }
     }
 
     return $result;

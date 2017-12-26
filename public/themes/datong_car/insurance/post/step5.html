@@ -27,9 +27,9 @@
             </ul>
             <div class="selection_insurance_con">
                 <div class="contrac_con">
-                    <div class="img">{$Info.name|default=''}条例</div>
+                    <div class="img">{$info.name|default=''}条例</div>
                     <div class="contract">
-                        {$Info.content|default=''}
+                        {$info.content|default=''}
                     </div>
                 </div>
                 <in name='order.status' value='0,1,5'>
@@ -41,13 +41,12 @@
                             </span>
                             <label for="contract_label">同意上述条例，自投保日30内成功支付首期保险费，方可生效。</label>
                         </p>
-                        <input type="hidden" name="amount" value="{$order.amount}">
-                        <input type="hidden" name="insurName" value="{$Info.name}">
-                        <input type="hidden" name="id" value="{$id}">
+                        <input type="hidden" name="insurName" value="{$info.name}">
+                        <input type="hidden" name="orderId" value="{$orderId}">
                         <button type="button" for="contract_form" class="btn btn_submit" onClick="insurance_contract(this);">{$order.status==5?'去支付':'同意'}</button>
                     </form>
                 <else/>
-                    <a href="{:url('Post/coverage',['id'=>$id])}"><button type="button" class="btn btn_submit">查看险种 >></button></a>
+                    <a href="{:url('Post/coverage',['id'=>$orderId])}"><button type="button" class="btn btn_submit">查看险种 >></button></a>
                 </in>
             </div>
         </div>

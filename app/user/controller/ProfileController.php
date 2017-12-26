@@ -36,10 +36,15 @@ class ProfileController extends UserBaseController
 
         // 用户身份认证体系
         $verify = lothar_verify($user['id'], 'certification', true);
+        if ($verify['auth_status'] == 1) {
+            $verifyStatus = true;
+        } else {
+            $verifyStatus = false;
+        }
 
         $this->assign('user',$user);
-        $this->assign('identi',$verify['auth_status']);
         $this->assign('verify',$verify);
+        $this->assign('verifyStatus',$verifyStatus);
         return $this->fetch();
     }
 

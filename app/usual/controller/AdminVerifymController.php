@@ -3,7 +3,7 @@ namespace app\usual\controller;
 
 use cmf\controller\AdminBaseController;
 use think\Db;
-// use app\verify\usual\VerifyModelModel;
+use app\usual\model\VerifyModelModel;
 // use app\admin\model\ThemeModel;
 
 /**
@@ -55,16 +55,19 @@ class AdminVerifymController extends AdminBaseController
     {
         $id = $this->request->param('id', 0, 'intval');
         $code = $this->request->param('code');
+        $vmModel = new VerifyModelModel();
         if ($id > 0) {
-            $post = model('VerifyModel')->getPost($id);
+            $post = $vmModel->getPost($id);
         } elseif (!empty($code)) {
             // $post = Db::name('VerifyModel')->where(['code'=>$code])->find();
-            $post = model('VerifyModel')->where(['code'=>$code])->find()->toArray();
+            $post = $vmModel->where(['code'=>$code])->find();
         } else {
             $this->error('操作错误!');
         }
+        $define_data = $vmModel->getDefineData($post['more']);
+
         $this->assign($post);
-        $this->assign('define_data',model('VerifyModel')->getDefineData($post['more']));
+        $this->assign('define_data',$define_data);
 
         return $this->fetch();
     }
@@ -109,8 +112,9 @@ class AdminVerifymController extends AdminBaseController
     public function delete()
     {
         $id = $this->request->param('id');
+        $vmModel = new VerifyModelModel();
         //获取删除的内容
-        $find = model('VerifyModel')->where('id', $id)->find();
+        $find = $vmModel->where('id', $id)->find();
         if (empty($find)) {
             $this->error('模型不存在!');
         }
@@ -124,9 +128,7 @@ class AdminVerifymController extends AdminBaseController
         //     'table_name'  => 'VerifyModel',
         //     'name'        => $find['name']
         // ];
-        $result = model('VerifyModel')
-            ->where('id', $id)
-            ->delete();
+        $result = $vmModel->where('id',$id)->delete();
             // ->update(['delete_time' => time()]);
         if ($result) {
             // Db::name('recycleBin')->insert($data);

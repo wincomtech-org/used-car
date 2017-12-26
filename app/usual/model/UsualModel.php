@@ -102,7 +102,6 @@ class UsualModel extends Model
     */
     public function adminAddArticle($data, $categories=null)
     {
-        // $data['user_id'] = cmf_get_current_admin_id();
         if (!empty($data['more']['thumbnail'])) {
             $data['more']['thumbnail'] = cmf_asset_relative_url($data['more']['thumbnail']);
         }
@@ -129,7 +128,6 @@ class UsualModel extends Model
      */
     public function adminEditArticle($data, $categories = null)
     {
-        $data['user_id'] = !empty($data['user_id']) ? $data['user_id'] : cmf_get_current_admin_id();
         if (!empty($data['more']['thumbnail'])) {
             $data['more']['thumbnail'] = cmf_asset_relative_url($data['more']['thumbnail']);
         }
@@ -237,13 +235,14 @@ class UsualModel extends Model
     */
     public function getPost($id)
     {
-        $post_obj = $this->get($id);
-        // $post_obj = $this->where('id',$id)->find()->toArray();//find()结果集为空时toArray()报错
-        // $post_obj = $this->where('id',$id)->select()->toArray();
+        $post = $this->get($id);
+        // $post = $this->where('id',$id)->find()->toArray();//find()结果集为空时toArray()报错
+        // $post = $this->where('id',$id)->select()->toArray();
 
-        $post = [];
-        if (!empty($post_obj)) {
-            $post = $post_obj->toArray();
+        if (empty($post)) {
+            $post = [];
+        } else {
+            $post = $post->toArray();
         }
 
         // if (isset($post['content'])) {

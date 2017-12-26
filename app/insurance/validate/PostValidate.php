@@ -27,7 +27,7 @@ class PostValidate extends Validate
     ];
     protected $scene = [
        'step2'  => ['insurance_id'],
-       'step3'  => ['car_id'],
+       'step3'  => ['plateNo'],
        'car'    => ['username','contact','driving_license','plateNo'],
     ];
 

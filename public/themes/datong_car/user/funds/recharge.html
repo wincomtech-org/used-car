@@ -49,25 +49,33 @@
                                             <dd><b style="color:#F00;">￥</b><input type="text" name="r_money" value="100.00" readonly></dd>
                                         </dl>
 
-                                        <p class="fund_managemen_title">请选择提现方式</p>
+                                        <p class="fund_managemen_title">请选择充值方式</p>
                                         <ul class="online_way pay_tab_list">
-                                            <li class="label_input pay_tab_list_item zhifu_pay">
+                                            <!-- 支付宝 -->
+                                            <li class="label_input pay_tab_list_item zhifu_pay" id="alipayCK">
                                                 <b></b>
-                                                <label>
-                                                    <input type="radio" name="payment_way" value="alipay">
-                                                    <span class="icon_img"></span>
-                                                </label>
+                                                <input type="radio" name="payment_way" value="alipay">
+                                                <span class="icon_img"></span>
                                             </li>
-                                            <li class="label_input pay_tab_list_item zhifu_pay">
+                                            <!-- 微信 -->
+                                            <li class="label_input pay_tab_list_item zhifu_pay" id="wxpayCK">
                                                 <b></b>
-                                                <label>
-                                                    <input type="radio" name="payment_way" value="wxpay">
-                                                    <span class="icon_img"></span>
-                                                </label>
+                                                <input type="radio" name="payment_way" value="wxpay">
+                                                <span class="icon_img"></span>
                                             </li>
                                         </ul>
+
+                                        <div id="wxpaySub" style="display:none">
+                                        <if condition="cmf_is_wechat()">
+                                            <p class="cz_btn_p"><button type="submit" class="btn-red js-ajax-submit">确认提交</button></p>
+                                        <else/>
+                                            <div class="img_weiixn">
+                                                <img src="__TMPL__/public/assets/images/example/weixin.png" alt="">
+                                            </div>
+                                        </if>
+                                        </div>
+                                        <p class="cz_btn_p" id="paySub"><button type="submit" class="btn-red js-ajax-submit">确认提交</button></p>
                                     </div>
-                                    <p class="cz_btn_p"><button type="submit" class="btn-red js-ajax-submit1">确认提交</button></p>
                                 </form>
                             </div>
                         </div>
@@ -83,6 +91,20 @@
 </body>
 
 <include file="public@morejs" />
-<script type="text/javascript" src="__TMPL__/public/assets/js/laydate/laydate.js"></script>
+<script type="text/javascript">
+    $('#wxpayCK').click(function(e){
+        // 是否PC、wap，生成二维码
+        var isWechat = '{cmf_is_wechat()}';
+        alert(isWechat)
+        // console.log(isWechat);
 
+        $('#wxpaySub').show();
+        $('#paySub').hide();
+        e.stopPropagation();
+    })
+    $('#alipayCK').click(function(){
+        $('#wxpaySub').hide();
+        $('#paySub').show();
+    })
+</script>
 </html>

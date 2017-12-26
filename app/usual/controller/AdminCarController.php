@@ -51,6 +51,7 @@ class AdminCarController extends AdminBaseController
         $this->assign('start_time', isset($param['start_time']) ? $param['start_time'] : '');
         $this->assign('end_time', isset($param['end_time']) ? $param['end_time'] : '');
         $this->assign('keyword', isset($param['keyword']) ? $param['keyword'] : '');
+        $this->assign('plat', isset($param['plat']) ? $param['plat'] : '');
         $this->assign('articles', $data->items());
         $this->assign('brand_tree', $brandTree);
         $this->assign('page', $data->render());
@@ -140,29 +141,22 @@ class AdminCarController extends AdminBaseController
 
             $post = $this->Model->identiStatus($post);
 
+            // 验证
             $result = $this->validate($post, 'Car.add');
             if ($result !== true) {
                 $this->error($result);
             }
+            // 处理文件图片
             if (!empty($data['photo'])) {
                 $post['more']['photos'] = $this->Model->dealFiles($data['photo']);
-            }
-            if (!empty($data['identity_card'])) {
-                $post['identi']['identity_card'] = $this->Model->dealFiles($data['identity_card']);
             }
             if (!empty($data['file'])) {
                 $post['more']['files'] = $this->Model->dealFiles($data['file']);
             }
 
+            // 事务处理
+            // 提交车子数据
             $this->Model->adminAddArticle($post);
-
-            // 钩子
-            // $post['id'] = $this->Model->id;
-            // $hookParam          = [
-            //     'is_add'  => true,
-            //     'article' => $post
-            // ];
-            // hook('portal_admin_after_save_article', $hookParam);
 
             $this->success('添加成功!', url('AdminCar/edit', ['id' => $this->Model->id]));
         }
@@ -206,6 +200,11 @@ class AdminCarController extends AdminBaseController
 
         // 售卖状态
         $sell_status = $this->Model->getSellStatus($post['sell_status']);
+
+        // 个人审核资料
+        $verifyinfo = lothar_verify($post['user_id'],'openshop',true);
+
+        $this->assign('verifyinfo',$verifyinfo);
 
         $this->assign('Brands', $Brands);
         $this->assign('Models', $Models);
@@ -251,6 +250,7 @@ class AdminCarController extends AdminBaseController
             $post = model('UsualItem')->ItemMulti($post,$more);
             $post = $this->Model->identiStatus($post);
 
+            // 验证
             if ($post['sell_status']==0 || $post['sell_status']==-1 || $post['sell_status']==-2) {
                 $post['plateNo'] = empty($post['plateNo'])?$post['identi']['plateNo']:$post['plateNo'];
                 $result = $this->validate($post,'Car.insurance');
@@ -260,24 +260,36 @@ class AdminCarController extends AdminBaseController
             if ($result !== true) {
                 $this->error($result);
             }
+            // 处理文件图片
             if (!empty($data['photo'])) {
                 $post['more']['photos'] = $this->Model->dealFiles($data['photo']);
-            }
-            if (!empty($data['identity_card'])) {
-                $post['identi']['identity_card'] = $this->Model->dealFiles($data['identity_card']);
             }
             if (!empty($data['file'])) {
                 $post['more']['files'] = $this->Model->dealFiles($data['file']);
             }
 
-            $this->Model->adminEditArticle($post);
+            /*个人审核资料填写*/
+            $verify = $data['verify'];
+            // 直接拿官版的
+            if (!empty($data['identity_card'])) {
+                $verify['more']['identity_card'] = $this->Model->dealFiles($data['identity_card']);
+            }
+            // 验证数据的完备性
+            $result = $this->validate($verify,'usual/Verify.openshop');
 
-            // 钩子
-            // $hookParam = [
-            //     'is_add'  => false,
-            //     'article' => $post
-            // ];
-            // hook('portal_admin_after_save_article', $hookParam);
+            // 事务处理？
+            // 更新车子数据
+            $this->Model->adminEditArticle($post);
+            // 更新车主数据，如果审核通过，不予再审核
+            if ($result===true) {
+                if (empty($verify['id'])) {
+                    $verify['auth_code'] = 'openshop';
+                    $verify['create_time'] = time();
+                    model('usual/Verify')->adminAddArticle($verify);
+                } else {
+                    model('usual/Verify')->adminEditArticle($verify);
+                }
+            }
 
             $this->success('保存成功!');
         }

@@ -21,7 +21,7 @@ class CarValidate extends Validate
     ];
 
     protected $message = [
-        'name.require'  => '标题不能为空',
+        'name.require'  => '车标题不能为空',
         'name.checkName'  => '车标题已存在！',
         'brand_id' => '请选择所属品牌',
         'serie_id' => '请选择所属车系',
@@ -36,9 +36,9 @@ class CarValidate extends Validate
     ];
 
     protected $scene = [
-        'add'   => ['name','brand_id','serie_id','model_id','car_vin','plateNo','car_mileage','car_license_time','city_id'],
-        'edit'  => ['name'=>'require','brand_id','serie_id','model_id','plateNo'=>'require','car_mileage','car_license_time','city_id'],
-        'seller'   => ['brand_id','serie_id','model_id','city_id'],
+        'add' => ['name','brand_id','serie_id','model_id','car_vin','plateNo','car_mileage','car_license_time','city_id'],
+        'edit' => ['name'=>'require','brand_id','serie_id','model_id','plateNo'=>'require','car_mileage','car_license_time','city_id'],
+        // 'seller' => ['brand_id','serie_id','model_id','city_id'],
         'insurance' => ['user_id','plateNo'=>'require'],
     ];
 

@@ -101,7 +101,7 @@ class LoginController extends HomeBaseController
         }
     }
 
-    /**
+    /** 自定义
      * 找回密码
     */
     public function findPassword()
@@ -115,7 +115,7 @@ class LoginController extends HomeBaseController
                 $this->error('验证码错误',url('findPassword'));
             }
             session('findmypwd',$data);
-            $this->redirect('user/Login/findPassword2');
+            $this->success('进入下一项',url('user/Login/findPassword2'));
         }
 
         return $this->fetch('/find_password');
@@ -133,7 +133,7 @@ class LoginController extends HomeBaseController
             // }
 
             session('findmypwd',array_merge($user,$data));
-            $this->redirect('user/Login/findPassword3');
+            $this->success('进入下一项',url('user/Login/findPassword3'));
         }
 
 
@@ -164,7 +164,7 @@ class LoginController extends HomeBaseController
 
             $data = $this->request->post();
             $data = array_merge(session('findmypwd'),$data);
-            echo "临时测试：<br>";
+            echo "临时测试（不必在意）：<br>";
             dump($data);die;
             if (!$validate->check($data)) {
                 $this->error($validate->getError());
@@ -200,7 +200,7 @@ class LoginController extends HomeBaseController
         }
     }
 
-    /**
+    /** 官版
      * 用户密码重置
      */
     public function passwordReset()

@@ -62,7 +62,7 @@
                     <tr>
                         <th>参考价</th>
                         <td>
-                            <input class="form-control" type="number" name="post[price]" value="{$post.price|default='0'}"/>
+                            <input class="form-control" type="number" name="post[price]" value="{$post.price|default='0'}" style="width:300px;float:left;margin-right:10px;"/>
                             <p class="help-block">不作为最终价格</p>
                         </td>
                     </tr>
@@ -77,13 +77,31 @@
                     <tr>
                         <th>描述</th>
                         <td>
-                            <textarea class="form-control" name="post[description]" style="height:100px;" placeholder="请填写描述">{$post.description}</textarea>
+                            <textarea class="form-control" name="post[description]" placeholder="请填写描述">{$post.description}</textarea>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>保险责任</th>
+                        <td>
+                            <textarea class="form-control" name="post[duty]" placeholder="请填写保险责任">{$post.duty}</textarea>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>赔偿项目</th>
+                        <td>
+                            <textarea class="form-control" name="post[compen_item]" placeholder="请填写赔偿项目">{$post.compen_item}</textarea>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>赔偿额度</th>
+                        <td>
+                            <textarea class="form-control" name="post[compen_total]" style="height:80px;" placeholder="请填写赔偿额度">{$post.compen_total}</textarea>
                         </td>
                     </tr>
                     <tr>
                         <th>内容</th>
                         <td>
-                            <script type="text/plain" id="content" name="post[content]">{$post.content}</script>
+                            <script type="text/plain" id="content" name="post[content]" style="height:160px;">{$post.content}</script>
                         </td>
                     </tr>
                 </table>

@@ -71,7 +71,7 @@
                         <th>所属品牌</th>
                         <td>
                             <select class="form-control" style="width:150px;" name="post[brand_id]" id="input-brand">
-                                <option value="0" selected>--请选择--</option>
+                                <option value="">--请选择--</option>
                                 {$Brands}
                             </select>
                         </td>
@@ -80,11 +80,11 @@
                         <th>所属车系</th>
                         <td>
                             <select class="form-control" style="width:150px;float:left;" name="post[serie_pid]" id="input-series">
-                                <option value="0" selected>--请选择--</option>
+                                <option value="">--请选择--</option>
                                 {$Series}
                             </select>
                             <select class="form-control" style="width:150px;" name="post[serie_id]" id="input-serie">
-                                <option value="0">--请选择--</option>
+                                <option value="">--请选择--</option>
                                 {$Series2}
                             </select>
                         </td>
@@ -93,7 +93,7 @@
                         <th>车型</th>
                         <td>
                             <select class="form-control" style="width:150px;" name="post[model_id]" id="input-model">
-                                <option value="0" selected>--请选择--</option>
+                                <option value="">--请选择--</option>
                                 {$Models}
                             </select>
                         </td>
@@ -102,11 +102,11 @@
                         <th>所在城市</th>
                         <td>
                             <select class="form-control" style="width:150px;float:left;" name="post[province_id]" id="input-province">
-                                <option value="0" selected>--请选择--</option>
+                                <option value="">--请选择--</option>
                                 {$Provinces}
                             </select>
                             <select class="form-control" style="width:150px;" name="post[city_id]" id="input-city">
-                                <option value="0">--请选择--</option>
+                                <option value="">--请选择--</option>
                                 {$Citys}
                             </select>
                         </td>
@@ -257,35 +257,37 @@
                     <div>审核时必填项</div>
                     <table class="table table-bordered">
                     <tr>
-                        <th width="100">姓名(车主)</th>
+                        <th width="100">用户名(车主)</th>
                         <td>
-                            <input class="form-control" placeholder=""
-                                type="text" name="post[identi][username]" value="{$post.identi.username|default=''}">
+                            <input type="hidden" name="verify[id]" value="{$verifyinfo.id|default=''}">
+                            <input type="hidden" name="verify[user_id]" value="{$post.user_id}">
+                            <input class="form-control" placeholder="" type="text" name="verify[more][username]" value="{$verifyinfo.more.username|default=''}">
                         </td>
                     </tr>
                     <tr>
                         <th>联系方式</th>
                         <td>
-                            <textarea class="form-control" placeholder="" name="post[identi][contact]">{$post.identi.contact|default=''}</textarea>
+                            <textarea class="form-control" placeholder="" name="verify[more][contact]">{$verifyinfo.more.contact|default=''}</textarea>
                         </td>
                     </tr>
                     <tr>
                         <th>车牌号码</th>
                         <td>
+                            <php>if(empty($verifyinfo['more']['plateNo'])) { $verifyinfo_plateNo = ''; }</php>
                             <input class="form-control" maxlength="7" placeholder="7位的车牌号"
-                                type="text" name="post[identi][plateNo]" value="{$post.identi.plateNo?$post.identi.plateNo:$post.plateNo}">
+                                type="text" name="verify[more][plateNo]" value="{$post.plateNo?$post.plateNo:$verifyinfo_plateNo}">
                         </td>
                     </tr>
                     <tr>
                         <th>行车本照片</th>
                         <td>
                             <div>
-                                <input type="hidden" name="post[identi][driving_license]" id="driving_license" value="{$post.identi.driving_license|default=''}">
+                                <input type="hidden" name="verify[more][driving_license]" id="driving_license" value="{$verifyinfo.more.driving_license|default=''}">
                                 <a href="javascript:uploadOneImage('图片上传','#driving_license');">
-                                    <if condition="empty($post.identi.driving_license)">
+                                    <if condition="empty($verifyinfo.more.driving_license)">
                                         <img src="__TMPL__/public/assets/images/default-thumbnail.png" id="driving_license-preview" width="135" style="cursor: pointer"/>
                                     <else/>
-                                        <img src="{:cmf_get_image_preview_url($post.identi.driving_license)}" id="driving_license-preview" width="135" style="cursor: pointer"/>
+                                        <img src="{:cmf_get_image_preview_url($verifyinfo.more.driving_license)}" id="driving_license-preview" width="135" style="cursor: pointer"/>
                                     </if>
                                 </a>
                                 <input type="button" class="btn btn-sm btn-cancel-driving_license" value="取消图片">
@@ -296,8 +298,8 @@
                         <th>身份证</th>
                         <td>
                             <ul id="identity_card" class="pic-list list-unstyled form-inline">
-                                <notempty name="post.identi.identity_card">
-                                    <foreach name="post.identi.identity_card" item="vo">
+                                <notempty name="verifyinfo.more.identity_card">
+                                    <foreach name="verifyinfo.more.identity_card" item="vo">
                                         <li id="saved-identity_card{$key}">
                                             <input id="identity_card-{$key}" type="hidden"
                                                    name="identity_card[urls][]" value="{$vo.url}">
@@ -389,7 +391,6 @@
             </div>
             <div class="form-group">
                 <input type="hidden" name="post[id]" value="{$post.id}">
-                <input type="hidden" name="post[user_id]" value="{$post.user_id}">
                 <button type="submit" class="btn btn-primary js-ajax-submit">{:lang('SAVE')}</button>
                 <a class="btn btn-default" href="{:url('AdminCar/index')}">{:lang('BACK')}</a>
             </div>

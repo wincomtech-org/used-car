@@ -3,7 +3,7 @@
     <div class="item_con">
         <div class="payment_tit">
             <ul class="payment_way">
-                <li class="payment_way_1 label_input"><b></b><label><input type="radio" name="payment_way" >余额支付</label></li>
+                <li class="payment_way_1 label_input"><b></b><label><input type="radio" name="payment_way">余额支付</label></li>
                 <li class="payment_way_2 label_input"><b></b><label><input type="radio" name="payment_way">在线支付</label></li>
             </ul>
         </div>
@@ -18,9 +18,9 @@
                     <div class="right">
                         <form action="{$formurl}" method="post" class="js-ajax-form" onsubmit="getElementById('submitCash').disabled=true;return true;">
                             <input type="hidden" name="paytype" value="cash">
-                            <button id="submitCash" class="sure_pay js-ajax-submit1" type="submit">确认支付</button>
+                            <input type="hidden" name="orderId" value="{$orderId|default=''}">
+                            <button id="submitCash" class="sure_pay js-ajax-submit" type="submit">确认支付</button>
                         </form>
-                        <!-- <a href="{:url('funds/Pay/pay',['type'=>'cash','action'=>'deposit'])}" class="sure_pay">确认支付</a> -->
                     </div>
                 </div>
             </div>
@@ -38,29 +38,32 @@
                                 <!-- 支付宝 -->
                                 <li class="pay_tab_con_list_item" style="display:none">
                                     <div class="zhifubao">
-                                        <div class="left">
+                                        <div class="left" style="display:none">
                                             <div class="txt"><img src="__TMPL__/public/assets/images/example/erweima_tit.png" alt=""></div>
                                             <div class="erweima">
                                                 <div class="lf">
+                                                    <!-- 支付二维码 -->
                                                     <img src="__TMPL__/public/assets/images/example/erweima.png" alt="">
                                                 </div>
                                                 <div class="rt">
+                                                    <!-- 温馨提示图 -->
                                                     <img src="__TMPL__/public/assets/images/example/erweima_tip.png" alt="">
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="right">
+                                        <div class="left">
                                             <div class="img">
                                                 <img src="__TMPL__/public/assets/images/example/erweima_wangye.png" alt="">
                                             </div>
                                             <div class="button">
                                                 <form action="{$formurl}" method="post" class="js-ajax-form" onsubmit="getElementById('submitAlipay').disabled=true;return true;">
                                                     <input type="hidden" name="paytype" value="alipay">
-                                                    <button id="submitAlipay" class="sure_pay js-ajax-submit1" type="submit">立即支付</button>
+                                                    <input type="hidden" name="orderId" value="{$orderId|default=''}">
+                                                    <button id="submitAlipay" class="sure_pay js-ajax-submit" type="submit">立即支付</button>
                                                 </form>
-                                                <!-- <a href="{//:url('funds/Pay/index',['type'=>'alipay','action'=>'deposit'])}" class="">立即支付</a> -->
                                             </div>
                                         </div>
+                                        <div class="right"></div>
                                         <div class="clear"></div>
                                     </div>
                                 </li>
@@ -70,14 +73,34 @@
                                         <div class="weixin_con">
                                             <img src="__TMPL__/public/assets/images/example/weixin3.png" alt="">
                                             <div class="weixin_bottom">
-                                                <!-- 支付图片 -->
-                                                <div class="lf">
-                                                    <img src="__TMPL__/public/assets/images/example/weixin.png" alt="">
-                                                </div>
-                                                <!-- 温馨提示图 -->
-                                                <div class="lf">
-                                                    <img src="__TMPL__/public/assets/images/example/weixin2.png" alt="">
-                                                </div>
+                                                <empty name="wxpay_show">
+                                                    <div class="lf">暂未开放……</div>
+                                                <else/>
+                                                    <switch name="wxpay_show">
+                                                    <case value="js">
+                                                        <div class="lf">
+                                                        <form action="{$formurl}" method="post" class="js-ajax-form" onsubmit="getElementById('submitWxpay').disabled=true;return true;">
+                                                            <input type="hidden" name="paytype" value="wxpay">
+                                                            <input type="hidden" name="orderId" value="{$orderId|default=''}">
+                                                            <button id="submitWxpay" class="sure_pay js-ajax-submit" type="submit">立即支付</button>
+                                                        </form>
+                                                        </div>
+                                                    </case>
+                                                    <default/>
+                                                        <!-- 支付二维码 -->
+                                                        <div class="lf">
+                                                            <empty name="qrcode">
+                                                                <img src="__TMPL__/public/assets/images/example/weixin.png" alt="">
+                                                            <else/>
+                                                                <img src="{$qrcode}" alt="微信扫码支付">
+                                                            </empty>
+                                                        </div>
+                                                        <!-- 温馨提示图 -->
+                                                        <div class="lf">
+                                                            <img src="__TMPL__/public/assets/images/example/weixin2.png" alt="">
+                                                        </div>
+                                                    </switch>
+                                                </empty>
                                                 <div class="clear"></div>
                                             </div>
                                         </div>
@@ -159,26 +182,25 @@ $(function(){
         //     if (back==1) { clearInterval(int); }
         // })
     }
-    var int = self.setInterval("checkWxpay()",1000);
-
-
-
-    // var int = self.setInterval("clock()",60*1000);
-    // function clock()
-    // {
-    //     $.ajax({
-    //         url: "{:url(\"usual/Ajax/news\")}",
-    //         data: {},
-    //         type: "POST",
-    //         // dataType:'json',
-    //         success:function(CallBack) {
-    //             // alert(CallBack);
-    //             $('#news_clock').html(CallBack);
-    //         }
-    //     })
-    // }
-    // int=window.clearInterval(int);
-
-
+    // var int = self.setInterval("checkWxpay()",1000);
 })
+
+// $(function(){
+//     function checkpay() {
+//         $.post('{//:url(funds/Pay/ajaxWxpay)}', {action:'{//$action}',order_sn:'{//$order_sn}'}, function(data) {
+//             if (data) {
+//                 clearInterval(pid);
+//                 // console.log('ok'+data);
+//                 $('.ewm_l').html('<p>已支付，请关闭窗口</p>');
+//             }
+//             //  else {
+//             //     // console.log('no');
+//             // }
+//         });
+//     }
+//     var pid = setInterval(checkpay,6000);
+//     // var pid = window.setInterval("checkpay()",2000);
+//     // window.clearInterval(pid);
+// })
+
 </script>

@@ -91,4 +91,16 @@ class UserFundsLogModel extends UsualModel
         return $sum;
     }
 
+    // 新增资金记录
+    public function inFundsLog($log=[])
+    {
+        lothar_put_funds_log($log,'','','--','--','',true);
+    }
+
+    // 获取资金记录
+    public function outFundsLog($type='')
+    {
+        return lothar_get_funds_log($type);
+    }
+
 }

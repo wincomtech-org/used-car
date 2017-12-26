@@ -12,19 +12,16 @@
             </div>
             <div class="clear"></div>
         </div>
+
         <div class="friendly-link">
             <p class="link-tit">友情链接：</p>
             <span class="open-box"></span>
             <span class="close-box" data-role="is_show_box"></span>
-            <a href="" >合肥贷款公司</a>
-            <a href="" >合肥二手车</a>
-            <a href="" >合肥学车</a>
-            <a href="" >合肥厂房出租</a>
-            <a href="" >合肥车市</a>
-            <a href="" >合肥地图</a>
-            <a href="" >合肥二手车</a>
-     
+            <foreach name="friendLink" item="vo">
+                <a target="{$vo.target}" title="{$vo.description}" href="{$vo.url}">{$vo.name}</a>
+            </foreach>
         </div>
+
         <div class="footer_foot">
             <div class="lf">
                 <p>

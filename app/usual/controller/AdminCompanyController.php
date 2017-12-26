@@ -104,6 +104,7 @@ class AdminCompanyController extends AdminBaseController
                 $post['more']['files'] = $this->UsualModel->dealFiles($data['files']);
             }
 
+            // $post['user_id'] = cmf_get_current_admin_id();
             $this->UsualModel->adminAddArticle($post);
 
             // 钩子

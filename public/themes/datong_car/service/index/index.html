@@ -55,7 +55,7 @@
                                 <h3>{$vo.name}</h3>
                                 <p>{$vo.description}</p>
                             </div>
-                            <a href="{:url('Index/step1',['id'=>$vo.id])}" class="">去预约</a>
+                            <a href="{:url('Index/step1',['id'=>$vo.id])}">去预约</a>
                         </div>
                     </li>
                     </foreach>
@@ -105,7 +105,7 @@
                         <div class="inspection_list">
                             <input type="hidden" name="post[model_id]" value="1">
                             <input type="hidden" name="compId" value="1">
-                            <button type="submit" class="btn_submit js-ajax-submit1">立即预约</button>
+                            <button type="submit" class="btn_submit js-ajax-submit">立即预约</button>
                         </div>
                     </form>
                 </div>
@@ -123,7 +123,7 @@
                     <div class="txt">
                         <h3>6年内车辆免检新规</h3>
                         <p>你的车符合“免检”标准吗</p>
-                        <a href="storage_point.html">查找寄存点</a>
+                        <a href="{:url('Index/step1',['id'=>6])}">查找寄存点</a>
                     </div>
                 </div>
                 <p class="note">你的车子现在还属于“6年免检”范围吗？从2014年9月实行新车6年免检政策后，规定从2010年9月1日后购买的新车都享有6年免检的“福利”。而对于第一批享受“6年免检”福利的车，从今年起也将要一年一检查。</p>

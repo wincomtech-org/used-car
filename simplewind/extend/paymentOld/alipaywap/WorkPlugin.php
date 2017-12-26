@@ -1,13 +1,15 @@
 <?php
 // namespace paymentOld\alipaywap;
 
-// use paymentOld\alipaywap\lib\coreFunc;
-use paymentOld\alipaywap\lib\AlipaySubmit;
-use paymentOld\alipaywap\lib\AlipayNotify;
+use paymentOld\common\alipay\immed\AlipaySubmit;
+use paymentOld\common\alipay\immed\AlipayNotify;
 use traits\controller\Jump;
+
+// import('paymentOld/common/alipay/coreFunc',EXTEND_PATH);
 
 /**
 * 支付宝支付接口
+* @@@ sign_type 签名方式需改
 */
 class WorkPlugin
 {
@@ -19,13 +21,17 @@ class WorkPlugin
     private $dir = '';// getcwd()
     private $host = '';
 
-    function __construct($order_sn='', $order_amount='')
+    function __construct($order_sn='', $order_amount='', $order_id='123', $action='')
     {
         $this->order_sn = $order_sn;
         $this->order_amount = $order_amount;
+        // $this->action = $action;
         $this->host = cmf_get_domain();
+        $this->notify_url = url('funds/Pay/callBack','',false,$this->host);
+        $this->return_url = url('funds/Pay/callBack','',false,$this->host);
+
         // TP写法 
-        import('paymentOld/'.$this->plugin_id.'/lib/coreFunc',EXTEND_PATH);
+        import('paymentOld/common/alipay/coreFunc',EXTEND_PATH);
     }
 
     /*
@@ -44,35 +50,43 @@ class WorkPlugin
      * +----------------------------------------------------------
      * 建立支付请求
      * +----------------------------------------------------------
-     * 
-     * +----------------------------------------------------------
     */
-    public function workForm() {
+    // 默认
+    public function work($auto=true,$jumpurl='')
+    {
+        $result = $this->workForm($auto);
+        return $result;
+    }
+
+    // 表单
+    public function workForm($auto=true) {
         // 建立请求
         $alipaySubmit = new AlipaySubmit($this->p_set());
-        $html_text = $alipaySubmit->buildRequestForm($this->parameter(),"post","付款");
+        $html_text = $alipaySubmit->buildRequestForm($this->parameter(),"get","付款",$auto);
         return $html_text;
     }
 
-    public function workUrl($data=[])
+    // URL
+    public function workUrl($auto=true)
     {
         // 建立请求
         $alipaySubmit = new AlipaySubmit($this->p_set());
-        $sResult = $alipaySubmit->buildRequestURL($this->parameter());
-
-        // URL跳转
-        $sResult = str_replace('&amp','&',$sResult);// 替换实体字符
-        echo '<script src="static/js/jquery.js"></script><script type="text/javascript">window.location.href="'.$sResult.'"</script>';exit;
-
-        // return $sResult;
+        $alipaySubmit->buildRequestURL($this->parameter(),$auto);
     }
 
-    public function workCurl($data=[])
+    // CURL模式
+    public function workCurl()
     {
         // 建立请求
         $alipaySubmit = new AlipaySubmit($this->p_set());
         $sResult = $alipaySubmit->buildRequestHttp($this->parameter());
         return $sResult;
+    }
+
+    // 二维码
+    public function QRcode()
+    {
+        # code...
     }
 
     /*
@@ -85,28 +99,12 @@ class WorkPlugin
         $verify_result = $alipayNotify->verifyReturn();
 
         if ($verify_result) { //验证成功
-            //请在这里加上商户的业务逻辑程序代码
-            //请根据您的业务逻辑来编写程序（以下代码仅作参考）
-            //获取支付宝的通知返回参数，可参考技术文档中页面跳转同步通知参数列表
-            // print_r($_GET);die;
-            // $out_trade_no   = $_GET['out_trade_no'];//商户订单号
-            // $trade_no       = $_GET['trade_no'];//支付宝交易号
-            $trade_status   = $_GET['trade_status'];//交易状态
-            // $total_fee      = $_GET['total_fee'];//交易金额
-            // $notify_id      = $_GET['notify_id'];//通知校验ID
-            // $notify_time    = $_GET['notify_time'];//通知的发送时间
-            // $buyer_email    = $_GET['buyer_email'];//买家支付宝帐号
-
-            if($trade_status=='TRADE_FINISHED' || $trade_status=='TRADE_SUCCESS') {
-                return $_GET;//支付成功
-            } else {
-                return false;//支付失败
-            }
-        } else {
-            //验证失败
+            $this->log($_GET);
+            // 在这里只管返回数据
+            return $_GET;
+        } else { //验证失败
             //调试
             $this->log($_GET);
-            
             return false;
         }
     }
@@ -121,35 +119,12 @@ class WorkPlugin
         $verify_result = $alipayNotify->verifyNotify();
 
         if($verify_result) { //验证成功
-            //请在这里加上商户的业务逻辑程序代码
-            //请根据您的业务逻辑来编写程序（以下代码仅作参考）
-            //获取支付宝的通知返回参数，可参考技术文档中服务器异步通知参数列表
-            // print_r($_POST);die;
-
-            //商户订单号
-            $out_trade_no = $_POST['out_trade_no'];
-            //支付宝交易号
-            $trade_no = $_POST['trade_no'];
-            //交易状态
-            $trade_status = $_POST['trade_status'];
-
-            if($trade_status == 'TRADE_FINISHED') {
-                // 完成
-                return array_merge($_POST,['status'=>10]);
-            } elseif ($trade_status == 'TRADE_SUCCESS') {
-                // 支付成功
-                return array_merge($_POST,['status'=>1]);
-            } else {
-                print_r($_POST);die;
-            }
-            // echo "success";//请不要修改或删除
-        } else {
-            //验证失败
-            // echo "fail";
-
+            $this->log($_POST);
+            // 在这里只管返回数据
+            return $_POST;
+        } else { //验证失败
             //调试用，写文本函数记录程序运行情况是否正常
             $this->log($_POST);
-
             return false;
         }
     }
@@ -162,16 +137,16 @@ class WorkPlugin
         if (is_string($data)) {
             $content = $data;
         } elseif (is_array($data)) {
-            // foreach ($data as $key => $value) {
-            //     $content .= $key.'='.$value.",";
-            // }
-            $content = var_export($data); 
+            $content = json_encode($data);
         } else {
             $content = '非法数据！';
         }
 
         return logResult($content);
     }
+
+
+
 
     /*
     * 功能：订单查询
@@ -203,8 +178,6 @@ class WorkPlugin
         echo file_get_contents($url);
     }
 
-
-
     /*退款*/
     public function refund($value='')
     {
@@ -231,37 +204,34 @@ class WorkPlugin
 
         //↓↓↓↓↓↓↓↓↓↓请在这里配置您的基本信息↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
         // 合作身份者id，以2088开头的16位纯数字
-        $p_set['partner']  = $option['partner'];
-        // 安全检验码，以数字和字母组成的32位字符
-        $p_set['key']   = $option['key'];
-        // 签约支付宝账号或卖家支付宝帐户
-        $p_set['seller_email'] = $option['account'];
+        $set['partner'] = trim($option['partner']);
 
-        //页面跳转同步通知页面路径，要用 http://格式的完整路径，不允许加?id=123这类自定义参数
-        //return_url的域名不能写成http://localhost/*** ，否则会导致return_url执行无效
-        // $p_set['return_url'] = 'http://127.0.0.1/create_direct_pay_by_user_php_utf8/return_url.php';
-
-        //服务器异步通知页面路径，要用 http://格式的完整路径，不允许加?id=123这类自定义参数
-        // $p_set['notify_url'] = 'http://www.xxx.com/create_direct_pay_by_user_php_utf8/notify_url.php';
+        //收款支付宝账号，一般情况下收款账号就是签约账号
+        $set['seller_id'] = $set['partner'];
         //↑↑↑↑↑↑↑↑↑↑请在这里配置您的基本信息↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑
+
+        //商户的私钥（后缀是.pen）文件相对路径
+        $set['private_key_path'] = EXTEND_PATH .'paymentOld/'. $this->plugin_id .'/key/rsa_private_key.pem';
+        
+        //支付宝公钥（后缀是.pen）文件相对路径
+        $set['ali_public_key_path']= EXTEND_PATH .'paymentOld/'. $this->plugin_id .'/key/alipay_public_key.pem';
         
         // 签名方式 不需修改
-        $p_set['sign_type']    = 'MD5';
-        // $p_set['sign_type']    = strtoupper('MD5');
+        $set['sign_type']    = 'RSA';//wap的AlipaySubmit里用的是这个
+        // $set['sign_type'] = 'MD5';// 推荐
+        // $set['sign_type']    = strtoupper('md5');
         
         // 字符编码格式 目前支持 gbk 或 utf-8
-        $p_set['input_charset']= 'utf-8';
-        // $p_set['input_charset']= strtolower('utf-8');
-        // $p_set['input_charset']= strtolower('gbk');
-        
-        // 访问模式,根据自己的服务器是否支持ssl访问，若支持请选择https；若不支持请选择http
-        $p_set['transport']    = 'http';
+        $set['input_charset'] = trim(strtolower('utf-8'));
         
         // ca证书路径地址，用于curl中ssl校验
         // 请保证cacert.pem文件在当前文件夹目录中
-        $p_set['cacert']    = EXTEND_PATH . 'paymentOld/' . $this->plugin_id . '/cacert.pem';
+        $set['cacert'] = EXTEND_PATH .'paymentOld/'. $this->plugin_id .'/cacert.pem';
+
+        // 访问模式,根据自己的服务器是否支持ssl访问，若支持请选择https；若不支持请选择http
+        $set['transport'] = 'http';
         
-        return $p_set;
+        return $set;
     }
 
     /**
@@ -273,26 +243,27 @@ class WorkPlugin
         $set = $this->p_set();
         $siteInfo = cmf_get_option('site_info');
 
-        $param['service'] = "create_direct_pay_by_user";
+        $param['service'] = "alipay.wap.create.direct.pay.by.user";
         //支付类型，必填，不能修改
         $param['payment_type'] = "1";
         // 字符编码格式 目前支持 gbk 或 utf-8
         $param['_input_charset'] = $set['input_charset'];
         
-        // 收款支付宝账号
-        $param['seller_email'] = trim($set['seller_email']);
         // 合作身份者id，以2088开头的16位纯数字
         $param['partner'] = trim($set['partner']);
+        // 收款支付宝账号
+        $parameter['seller_id'] = $param['partner'];
         
         //服务器异步通知页面路径，需http://格式的完整路径，不能加?id=123这类自定义参数
-        $param['notify_url'] = cmf_url('funds/Pay/callBack','',false,$this->host);
+        // $param['notify_url'] = cmf_url('funds/Pay/callBack','',false,$this->host);
+        $param['notify_url'] = $this->notify_url;
         //页面跳转同步通知页面路径，需http://格式的完整路径，不能加?id=123这类自定义参数，不能写成http://localhost/
-        $param['return_url'] = cmf_url('funds/Pay/callBack','',false,$this->host);
+        $param['return_url'] = $this->return_url;
 
         //商户订单号，商户网站订单系统中唯一订单号，必填
         $param['out_trade_no'] = $this->order_sn;
         //订单名称，必填
-        $param['subject'] = 'Order Sn : ' . $this->order_sn . ' (' . $siteInfo['site_name'] . ')';
+        $param['subject'] = 'OrderSn：'. $this->order_sn .' ('. $siteInfo['site_name'] .')';
         //付款金额，必填
         $param['total_fee'] = $this->order_amount;
         //订单描述
@@ -308,9 +279,9 @@ class WorkPlugin
 
         //扩展功能参数――防钓鱼//
         //防钓鱼时间戳，若要使用请调用类文件submit中的query_timestamp函数
-        $param['anti_phishing_key'] = '';
+        // $param['anti_phishing_key'] = '';
         //客户端的IP地址，非局域网的外网IP地址，如：221.0.0.1
-        $param['exter_invoke_ip'] = '';
+        // $param['exter_invoke_ip'] = '';
 
         //扩展功能参数――其他//
         //商品展示地址，需以http://开头的完整路径，不允许加?id=123这类自定义参数。例如：http://www.商户网址.com/myorder.html
@@ -321,6 +292,11 @@ class WorkPlugin
         //扩展功能参数――分润(若要使用，请按照注释要求的格式赋值)//
         // $param['royalty_type'] = '';//提成类型，该值为固定值：10，不需要修改
         // $param['royalty_params'] = '';
+
+        //超时时间
+        $param['it_b_pay'] = '';
+        //钱包token
+        $param['extern_token'] = '';
 
         return $param;
     }

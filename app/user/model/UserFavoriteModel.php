@@ -15,6 +15,19 @@ use think\Model;
 
 class UserFavoriteModel extends Model
 {
+    protected $type = [
+        'more' => 'array',
+        'url' => 'array',
+    ];
+    /**
+     * 关联 usual_car表
+     * @return $this
+     */
+    // public function car()
+    // {
+    //     return $this->belongsTo('usual/UsualCarModel', 'object_id')->setEagerlyType(1);
+    // }
+
     public function favorites()
     {
         $userId        = cmf_get_current_user_id();
@@ -34,5 +47,32 @@ class UserFavoriteModel extends Model
         $data             = $userQuery->where($where)->delete();
         return $data;
     }
+
+    // 收藏
+    public function collects($filter=[], $order='a.id desc', $limit=10)
+    {
+        $userId        = cmf_get_current_user_id();
+        // 联表 table_name
+        $join = [['usual_car b','a.object_id=b.id'],];
+        $field = 'a.*,b.name,b.car_mileage,b.car_license_time,b.shop_price,b.market_price,b.shop_tel,b.more';
+        $where = ['a.user_id'=>$userId];
+        if (!empty($filter)) {
+            $where = array_merge($where,$filter);
+        }
+
+        // 获取数据
+        $list = $this->alias('a')
+              ->field($field)
+              ->join($join)
+              ->where($where)
+              ->order($order)
+              // ->select()->toArray();
+              ->paginate($limit);
+              // ->paginate($limit)->toArray();
+
+        return $list;
+    }
+
+
 
 }

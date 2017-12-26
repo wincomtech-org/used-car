@@ -35,7 +35,7 @@
 						</ul>
 						<dl class="user_login_supplement">
 							<dd class="auto_login">
-								<label ><input checked type="checkbox" name="" value="下次自动登录">下次自动登录</label>
+								<label ><input checked type="checkbox" value="1">下次自动登录</label>
 							</dd>
 							<dd>
 								<a href="{:cmf_url('user/Login/findPassword')}" class="red">忘记密码？</a>
@@ -44,7 +44,6 @@
 						<p class="submit">
 							<input type="hidden" name="redirect" value="">
 							<button type="submit" class="red_btn btn js-ajax-submit">登录</button>
-							<!-- <a href="" class="red_btn btn">登录</a> -->
 							<a href="{:cmf_url('user/Register/index')}" class="btn">免费注册</a>
 						</p>
 					</form>
@@ -57,7 +56,7 @@
 	<section class="login_m">
 		<div class="main">
 			<div class="regist_con">
-				<form  action="{:url('user/login/doLogin')}" method="post" accept-charset="utf-8" name="login_form" class="js-ajax-form">
+				<form action="{:url('user/login/doLogin')}" method="post" accept-charset="utf-8" name="login_form" class="js-ajax-form">
 					<p class="tit">登录</p>
 					<ul class="user_login_lists">
 						<li class="user_login_input">
@@ -71,13 +70,12 @@
 						</li>
 					</ul>
 					<dl class="user_login_supplement">
-						<dd class="auto_login"><label ><input type="checkbox" name="" value="下次自动登录">下次自动登录</label></dd>
-						<dd><a href="find_passwod.html" class="red">忘记密码？</a></dd>
+						<dd class="auto_login"><label ><input checked type="checkbox" value="1">下次自动登录</label></dd>
+						<dd><a href="{:cmf_url('user/Login/findPassword')}" class="red">忘记密码？</a></dd>
 					</dl>
 					<p class="submit">
 						<input type="hidden" name="redirect" value="">
 						<button type="submit" class="red_btn btn js-ajax-submit">登录</button>
-						<!-- <a href="javascript:login_form.submit()" onClick="return loginLayoutValidate()" class="red_btn btn">登录</a> -->
 						<a href="{:cmf_url('user/Register/index')}" class="btn">免费注册</a>
 					</p>
 				</form>
@@ -94,5 +92,4 @@
 <script>
 
 </script>
-
 </html>

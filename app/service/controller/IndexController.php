@@ -20,8 +20,11 @@ class IndexController extends HomeBaseController
     public function index()
     {
         $extra = ['status'=>1];//,'platform'=>2
-        $services = model('service/ServiceCategory')->getLists('','','',$extra);
-        $noobInfo = model('service/ServiceCategory')->getPost(1);
+
+        $scModel = new ServiceCategoryModel();
+        $services = $scModel->getLists('','','',$extra);
+        $noobInfo = $scModel->getPost(1);
+
         $postService = new PostService();
         $articles = $postService->fromCateList(9,5);
 
@@ -81,7 +84,7 @@ class IndexController extends HomeBaseController
         $compId = $this->request->param('compId',0,'intval');
         $userId = cmf_get_current_user_id();
         if (empty($data)) {
-            $this->redirect('index');
+            $this->error('数据为空！',url('Index/index'));
         }
 
         $post = $data['post'];
@@ -101,7 +104,7 @@ class IndexController extends HomeBaseController
                 }
                 if ($servCates['platform']==1) {
                     if (empty($find['company_id'])) {
-                        $this->redirect('service/Index/step2', ['id'=>$find['id']]);
+                        $this->error('去选公司',url('Index/step2',['id'=>$find['id']]));
                     } else {
                         $this->error('请不要重复提交！');
                     }
@@ -157,7 +160,8 @@ class IndexController extends HomeBaseController
             'appoint_time.after' => '预约时间也太早了吧？',
         ]);
         if (!$validate->check($post)) {
-            $this->error($validate->getError(),url('Index/step1',['id'=>$post['model_id']]));
+            $this->error($validate->getError());
+            // $this->error($validate->getError(),url('Index/step1',['id'=>$post['model_id']]));
         }
 
         // 处理图片 直接拿官版的
@@ -167,7 +171,7 @@ class IndexController extends HomeBaseController
 
         // 提交
         Db::startTrans();
-        $sta = false;
+        $transStatus = true;
         try{
             $id = model('Service')->addAppoint($post);
             $data = [
@@ -178,24 +182,19 @@ class IndexController extends HomeBaseController
                 'adminurl'  => 3,
             ];
             lothar_put_news($data);
-            $sta = true;
-            // 提交事务
             Db::commit();
         } catch (\Exception $e) {
-            // 回滚事务
             Db::rollback();
-        }
-        if ($sta===false) {
-            $this->error('提交失败');
+            $transStatus = false;
         }
 
+        if ($transStatus===false) {
+            $this->error('提交失败');
+        }
         if ($servCates['platform']==1) {
-            // $this->success('提交成功，请等待工作人员回复',url('user/Service/index',['id'=>$post['model_id']]));
-            $this->assign('servId',$post['model_id']);
-            $this->assign('servName',$servCates['name']);
-            return $this->fetch('appoint_tip');
+            $this->success('提交成功，请等待工作人员回复',url('user/Service/index',['mid'=>$post['model_id']]));
         } else {
-            $this->redirect('service/Index/step2', ['id'=>$id]);
+            $this->success('正在帮您转入选公司页面……',url('service/Index/step2',['id'=>$id]));
         }
     }
 

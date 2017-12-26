@@ -38,6 +38,9 @@ class UsualCarModel extends UsualModel
         if (!empty($filter['cityId'])) {
             $where['a.city_id'] = intval($filter['cityId']);
         }
+        if (!empty($filter['plat'])) {
+            $where['a.platform'] = intval($filter['plat']);
+        }
 
         // 后台
         $startTime = empty($filter['start_time']) ? 0 : strtotime($filter['start_time']);
@@ -58,7 +61,7 @@ class UsualCarModel extends UsualModel
         }
 
         // 排序
-        $order = empty($order) ? 'is_top DESC,is_rec DESC,update_time DESC' : $order;
+        $order = empty($order) ? 'a.is_top DESC,a.is_rec DESC,a.update_time DESC' : $order;
 
         // 数据量
         $limit = empty($limit) ? config('pagerset.size') : $limit;
@@ -167,7 +170,10 @@ class UsualCarModel extends UsualModel
             ->field($field)
             ->join($join)
             ->where($where)
-            ->find()->toArray();
+            ->find();
+        if (!empty($page)) {
+            $page = $page->toArray();
+        }
 
         return $page;
     }

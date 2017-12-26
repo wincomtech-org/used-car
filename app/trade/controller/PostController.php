@@ -15,6 +15,7 @@ class PostController extends HomeBaseController
     public function details()
     {
         $id = $this->request->param('id',0,'intval');
+        $userId = cmf_get_current_user_id();
 
         $carModel = new UsualCarModel();
         // $page = $carModel->getPost($id);
@@ -23,6 +24,11 @@ class PostController extends HomeBaseController
             abort(404,'数据不存在！');
         }
 
+        // 检查是否锁单
+        // $where = ['car_id'=>$id,'status'=>['in','1,8,10,-11']];
+        $where = ['car_id'=>$id];
+        $findOrder = Db::name('trade_order')->where($where)->value('buyer_uid');
+        // 所属公司
         // $company = Db::name('UsualCompany')->where(['user_id'=>$page['user_id']])->find();
 
         $itModel = new UsualItemModel();
@@ -31,50 +37,123 @@ class PostController extends HomeBaseController
         $page = array_merge($page,$page2);
         // dump($page['more']);die;
 
+        // 所有车辆属性
         $allItems = $itModel->getItemShow($page['more']);
-        // dump($allItems);die;
 
         // 获取推荐车辆
         $carTuis = $carModel->getLists([],'',12,['a.is_rec'=>1]);
-        // dump($carTuis);
 
+        $this->assign('findOrder',$findOrder);
+        $this->assign('userId',$userId);
         $this->assign('page',$page);
         $this->assign('allItems',$allItems);
         $this->assign('carTuis',$carTuis);
         return $this->fetch();
     }
 
-    /*预约看车*/
+    /*
+    * 预约看车
+    * pay.html
+    */
     public function seeCar()
     {
         if (!cmf_is_user_login()) {
             $this->error('请登录',url('user/Login/index'));
         }
-        $id = $this->request->param('id',0,'intval');
-        $where['id'] = $id;
+        $id = $this->request->param('id',0,'intval');//车子ID
+        $user = cmf_get_current_user();
 
-        $carInfo = Db::name('usual_car')->field('name,bargain_money,price,car_license_time,car_mileage,car_displacement')->where($where)->find();
-        if (empty($carInfo)) {
-            abort(404,'数据不存在！');
+        // 判断是否二次支付：
+        $findOrder =Db::name('trade_order')->field('id,pay_id,order_sn,bargain_money,status')->where(['buyer_uid'=>$user['id'],'car_id'=>$id])->find();
+        if (!empty($findOrder['id'])) {
+            $orderId = intval($findOrder['id']);
+            if (empty($findOrder['status'])) {
+                // 未支付状态
+                $carInfo = Db::name('usual_car')->field('name,bargain_money,price,car_license_time,car_mileage,car_displacement')->where('id',$id)->find();
+            } else {
+                // 不是未支付状态
+                $this->error('请勿重复提交',url('user/Buyer/index',['id'=>$orderId]));
+            }
+        } else {
+            // 获取用户数据
+            $username = empty($user['user_nickname']) ? (empty($user['mobile'])?$user['user_login']:$user['mobile']) : $user['user_nickname'];
+
+            // 获取车辆表数据
+            $where['a.id'] = $id;
+            $carInfo = Db::name('usual_car')->alias('a')
+                     ->join('user b','a.user_id=b.id')
+                     ->field('a.user_id,a.name,a.bargain_money,a.price,a.car_license_time,a.car_mileage,a.car_displacement,b.mobile,b.user_nickname,b.user_login')
+                     ->where($where)->find();
+            if (empty($carInfo)) {
+                $this->error('数据不存在！',url('trade/Index/index'));
+            }
+            $seller_username = empty($carInfo['user_nickname']) ? (empty($carInfo['mobile'])?$carInfo['user_login']:$carInfo['mobile']) : $carInfo['user_nickname'];
+
+            // 生成车单
+            $post = [
+                'car_id'            => $id,
+                'order_sn'          => cmf_get_order_sn('seecar_'),
+                'buyer_uid'         => $user['id'],
+                'buyer_username'    => $username,
+                'buyer_contact'     => $user['mobile'],
+                'seller_uid'        => $carInfo['user_id'],
+                'seller_username'   => $seller_username,
+                'bargain_money'     => $carInfo['bargain_money'],
+                'description'       => $carInfo['name'],
+                'create_time'       => time(),
+                // 'ip'                => '',
+            ];
+            $orderId = Db::name('trade_order')->insertGetId($post);
         }
 
+        // 判断是否为手机端、微信端
+        // $map = [
+        //     'action'    => 'seecar',
+        //     'order_sn'  => $findOrder['order_sn']?$findOrder['order_sn']:$post['order_sn'],
+        //     'coin'      => $carInfo['bargain_money'],
+        //     'id'        => $orderId,
+        // ];
+        // $this->showPay($map);
+
         $this->assign('carInfo',$carInfo);
-        $this->assign('formurl',url('Post/seeCarPost', $where));
+        $this->assign('orderId',$orderId);
+        $this->assign('formurl',url('Post/seeCarPost'));
         return $this->fetch();
     }
+    // 提交预约看车 paytype,action,order_sn,coin
     public function seeCarPost()
     {
-        $data = $this->request->param();
-        $data['action'] = 'seecar';
-        // $setting = cmf_get_option('usual_settings');
-        // $data['coin'] = $setting['deposit'];
+        if (!cmf_is_user_login()) {
+            $this->error('请登录',url('user/Login/index'));
+        }
 
-        $this->redirect('funds/Pay/pay',$data);
+        // 前置数据
+        $paytype = $this->request->param('paytype');
+        if (empty($paytype)) {
+            $this->error('请选择支付方式');
+        }
+        $orderId = $this->request->param('orderId/d');
+        if (empty($orderId)) {
+            $this->error('预约失败,请检查',url('trade/Post/seeCar'));
+        }
+        $order = Db::name('trade_order')->field('order_sn,bargain_money,pay_id')->where('id',$orderId)->find();
+        $map = [
+            'paytype'   => $paytype,
+            'action'    => 'seecar',
+            'order_sn'  => $order['order_sn'],
+            'coin'      => $order['bargain_money'],
+            // 'id'        => $orderId,
+        ];
+
+        // 判断是否二次支付：首单支付
+        // 转向支付接口
+        $this->success('前往支付中心……',cmf_url('funds/Pay/pay',$map));
     }
 
     /*
     * 第一次开店，
     * 开店资料审核 config('verify_define_data');
+    * pay.html
     */
     public function deposit()
     {
@@ -82,30 +161,77 @@ class PostController extends HomeBaseController
             $this->error('请登录',url('user/Login/index'));
         }
 
+        // 前置数据
+        $action  = 'openshop';
         $setting = cmf_get_option('usual_settings');
+        $coin    = $setting['deposit'];
+        $userId = cmf_get_current_user_id();
 
-        $this->assign('deposit',$setting['deposit']);
+        // 判断是否二次支付：已有订单未付款，直接去支付；已有订单已支付，跳向用户中心审核页面
+        $findOrder = Db::name('funds_apply')->field('id,order_sn,coin,payment')->where(['user_id'=>$userId,'type'=>$action])->find();
+        if (!empty($findOrder)) {
+            $orderId = intval($findOrder['id']);
+            if (empty($findOrder['status'])) {
+                # code...
+            } else {
+                $this->error('开店申请记录已存在',url('user/Funds/apply',['type'=>$action]));
+            }
+        } else {
+            // 开店申请
+            $post = [
+                'type'      => $action,
+                'user_id'   => $userId,
+                'order_sn'  => cmf_get_order_sn($action.'_'),
+                'coin'      => $coin,
+                'create_time' => time(),
+                // 'ip'        => '',
+            ];
+            $orderId = Db::name('funds_apply')->insertGetId($post);
+        }
+
+        // 判断是否为手机端、微信端
+        // $map = [
+        //     'action'    => $action,
+        //     'order_sn'  => $post['order_sn'],
+        //     'coin'      => $coin,
+        //     'id'        => $orderId,
+        // ];
+        // $this->showPay($map);
+
+        $this->assign('deposit',$coin);
+        $this->assign('orderId',$orderId);
         $this->assign('formurl',url('Post/depositPost'));
         return $this->fetch();
     }
+    // 提交开店押金 paytype,action,coin
+    // \app\funds\controller\PayController.php
     public function depositPost()
     {
-        # \app\funds\controller\PayController.php
-        $data = $this->request->param();
-        $data['action'] = 'openshop';
-        // $setting = cmf_get_option('usual_settings');
-        // $data['coin'] = $setting['deposit'];
+        if (!cmf_is_user_login()) {
+            $this->error('请登录',url('user/Login/index'));
+        }
 
-        // $data = [
-        //     'title'     => '开店申请',
-        //     'object'    => 'funds_apply:'.$vid,
-        //     'content'   => '客户ID：'.$userInfo['id'].'，车子ID：'.$id,
-        //     'adminurl'  => 8,
-        // ];
-        // lothar_put_news($data);
+        // 前置数据
+        $paytype = $this->request->param('paytype');
+        if (empty($paytype)) {
+            $this->error('请选择支付方式');
+        }
+        $orderId = $this->request->param('orderId/d');
+        if (empty($orderId)) {
+            $this->error('开店申请失败');
+        }
+        $order = Db::name('funds_apply')->field('order_sn,coin,payment')->where('id',$orderId)->find();
+        $map = [
+            'paytype'   => $paytype,
+            'action'    => 'openshop',
+            'order_sn'  => $order['order_sn'],
+            'coin'      => $order['coin'],
+            // 'id'        => $orderId,
+        ];
 
-
-        $this->redirect('funds/Pay/pay',$data);
+        // 判断是否二次支付：首单支付
+        // 转向支付接口
+        $this->success('前往支付中心……',cmf_url('funds/Pay/pay',$map));
     }
 
     // 登记卖车信息
@@ -116,18 +242,11 @@ class PostController extends HomeBaseController
         if (empty($userId)) {
             echo lothar_toJson(0,'您尚未登录',url("user/Login/index"));exit();
         }
-        // 是否认证
-        $identify = lothar_verify();
-        if (empty($identify)) {
-            echo lothar_toJson(0,'您未进行实名认证，请上传身份证',url('user/Profile/center'));exit();
-        }
 
-        // 是否第一次申请登记 如果是交保证金 deposit
-        $count = Db::name('user_funds_log')->where(['user_id'=>$userId,'type'=>5])->count();
-        if (empty($rcount)) {
-            // session('deposit_'.$userInfo['id'], $post);
-            // $this->redirect('deposit');
-            echo lothar_toJson(0,'系统检测到您还未交保证金',url('deposit'));exit();
+        // 卖车资质证明
+        $rs = model('Trade')->check_sell($userId);
+        if (!empty($rs)) {
+            echo lothar_toJson($rs[0], $rs[1], $rs[2]);exit();
         }
 
         // 获取数据 直接获取不到数据？
@@ -197,7 +316,7 @@ class PostController extends HomeBaseController
         }
 
         if ($sta===true) {
-            $result = lothar_toJson(1, '提交成功', url('user/Trade/sellerCar'), ['id'=>$id]);
+            $result = lothar_toJson(1, '提交成功', url('user/Seller/car'), ['id'=>$id]);
         } else {
             $result = lothar_toJson(0,'提交失败');
         }

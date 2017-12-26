@@ -25,11 +25,11 @@
             <div class="person_right_con">
                 <div class="fund_management">
                     <div class="fund_management_detail">
-                        <p class="fund_managemen_title">申请列表<a href="#">使用遇到的问题？</a></p>
+                        <p class="fund_managemen_title">申请列表<a href="{:url('portal/Article/index',['id'=>32,'cid'=>10])}">使用遇到的问题？</a></p>
                         <include file="funds/comm"/>
                         <div class="stream">
                             <p class="scroll_tip">以下内容可滚动</p>
-                            <div class=" table_div">
+                            <div class="table_div">
                                 <div class="stream_con">
                                     <table>
                                         <thead>
@@ -45,32 +45,37 @@
                                         </thead>
                                         <tbody>
                                             <php>
-                                                $types = config('payment');
+                                                $paytype = config('payment');
                                                 $statusV = config('funds_apply_status');
+                                                $types = config('funds_apply_type');
                                             </php>
                                             <foreach name="list" item="vo">
                                             <tr>
                                                 <td>#{$vo.id}</td>
                                                 <td>{$vo.coin}</td>
                                                 <td>
-                                                    {$types[$vo.payment]}
+                                                    {$paytype[$vo.payment]}
                                                 </td>
                                                 <td>
-                                                    <switch name="vo.type">
-                                                        <case value="withdraw">提现</case>
-                                                        <default/>管理员操作
-                                                    </switch>
+                                                    {$types[$vo.type]}
                                                 </td>
                                                 <td>{:date('Y-m-d H:i:s',$vo.create_time)}</td>
                                                 <td>
                                                     {$statusV[$vo.status]}
                                                 </td>
                                                 <td>
-                                                    <eq name="vo.status" value="0,-1">
-                                                    <a href="{:url('user/Funds/withdrawCancel',['id'=>$vo.id])}">取消</a>
+                                                    <eq name="vo.type" value="openshop">
+                                                        <eq name="vo.status" value="0,1">
+                                                            <a href="{:url('trade/Post/deposit')}">去支付</a>
+                                                        </eq>
                                                     </eq>
-                                                    <a href="{:url('user/Funds/withdrawView',['id'=>$vo.id])}">查看</a>
-                                                    <!-- <a href="{//:url('user/Funds/del?',['id'=>$vo.id])}">删除</a> -->
+                                                    <eq name="vo.type" value="withdraw">
+                                                        <eq name="vo.status" value="0,-1">
+                                                            <a href="{:url('user/Funds/withdrawCancel',['id'=>$vo.id])}" class="js-ajax-dialog-btn" data-msg="确定取消吗？">取消</a>
+                                                        </eq>
+                                                        <a href="{:url('user/Funds/withdrawView',['id'=>$vo.id])}">查看</a>
+                                                    </eq>
+                                                    <!-- <a href="{//:url('user/Funds/del?',['id'=>$vo.id])}" class="js-ajax-delete">删除</a> -->
                                                 </td>
                                             </tr>
                                             </foreach>

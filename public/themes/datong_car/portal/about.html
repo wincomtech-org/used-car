@@ -5,6 +5,8 @@
     <meta name="keywords" content="{$article.post_keywords}"/>
     <meta name="description" content="{$article.post_excerpt}">
 
+    <taglib name="app\portal\taglib\Portal"/>
+    <include file="public@function"/>
     <include file="public@head"/>
     <style>
         #article_content img {
@@ -27,7 +29,7 @@
         <div class="main">
             <!-- 面包屑 -->
             {$crumbs|default=''}
-         <!--    <ul class="brash">
+            <!-- <ul class="brash">
                 <li>当前位置：</li>
                 <li><a href="">关于我们</a></li>
                 <li class="active"><a href="">公司简介</a></li>

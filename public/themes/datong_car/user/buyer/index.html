@@ -59,9 +59,15 @@
                                         </tr>
                                         <tr>
                                             <td class="order_detail">
-                                                <div class="left"><img src="{:cmf_get_image_preview_url($car_more.thumbnail)}" alt=""></div>
+                                                <div class="left">
+                                                    <empty name="car_more.thumbnail">
+                                                        <img src="__TMPL__/public/assets/images/example/car01.jpg" alt="">
+                                                    <else/>
+                                                        <img src="{:cmf_get_image_preview_url($car_more.thumbnail)}" alt="">
+                                                    </empty>
+                                                </div>
                                                 <div class="right">
-                                                    <h6>{$vo.car_name}</h6>
+                                                    <h6><a href="{:url('trade/Post/details',['id'=>$vo.car_id])}">{$vo.car_name}</a></h6>
                                                     <p>
                                                     <span>{$vo.car_mileage}万公里</span> |
                                                     <span>{:date('Y-d',$vo.car_license_time)}</span> |
@@ -75,7 +81,7 @@
                                                 <in name="vo.status" value="8,10">
                                                 <span><a >全&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;额：￥{$vo.order_amount}</a></span>
                                                 </in>
-                                                <span><a>支付方式：{$vo.pay_id}</a></span>
+                                                <span><a>{$vo.pay_id?='支付方式：'.$vo.pay_id}</a></span>
                                             </td>
                                             <td class="subscription">
                                                 [{$vo.seller_uid}]{$vo.seller_username?$vo.seller_username:$vo.seller_nickname}
@@ -87,23 +93,34 @@
                                                 </in>
                                                 <!-- 退回订金可放在取消预约中操作 -->
                                                 <in name="vo.status" value="-1,-2,-3">
-                                                <span><a href="{//:url('user/Trade/backfund',['id'=>$vo.id])}" class="operate1">退回订金</a></span>
+                                                <!-- <span><a href="{//:url('user/Trade/backfund',['id'=>$vo.id])}#" data-msg="确定退回吗？" class="operate1 js-ajax-dialog-btn">退回订金</a></span> -->
                                                 </in>
                                             </td>
                                             <td class="operate">
+                                                <!-- 取消预约是否需要条件？ -->
                                                 <in name="vo.status" value="-4,-5,0,1,8">
                                                     <span>
-                                                    <a href="{:url('user/Buyer/cancel',['id'=>$vo.id])}" onclick="return confirm('确定？(系统将不会退回资金)')" class="state2">取消预约</a>
+                                                    <a href="{:url('user/Buyer/cancel',['id'=>$vo.id])}" data-msg="确定取消吗？" class="state2 js-ajax-dialog-btn">取消预约</a>
                                                     </span>
                                                 </in>
-                                                <in name="vo.status" value="0,1">
-                                                    <span><a href="#" class="operate2">去支付</a></span>
-                                                </in>
-                                                <in name="vo.status" value="0">
+
+                                                <eq name="vo.status" value="0">
+                                                    <span><a href="{:url('trade/Post/seeCar',['id'=>$vo.car_id])}">支付订金</a></span>
+                                                </eq>
+
+                                                <eq name="vo.status" value="1">
                                                     <span>
-                                                    <a href="{:url('user/Trade/del',['id'=>$vo.id])}" onclick="return confirm('确定？')" class="detail2">删除订单</a>
+                                                    <gt name="vo.order_amount" value="0">
+                                                        <a href="{:url('user/Buyer/pay',['id'=>$vo.id])}" class="operate1 js-ajax-btn">去支付全额</a>
+                                                    <else/>
+                                                        等待管理员给价……
+                                                    </gt>
                                                     </span>
-                                                </in>
+                                                </eq>
+
+                                                <eq name="vo.status" value="0">
+                                                    <span><a href="{:url('user/Trade/del',['id'=>$vo.id])}" class="detail2 js-ajax-delete">删除订单</a></span>
+                                                </eq>
                                             </td>
                                             <!-- <td class="detail">
                                                 <span><a class="detail3">再次预约</a></span>

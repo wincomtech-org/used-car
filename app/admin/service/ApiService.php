@@ -17,9 +17,9 @@ class ApiService
     /**
      * 获取所有友情链接
      */
-    public static function links()
+    public static function links($field='*')
     {
-        return Db::name('link')->where('status', 1)->order('list_order ASC')->select();
+        return Db::name('link')->field($field)->where('status', 1)->order('list_order ASC')->select();
     }
 
     /**

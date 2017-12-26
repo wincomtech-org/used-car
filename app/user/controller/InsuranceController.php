@@ -75,6 +75,7 @@ class InsuranceController extends UserBaseController
         $this->success("刪除成功！", '');
     }
 
+    // 更多……  保留代码
     public function more()
     {
         return $this->fetch();

@@ -109,10 +109,8 @@
 									<ul class="pic-list list-unstyled form-inline">
 									    <notempty name="verify.more.identity_card">
 								        <foreach name="verify.more.identity_card" item="vo">
-								            <li id="saved-identity_card{$key}">
-								                <img id="identity_card-{$key}-preview"
-								                     src="{:cmf_get_image_preview_url($vo['url'])}"
-								                     style="height:108px;width:180px;">
+								            <li>
+								            <img src="{:cmf_get_image_preview_url($vo['url'])}" style="height:108px;width:180px;" onclick="parent.imagePreviewDialog(this.src);">
 								            </li>
 								        </foreach>
 									    </notempty>
@@ -123,10 +121,9 @@
 								<span class="details_tit">行车本照片</span>
 								<div class="idetails_con">
 									<ul class="pic-list list-unstyled form-inline">
-									    <notempty name="verify.more.identity_card">
+									    <notempty name="verify.more.driving_license">
                                         <li>
-                                            <img src="{:cmf_get_image_preview_url($verify.more.driving_license)}"
-                                            	 style="height:108px;width:180px;">
+                                            <img src="{:cmf_get_image_preview_url($verify.more.driving_license)}" style="height:108px;width:180px;" onclick="parent.imagePreviewDialog(this.src);">
                                         </li>
 									    </notempty>
 									</ul>
@@ -136,8 +133,11 @@
 								<span class="details_tit">实名认证</span>
 								<div class="idetails_con">
 									<div class="stauts">
-										<!-- <p class="yes">已认证</p> -->
-										<p class="no">未认证</p>
+										<empty name="verifyStatus">
+											<p class="no">未认证</p>
+										<else/>
+											<p class="yes">已认证</p>
+										</empty>
 									</div>
 								</div>
 							</li>
@@ -160,14 +160,13 @@
 									<span class="details_tit">昵称</span>
 									<div class="idetails_con">
 										<input type="text" name="user[user_nickname]" value="{$user.user_nickname|default=''}" placeholder="昵称">
-										<i class="tip">请核实后再填写</i>
+										<i class="tip">昵称唯一</i>
 									</div>
 								</li>
 								<li class="details_item">
 									<span class="details_tit">手机号码</span>
 									<div class="idetails_con">
 										<input type="text" name="user[mobile]" value="{$user.mobile|default=''}" placeholder="手机号" {$user.mobile?='readonly'}>
-										<i class="tip">请核实后再填写</i>
 									</div>
 								</li>
 								<li class="details_item">
@@ -211,7 +210,7 @@
 								</li>
 
 								<!-- 认证 -->
-								<li class="details_item {$identi?'authenticated':'unauthorized'}">
+								<li class="details_item {$verifyStatus?'authenticated':'unauthorized'}">
 									<span class="details_tit">身份证照片</span>
 									<div class="idetails_con">
 							            <ul id="identity_card" class="pic-list list-unstyled form-inline">
@@ -235,18 +234,16 @@
 							            </ul>
 							            <a href="javascript:uploadMultiImage('图片上传','#identity_card','identity_card-item-tpl');"
 							               class="btn btn-default btn-sm demonstrate_pre">
-							               	<img src="__TMPL__/public/assets/images/add.png"
-                                                      style="cursor: pointer:"/>
-												<i class='photo_tip'>请上传身份证正反两面</i>
-							              </a>
-							              <div class="demonstrate sf">
+							               	<img src="__TMPL__/public/assets/images/add.png" style="cursor: pointer:"/>
+											<i class='photo_tip'>请上传身份证正反两面</i>
+							            </a>
+							            <div class="demonstrate sf">
 							            	<div class="demonstrate_img">
 							            		<img src="__TMPL__/public/assets/images/example/6.jpg" alt="">
 							            		<img src="__TMPL__/public/assets/images/example/7.jpg" alt="">
 							            	</div>
 							            	<i class="photo_tip">请按照上图样式上传图片</i>
 							            </div>
-
 									</div>
 								</li>
 
@@ -276,7 +273,7 @@
 									<span class="details_tit">实名认证</span>
 									<div class="idetails_con">
 										<div class="stauts">
-											<empty name="identi">
+											<empty name="verifyStatus">
 												<p class="no">未认证</p>
 											<else/>
 												<p class="yes">已认证</p>

@@ -60,7 +60,7 @@
                                     <td class="operate">
                                         <dl>
                                             <in name="vo.status" value="0">
-                                            <dd><a href="{:url('user/Service/cancel',['id'=>$vo.id,'mid'=>$mid])}" onclick="return confirm('确认？')">取消预约</a></dd>
+                                            <dd><a href="{:url('user/Service/cancel',['id'=>$vo.id,'mid'=>$mid])}" class="js-ajax-dialog-btn" data-msg="确定取消？">取消预约</a></dd>
                                             </in>
                                             <dd><a href="{:url('user/Service/details',['id'=>$vo.id,'mid'=>$mid])}">详&nbsp;&nbsp;情</a></dd>
                                         </dl>

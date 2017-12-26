@@ -787,6 +787,7 @@ abstract class Model implements \JsonSerializable, \ArrayAccess
         $hidden  = [];
 
         $data = array_merge($this->data, $this->relation);
+        // if (empty($data)) return [];
 
         // 过滤属性
         if (!empty($this->visible)) {

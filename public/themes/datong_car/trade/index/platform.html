@@ -28,11 +28,11 @@
                     <div class="vehiTrad_tit_item">
                         <ul class="vehiTrad_tit_item_con">
                             <li <empty name="brandId">class="active"</empty>>
-                                <a href="{:url('Index/index', $jumpext.'&brandId=null')}#AAA">不限</a>
+                                <a href="{:url('trade/Index/platform', $jumpext.'&brandId=null')}#AAA">不限</a>
                             </li>
                             <foreach name="Brands" item="vo">
                             <li {$brandId==$vo.id?='class="active"'}>
-                                <a href="{:url('Index/index', $jumpext.'&brandId='.$vo.id)}#AAA">{$vo.name}</a>
+                                <a href="{:url('trade/Index/platform', $jumpext.'&brandId='.$vo.id)}#AAA">{$vo.name}</a>
                             </li>
                             </foreach>
                         </ul>
@@ -47,11 +47,11 @@
                     <div class="vehiTrad_tit_item">
                         <ul class="vehiTrad_tit_item_con">
                             <li <empty name="serieId">class="active"</empty>>
-                                <a href="{:url('Index/index', $jumpext.'&serieId=null')}#AAA">不限</a>
+                                <a href="{:url('trade/Index/platform', $jumpext.'&serieId=null')}#AAA">不限</a>
                             </li>
                             <foreach name="Series" item="vo">
                             <li {$serieId==$vo.id?='class="active"'}>
-                                <a href="{:url('Index/index', $jumpext.'&serieId='.$vo.id)}#AAA">{$vo.name}</a>
+                                <a href="{:url('trade/Index/platform', $jumpext.'&serieId='.$vo.id)}#AAA">{$vo.name}</a>
                             </li>
                             </foreach>
                         </ul>
@@ -66,11 +66,11 @@
                     <div class="vehiTrad_tit_item">
                         <ul class="vehiTrad_tit_item_con">
                             <li <empty name="priceId">class="active"</empty>>
-                                <a href="{:url('Index/index', $jumpext.'&priceId=null')}#AAA">不限</a>
+                                <a href="{:url('trade/Index/platform', $jumpext.'&priceId=null')}#AAA">不限</a>
                             </li>
                             <foreach name="Prices" item="vo" key="key">
                             <li <if condition="$priceId===$key">class="active"</if>>
-                                <a href="{:url('Index/index', $jumpext.'&priceId='.$key)}#AAA">{$vo}</a>
+                                <a href="{:url('trade/Index/platform', $jumpext.'&priceId='.$key)}#AAA">{$vo}</a>
                             </li>
                             </foreach>
                                 <!-- <a href="">{//$vo.description ?? $vo.name}</a> -->
@@ -90,7 +90,7 @@
                             <p>车型</p>
                             <ul style="display:none;">
                                 <foreach name="Models" item="vo">
-                                <li {$modelId==$vo.id?='class="active"'}><a href="{:url('Index/index', $jumpext.'&modelId='.$vo.id)}#AAA">{$vo.name}</a></li>
+                                <li {$modelId==$vo.id?='class="active"'}><a href="{:url('trade/Index/platform', $jumpext.'&modelId='.$vo.id)}#AAA">{$vo.name}</a></li>
                                 </foreach>
                             </ul>
                         </div>
@@ -103,7 +103,7 @@
                             <notempty name="vo.form_element">
                             <ul style="display:none;">
                                 <foreach name="vo.form_element" item="v">
-                                <li {$$vo.code==$v.id?='class="active"'}><a href="{:url('Index/index', $jumpext.'&'.$vo.code.'='.$v.id)}#AAA">{$v.description?$v.description:$v.name.$vo.unit}</a></li>
+                                <li {$$vo.code==$v.id?='class="active"'}><a href="{:url('trade/Index/platform', $jumpext.'&'.$vo.code.'='.$v.id)}#AAA">{$v.description?$v.description:$v.name.$vo.unit}</a></li>
                                 </foreach>
                             </ul>
                             </notempty>
@@ -121,7 +121,7 @@
                     <ul class="vehiTrad_con_tit_list">
                         <foreach name="Types" item="vo" key="key">
                         <li {$key==$typeId?='class="active"'}>
-                            <a href="{:url('Index/index', $jumpext.'&typeId='.$key)}#AAA">{$vo}</a>
+                            <a href="{:url('trade/Index/platform', $jumpext.'&typeId='.$key)}#AAA">{$vo}</a>
                         </li>
                         </foreach>
                     </ul>

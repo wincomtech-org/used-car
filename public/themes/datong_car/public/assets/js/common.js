@@ -209,19 +209,19 @@ function check_pwd(obj){
 	$('.js-ajax-form').submit();
 }
 
-$('.password_ul input').blur(function(){
-	var password = $('.password').val();
-	var password2= $('.password2').val();
-	var pwd = $.trim($(this).val());
-	if(pwd == "" || isPassword(pwd) == false){
-		$(this).parent().siblings('b').show();
-	}else if( $(this).attr('name') == "password2" &&  password != password2 ){
-		$('input[name="password"]').parent().siblings('b').hide();
-		$('input[name="password2"]').parent().siblings('b').show();
-	}else{
-		$(this).parent().siblings('b').hide();
-	}
-})
+// $('.password_ul input').blur(function(){
+// 	var password = $('.password').val();
+// 	var password2= $('.password2').val();
+// 	var pwd = $.trim($(this).val());
+// 	if(pwd == "" || isPassword(pwd) == false){
+// 		$(this).parent().siblings('b').show();
+// 	}else if( $(this).attr('name') == "password2" &&  password != password2 ){
+// 		$('input[name="password"]').parent().siblings('b').hide();
+// 		$('input[name="password2"]').parent().siblings('b').show();
+// 	}else{
+// 		$(this).parent().siblings('b').hide();
+// 	}
+// })
 
 function isPassword(password) {
   var pattern=/^[a-zA-z]{1}[0-9A-Za-z]{7,19}$/;
@@ -326,12 +326,13 @@ window.onload = function() {
 		}
 
 	})
-
-	$('.custom_amount input').change(function() {
-		var changeVal = $(this).val();
-		$(this).parent().parent().siblings('.payment_amount ').find('input').val(toDecimal2(changeVal))
-	})
 }
+
+// 	$('.custom_amount input').change(function() {
+// 		var changeVal = $(this).val();
+// 		$(this).parent().parent().siblings('.payment_amount ').find('input').val(toDecimal2(changeVal))
+// 	})
+// }
 
 // function powAmount(amount, _pow_) {
 // 	var amount_bak = amount;

@@ -40,7 +40,7 @@ class TradeController extends UserBaseController
             $table = 'trade_order';
         }
         parent::dels(Db::name($table));
-        $this->success("刪除成功！", '');
+        $this->success("刪除成功！");
     }
 
     // 赎回资金 cancel中处理
@@ -74,7 +74,7 @@ class TradeController extends UserBaseController
         // return $data;
     }
 
-
+    // 更多……  保留代码
     public function more()
     {
         // 多字段图片处理
@@ -100,8 +100,6 @@ class TradeController extends UserBaseController
         // 多图上传 photos
         // $pdata = model('service/Service')->uploadPhotoMulti('photos');
         // $post['more']['photos'][] = [];
-
-
 
         // $id = $this->request->param('id/d');
         // return $this->fetch();

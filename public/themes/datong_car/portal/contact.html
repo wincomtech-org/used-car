@@ -5,14 +5,14 @@
     <title>联系我们</title>
     <meta name="keywords" content="{$site_info.site_seo_keywords|default=''}"/>
     <meta name="description" content="{$site_info.site_seo_description|default=''}">
+
+    <taglib name="app\portal\taglib\Portal"/>
+    <include file="public@function"/>
     <include file="public@head"/>
 
     <script src="//api.map.baidu.com/api?v=1.3"></script>
-
     <style>
-        img {
-            max-width: none;
-        }
+        img { max-width:none; }
     </style>
     <hook name="before_head_end"/>
 </head>

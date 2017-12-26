@@ -22,7 +22,6 @@
         <div class="idetails_con">
             <div class="analogy">
                 <select class="form-control" name="post[brand_id]" id="input-brand">
-                    <option value="0" selected>--请选择--</option>
                     {$Brands}
                 </select>
             </div>
@@ -33,11 +32,11 @@
         <div class="idetails_con">
             <div class="analogy">
                 <select class="form-control" style="float:left;" name="post[serie_pid]" id="input-series">
-                    <option value="0" selected>--请选择--</option>
+                    <option value="">--请选择--</option>
                     {$Series}
                 </select>
                 <select class="form-control" style="width:150px;" name="post[serie_id]" id="input-serie">
-                    <option value="0">--请选择--</option>
+                    <option value="">--请选择--</option>
                     {$Series2|default=''}
                 </select>
             </div>
@@ -48,7 +47,7 @@
         <div class="idetails_con">
             <div class="analogy">
                 <select class="form-control" name="post[model_id]" id="input-model">
-                    <option value="0" selected>--请选择--</option>
+                    <option value="">--请选择--</option>
                     {$Models}
                 </select>
             </div>
@@ -59,7 +58,7 @@
         <div class="idetails_con">
             <div class="analogy">
                 <select class="form-control" style="float:left;" name="post[province_id]" id="input-province">
-                    <option value="0" selected>--请选择--</option>
+                    <option value="0">--请选择--</option>
                     {$Provinces}
                 </select>
                 <select class="form-control" style="width:150px;" name="post[city_id]" id="input-city">

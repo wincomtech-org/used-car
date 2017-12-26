@@ -57,9 +57,13 @@
                                     <td class="operate">
                                         <dl>
                                             <in name='vo.status' value='0,1,5'>
-                                            <dd><a href="{:url('user/Insurance/cancel',['id'=>$vo.id])}" onclick="return confirm('确认？(暂不退还预约金)')">取消预约</a></dd>
+                                                <dd><a href="{:url('user/Insurance/cancel',['id'=>$vo.id])}" class="js-ajax-dialog-btn" data-msg="确认取消？（暂不退还预约金）">取消预约</a></dd>
                                             </in>
+                                            <eq name="vo.status" value="5">
+                                                <dd><a href="{:url('insurance/Post/step6',['orderId'=>$vo.id,'agree'=>1])}">去支付</a></dd>
+                                            </eq>
                                             <dd><a href="{:url('user/Insurance/details',['id'=>$vo.id])}">详&nbsp;&nbsp;情</a></dd>
+                                            <!-- <dd><a href="{:url('user/Insurance/del',['id'=>$vo.id])}">删除</a></dd> -->
                                         </dl>
                                     </td>
                                 </tr>

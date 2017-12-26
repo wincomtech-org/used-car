@@ -1154,9 +1154,9 @@
 .table_caption li:not(:last-child){margin-right:30px;}
 .table_caption:after{content:"";display:block;}
 .order_detail .left,.order_detail .right{display:inline-block;vertical-align: text-top;}
-.order_detail .right{text-align:left;}
+.order_detail .right{text-align:left;max-width:220px;}
 .order_detail .left img{width:82px;min-height:75px;}
-.order_detail .right h6,.order_detail .right span{font-size:16px;}
+.order_detail .right h6,.order_detail .right span{font-size:15px;}
 .order_detail .right h6{font-weight:400; line-height: 1.5;font-family: myFirstFont;margin-bottom: 5px;}
 .order_detail .right p{margin:10px 0;}
 .order_detail .right p span{color:#666;}
@@ -1221,7 +1221,7 @@
 .mode_payment_con{margin:40px 0;border:1px solid #ddd;padding:30px 50px;box-sizing:border-box;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;-ms-box-sizing:border-box;-o-box-sizing:border-box;}
 .group_list{padding:10px 0;}
 .group_list .icon_tit{width:140px;font-size:16px;display:inline-block;text-align:right;margin-right:10px;}
-.group_list input{width:240px;height:36px;line-height:36px;padding-left:10px;border:1px solid #ddd;}
+.group_list input{width:240px;height:36px;line-height:36px;padding-left:10px;border:1px solid #ddd;font-size:16px;}
 .mode_payment_con .pay_tab_list,.mode_payment_con .pay_tab_con{width:80%;margin:0 auto;border-bottom:none;}
 .mode_payment_con .pay_tab_list{margin:10px auto 40px ;}
 .ash_withdrawa {font-size:16px;}
@@ -1259,7 +1259,7 @@
 .pay_tab_list_item .icon{display: block;height: 100%;padding: 0px 4px;width: 60px;height: 24px;line-height: 24px;text-align: center;font-size: 14px;}
 .mode_payment_con .pay_tab_list_item.select b{position: absolute;bottom: 0px;right: 0;width: 0px;height: 0px;border-top: 18px solid transparent;border-right: 18px solid #d8271c;}
 .mode_payment_con .pay_tab_list_item.select b:after{    content: "";display: block;width: 18px;height: 18px;position: absolute;bottom: 0;left: 0;background: url(../images/example/fit.png) no-repeat 8px 6px;;background-size: 70%;}
-
+.img_weiixn{text-align:center;}
 
 
 /*预约详情*/

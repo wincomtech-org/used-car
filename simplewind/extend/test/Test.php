@@ -1,5 +1,5 @@
 <?php
-// namespace test;
+namespace test;
 
 // use app\funds\model\PayModel;
 use traits\controller\Jump;//代码复用的方法，称为 trait。
@@ -38,7 +38,7 @@ class Test
         return $post;
     }
 
-    public function tp($value='')
+    public function cmf($value='')
     {
         //如何识别返回参数？去除后缀.html即可
         $str = cmf_get_domain();//末尾不带 '/'
@@ -51,11 +51,32 @@ class Test
         return $str;
         return false;
     }
+}
 
+/**
+* 第二个类
+*/
+class Test2 extends Test
+{
+    public function __construct($var2='')
+    {
+        parent::__construct();
+        // echo $this->var;die;
+    }
 
-
-
-
-
-
+    public function index($value='')
+    {
+        // return $this->var;
+        return $value;
+    }
+}
+/**
+* 第三个类
+*/
+class Test3
+{
+    public function index($value='')
+    {
+        return $value;
+    }
 }

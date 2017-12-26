@@ -71,7 +71,10 @@ class VerifyModel extends UsualModel
             ->field($field)
             ->join($join)
             ->where('a.id',$id)
-            ->find()->toArray();
+            ->find();
+        if (!empty($post)) {
+            $post = $post->toArray();
+        }
         $post['username'] = $post['user_nickname'] ? $post['user_nickname'] : $post['user_login'];
 
         return $post;
@@ -80,6 +83,25 @@ class VerifyModel extends UsualModel
     public function getVerifyStatus($status='')
     {
         return $this->getStatus($status,'verify_status');
+    }
+
+    /*
+    * 用户认证状态信息
+    * @param $uid 默认是当前用户
+    * @param $code 默认是实名认证
+    * @param $data 是否返回数据集、统计
+    * @return boolean or array
+    */
+    public function outVerify($uid=null, $code='certification', $data=false)
+    {
+        $result = lothar_verify($uid, $code, $data);
+        return $result;
+    }
+
+    // 提交认证数据
+    public function inVerify($data,$userId)
+    {
+        # code...
     }
 
 

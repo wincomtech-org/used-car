@@ -38,10 +38,10 @@
             </php>
             <foreach name="list" item="vo">
                 <tr>
-                    <!-- <td>
+                    <td>
                         <input name="ids[]" type="checkbox" class="js-check" data-yid="js-check-y" data-xid="js-check-x"
                                value="{$vo.id}" title="ID:{$vo.id}">
-                    </td> -->
+                    </td>
                     <td><b>{$vo.id}</b></td>
 
                     <td><a href="{//:url('user/AdminIndex/index',['uid'=>$vo.user_id])}#">【{$vo.user_id}】{$vo.nickname?$vo.nickname:$vo.user_login}</a></td>

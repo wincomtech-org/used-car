@@ -78,16 +78,25 @@ class FundsController extends UserBaseController
         return $this->fetch();
     }
 
-    // 充值
+    // 充值 无pay.html
     public function recharge()
     {
+
+        // 判断是否为手机端、微信端
+        // $map = [
+        //     'action'  => 'recharge',
+        //     'order_sn'  => $data['order_sn'],
+        //     'coin'  => $data['amount'],
+        //     'id'  => $data['id'],
+        // ];
+        // $this->showPay($map);
+
         return $this->fetch();
     }
-
+    // 提交充值 paytype,action,coin
     public function rechargePost()
     {
         $data = $this->request->param();
-        // dump($data);
 
         $valid = [
             'user_id'   => $this->user['id'],
@@ -102,15 +111,14 @@ class FundsController extends UserBaseController
             $this->error($result);
         }
 
-        $post = [
+        // 判断是否二次支付：首单，订单在支付后生成，先去支付
+        $map = [
             'paytype'  => $valid['payment'],
             'action'  => 'recharge',
             'coin'  => $valid['coin'],
         ];
-
-        // 支付接口
-        $this->redirect('funds/Pay/pay', $post);
-
+        // 转向支付接口
+        $this->success('前往支付中心……',cmf_url('funds/Pay/pay',$map));
     }
 
     // 提现
@@ -139,7 +147,7 @@ class FundsController extends UserBaseController
         $applyModel = new FundsApplyModel();
         $count = $applyModel->counts($this->user['id']);
         if ($count>=1) {
-            $this->error('您有提现待处理的数据',url('user/Funds/apply'));
+            $this->error('您有提现待处理的数据',url('user/Funds/apply',['status'=>0,'type'=>'withdraw']));
         }
         $count = $applyModel->counts($this->user['id'],'time');
         if ($count>=1) {
@@ -155,7 +163,6 @@ class FundsController extends UserBaseController
         if (empty($data['w_pwd'])) {
             $this->error('请输入密码');
         }
-
         if (cmf_compare_password($data['w_pwd'],$this->user['paypwd'])===false) {
             $this->error('您的密码不对');
         }
@@ -220,7 +227,7 @@ class FundsController extends UserBaseController
             $this->error('数据非法！');
         } else {
             Db::nmae('funds_apply')->where('id',$id)->setField('status',0);
-            $this->redirect('Funds/withdraw');
+            $this->success('数据重置成功',url('Funds/withdraw'));
         }
     }
     public function withdrawCancel()
@@ -259,15 +266,37 @@ class FundsController extends UserBaseController
         }
     }
 
+    /*
+    * 申请列表
+    * @param $type=withdraw|openshop
+    */
     public function apply()
     {
-        $where = ['user_id'=>$this->user['id'],'type'=>'withdraw'];
+        $status = $this->request->param('status/d');
+        $type = $this->request->param('type','','strval');
+
+        $where = [
+            'user_id'=>$this->user['id'],
+        ];
+        if (isset($status)) {
+            $where['status'] = $status;
+        }
+        if (!empty($type)) {
+            $where['type'] = $type;
+        } else {
+            $where['type'] = ['in','withdraw,openshop'];
+        }
         $list = Db::name('funds_apply')->where($where)->order('id','DESC')->paginate(15);
 
         $this->assign('list', $list);
         $this->assign('pager', $list->render());
 
         return $this->fetch();
+    }
+    // 支付押金
+    public function applyPay()
+    {
+        return '预留';
     }
 
 
@@ -284,6 +313,7 @@ class FundsController extends UserBaseController
         $this->success("刪除成功！", '');
     }
 
+    // 更多……  保留代码
     public function more()
     {
         return $this->fetch();
