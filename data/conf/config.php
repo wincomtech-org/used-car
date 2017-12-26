@@ -1,4 +1,4 @@
-<?php	
+<?php 
 return [
   'show_error_msg' => true,
   'cmf_default_theme' => 'datong_car',
@@ -77,21 +77,16 @@ return [
     -2 => '禁止出售',
     -1 => '下架',
     0 => '初始态',
-    1 => '上架(售卖中]',
+    1 => '上架(售卖中)',
     2 => '已下单',
     3 => '已付款',
     10 => '完成',
   ],
   'usual_car_status' => 
   [
-    -11 => '售罄',
-    -2 => '禁止出售',
-    -1 => '下架',
-    0 => '初始态',
-    1 => '上架(出售]',
-    2 => '已付款',
-    3 => '已下单',
-    10 => '完成(最终确认]',
+    -1 => '禁用',
+    0 => '隐藏',
+    1 => '显示',
   ],
   'usual_item_cate_codetype' => 
   [
@@ -104,11 +99,11 @@ return [
   ],
   'verify_status' => 
   [
+    -3 => '认证失败',
+    -2 => '取消',
     -1 => '禁止认证',
     0 => '未认证',
     1 => '已认证',
-    2 => '取消',
-    3 => '认证失败',
   ],
   'verify_define_data' => 
   [
@@ -116,7 +111,9 @@ return [
     'email' => '邮箱',
     'driving_license' => '行驶证',
     'identity_card' => '身份证',
-    'real_name' => '姓名',
+    'plateNo' => '车牌号',
+    'username' => '用户名',
+    'real_name' => '真名',
     'contact' => '联系方式',
     'telephone' => '电话',
     'gender' => '性别',
@@ -160,6 +157,13 @@ return [
     10 => '转账',
     11 => '管理员操作',
   ],
+  'funds_apply_type' => 
+  [
+    'withdraw' => '提现',
+    'openshop' => '开店押金',
+    'recharge' => '充值',
+    'admin' => '管理员操作',
+  ],
   'funds_apply_status' => 
   [
     -2 => '已取消',
@@ -189,7 +193,7 @@ return [
     5 => 'funds/AdminWithdraw/index',
     6 => 'funds/AdminRecharge/addTicket',
     7 => 'usual/AdminVerify/index',
-    8 => 'usual/AdminCar/index',
+    8 => 'funds/AdminOpenshop/index',
   ],
   'pagerset' => 
   [

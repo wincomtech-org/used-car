@@ -3,6 +3,7 @@ namespace app\insurance\controller;
 
 use cmf\controller\HomeBaseController;
 use app\portal\service\PostService;
+use app\usual\model\UsualCompanyModel;
 
 class IndexController extends HomeBaseController
 {
@@ -13,17 +14,27 @@ class IndexController extends HomeBaseController
 
     public function index()
     {
-// $this->success('提交完成','','',100000);
-// $this->error('提交失败','','',100000);
-        // 保险推荐
-        $recommend = model('Insurance')->getPostList();
+        // 保险公司
+        $where = [
+            'delete_time'   => 0,
+            'identi_status' => 1,
+            'status'        => 1,
+            'is_rec'        => 1,
+            'is_baoxian'    => 1,
+        ];
+        $uModel = new UsualCompanyModel();
+        $companys = $uModel->field('id,name')->where($where)->select()->toArray();
+        // $companys = $uModel->createOptions(0, 0, $companys);
 
-        $PostService = new PostService();
+        // 获取用户资料 cmf_verify
+        $verifyinfo = lothar_verify(null,'openshop',true);
+
+        $postService = new PostService();
         // 投保流程
         // 理赔指引
-        $claim_guidance = $PostService->fromCateList(8);
-// dump($claim_guidance);die;
-        $this->assign('recommend',$recommend);
+        $claim_guidance = $postService->fromCateList(8);
+
+        $this->assign('companys',$companys);
         $this->assign('claim_guidance',$claim_guidance);
         return $this->fetch();
     }
