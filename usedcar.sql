@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50540
 File Encoding         : 65001
 
-Date: 2017-12-26 14:44:51
+Date: 2017-12-26 15:05:26
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -4251,13 +4251,16 @@ CREATE TABLE `cmf_insurance_coverage` (
   `type` tinyint(1) unsigned NOT NULL DEFAULT '2' COMMENT '保险类型：1强险 2商业险',
   `name` varchar(255) NOT NULL DEFAULT '' COMMENT '险种名称',
   `price` float unsigned NOT NULL DEFAULT '0' COMMENT '参考价',
-  `update_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
-  `published_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '启用时间',
-  `delete_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '删除时间',
+  `duty` varchar(255) NOT NULL DEFAULT '' COMMENT '保险责任',
+  `compen_item` varchar(255) NOT NULL DEFAULT '' COMMENT '赔偿项目',
+  `compen_total` varchar(255) NOT NULL DEFAULT '' COMMENT '赔偿额度',
   `remark` varchar(255) NOT NULL DEFAULT '' COMMENT '备注',
   `description` tinytext COMMENT '描述',
   `content` text COMMENT '险种内容',
   `more` text COMMENT '扩展属性',
+  `update_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
+  `published_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '启用时间',
+  `delete_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '删除时间',
   `is_top` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '置顶',
   `is_rec` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '推荐',
   `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '状态：-1禁用 0未启用 1启用',
@@ -4268,15 +4271,15 @@ CREATE TABLE `cmf_insurance_coverage` (
 -- ----------------------------
 -- Records of cmf_insurance_coverage
 -- ----------------------------
-INSERT INTO `cmf_insurance_coverage` VALUES ('1', '0', '0', '1', '车辆损失险', '0', '1510729745', '1508923020', '0', '', '提供各大车险公司服务\r\n为您的安全保驾护航', '&lt;ul class=&quot; list-paddingleft-2&quot;&gt;\n&lt;li style=&quot;&quot;&gt;&lt;p&gt;&lt;span class=&quot;insurance_icon_tit&quot; style=&quot;padding: 0px; margin: 0px; list-style: none; font-size: inherit; display: inline-block; width: 100px; vertical-align: top;&quot;&gt;保险责任：&lt;/span&gt;&lt;span class=&quot;insurance_icon_txt&quot; style=&quot;padding: 0px; margin: 0px; list-style: none; font-size: inherit; display: inline-block; width: calc(100% - 100px);&quot;&gt;道路交通事故中造成受害人(不包括本车人员和被保险人)的人身伤亡、财产损失&lt;/span&gt;&lt;/p&gt;&lt;/li&gt;\n&lt;li style=&quot;&quot;&gt;&lt;p&gt;&lt;span class=&quot;insurance_icon_tit&quot; style=&quot;padding: 0px; margin: 0px; list-style: none; font-size: inherit; display: inline-block; width: 100px; vertical-align: top;&quot;&gt;赔偿项目：&lt;/span&gt;&lt;span class=&quot;insurance_icon_txt&quot; style=&quot;padding: 0px; margin: 0px; list-style: none; font-size: inherit; display: inline-block; width: calc(100% - 100px);&quot;&gt;交通事故中的死亡伤残赔偿、医疗费用赔偿、财产损失赔偿等。&lt;/span&gt;&lt;/p&gt;&lt;/li&gt;\n&lt;li style=&quot;&quot;&gt;&lt;p&gt;&lt;span class=&quot;insurance_icon_tit&quot; style=&quot;padding: 0px; margin: 0px; list-style: none; font-size: inherit; display: inline-block; width: 100px; vertical-align: top;&quot;&gt;赔偿额度：&lt;/span&gt;&lt;span class=&quot;insurance_icon_txt&quot; style=&quot;padding: 0px; margin: 0px; list-style: none; font-size: inherit; display: inline-block; width: calc(100% - 100px);&quot;&gt;责任限额12万。交通事故中有责任的赔偿限额：死亡伤残赔偿限额：110000元 ；医疗费用赔偿限额：10000元；财产损失赔偿限额：2000元。机动车在道路交通事故中有无责任的赔偿限额：死亡伤残赔偿限额：11000元；医疗费用赔偿限额：1000元；财产损失赔偿限额：100元。&lt;/span&gt;&lt;/p&gt;&lt;/li&gt;\n&lt;/ul&gt;', '{\"thumbnail\":\"\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/service1.jpg\"}', '0', '0', '1', '10000');
-INSERT INTO `cmf_insurance_coverage` VALUES ('2', '0', '0', '1', '第三责任险', '111', '1510729706', '1508924100', '0', '', '提供各大车险公司服务\r\n为您的安全保驾护航', '&lt;ul class=&quot; list-paddingleft-2&quot;&gt;\n&lt;li style=&quot;&quot;&gt;&lt;p&gt;&lt;span class=&quot;insurance_icon_tit&quot; style=&quot;padding: 0px; margin: 0px; list-style: none; font-size: inherit; display: inline-block; width: 100px; vertical-align: top;&quot;&gt;保险责任：&lt;/span&gt;&lt;span class=&quot;insurance_icon_txt&quot; style=&quot;padding: 0px; margin: 0px; list-style: none; font-size: inherit; display: inline-block; width: calc(100% - 100px);&quot;&gt;道路交通事故中造成受害人(不包括本车人员和被保险人)的人身伤亡、财产损失&lt;/span&gt;&lt;/p&gt;&lt;/li&gt;\n&lt;li style=&quot;&quot;&gt;&lt;p&gt;&lt;span class=&quot;insurance_icon_tit&quot; style=&quot;padding: 0px; margin: 0px; list-style: none; font-size: inherit; display: inline-block; width: 100px; vertical-align: top;&quot;&gt;赔偿项目：&lt;/span&gt;&lt;span class=&quot;insurance_icon_txt&quot; style=&quot;padding: 0px; margin: 0px; list-style: none; font-size: inherit; display: inline-block; width: calc(100% - 100px);&quot;&gt;交通事故中的死亡伤残赔偿、医疗费用赔偿、财产损失赔偿等。&lt;/span&gt;&lt;/p&gt;&lt;/li&gt;\n&lt;li style=&quot;&quot;&gt;&lt;p&gt;&lt;span class=&quot;insurance_icon_tit&quot; style=&quot;padding: 0px; margin: 0px; list-style: none; font-size: inherit; display: inline-block; width: 100px; vertical-align: top;&quot;&gt;赔偿额度：&lt;/span&gt;&lt;span class=&quot;insurance_icon_txt&quot; style=&quot;padding: 0px; margin: 0px; list-style: none; font-size: inherit; display: inline-block; width: calc(100% - 100px);&quot;&gt;责任限额12万。交通事故中有责任的赔偿限额：死亡伤残赔偿限额：110000元 ；医疗费用赔偿限额：10000元；财产损失赔偿限额：2000元。机动车在道路交通事故中有无责任的赔偿限额：死亡伤残赔偿限额：11000元；医疗费用赔偿限额：1000元；财产损失赔偿限额：100元。&lt;/span&gt;&lt;/p&gt;&lt;/li&gt;\n&lt;/ul&gt;', '{\"thumbnail\":\"\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/service3.jpg\"}', '0', '0', '1', '10000');
-INSERT INTO `cmf_insurance_coverage` VALUES ('3', '0', '0', '2', '全车盗抢险', '0', '1510729797', '1508979900', '0', '', '提供各大车险公司服务\r\n为您的安全保驾护航', '&lt;p&gt;盗抢规则：&lt;/p&gt;', '{\"thumbnail\":\"\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/service2.jpg\"}', '0', '0', '1', '10000');
-INSERT INTO `cmf_insurance_coverage` VALUES ('4', '0', '0', '2', '车上座位责任险', '0', '1508980030', '1508980013', '0', '', '', '', '{\"thumbnail\":\"\"}', '0', '0', '1', '10000');
-INSERT INTO `cmf_insurance_coverage` VALUES ('5', '0', '0', '2', '玻璃单独破碎险', '0', '1508980049', '1508980033', '0', '', '', '', '{\"thumbnail\":\"\"}', '0', '0', '1', '10000');
-INSERT INTO `cmf_insurance_coverage` VALUES ('6', '0', '0', '2', '自燃险', '0', '1508980059', '1508980053', '0', '', '', '', '{\"thumbnail\":\"\"}', '0', '0', '1', '10000');
-INSERT INTO `cmf_insurance_coverage` VALUES ('7', '0', '0', '2', '划痕险', '0', '1508980171', '1508980063', '0', '', '', '', '{\"thumbnail\":\"\"}', '0', '0', '1', '10000');
-INSERT INTO `cmf_insurance_coverage` VALUES ('8', '0', '0', '2', '责任险率', '0', '1508980194', '1508980174', '0', '', '', '', '{\"thumbnail\":\"\"}', '0', '0', '1', '10000');
-INSERT INTO `cmf_insurance_coverage` VALUES ('9', '0', '0', '2', '不计免额险', '0', '1508981415', '1508980140', '0', '', '', '', '{\"thumbnail\":\"\"}', '0', '0', '1', '10000');
+INSERT INTO `cmf_insurance_coverage` VALUES ('1', '0', '0', '1', '车辆损失险', '0', '', '', '', '', '提供各大车险公司服务\r\n为您的安全保驾护航', '&lt;ul class=&quot; list-paddingleft-2&quot;&gt;\n&lt;li style=&quot;&quot;&gt;&lt;p&gt;&lt;span class=&quot;insurance_icon_tit&quot; style=&quot;padding: 0px; margin: 0px; list-style: none; font-size: inherit; display: inline-block; width: 100px; vertical-align: top;&quot;&gt;保险责任：&lt;/span&gt;&lt;span class=&quot;insurance_icon_txt&quot; style=&quot;padding: 0px; margin: 0px; list-style: none; font-size: inherit; display: inline-block; width: calc(100% - 100px);&quot;&gt;道路交通事故中造成受害人(不包括本车人员和被保险人)的人身伤亡、财产损失&lt;/span&gt;&lt;/p&gt;&lt;/li&gt;\n&lt;li style=&quot;&quot;&gt;&lt;p&gt;&lt;span class=&quot;insurance_icon_tit&quot; style=&quot;padding: 0px; margin: 0px; list-style: none; font-size: inherit; display: inline-block; width: 100px; vertical-align: top;&quot;&gt;赔偿项目：&lt;/span&gt;&lt;span class=&quot;insurance_icon_txt&quot; style=&quot;padding: 0px; margin: 0px; list-style: none; font-size: inherit; display: inline-block; width: calc(100% - 100px);&quot;&gt;交通事故中的死亡伤残赔偿、医疗费用赔偿、财产损失赔偿等。&lt;/span&gt;&lt;/p&gt;&lt;/li&gt;\n&lt;li style=&quot;&quot;&gt;&lt;p&gt;&lt;span class=&quot;insurance_icon_tit&quot; style=&quot;padding: 0px; margin: 0px; list-style: none; font-size: inherit; display: inline-block; width: 100px; vertical-align: top;&quot;&gt;赔偿额度：&lt;/span&gt;&lt;span class=&quot;insurance_icon_txt&quot; style=&quot;padding: 0px; margin: 0px; list-style: none; font-size: inherit; display: inline-block; width: calc(100% - 100px);&quot;&gt;责任限额12万。交通事故中有责任的赔偿限额：死亡伤残赔偿限额：110000元 ；医疗费用赔偿限额：10000元；财产损失赔偿限额：2000元。机动车在道路交通事故中有无责任的赔偿限额：死亡伤残赔偿限额：11000元；医疗费用赔偿限额：1000元；财产损失赔偿限额：100元。&lt;/span&gt;&lt;/p&gt;&lt;/li&gt;\n&lt;/ul&gt;', '{\"thumbnail\":\"\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/service1.jpg\"}', '1510729745', '1508923020', '0', '0', '0', '1', '10000');
+INSERT INTO `cmf_insurance_coverage` VALUES ('2', '0', '0', '1', '第三责任险', '111', '', '', '', '', '提供各大车险公司服务\r\n为您的安全保驾护航', '&lt;ul class=&quot; list-paddingleft-2&quot;&gt;\n&lt;li style=&quot;&quot;&gt;&lt;p&gt;&lt;span class=&quot;insurance_icon_tit&quot; style=&quot;padding: 0px; margin: 0px; list-style: none; font-size: inherit; display: inline-block; width: 100px; vertical-align: top;&quot;&gt;保险责任：&lt;/span&gt;&lt;span class=&quot;insurance_icon_txt&quot; style=&quot;padding: 0px; margin: 0px; list-style: none; font-size: inherit; display: inline-block; width: calc(100% - 100px);&quot;&gt;道路交通事故中造成受害人(不包括本车人员和被保险人)的人身伤亡、财产损失&lt;/span&gt;&lt;/p&gt;&lt;/li&gt;\n&lt;li style=&quot;&quot;&gt;&lt;p&gt;&lt;span class=&quot;insurance_icon_tit&quot; style=&quot;padding: 0px; margin: 0px; list-style: none; font-size: inherit; display: inline-block; width: 100px; vertical-align: top;&quot;&gt;赔偿项目：&lt;/span&gt;&lt;span class=&quot;insurance_icon_txt&quot; style=&quot;padding: 0px; margin: 0px; list-style: none; font-size: inherit; display: inline-block; width: calc(100% - 100px);&quot;&gt;交通事故中的死亡伤残赔偿、医疗费用赔偿、财产损失赔偿等。&lt;/span&gt;&lt;/p&gt;&lt;/li&gt;\n&lt;li style=&quot;&quot;&gt;&lt;p&gt;&lt;span class=&quot;insurance_icon_tit&quot; style=&quot;padding: 0px; margin: 0px; list-style: none; font-size: inherit; display: inline-block; width: 100px; vertical-align: top;&quot;&gt;赔偿额度：&lt;/span&gt;&lt;span class=&quot;insurance_icon_txt&quot; style=&quot;padding: 0px; margin: 0px; list-style: none; font-size: inherit; display: inline-block; width: calc(100% - 100px);&quot;&gt;责任限额12万。交通事故中有责任的赔偿限额：死亡伤残赔偿限额：110000元 ；医疗费用赔偿限额：10000元；财产损失赔偿限额：2000元。机动车在道路交通事故中有无责任的赔偿限额：死亡伤残赔偿限额：11000元；医疗费用赔偿限额：1000元；财产损失赔偿限额：100元。&lt;/span&gt;&lt;/p&gt;&lt;/li&gt;\n&lt;/ul&gt;', '{\"thumbnail\":\"\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/service3.jpg\"}', '1510729706', '1508924100', '0', '0', '0', '1', '10000');
+INSERT INTO `cmf_insurance_coverage` VALUES ('3', '0', '0', '2', '全车盗抢险', '0', '', '', '', '', '提供各大车险公司服务\r\n为您的安全保驾护航', '&lt;p&gt;盗抢规则：&lt;/p&gt;', '{\"thumbnail\":\"\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/service2.jpg\"}', '1510729797', '1508979900', '0', '0', '0', '1', '10000');
+INSERT INTO `cmf_insurance_coverage` VALUES ('4', '0', '0', '2', '车上座位责任险', '0', '', '', '', '', '', '', '{\"thumbnail\":\"\"}', '1508980030', '1508980013', '0', '0', '0', '1', '10000');
+INSERT INTO `cmf_insurance_coverage` VALUES ('5', '0', '0', '2', '玻璃单独破碎险', '0', '', '', '', '', '', '', '{\"thumbnail\":\"\"}', '1508980049', '1508980033', '0', '0', '0', '1', '10000');
+INSERT INTO `cmf_insurance_coverage` VALUES ('6', '0', '0', '2', '自燃险', '0', '', '', '', '', '', '', '{\"thumbnail\":\"\"}', '1508980059', '1508980053', '0', '0', '0', '1', '10000');
+INSERT INTO `cmf_insurance_coverage` VALUES ('7', '0', '0', '2', '划痕险', '0', '', '', '', '', '', '', '{\"thumbnail\":\"\"}', '1508980171', '1508980063', '0', '0', '0', '1', '10000');
+INSERT INTO `cmf_insurance_coverage` VALUES ('8', '0', '0', '2', '责任险率', '0', '', '', '', '', '', '', '{\"thumbnail\":\"\"}', '1508980194', '1508980174', '0', '0', '0', '1', '10000');
+INSERT INTO `cmf_insurance_coverage` VALUES ('9', '0', '0', '2', '不计免额险', '0', '', '', '', '', '', '', '{\"thumbnail\":\"\"}', '1508981415', '1508980140', '0', '0', '0', '1', '10000');
 
 -- ----------------------------
 -- Table structure for cmf_insurance_order
@@ -4417,7 +4420,7 @@ CREATE TABLE `cmf_news` (
   `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
   `status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '状态：0未读 1已读 2已处理',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Records of cmf_news
@@ -4425,7 +4428,6 @@ CREATE TABLE `cmf_news` (
 INSERT INTO `cmf_news` VALUES ('1', '3', '0', '预约车辆服务：菜鸟验车', 'service', 'service/post/appointpost', 'service:1', '3', '', '客户ID：3，公司ID：1', '1512541470', '0');
 INSERT INTO `cmf_news` VALUES ('2', '0', '0', '开店申请', 'funds', 'funds/pay/callback', 'funds_apply:2', '8', '', '客户ID：3，支付方式：支付宝', '1513742368', '1');
 INSERT INTO `cmf_news` VALUES ('3', '5', '0', '用户注册：18956243789', 'register', 'user/register/doregisterpc', 'user:5', '6', '', '客户ID：5', '1514187604', '0');
-INSERT INTO `cmf_news` VALUES ('4', '5', '0', '预约保险', 'insurance', 'insurance/post/step2post', 'insurance_order:1', '2', '', '客户ID：5，保单ID：1', '1514190277', '0');
 
 -- ----------------------------
 -- Table structure for cmf_option
