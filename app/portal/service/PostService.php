@@ -35,7 +35,7 @@ class PostService
             ['__USER__ u', 'a.user_id = u.id']
         ];
 
-        $field = 'a.*,u.user_login,u.user_nickname,u.user_email';
+        $field = 'a.*,u.user_login,u.user_nickname,u.user_email,u.mobile';
 
         $category = empty($filter['category']) ? 0 : intval($filter['category']);
         if (!empty($category)) {

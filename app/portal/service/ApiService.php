@@ -129,9 +129,7 @@ class ApiService
             $return['total_pages'] = $articles->lastPage();
         }
 
-
         return $return;
-
     }
 
     /**

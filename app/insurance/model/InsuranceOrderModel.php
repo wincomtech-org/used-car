@@ -8,7 +8,7 @@ class InsuranceOrderModel extends InsuranceModel
 {
     public function getLists($filter=[], $order='', $limit='',$extra=[])
     {
-        $field = 'a.*,b.name insurance_name,c.name car_name,d.user_login';
+        $field = 'a.*,b.name insurance_name,c.name car_name,d.user_nickname,d.user_login,d.user_email,d.mobile';
         $where = ['a.delete_time' => 0];
         $join = [
             ['insurance b','a.insurance_id=b.id','LEFT'],
@@ -78,18 +78,24 @@ class InsuranceOrderModel extends InsuranceModel
     public function getPost($id)
     {
         // $post = $this->get($id)->toArray();
-        $field = 'a.*,b.name insurance_name,c.name car_name,d.user_login';
+        $field = 'a.*,b.name insurance_name,c.name car_name,d.user_nickname,d.user_login,d.user_email,d.mobile';
         // $where = ['a.id' => $id];
         $join = [
             ['insurance b','a.insurance_id=b.id','LEFT'],
             ['usual_car c','a.car_id=c.id','LEFT'],
             ['user d','a.user_id=d.id','LEFT']
         ];
+
         $post = $this->alias('a')
             ->field($field)
             ->join($join)
             ->where('a.id',$id)
             ->find();
+        if (!empty($post)) {
+            $post = $post->toArray();
+        }
+
+        $post['username'] = $this->getUsername($post);
 
         return $post;
     }
@@ -97,6 +103,16 @@ class InsuranceOrderModel extends InsuranceModel
     public function getOrderStatus($status='')
     {
         return $this->getStatus($status,'insurance_order_status');
+    }
+
+    // 保单检查 查重、获取数据
+    public function checkOrder($condition='',$data=false,$field='id,user_id,plateNo,order_sn,amount,status')
+    {
+        if ($data===false) {
+            return $this->where($condition)->count();
+        } elseif ($data===true) {
+            return $this->field($field)->where($condition)->find();
+        }
     }
 
 

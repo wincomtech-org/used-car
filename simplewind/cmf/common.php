@@ -188,6 +188,10 @@ function lothar_put_news($data, $file = null)
     // file_put_contents($file, $content, FILE_APPEND);
     // $request = Request::instance();
 
+    if (empty($data['user_id'])) {
+        $data['user_id'] = cmf_get_current_user_id();
+    }
+
     if (empty($data['action'])) {
         $request    = request();
         $module     = $request->module();

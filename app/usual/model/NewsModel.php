@@ -65,9 +65,9 @@ class NewsModel extends Model
     // 获取单条数据
     public function getPost($id)
     {
-        $field = 'a.*,d.user_nickname,d.user_login';
+        $field = 'a.*,b.user_nickname,b.user_login,b.user_email,b.mobile';
         $join = [
-            ['user d','a.user_id=d.id','LEFT'],
+            ['user b','a.user_id=b.id','LEFT'],
             // ['user e','a.deal_uid=e.id','LEFT'],
         ];
         $data = $this->alias('a')
@@ -75,7 +75,10 @@ class NewsModel extends Model
             ->join($join)
             ->where('a.id',$id)
             ->find();
-        $data['username'] = $data['user_nickname'] ? $data['user_nickname'] : $data['user_login'];
+        if (!empty($data)) {
+            $data = $data->toArray();
+        }
+        $data['username'] = model('Usual')->getUsername($data);
 
         // 处理对象操作地址
         $objurl = config('news_adminurl')[$data['adminurl']];

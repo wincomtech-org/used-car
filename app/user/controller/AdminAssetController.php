@@ -33,7 +33,7 @@ class AdminAssetController extends AdminBaseController
         $join   = [
             ['__USER__ u', 'a.user_id = u.id']
         ];
-        $result = Db::name('asset')->field('a.*,u.user_login,u.user_email,u.user_nickname')
+        $result = Db::name('asset')->field('a.*,u.user_login,u.user_nickname,u.user_email,u.mobile')
             ->alias('a')->join($join)
             ->order('create_time', 'DESC')
             ->paginate(10);

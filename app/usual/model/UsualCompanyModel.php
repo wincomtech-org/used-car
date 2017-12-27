@@ -41,15 +41,19 @@ class UsualCompanyModel extends UsualModel
         return $series;
     }
 
-    public function getCompanys($selectId=0, $parentId=0, $option='')
+    public function getCompanys($selectId=0, $parentId=0, $option='', $condition=[])
     {
         $where = ['delete_time' => 0];
+        if (!empty($condition)) {
+            $where = array_merge($where,$condition);
+        }
         // $data = $this->all()->toArray();
-        $data = $this->field(['id','name'])->where($where)->order("list_order ASC")->select()->toArray();
+        $data = $this->field('id,name')->where($where)->order("list_order ASC")->select()->toArray();
 
         $options = $this->createOptions($selectId, $option, $data);
         return $options;
     }
+
 
     public function getPostList($where=[], $order=[], $limit=12)
     {

@@ -75,7 +75,11 @@ class FundsApplyModel extends UsualModel
         $join = [['user b','a.user_id=b.id']];
 
         $post = $this->alias('a')->join($join)->field($field)->where('a.id',$id)->find();
-        $post['user_name'] = empty($post['user_nickname']) ? $post['user_login'] : $post['user_nickname'];
+        if (!empty($post)) {
+            $post = $post->toArray();
+        }
+        $post['user_name'] = $this->getUsername($post);
+
         return $post;
     }
 
