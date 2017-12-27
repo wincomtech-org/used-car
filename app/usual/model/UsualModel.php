@@ -253,6 +253,14 @@ class UsualModel extends Model
         return $post;
     }
 
+    // 处理用户名 user_nickname|user_login|user_email|mobile
+    public function getUsername($data=[])
+    {
+        $username = empty($data['user_nickname']) ? (empty($data['user_login']) ? (empty($data['mobile']) ? $data['user_email'] : $data['mobile']) : $data['user_login']) : $data['user_nickname'];
+        return $username;
+    }
+
+    // 状态
     public function getStatus($status='',$config='trade_order_status')
     {
         if (is_array($config)) {
