@@ -2,9 +2,7 @@
 namespace app\user\controller;
 
 use cmf\controller\UserBaseController;
-// use app\user\model\UserModel;
-// use app\insurance\model\InsuranceOrderModel;
-// use think\Validate;
+use app\insurance\model\InsuranceOrderModel;
 use think\Db;
 
 /**
@@ -40,16 +38,34 @@ class InsuranceController extends UserBaseController
         }
         $page['statusV'] = config('insurance_order_status')[$page['status']];
 
-        if (!empty($page['car_id'])) {
-            $identiInfo = Db::name('usual_car')->where('id',$page['car_id'])->value('identi');
-            $identiInfo = json_decode(Db::name('usual_car')->where('id',$page['car_id'])->value('identi'),true);
-        } else {
-            $identiInfo = $page['more'];
-        }
+        // 认证资料
+        $auerbach = $page['more'];
 
         $this->assign('page',$page);
-        $this->assign('identi',$identiInfo);
+        $this->assign('auerbach',$auerbach);
         return $this->fetch();
+    }
+
+    // auerbach
+    public function detailsPost()
+    {
+        $data = $this->request->param();
+        if (empty($data['type'])) {
+            $this->error('请选择领取保单方式');
+        }
+
+        $orderModel = new InsuranceOrderModel();
+        $where = ['id'=>intval($data['id'])];
+
+        if (!empty($data['more']['address'])) {
+            $more = $orderModel->where($where)->value('more');
+            $more = json_decode($more,true);
+            $data['more'] = array_merge($more,$data['more']);
+        }
+
+        $orderModel->adminEditArticle($data);
+
+        $this->success('进入合同页面……',url('insurance/Index/contract',$where));
     }
 
     public function cancel()

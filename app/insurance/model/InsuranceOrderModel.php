@@ -28,6 +28,10 @@ class InsuranceOrderModel extends InsuranceModel
         if (!empty($filter['insuranceId'])) {
             $where['a.insurance_id'] = intval($filter['insuranceId']);
         }
+        // 所属公司
+        if (!empty($filter['compId'])) {
+            $where['a.company_id'] = intval($filter['compId']);
+        }
         // 创建时间
         $startTime = empty($filter['start_time']) ? 0 : strtotime($filter['start_time']);
         $endTime   = empty($filter['end_time']) ? 0 : strtotime($filter['end_time']);
@@ -55,6 +59,7 @@ class InsuranceOrderModel extends InsuranceModel
             }
             $where['a.user_id'] = $uid;
         }
+        // 车牌号 plateNo
         // 保单号
         $sn = empty($filter['sn']) ? '' : $filter['sn'];
         if (!empty($sn)) {

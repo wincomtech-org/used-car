@@ -35,6 +35,12 @@ DOMEvent DOMDocumentWrapper phpQueryEvents phpQuery Callback JSONP
 
 
 【设计种种】
+预设变量：
+    username 用户名
+    plateNo 车牌号
+    auerbach 认证资料
+    contract 合同
+
 车险服务流程
     已存在的车险查重
     险种的 保险责任、赔偿项目、赔偿额度？

@@ -168,7 +168,7 @@ class PostController extends HomeBaseController
 
 
 
-// 后续处理
+/*后续处理*/
     // 签合同
     public function step5()
     {

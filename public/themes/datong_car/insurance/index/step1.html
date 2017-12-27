@@ -21,16 +21,14 @@
             <!-- {$crumbs|default=''} -->
             <ul class="brash">
                 <li>当前位置：</li>
-                <li><a href="{:url('Index/index')}">车险服务 </a></li>
-                <li><a href="{:url('Post/step1',['id'=>$InsurId])}">{$iInfo.name|default=''} </a></li>
-                <li class="active"><a >险种选择</a></li>
+                <li>车险服务</li>
+                <li><a href="{:url('Index/index')}">资料填写</a></li>
+                <li class="active"><a>险种选择</a></li>
             </ul>
             <div class="selection_insurance_con">
-                <form action="{:url('Post/step2')}" method="post" class="js-ajax-form">
+                <form action="{:url('Index/step2')}" method="post" class="js-ajax-form">
                     <div class="selection_insurance_form">
-                        <div class="img">
-                            
-                        </div>
+                        <!-- <div class="img"></div> -->
                         <div class="txt">
                             <p>险种选择</p>
                             <foreach name="coverages" item="vo" key="key">
@@ -41,26 +39,24 @@
                                     </span>
                                     {$key+1}、{$vo.name}
                                 </dt>
-                                <!-- <div>{$vo.content}</div> -->
-                                <dd><span class="insurance_icon_tit">保险责任：</span><span class="insurance_icon_txt">道路交通事故中造成受害人(不包括本车人员和被保险人)的人身伤亡、财产损失</span></dd>
-                                <dd><span class="insurance_icon_tit">赔偿项目：</span><span class="insurance_icon_txt">交通事故中的死亡伤残赔偿、医疗费用赔偿、财产损失赔偿等。</span></dd>
-                                <dd><span class="insurance_icon_tit">赔偿额度：</span><span class="insurance_icon_txt">责任限额12万。交通事故中有责任的赔偿限额：死亡伤残赔偿限额：110000元 ；医疗费用赔偿限额：10000元；财产损失赔偿限额：2000元。机动车在道路交通事故中有无责任的赔偿限额：死亡伤残赔偿限额：11000元；医疗费用赔偿限额：1000元；财产损失赔偿限额：100元。</span></dd>
+                                <dd><span class="insurance_icon_tit">保险责任：</span><span class="insurance_icon_txt">{$vo.duty}</span></dd>
+                                <dd><span class="insurance_icon_tit">赔偿项目：</span><span class="insurance_icon_txt">{$vo.compen_item}</span></dd>
+                                <dd><span class="insurance_icon_tit">赔偿额度：</span><span class="insurance_icon_txt">{$vo.compen_total}</span></dd>
                             </dl>
                             </foreach>
                         </div>
                     </div>
-                    <input type="hidden" name="insurance_id" value="{$InsurId}">
-                    <button type="submit" class="btn btn_submit js-ajax-submit1">提交险种</button>
+                    <button type="submit" class="btn btn_submit js-ajax-submit">提交</button>
                 </form>
             </div>
         </div>
     </section>
+
      <!-- 保险小知识 -->
     <section class="claim_guidance">
         <div class="main">
-            <h3 class="index_tit">保险小知识  <span class="index_tit_supply">让你进一步了解保险 </span></h3>
+            <h3 class="index_tit">保险小知识 <span class="index_tit_supply">让你进一步了解保险 </span></h3>
             <div class="claim_guidance_con">
-                
                 <div class="claim_guidance_guide_con">
                     <div class="claim_guidance_guide_con_list">
                         <div class="text">
@@ -79,17 +75,13 @@
                             <h6>第四，保险公司理赔对处理流程有要求。 </h6>
                             <p>事故发生后，车主切忌先修理后向保险公司报案索赔。正确的流程应是先向警方报案，有了事故记录后再向保险公司报案，等待对方的探查和定损，之后才是修理和赔付。</p>
                         </div>
-                       
                     </div>
                     <ul class="knowledge_show_company">
-                        <li><img src=" /themes/datong_car/public/assets/images/example/insurance01.png"></li>
-                        <li><img src=" /themes/datong_car/public/assets/images/example/insurance02.png"></li>
-                        <li><img src=" /themes/datong_car/public/assets/images/example/insurance03.png"></li>
-                        <li><img src=" /themes/datong_car/public/assets/images/example/insurance04.png"></li>
-
+                        <foreach name="insurances" item="vo">
+                            <li><img src="{:cmf_get_image_preview_url($vo.more.thumbnail)}"></li>
+                        </foreach>
                     </ul>
                 </div>
-               
             </div>
         </div>
     </section>

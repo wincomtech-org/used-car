@@ -316,6 +316,7 @@ function lothar_verify($uid=null, $code='certification', $data=false)
         $where['auth_code'] = $code;
     }
     $obj = Db::name('verify');
+    $result = '';
     if ($data===false) {
         $result = $obj->where($where)->value('auth_status');
     } elseif ($data===true) {
