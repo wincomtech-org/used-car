@@ -47,7 +47,10 @@
                     </div>
                 </div>
                 <div class="rookie_inspection_img">
-                    <img src="__TMPL__/public/assets/images/example/image.jpg" alt="">
+                    <if condition="count($new_data) eq 1">
+                    <else/>
+                        <img src="__TMPL__/public/assets/images/example/image.jpg" alt="">
+                    </if>
                 </div>
                 <div class="rookie_inspection_form">
                     <h4>{$page.desc2?$page.desc2:$page.name}</h4>
@@ -129,9 +132,12 @@
                         </foreach>
 
                         <div class="inspection_list">
+                        <if condition="count($new_data) eq 1 and $new_data[0]['name'] eq 'service_point'">
+                        <else/>
                             <input type="hidden" name="post[model_id]" value="{$page.id}">
                             <input type="hidden" name="compId" value="1">
                             <button type="submit" class="btn_submit js-ajax-submit">立即预约</button>
+                        </if>
                         </div>
                     </form>
                 </div>

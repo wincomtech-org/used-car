@@ -2,6 +2,7 @@
 namespace app\trade\controller;
 
 use cmf\controller\HomeBaseController;
+use app\usual\model\UsualModel;
 use app\usual\model\UsualCarModel;
 use app\usual\model\UsualCompanyModel;
 use app\usual\model\UsualItemModel;
@@ -76,18 +77,19 @@ class PostController extends HomeBaseController
             }
         } else {
             // 获取用户数据
-            $username = empty($user['user_nickname']) ? (empty($user['mobile'])?$user['user_login']:$user['mobile']) : $user['user_nickname'];
+            $usualModel = new UsualModel();
+            $username = $usualModel->getUsername($user);
 
             // 获取车辆表数据
             $where['a.id'] = $id;
             $carInfo = Db::name('usual_car')->alias('a')
                      ->join('user b','a.user_id=b.id')
-                     ->field('a.user_id,a.name,a.bargain_money,a.price,a.car_license_time,a.car_mileage,a.car_displacement,b.mobile,b.user_nickname,b.user_login')
+                     ->field('a.user_id,a.name,a.bargain_money,a.price,a.car_license_time,a.car_mileage,a.car_displacement,b.user_nickname,b.user_login,b.user_email,b.mobile')
                      ->where($where)->find();
             if (empty($carInfo)) {
                 $this->error('数据不存在！',url('trade/Index/index'));
             }
-            $seller_username = empty($carInfo['user_nickname']) ? (empty($carInfo['mobile'])?$carInfo['user_login']:$carInfo['mobile']) : $carInfo['user_nickname'];
+            $seller_username = $usualModel->getUsername($carInfo);
 
             // 生成车单
             $post = [

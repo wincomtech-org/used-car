@@ -9,7 +9,7 @@ class VerifyModel extends UsualModel
 {
     public function getLists($filter=[], $order='', $limit='',$extra=[])
     {
-        $field = 'a.*,b.name model_name,c.user_nickname,c.user_login';
+        $field = 'a.*,b.name model_name,c.user_nickname,c.user_login,,c.user_email,c.mobile';
         $where = [];
         $join = [
             ['verify_model b','a.auth_code=b.code','LEFT'],
@@ -59,9 +59,7 @@ class VerifyModel extends UsualModel
 
     public function getPost($id)
     {
-        // $post = $this->get($id)->toArray();
-        // $field = 'a.*,b.name model_name,c.name company_name,d.user_nickname buyer_nickname,d.user_login buyer_login,e.user_nickname seller_nickname,e.user_login seller_login';
-        $field = 'a.*,b.name model_name,c.user_nickname,c.user_login';
+        $field = 'a.*,b.name model_name,c.user_nickname,c.user_login,,c.user_email,c.mobile';
         // $where = ['a.id' => $id];
         $join = [
             ['verify_model b','a.auth_code=b.code','LEFT'],
@@ -75,7 +73,7 @@ class VerifyModel extends UsualModel
         if (!empty($post)) {
             $post = $post->toArray();
         }
-        $post['username'] = $post['user_nickname'] ? $post['user_nickname'] : $post['user_login'];
+        $post['username'] = $this->getUsername($post);
 
         return $post;
     }

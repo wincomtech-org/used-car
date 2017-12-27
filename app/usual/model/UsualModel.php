@@ -12,6 +12,7 @@ use excel\Excel;
 */
 class UsualModel extends Model
 {
+    // 结合 ->toArray() 使用的，将对象转维数组
     protected $type = [
         'more' => 'array',
         'identi' => 'array',
@@ -271,7 +272,7 @@ class UsualModel extends Model
     }
 
     // 选择框
-    public function createOptions($selectId, $option, $data)
+    public function createOptions($selectId=0, $option='', $data=[])
     {
         if ($option===false) {
             return $data;
