@@ -2,6 +2,7 @@
 namespace app\insurance\model;
 
 use app\insurance\model\InsuranceModel;
+use think\Db;
 
 class InsuranceCoverageModel extends InsuranceModel
 {
@@ -59,7 +60,7 @@ class InsuranceCoverageModel extends InsuranceModel
     public function getCoverage($checkedIds=[], $excludeIds=[])
     {
         $where = ['delete_time' => 0, 'insurance_id' => 0];
-        $categories = model('InsuranceCoverage')->field('id,name')->order("list_order ASC")->where($where)->select()->toArray();
+        $categories = $this->field('id,name')->order("list_order ASC")->where($where)->select()->toArray();
 
         $options = '';
         foreach ($categories as $v) {
@@ -68,6 +69,15 @@ class InsuranceCoverageModel extends InsuranceModel
 
         // $options = $this->createOptions($selectId, $option, $data);
         return $options;
+    }
+    public function getCoverageByOrder($orderId='')
+    {
+        // $coverIds = model('insurance/InsuranceOrder')->where('id',$orderId)->value('coverIds');
+        $coverIds = Db::name('insurance_order')->where('id',$orderId)->value('coverIds');
+        $coverIds = json_decode($coverIds,true);
+        // ->toArray()
+        $coverages = $this->field('id,name')->where(['id'=>['in',$coverIds]])->select();
+        return $coverages;
     }
 
 

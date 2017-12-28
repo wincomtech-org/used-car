@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>车险预约详情 - {$site_info.site_name|default=''}</title>
+    <title>车险订单详情 - {$site_info.site_name|default=''}</title>
     <meta name="keywords" content="{$site_info.site_seo_keywords|default=''}"/>
     <meta name="description" content="{$site_info.site_seo_description|default=''}">
 
@@ -33,41 +33,42 @@
                 </div>
                 <div class="person_right_con">
                     <div class="person_car_buss">
-                        <p class="info_tit">操作</p>
+                        <p class="info_tit"><b>操作</b></p>
                         <div class="form_details">
                             <form action="{:url('user/Insurance/detailsPost')}" method="post" accept-charset="utf-8">
                             <ul>
                                 <li>
                                     <span class="icon">预 &nbsp;约 &nbsp;状 &nbsp;态</span>
                                     <span class="txt 
-                                        <switch name='page.status'>
+                                        <switch name='order.status'>
                                             <case value='1|5|6|10'>sucss</case>
                                             <case value='-1|-2|-3|-11'>err</case>
                                             <default />
                                         </switch>
-                                    ">{$page.statusV}</span>
+                                    ">{$order.statusV}</span>
                                 </li>
                                 <li>
                                     <span class="icon">预 &nbsp;约 &nbsp;时 &nbsp;间</span>
-                                    <span class="txt"><input class="js-datetime" name="appoint_time" value="{$page.appoint_time?=date('Y-m-d H:i',$page.appoint_time)}" placeholder="预约时间" /></span>
+                                    <span class="txt"><input class="js-datetime" name="appoint_time" value="{$order.appoint_time?=date('Y-m-d H:i',$order.appoint_time)}" placeholder="预约时间" /></span>
                                 </li>
                                 <!-- 审核通过后 -->
                                 <li>
                                     <span class="icon">合 &nbsp; &nbsp; &nbsp; &nbsp;同</span>
                                     <span class="txt">
-                                        <eq name='page.type' value='1'>
-                                        <in name='page.status' value='1,5,6,10'>
-                                            <a href="{:url('instance/Index/contract')}" class="file">查看详情</a>
-                                            <a href="{:url('insurance/Post/step5',['id'=>$page.id,'down'=>1])}" class="file_down"><!-- 下载 --></a>
-                                        </in>
-                                        <else/>
-                                            线下操作
-                                        </eq>
+                                        <switch name="order.type">
+                                            <case value="1">
+                                                <in name='order.status' value='1,5,6,10'>
+                                                <a href="{:url('insurance/Index/contract',['id'=>$order.id])}" class="file">查看详情</a>
+                                                </in>
+                                            </case>
+                                            <case value="2">线下操作</case>
+                                            <default/>暂无……
+                                        </switch>
                                     </span>
                                 </li>
                             </ul>
                             <ul>
-                                <p class="info_tit">领单方式</p>
+                                <p class="info_tit"><b>领单方式</b></p>
                                 <li class="label_input lingqu_input" id="online">
                                     <label>
                                         <input type="radio" name="type" value="1">
@@ -82,31 +83,55 @@
                                 </li>
                             </ul>
                             <div id="instance_address" class="" style="display:none;height:38px;line-height:38px;padding-left:20px;border:1px solid #CCC">
-                                <input name="more[address]" value="" placeholder="请填写邮寄地址" />
+                                <input name="more[address]" value="{$auerbach.address|default=''}" placeholder="请填写邮寄地址" />
                             </div>
-                            <in name="page.status" value="1,5">
+                            <in name="order.status" value="1,5">
                                 <p class="cz_btn_p">
-                                    <input type="hidden" name="id" value="{$page.id}">
+                                    <input type="hidden" name="id" value="{$order.id}">
                                     <button type="submit" class="btn-red js-ajax-submit1">确认提交</button>
                                 </p>
                             </in>
                             </form>
                         </div>
 
-                        <p class="info_tit">保单详情</p>
+                        <p class="info_tit"><b>保单详情</b></p>
                         <div class="form_details">
                             <ul>
                                 <li>
                                     <span class="icon">保 &nbsp; 单 &nbsp; 号</span>
-                                    <span class="txt">{$page.order_sn|default=''}</span>
+                                    <span class="txt">{$order.order_sn|default=''}</span>
                                 </li>
                                 <li>
                                     <span class="icon">保 &nbsp; 险 &nbsp; 金</span>
-                                    <span class="txt">{$page.amount|default='null'}</span>
+                                    <span class="txt">{$order.amount|default='null'}</span>
+                                </li>
+                                <li>
+                                    <span class="icon">已 选 险 种</span>
+                                    <span class="txt">
+                                        <notempty name="coverages">
+                                        <foreach name="coverages" item="vo">
+                                            {$vo.name} , 
+                                        </foreach>
+                                        </notempty>
+                                    </span>
+                                </li>
+                                <li>
+                                    <span class="icon">意 向 公 司</span>
+                                    <span class="txt">
+                                        <notempty name="companys">
+                                        <foreach name="companys" item="vo">
+                                            {$vo.name} , 
+                                        </foreach>
+                                        </notempty>
+                                    </span>
+                                </li>
+                                <li>
+                                    <span class="icon">指 定 公 司</span>
+                                    <span class="txt">{$companyNmae|default=''}</span>
                                 </li>
                             </ul>
                         </div>
-                        <p class="info_tit">客户资料</p>
+                        <p class="info_tit"><b>用户资料</b></p>
                         <div class="form_details">
                             <ul>
                                 <li>
@@ -129,7 +154,7 @@
                                         <empty name='auerbach.driving_license'>
                                             __TMPL__/public/assets/images/example/sfz.jpg
                                         <else/>
-                                        {:cmf_get_image_preview_url($auerbach.driving_license)}
+                                            {:cmf_get_image_preview_url($auerbach.driving_license)}
                                         </empty>
                                         " alt="driving_license" style='max-width:200px' onclick="imagePreviewDialog(this.src);">
                                     </span>
@@ -139,11 +164,11 @@
                                     <span class="txt">
                                     <ul class="pic-list ">
                                         <notempty name="auerbach.identity_card">
-                                            <foreach name="auerbach.identity_card" item="vo">
-                                                <li style="display:inline-block;margin-right:8px;">
-                                                    <img src="{:cmf_get_image_preview_url($vo.url)}" alt="" style='max-width:200px;' onclick="imagePreviewDialog(this.src);">
-                                                </li>
-                                            </foreach>
+                                        <foreach name="auerbach.identity_card" item="vo">
+                                            <li style="display:inline-block;margin-right:8px;">
+                                                <img src="{:cmf_get_image_preview_url($vo.url)}" alt="" style='max-width:200px;' onclick="imagePreviewDialog(this.src);">
+                                            </li>
+                                        </foreach>
                                         </notempty>
                                     </ul>
                                     </span>

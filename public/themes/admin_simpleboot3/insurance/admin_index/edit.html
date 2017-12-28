@@ -43,8 +43,8 @@
                             <label>附件</label>
                             <div>
                                 <ul id="files" class="pic-list list-unstyled form-inline">
-                                    <notempty name="post.more.files">
-                                    <foreach name="post.more.files" item="vo">
+                                    <notempty name="post.file">
+                                    <foreach name="post.file" item="vo">
                                         <php>$file_url=cmf_get_file_download_url($vo['url']);</php>
                                         <li id="saved-file{$key}">
                                             <input id="file-{$key}" type="hidden" name="file[urls][]"
@@ -78,7 +78,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <button type="submit" class="btn btn-primary js-ajax-submit1">{:lang('SAVE')}
+                    <button type="submit" class="btn btn-primary js-ajax-submit">{:lang('SAVE')}
                     </button>
                     <a class="btn btn-default" href="javascript:history.back(-1);">{:lang('BACK')}</a>
                 </div>
@@ -96,15 +96,15 @@
 <script>
     $(function(){
         // cmf定义的
-        // editorcontent = new baidu.editor.ui.Editor();
-        // editorcontent.render('content');
-        // try {
-        //     editorcontent.sync();
-        // } catch (err) {
-        // }
+        editorcontent = new baidu.editor.ui.Editor();
+        editorcontent.render('content');
+        try {
+            editorcontent.sync();
+        } catch (err) {
+        }
 
         // ueditor官方定义
-        var ue = UE.getEditor('content');
+        // var ue = UE.getEditor('content');
 
     });
 </script>

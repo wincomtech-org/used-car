@@ -139,10 +139,32 @@ class IndexController extends HomeBaseController
 
 
 /*后续处理*/
+    // 同意合同
     public function contract()
     {
-        $id = $this->request->param('id/d');
-        dump($id);die;
+        if (!cmf_is_user_login()) {
+            $this->error('请登录',url('user/Login/index'));
+        }
+        $orderId = $this->request->param('id',0,'intval');
+        // $down = $this->request->param('down/d');
+        if (empty($orderId)) {
+            $this->error('保单非法');
+        }
+
+        $findOrder = Db::name('insurance_order')->field('order_sn,amount,status,insurance_id')->where('id',$orderId)->find();
+        if (empty($findOrder)) {
+            $this->error('该保险已被关闭或者失效，请联系管理员');
+        }
+
+        // 保险通用条例
+        // $option = Db::name('insurance_option')->where('id',1)->find();
+        // $option['content'] = cmf_replace_content_file_url(htmlspecialchars_decode($option['content']));
+        $option = model('InsuranceOption')->getPost(1);
+
+        $this->assign('orderId',$orderId);
+        $this->assign('order',$findOrder);
+        $this->assign('option',$option);
+        return $this->fetch();
     }
 
 

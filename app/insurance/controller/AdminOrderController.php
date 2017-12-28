@@ -94,13 +94,14 @@ class AdminOrderController extends AdminBaseController
         if ($this->request->isPost()) {
             $data   = $this->request->param();
             $post   = $data['post'];
+            $post['amount'] = floatval($post['amount']);
 
             // 验证保单
             $result = $this->validate($post, 'Order.edit');
             if ($result !== true) {
                 $this->error($result);
             }
-            if ($post['status']>=1 && $post['amount']) {
+            if ($post['status']>=1 && empty($post['amount'])) {
                 $this->error('请填写保险金');
             }
             if ($post['status']==6 && empty($post['pay_time'])) {

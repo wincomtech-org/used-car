@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>签订合同 - {$site_info.site_name|default=''}</title>
+    <meta name="keywords" content="{$site_info.site_seo_keywords|default=''}"/>
+    <meta name="description" content="{$site_info.site_seo_description|default=''}">
+
+    <include file="public@head"/>
+    <hook name="before_head_end"/>
+</head>
+<body>
+    <!-- 头部 -->
+    <include file="public@header" />
+    <!-- 导航 -->
+    <include file="public@nav" />
+
+    <!-- 合同 -->
+    <section class="selection_insurance">
+        <div class="main">
+            <ul class="brash">
+                <li>当前位置：</li>
+                <li><a href="{:url('Index/index')}">车险服务 </a></li>
+                <li class="active"><a href="#">签订合同</a></li>
+            </ul>
+            <div class="selection_insurance_con">
+                <div class="contrac_con">
+                    <div class="img">保险条例</div>
+                    <div class="contract">
+                        {$option.content|default=''}
+                    </div>
+                </div>
+                <in name='order.status' value='0,1,5'>
+                    <form action="{:url('Post/step6')}" method="post" class="contract_form">
+                        <p class="contract_p">
+                            <span class="check_span">
+                                <input type="checkbox" name="agree" value="1" checked id="contract_label" class="no_input">
+                                <label for="contract_label"></label>
+                            </span>
+                            <label for="contract_label">同意上述条例，自投保日30内成功支付首期保险费，方可生效。</label>
+                        </p>
+                        <input type="hidden" name="orderId" value="{$orderId}">
+                        <button type="submit" class="btn btn_submit">{$order.status==5?'去支付':'同意'}</button>
+                    </form>
+                <else/>
+                    <a href="{:url('Post/coverage',['id'=>$orderId])}"><button class="btn btn_submit">查看险种>></button></a>
+                </in>
+            </div>
+        </div>
+    </section>
+
+    <!-- 底部 -->
+    <include file="public@footer" />
+    <include file="public@scripts" />
+    <hook name="before_body_end" />
+</body>
+</html>

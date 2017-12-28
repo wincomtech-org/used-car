@@ -32,17 +32,29 @@ class InsuranceController extends UserBaseController
     {
         $orderId = $this->request->param('id',0,'intval');
 
-        $page = model('insurance/InsuranceOrder')->getPost($orderId);
-        if (empty($page)) {
+        $order = model('insurance/InsuranceOrder')->getPost($orderId);
+        if (empty($order)) {
             abort(404, ' 页面不存在!');
         }
-        $page['statusV'] = config('insurance_order_status')[$page['status']];
+        $order['statusV'] = config('insurance_order_status')[$order['status']];
 
         // 认证资料
-        $auerbach = $page['more'];
+        $auerbach = $order['more'];
+        // 险种
+        $coverages = model('insurance/InsuranceCoverage')->getCoverageByOrder($orderId);
+        // 意向公司
+        $compIds = json_decode($order['compIds'],true);
+        $companys = model('usual/UsualCompany')->getCompanys(0,0,false,['id'=>['in',$compIds]]);
+        // 指定公司
+        if (!empty($order['company_id'])) {
+            $companyNmae = Db::name('usual_company')->where('id',$order['company_id'])->value('name');
+            $this->assign('companyNmae',$companyNmae);
+        }
 
-        $this->assign('page',$page);
+        $this->assign('order',$order);
         $this->assign('auerbach',$auerbach);
+        $this->assign('coverages',$coverages);
+        $this->assign('companys',$companys);
         return $this->fetch();
     }
 
