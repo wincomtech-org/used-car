@@ -23,8 +23,11 @@
 
 <script>
     $("#main-menu a").each(function() {
+        
+        // if ($(this)[0].href == String(window.location) || $(this)[0].href.split('/')[3] == String(window.location).split('/')[3] ) {
         if ($(this)[0].href == String(window.location)) {
             $(this).parentsUntil("#main-menu>ul>li").addClass("active");
+           // $('.menu-item-level-2').removeClass('active')
         }
     });
 </script>

@@ -77,19 +77,19 @@
                                                 </div>
                                             </td>
                                             <td class="expense">
-                                                <span><a >订&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;金：￥{$vo.bargain_money}</a></span>
+                                                <span>订&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;金：￥{$vo.bargain_money}</span>
                                                 <in name="vo.status" value="8,10">
-                                                <span><a >全&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;额：￥{$vo.order_amount}</a></span>
+                                                <span>全&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;额：￥{$vo.order_amount}</span>
                                                 </in>
-                                                <span><a>{$vo.pay_id?='支付方式：'.$vo.pay_id}</a></span>
+                                                <span>{$vo.pay_id?='支付方式：'.$vo.pay_id}</span>
                                             </td>
                                             <td class="subscription">
                                                 [{$vo.seller_uid}]{$vo.seller_username?$vo.seller_username:$vo.seller_nickname}
                                             </td>
                                             <td class="state">
-                                                <span><a class="state1">{$statusV[$vo.status]}</a></span>
+                                                <span><em class="state1">{$statusV[$vo.status]}</em></span>
                                                 <in name="vo.status" value="-4,-5,1,8,10">
-                                                <span><a class="detail1">已锁定</a></span>
+                                                <span><em class="detail1">已锁定</em></span>
                                                 </in>
                                                 <!-- 退回订金可放在取消预约中操作 -->
                                                 <in name="vo.status" value="-1,-2,-3">

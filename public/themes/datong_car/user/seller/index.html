@@ -62,24 +62,23 @@
                                                 </div>
                                             </td>
                                             <td class="expense">
-                                                <span>订&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;金：<a class="state1">￥{$vo.bargain_money}</a></span>
-                                                <span>全&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;额：<a class="state1">￥{$vo.order_amount}</a></span>
-                                                <span>支付方式：<a class="state1">{$vo.pay_id}</a></span>
+                                                <span>订&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;金：<em class="state1">￥{$vo.bargain_money}</em></span>
+                                                <span>全&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;额：<em class="state1">￥{$vo.order_amount}</em></span>
+                                                <span>支付方式：<em class="state1">{$vo.pay_id}</em></span>
                                             </td>
                                             <td class="subscription">
-                                                <span><a href="#">{$vo.buyer_username?$vo.buyer_username:$vo.buyer_nickname}</a></span>
+                                                <span>{$vo.buyer_username?$vo.buyer_username:$vo.buyer_nickname}</span>
                                                 <!-- <span>联系方式：{$vo.buyer_contact}</span> -->
                                                 <!-- <span>认证：<a class="state1">已认证</a><a class="state2">未认证</a></span> -->
                                             </td>
                                             <td class="operate">
-                                                <span>
-                                                <a class="
+                                                <span class="
                                                     <switch name='vo.status'>
                                                         <case value='-1|-2|-3|-4|-5|-11'>operate1</case>
                                                         <case value='1|8|10'>operate2</case>
                                                         <default/>operate3
                                                     </switch>
-                                                ">{$statusV[$vo.status]}</a>
+                                                ">{$statusV[$vo.status]}
                                                 </span>
                                             </td>
                                             <td class="detail">

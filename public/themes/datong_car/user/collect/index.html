@@ -46,7 +46,7 @@
                                         <span>{:date('Y-m-d',$vo.car_license_time)}</span>
                                     </p>
                                     <p><b>{$vo.shop_price}万</b> <s>{$vo.market_price}万</s></p>
-                                    <p class="tel"><s class="icon"></s>{$vo.shop_tel}</p>
+                                    <p class="tel"><a href="tel:{$vo.shop_tel}"></a><s class="icon"></s>{$vo.shop_tel}</p>
                                 </div>
                             </li>
                             </foreach>

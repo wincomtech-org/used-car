@@ -65,19 +65,9 @@
 
 <include file="public@morejs"/>
 <script>
-    $('.about_btn_span').on('click',function(){
-        if($('.about_us_list').css('display') == "none"){
-            $('.about_us_list').css('display','inline-block')
-        }else{
-            $('.about_us_list').css('display','none')
-        }
-    })
 
-    $(document).mouseup(function(e){
-        var _con = $(' .about_us_list ');   // 设置目标区域
-        if(!_con.is(e.target) && _con.has(e.target).length === 0){ // Mark 1
-            $('.about_us_list').css('display','none')
-        }
-    });
+    
+
+   
 </script>
 </html>
