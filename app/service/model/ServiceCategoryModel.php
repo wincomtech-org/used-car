@@ -88,36 +88,26 @@ class ServiceCategoryModel extends UsualModel
      * @param $extra
      * @return bool
     */
-    public function addCategory($data,$extra=[])
+    public function addCategory($data)
     {
         $data['create_time'] = time();
         $data['dev'] = session('?name')?session('name'):'';
 
-        $result = true;
-        self::startTrans();
-        try {
-            if (!empty($data['more']['thumbnail'])) {
-                $data['more']['thumbnail'] = cmf_asset_relative_url($data['more']['thumbnail']);
-            }
-            $data['define_data'] = empty($extra) ? [] : $extra;
-            $this->allowField(true)->save($data);
-            // $id          = $this->id;
-            self::commit();
-        } catch (\Exception $e) {
-            self::rollback();
-            $result = false;
+        if (!empty($data['more']['thumbnail'])) {
+            $data['more']['thumbnail'] = cmf_asset_relative_url($data['more']['thumbnail']);
         }
+        $this->allowField(true)->save($data);
+        // $id          = $this->id;
 
-        return $result;
+        return $this->id;
     }
 
     /**
      * 编辑业务模型
      * @param $data
-     * @param $extra
      * @return bool
     */
-    public function editCategory($data,$extra=[])
+    public function editCategory($data)
     {
         $id          = intval($data['id']);
         $data['dev'] = session('?name')?session('name'):'';
@@ -125,10 +115,10 @@ class ServiceCategoryModel extends UsualModel
         if (!empty($data['more']['thumbnail'])) {
             $data['more']['thumbnail'] = cmf_asset_relative_url($data['more']['thumbnail']);
         }
-        $data['define_data'] = empty($extra) ? [] : $extra;
-        $result = $this->isUpdate(true)->allowField(true)->save($data, ['id' => $id]);
 
-        return $result;
+        $this->isUpdate(true)->allowField(true)->save($data, ['id'=>$id]);
+
+        return $this->id;
     }
 
     public function createCategoryTableTree($currentIds=0, $tpl='', $config=null)

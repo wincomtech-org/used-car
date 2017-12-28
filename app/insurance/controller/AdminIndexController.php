@@ -57,7 +57,11 @@ class AdminIndexController extends AdminBaseController
         // $post = $data['post'];
         // $optionModel = new InsuranceOptionModel();
         // // 富文本
+<<<<<<< HEAD
         // $post['content'] = $this->ueditorBefore($post['content']);    
+=======
+        // $post['content'] = $this->ueditorBefore($post['content']);
+>>>>>>> master
         // // 直接拿官版的
         // if (!empty($data['file'])) {
         //     $post['file'] = $optionModel->dealFiles($data['file']);
@@ -68,6 +72,7 @@ class AdminIndexController extends AdminBaseController
         $this->success('提交成功',null,'',3);
     }
 
+<<<<<<< HEAD
     public function ueditorBefore($content='')
     {
         return htmlspecialchars(cmf_replace_content_file_url(htmlspecialchars_decode($content), true));
@@ -77,6 +82,8 @@ class AdminIndexController extends AdminBaseController
         return cmf_replace_content_file_url(htmlspecialchars_decode($content));
     }
 
+=======
+>>>>>>> master
 
 
 

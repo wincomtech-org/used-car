@@ -174,9 +174,10 @@ js-*系列示例：  没有bootstrap就自定义样式
     <form action="你的提交地址" method="post" class="js-ajax-form">
         <input type="text" name="username">
         <input type="text" name="password">
-        <button class="js-ajax-submit" type="submit">提交</button>
-        <button class="js-ajax-submit" type="submit" data-wait="1500">提交</button>
-        <button class="js-ajax-submit" type="submit" data-action="你的提交地址2">提交2</button>
+        <button type="submit" class="js-ajax-submit">提交</button>
+        <button type="submit" class="js-ajax-submit" data-refresh="0">提交</button>
+        <button type="submit" class="js-ajax-submit" data-wait="1500">提交</button>
+        <button type="submit" class="js-ajax-submit" data-action="你的提交地址2">提交2</button>
     </form>
     后台通用：
     <form action="{:url('AdminArticle/editPost')}" method="post" class="form-horizontal margin-top-20 js-ajax-form">
