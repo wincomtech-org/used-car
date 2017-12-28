@@ -253,6 +253,15 @@ js-*系列示例：  没有bootstrap就自定义样式
         </a>
         <input type="button" class="btn btn-sm btn-cancel-driving_license" value="取消图片">
     </div>
+    带预览
+    <input type="hidden" name="post[more][driving_license]" id="driving_license" value="{$post.more.driving_license|default=''}">
+    <empty name="post.more.driving_license">
+    <img src="__TMPL__/public/assets/images/default-thumbnail.png" id="driving_license-preview" width="135" style="cursor:pointer" onclick="parent.imagePreviewDialog(this.src);"/>
+    <else/>
+    <img src="{:cmf_get_image_preview_url($post.more.driving_license)}" id="driving_license-preview" width="135" style="cursor:pointer" onclick="parent.imagePreviewDialog(this.src);"/>
+    </empty>
+    <a href="javascript:uploadOneImage('图片上传','#driving_license');"> &nbsp;图片上传 &nbsp;</a>
+    <input type="button" class="btn btn-sm btn-cancel-driving_license" value="取消图片">
     展示
     <div>
         <if condition="empty($post.identi.driving_license)">

@@ -49,13 +49,14 @@
                                 </li>
                                 <li>
                                     <span class="icon">预 &nbsp;约 &nbsp;时 &nbsp;间</span>
-                                    <span class="txt"><input class="js-datetime" name="appoint_time" value="{:date('Y-m-d H:i',$page.appoint_time)}" placeholder="预约时间" /></span>
+                                    <span class="txt"><input class="js-datetime" name="appoint_time" value="{$page.appoint_time?=date('Y-m-d H:i',$page.appoint_time)}" placeholder="预约时间" /></span>
                                 </li>
+                                <!-- 审核通过后 -->
                                 <li>
                                     <span class="icon">合 &nbsp; &nbsp; &nbsp; &nbsp;同</span>
                                     <span class="txt">
                                         <eq name='page.type' value='1'>
-                                        <in name='page.status' value='6,10'>
+                                        <in name='page.status' value='1,5,6,10'>
                                             <a href="{:url('instance/Index/contract')}" class="file">查看详情</a>
                                             <a href="{:url('insurance/Post/step5',['id'=>$page.id,'down'=>1])}" class="file_down"><!-- 下载 --></a>
                                         </in>
@@ -65,25 +66,25 @@
                                     </span>
                                 </li>
                             </ul>
+                            <ul>
+                                <p class="info_tit">领单方式</p>
+                                <li class="label_input lingqu_input" id="online">
+                                    <label>
+                                        <input type="radio" name="type" value="1">
+                                        <span class="icon_img">在线付费邮寄</span>
+                                    </label>
+                                </li>
+                                <li class="label_input lingqu_input" id="offline">
+                                    <label>
+                                        <input type="radio" name="type" value="2">
+                                        <span class="icon_img">现场收费领取</span>
+                                    </label>
+                                </li>
+                            </ul>
+                            <div id="instance_address" class="" style="display:none;height:38px;line-height:38px;padding-left:20px;border:1px solid #CCC">
+                                <input name="more[address]" value="" placeholder="请填写邮寄地址" />
+                            </div>
                             <in name="page.status" value="1,5">
-                                <ul>
-                                    <p class="info_tit">领单方式</p>
-                                    <li class="label_input lingqu_input" id="online">
-                                        <label>
-                                            <input type="radio" name="type" value="1">
-                                            <span class="icon_img">在线付费邮寄</span>
-                                        </label>
-                                    </li>
-                                    <li class="label_input lingqu_input" id="offline">
-                                        <label>
-                                            <input type="radio" name="type" value="2">
-                                            <span class="icon_img">现场收费领取</span>
-                                        </label>
-                                    </li>
-                                </ul>
-                                <div id="instance_address" class="" style="display:none;height:38px;line-height:38px;padding-left:20px;border:1px solid #CCC">
-                                    <input name="more[address]" value="" placeholder="请填写邮寄地址" />
-                                </div>
                                 <p class="cz_btn_p">
                                     <input type="hidden" name="id" value="{$page.id}">
                                     <button type="submit" class="btn-red js-ajax-submit1">确认提交</button>

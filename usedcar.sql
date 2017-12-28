@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50540
 File Encoding         : 65001
 
-Date: 2017-12-26 18:05:29
+Date: 2017-12-27 18:04:54
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -4290,27 +4290,28 @@ CREATE TABLE `cmf_insurance_order` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `compIds` varchar(150) NOT NULL DEFAULT '' COMMENT '意向投保公司',
   `coverIds` varchar(255) NOT NULL DEFAULT '' COMMENT '自选险种',
-  `user_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '用户ID',
-  `plateNo` varchar(7) NOT NULL DEFAULT '' COMMENT '车牌号',
+  `plateNo` varchar(7) NOT NULL DEFAULT '' COMMENT '车牌号，唯一标识？',
   `car_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '车辆ID',
+  `company_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '指定公司ID',
   `insurance_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '保险业务ID',
+  `user_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '用户ID',
   `deal_uid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '处理人ID',
   `order_sn` varchar(30) NOT NULL DEFAULT '' COMMENT '保单号',
   `name` varchar(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '保险业务名称',
   `amount` decimal(10,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '投保金额',
   `pay_id` varchar(30) NOT NULL DEFAULT '' COMMENT '支付标识：cash余额 alipay支付宝 wxpay微信',
   `company_name` varchar(150) NOT NULL DEFAULT '' COMMENT '投保公司名',
+  `description` varchar(255) NOT NULL DEFAULT '' COMMENT '描述',
   `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
   `pay_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '支付时间(生效时间)',
   `appoint_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '预约时间',
   `finish_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '完成时间',
   `dead_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '失效时间',
   `delete_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '删除时间',
-  `remark` varchar(255) NOT NULL DEFAULT '' COMMENT '备注',
-  `description` varchar(255) NOT NULL DEFAULT '' COMMENT '描述',
   `more` text COMMENT '扩展属性：审核资料',
-  `type` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT '投保类型：1线上 2线下',
   `status` tinyint(2) NOT NULL DEFAULT '0' COMMENT '状态：-11过期失效 -3管理员取消 -2卖家取消 -1取消/关闭 0待审核未支付 1已审核 5已确认合同 6已支付 10完成',
+  `remark` varchar(255) NOT NULL DEFAULT '' COMMENT '备注',
+  `type` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '投保类型：1线上 2线下',
   `list_order` float unsigned NOT NULL DEFAULT '10000' COMMENT '排序：从小到大',
   PRIMARY KEY (`id`),
   KEY `idx1` (`user_id`),
@@ -4320,11 +4321,12 @@ CREATE TABLE `cmf_insurance_order` (
   KEY `idx5` (`status`),
   KEY `idx6` (`user_id`,`car_id`),
   KEY `idx7` (`user_id`,`plateNo`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='保单表';
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COMMENT='保单表';
 
 -- ----------------------------
 -- Records of cmf_insurance_order
 -- ----------------------------
+INSERT INTO `cmf_insurance_order` VALUES ('4', '[\"1\",\"5\"]', '[\"1\",\"2\",\"9\"]', '皖A598H2', '0', '0', '0', '3', '0', 'insurance_2017122750984953', '', '0.00', '', '', '', '1514351938', '0', '1516723200', '0', '1540288800', '0', '{\"address\":\"dadad\",\"plateNo\":\"皖A598H2\",\"username\":\"汪某人\",\"contact\":\"13365897412\",\"driving_license\":\"http:\\/\\/tx.car\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/5.jpg\",\"identity_card\":[{\"url\":\"http:\\/\\/tx.car\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/6.jpg\",\"name\":\"\"},{\"url\":\"http:\\/\\/tx.car\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/7.jpg\",\"name\":\"\"}]}', '0', '', '1', '10000');
 
 -- ----------------------------
 -- Table structure for cmf_link
@@ -4422,14 +4424,15 @@ CREATE TABLE `cmf_news` (
   `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
   `status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '状态：0未读 1已读 2已处理',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Records of cmf_news
 -- ----------------------------
-INSERT INTO `cmf_news` VALUES ('1', '3', '0', '预约车辆服务：菜鸟验车', 'service', 'service/post/appointpost', 'service:1', '3', '', '客户ID：3，公司ID：1', '1512541470', '1');
-INSERT INTO `cmf_news` VALUES ('2', '0', '0', '开店申请', 'funds', 'funds/pay/callback', 'funds_apply:2', '8', '', '客户ID：3，支付方式：支付宝', '1513742368', '1');
+INSERT INTO `cmf_news` VALUES ('1', '3', '0', '预约车辆服务：菜鸟验车', 'service', 'service/post/appointpost', 'service:1', '3', '', '客户ID：3，公司ID：1', '1512541470', '0');
+INSERT INTO `cmf_news` VALUES ('2', '0', '0', '开店申请', 'funds', 'funds/pay/callback', 'funds_apply:2', '8', '', '客户ID：3，支付方式：支付宝', '1513742368', '0');
 INSERT INTO `cmf_news` VALUES ('3', '5', '0', '用户注册：18956243789', 'register', 'user/register/doregisterpc', 'user:5', '6', '', '客户ID：5', '1514187604', '0');
+INSERT INTO `cmf_news` VALUES ('7', '3', '0', '保险订单', 'insurance', 'insurance/index/step2', 'insurance_order:4', '2', '', '客户ID：3，保单ID：4', '1514351938', '0');
 
 -- ----------------------------
 -- Table structure for cmf_option
@@ -5038,12 +5041,13 @@ CREATE TABLE `cmf_trade_order` (
   KEY `idx3` (`seller_uid`),
   KEY `idx4` (`status`),
   KEY `idx5` (`buyer_uid`,`car_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COMMENT='车辆买卖订单表';
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COMMENT='车辆买卖订单表';
 
 -- ----------------------------
 -- Records of cmf_trade_order
 -- ----------------------------
 INSERT INTO `cmf_trade_order` VALUES ('1', '5', '0', 'seecar_2017122098555151', '', '3', '洛萨', '13333333333', '', '1', 'admin', '1', '200.00', '0.00', '0.00', '0.00', '', '', '0.00', '', '', '福特 全顺经典 2009款 2.8T 手动 标准型短轴中顶JX493ZLQ3 柴油', null, '1513735867', '0', '0', '0', '', '-1', '');
+INSERT INTO `cmf_trade_order` VALUES ('2', '3', '0', 'seecar_2017122750541029', '', '3', '洛萨', '13333333333', '', '1', 'admin', '1', '200.00', '0.00', '0.00', '0.00', '', '', '0.00', '', '', '宝马 1系两厢五门版 2012款 1.6T 自动 116i都市版', null, '1514346658', '0', '0', '0', '', '0', '');
 
 -- ----------------------------
 -- Table structure for cmf_trade_order_detail
@@ -5409,7 +5413,7 @@ CREATE TABLE `cmf_usual_car` (
   `shop_tel` varchar(100) NOT NULL DEFAULT '' COMMENT '店铺电话',
   `old_user` varchar(255) NOT NULL DEFAULT '' COMMENT '以前的车主',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COMMENT='车辆表';
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COMMENT='车辆表';
 
 -- ----------------------------
 -- Records of cmf_usual_car
@@ -5419,7 +5423,6 @@ INSERT INTO `cmf_usual_car` VALUES ('2', '1', '4', '11', '2', '1', '0', '3', '34
 INSERT INTO `cmf_usual_car` VALUES ('3', '1', '1', '17', '2', '1', '0', '3', '3401', '0', '宝马 1系两厢五门版 2012款 1.6T 自动 116i都市版', '', '', '', '皖A95K88', '1350057600', '0', '0', '0', '14.00', '2.5', '3', '28', '14', '15', '8', '1510814246', '1513222608', '0', '0', '0', '0', '', '', '', '{\"car_seating\":\"3\",\"car_color\":\"8\",\"car_length\":\"\",\"car_age\":\"\",\"car_effluent\":\"14\",\"car_fuel\":\"15\",\"car_displacement\":\"\",\"car_mileage\":\"\",\"car_engine\":\"\",\"car_gearbox\":\"28\",\"thumbnail\":\"https:\\/\\/c2.xinstatic.com\\/f2\\/20171129\\/1726\\/5a1e7d3fa651c407670_19.jpg\",\"photos\":[{\"url\":\"https:\\/\\/c2.xinstatic.com\\/f2\\/20171129\\/1726\\/5a1e7d3fa651c407670_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c2.xinstatic.com\\/f2\\/20171129\\/1727\\/5a1e7d7a28744241112_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c2.xinstatic.com\\/f2\\/20171129\\/1726\\/5a1e7d2fbae64486662_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c2.xinstatic.com\\/f2\\/20171129\\/1727\\/5a1e7d741c49c885807_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c2.xinstatic.com\\/f2\\/20171129\\/1726\\/5a1e7d3c7ab05985442_20.jpg\",\"name\":\"\"}]}', '1', '1', '{\"username\":\"贝尔\",\"contact\":\"QQ：456876646\",\"plateNo\":\"皖A95K88\",\"driving_license\":\"https:\\/\\/c1.xinstatic.com\\/f2\\/20171113\\/1802\\/5a096daf09902191543_18.jpg\"}', '', '', '', '10000', '1', '1510552638', '30.00', '3', '30.18', '17.98', '5.39', '200.00', '1', '400-2263-6547', '');
 INSERT INTO `cmf_usual_car` VALUES ('4', '1', '4', '14', '4', '1', '0', '31', '383', '0', '福特 Mustang 2015款 2.3T 自动 性能版', '', '', '', '皖A85K88', '1325433600', '0', '0', '5', '2.80', '2.3', '3', '26', '14', '15', '7', '1512119386', '1513222595', '0', '0', '0', '0', '', '', null, '{\"car_seating\":\"3\",\"car_color\":\"7\",\"car_length\":\"160\",\"car_age\":\"\",\"car_effluent\":\"14\",\"car_fuel\":\"15\",\"car_displacement\":\"\",\"car_mileage\":\"\",\"car_engine\":\"\",\"car_gearbox\":\"26\",\"thumbnail\":\"https:\\/\\/c4.xinstatic.com\\/f2\\/20171130\\/1712\\/5a1fcb9209ee7452880_19.jpg\",\"photos\":[{\"url\":\"https:\\/\\/c4.xinstatic.com\\/f2\\/20171130\\/1712\\/5a1fcb9209ee7452880_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c4.xinstatic.com\\/f2\\/20171130\\/1713\\/5a1fcbc848c81733344_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c4.xinstatic.com\\/f2\\/20171130\\/1712\\/5a1fcb8c75a67422131_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c4.xinstatic.com\\/f2\\/20171130\\/1713\\/5a1fcbc2394c8716043_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c4.xinstatic.com\\/f2\\/20171130\\/1712\\/5a1fcb8f3e9ca641995_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c4.xinstatic.com\\/f2\\/20171130\\/1713\\/5a1fcb9f9b50d944989_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c4.xinstatic.com\\/f2\\/20171130\\/1713\\/5a1fcba31ed87538246_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c4.xinstatic.com\\/f2\\/20171130\\/1713\\/5a1fcba68b7c0631568_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c4.xinstatic.com\\/f2\\/20171130\\/1713\\/5a1fcbbc7e6c5748880_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c4.xinstatic.com\\/f2\\/20171130\\/1713\\/5a1fcbd0d8804237222_20.jpg\",\"name\":\"\"}]}', '1', '1', '{\"username\":\"陈东\",\"contact\":\"18956743215\",\"plateNo\":\"皖A85K88\",\"driving_license\":\"\"}', '', '', '', '10000', '1', '1512118965', '37.06', '0', '43.40', '37.06', '10.74', '500.00', '1', '0551-4623156', '');
 INSERT INTO `cmf_usual_car` VALUES ('5', '1', '4', '13', '5', '1', '0', '3', '3401', '0', '福特 全顺经典 2009款 2.8T 手动 标准型短轴中顶JX493ZLQ3 柴油', '', '', '', '皖A55K88', '1391443200', '0', '0', '3', '9.30', '2.8', '4', '27', '12', '16', '6', '1512119920', '1512465558', '0', '0', '0', '0', '', '', null, '{\"car_seating\":\"2\",\"car_color\":\"6\",\"car_length\":\"220\",\"car_age\":\"\",\"car_effluent\":\"12\",\"car_fuel\":\"16\",\"car_displacement\":\"\",\"car_mileage\":\"\",\"car_engine\":\"\",\"car_gearbox\":\"27\",\"thumbnail\":\"https:\\/\\/c5.xinstatic.com\\/f2\\/20171119\\/1642\\/5a1143e6ca019161901_20.jpg\",\"photos\":[{\"url\":\"https:\\/\\/c5.xinstatic.com\\/f2\\/20171119\\/1642\\/5a1143e6ca019161901_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c5.xinstatic.com\\/f2\\/20171119\\/1643\\/5a114442b77d2947738_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c5.xinstatic.com\\/f2\\/20171119\\/1642\\/5a1143dd2f6ca814522_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c5.xinstatic.com\\/f2\\/20171119\\/1643\\/5a1144305ccc7526465_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c5.xinstatic.com\\/f2\\/20171119\\/1642\\/5a1143e202340843673_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c5.xinstatic.com\\/f2\\/20171119\\/1642\\/5a1143f8d7695187119_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c5.xinstatic.com\\/f2\\/20171119\\/1642\\/5a1143fd311fa347233_20.jpg\",\"name\":\"\"}]}', '1', '1', '{\"username\":\"\",\"contact\":\"\",\"plateNo\":\"皖A55K88\",\"driving_license\":\"\"}', '', '', '', '10000', '1', '1512119643', '16.52', '0', '15.72', '8.88', '1.36', '200.00', '1', '400-3145-6874', '');
-INSERT INTO `cmf_usual_car` VALUES ('6', '1', '0', '0', '0', '5', '0', '0', '0', '0', '', '', '', '', '皖AH67X9', '0', '0', '0', '1', '0.00', '0', '5', '0', '0', '0', '0', '1514190277', '1514190277', '0', '0', '0', '0', '', '', null, null, '1', '0', '{\"username\":\"汪某人\",\"contact\":\"23213212\",\"plateNo\":\"皖AH67X9\",\"driving_license\":\"http:\\/\\/tx.car\\/upload\\/portal\\/20171013\\/1f661e0d9d9f0c97b17a50e6e06580c0.png\",\"identity_card\":[{\"url\":\"http:\\/\\/tx.car\\/upload\\/portal\\/20171013\\/1f661e0d9d9f0c97b17a50e6e06580c0.png\",\"name\":\"\"},{\"url\":\"http:\\/\\/tx.car\\/upload\\/portal\\/20171013\\/1f661e0d9d9f0c97b17a50e6e06580c0.png\",\"name\":\"\"}]}', '', '', '', '10000', '0', '0', '0.00', '0', '0.00', '0.00', '0.00', '0.00', '1', '', '');
 
 -- ----------------------------
 -- Table structure for cmf_usual_company

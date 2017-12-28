@@ -17,7 +17,7 @@ class AdminOrderController extends AdminBaseController
     public function index()
     {
         $param = $this->request->param();//接收筛选条件
-        // $insuranceId = $this->request->param('insuranceId',0,'intval');
+        $insuranceId = $this->request->param('insuranceId',0,'intval');
         $compId = $this->request->param('compId',0,'intval');
 
         $data = model('InsuranceOrder')->getLists($param);
@@ -29,7 +29,7 @@ class AdminOrderController extends AdminBaseController
         $this->assign('uname', isset($param['uname']) ? $param['uname'] : '');
         $this->assign('sn', isset($param['sn']) ? $param['sn'] : '');
         // $this->assign('insurances', $insurances);
-        // $this->assign('insuranceId', $insuranceId);
+        $this->assign('insuranceId', $insuranceId);
         $this->assign('companys', $companys);
         $this->assign('compId', $compId);
         $this->assign('lists', $data->items());
@@ -74,12 +74,17 @@ class AdminOrderController extends AdminBaseController
 
         // 公司企业
         $compModel = new UsualCompanyModel();
-        // $selcomp   = $compModel->getCompanys(0,0,false,['id'=>['in','1,2,3']]);
+        $selcomp   = $compModel->getCompanys(0,0,false,['id'=>['in',$post['compIds']]]);
         $companys = $compModel->getCompanys($post['company_id']);
+        // 险种
+        $selcover = model('InsuranceCoverage')->field('id,name')->order("list_order ASC")->where(['id'=>['in',$post['coverIds']]])->select()->toArray();
+
         // 状态
         $order_status = $orderModel->getOrderStatus($post['status']);
 
+        $this->assign('selcomp', $selcomp);
         $this->assign('companys', $companys);
+        $this->assign('selcover', $selcover);
         $this->assign('order_status', $order_status);
         $this->assign('post', $post);
         return $this->fetch();
@@ -95,6 +100,9 @@ class AdminOrderController extends AdminBaseController
             if ($result !== true) {
                 $this->error($result);
             }
+            if ($post['status']>=1 && $post['amount']) {
+                $this->error('请填写保险金');
+            }
             if ($post['status']==6 && empty($post['pay_time'])) {
                 $this->error('支付时间不能为空 <br> 或者 支付状态为未支付！');
             }
@@ -103,6 +111,9 @@ class AdminOrderController extends AdminBaseController
             // 直接拿官版的
             if (!empty($data['identity_card'])) {
                 $post['more']['identity_card'] = $orderModel->dealFiles($data['identity_card']);
+            }
+            if (!empty($data['file'])) {
+                $post['more']['file'] = $orderModel->dealFiles($data['file']);
             }
 
             $orderModel->adminEditArticle($post);

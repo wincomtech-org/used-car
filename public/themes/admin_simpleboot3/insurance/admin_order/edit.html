@@ -13,6 +13,16 @@
                title="图片名称">
     </li>
 </script>
+<script type="text/html" id="files-item-tpl">
+    <li id="saved-file{id}">
+        <input id="file-{id}" type="hidden" name="file[urls][]" value="{filepath}">
+        <input class="form-control" id="file-{id}-name" type="text" name="file[names][]" value="{name}"
+               style="width: 200px;" title="文件名称">
+        <a id="file-{id}-preview" href="{preview_url}" target="_blank">下载</a>
+        <a href="javascript:uploadOne('图片上传','#file-{id}','file');">替换</a>
+        <a href="javascript:(function(){$('#saved-file{id}').remove();})();">移除</a>
+    </li>
+</script>
 </head>
 
 <body>
@@ -24,138 +34,179 @@
     </ul>
     <form action="{:url('AdminOrder/editPost')}" method="post" class="form-horizontal js-ajax-form margin-top-20">
         <div class="row">
-            <div class="col-md-9">
-                <table class="table table-bordered">
-                    <tr>
-                        <th width="120">保单号<span class="form-required">*</span></th>
-                        <td>
-                            <input class="form-control" value="{$post.order_sn}" readonly required placeholder="请输入保单号"/>
-                        </td>
-                    </tr>
+            <div class="col-md-1">
+                <div class="list-group">
+                    <a class="list-group-item" href="#A" data-toggle="tab">基本内容</a>
+                    <a class="list-group-item" href="#B" data-toggle="tab">审核资料</a>
+                    <a class="list-group-item" href="#C" data-toggle="tab">后期处理</a>
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="tab-content">
+                    <div class="tab-pane active" id="A">
+                    <table class="table table-bordered">
+                        <tr>
+                            <th width="120">保单号<span class="form-required">*</span></th>
+                            <td>
+                                <input class="form-control" value="{$post.order_sn}" readonly required placeholder="请输入保单号"/>
+                            </td>
+                        </tr>
 
-                    <tr>
-                        <th>投保金额</th>
-                        <td>
-                            <input class="form-control" type="number" name="post[amount]" value="{$post.amount}">
-                        </td>
-                    </tr>
+                        <tr>
+                            <th>投保金额</th>
+                            <td>
+                                <input class="form-control" type="number" name="post[amount]" value="{$post.amount}">
+                            </td>
+                        </tr>
 
-                    <!-- <tr>
-                        <th>保险业务名</th>
-                        <td><a href="{:url('AdminInsurance/edit',['id'=>$post['insurance_id']])}"><span>{$post.insurance_name|default=''}</span></a></td>
-                    </tr> -->
-                    <tr>
-                        <th>意向投保公司</th>
-                        <td>
-                            <foreach name="post.compIds" item="v">
-                            <input type="checkbox" name="compIds[]" value="{$v}"> {$v}
-                            </foreach>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>指定投保公司</th>
-                        <td>
-                            <select name="company_id">
-                                <option value="">--请选择--</option>
-                                {$companys|default=''}
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>险种选择</th>
-                        <td>
-                            <foreach name="post.coverIds" item="v">
-                            <input type="checkbox" name="coverIds[]" value="{$v}"> {$v}
-                            </foreach>
-                        </td>
-                    </tr>
+                        <!-- <tr>
+                            <th>保险业务名</th>
+                            <td><a href="{:url('AdminInsurance/edit',['id'=>$post['insurance_id']])}"><span>{$post.insurance_name|default=''}</span></a></td>
+                        </tr> -->
+                        <tr>
+                            <th>意向投保公司</th>
+                            <td>
+                                <foreach name="selcomp" item="v">
+                                    <span style="border:1px solid #F00;margin-right:5px;">{$v.name}</span>
+                                </foreach>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>指定投保公司</th>
+                            <td>
+                                <select name="company_id">
+                                    <option value="">--请选择--</option>
+                                    {$companys|default=''}
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>险种选择</th>
+                            <td>
+                                <foreach name="selcover" item="v">
+                                    <span style="border:1px solid #F00;margin-right:5px;">{$v.name}</span>
+                                </foreach>
+                            </td>
+                        </tr>
 
-                    <tr>
-                        <th>网站用户</th>
-                        <td><a href="{:url('user/AdminIndex/index',array('uid'=>$post.user_id))}"><span>{$post.user_login|default=''}</span></a></td>
-                    </tr>
+                        <tr>
+                            <th>网站用户</th>
+                            <td><a href="{:url('user/AdminIndex/index',array('uid'=>$post.user_id))}"><span>{$post.user_login|default=''}</span></a></td>
+                        </tr>
 
-                    <eq name="post.type" value="1">
-                    <tr>
-                        <th>邮寄地址</th>
-                        <td><input class="form-control" name="post[more][address]" value="{$post.more.address|default=''}"></td>
-                    </tr>
-                    </eq>
+                        <tr>
+                            <th>备注</th>
+                            <td>
+                                <textarea class="form-control" name="post[remark]" style="height:50px;" placeholder="请填写描述">{$post.remark|default=''}</textarea>
+                            </td>
+                        </tr>
 
-                    <tr>
-                        <th>备注</th>
-                        <td>
-                            <textarea class="form-control" name="post[remark]" style="height:50px;" placeholder="请填写描述">{$post.remark|default=''}</textarea>
-                        </td>
-                    </tr>
+                        <tr>
+                            <th>描述</th>
+                            <td>
+                                <textarea class="form-control" name="post[description]" style="height:50px;" placeholder="请填写描述">{$post.description|default=''}</textarea>
+                            </td>
+                        </tr>
+                    </table>
+                    </div>
+                    <div class="tab-pane" id="B">
+                    <table class="table table-bordered">
+                        <tr>
+                            <th>车牌号码</th>
+                            <td><input class="form-control" type="text" maxlength="7" name="post[more][plateNo]" value="{$post.more.plateNo|default=''}"></td>
+                        </tr>
+                        <tr>
+                            <th>用户名(车主)</th>
+                            <td><input class="form-control" type="text" name="post[more][username]" value="{$post.more.username|default=''}"></td>
+                        </tr>
+                        <tr>
+                            <th>联系方式</th>
+                            <td>
+                                <textarea class="form-control" name="post[more][contact]" style="height:50px;" placeholder="手机号、QQ、微信">{$post.more.contact|default=''}</textarea>
+                            </td>
+                        </tr>
+                        <eq name="post.type" value="1">
+                        <tr>
+                            <th>邮寄地址</th>
+                            <td><input class="form-control" name="post[more][address]" value="{$post.more.address|default=''}"></td>
+                        </tr>
+                        </eq>
 
-                    <tr>
-                        <th>描述</th>
-                        <td>
-                            <textarea class="form-control" name="post[description]" style="height:50px;" placeholder="请填写描述">{$post.description|default=''}</textarea>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <th></th>
-                        <td align="center"><b style="color:#F00">以下是审核资料</b></td>
-                    </tr>
-                    <tr>
-                        <th>车牌号码</th>
-                        <td><input class="form-control" type="text" maxlength="7" name="post[more][plateNo]" value="{$post.more.plateNo|default=''}"></td>
-                    </tr>
-                    <tr>
-                        <th>用户名(车主)</th>
-                        <td><input class="form-control" type="text" name="post[more][username]" value="{$post.more.username|default=''}"></td>
-                    </tr>
-                    <tr>
-                        <th>联系方式</th>
-                        <td>
-                            <textarea class="form-control" name="post[more][contact]" style="height:50px;" placeholder="手机号、QQ、微信">{$post.more.contact|default=''}</textarea>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>行驶证</th>
-                        <td>
-                            <div>
-                                <input type="hidden" name="post[more][driving_license]" id="driving_license" value="{$post.more.driving_license|default=''}">
-                                <a href="javascript:uploadOneImage('图片上传','#driving_license');">
+                        <tr>
+                            <th>行驶证</th>
+                            <td>
+                                <div>
+                                    <input type="hidden" name="post[more][driving_license]" id="driving_license" value="{$post.more.driving_license|default=''}">
                                     <empty name="post.more.driving_license">
-                                        <img src="__TMPL__/public/assets/images/default-thumbnail.png" id="driving_license-preview" width="135" style="cursor: pointer"/>
+                                    <img src="__TMPL__/public/assets/images/default-thumbnail.png" id="driving_license-preview" width="135" style="cursor:pointer" onclick="parent.imagePreviewDialog(this.src);"/>
                                     <else/>
-                                        <img src="{:cmf_get_image_preview_url($post.more.driving_license)}" id="driving_license-preview" width="135" style="cursor: pointer"/>
+                                    <img src="{:cmf_get_image_preview_url($post.more.driving_license)}" id="driving_license-preview" width="135" style="cursor:pointer" onclick="parent.imagePreviewDialog(this.src);"/>
                                     </empty>
-                                </a>
-                                <input type="button" class="btn btn-sm btn-cancel-driving_license" value="取消图片">
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>身份证</th>
-                        <td>
-                            <ul id="identity_card" class="pic-list list-unstyled form-inline">
-                                <notempty name="post.more.identity_card">
-                                    <foreach name="post.more.identity_card" item="vo">
-                                        <li id="saved-identity_card{$key}">
-                                            <input id="identity_card-{$key}" type="hidden"
-                                                   name="identity_card[urls][]" value="{$vo.url}">
-                                            <input id="identity_card-{$key}-name" type="text"
-                                                   name="identity_card[names][]" value="{$vo.name|default=''}"
-                                                   class="form-control" style="width: 200px;" title="图片名称">
-                                            <img id="identity_card-{$key}-preview"
-                                                 src="{:cmf_get_image_preview_url($vo['url'])}"
-                                                 style="height:36px;width: 36px;"
-                                                 onclick="parent.imagePreviewDialog(this.src);">
-                                            <a href="javascript:uploadOneImage('图片上传','#identity_card-{$key}');">替换</a>
-                                            <a href="javascript:(function(){$('#saved-identity_card{$key}').remove();})();">移除</a>
-                                        </li>
-                                    </foreach>
-                                </notempty>
-                            </ul>
-                            <a href="javascript:uploadMultiImage('图片上传','#identity_card','identity_card-item-tpl');" class="btn btn-default btn-sm">选择图片</a>
-                        </td>
-                    </tr>
-                </table>
+                                    <a href="javascript:uploadOneImage('图片上传','#driving_license');"> &nbsp;图片上传 &nbsp;</a>
+                                    <input type="button" class="btn btn-sm btn-cancel-driving_license" value="取消图片">
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>身份证</th>
+                            <td>
+                                <ul id="identity_card" class="pic-list list-unstyled form-inline">
+                                    <notempty name="post.more.identity_card">
+                                        <foreach name="post.more.identity_card" item="vo">
+                                            <li id="saved-identity_card{$key}">
+                                                <input id="identity_card-{$key}" type="hidden"
+                                                       name="identity_card[urls][]" value="{$vo.url}">
+                                                <input id="identity_card-{$key}-name" type="text"
+                                                       name="identity_card[names][]" value="{$vo.name|default=''}"
+                                                       class="form-control" style="width: 200px;" title="图片名称">
+                                                <img id="identity_card-{$key}-preview"
+                                                     src="{:cmf_get_image_preview_url($vo['url'])}"
+                                                     style="height:36px;width: 36px;"
+                                                     onclick="parent.imagePreviewDialog(this.src);">
+                                                <a href="javascript:uploadOneImage('图片上传','#identity_card-{$key}');">替换</a>
+                                                <a href="javascript:(function(){$('#saved-identity_card{$key}').remove();})();">移除</a>
+                                            </li>
+                                        </foreach>
+                                    </notempty>
+                                </ul>
+                                <a href="javascript:uploadMultiImage('图片上传','#identity_card','identity_card-item-tpl');" class="btn btn-default btn-sm">选择图片</a>
+                            </td>
+                        </tr>
+                    </table>
+                    </div>
+                    <div class="tab-pane" id="C">
+                        <table class="table table-bordered">
+                            <tr>
+                                <th>总则</th>
+                                <td><a href="{:url('AdminIndex/edit')}">保险通用</a></td>
+                            </tr>
+                            <tr>
+                                <th>附件（合同）</th>
+                                <td>
+                                    <ul id="files" class="pic-list list-unstyled form-inline">
+                                        <notempty name="post.more.files">
+                                        <foreach name="post.more.files" item="vo">
+                                            <php>$file_url=cmf_get_file_download_url($vo['url']);</php>
+                                            <li id="saved-file{$key}">
+                                                <input id="file-{$key}" type="hidden" name="file[urls][]"
+                                                       value="{$vo.url}">
+                                                <input class="form-control" id="file-{$key}-name" type="text"
+                                                       name="file[names][]"
+                                                       value="{$vo.name}" style="width: 200px;" title="图片名称">
+                                                <a id="file-{$key}-preview" href="{$file_url}" target="_blank">下载</a>
+                                                <a href="javascript:uploadOne('图片上传','#file-{$key}');">替换</a>
+                                                <a href="javascript:(function(){$('#saved-file{$key}').remove();})();">移除</a>
+                                            </li>
+                                        </foreach>
+                                        </notempty>
+                                    </ul>
+                                    <a href="javascript:uploadMultiFile('附件上传','#files','files-item-tpl');"
+                                       class="btn btn-sm btn-default">选择文件</a>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
             </div>
             <div class="col-md-3">
                 <table class="table table-bordered">
@@ -164,7 +215,7 @@
                     </tr>
                     <tr>
                         <td>
-                            <input readonly class="form-control" type="text" value="{$post.create_time?=date('Y-m-d H:i',$post['create_time'])}">
+                            <input readonly class="form-control" value="{$post.create_time?=date('Y-m-d H:i',$post['create_time'])}">
                         </td>
                     </tr>
                     <tr>
@@ -172,7 +223,7 @@
                     </tr>
                     <tr>
                         <td>
-                            <input class="form-control js-bootstrap-datetime" type="text" name="post[appoint_time]" value="{$post.appoint_time?=date('Y-m-d H:i',$post['appoint_time'])}">
+                            <input class="form-control js-bootstrap-datetime" name="post[appoint_time]" value="{$post.appoint_time?=date('Y-m-d H:i',$post['appoint_time'])}">
                         </td>
                     </tr>
                     <tr>
@@ -180,7 +231,7 @@
                     </tr>
                     <tr>
                         <td>
-                            <input readonly class="form-control" type="text" value="{$post.pay_time?=date('Y-m-d H:i',$post['pay_time'])}">
+                            <input readonly class="form-control" value="{$post.pay_time?=date('Y-m-d H:i',$post['pay_time'])}">
                         </td>
                     </tr>
                     <tr>
@@ -188,7 +239,7 @@
                     </tr>
                     <tr>
                         <td>
-                            <input class="form-control js-bootstrap-datetime" type="text" name="post[dead_time]" value="{$post.dead_time?=date('Y-m-d H:i',$post['dead_time'])}" readonly>
+                            <input class="form-control js-bootstrap-datetime" name="post[dead_time]" value="{$post.dead_time?=date('Y-m-d H:i',$post['dead_time'])}" {$post.status > 5?='disabled'}>
                         </td>
                     </tr>
                     <tr>
