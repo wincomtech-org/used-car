@@ -113,4 +113,14 @@ class AdminBaseController extends BaseController
         }
     }
 
+    // 处理富文本
+    public function ueditorBefore($content='')
+    {
+        return htmlspecialchars(cmf_replace_content_file_url(htmlspecialchars_decode($content), true));
+    }
+    public function ueditorAfter($content='')
+    {
+        return cmf_replace_content_file_url(htmlspecialchars_decode($content));
+    }
+
 }

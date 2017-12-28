@@ -39,22 +39,20 @@ class AdminCategoryController extends AdminBaseController
     }
     public function addPost()
     {
-        // $data   = $this->request->param();
-        $data   = $_POST;
+        $data   = $this->request->param();
+        // $data   = $_POST;
         $cate = $data['cate'];
+        $cate['define_data'] = empty($data['define_data']) ? '': $data['define_data'];
         $result = $this->validate($cate, 'Category.add');
         if ($result !== true) {
             $this->error($result);
         }
-        if (empty($data['define_data'])) {
-            $this->error('客户字段不能为空!');
-        }
 
-        $result = model('ServiceCategory')->addCategory($cate,$data['define_data']);
+        $result = model('ServiceCategory')->addCategory($cate);
+
         if ($result === false) {
             $this->error('添加失败!');
         }
-
         $this->success('添加成功!', url('AdminCategory/index'));
     }
 
@@ -62,33 +60,53 @@ class AdminCategoryController extends AdminBaseController
     {
         $id = $this->request->param('id', 0, 'intval');
         if ($id > 0) {
+            /*使用模型处理*/
             $category = model('ServiceCategory')->getPost($id);
-            $this->assign($category);
-            $this->assign('define_data',model('ServiceCategory')->getDefineData($category['define_data']));
-            return $this->fetch();
+
+            /*使用原生处理*/
+            // $category = Db::name('service_category')->where('id',$id)->find();
+            // // 富文本
+            // $category['content'] = $this->ueditorAfter($category['content']);  
+            // // 自定义客户字段
+            // $category['define_data'] = json_decode($category['define_data'],true);
+
         } else {
             $this->error('操作错误!');
         }
+
+        $this->assign($category);
+        $this->assign('define_data',model('ServiceCategory')->getDefineData($category['define_data']));
+        return $this->fetch();
     }
     public function editPost()
     {
-        // $data   = $this->request->param();
-        $data   = $_POST;
+        /*使用模型处理*/
+        $data   = $this->request->param();
         $cate = $data['cate'];
+        $cate['define_data'] = empty($data['define_data']) ? '': $data['define_data'];
         $result = $this->validate($cate, 'Category.edit');
         if ($result !== true) {
             $this->error($result);
         }
-        if (empty($data['define_data'])) {
-            $this->error('客户字段不能为空!');
-        }
+        $result = model('ServiceCategory')->editCategory($cate);
 
-        $result = model('ServiceCategory')->editCategory($cate,$data['define_data']);
+        /*使用原生处理*/
+        // $data = $_POST;
+        // $cate = $data['cate'];
+        // // 富文本
+        // $cate['content'] = $this->ueditorBefore($cate['content']);
+        // // 自定义客户字段
+        // $cate['define_data'] = empty($data['define_data']) ? '': json_encode($data['define_data']);
+        // $result = $this->validate($cate, 'Category.edit');
+        // if ($result !== true) {
+        //     $this->error($result);
+        // }
+        // $result = Db::name('service_category')->update($cate);
+
         if ($result === false) {
             $this->error('保存失败!');
         }
-
-        $this->success('保存成功!',url('index',['id'=>$cate['id']]));
+        $this->success('保存成功!',url('edit',['id'=>$cate['id']]));
     }
 
     public function select()

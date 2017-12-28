@@ -15,7 +15,7 @@
         <li class="active"><a>编辑业务模型</a></li>
     </ul>
     <div class="row margin-top-20">
-        <div class="col-md-2">
+        <div class="col-md-1">
             <div class="list-group">
                 <a class="list-group-item" href="#A" data-toggle="tab">基本属性</a>
                 <a class="list-group-item" href="#B" data-toggle="tab">客户字段</a>
@@ -23,7 +23,7 @@
             </div>
         </div>
         <form class="js-ajax-form" action="{:url('AdminCategory/editPost')}" method="post">
-        <div class="col-md-6">
+        <div class="col-md-8">
             <div class="tab-content">
                 <div class="tab-pane active" id="A">
                     <div class="form-group">
@@ -78,7 +78,7 @@
                     <div class="form-group">
                         <label for="input-description">内容</label>
                         <div>
-                            <script style="width:100%" type="text/plain" id="content" name="cate[content]" value="{$content|default=''}"></script>
+                            <script id="content" style="height:300px;" type="text/plain" name="cate[content]">{$content|default=''}</script>
                         </div>
                     </div>
                 </div>
@@ -114,7 +114,7 @@
             <div class="form-group">
                 <input type="hidden" name="cate[id]" value="{$id}">
                 <button type="submit" class="btn btn-primary js-ajax-submit" data-refresh="1200">{:lang('SAVE')}</button>
-                <a class="btn btn-default" href="{:url('AdminCategory/index')}">{:lang('BACK')}</a>
+                <a class="btn btn-default" href="javascript:history.back(-1);">{:lang('BACK')}</a>
             </div>
         </div>
         <div class="col-md-3">
