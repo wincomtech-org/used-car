@@ -409,9 +409,9 @@ $('.yuyue_guang').hover(function() {
 })
 
 if (screen.width > 768) {
-	// alert(123)
 	$('.yuyue_guang:last-child a').click(function() {
-		$(this).html('400-2263-6547')
+		$(this).hide();
+		$('#teltouch').show();
 	})
 }
 
