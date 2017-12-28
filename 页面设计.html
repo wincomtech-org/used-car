@@ -174,9 +174,10 @@ js-*系列示例：  没有bootstrap就自定义样式
     <form action="你的提交地址" method="post" class="js-ajax-form">
         <input type="text" name="username">
         <input type="text" name="password">
-        <button class="js-ajax-submit" type="submit">提交</button>
-        <button class="js-ajax-submit" type="submit" data-wait="1500">提交</button>
-        <button class="js-ajax-submit" type="submit" data-action="你的提交地址2">提交2</button>
+        <button type="submit" class="js-ajax-submit">提交</button>
+        <button type="submit" class="js-ajax-submit" data-refresh="0">提交</button>
+        <button type="submit" class="js-ajax-submit" data-wait="1500">提交</button>
+        <button type="submit" class="js-ajax-submit" data-action="你的提交地址2">提交2</button>
     </form>
     后台通用：
     <form action="{:url('AdminArticle/editPost')}" method="post" class="form-horizontal margin-top-20 js-ajax-form">
@@ -253,6 +254,15 @@ js-*系列示例：  没有bootstrap就自定义样式
         </a>
         <input type="button" class="btn btn-sm btn-cancel-driving_license" value="取消图片">
     </div>
+    带预览
+    <input type="hidden" name="post[more][driving_license]" id="driving_license" value="{$post.more.driving_license|default=''}">
+    <empty name="post.more.driving_license">
+    <img src="__TMPL__/public/assets/images/default-thumbnail.png" id="driving_license-preview" width="135" style="cursor:pointer" onclick="parent.imagePreviewDialog(this.src);"/>
+    <else/>
+    <img src="{:cmf_get_image_preview_url($post.more.driving_license)}" id="driving_license-preview" width="135" style="cursor:pointer" onclick="parent.imagePreviewDialog(this.src);"/>
+    </empty>
+    <a href="javascript:uploadOneImage('图片上传','#driving_license');"> &nbsp;图片上传 &nbsp;</a>
+    <input type="button" class="btn btn-sm btn-cancel-driving_license" value="取消图片">
     展示
     <div>
         <if condition="empty($post.identi.driving_license)">
