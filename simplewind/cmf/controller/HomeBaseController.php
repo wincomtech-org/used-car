@@ -220,19 +220,19 @@ class HomeBaseController extends BaseController
      * @param string $tpl 模板
      * @return string
     */
-    public function getCrumbs($table='', $pid=0, $title='', $data=[], $tpl='')
+    public function getCrumbs($pid=0,$title='',$table='portal_category', $data=[], $tpl='')
     {
         if (empty($tpl)) {
             $tpl = '<ul class="brash"><li>当前位置：</li>';
             if (!empty($table) && !empty($pid)) {
-                $tpl .= $this->parInfo($table, $pid);
+                $tpl .= $this->parInfo($table, $pid, $title);
             } elseif (!empty($data)) {
                 $count = count($data)-1;
                 foreach ($data as $k => $v) {
                     $tpl .= '<li class="'. ($k==$count?'active':'') .'"><a href="'. $v['url'] .'">'. $v['name'] .'</a></li>';
                 }
             }
-            if (isset($title)) {
+            if (!empty($title)) {
                 $tpl .= '<li class="active"><a href="#">'. $title .'</a></li>';
             }
             $tpl .= '</ul>';
@@ -242,17 +242,18 @@ class HomeBaseController extends BaseController
 
         return $tpl;
     }
-    public function parInfo($table='', $pid=0)
+    public function parInfo($table='', $pid=0, $title='', $recurId=0)
     {
-        // $this->request->controller()
-        // $this->request->action()
         $par = Db::name($table)->field('parent_id,name')->where('id',$pid)->find();
-        $url = cmf_url($this->request->module().'/List/index', ['id'=>$pid]);
-        $tpl = '<li><a href="'. $url .'">'. $par['name'] .'</a></li>';
-        if ($par['parent_id']>0) {
-            $tpl = $this->parInfo($table,$par['parent_id']) . $tpl;
+        $url = cmf_url('List/index',['id'=>$pid]);
+        if (!empty($par['name'])) {
+             $tpl = '<li class="'.((empty($title) && $recurId==0)?'active':'').'"><a href="'. $url .'">'. $par['name'] .'</a></li>';
         }
-
+        // $tpl = $pid.'('.$par['parent_id'].'-'.$recurId.');';
+        $recurId++;
+        if ($par['parent_id']>0) {
+            $tpl = $this->parInfo($table,$par['parent_id'], $title, $recurId) . $tpl;
+        }
         return $tpl;
     }
 

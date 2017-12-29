@@ -196,6 +196,9 @@ class PortalCategoryModel extends Model
         return $result;
     }
 
+
+
+/*自定义*/
     public function getCateMenu($parentId=0)
     {
         $cates = $this->field('id,name')->where('parent_id',$parentId)->select()->toArray();

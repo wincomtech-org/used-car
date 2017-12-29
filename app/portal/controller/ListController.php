@@ -13,6 +13,7 @@ namespace app\portal\controller;
 use cmf\controller\HomeBaseController;
 use app\portal\model\PortalCategoryModel;
 use app\portal\service\PostService;
+use think\Db;
 
 class ListController extends HomeBaseController
 {
@@ -20,10 +21,11 @@ class ListController extends HomeBaseController
     {
         $param = $this->request->param();//接收筛选条件
         $id    = $this->request->param('id', 0, 'intval');
-        $childId = $this->request->param('sid', 0, 'intval');
+        $childId = $this->request->param('sid', 5, 'intval');
 
         $curId = $childId ? $childId : $id;
         $portalCategoryModel = new PortalCategoryModel();
+
         // 当前分类信息
         $category = $portalCategoryModel->where('id', $curId)->where('status', 1)->find();
         // 分类菜单
@@ -31,9 +33,8 @@ class ListController extends HomeBaseController
         // 当前分类下的文章
         $postService = new PostService();
         $articles = $postService->adminArticleList(['category'=>$curId]);
-
         // 面包屑
-        $crumbs = $this->getCrumbs('portal_category',$curId);
+        $crumbs = $this->getCrumbs($curId);
 
         $this->assign('crumbs', $crumbs);
         $this->assign('cateId', $id);
