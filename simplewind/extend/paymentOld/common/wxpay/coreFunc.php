@@ -38,7 +38,8 @@ function QRcodeByUrl($url='')
     error_reporting(E_ERROR);
     import('paymentOld/common/wxpay/lib/phpqrcode',EXTEND_PATH);
     if (empty($url)) {
-        $url = $_SERVER['HTTP_HOST'];
+        $url = '这是一个二维码样例';
+        // $url = $_SERVER['HTTP_HOST'];
         // $url = 'http://www.baidu.com';
         // $url = $_GET['url'];
     }

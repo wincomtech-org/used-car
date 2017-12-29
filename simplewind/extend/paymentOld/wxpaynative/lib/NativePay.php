@@ -2,6 +2,10 @@
 namespace paymentOld\wxpaynative\lib;
 // require_once "WxPay.Api.php";
 
+use paymentOld\common\wxpay\lib\WxPayApi;
+use paymentOld\common\wxpay\lib\WxPayData;//用不上也要用
+use paymentOld\common\wxpay\lib\WxPayBizPayUrl;
+
 /**
  * 
  * 扫码支付实现类
@@ -10,6 +14,15 @@ namespace paymentOld\wxpaynative\lib;
  */
 class NativePay
 {
+	public $p_set;
+
+	// 构造函数
+    public function __construct($p_set)
+    {
+        $this->p_set = $p_set;
+        new WxPayData();
+    }
+
 	/**
 	 * 
 	 * 生成扫描支付URL,模式一
@@ -19,7 +32,12 @@ class NativePay
 	{
 		$biz = new WxPayBizPayUrl();
 		$biz->SetProduct_id($productId);
-		$values = WxpayApi::bizpayurl($biz);
+
+		// $api = new WxPayApi($this->p_set);
+		// $values = $api->bizpayurl($biz);
+		WxPayApi::$p_set = $this->p_set;
+		$values = WxPayApi::bizpayurl($biz);
+
 		$url = "weixin://wxpay/bizpayurl?" . $this->ToUrlParams($values);
 		return $url;
 	}
@@ -50,6 +68,7 @@ class NativePay
 	{
 		if($input->GetTrade_type() == "NATIVE")
 		{
+			WxPayApi::$p_set = $this->p_set;
 			$result = WxPayApi::unifiedOrder($input);
 			return $result;
 		}

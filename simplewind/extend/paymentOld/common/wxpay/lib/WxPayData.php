@@ -8,6 +8,13 @@ namespace paymentOld\common\wxpay\lib;
 // require_once "WxPay.Exception.php";
 
 /**
+* 空类，只是与文件名一致，不用则报错。在别的地方使用时带上：use test\Test;new Test();
+* 这是为什么呢？死变态
+* 这里面掺杂着一部分静态方法
+*/
+class WxPayData{}
+
+/**
  * 
  * 数据对象基础类，该类中定义数据类最基本的行为，包括：
  * 计算/设置/获取签名、输出xml格式的参数、从xml读取数据对象等

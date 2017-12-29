@@ -97,12 +97,11 @@ class AlipaySubmit
             $sHtml .= "<input type='hidden' name='". $key ."' value='". $val ."'/>";
         }
         
-        if ($auto===true) $button_name = '';
-        //submit按钮控件请不要含有name属性
-        $sHtml = $sHtml ."<input type='submit' class='btnPayment' value='". $button_name ."'></form>";
-
         if ($auto===true) {
-            echo $sHtml."<script>document.forms['alipaysubmit'].submit();</script>";exit;
+            echo $sHtml."</form><script>document.forms['alipaysubmit'].submit();</script>";exit;
+        } else {
+            //submit按钮控件请不要含有name属性
+            $sHtml = $sHtml."<input type='submit' class='btnPayment' value='".$button_name."'></form>";
         }
         return $sHtml;
     }
