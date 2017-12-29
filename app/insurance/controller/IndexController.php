@@ -85,8 +85,8 @@ class IndexController extends HomeBaseController
         $orderModel = new InsuranceOrderModel();
 
         // 查重 只查该用户的，避免不必要的麻烦
-        $count = $orderModel->checkOrder();
-        // $count = $orderModel->checkOrder(['user_id'=>$userId,'plateNo'=>$plateNo]);
+        // $count = $orderModel->checkOrder();
+        $count = $orderModel->checkOrder(['user_id'=>$userId,'plateNo'=>$plateNo]);
         if ($count>0) {
             $this->error('您的保单已存在',url('user/Insurance/index'));
         }
@@ -133,6 +133,7 @@ class IndexController extends HomeBaseController
         if ($transStatus===false) {
             $this->error('提交失败了……');
         }
+        session('insuranceFlow',null);
         $this->success('提交成功，请耐心等待后台人员审核',url('user/Insurance/index'));
     }
 

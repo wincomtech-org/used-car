@@ -32,7 +32,7 @@
                         {$info.content|default=''}
                     </div>
                 </div>
-                <in name='order.status' value='0,1,5'>
+                <in name='order.status' value='1,5'>
                     <form action="{:url('Post/step6')}" method="post" id="contract_form" class="contract_form">
                         <p class="contract_p">
                             <span class="check_span">
@@ -45,9 +45,8 @@
                         <input type="hidden" name="orderId" value="{$orderId}">
                         <button type="button" for="contract_form" class="btn btn_submit" onClick="insurance_contract(this);">{$order.status==5?'去支付':'同意'}</button>
                     </form>
-                <else/>
-                    <a href="{:url('Post/coverage',['id'=>$orderId])}"><button type="button" class="btn btn_submit">查看险种 >></button></a>
                 </in>
+                <a href="{:url('Post/coverage',['id'=>$orderId])}"><button type="button" class="btn btn_submit">查看险种 >></button></a>
             </div>
         </div>
     </section>

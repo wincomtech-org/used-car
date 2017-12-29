@@ -41,8 +41,8 @@
                                     <span class="icon">预 &nbsp;约 &nbsp;状 &nbsp;态</span>
                                     <span class="txt 
                                         <switch name='order.status'>
-                                            <case value='1|5|6|10'>sucss</case>
-                                            <case value='-1|-2|-3|-11'>err</case>
+                                            <case value='1|5|6|10'>success_color</case>
+                                            <case value='-1|-2|-3|-11'>error_color</case>
                                             <default />
                                         </switch>
                                     ">{$order.statusV}</span>
@@ -57,7 +57,7 @@
                                     <span class="txt">
                                         <switch name="order.type">
                                             <case value="1">
-                                                <in name='order.status' value='1,5,6,10'>
+                                                <in name='order.status' value='6,10'>
                                                 <a href="{:url('insurance/Index/contract',['id'=>$order.id])}" class="file">查看详情</a>
                                                 </in>
                                             </case>
@@ -88,7 +88,7 @@
                             <in name="order.status" value="1,5">
                                 <p class="cz_btn_p">
                                     <input type="hidden" name="id" value="{$order.id}">
-                                    <button type="submit" class="btn-red js-ajax-submit1">确认提交</button>
+                                    <button type="submit" class="btn-red js-ajax-submit">确认提交</button>
                                 </p>
                             </in>
                             </form>

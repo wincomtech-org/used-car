@@ -10,12 +10,24 @@ input[type=button], input[type=submit], input[type=file],input[type=text], input
 .rt{float:right;}
 .clear{clear:both;}
 a{text-decoration:none;cursor:pointer;}
+/*公共颜色*/
+.success_color{color: #009241!important;}
+.error_color{color: #F00!important;}
+
+/**新添加字体*/
+@font-face
+{
+   font-family: myFirstFont;
+   src: url('../font/font.TTF')    
+}
 
 /*h5标签公共样式**/
 article,aside,figcaption,figure,footer,header,hgroup,nav,section,strong{display:block}
 mark{background:#FF0;color:#000}
-
 section.no_color{background-color:transparent;}
+
+/*placeholder*/
+.inp {color: #666;}
 
 /**主题内容公共尺寸**/
 header,section,nav,footer{min-width:1200px;}
@@ -27,17 +39,7 @@ img{transform:scale(1) translateZ(0);}
 .back_to_top{position:fixed;z-index:99;bottom:60px;right:30px;display:block;width:120px;}
 .back_to_top .icon{display:block;width:40px;height:40px;background:url(../images/example/login_icon.png) no-repeat 3px -126px;margin:10px auto;}
 .back_to_top .txt{text-align:center;display:block;font-size:16px;color:#666;}
-/**新添加字体*/
-/*字体*/
-@font-face
-{
-   font-family: myFirstFont;
-   src: url('../font/font.TTF')    
-}
 
-
-/*placeholder*/
- .inp {color: #666;}
 
 /**头部公共样式**/
 .header_top{border-bottom:1px solid #eee;}
