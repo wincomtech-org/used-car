@@ -1,14 +1,16 @@
 <?php
 namespace paymentOld\common\wxpay\lib;
-// require_once "WxPay.Exception.php";
-// require_once "WxPay.Config.php";
-// require_once "WxPay.Data.php";
 
 use paymentOld\common\wxpay\lib\WxPayException;
+// use paymentOld\common\wxpay\lib\WxPayConfig;
 use paymentOld\common\wxpay\lib\WxPayData;//用不上也要用
 use paymentOld\common\wxpay\lib\WxPayDataBase;
 use paymentOld\common\wxpay\lib\WxPayResults;
 use paymentOld\common\wxpay\lib\WxPayReport;
+
+// require_once "WxPay.Exception.php";
+// require_once "WxPay.Config.php";
+// require_once "WxPay.Data.php";
 
 /**
  * 

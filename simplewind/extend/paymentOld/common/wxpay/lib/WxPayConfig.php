@@ -1,10 +1,10 @@
 <?php
 namespace paymentOld\common\wxpay\lib;
+
 /**
 * 配置账号信息
 * 这里都是静态类 self::$var ，不能用 $this->var
 */
-
 class WxPayConfig
 {
 	//=======【基本信息设置】=====================================

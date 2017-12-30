@@ -9,8 +9,10 @@ use traits\controller\Jump;//代码复用的方法，称为 trait。
 
 /**
 * 测试
-* 空类，只是与文件名一致，不用则报错。在别的地方使用时带上：use test\Test;new Test();
-* 这里必须要有类的名字与文件的名字一样(Test.php)，否则报错。为什么？
+* 空类，只是与文件名一致，不用则报错。这是为什么呢？死变态
+* 在别的地方使用时带上：use test\Test;new Test();
+* 也就是说这里必须要有类的名字与文件的名字一样(Test.php)。
+* 可能使用 use 的时候，会根据 use 用到的名字 找 文件名和类名。
 */
 class Test{}
 
