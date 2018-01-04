@@ -1,15 +1,13 @@
 <?php
-// namespace paymentOld\wxpaynative;
+// 采用普通模式
+// TP写法 
+import('payment/common/wxpay/v3/WxPayConfig',EXTEND_PATH);
+import('payment/common/wxpay/v3/WxPayException',EXTEND_PATH);
+import('payment/common/wxpay/v3/WxPayData',EXTEND_PATH);
+import('payment/common/wxpay/v3/WxPayApi',EXTEND_PATH);
+import('payment/wxpaynative/WxPayNativePay',EXTEND_PATH);
 
-// use payment\common\wxpay\custom\coreFunc;//不是类
-use paymentOld\wxpaynative\NativePay;
-use payment\common\wxpay\custom\lib\WxPayApi;
-use payment\common\wxpay\custom\lib\WxPayException;
-use payment\common\wxpay\custom\lib\WxPayConfig;//已改
-use payment\common\wxpay\custom\lib\WxPayData;//用不上也要用
-use payment\common\wxpay\custom\lib\WxPayUnifiedOrder;
-
-// import('payment/common/wxpay/custom/coreFunc',EXTEND_PATH);
+import('payment/common/wxpay/v3/log',EXTEND_PATH);
 
 /**
 * 微信支付接口
@@ -34,10 +32,6 @@ class WorkPlugin
         // $this->notify_url = url('funds/Pay/callBack','',false,$this->host);
         $this->notify_url = url('funds/Pay/wxpayBack','',false,$this->host);
         $this->return_url = url('funds/Pay/wxpayBack','',false,$this->host);
-
-        // TP写法 
-        import('payment/common/wxpay/custom/coreFunc',EXTEND_PATH);
-        // new WxPayData();//死变态的东西
     }
 
     /**
@@ -54,7 +48,7 @@ class WorkPlugin
 
     // 模式一 回调
     public function workPreUrl() {
-        $notify = new NativePay($this->p_set());
+        $notify = new NativePay();
         $pay_url = $notify->GetPrePayUrl($this->order_id);
         return $pay_url;
     }
@@ -63,24 +57,30 @@ class WorkPlugin
     public function workUrl()
     {
         $input  = $this->parameter();
-        $notify = new NativePay($this->p_set());
+        $notify = new NativePay();
         $result = $notify->GetPayUrl($input);
         // dump($result);die;
         $pay_url   = $result["code_url"];
+        // $pay_url   = urlencode($result["code_url"]);
 
-        $pay_url = QRcodeByUrl($pay_url);
+        // $pay_url = $this->QRcode($pay_url);
 
         return $pay_url;
     }
 
     // 二维码
-    public function QRcode($pay_url='')
+    public function QRcode($url='')
     {
-        if (empty($pay_url)) {
-            QRcodeByUrl($pay_url);
-        } else {
-            return '<img alt="扫码支付模式二" src="'.urlencode($pay_url).'" style="width:110px;height:110px;"/>';  
+        error_reporting(E_ERROR);
+        import('payment/common/wxpay/v3/phpqrcode',EXTEND_PATH);
+        if (empty($url)) {
+            $url = '这是一个二维码样例';
+            // $url = $_SERVER['HTTP_HOST'];
+            // $url = 'http://www.baidu.com';
+            // $url = $_GET['url'];
         }
+        // $url = urldecode($url);
+        QRcode::png($url);
     }
 
 
@@ -101,6 +101,22 @@ class WorkPlugin
     {
         // paylog();
         return false;
+    }
+
+    // 日志
+    function paylog($data='string')
+    {
+        if (is_string($data)) {
+            $content = $data;
+        } elseif (is_array($data)) {
+            $content = json_encode($data);
+        } else {
+            $content = '非法数据！';
+        }
+        require_once 'log.php';
+        //初始化日志
+        $logHandler= new CLogFileHandler("data/wxpaylog/".date('Y-m').'.log');
+        $log = Log::Init($logHandler, 15);
     }
 
 
@@ -156,6 +172,7 @@ class WorkPlugin
     /**
      * +----------------------------------------------------------
      * 配置信息
+     * 实际上这里是用不上的
      * +----------------------------------------------------------
     */
     public function p_set() {
@@ -182,8 +199,8 @@ class WorkPlugin
             const SSLCERT_PATH = '../apiclient_cert.pem';
             const SSLKEY_PATH = '../apiclient_key.pem';
         */
-        $set['SSLCERT_PATH'] = EXTEND_PATH .'paymentOld/'. $this->plugin_id .'/apiclient_cert.pem';
-        $set['SSLKEY_PATH'] = EXTEND_PATH .'paymentOld/'. $this->plugin_id .'/apiclient_key.pem';
+        $set['SSLCERT_PATH'] = EXTEND_PATH .'payment/'. $this->plugin_id .'/apiclient_cert.pem';
+        $set['SSLKEY_PATH'] = EXTEND_PATH .'payment/'. $this->plugin_id .'/apiclient_key.pem';
 
         //=======【curl代理设置】===================================
         /**
@@ -217,11 +234,9 @@ class WorkPlugin
      * +----------------------------------------------------------
      */
     public function parameter() {
-        // $set = $this->p_set();
         $siteInfo = cmf_get_option('site_info');
 
-        new WxPayData();
-        $input = new WxPayUnifiedOrder($this->p_set());
+        $input = new WxPayUnifiedOrder();
         // 商品描述。编码问题，不能为中文
         $input->SetBody('OrderSn：'. $this->order_sn .' ('. $siteInfo['site_name'] .')');
 

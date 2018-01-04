@@ -1,5 +1,5 @@
 <?php
-// namespace paymentOld\alipay;
+// namespace payment\alipay;
 
 // use payment\common\alipay\custom;
 use payment\common\alipay\custom\AlipaySubmit;
@@ -258,7 +258,7 @@ class WorkPlugin
         
         // ca证书路径地址，用于curl中ssl校验
         // 请保证cacert.pem文件在当前文件夹目录中
-        $set['cacert'] = EXTEND_PATH .'paymentOld/'. $this->plugin_id .'/cacert.pem';
+        $set['cacert'] = EXTEND_PATH .'payment/'. $this->plugin_id .'/cacert.pem';
         // 支付宝的公钥文件路径
         // $set['ali_public_key_path'] = '';
         

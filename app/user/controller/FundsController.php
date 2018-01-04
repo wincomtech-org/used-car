@@ -83,13 +83,13 @@ class FundsController extends UserBaseController
     {
 
         // 判断是否为手机端、微信端
-        // $map = [
-        //     'action'  => 'recharge',
-        //     'order_sn'  => $data['order_sn'],
-        //     'coin'  => $data['amount'],
-        //     'id'  => $data['id'],
-        // ];
-        // $this->showPay($map);
+        $map = [
+            'action'  => 'recharge',
+            'order_sn'  => $data['order_sn'],
+            'coin'  => $data['amount'],
+            'id'  => $data['id'],
+        ];
+        $this->showPay($map);
 
         return $this->fetch();
     }

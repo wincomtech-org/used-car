@@ -1,14 +1,13 @@
 <?php
-// namespace paymentOld\wxpayjs;
+// namespace payment\wxpayjs;
 
-use paymentOld\wxpayjs\lib\JsApiPay;
-use payment\common\wxpay\custom\lib\WxPayApi;
-use payment\common\wxpay\custom\lib\WxPayException;
-use payment\common\wxpay\custom\lib\WxPayConfig;
-use payment\common\wxpay\custom\lib\WxPayData;
-use payment\common\wxpay\custom\lib\WxPayUnifiedOrder;
+import('payment/common/wxpay/v3/WxPayConfig',EXTEND_PATH);
+import('payment/common/wxpay/v3/WxPayException',EXTEND_PATH);
+import('payment/common/wxpay/v3/WxPayData',EXTEND_PATH);
+import('payment/common/wxpay/v3/WxPayApi',EXTEND_PATH);
+import('payment/wxpaynative/JsApiPay',EXTEND_PATH);
 
-// import('payment/common/wxpay/custom/coreFunc',EXTEND_PATH);
+import('payment/common/wxpay/v3/log',EXTEND_PATH);
 
 /**
 * 微信支付接口

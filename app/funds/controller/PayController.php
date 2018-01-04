@@ -5,7 +5,7 @@ use cmf\controller\HomeBaseController;
 // use cmf\controller\UserBaseController;
 use app\funds\model\PayModel;
 use think\Db;
-// use paymentOld\alipay\WorkPlugin;
+// use payment\alipay\WorkPlugin;
 
 /**
 * 支付中心
@@ -17,9 +17,9 @@ class PayController extends HomeBaseController
     {
         parent::_initialize();
         // $this->work = new WorkPlugin(cmf_get_order_sn(),0.01);//使用了use引入
-        // $this->work = new \paymentOld\alipay\WorkPlugin(cmf_get_order_sn(),0.01);//直接使用命名空间实例化
+        // $this->work = new \payment\alipay\WorkPlugin(cmf_get_order_sn(),0.01);//直接使用命名空间实例化
         // $paytype = 'alipay';$table = '';
-        // import('paymentOld/'.$paytype.'/WorkPlugin',EXTEND_PATH);
+        // import('payment/'.$paytype.'/WorkPlugin',EXTEND_PATH);
         // $this->work = new \WorkPlugin(cmf_get_order_sn($table),0.01);//import引入
     }*/
 
@@ -110,7 +110,7 @@ class PayController extends HomeBaseController
                 $amount = 0.01;
                 $order_id = empty($data['id']) ? 0 : $data['id'];
 
-                import('paymentOld/'.$paymode.'/WorkPlugin',EXTEND_PATH);
+                import('payment/'.$paymode.'/WorkPlugin',EXTEND_PATH);
                 $work = new \WorkPlugin($order_sn,$amount,$order_id,$action);
 
                 $result = $work->work(true,$payModel->getJumpErrByAction($action));
@@ -136,7 +136,7 @@ class PayController extends HomeBaseController
         // 实例化
         $payModel = new PayModel();
         $paymode = $payModel->getPayment('alipay');
-        import('paymentOld/'.$paymode.'/WorkPlugin',EXTEND_PATH);
+        import('payment/'.$paymode.'/WorkPlugin',EXTEND_PATH);
         $work = new \WorkPlugin();
 
         // 获取数据
@@ -211,11 +211,13 @@ class PayController extends HomeBaseController
         $this->error($msg,$jumperr);
     }
 
-    /*
-    * 微信扫码支付
+    /** 微信
+    * JS在线支付
+    * 扫码支付
     * 订单轮询
     * 微信回调 二次查单
     */
+    // 完成支付后的处理
     public function wxpayBack($value='')
     {
         // 前置处理
@@ -227,7 +229,7 @@ class PayController extends HomeBaseController
         // 实例化
         $payModel = new PayModel();
         $paymode = $payModel->getPayment('wxpay');
-        import('paymentOld/'.$paymode.'/WorkPlugin',EXTEND_PATH);
+        import('payment/'.$paymode.'/WorkPlugin',EXTEND_PATH);
         $work = new \WorkPlugin();
 
         $orz = $_GET;
@@ -264,18 +266,49 @@ class PayController extends HomeBaseController
         }
         $this->error($msg,$jumperr);
     }
-    // 扫码
+    // 生成二维码 乱码？
+    public function createQRcode()
+    {
+        import('payment/wxpaynative/WorkPlugin',EXTEND_PATH);
+        $work = new \WorkPlugin();
+
+        /*
+        * 被框架给自动转化了
+        */
+        // $url = $this->request->param('data');
+        // $url = urldecode($url);
+        // $url = cmf_str_decode($url);
+
+        /*
+        * 获取原始数据
+        * cmf_str_decode() 解密
+        * weixin://wxpay/bizpayurl?pr=cTQpvMv
+        * weixin:/wxpay/bizpayurl?pr=cTQpvMv
+        */
+        // $_GET 无效
+        // $s = $_REQUEST['s'];
+        // $s = strstr($s,'data/');
+        // $s = str_replace('data/', '', $s);
+        // $s = cmf_str_decode($s);
+        // $url = $s;
+        // dump($s);die;
+
+        // $url = urlencode($url);
+        // $work->QRcode();
+    }
+    // 扫码轮询
     public function ajaxWxpay()
     {
-        $data = $this->request->param();
+        /*$data = $this->request->param();
         // 实例化
         $payModel = new PayModel();
         $paymode = $payModel->getPayment('wxpay');
-        import('paymentOld/'.$paymode.'/WorkPlugin',EXTEND_PATH);
+        import('payment/'.$paymode.'/WorkPlugin',EXTEND_PATH);
         $work = new \WorkPlugin($order_sn,$amount,$order_id,$action);
+        // 订单状态
+        $work->orderStatus();*/
 
-        $work->orderStatus();
-
+        echo "ok";exit;
     }
 
     // 更多……  保留代码
