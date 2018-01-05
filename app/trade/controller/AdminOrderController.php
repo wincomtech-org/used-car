@@ -83,9 +83,14 @@ class AdminOrderController extends AdminBaseController
     {
         $id = $this->request->param('id', 0, 'intval');
         $post = model('TradeOrder')->getPost($id);
+        // 订单状态
+        $order_status = model('TradeOrder')->getOrderStatus($post['status']);
+        // 预约资料
+        $seecar = '';
 
-        $this->assign('order_status', model('TradeOrder')->getOrderStatus($post['status']));
+        $this->assign('order_status', $order_status);
         $this->assign('post', $post);
+        $this->assign('seecar', $seecar);
         return $this->fetch();
     }
     public function editPost()

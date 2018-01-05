@@ -2,13 +2,13 @@
 // namespace paymentOld\wxpayjs;
 
 use paymentOld\wxpayjs\lib\JsApiPay;
-use paymentOld\common\wxpay\lib\WxPayApi;
-use paymentOld\common\wxpay\lib\WxPayException;
-use paymentOld\common\wxpay\lib\WxPayConfig;
-// use paymentOld\common\wxpay\lib\WxPayData;//WxPayData不是类，只是文件名
-use paymentOld\common\wxpay\lib\WxPayUnifiedOrder;
+use payment\common\wxpay\custom\lib\WxPayApi;
+use payment\common\wxpay\custom\lib\WxPayException;
+use payment\common\wxpay\custom\lib\WxPayConfig;
+use payment\common\wxpay\custom\lib\WxPayData;
+use payment\common\wxpay\custom\lib\WxPayUnifiedOrder;
 
-// import('paymentOld/common/wxpay/coreFunc',EXTEND_PATH);
+// import('payment/common/wxpay/custom/coreFunc',EXTEND_PATH);
 
 /**
 * 微信支付接口
@@ -34,7 +34,7 @@ class WorkPlugin
         $this->return_url = url('funds/Pay/wxpayBack','',false,$this->host);
 
         // TP写法 
-        import('paymentOld/common/wxpay/coreFunc',EXTEND_PATH);
+        import('payment/common/wxpay/custom/coreFunc',EXTEND_PATH);
     }
 
     /**

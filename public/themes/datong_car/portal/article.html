@@ -9,13 +9,8 @@
     <include file="public@function"/>
     <include file="public@head"/>
     <style>
-        #article_content img {
-            height: auto !important;
-            max-width: 100%;
-        }
-        #article_content {
-            word-wrap: break-word;
-        }
+        #article_content img{height:auto!important;max-width:100%;}
+        #article_content{word-wrap:break-word;}
     </style>
     <hook name="before_head_end"/>
 </head>
@@ -48,19 +43,19 @@
                     <!-- 右侧列表 -->
                     <div class="hot_news_right">
                         <foreach name="rightList" item="cate">
-                            <div class="hot_news_list">
-                                <p class="hot_news_tit">{$cate.name}</p>
-                                <notempty name="cate.list">
-                                    <ul>
-                                        <foreach name="cate.list" item="vo" key="k">
-                                            <li class="news_txt_item {$k==0?='active'}">
-                                                <b class="icon"></b>
-                                                <p><a href="">{$vo.post_title}</a></p>
-                                            </li>
-                                        </foreach>
-                                    </ul>
-                                </notempty>
-                            </div>
+                        <div class="hot_news_list">
+                            <p class="hot_news_tit">{$cate.name}</p>
+                            <notempty name="cate.list">
+                            <ul>
+                                <foreach name="cate.list" item="vo" key="k">
+                                <li class="news_txt_item {$k==0?='active'}">
+                                    <b class="icon"></b>
+                                    <p><a href="{:cmf_url('portal/Article/index',['id'=>$vo.id,'cid'=>$cate.id])}">{$vo.post_title}</a></p>
+                                </li>
+                                </foreach>
+                            </ul>
+                            </notempty>
+                        </div>
                         </foreach>
                     </div>
                 </div>

@@ -47,7 +47,7 @@
                     </td>
                     <td><b>{$vo.id}</b></td>
                     <php>$objurl = config('news_adminurl');</php>
-                    <td><a href="{//:cmf_url($objurl[$data.adminurl])}">{$vo.title}</a></td>
+                    <td><a href="{//:cmf_url($objurl[$data.adminurl])}#">{$vo.title}</a></td>
 
                     <td><a href="{:url('user/AdminIndex/index',['uid'=>$vo.user_id])}">【{$vo.user_id}】</a></td>
 

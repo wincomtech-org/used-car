@@ -1,5 +1,5 @@
 <li class="see_car_items">
-    <span class="icon">支付订金</span>
+    <span class="icon">支付入口</span>
     <div class="item_con">
         <div class="payment_tit">
             <ul class="payment_way">
@@ -63,7 +63,7 @@
                                                 </form>
                                             </div>
                                         </div>
-                                        <div class="right"></div>
+                                        <div class="right"><!-- 冯月，这是以前的右侧 --></div>
                                         <div class="clear"></div>
                                     </div>
                                 </li>
@@ -73,8 +73,9 @@
                                         <div class="weixin_con">
                                             <img src="__TMPL__/public/assets/images/example/weixin3.png" alt="">
                                             <div class="weixin_bottom">
+                                                <php>$wxpay_show='';</php>
                                                 <empty name="wxpay_show">
-                                                    <div class="lf">暂未开放……</div>
+                                                    <div class="lf">{$wxpay_show}暂未开放……</div>
                                                 <else/>
                                                     <switch name="wxpay_show">
                                                     <case value="js">
@@ -92,7 +93,10 @@
                                                             <empty name="qrcode">
                                                                 <img src="__TMPL__/public/assets/images/example/weixin.png" alt="">
                                                             <else/>
-                                                                <img src="{$qrcode}" alt="微信扫码支付">
+                                                                <img alt="模式二扫码支付" src="http://paysdk.weixin.qq.com/example/qrcode.php?data={:urlencode($qrcode)}" style="width:150px;height:150px;"/>
+                                                                <!-- TP5不支持普通模式 -->
+                                                                <!-- <img alt="模式二扫码支付" src="{//:url('funds/Pay/createQRcode',['data'=>urlencode($qrcode)])}" style="width:150px;height:150px;"/> -->
+                                                                <!-- <img alt="模式二扫码支付" src="{//:url('funds/Pay/createQRcode','data='.cmf_str_encode($qrcode))}" style="width:150px;height:150px;"/> -->
                                                             </empty>
                                                         </div>
                                                         <!-- 温馨提示图 -->
@@ -174,33 +178,22 @@ $(function(){
 })
 
 // 扫码支付 轮询
-$(function(){
+/*$(function(){
     function checkWxpay() {
-        alert('123')
-        // $.ajax('{:url("funds/Pay/ajaxWxpay")}', {}, function(back){
-        //     alert(back)
-        //     if (back==1) { clearInterval(int); }
-        // })
+        $.post('{:url("funds/Pay/ajaxWxpay")}', {action:'{//$action}',order_sn:'{//$order_sn}'}, function(data) {
+            if (data) {
+                // clearInterval(pid);
+                console.log(data);
+                // $('.ewm_l').html('<p>已支付，请关闭窗口</p>');
+            }
+            //  else {
+            //     // console.log('no');
+            // }
+        });
     }
-    // var int = self.setInterval("checkWxpay()",1000);
-})
-
-// $(function(){
-//     function checkpay() {
-//         $.post('{//:url(funds/Pay/ajaxWxpay)}', {action:'{//$action}',order_sn:'{//$order_sn}'}, function(data) {
-//             if (data) {
-//                 clearInterval(pid);
-//                 // console.log('ok'+data);
-//                 $('.ewm_l').html('<p>已支付，请关闭窗口</p>');
-//             }
-//             //  else {
-//             //     // console.log('no');
-//             // }
-//         });
-//     }
-//     var pid = setInterval(checkpay,6000);
-//     // var pid = window.setInterval("checkpay()",2000);
-//     // window.clearInterval(pid);
-// })
+    var pid = setInterval(checkWxpay,1000);
+    // var pid = window.setInterval("checkWxpay()",3000);
+    // window.clearInterval(pid);
+})*/
 
 </script>

@@ -316,35 +316,9 @@ $('.analogy').delegate('.analogy_tit', 'click', function(e) {
 
 // 个人中心在线充值
 // 支付方式切换
-window.onload = function() {
-	var $pay_li = $('.pay_tab_list_item');
-	var $pay_con = $('.pay_tab_con_list_item')
+$(function(){
 
-	$('.pay_tab_list_item').on('click', function() {
-		var $this = $(this);
-		var $index = $this.index();
-		var $length = $(this).parent().children().length - 1;
-		console.log($length)
-		$pay_li.siblings('.pay_tab_list_item').hide();
-		$pay_li.show();
-		$this.addClass('select').siblings().removeClass('select')
-		$pay_con.css('display', 'none');
-		$pay_con.eq($index).css('display', 'block');
-
-		if($(this).hasClass('other_pay')){
-			var price = $(this).find('.icon').not(".other").text();
-			$(this).parent().siblings('.payment_amount ').find('input').val(toDecimal2(price));
-			$(this).parent().siblings('.custom_amount ').find('input').val( toDecimal2(0));
-			$(this).parent().siblings('.custom_amount ').find('input').attr("disabled",true);
-			if ($index == $length) {
-				$(this).parent().siblings('.custom_amount ').find('input').attr("disabled",false);
-				$(this).parent().siblings('.payment_amount ').find('input').val(toDecimal2(0));
-				$(this).parent().siblings('.custom_amount ').show();
-			}
-		}
-
-	})
-}
+});
 
 // 	$('.custom_amount input').change(function() {
 // 		var changeVal = $(this).val();
@@ -409,9 +383,9 @@ $('.yuyue_guang').hover(function() {
 })
 
 if (screen.width > 768) {
-	// alert(123)
 	$('.yuyue_guang:last-child a').click(function() {
-		$(this).html('400-2263-6547')
+		$(this).hide();
+		$('#teltouch').show();
 	})
 }
 

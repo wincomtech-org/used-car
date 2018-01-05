@@ -1,16 +1,15 @@
 <?php
 // namespace paymentOld\wxpaynative;
 
-// use paymentOld\wxpaynative\lib\coreFunc;//不是类
-use paymentOld\wxpaynative\lib\NativePay;
-use paymentOld\common\wxpay\lib\WxPayApi;
-use paymentOld\common\wxpay\lib\WxPayException;
-// use paymentOld\common\wxpay\lib\WxPayConfig;//已改
-// use paymentOld\common\wxpay\lib\WxPayData;//WxPayData不是类，只是文件名
-use paymentOld\common\wxpay\lib\WxPayUnifiedOrder;
+// use payment\common\wxpay\custom\coreFunc;//不是类
+use paymentOld\wxpaynative\NativePay;
+use payment\common\wxpay\custom\lib\WxPayApi;
+use payment\common\wxpay\custom\lib\WxPayException;
+use payment\common\wxpay\custom\lib\WxPayConfig;//已改
+use payment\common\wxpay\custom\lib\WxPayData;//用不上也要用
+use payment\common\wxpay\custom\lib\WxPayUnifiedOrder;
 
-// import('paymentOld/common/wxpay/coreFunc',EXTEND_PATH);
-import('paymentOld/wxpaynative/lib/WxPayData',EXTEND_PATH);
+// import('payment/common/wxpay/custom/coreFunc',EXTEND_PATH);
 
 /**
 * 微信支付接口
@@ -37,7 +36,8 @@ class WorkPlugin
         $this->return_url = url('funds/Pay/wxpayBack','',false,$this->host);
 
         // TP写法 
-        import('paymentOld/common/wxpay/coreFunc',EXTEND_PATH);
+        import('payment/common/wxpay/custom/coreFunc',EXTEND_PATH);
+        // new WxPayData();//死变态的东西
     }
 
     /**
@@ -54,7 +54,7 @@ class WorkPlugin
 
     // 模式一 回调
     public function workPreUrl() {
-        $notify = new NativePay();
+        $notify = new NativePay($this->p_set());
         $pay_url = $notify->GetPrePayUrl($this->order_id);
         return $pay_url;
     }
@@ -63,7 +63,7 @@ class WorkPlugin
     public function workUrl()
     {
         $input  = $this->parameter();
-        $notify = new NativePay();
+        $notify = new NativePay($this->p_set());
         $result = $notify->GetPayUrl($input);
         // dump($result);die;
         $pay_url   = $result["code_url"];
@@ -79,7 +79,7 @@ class WorkPlugin
         if (empty($pay_url)) {
             QRcodeByUrl($pay_url);
         } else {
-            return '<img alt="模式二扫码支付" src="/index.php?m=Home&c=Index&a=qr_code&data='.urlencode($pay_url).'" style="width:110px;height:110px;"/>';  
+            return '<img alt="扫码支付模式二" src="'.urlencode($pay_url).'" style="width:110px;height:110px;"/>';  
         }
     }
 
@@ -220,7 +220,8 @@ class WorkPlugin
         // $set = $this->p_set();
         $siteInfo = cmf_get_option('site_info');
 
-        $input = new WxPayUnifiedOrder();
+        new WxPayData();
+        $input = new WxPayUnifiedOrder($this->p_set());
         // 商品描述。编码问题，不能为中文
         $input->SetBody('OrderSn：'. $this->order_sn .' ('. $siteInfo['site_name'] .')');
 

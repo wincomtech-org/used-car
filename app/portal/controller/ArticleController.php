@@ -20,17 +20,17 @@ class ArticleController extends HomeBaseController
 {
     public function index()
     {
+        // 获取值
+        $articleId  = $this->request->param('id', 0, 'intval');
+        $cateId = $this->request->param('cid', 0, 'intval');
 
         $portalCategoryModel = new PortalCategoryModel();
         $postService         = new PostService();
 
-        $articleId  = $this->request->param('id', 0, 'intval');
-        $cateId = $this->request->param('cid', 0, 'intval');
         $article    = $postService->publishedArticle($articleId, $cateId);
         if (empty($articleId)) {
             abort(404, '文章不存在!');
         }
-
 
         // 关于我们左侧菜单
         if (!empty($cateId)) {
@@ -39,25 +39,13 @@ class ArticleController extends HomeBaseController
             $this->assign('id', $articleId);
             $this->assign('cid', $cateId);
         }
-
-        // 右侧同级的文章
-        $parentId = Db::name('portal_category')->where('id',$cateId)->value('parent_id');
-        // $peerIds = Db::name('portal_category')->where('parent_id',$parentId)->column('id');
-        $peers = Db::name('portal_category')->field('id,name')->where('parent_id',$parentId)->select();
-        $rightList = [];
-        foreach ($peers as $vo) {
-            $vo['list'] = $postService->fromCateList($vo['id'],3);;
-            $rightList[] = $vo;
-        }
-
-        // 面包屑
-        $crumbs = $this->getCrumbs('portal_category',$cateId,$article['post_title']);
-
+        // 右侧同级的分类文章
+        $rightList = $postService->vis_a_vis($cateId);
         // 上下文
         $prevArticle = $postService->publishedPrevArticle($articleId, $cateId);
         $nextArticle = $postService->publishedNextArticle($articleId, $cateId);
-
-
+        // 面包屑
+        $crumbs = $this->getCrumbs($cateId,$article['post_title']);
 
         $tplName = 'article';
         if (empty($cateId)) {

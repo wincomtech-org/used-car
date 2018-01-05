@@ -220,19 +220,19 @@ class HomeBaseController extends BaseController
      * @param string $tpl 模板
      * @return string
     */
-    public function getCrumbs($table='', $pid=0, $title='', $data=[], $tpl='')
+    public function getCrumbs($pid=0,$title='',$table='portal_category', $data=[], $tpl='')
     {
         if (empty($tpl)) {
             $tpl = '<ul class="brash"><li>当前位置：</li>';
             if (!empty($table) && !empty($pid)) {
-                $tpl .= $this->parInfo($table, $pid);
+                $tpl .= $this->parInfo($table, $pid, $title);
             } elseif (!empty($data)) {
                 $count = count($data)-1;
                 foreach ($data as $k => $v) {
                     $tpl .= '<li class="'. ($k==$count?'active':'') .'"><a href="'. $v['url'] .'">'. $v['name'] .'</a></li>';
                 }
             }
-            if (isset($title)) {
+            if (!empty($title)) {
                 $tpl .= '<li class="active"><a href="#">'. $title .'</a></li>';
             }
             $tpl .= '</ul>';
@@ -242,22 +242,30 @@ class HomeBaseController extends BaseController
 
         return $tpl;
     }
-    public function parInfo($table='', $pid=0)
+    public function parInfo($table='', $pid=0, $title='', $recurId=0)
     {
-        // $this->request->controller()
-        // $this->request->action()
         $par = Db::name($table)->field('parent_id,name')->where('id',$pid)->find();
-        $url = cmf_url($this->request->module().'/List/index', ['id'=>$pid]);
-        $tpl = '<li><a href="'. $url .'">'. $par['name'] .'</a></li>';
-        if ($par['parent_id']>0) {
-            $tpl = $this->parInfo($table,$par['parent_id']) . $tpl;
+        $url = cmf_url('List/index',['id'=>$pid]);
+        if (!empty($par['name'])) {
+             $tpl = '<li class="'.((empty($title) && $recurId==0)?'active':'').'"><a href="'. $url .'">'. $par['name'] .'</a></li>';
         }
-
+        // $tpl = $pid.'('.$par['parent_id'].'-'.$recurId.');';
+        $recurId++;
+        if ($par['parent_id']>0) {
+            $tpl = $this->parInfo($table,$par['parent_id'], $title, $recurId) . $tpl;
+        }
         return $tpl;
     }
 
 
-    // 支付模板展示 微信、支付宝
+    /*
+    * 支付模板展示 微信、支付宝
+    * 初始化： import('paymentOld/wxpaynative/WorkPlugin',EXTEND_PATH);
+    * url加密： cmf_str_encode($url)
+    * urlencode('weixin://wxpay/bizpayurl?pr=cTQpvMv')
+    * url('funds/Pay/createQRcode',['data'=>urlencode($qrcode)])
+    * 直接用官网： http://paysdk.weixin.qq.com/example/qrcode.php?data={:urlencode($qrcode)}
+    */
     public function showPay($data='')
     {
         $alipay_show = 'pc';
@@ -272,7 +280,7 @@ class HomeBaseController extends BaseController
 
         // 微信的扫码支付
         if ($wxpay_show=='native') {
-            import('paymentOld/wxpaynative/WorkPlugin',EXTEND_PATH);
+            import('payment/wxpaynative/WorkPlugin',EXTEND_PATH);
             $work = new \WorkPlugin($data['order_sn'],$data['coin'],$data['id'],$data['action']);
             $qrcode = $work->work();
             $this->assign('qrcode',$qrcode);

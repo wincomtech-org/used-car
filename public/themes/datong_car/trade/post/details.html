@@ -18,8 +18,8 @@
         <div class="main">
             <ul class="brash">
                 <li>当前位置：</li>
-                <li><a href="{:url('Index/index')}">车辆买卖</a></li>
-                <!-- <li><a href="">二手车</a></li> -->
+                <li><a href="{:url('Index/index')}">车商城</a></li>
+                <li><a href="{:url('trade/Index/platform',['plat'=>$page.platform])}">{$page.platform==1?'新车':'二手车'}</a></li>
                 <li class="active"><a href="#">{$page.name}</a></li>
             </ul>
             <div class="car_message_tit_con">
@@ -114,7 +114,12 @@
                             </eq>
                         </div>
                         <div class="yuyue_guang">
-                            <a class="btn iphone" href="tel:13205513303"><span></span>电话联系</a>
+                            <if condition="cmf_is_mobile()===true">
+                                <a class="btn iphone" href="tel:{$page.shop_tel}">点我联系</a>
+                            <else/>
+                                <a class="btn iphone">电话联系</a>
+                                <a id="teltouch" class="btn iphone" style="display:none;">{$page.shop_tel}</a>
+                            </if>
                         </div>
                     </div>
                 </div>

@@ -236,13 +236,13 @@ class PostController extends HomeBaseController
         }
 
         // 判断是否为手机端、微信端
-        // $map = [
-        //     'action'    => 'insurance',
-        //     'order_sn'  => $findOrder['order_sn'],
-        //     'coin'      => $findOrder['amount'],
-        //     'id'        => $orderId,
-        // ];
-        // $this->showPay($map);
+        $map = [
+            'action'    => 'insurance',
+            'order_sn'  => $findOrder['order_sn'],
+            'coin'      => $findOrder['amount'],
+            'id'        => $orderId,
+        ];
+        $this->showPay($map);
 
         $this->assign($findOrder);
         $this->assign('orderId',$orderId);

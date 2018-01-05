@@ -1,16 +1,9 @@
 <?php
-// +----------------------------------------------------------------------
-// | ThinkCMF [ WE CAN DO IT MORE SIMPLE ]
-// +----------------------------------------------------------------------
-// | Copyright (c) 2013-2017 http://www.thinkcmf.com All rights reserved.
-// +----------------------------------------------------------------------
-// | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
-// +----------------------------------------------------------------------
-// | Author: 老猫 <thinkcmf@126.com>
-// +----------------------------------------------------------------------
 namespace app\portal\service;
 
 use app\portal\model\PortalPostModel;
+use app\portal\model\PortalCategoryModel;
+// use app\portal\service\ApiService;
 
 class PostService
 {
@@ -24,6 +17,7 @@ class PostService
         return $this->adminPostList($filter, true);
     }
 
+    // 获取文章列表
     public function adminPostList($filter, $isPage = false)
     {
         $where = [
@@ -79,6 +73,7 @@ class PostService
 
     }
 
+    // 获取文章
     public function publishedArticle($postId, $categoryId = 0)
     {
         $portalPostModel = new PortalPostModel();
@@ -219,6 +214,10 @@ class PostService
         return $page;
     }
 
+
+
+/*自定义的*/
+    // 指定分类下的文章
     public function fromCateList($categoryId=0, $limit=20)
     {
         $portalPostModel = new PortalPostModel();
@@ -241,6 +240,24 @@ class PostService
             ->select()->toArray();
 
         return $list;
+    }
+
+    // 获取同级的分类文章
+    public function vis_a_vis($cateId='',$limit=5)
+    {
+        if (empty($cateId)) return [];
+
+        $portalCategoryModel = new PortalCategoryModel();
+        $pid = $portalCategoryModel->where('id',$cateId)->value('parent_id');
+        // $peerIds = $portalCategoryModel->where('parent_id',$pid)->column('id');
+        $peers = $portalCategoryModel->field('id,name')->where('parent_id',$pid)->select();
+        $visList = [];
+        foreach ($peers as $vo) {
+            $vo['list'] = $this->fromCateList($vo['id'], $limit);;
+            $visList[] = $vo;
+        }
+
+        return $visList;
     }
 
     public function getPageList($type='')
