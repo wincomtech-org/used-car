@@ -37,6 +37,10 @@ class IndexController extends HomeBaseController
     // 服务 platform=1自营的独立页面
     public function step1()
     {
+        if (!cmf_is_user_login()) {
+            $this->error('请登录',url('user/Login/index'));
+        }
+
         $servId = $this->request->param('id',0,'intval');
         if (empty($servId)) {
             $this->error('数据非法！');
