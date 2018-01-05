@@ -33,11 +33,7 @@ mark{background:#FF0;color:#000}
 section.no_color{background-color:transparent;}
 
 /*placeholder*/
-<<<<<<< HEAD
-.inp {color: #666;}
-=======
 .inp{color:#666;}
->>>>>>> master
 
 /**主题内容公共尺寸**/
 header,section,nav,footer{min-width:1200px;}
@@ -49,10 +45,6 @@ img{transform:scale(1) translateZ(0);}
 .back_to_top .icon{display:block;width:40px;height:40px;background:url(../images/example/login_icon.png) no-repeat 3px -126px;margin:10px auto;}
 .back_to_top .txt{text-align:center;display:block;font-size:16px;color:#666;}
 
-<<<<<<< HEAD
-
-=======
->>>>>>> master
 /**头部公共样式**/
 .header_top{border-bottom:1px solid #eee;}
 .top_article{font-size:16px;padding:10px 0;}
