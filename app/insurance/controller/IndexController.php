@@ -19,6 +19,9 @@ class IndexController extends HomeBaseController
     // 填资料，选意向公司
     public function index()
     {
+        if (!cmf_is_user_login()) {
+            $this->error('请登录',url('user/Login/index'));
+        }
         // 保险公司
         $where = [
             'delete_time'   => 0,
