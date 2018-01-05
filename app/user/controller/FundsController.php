@@ -78,18 +78,28 @@ class FundsController extends UserBaseController
         return $this->fetch();
     }
 
-    // 充值 无pay.html
-    public function recharge()
-    {
-
+    /**
+    * 充值 无pay.html
         // 判断是否为手机端、微信端
         $map = [
             'action'  => 'recharge',
-            'order_sn'  => $data['order_sn'],
-            'coin'  => $data['amount'],
+            'order_sn'  => cmf_get_order_sn('recharge_'),
+            'coin'  => $amount,
             'id'  => $data['id'],
         ];
         $this->showPay($map);
+    */
+    public function recharge()
+    {
+        // echo urlencode('weixin://wxpay/bizpayurl?pr=CtSJGVk');die;
+        $amount = $this->request->param('amount');
+        if (!empty($amount)) {
+            $id = Db::name('funds_apply')->max('id');
+            import('payment/wxpaynative/WorkPlugin',EXTEND_PATH);
+            $work = new \WorkPlugin(cmf_get_order_sn('recharge_'), $amount, $id+1, 'recharge');
+            $qrcode = $work->work();
+            echo $qrcode;exit;
+        }
 
         return $this->fetch();
     }
