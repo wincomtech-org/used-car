@@ -34,7 +34,7 @@
                         <div class="form-group">
                             <label>总则</label>
                             <div>
-                                <script id="content" style="height:300px;" type="text/plain" name="post[content]">{$post.content}</script>
+                                <script id="content" style="height:300px;" type="text/plain" name="post[content]">{$post.content|default=''}</script>
                             </div>
                         </div>
                     </div>

@@ -91,13 +91,13 @@
                         <th>摘要</th>
                         <td>
                             <textarea class="form-control" name="post[description]" style="height: 50px;"
-                                      placeholder="请填写摘要">{$post.description}</textarea>
+                                      placeholder="请填写摘要">{$post.description|default=''}</textarea>
                         </td>
                     </tr>
                     <tr>
                         <th>内容</th>
                         <td>
-                            <script type="text/plain" id="content" name="post[content]">{$post.content}</script>
+                            <script type="text/plain" id="content" name="post[content]">{$post.content|default=''}</script>
                         </td>
                     </tr>
                     <tr>

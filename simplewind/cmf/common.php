@@ -320,13 +320,13 @@ function lothar_verify($uid=null, $code='certification', $data=false)
         $where['auth_code'] = $code;
     }
     $obj = Db::name('verify');
-    if ($data===false) {
-        $result = $obj->where($where)->value('auth_status');
-    } elseif ($data===true) {
+    if ($data===true) {
         $result = $obj->where($where)->find();
         if (!empty($result)) {
             $result['more'] = json_decode($result['more'],true);
         }
+    } elseif ($data===false) {
+        $result = $obj->where($where)->value('auth_status');
     } elseif ($data=='count') {
         $result = $obj->where($where)->count();
     } elseif ($data=='more') {

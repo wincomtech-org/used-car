@@ -35,7 +35,7 @@ class AdminSeriesController extends AdminBaseController
         $param = $this->request->param();
         $brandId = $this->request->param('brandId',0,'intval');
 
-        $list = model('UsualSeries')->getLists($param,'',25);
+        $list = model('UsualSeries')->getLists($param,'',30);
         $categoryTree = model('UsualBrand')->getBrands($brandId);
 
 

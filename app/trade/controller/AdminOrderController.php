@@ -2,7 +2,7 @@
 namespace app\trade\controller;
 
 use cmf\controller\AdminBaseController;
-// use app\usual\model\TradeOrderModel;
+use app\trade\model\TradeOrderModel;
 use think\Db;
 // use think\Config;
 
@@ -83,14 +83,15 @@ class AdminOrderController extends AdminBaseController
     {
         $id = $this->request->param('id', 0, 'intval');
         $post = model('TradeOrder')->getPost($id);
+
         // 订单状态
         $order_status = model('TradeOrder')->getOrderStatus($post['status']);
         // 预约资料
-        $seecar = '';
+        $verify = lothar_verify($post['buyer_uid'],'certification','more');
 
         $this->assign('order_status', $order_status);
         $this->assign('post', $post);
-        $this->assign('seecar', $seecar);
+        $this->assign('verify', $verify);
         return $this->fetch();
     }
     public function editPost()
@@ -103,18 +104,24 @@ class AdminOrderController extends AdminBaseController
             if ($result !== true) {
                 $this->error($result);
             }
-            if ($post['status']==1 && empty($post['pay_time'])) {
-                $this->error('支付时间不能为空 <br>或者 支付状态不能为未支付、取消！');
+
+            $orderModel = new TradeOrderModel();
+
+            if (!empty($data['photo'])) {
+                $post['more']['photo'] = $orderModel->dealFiles($data['photo']);
+            }
+            if (!empty($data['file'])) {
+                $post['more']['files'] = $orderModel->dealFiles($data['file']);
             }
 
-            if (!empty($data['photo_names'])) {
-                $post['more']['identity_card'] = model('TradeOrder')->dealFiles(['names'=>$data['photo_names'],'urls'=>$data['photo_urls']]);
-            }
-            if (!empty($data['file_names'])) {
-                $post['more']['files'] = model('TradeOrder')->dealFiles(['names'=>$data['file_names'],'urls'=>$data['file_urls']]);
-            }
+            $orderModel->adminEditArticle($post);
 
-            model('TradeOrder')->adminEditArticle($post);
+            // 预约资料修改？
+            // $verify = $data['verify'];
+            // if (!empty($data['identity_card'])) {
+            //     $verify['more']['identity_card'] = $orderModel->dealFiles($data['identity_card']);
+            // }
+            // model('usual/Verify')->inVerify($verify,$post['buyer_uid']);
 
             $this->success('保存成功!');
         }
