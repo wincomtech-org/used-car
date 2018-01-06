@@ -93,7 +93,7 @@
     </section>
 
     <!-- 保险推荐 -->
-    <section class="Insurance_recommendation">
+    <section class="Insurance_recommendation" style="display:none;">
         <div class="main">
             <h3 class="index_tit">保险推荐 <span class="index_tit_supply"> 大通车服联合四家保险公司为您提供保险服务 </span></h3>
             <div class="Insurance_recommendation_list">
@@ -245,7 +245,7 @@
     <!-- 车辆服务 -->
     <section class="vehicle_services">
         <div class="main">
-            <h3 class="index_tit"> 车辆服务  <span class="index_tit_supply"> 提供车辆年检服务，便捷省心</span></h3>
+            <h3 class="index_tit"> 车辆服务 <span class="index_tit_supply"> 提供车辆年检服务，便捷省心</span></h3>
             <div class="vehicle_services_con">
                 <!-- 左侧轮播图 -->
                 <div class="vehicle_services_img">
@@ -253,7 +253,7 @@
                         <div class="i_imglist">
                             <ul id="J_imgList">
                                 <foreach name="services" item="vo" >
-                                <li><a href="{:cmf_url('service/Index/index',['servId'=>$vo.id])}"><img src="{:cmf_get_image_preview_url($vo.more.thumbnail)}" alt="{$vo.name}" title="{$vo.name}" /></a></li>
+                                <li><a href="{:cmf_url('service/Index/step1',['id'=>$vo.id])}"><img src="{:cmf_get_image_preview_url($vo.more.thumbnail)}" alt="{$vo.name}" title="{$vo.name}" /></a></li>
                                 </foreach>
                             </ul>
                         </div><!--切换大图-->
@@ -261,7 +261,7 @@
                             <div class="i_navlist">
                                 <ul id="J_navList">
                                     <foreach name="services" item="vo" >
-                                    <li><a href="{:cmf_url('service/Index/index',['servId'=>$vo.id])}">{$vo.name}</a></li>
+                                    <li><a href="{:cmf_url('service/Index/step1',['id'=>$vo.id])}">{$vo.name}</a></li>
                                     </foreach>
                                     <div class="clear"></div>
                                 </ul>
@@ -277,7 +277,7 @@
                         <foreach name="services" item="vo" key="key">
                         <li class="vehicle_services_txt_item {$key==0?'active':''}">
                             <span class="icon">{$key+1}</span>
-                            <p><a href="{:cmf_url('service/Index/index',['servId'=>$vo.id])}"><b>{$vo.name}</b>{$vo.description}</a></p>
+                            <p><a href="{:cmf_url('service/Index/step1',['id'=>$vo.id])}"><b>{$vo.name}</b>{$vo.description}</a></p>
                         </li>
                         </foreach>
                     </ul>

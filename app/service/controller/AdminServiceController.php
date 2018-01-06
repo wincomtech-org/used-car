@@ -43,7 +43,7 @@ class AdminServiceController extends AdminBaseController
     public function add()
     {
         $categoryTree = model('usual/UsualCategory')->adminCategoryTree(0,0,'service_category');
-        $companyTree = model('usual/UsualCompany')->getCompanys(0,0,0,true);
+        $companyTree = model('usual/UsualCompany')->getCompanys();
 
         $this->assign('category_tree', $categoryTree);
         $this->assign('company_tree', $companyTree);
@@ -87,7 +87,7 @@ class AdminServiceController extends AdminBaseController
         $id = $this->request->param('id', 0, 'intval');
         $post = model('Service')->getPost($id);
         $categoryTree = model('usual/UsualCategory')->adminCategoryTree($post['model_id'],0,'service_category');
-        $companyTree = model('usual/UsualCompany')->getCompanys($post['company_id'],0,0,true);
+        $companyTree = model('usual/UsualCompany')->getCompanys($post['company_id']);
 
         $this->assign('category_tree', $categoryTree);
         $this->assign('company_tree', $companyTree);

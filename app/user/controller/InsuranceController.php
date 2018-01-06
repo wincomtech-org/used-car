@@ -40,6 +40,7 @@ class InsuranceController extends UserBaseController
 
         // 认证资料
         $auerbach = $order['more'];
+        $auerbach['contact'] = empty($auerbach['contact']) ? '' : $auerbach['contact'];
         // 险种
         $coverages = model('insurance/InsuranceCoverage')->getCoverageByOrder($orderId);
         // 意向公司

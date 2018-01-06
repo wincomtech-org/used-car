@@ -137,10 +137,9 @@ class UsualModel extends Model
             $data['identi']['driving_license'] = cmf_asset_relative_url($data['identi']['driving_license']);
         }
 
-        $data['status']         = empty($data['status']) ? 0 : 1;
+        $data['status']         = empty($data['status']) ? 0 : $data['status'];
         $data['is_top']         = empty($data['is_top']) ? 0 : 1;
         $data['is_rec']         = empty($data['is_rec']) ? 0 : 1;
-        $data['sell_status']    = empty($data['sell_status']) ? 0 : 1;
         $data['identi_status']  = empty($data['identi_status']) ? 0 : 1;
         $data['is_baoxian']     = empty($data['is_baoxian']) ? 0 : 1;
         $data['is_yewu']        = empty($data['is_yewu']) ? 0 : 1;

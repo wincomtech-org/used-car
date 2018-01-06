@@ -48,8 +48,8 @@ class AdminInsuranceController extends AdminBaseController
     public function addPost()
     {
         if ($this->request->isPost()) {
-            // $data   = $this->request->param();
-            $data   = $_POST;
+            $data   = $this->request->param();
+            // $data   = $_POST;
             $post   = $data['post'];
             $result = $this->validate($post,'Insurance.add');
             if ($result !== true) {
@@ -86,8 +86,8 @@ class AdminInsuranceController extends AdminBaseController
     public function editPost()
     {
         if ($this->request->isPost()) {
-            // $data   = $this->request->param();
-            $data   = $_POST;
+            $data   = $this->request->param();
+            // $data   = $_POST;
             // dump($data);die;
             $post   = $data['post'];
             $result = $this->validate($post, 'Insurance.edit');
@@ -173,7 +173,7 @@ class AdminInsuranceController extends AdminBaseController
             $this->success("置顶成功！", '');
 
         }
-        if (isset($_POST['ids']) && isset($param["no"])) {
+        if (isset($param['ids']) && isset($param["no"])) {
             $ids = $this->request->param('ids/a');
             model('Insurance')->where(['id' => ['in', $ids]])->update(['is_top' => 0]);
             $this->success("取消置顶成功！", '');

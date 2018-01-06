@@ -13,9 +13,9 @@
 .flickerplate .arrow-navigation .arrow{display:block;height:100%;width:90%;-webkit-transition:all 0.2s ease-out;-moz-transition:all 0.2s ease-out;-o-transition:all 0.2s ease-out;-ms-transition:all 0.2s ease-out;transition:all 0.2s ease-out}
 .flickerplate .arrow-navigation:hover,.flickerplate .arrow-navigation .arrow:hover{cursor:pointer}
 .flickerplate .arrow-navigation.left{left:0%}
-.flickerplate .arrow-navigation.left .arrow{opacity:0;margin:0px 0px 0px 50%;background-image:url("../img/flickerplate/arrow-left-light.png");background-repeat:no-repeat;background-position:left}
+.flickerplate .arrow-navigation.left .arrow{opacity:0;margin:0px 0px 0px 50%;background-repeat:no-repeat;background-position:left}
 .flickerplate .arrow-navigation.right{right:0%}
-.flickerplate .arrow-navigation.right .arrow{opacity:0;margin:0px 0px 0px -50%;background-image:url("../img/flickerplate/arrow-right-light.png");background-repeat:no-repeat;background-position:right}
+.flickerplate .arrow-navigation.right .arrow{opacity:0;margin:0px 0px 0px -50%;background-repeat:no-repeat;background-position:right}
 .flickerplate .arrow-navigation.left.hover .arrow{opacity:1;margin:0px 0px 0px 20%}
 .flickerplate .arrow-navigation.right.hover .arrow{opacity:1;margin:0px 0px 0px -20%}
 .flickerplate .dot-navigation{position:absolute;bottom:0px;width:100%;height:50px;line-height:50px;background-color:rgba(0,0,0,.3);text-align:right;z-index:1;}
@@ -26,8 +26,8 @@
 .flickerplate .dot-navigation .dot.active{background-color:rgba(255,0,0,0.6)}
 .flickerplate .dot-navigation.left,.flickerplate .dot-navigation.left ul{text-align:left}
 .flickerplate .dot-navigation.right,.flickerplate .dot-navigation.right ul{text-align:right}
-.flickerplate.flicker-theme-dark .arrow-navigation.left .arrow{background-image:url("../img/flickerplate/arrow-left-dark.png")}
-.flickerplate.flicker-theme-dark .arrow-navigation.right .arrow{background-image:url("../img/flickerplate/arrow-right-dark.png")}
+/* .flickerplate.flicker-theme-dark .arrow-navigation.left .arrow{background-image:url("../img/flickerplate/arrow-left-dark.png")} */
+/* .flickerplate.flicker-theme-dark .arrow-navigation.right .arrow{background-image:url("../img/flickerplate/arrow-right-dark.png")} */
 .flickerplate.flicker-theme-dark .dot-navigation .dot{background-color:rgba(0,0,0,0.12)}
 .flickerplate.flicker-theme-dark .dot-navigation .dot:hover{background-color:rgba(0,0,0,0.6)}
 .flickerplate.flicker-theme-dark .dot-navigation .dot.active{background-color:#000}
