@@ -6,8 +6,10 @@ use app\funds\model\FundsApplyModel;
 use think\Db;
 
 /**
-* 后台 
-* 财务管理 充值管理
+* 后台,财务管理。 懒得再弄文件，就放一起了
+* 充值管理
+* 积分管理
+* 优惠券管理
 */
 class AdminRechargeController extends AdminBaseController
 {
@@ -27,7 +29,7 @@ class AdminRechargeController extends AdminBaseController
         return $this->fetch();
     }
 
-    // 给用户加钱
+    // 给用户加金币
     public function add()
     {
         return $this->fetch();
@@ -35,37 +37,30 @@ class AdminRechargeController extends AdminBaseController
     public function addPost()
     {
         $data = $this->request->param();
-
         // 验证
         $result = $this->validate($data,'Funds.coin');
         if ($result===false) {
             $this->error($result);
         }
         // 获取uid
-        $uid = intval($data['uname']);
-        if (empty($uid)) {
-            $uid = Db::name('user')->whereOr(['user_nickname|user_login|user_email|mobile'=>$data['uname']])->value('id');
-            $uid = intval($uid);
-        }
+        $uid = model('usual/Usual')->getUid($data['uname']);
+        if (empty($uid)) $this->error('用户数据丢失');
 
         // 保存数据
-        // $res = model('');
         $transStatus = true;
         Db::startTrans();
         try{
             Db::name('user')->where('id',$uid)->setInc('coin',$data['coin']);
-            $post = [
+            $log = [
                 'user_id' => $uid,
                 'type' => 11,
                 'coin' => $data['coin'],
                 'app' => 'funds',
                 'obj_id' => cmf_get_current_admin_id(),
             ];
-            lothar_put_funds_log($post);
-            // 提交事务
+            lothar_put_funds_log($log);
             Db::commit();
         } catch (\Exception $e) {
-            // 回滚事务
             Db::rollback();
             $transStatus = false;
         }
@@ -73,59 +68,119 @@ class AdminRechargeController extends AdminBaseController
         if ($transStatus===false) {
             $this->error('用户充值失败');
         }
-        $userNew   = Db::name('user')->where('id',$uid)->find();
+        $userNew = Db::name('user')->where('id',$uid)->find();
         cmf_update_current_user($userNew);
         $this->success('用户充值成功',url('AdminFunds/index'));
     }
 
-    // 给用户充点券
-    public function addTicket()
+    // 给用户充积分
+    public function listScore()
+    {
+        $list = Db::name('user_score_log')->paginate();
+        // dump($list);die;
+        $this->assign('list', $list);
+        $this->assign('pager', $list->render());
+        return $this->fetch();
+    }
+    public function addScore()
     {
         return $this->fetch();
     }
-    public function addTicketPost()
+    public function addScorePost()
     {
         $data = $this->request->param();
-
         // 验证
-        $result = $this->validate($data,'Funds.ticket');
+        $result = $this->validate($data,'Funds.score');
         if ($result===false) {
             $this->error($result);
         }
         // 获取uid
-        $uid = intval($data['uname']);
-        if (empty($uid)) {
-            $uid = Db::name('user')->whereOr(['user_nickname|user_login|user_email|mobile'=>$data['uname']])->value('id');
-            $uid = intval($uid);
-        }
+        $uid = model('usual/Usual')->getUid($data['uname']);
+        if (empty($uid)) $this->error('用户数据丢失');
 
         // 保存数据
         $transStatus = true;
         Db::startTrans();
         try{
-            Db::name('user')->where('id',$uid)->setInc('ticket',$data['ticket']);
-            $post = [
+            Db::name('user')->where('id',$uid)->setInc('score',$data['score']);
+            $log = [
                 'user_id' => $uid,
-                'type' => 11,
-                'ticket' => $data['ticket'],
+                'action' => 'admin',
+                'score' => $data['score'],
                 'deal_uid' => cmf_get_current_admin_id(),
                 'create_time' => time(),
             ];
-            Db::name('user_ticket_log')->insert($post);
+            Db::name('user_score_log')->insert($log);
             // lothar_put_funds_log($post);
-            // 提交事务
             Db::commit();
         } catch (\Exception $e) {
-            // 回滚事务
             Db::rollback();
             $transStatus = false;
         }
 
         if ($transStatus===false) {
-            $this->error('用户增加点券失败');
+            $this->error('用户增加积分失败');
         }
-        $this->success('用户增加点券成功',url('AdminFunds/index'));
+        $userNew = Db::name('user')->where('id',$uid)->find();
+        cmf_update_current_user($userNew);
+        $this->success('用户增加积分成功',url('AdminRecharge/listScore'));
     }
+
+    // 发放优惠券
+    public function listCoupon()
+    {
+        $list = Db::name('user_coupons_log')->paginate();
+        $this->assign('list', $list);
+        $this->assign('pager', $list->render());
+        return $this->fetch();
+    }
+    public function addCoupon()
+    {
+        return $this->fetch();
+    }
+    public function addCouponPost()
+    {
+        $data = $this->request->param();
+        // 验证
+        $result = $this->validate($data,'Funds.coupon');
+        if ($result===false) {
+            $this->error($result);
+        }
+        // 获取uid
+        $uid = model('usual/Usual')->getUid($data['uname']);
+        if (empty($uid)) $this->error('用户数据丢失');
+
+        // 保存数据
+        $transStatus = true;
+        Db::startTrans();
+        try{
+            Db::name('user')->where('id',$uid)->inc('coupon');
+            $log = [
+                'user_id'   => $uid,
+                'type'      => 11,
+                'coupon'    => $data['coupon'],
+                'reduce'    => $data['reduce'],
+                'deal_uid'  => cmf_get_current_admin_id(),
+                'status'    => (empty($data['status'])?0:$data['status']),
+                'due_time'  => (empty($data['due_time'])?0:strtotime($data['due_time'])),
+                'create_time' => time(),
+            ];
+            Db::name('user_coupons_log')->insert($log);
+            Db::commit();
+        } catch (\Exception $e) {
+            Db::rollback();
+            $transStatus = false;
+        }
+
+        if ($transStatus===false) {
+            $this->error('添加优惠券失败');
+        }
+        $userNew = Db::name('user')->where('id',$uid)->find();
+        cmf_update_current_user($userNew);
+        $this->success('添加优惠券成功',url('AdminRecharge/listCoupon'));
+    }
+
+
 
     // Excel导出 
     public function orderExcel()

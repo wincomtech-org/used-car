@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50540
 File Encoding         : 65001
 
-Date: 2017-12-29 16:46:48
+Date: 2018-01-08 16:18:14
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -36,7 +36,7 @@ CREATE TABLE `cmf_admin_menu` (
   KEY `status` (`status`),
   KEY `parentid` (`parent_id`),
   KEY `model` (`controller`)
-) ENGINE=InnoDB AUTO_INCREMENT=190 DEFAULT CHARSET=utf8mb4 COMMENT='后台菜单表';
+) ENGINE=InnoDB AUTO_INCREMENT=191 DEFAULT CHARSET=utf8mb4 COMMENT='后台菜单表';
 
 -- ----------------------------
 -- Records of cmf_admin_menu
@@ -133,7 +133,7 @@ INSERT INTO `cmf_admin_menu` VALUES ('89', '84', '2', '0', '10000', 'admin', 'Sl
 INSERT INTO `cmf_admin_menu` VALUES ('90', '84', '2', '0', '10000', 'admin', 'SlideItem', 'ban', '', '幻灯片页面隐藏', '', '幻灯片页面隐藏');
 INSERT INTO `cmf_admin_menu` VALUES ('91', '84', '2', '0', '10000', 'admin', 'SlideItem', 'cancelBan', '', '幻灯片页面显示', '', '幻灯片页面显示');
 INSERT INTO `cmf_admin_menu` VALUES ('92', '84', '2', '0', '10000', 'admin', 'SlideItem', 'listOrder', '', '幻灯片页面排序', '', '幻灯片页面排序');
-INSERT INTO `cmf_admin_menu` VALUES ('93', '6', '1', '1', '100', 'admin', 'Storage', 'index', '', '文件存储', '', '文件存储');
+INSERT INTO `cmf_admin_menu` VALUES ('93', '6', '1', '0', '100', 'admin', 'Storage', 'index', '', '文件存储', '', '文件存储');
 INSERT INTO `cmf_admin_menu` VALUES ('94', '93', '2', '0', '10000', 'admin', 'Storage', 'settingPost', '', '文件存储设置提交', '', '文件存储设置提交');
 INSERT INTO `cmf_admin_menu` VALUES ('95', '6', '1', '1', '105', 'admin', 'Theme', 'index', '', '模板管理', '', '模板管理');
 INSERT INTO `cmf_admin_menu` VALUES ('96', '95', '1', '0', '10000', 'admin', 'Theme', 'install', '', '安装模板', '', '安装模板');
@@ -213,9 +213,9 @@ INSERT INTO `cmf_admin_menu` VALUES ('169', '165', '1', '1', '10', 'usual', 'Adm
 INSERT INTO `cmf_admin_menu` VALUES ('170', '162', '1', '1', '2', 'insurance', 'AdminInsurance', 'index', '', '保险业务', '', '');
 INSERT INTO `cmf_admin_menu` VALUES ('171', '162', '1', '1', '1', 'insurance', 'AdminOrder', 'index', '', '保单管理', '', '');
 INSERT INTO `cmf_admin_menu` VALUES ('172', '163', '1', '1', '10000', 'trade', 'AdminOrder', 'index', '', '订单管理', '', '');
-INSERT INTO `cmf_admin_menu` VALUES ('173', '164', '1', '1', '10000', 'service', 'AdminService', 'index', '', '业务管理', '', '⊙菜鸟验车\r\n⊙预约检车\r\n⊙上牌预约\r\n⊙过户申请\r\n⊙合作寄存点\r\n⊙服务地点');
-INSERT INTO `cmf_admin_menu` VALUES ('174', '164', '1', '1', '10000', 'service', 'AdminCategory', 'index', '', '业务模型', '', '⊙菜鸟验车\r\n⊙预约检车\r\n⊙上牌预约\r\n⊙过户申请\r\n⊙合作寄存点\r\n⊙服务地点');
-INSERT INTO `cmf_admin_menu` VALUES ('175', '163', '1', '1', '10000', 'trade', 'AdminShop', 'index', '', '店铺管理', '', '由用户表里的用户 产生店铺');
+INSERT INTO `cmf_admin_menu` VALUES ('173', '164', '1', '1', '1', 'service', 'AdminService', 'index', '', '业务管理', '', '⊙菜鸟验车\r\n⊙预约检车\r\n⊙上牌预约\r\n⊙过户申请\r\n⊙合作寄存点\r\n⊙服务地点');
+INSERT INTO `cmf_admin_menu` VALUES ('174', '164', '1', '1', '3', 'service', 'AdminCategory', 'index', '', '业务模型', '', '⊙菜鸟验车\r\n⊙预约检车\r\n⊙上牌预约\r\n⊙过户申请\r\n⊙合作寄存点\r\n⊙服务地点');
+INSERT INTO `cmf_admin_menu` VALUES ('175', '163', '1', '0', '10000', 'trade', 'AdminShop', 'index', '', '店铺管理', '', '由用户表里的用户 产生店铺');
 INSERT INTO `cmf_admin_menu` VALUES ('176', '165', '1', '1', '100', 'usual', 'AdminIndex', 'config', '', '二手车配置', '', '');
 INSERT INTO `cmf_admin_menu` VALUES ('177', '165', '1', '1', '3', 'usual', 'AdminSeries', 'index', '', '车系管理', '', '');
 INSERT INTO `cmf_admin_menu` VALUES ('178', '165', '1', '1', '4', 'usual', 'AdminModels', 'index', '', '车型管理', '', '');
@@ -230,6 +230,7 @@ INSERT INTO `cmf_admin_menu` VALUES ('186', '185', '1', '1', '1', 'funds', 'Admi
 INSERT INTO `cmf_admin_menu` VALUES ('187', '185', '1', '1', '3', 'funds', 'AdminRecharge', 'index', '', '充值管理', '', '');
 INSERT INTO `cmf_admin_menu` VALUES ('188', '185', '1', '1', '2', 'funds', 'AdminWithdraw', 'index', '', '提现管理', '', '');
 INSERT INTO `cmf_admin_menu` VALUES ('189', '185', '1', '1', '4', 'funds', 'AdminOpenshop', 'index', '', '开店申请', '', '');
+INSERT INTO `cmf_admin_menu` VALUES ('190', '164', '1', '1', '2', 'usual', 'AdminConsign', 'index', '', '寄存点', '', '');
 
 -- ----------------------------
 -- Table structure for cmf_asset
@@ -434,7 +435,7 @@ CREATE TABLE `cmf_auth_rule` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`) USING BTREE,
   KEY `module` (`app`,`status`,`type`)
-) ENGINE=InnoDB AUTO_INCREMENT=191 DEFAULT CHARSET=utf8mb4 COMMENT='权限规则表';
+) ENGINE=InnoDB AUTO_INCREMENT=192 DEFAULT CHARSET=utf8mb4 COMMENT='权限规则表';
 
 -- ----------------------------
 -- Records of cmf_auth_rule
@@ -629,6 +630,7 @@ INSERT INTO `cmf_auth_rule` VALUES ('187', '1', 'funds', 'admin_url', 'funds/Adm
 INSERT INTO `cmf_auth_rule` VALUES ('188', '1', 'funds', 'admin_url', 'funds/AdminRecharge/index', '', '充值管理', '');
 INSERT INTO `cmf_auth_rule` VALUES ('189', '1', 'funds', 'admin_url', 'funds/AdminWithdraw/index', '', '提现管理', '');
 INSERT INTO `cmf_auth_rule` VALUES ('190', '1', 'funds', 'admin_url', 'funds/AdminOpenshop/index', '', '开店申请', '');
+INSERT INTO `cmf_auth_rule` VALUES ('191', '1', 'usual', 'admin_url', 'usual/AdminConsign/index', '', '寄存点', '');
 
 -- ----------------------------
 -- Table structure for cmf_comment
@@ -4187,7 +4189,6 @@ CREATE TABLE `cmf_hook_plugin` (
 -- ----------------------------
 -- Records of cmf_hook_plugin
 -- ----------------------------
-INSERT INTO `cmf_hook_plugin` VALUES ('2', '10000', '1', 'send_mobile_verification_code', 'MobileCodeDemo');
 
 -- ----------------------------
 -- Table structure for cmf_insurance
@@ -4343,7 +4344,7 @@ CREATE TABLE `cmf_insurance_order` (
 -- ----------------------------
 -- Records of cmf_insurance_order
 -- ----------------------------
-INSERT INTO `cmf_insurance_order` VALUES ('1', '[\"1\",\"5\"]', '[\"1\",\"2\",\"9\"]', '皖A598H2', '0', '0', '0', '3', '0', 'insurance_2017122750984953', '', '1.00', '', '', '', '1514351938', '0', '1516723200', '0', '1540288800', '0', '{\"plateNo\":\"皖A598H2\",\"username\":\"汪某人\",\"contact\":\"13365897412\",\"address\":\"\",\"driving_license\":\"http:\\/\\/tx.car\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/5.jpg\",\"identity_card\":[{\"url\":\"http:\\/\\/tx.car\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/6.jpg\",\"name\":\"\"},{\"url\":\"http:\\/\\/tx.car\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/7.jpg\",\"name\":\"\"}]}', '0', '', '0', '10000');
+INSERT INTO `cmf_insurance_order` VALUES ('1', '[\"1\",\"5\"]', '[\"1\",\"2\",\"9\"]', '皖A598H2', '0', '0', '0', '3', '0', 'insurance_2017122750984953', '', '1.00', '', '', '', '1514351938', '0', '1516723200', '0', '1540288800', '0', '{\"plateNo\":\"皖A598H2\",\"username\":\"汪某人\",\"contact\":\"13365897412\",\"address\":\"\",\"driving_license\":\"\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/5.jpg\",\"identity_card\":[{\"url\":\"\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/6.jpg\",\"name\":\"\"},{\"url\":\"\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/7.jpg\",\"name\":\"\"}]}', '0', '', '0', '10000');
 
 -- ----------------------------
 -- Table structure for cmf_link
@@ -4502,7 +4503,6 @@ CREATE TABLE `cmf_plugin` (
 -- ----------------------------
 -- Records of cmf_plugin
 -- ----------------------------
-INSERT INTO `cmf_plugin` VALUES ('2', '1', '0', '1', '0', 'MobileCodeDemo', '手机验证码演示插件', '', '', 'ThinkCMF', '', '1.0', '手机验证码演示插件', '{\"account_sid\":\"\",\"auth_token\":\"\",\"app_id\":\"\",\"template_id\":\"\",\"expire_minute\":\"30\"}');
 
 -- ----------------------------
 -- Table structure for cmf_portal_category
@@ -4813,7 +4813,7 @@ CREATE TABLE `cmf_service` (
   `car_vin` varchar(17) NOT NULL DEFAULT '' COMMENT '车架号',
   `reg_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '注册时间',
   `appoint_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '预约时间',
-  `service_point` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '服务点',
+  `service_point` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '服务点ID',
   `service_address` varchar(255) NOT NULL DEFAULT '' COMMENT '服务详细地址',
   `coordinate` varchar(50) NOT NULL DEFAULT '' COMMENT '自定义服务点坐标',
   `fix_history` text COMMENT '维修历史',
@@ -4873,8 +4873,8 @@ CREATE TABLE `cmf_service_category` (
 -- ----------------------------
 INSERT INTO `cmf_service_category` VALUES ('1', '0', '0', '1', 'service', '菜鸟验车', 'noob', '', 'admin', '', '平台预约 线下取车、验车、送车  平台工作人员代检', '菜鸟预约上门服务', '&lt;h6 style=&quot;padding: 0px; margin: 0px; color: rgb(51, 51, 51); list-style: none; font-size: 18px; font-weight: normal; font-family: 微软雅黑, &quot; microsoft yahei sans-serif white-space: normal&gt;办理网上预约验车手续须知：&lt;/h6&gt;&lt;p style=&quot;padding: 0px 0px 0px 23px; margin-top: 10px; margin-bottom: 0px; color: rgb(102, 102, 102); list-style: none; font-size: 16px; line-height: 1.78; position: relative;&quot;&gt;&lt;span style=&quot;padding: 0px; margin: 0px; list-style: none; position: absolute; top: 0px; left: 0px;&quot;&gt;1、&lt;/span&gt;本市注册登记的在用机动车（号牌号码后部有汉字的除外）。&lt;/p&gt;&lt;p style=&quot;padding: 0px 0px 0px 23px; margin-top: 10px; margin-bottom: 0px; color: rgb(102, 102, 102); list-style: none; font-size: 16px; line-height: 1.78; position: relative;&quot;&gt;&lt;span style=&quot;padding: 0px; margin: 0px; list-style: none; position: absolute; top: 0px; left: 0px;&quot;&gt;2、&lt;/span&gt;车辆检验有效期在截止前的三个月之内，检验有效期截止的具体日期 请查看您的行驶证副页，或登录交管局主站使用“车辆违法”查询功 能进行查看。&lt;/p&gt;&lt;p style=&quot;padding: 0px 0px 0px 23px; margin-top: 10px; margin-bottom: 0px; color: rgb(102, 102, 102); list-style: none; font-size: 16px; line-height: 1.78; position: relative;&quot;&gt;&lt;span style=&quot;padding: 0px; margin: 0px; list-style: none; position: absolute; top: 0px; left: 0px;&quot;&gt;3、&lt;/span&gt;您可以预约从第二日起连续一周之内的网上预约验车服务。（如：您在07月15日，可以预约07月16-21日之间的预约验车手续。）&lt;/p&gt;&lt;p style=&quot;padding: 0px 0px 0px 23px; margin-top: 10px; margin-bottom: 0px; color: rgb(102, 102, 102); list-style: none; font-size: 16px; line-height: 1.78; position: relative;&quot;&gt;&lt;span style=&quot;padding: 0px; margin: 0px; list-style: none; position: absolute; top: 0px; left: 0px;&quot;&gt;4、&lt;/span&gt;如遇检测场网络设备故障或雨雪等恶劣天气检测场暂停验车的，请您接到通知或看到通报后不要再前往验车，不算爽约，可重新预约。如遇其它问题可联系我们查询检测场电话。&lt;/p&gt;&lt;p style=&quot;padding: 0px 0px 0px 23px; margin-top: 10px; margin-bottom: 0px; color: rgb(102, 102, 102); list-style: none; font-size: 16px; line-height: 1.78; position: relative;&quot;&gt;&lt;span style=&quot;padding: 0px; margin: 0px; list-style: none; position: absolute; top: 0px; left: 0px;&quot;&gt;5、&lt;/span&gt;您在办理网上预约验车过程中遇到问题或有何建议意见请通过以下方 式反映：邮箱：1120594563@163.com；电话：87625172。 感谢 您的支持和关注。&lt;/p&gt;', '{\"thumbnail\":\"\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/cainiao.jpg\"}', '', '1509692503', '0', '0', '1', '1', '[\"username\",\"telephone\",\"plateNo\"]', '10', '下下下', '上上上', '中转站');
 INSERT INTO `cmf_service_category` VALUES ('2', '0', '0', '2', 'service', '预约检车', 'inspectcar', '', 'admin', '', '提供各大车险公司服务\r\n为您的安全保驾护航', '', '&lt;p&gt;预约检车详情&lt;/p&gt;', '{\"thumbnail\":\"\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/service2.jpg\"}', '', '1511768040', '0', '0', '1', '1', '[\"username\",\"contact\",\"plateNo\",\"reg_time\",\"identity_card\",\"driving_license\",\"appoint_time\",\"service_point\"]', '20', '', '', '');
-INSERT INTO `cmf_service_category` VALUES ('3', '0', '0', '2', 'service', '上牌预约', 'applylicense', '', 'admin', '', '随时预约', '', '', '{\"thumbnail\":\"http:\\/\\/tx.car\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/service1.jpg\"}', '', '1509692503', '0', '0', '1', '1', '[\"username\",\"telephone\",\"identity_card\",\"driving_license\",\"appoint_time\",\"service_point\"]', '30', '', '', '');
-INSERT INTO `cmf_service_category` VALUES ('4', '0', '0', '2', 'service', '过户申请', 'assigned', '', 'admin', '', '买卖双方当场过户', '', '', '{\"thumbnail\":\"http:\\/\\/tx.car\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/service2.jpg\"}', '', '1509692460', '0', '0', '1', '1', '[\"username\",\"contact\",\"address\",\"seller_name\",\"seller_contact\",\"plateNo\",\"reg_time\",\"identity_card\",\"driving_license\",\"qualified\",\"loan_invoice\",\"appoint_time\",\"service_point\"]', '40', '', '', '');
+INSERT INTO `cmf_service_category` VALUES ('3', '0', '0', '2', 'service', '上牌预约', 'applylicense', '', 'admin', '', '随时预约', '', '', '{\"thumbnail\":\"\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/service1.jpg\"}', '', '1509692503', '0', '0', '1', '1', '[\"username\",\"telephone\",\"identity_card\",\"driving_license\",\"appoint_time\",\"service_point\"]', '30', '', '', '');
+INSERT INTO `cmf_service_category` VALUES ('4', '0', '0', '2', 'service', '过户申请', 'assigned', '', 'admin', '', '买卖双方当场过户', '', '', '{\"thumbnail\":\"\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/service2.jpg\"}', '', '1509692460', '0', '0', '1', '1', '[\"username\",\"contact\",\"address\",\"seller_name\",\"seller_contact\",\"plateNo\",\"reg_time\",\"identity_card\",\"driving_license\",\"qualified\",\"loan_invoice\",\"appoint_time\",\"service_point\"]', '40', '', '', '');
 INSERT INTO `cmf_service_category` VALUES ('5', '0', '0', '1', 'service', '六年免检', 'six_exempted', '', 'admin', '', '六年免检', '', '\n&lt;p&gt;六年免检业务介绍：&lt;/p&gt;\n&lt;p&gt;1、&lt;/p&gt;\n&lt;p&gt;2、&lt;/p&gt;\n&lt;p&gt;3、&lt;/p&gt;\n', '{\"thumbnail\":\"\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/cainiao.jpg\"}', null, '0', '0', '0', '1', '1', '[\"username\",\"contact\",\"plateNo\",\"appoint_time\",\"service_point\"]', '50', '', '', '');
 INSERT INTO `cmf_service_category` VALUES ('6', '0', '0', '1', 'service', '查找寄存点', 'point', '', 'admin', '', '', '', null, '{\"thumbnail\":\"\"}', null, '1514195034', '0', '0', '0', '1', '[\"service_point\"]', '10000', '', '', '');
 
@@ -5135,10 +5135,11 @@ CREATE TABLE `cmf_user` (
   `mobile` varchar(20) NOT NULL DEFAULT '' COMMENT '用户手机号',
   `avatar` varchar(255) NOT NULL DEFAULT '' COMMENT '用户头像',
   `sex` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '性别;0:保密,1:男,2:女',
-  `score` int(11) NOT NULL DEFAULT '0' COMMENT '用户积分',
   `coin` decimal(10,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '金币',
-  `freeze` decimal(10,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '冻结',
-  `ticket` decimal(10,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '点券',
+  `freeze` decimal(10,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '冻结金币',
+  `score` decimal(10,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '用户积分',
+  `coupon` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT '优惠券个数',
+  `exp` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '经验值',
   `birthday` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '生日',
   `signature` varchar(255) NOT NULL DEFAULT '' COMMENT '个性签名',
   `user_url` varchar(100) NOT NULL DEFAULT '' COMMENT '用户个人网址',
@@ -5156,11 +5157,11 @@ CREATE TABLE `cmf_user` (
 -- ----------------------------
 -- Records of cmf_user
 -- ----------------------------
-INSERT INTO `cmf_user` VALUES ('1', '1', 'admin', 'admin', '###b0b5b1441fcc40910db4b7d99d049ddf', '###b0b5b1441fcc40910db4b7d99d049ddf', 'admin@admin.com', '', '', '0', '0', '0.00', '0.00', '0.00', '0', '', '', '1507865317', '1513225427', '127.0.0.1', '1', '', '');
-INSERT INTO `cmf_user` VALUES ('2', '1', '超人不会飞', 'super', '###797fe4d0d1b299ac9b581f4fa4025dbb', '###797fe4d0d1b299ac9b581f4fa4025dbb', 'super@qq.com', '', '', '0', '0', '0.00', '0.00', '0.00', '0', '', '', '0', '0', '', '1', '', '');
-INSERT INTO `cmf_user` VALUES ('3', '1', '洛萨', 'lothar', '###797fe4d0d1b299ac9b581f4fa4025dbb', '###797fe4d0d1b299ac9b581f4fa4025dbb', 'lothar@qq.com', '13333333333', 'avatar/20171125/584d5aa4308ccc597df494da2b84700d.jpg', '0', '0', '8600.00', '0.00', '0.00', '785865600', '', '', '0', '1514278004', '127.0.0.1', '1', '', '{\"qq\":\"\",\"address\":\"\"}');
-INSERT INTO `cmf_user` VALUES ('4', '2', '晴天', 'king', '###797fe4d0d1b299ac9b581f4fa4025dbb', '###797fe4d0d1b299ac9b581f4fa4025dbb', '', '18956471234', '', '0', '0', '0.00', '0.00', '0.00', '0', '', '', '1512194173', '1512194173', '127.0.0.1', '2', '', null);
-INSERT INTO `cmf_user` VALUES ('5', '2', '风', 'fy', '###797fe4d0d1b299ac9b581f4fa4025dbb', '###797fe4d0d1b299ac9b581f4fa4025dbb', 'fy@qq.com', '18956243789', 'avatar/20171225/001883f91cd8b2fefe5cad4274a795d8.jpg', '0', '0', '0.00', '0.00', '0.00', '0', '', '', '1514187604', '1514187604', '127.0.0.1', '2', '', '{\"qq\":\"956231850\",\"address\":\"date\"}');
+INSERT INTO `cmf_user` VALUES ('1', '1', 'admin', 'admin', '###b0b5b1441fcc40910db4b7d99d049ddf', '###b0b5b1441fcc40910db4b7d99d049ddf', 'admin@admin.com', '', '', '0', '0.00', '0.00', '0.00', '0', '0', '0', '', '', '1507865317', '1513225427', '127.0.0.1', '1', '', '');
+INSERT INTO `cmf_user` VALUES ('2', '1', '超人不会飞', 'super', '###797fe4d0d1b299ac9b581f4fa4025dbb', '###797fe4d0d1b299ac9b581f4fa4025dbb', 'super@qq.com', '', '', '0', '0.00', '0.00', '0.00', '0', '0', '0', '', '', '0', '0', '', '1', '', '');
+INSERT INTO `cmf_user` VALUES ('3', '1', '洛萨', 'lothar', '###797fe4d0d1b299ac9b581f4fa4025dbb', '###797fe4d0d1b299ac9b581f4fa4025dbb', 'lothar@qq.com', '13333333333', 'avatar/20171125/584d5aa4308ccc597df494da2b84700d.jpg', '0', '8600.00', '0.00', '28.00', '0', '0', '785865600', '', '', '0', '1514278004', '127.0.0.1', '1', '', '{\"qq\":\"\",\"address\":\"\"}');
+INSERT INTO `cmf_user` VALUES ('4', '2', '晴天', 'king', '###797fe4d0d1b299ac9b581f4fa4025dbb', '###797fe4d0d1b299ac9b581f4fa4025dbb', '', '18956471234', '', '0', '0.00', '0.00', '0.00', '0', '0', '0', '', '', '1512194173', '1512194173', '127.0.0.1', '2', '', null);
+INSERT INTO `cmf_user` VALUES ('5', '2', '风', 'fy', '###797fe4d0d1b299ac9b581f4fa4025dbb', '###797fe4d0d1b299ac9b581f4fa4025dbb', 'fy@qq.com', '18956243789', 'avatar/20171225/001883f91cd8b2fefe5cad4274a795d8.jpg', '0', '0.00', '0.00', '0.00', '0', '0', '0', '', '', '1514187604', '1514187604', '127.0.0.1', '2', '', '{\"qq\":\"956231850\",\"address\":\"date\"}');
 
 -- ----------------------------
 -- Table structure for cmf_user_action
@@ -5204,6 +5205,30 @@ CREATE TABLE `cmf_user_action_log` (
 -- ----------------------------
 -- Records of cmf_user_action_log
 -- ----------------------------
+
+-- ----------------------------
+-- Table structure for cmf_user_coupons_log
+-- ----------------------------
+DROP TABLE IF EXISTS `cmf_user_coupons_log`;
+CREATE TABLE `cmf_user_coupons_log` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '用户 id',
+  `type` tinyint(3) NOT NULL DEFAULT '0' COMMENT '用户操作类型funds_type',
+  `coupon` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '优惠券面额',
+  `reduce` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '满减',
+  `deal_uid` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT '操作者ID',
+  `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
+  `due_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '到期时间。0表示无限期',
+  `status` tinyint(3) NOT NULL DEFAULT '0' COMMENT '状态：0未使用 1已使用',
+  PRIMARY KEY (`id`),
+  KEY `uid` (`user_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COMMENT='用户优惠券记录表';
+
+-- ----------------------------
+-- Records of cmf_user_coupons_log
+-- ----------------------------
+INSERT INTO `cmf_user_coupons_log` VALUES ('1', '3', '11', '30', '100', '1', '1515394252', '0', '0');
+INSERT INTO `cmf_user_coupons_log` VALUES ('2', '3', '11', '3', '50', '1', '1515394415', '0', '0');
 
 -- ----------------------------
 -- Table structure for cmf_user_favorite
@@ -5281,35 +5306,20 @@ DROP TABLE IF EXISTS `cmf_user_score_log`;
 CREATE TABLE `cmf_user_score_log` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '用户 id',
-  `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
   `action` varchar(50) NOT NULL DEFAULT '' COMMENT '用户操作名称。自定义：regCar第一次登记申请开店',
   `score` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '更改积分，可以为负',
   `coin` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '更改金币，可以为负',
+  `deal_uid` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '处理人',
+  `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户操作积分等奖励日志表';
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COMMENT='用户操作积分等奖励日志表';
 
 -- ----------------------------
 -- Records of cmf_user_score_log
 -- ----------------------------
-
--- ----------------------------
--- Table structure for cmf_user_ticket_log
--- ----------------------------
-DROP TABLE IF EXISTS `cmf_user_ticket_log`;
-CREATE TABLE `cmf_user_ticket_log` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `user_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '用户 id',
-  `type` tinyint(3) NOT NULL DEFAULT '0' COMMENT '用户操作类型funds_type',
-  `ticket` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '点券数额，可以为负',
-  `deal_uid` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT '操作者ID',
-  `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
-  PRIMARY KEY (`id`),
-  KEY `uid` (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户点券记录表';
-
--- ----------------------------
--- Records of cmf_user_ticket_log
--- ----------------------------
+INSERT INTO `cmf_user_score_log` VALUES ('1', '3', 'admin', '3.00', '0.00', '1', '1515392193');
+INSERT INTO `cmf_user_score_log` VALUES ('2', '3', 'admin', '10.00', '0.00', '1', '1515392483');
+INSERT INTO `cmf_user_score_log` VALUES ('3', '3', 'admin', '15.00', '0.00', '1', '1515392576');
 
 -- ----------------------------
 -- Table structure for cmf_user_token
@@ -5783,8 +5793,8 @@ CREATE TABLE `cmf_verify` (
 -- Records of cmf_verify
 -- ----------------------------
 INSERT INTO `cmf_verify` VALUES ('1', '3', '0', 'mobile', '0', '1511768040', '1512768040', '{\"mobile\":\"133654987\",\"email\":\"\",\"identity_card\":\"\",\"driving_license\":\"\",\"real_name\":\"\",\"gender\":\"\",\"birthday\":\"\",\"telephone\":\"\",\"alipay\":\"\",\"weixin\":\"\",\"ID_Type\":\"\",\"ID_No\":\"\",\"booklet\":\"\",\"house_certificate\":\"\",\"marriage_lines\":\"\",\"birthcity\":\"\",\"residecity\":\"\",\"diploma\":\"\",\"graduateschool\":\"\",\"education\":\"\",\"business_license\":\"\",\"work_occupation\":\"\",\"work_company\":\"\",\"work_position\":\"\",\"work_experience\":\"\"}', '0', '0');
-INSERT INTO `cmf_verify` VALUES ('2', '3', '0', 'certification', '0', '1514192573', '0', '{\"identity_card\":[{\"url\":\"http:\\/\\/tx.car\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/6.jpg\",\"name\":\"\"},{\"url\":\"http:\\/\\/tx.car\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/7.jpg\",\"name\":\"\"}],\"driving_license\":\"http:\\/\\/tx.car\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/5.jpg\"}', '0', '0');
-INSERT INTO `cmf_verify` VALUES ('3', '3', '0', 'openshop', '0', '1514192868', '0', '{\"username\":\"汪某人\",\"contact\":\"13365897412\",\"plateNo\":\"皖A598H2\",\"driving_license\":\"http:\\/\\/tx.car\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/5.jpg\",\"identity_card\":[{\"url\":\"http:\\/\\/tx.car\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/6.jpg\",\"name\":\"\"},{\"url\":\"http:\\/\\/tx.car\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/7.jpg\",\"name\":\"\"}]}', '0', '0');
+INSERT INTO `cmf_verify` VALUES ('2', '3', '0', 'certification', '0', '1514192573', '0', '{\"identity_card\":[{\"url\":\"\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/6.jpg\",\"name\":\"\"},{\"url\":\"\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/7.jpg\",\"name\":\"\"}],\"driving_license\":\"\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/5.jpg\"}', '0', '0');
+INSERT INTO `cmf_verify` VALUES ('3', '3', '0', 'openshop', '0', '1514192868', '0', '{\"username\":\"汪某人\",\"contact\":\"13365897412\",\"plateNo\":\"皖A598H2\",\"driving_license\":\"\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/5.jpg\",\"identity_card\":[{\"url\":\"\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/6.jpg\",\"name\":\"\"},{\"url\":\"\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/7.jpg\",\"name\":\"\"}]}', '0', '0');
 
 -- ----------------------------
 -- Table structure for cmf_verify_model

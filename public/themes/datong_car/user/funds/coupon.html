@@ -25,7 +25,7 @@
                 <div class="person_right_con">
                     <div class="fund_management">
                         <div class="fund_management_detail">
-                            <p class="fund_managemen_title">我的点券</p>
+                            <p class="fund_managemen_title">我的优惠券</p>
                             <include file="funds/comm"/>
                             <div class="stream">
                                 <p class="scroll_tip">以下内容可滚动</p>
@@ -33,10 +33,10 @@
                                     <div class="stream_tit">
                                         <dl>
                                             <dd>
-                                                收入：<span>￥{$income|default=''}</span>
+                                                可使用：<span>{$coupon|default='0'}个</span>
                                             </dd>
                                             <dd>
-                                                支出：<span>￥{$expense|default=''}</span>
+                                                已过期：<span>{$remain|default='0'}个</span>
                                             </dd>
                                         </dl>
                                     </div>
@@ -44,10 +44,13 @@
                                         <table>
                                             <thead>
                                                 <tr>
-                                                    <th>#</th>
+                                                    <th width="50">#</th>
                                                     <th>操作</th>
-                                                    <th>收支（+收、-支）</th>
-                                                    <th>时间</th>
+                                                    <th>面额</th>
+                                                    <th>满减</th>
+                                                    <th>到期时间</th>
+                                                    <th>状态</th>
+                                                    <th width="90">操作</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -56,8 +59,15 @@
                                                 <tr>
                                                     <td>{$vo.id}</td>
                                                     <td>{$funds_type[$vo.type]}</td>
-                                                    <td>{$vo.ticket>0?'+'.$vo.ticket:$vo.ticket}</td>
-                                                    <td>{:date('Y-m-d H:i:s',$vo.create_time)}</td>
+                                                    <td>￥{$vo.coupon}</td>
+                                                    <td>满{$vo.reduce}减{$vo.coupon}</td>
+                                                    <td>{$vo.due_time?date('Y-m-d H:i:s',$vo.due_time):'无限期'}</td>
+                                                    <td>{$status?'已使用':'未使用'}</td>
+                                                    <td>
+                                                        <eq name="vo.status" value="0">
+                                                            <a style="color:#F00" href="{:url('shop/Index/index')}">去使用</a>
+                                                        </eq>
+                                                    </td>
                                                 </tr>
                                                 </foreach>
                                             </tbody>
@@ -85,25 +95,4 @@
     <include file="public@scripts" />
 </body>
 <include file="public@morejs" />
-
-<script>
-    var ipt=document.getElementById('recent');
-    var ul=document.getElementById('recent_ul');
-    var lis=ul.children;
-    ipt.onfocus=function(){
-        ul.style.display='block';
-    }
-    ipt.onblur=function(){
-        setTimeout(function(){
-            ul.style.display='none';
-        },200)
-
-    }
-    //模拟option点击事件
-    for(var i=0;i<lis.length;i++){
-        lis[i].onclick=function(){
-            ipt.value=this.innerText;
-        }
-    }
-</script>
 </html>

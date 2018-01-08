@@ -55,13 +55,13 @@ class AdminServiceController extends AdminBaseController
         if ($this->request->isPost()) {
             $data   = $this->request->param();
             $username = $this->request->param('username/s');
-            $user_id = Db::name('user')->whereOr(['user_nickname|user_login|user_email|mobile'=>['eq', $username]])->value('id');
-            if (empty($user_id)) {
+            $userId = model('usual/Usual')->getUid($username);
+            if (empty($userId)) {
                 $this->error('系统未检测到该用户');
             }
 
             $post   = $data['post'];
-            $post['user_id'] = intval($user_id);
+            $post['user_id'] = intval($userId);
             $post['create_time'] = time();
 
             $result = $this->validate($post,'Service.add');
@@ -100,13 +100,13 @@ class AdminServiceController extends AdminBaseController
         if ($this->request->isPost()) {
             $data   = $this->request->param();
             $username = $this->request->param('username/s');
-            $user_id = Db::name('user')->whereOr(['user_nickname|user_login|user_email|mobile'=>['eq', $username]])->value('id');
-            if (empty($user_id)) {
+            $userId = model('usual/Usual')->getUid($username);
+            if (empty($userId)) {
                 $this->error('系统未检测到该用户');
             }
 
             $post   = $data['post'];
-            $post['user_id'] = intval($user_id);
+            $post['user_id'] = intval($userId);
             $result = $this->validate($post, 'Service.edit');
             if ($result !== true) {
                 $this->error($result);

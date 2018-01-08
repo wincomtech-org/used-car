@@ -61,17 +61,17 @@ class AdminVerifyController extends AdminBaseController
                 }
             }
             $username = $this->request->param('username/s');
-            $user_id = Db::name('user')->whereOr(['user_nickname|user_login|user_email|mobile'=>['eq', $username]])->value('id');
-            if (empty($user_id)) {
+            $userId = model('usual/Usual')->getUid($username);
+            if (empty($userId)) {
                 $this->error('系统未检测到该用户');
             }
-            if ($post['user_id']!=$user_id) {
+            if ($post['user_id']!=$userId) {
                 $this->error('用户ID 和 用户名 不一致！');
             }
             if (empty($post['user_id'])) {
                 $this->error('请填写用户ID 或者用户名');
             }
-            $post['user_id'] = intval($user_id);
+            $post['user_id'] = intval($userId);
 
             // 验证
             $result = $this->validate($post,'Verify.add');

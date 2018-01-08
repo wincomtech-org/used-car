@@ -47,8 +47,8 @@ class AdminOrderController extends AdminBaseController
             $data   = $this->request->param();
             // 获取买家
             $username = $this->request->param('buyer_username/s');
-            $user_id = Db::name('user')->whereOr(['user_nickname|user_login|user_email|mobile'=>['eq', $username]])->value('id');
-            if (empty($user_id)) {
+            $userId = model('usual/Usual')->getUid($username);
+            if (empty($userId)) {
                 $this->error('系统未检测到该用户');
             }
             // 获取车子
@@ -59,7 +59,7 @@ class AdminOrderController extends AdminBaseController
             }
 
             $post   = $data['post'];
-            $post['user_id'] = intval($user_id);
+            $post['user_id'] = intval($userId);
             $post['car_id'] = intval($car_id);
             $result = $this->validate($post,'Order.add');
             if ($result !== true) {

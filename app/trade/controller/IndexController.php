@@ -38,7 +38,7 @@ class IndexController extends HomeBaseController
         // 写在前面
         $plat = $this->request->param('plat',0,'intval');
         if ($plat==3) {
-            return $this->fetch('platform3');
+            $this->redirect('shop/Index/index');
         }
 
         // 实例化
