@@ -307,7 +307,7 @@ function lothar_get_funds_log($type='', $dialog=false)
 * @param $data 是否返回数据集、统计
 * @return boolean or array
 */
-function lothar_verify($uid=null, $code='certification', $data=false)
+function lothar_verify($uid=null, $code='certification', $data='status')
 {
     if (is_null($uid)) {
         $uid = cmf_get_current_user_id();
@@ -320,23 +320,12 @@ function lothar_verify($uid=null, $code='certification', $data=false)
         $where['auth_code'] = $code;
     }
     $obj = Db::name('verify');
-<<<<<<< HEAD
-<<<<<<< HEAD
-    $result = '';
-    if ($data===false) {
-        $result = $obj->where($where)->value('auth_status');
-    } elseif ($data===true) {
-=======
     if ($data===true) {
->>>>>>> master
-=======
-    if ($data===true) {
->>>>>>> insurance
         $result = $obj->where($where)->find();
         if (!empty($result)) {
             $result['more'] = json_decode($result['more'],true);
         }
-    } elseif ($data===false) {
+    } elseif ($data=='status') {
         $result = $obj->where($where)->value('auth_status');
     } elseif ($data=='count') {
         $result = $obj->where($where)->count();
