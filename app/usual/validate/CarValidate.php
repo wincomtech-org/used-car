@@ -17,27 +17,28 @@ class CarValidate extends Validate
         'car_mileage' => 'require',
         'car_license_time' => 'require',
         'city_id' => 'require',
-        'identi.telephone' => 'require|checkTel',
+        'sell_status' => 'checkSell',
     ];
 
     protected $message = [
         'name.require'  => '车标题不能为空',
         'name.checkName'  => '车标题已存在！',
-        'brand_id' => '请选择所属品牌',
-        'serie_id' => '请选择所属车系',
-        'model_id' => '请选择车型',
-        'user_id' => '车主数据丢失',
+        'brand_id.require' => '请选择所属品牌',
+        'serie_id.require' => '请选择所属车系',
+        'model_id.require' => '请选择车型',
+        'user_id.require' => '车主数据丢失',
         'car_vin.checkVin' => '车架号已存在！',
         'plateNo.require' => '请输入车牌号',
         'plateNo.checkPlateNo' => '车牌号码已存在！',
-        'car_mileage' => '请输入里程数',
-        'car_license_time' => '请输入上牌时间',
-        'city_id' => '请输入所在城市',
+        'car_mileage.require' => '请输入里程数',
+        'car_license_time.require' => '请输入上牌时间',
+        'city_id.require' => '请输入所在城市',
+        'sell_status.checkSell' => '认证状态需审核通过',
     ];
 
     protected $scene = [
-        'add' => ['name','brand_id','serie_id','model_id','car_vin','plateNo','car_mileage','car_license_time','city_id'],
-        'edit' => ['name'=>'require','brand_id','serie_id','model_id','plateNo'=>'require','car_mileage','car_license_time','city_id'],
+        'add' => ['name','brand_id','serie_id','model_id','car_vin','plateNo','car_mileage','car_license_time','city_id','sell_status'],
+        'edit' => ['name'=>'require','brand_id','serie_id','model_id','plateNo'=>'require','car_mileage','car_license_time','city_id','sell_status'],
         // 'seller' => ['brand_id','serie_id','model_id','city_id'],
         'insurance' => ['user_id','plateNo'=>'require'],
     ];
@@ -80,5 +81,12 @@ class CarValidate extends Validate
             return true;
         }
         return false;
+    }
+    protected function checkSell($value,$rule,$data)
+    {
+        if ($value>0 && empty($data['identi_status'])) {
+            return false;
+        }
+        return true;
     }
 }

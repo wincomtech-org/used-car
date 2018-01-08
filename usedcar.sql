@@ -10,7 +10,11 @@ Target Server Type    : MYSQL
 Target Server Version : 50540
 File Encoding         : 65001
 
+<<<<<<< HEAD
 Date: 2018-01-08 16:18:14
+=======
+Date: 2018-01-06 16:14:35
+>>>>>>> master
 */
 
 SET FOREIGN_KEY_CHECKS=0;
