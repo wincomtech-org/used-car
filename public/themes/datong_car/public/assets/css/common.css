@@ -15,7 +15,7 @@ a{text-decoration:none;cursor:pointer;}
 .error_color{color:#F00!important;}
 
 /**新添加字体*/
-@font-face{font-family:myFirstFont;src:url('../font/font.TTF')}
+/* @font-face{font-family:myFirstFont;src:url('../font/font.TTF')} */
 
 /*h5标签公共样式**/
 article,aside,figcaption,figure,footer,header,hgroup,nav,section,strong{display:block}

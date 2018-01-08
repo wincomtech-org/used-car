@@ -63,12 +63,16 @@ class TestController extends HomeBaseController
     // 对支付的测试
     public function pay()
     {
+        # code...
+    }
+    public function payOld()
+    {
         // dump(cmf_get_order_sn());die;
         $data = $this->request->param();
 
         /*对方法体的测试*/
         // 加载公用方法
-        // import('paymentOld/common/wxpay/coreFunc',EXTEND_PATH);//当WorkPlugin没有被实例化时
+        // import('payment/common/wxpay/custom/coreFunc',EXTEND_PATH);//当WorkPlugin没有被实例化时
         // echo wxTest();
         // exit;
         // 加载工作类
@@ -104,11 +108,18 @@ class TestController extends HomeBaseController
 
     public function wxpay()
     {
-        // import('paymentOld/common/wxpay/coreFunc',EXTEND_PATH);
-        paylog('微信支付日志：');
+        $paymode = 'wxpaynative';// alipay,alipaywap,wxpayjs,wxpaynative
+        $action = '';$amount=0.01;
+        import('payment/wxpaynative/WorkPlugin',EXTEND_PATH);
 
-        echo "string";
-        die;
+        $work = new \WorkPlugin(cmf_get_order_sn($action),$amount);
+        $result = $work->work(false);
+
+        // paylog('微信支付日志：');
+
+        // echo $result;
+        dump($result);
+        exit;
     }
 }
 ?>

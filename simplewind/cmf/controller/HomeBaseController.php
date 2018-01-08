@@ -258,7 +258,14 @@ class HomeBaseController extends BaseController
     }
 
 
-    // 支付模板展示 微信、支付宝
+    /*
+    * 支付模板展示 微信、支付宝
+    * 初始化： import('paymentOld/wxpaynative/WorkPlugin',EXTEND_PATH);
+    * url加密： cmf_str_encode($url)
+    * urlencode('weixin://wxpay/bizpayurl?pr=cTQpvMv')
+    * url('funds/Pay/createQRcode',['data'=>urlencode($qrcode)])
+    * 直接用官网： http://paysdk.weixin.qq.com/example/qrcode.php?data={:urlencode($qrcode)}
+    */
     public function showPay($data='')
     {
         $alipay_show = 'pc';
@@ -273,7 +280,7 @@ class HomeBaseController extends BaseController
 
         // 微信的扫码支付
         if ($wxpay_show=='native') {
-            import('paymentOld/wxpaynative/WorkPlugin',EXTEND_PATH);
+            import('payment/wxpaynative/WorkPlugin',EXTEND_PATH);
             $work = new \WorkPlugin($data['order_sn'],$data['coin'],$data['id'],$data['action']);
             $qrcode = $work->work();
             $this->assign('qrcode',$qrcode);

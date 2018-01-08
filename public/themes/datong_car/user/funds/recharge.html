@@ -7,104 +7,188 @@
 
     <include file="public@head"/>
 </head>
+
 <body>
-    <!-- 头部 -->
-    <include file="public@header" />
-    <!-- 导航 -->
-    <include file="public@nav" />
+<!-- 头部 -->
+<include file="public@header" />
+<!-- 导航 -->
+<include file="public@nav" />
 
-    <!-- 资金管理 -->
-    <section class="person">
-        <div class="main">
-            <include file="public@usernav" />
+<!-- 资金管理 -->
+<section class="person">
+    <div class="main">
+        <include file="public@usernav" />
 
-            <div class="person_right">
-                <div class="person_right_tit">
-                    <include file="funds/nav" />
-                </div>
-                <div class="person_right_con">
-                    <div class="fund_management">
-                        <div class="fund_management_detail">
-                            <p class="fund_management_tit_tip">在线充值</p>
-                            <include file="funds/comm"/>
-                            <div class="mode_payment">
-                                <form action="{:url('user/Funds/rechargePost')}" method="post" accept-charset="utf-8" class="js-ajax-form">
-                                    <div class="mode_payment_con">
-                                        <p class="fund_managemen_title">请选择充值金额</p>
-                                        <ul class="online_way pay_tab_list">
-                                            <php>$dmoney = [100,500,1000,2000,5000];</php>
-                                            <foreach name="dmoney" item="vo" key="key">
-                                            <li class="label_input other_pay pay_tab_list_item {$key==0?='select'}"><b></b><label><input type="radio" value="{$vo}" ><span class="icon">{$vo}</span></label></li>
-                                            </foreach>
-                                            <li class="label_input pay_tab_list_item other_pay"><b></b><label><span class="icon other">其他金额</span></label></li>
-                                        </ul>
+        <div class="person_right">
+            <div class="person_right_tit">
+                <include file="funds/nav" />
+            </div>
+            <div class="person_right_con">
+                <div class="fund_management">
+                    <div class="fund_management_detail">
+                        <p class="fund_management_tit_tip">在线充值</p>
+                        <include file="funds/comm"/>
+                        <div class="mode_payment">
+                            <form action="{:url('user/Funds/rechargePost')}" method="post" accept-charset="utf-8" class="js-ajax-form">
+                                <div class="mode_payment_con">
+                                    <p class="fund_managemen_title">请选择充值金额</p>
+                                    <ul class="online_way pay_tab_list">
+                                        <php>$dmoney = [100,500,1000,2000,5000];</php>
+                                        <foreach name="dmoney" item="vo" key="key">
+                                        <li class="label_input other_pay pay_tab_list_item {$key==0?='select'}">
+                                            <b></b>
+                                            <label>
+                                                <input type="radio" value="{$vo}" >
+                                                <span class="icon">{$vo}</span>
+                                            </label>
+                                        </li>
+                                        </foreach>
+                                        <li class="label_input pay_tab_list_item other_pay">
+                                            <b></b><label><span class="icon other">其他金额</span></label>
+                                        </li>
+                                    </ul>
 
-                                        <dl class="custom_amount  replenish_amount" style="display:none">
-                                            <dt>请自定义金额</dt>
-                                            <dd><input type="number" value=""></dd>
-                                        </dl>
+                                    <dl class="custom_amount replenish_amount" style="display:none">
+                                        <dt>请自定义金额</dt>
+                                        <dd><input type="number" value=""></dd>
+                                    </dl>
 
-                                        <dl class="payment_amount replenish_amount">
-                                            <dt>支付金额</dt>
-                                            <dd><b style="color:#F00;">￥</b><input type="text" name="r_money" value="100.00" readonly></dd>
-                                        </dl>
+                                    <dl class="payment_amount replenish_amount">
+                                        <dt>支付金额</dt>
+                                        <dd>
+                                            <b style="color:#F00;">￥</b>
+                                            <input type="text" name="r_money" value="100.00" readonly>
+                                        </dd>
+                                    </dl>
 
-                                        <p class="fund_managemen_title">请选择充值方式</p>
-                                        <ul class="online_way pay_tab_list">
-                                            <!-- 支付宝 -->
-                                            <li class="label_input pay_tab_list_item zhifu_pay" id="alipayCK">
-                                                <b></b>
-                                                <input type="radio" name="payment_way" value="alipay">
-                                                <span class="icon_img"></span>
-                                            </li>
-                                            <!-- 微信 -->
-                                            <li class="label_input pay_tab_list_item zhifu_pay" id="wxpayCK">
-                                                <b></b>
-                                                <input type="radio" name="payment_way" value="wxpay">
-                                                <span class="icon_img"></span>
-                                            </li>
-                                        </ul>
+                                    <p class="fund_managemen_title">请选择充值方式</p>
+                                    <ul class="online_way pay_tab_list">
+                                        <!-- 支付宝 -->
+                                        <li class="label_input pay_tab_list_item zhifu_pay" id="alipayCK">
+                                            <b></b>
+                                            <input type="radio" name="payment_way" value="alipay">
+                                            <span class="icon_img"></span>
+                                        </li>
+                                        <!-- 微信 -->
+                                        <li class="label_input pay_tab_list_item zhifu_pay" id="wxpayCK">
+                                            <b></b>
+                                            <input type="radio" name="payment_way" value="wxpay">
+                                            <span class="icon_img"></span>
+                                        </li>
+                                    </ul>
 
-                                        <div id="wxpaySub" style="display:none">
-                                        <if condition="cmf_is_wechat()">
-                                            <p class="cz_btn_p"><button type="submit" class="btn-red js-ajax-submit">确认提交</button></p>
-                                        <else/>
-                                            <div class="img_weiixn">
-                                                <img src="__TMPL__/public/assets/images/example/weixin.png" alt="">
-                                            </div>
-                                        </if>
+                                    <div id="wxpaySub" style="display:none">
+                                    <if condition="cmf_is_wechat()">
+                                        <p class="cz_btn_p">
+                                            <button type="submit" class="btn-red js-ajax-submit">确认提交</button>
+                                        </p>
+                                    <else/>
+                                        <div class="img_weiixn">
+                                            <!-- <img src="__TMPL__/public/assets/images/example/weixin.png" alt=""> -->
                                         </div>
-                                        <p class="cz_btn_p" id="paySub"><button type="submit" class="btn-red js-ajax-submit">确认提交</button></p>
+                                    </if>
                                     </div>
-                                </form>
-                            </div>
+                                    <p class="cz_btn_p" id="paySub"><button type="submit" class="btn-red js-ajax-submit">确认提交</button></p>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
-    <!-- 底部 -->
-    <include file="public@footer" />
-    <include file="public@scripts" />
+<!-- 底部 -->
+<include file="public@footer" />
+<include file="public@scripts" />
 </body>
-
 <include file="public@morejs" />
 <script type="text/javascript">
-    $('#wxpayCK').click(function(e){
-        // 是否PC、wap，生成二维码
-        var isWechat = '{cmf_is_wechat()}';
-        alert(isWechat)
-        // console.log(isWechat);
+$(function(){
+    $('.pay_tab_list_item').on('click', function() {
+        var $pay_li = $('.pay_tab_list_item');
+        var $pay_con = $('.pay_tab_con_list_item')
+        var $this = $(this);
+        var $index = $this.index();
+        var $length = $(this).parent().children().length - 1;
 
-        $('#wxpaySub').show();
-        $('#paySub').hide();
-        e.stopPropagation();
-    })
+        $pay_li.siblings('.pay_tab_list_item').hide();
+        $pay_li.show();
+        $this.addClass('select').siblings().removeClass('select')
+        $pay_con.css('display', 'none');
+        $pay_con.eq($index).css('display', 'block');
+
+        if($(this).hasClass('other_pay')){
+            var price = $(this).find('.icon').not(".other").text();
+            $(this).parent().siblings('.payment_amount ').find('input').val(toDecimal2(price));
+            $(this).parent().siblings('.custom_amount ').find('input').val( toDecimal2(0));
+            $(this).parent().siblings('.custom_amount ').find('input').attr("disabled",true);
+            if ($index == $length) {
+                $(this).parent().siblings('.custom_amount ').find('input').attr("disabled",false);
+                $(this).parent().siblings('.payment_amount ').find('input').val(toDecimal2(0));
+                $(this).parent().siblings('.custom_amount ').show();
+            }
+        }
+
+        // if (typeof paym=='wxpay') {
+            createPng();
+        // }
+    });
+
     $('#alipayCK').click(function(){
         $('#wxpaySub').hide();
         $('#paySub').show();
-    })
+        if("undefined" != typeof pid){
+            clearInterval(pid);
+        }
+        // paym = 'alipay';
+    });
+
+    $('#wxpayCK').click(function(e){
+        $('#wxpaySub').show();
+        $('#paySub').hide();
+        e.stopPropagation();
+        createPng();
+        // paym = 'wxpay';
+    });
+
+    // 是否PC、wap，生成二维码
+    function createPng() {
+        isWechat = '{:cmf_is_wechat()}';
+        if (!isWechat) {
+            var amount = $("input[name='r_money']").val();
+            if (amount>0) {
+                $.post("{:url('user/Funds/recharge')}", {amount:amount}, function(data) {
+                    // 不能混着用
+                    // console.log("{:urlencode("+data+")}")
+                    // alert("{:urlencode('weixin://wxpay/bizpayurl?pr=vHrzIIq')}")
+
+                    // URL编码： encodeURI()、encodeURIComponent()、escape()
+                    var pay_url = 'http://paysdk.weixin.qq.com/example/qrcode.php?data='+encodeURI(data);
+                    // $('.img_weiixn img').attr('src',pay_url);
+                    $('.img_weiixn').html('<img width="183" src="'+ pay_url +'" alt="">');
+                });
+                // pid = setInterval(checkWxpay,3000);
+            }
+        }
+    }
+
+    // 扫码支付 轮询订单状态
+    function checkWxpay() {
+        $.post('{:url("funds/Pay/ajaxWxpay")}', {action:'{//$action}',order_sn:'{//$order_sn}'}, function(data) {
+            if (data) {
+                // clearInterval(pid);
+                // console.log(data);
+                // $('.ewm_l').html('<p>已支付，请关闭窗口</p>');
+            }
+            //  else {
+            //     // console.log('no');
+            // }
+        });
+    }
+    // var pid = window.setInterval("checkWxpay()",3000);
+    // window.clearInterval(pid);
+});
 </script>
 </html>

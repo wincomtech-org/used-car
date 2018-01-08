@@ -81,13 +81,13 @@
                     <tr>
                         <th>总则</th>
                         <td>
-                            <script type="text/plain" id="content" name="post[content]">{$post.content}</script>
+                            <script type="text/plain" id="content" name="post[content]">{$post.content|default=''}</script>
                         </td>
                     </tr>
                     <tr>
                         <th>投保须知</th>
                         <td>
-                            <script type="text/plain" id="information" name="post[information]">{$post.information}</script>
+                            <script type="text/plain" id="information" name="post[information]">{$post.information|default=''}</script>
                         </td>
                     </tr>
                 </table>

@@ -9,7 +9,7 @@ class VerifyModel extends UsualModel
 {
     public function getLists($filter=[], $order='', $limit='',$extra=[])
     {
-        $field = 'a.*,b.name model_name,c.user_nickname,c.user_login,,c.user_email,c.mobile';
+        $field = 'a.*,b.name model_name,c.user_nickname,c.user_login,c.user_email,c.mobile';
         $where = [];
         $join = [
             ['verify_model b','a.auth_code=b.code','LEFT'],
@@ -59,7 +59,7 @@ class VerifyModel extends UsualModel
 
     public function getPost($id)
     {
-        $field = 'a.*,b.name model_name,c.user_nickname,c.user_login,,c.user_email,c.mobile';
+        $field = 'a.*,b.name model_name,c.user_nickname,c.user_login,c.user_email,c.mobile';
         // $where = ['a.id' => $id];
         $join = [
             ['verify_model b','a.auth_code=b.code','LEFT'],

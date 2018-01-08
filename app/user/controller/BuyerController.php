@@ -45,6 +45,8 @@ class BuyerController extends TradeController
         if (empty($paytype)) {
             $this->error('支付方式缺失，请联系管理员');
         }
+        // 不支持扫码
+        $paytype = 'alipay';
         $map = [
             'paytype'   => $paytype,
             'action'    => 'seecar',

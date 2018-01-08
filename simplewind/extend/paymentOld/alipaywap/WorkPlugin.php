@@ -1,11 +1,11 @@
 <?php
 // namespace paymentOld\alipaywap;
 
-use paymentOld\common\alipay\immed\AlipaySubmit;
-use paymentOld\common\alipay\immed\AlipayNotify;
+use payment\common\alipay\custom\AlipaySubmit;
+use payment\common\alipay\custom\AlipayNotify;
 use traits\controller\Jump;
 
-// import('paymentOld/common/alipay/coreFunc',EXTEND_PATH);
+// import('payment/common/alipay/custom/coreFunc',EXTEND_PATH);
 
 /**
 * 支付宝支付接口
@@ -31,7 +31,7 @@ class WorkPlugin
         $this->return_url = url('funds/Pay/callBack','',false,$this->host);
 
         // TP写法 
-        import('paymentOld/common/alipay/coreFunc',EXTEND_PATH);
+        import('payment/common/alipay/custom/coreFunc',EXTEND_PATH);
     }
 
     /*

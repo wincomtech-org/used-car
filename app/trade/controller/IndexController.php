@@ -132,12 +132,14 @@ class IndexController extends HomeBaseController
         $limit = 12;//每页数据量
         $jumpurl = $jumpext = '';
         $filter = $extra = $where = $order = $carlist = [];
-        $filter['sellStatus'] = 1;
+        // 售卖条件
+        $extra['a.status'] = 1;
+        $extra['a.sell_status'] = ['gt',0];
 
         // 处理请求的数据
         // 平台
         if (!empty($plat)) {
-            $extra['platform'] = $plat;
+            $extra['a.platform'] = $plat;
         }
         // 类别
         if (is_numeric($typeId)) {
@@ -149,7 +151,7 @@ class IndexController extends HomeBaseController
         }
         // 价格
         if (!empty($priceId)) {
-            $extra['shop_price'] = $this->operatorSwitch($priceId,true);
+            $extra['a.shop_price'] = $this->operatorSwitch($priceId,true);
         }
         // 处理格式参
         $oxnum = empty($oxnum) ? $placeholder : $oxnum;
