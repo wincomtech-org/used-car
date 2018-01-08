@@ -321,6 +321,7 @@ function lothar_verify($uid=null, $code='certification', $data=false)
     }
     $obj = Db::name('verify');
 <<<<<<< HEAD
+<<<<<<< HEAD
     $result = '';
     if ($data===false) {
         $result = $obj->where($where)->value('auth_status');
@@ -328,6 +329,9 @@ function lothar_verify($uid=null, $code='certification', $data=false)
 =======
     if ($data===true) {
 >>>>>>> master
+=======
+    if ($data===true) {
+>>>>>>> insurance
         $result = $obj->where($where)->find();
         if (!empty($result)) {
             $result['more'] = json_decode($result['more'],true);

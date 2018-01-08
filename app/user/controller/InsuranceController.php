@@ -40,6 +40,7 @@ class InsuranceController extends UserBaseController
 
         // 认证资料
         $auerbach = $order['more'];
+        $auerbach['contact'] = empty($auerbach['contact']) ? '' : $auerbach['contact'];
         // 险种
         $coverages = model('insurance/InsuranceCoverage')->getCoverageByOrder($orderId);
         // 意向公司
@@ -73,9 +74,10 @@ class InsuranceController extends UserBaseController
             $more = $orderModel->where($where)->value('more');
             $more = json_decode($more,true);
             $data['more'] = array_merge($more,$data['more']);
+            $data['more'] = json_encode($data['more']);
         }
 
-        $orderModel->adminEditArticle($data);
+        $orderModel->allowField(true)->isUpdate(true)->data($data, true)->save();
 
         $this->success('进入合同页面……',url('insurance/Index/contract',$where));
     }
