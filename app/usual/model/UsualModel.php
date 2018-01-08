@@ -17,6 +17,7 @@ class UsualModel extends Model
         'more' => 'array',
         'identi' => 'array',
         'define_data' => 'array',
+        'file' => 'array',
     ];
     // 开启自动写入时间戳字段
     protected $autoWriteTimestamp = true;

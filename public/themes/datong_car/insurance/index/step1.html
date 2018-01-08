@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>险种选择</title>
+    <meta name="keywords" content="{$site_info.site_seo_keywords|default=''}"/>
+    <meta name="description" content="{$site_info.site_seo_description|default=''}">
+
+    <include file="public@head"/>
+    <hook name="before_head_end"/>
+</head>
+<body>
+    <!-- 头部 -->
+    <include file="public@header" />
+    <!-- 导航 -->
+    <include file="public@nav" />
+
+    <!-- 险种选择 -->
+    <section class="selection_insurance">
+        <div class="main">
+            <!-- 面包屑 -->
+            <!-- {$crumbs|default=''} -->
+            <ul class="brash">
+                <li>当前位置：</li>
+                <li>车险服务</li>
+                <li><a href="{:url('Index/index')}">资料填写</a></li>
+                <li class="active"><a>险种选择</a></li>
+            </ul>
+            <div class="selection_insurance_con">
+                <form action="{:url('Index/step2')}" method="post" class="js-ajax-form">
+                    <div class="selection_insurance_form">
+                        <!-- <div class="img"></div> -->
+                        <div class="txt">
+                            <p>险种选择</p>
+                            <foreach name="coverages" item="vo" key="key">
+                            <dl class="txt_list">
+                                <dt>
+                                    <span class="check_span">
+                                        <input class="no_input" id="cover{$vo.id}" type="checkbox" {$vo.type==1?='checked readonly'} name="coverIds[]" value="{$vo.id}"><label <if condition="$vo.type==2">for="cover{$vo.id}"</if>></label>
+                                    </span>
+                                    {$key+1}、{$vo.name}
+                                </dt>
+                                <dd><span class="insurance_icon_tit">保险责任：</span><span class="insurance_icon_txt">{$vo.duty}</span></dd>
+                                <dd><span class="insurance_icon_tit">赔偿项目：</span><span class="insurance_icon_txt">{$vo.compen_item}</span></dd>
+                                <dd><span class="insurance_icon_tit">赔偿额度：</span><span class="insurance_icon_txt">{$vo.compen_total}</span></dd>
+                            </dl>
+                            </foreach>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn_submit js-ajax-submit">提交</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+     <!-- 保险小知识 -->
+    <section class="claim_guidance">
+        <div class="main">
+            <h3 class="index_tit">保险小知识 <span class="index_tit_supply">让你进一步了解保险 </span></h3>
+            <div class="claim_guidance_con">
+                <div class="claim_guidance_guide_con">
+                    <div class="claim_guidance_guide_con_list">
+                        <div class="text">
+                            <h6>第一，买了“全险”并不意味着万事皆有保障。 </h6>
+                            <p>“全险”所谓的“全”并没有涵括所有的车险险种，车主在购买前要对其内容有比较清晰的认识。</p>
+                        </div>
+                         <div class="text">
+                            <h6>第二，避免超额保险和重复投保。</h6>
+                            <p>保险金额是根据保险价值来定的，超额保险和重复投保并不会带来超额赔偿，所以千万不要被保险员“忽悠”了。</p>
+                        </div>
+                         <div class="text">
+                            <h6>第三，保险公司的赔偿是有条件的。</h6>
+                            <p>酒驾、毒驾、无证驾驶时发生事故的话，保险公司可以免赔。车辆未年检、未及时续交保费、擅自改装车辆等情况，也会使保险公司开脱责任。</p>
+                        </div>
+                         <div class="text">
+                            <h6>第四，保险公司理赔对处理流程有要求。 </h6>
+                            <p>事故发生后，车主切忌先修理后向保险公司报案索赔。正确的流程应是先向警方报案，有了事故记录后再向保险公司报案，等待对方的探查和定损，之后才是修理和赔付。</p>
+                        </div>
+                    </div>
+                    <ul class="knowledge_show_company">
+                        <foreach name="insurances" item="vo">
+                            <li><img src="{:cmf_get_image_preview_url($vo.more.thumbnail)}"></li>
+                        </foreach>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 底部 -->
+    <include file="public@footer" />
+    <include file="public@scripts"/>
+</body>
+
+<hook name="before_body_end"/>
+</html>

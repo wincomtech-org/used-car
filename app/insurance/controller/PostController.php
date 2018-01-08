@@ -168,7 +168,7 @@ class PostController extends HomeBaseController
 
 
 
-// 后续处理
+/*后续处理*/
     // 签合同
     public function step5()
     {
@@ -218,16 +218,20 @@ class PostController extends HomeBaseController
             $this->error('请勾选同意按钮');
         }
 
-        $findOrder = Db::name('insurance_order')->field('order_sn,amount,status')->where('id',$orderId)->find();
-        // 判断是否二次支付：
-        if ($findOrder['status']==6 || $findOrder['status']==10) {
-            $this->error('请勿重复支付',url('user/Insurance/index'));
+        $findOrder = Db::name('insurance_order')->field('order_sn,amount,plateNo,status')->where('id',$orderId)->find();
+        if (empty($findOrder)) {
+            $this->error('保单意外丢失，请联系管理员');
         }
         if ($findOrder['amount']<='0.00') {
             $this->error('请等待管理员填写支付金额');
         }
+        // 判断是否二次支付：
+        if ($findOrder['status']==6 || $findOrder['status']==10) {
+            $this->error('请勿重复支付',url('user/Insurance/index'));
+        }
 
-        if ($agree==1) {
+        // 确认合同
+        if ($agree==1 && $findOrder['status']==1) {
             Db::name('insurance_order')->where('id',$orderId)->setField('status',5);
         }
 
@@ -242,12 +246,12 @@ class PostController extends HomeBaseController
 
         $this->assign($findOrder);
         $this->assign('orderId',$orderId);
-        $this->assign('formurl',url('step7'));
+        $this->assign('formurl',url('step6Post'));
         return $this->fetch();
     }
 
     // 支付 paytype,order_sn,action
-    public function step7()
+    public function step6Post()
     {
         if (!cmf_is_user_login()) {
             $this->error('请登录',url('user/Login/index'));
@@ -281,6 +285,11 @@ class PostController extends HomeBaseController
     {
         $orderId = $this->request->param('id');
 
+        // $coverIds = Db::name('insurance_order')->where('id',$orderId)->value('coverIds');
+        // $coverIds = json_decode($coverIds,true);
+        $coverages = model('InsuranceCoverage')->getCoverageByOrder($orderId);
+
+        $this->assign('coverages',$coverages);
         return $this->fetch();
     }
 

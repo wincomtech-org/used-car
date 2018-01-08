@@ -2,9 +2,7 @@
 namespace app\user\controller;
 
 use cmf\controller\UserBaseController;
-// use app\user\model\UserModel;
-// use app\insurance\model\InsuranceOrderModel;
-// use think\Validate;
+use app\insurance\model\InsuranceOrderModel;
 use think\Db;
 
 /**
@@ -34,22 +32,54 @@ class InsuranceController extends UserBaseController
     {
         $orderId = $this->request->param('id',0,'intval');
 
-        $page = model('insurance/InsuranceOrder')->getPost($orderId);
-        if (empty($page)) {
+        $order = model('insurance/InsuranceOrder')->getPost($orderId);
+        if (empty($order)) {
             abort(404, ' 页面不存在!');
         }
-        $page['statusV'] = config('insurance_order_status')[$page['status']];
+        $order['statusV'] = config('insurance_order_status')[$order['status']];
 
-        if (!empty($page['car_id'])) {
-            $identiInfo = Db::name('usual_car')->where('id',$page['car_id'])->value('identi');
-            $identiInfo = json_decode(Db::name('usual_car')->where('id',$page['car_id'])->value('identi'),true);
-        } else {
-            $identiInfo = $page['more'];
+        // 认证资料
+        $auerbach = $order['more'];
+        $auerbach['contact'] = empty($auerbach['contact']) ? '' : $auerbach['contact'];
+        // 险种
+        $coverages = model('insurance/InsuranceCoverage')->getCoverageByOrder($orderId);
+        // 意向公司
+        $compIds = json_decode($order['compIds'],true);
+        $companys = model('usual/UsualCompany')->getCompanys(0,0,false,['id'=>['in',$compIds]]);
+        // 指定公司
+        if (!empty($order['company_id'])) {
+            $companyNmae = Db::name('usual_company')->where('id',$order['company_id'])->value('name');
+            $this->assign('companyNmae',$companyNmae);
         }
 
-        $this->assign('page',$page);
-        $this->assign('identi',$identiInfo);
+        $this->assign('order',$order);
+        $this->assign('auerbach',$auerbach);
+        $this->assign('coverages',$coverages);
+        $this->assign('companys',$companys);
         return $this->fetch();
+    }
+
+    // auerbach
+    public function detailsPost()
+    {
+        $data = $this->request->param();
+        if (empty($data['type'])) {
+            $this->error('请选择领取保单方式');
+        }
+
+        $orderModel = new InsuranceOrderModel();
+        $where = ['id'=>intval($data['id'])];
+
+        if (!empty($data['more']['address'])) {
+            $more = $orderModel->where($where)->value('more');
+            $more = json_decode($more,true);
+            $data['more'] = array_merge($more,$data['more']);
+            $data['more'] = json_encode($data['more']);
+        }
+
+        $orderModel->allowField(true)->isUpdate(true)->data($data, true)->save();
+
+        $this->success('进入合同页面……',url('insurance/Index/contract',$where));
     }
 
     public function cancel()

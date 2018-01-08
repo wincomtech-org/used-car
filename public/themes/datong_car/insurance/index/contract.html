@@ -20,20 +20,17 @@
             <ul class="brash">
                 <li>当前位置：</li>
                 <li><a href="{:url('Index/index')}">车险服务 </a></li>
-                <li><a href="#">{$iName|default=''} </a></li>
-                <li ><a href="#">险种选择</a></li>
-                <li ><a href="#">资料填写</a></li>
                 <li class="active"><a href="#">签订合同</a></li>
             </ul>
             <div class="selection_insurance_con">
                 <div class="contrac_con">
-                    <div class="img">{$info.name|default=''}条例</div>
+                    <div class="img">保险条例</div>
                     <div class="contract">
-                        {$info.content|default=''}
+                        {$option.content|default=''}
                     </div>
                 </div>
-                <in name='order.status' value='1,5'>
-                    <form action="{:url('Post/step6')}" method="post" id="contract_form" class="contract_form">
+                <in name='order.status' value='0,1,5'>
+                    <form action="{:url('Post/step6')}" method="post" class="contract_form">
                         <p class="contract_p">
                             <span class="check_span">
                                 <input type="checkbox" name="agree" value="1" checked id="contract_label" class="no_input">
@@ -41,12 +38,12 @@
                             </span>
                             <label for="contract_label">同意上述条例，自投保日30内成功支付首期保险费，方可生效。</label>
                         </p>
-                        <input type="hidden" name="insurName" value="{$info.name}">
                         <input type="hidden" name="orderId" value="{$orderId}">
-                        <button type="button" for="contract_form" class="btn btn_submit" onClick="insurance_contract(this);">{$order.status==5?'去支付':'同意'}</button>
+                        <button type="submit" class="btn btn_submit">{$order.status==5?'去支付':'同意'}</button>
                     </form>
+                <else/>
+                    <a href="{:url('Post/coverage',['id'=>$orderId])}"><button class="btn btn_submit">查看险种>></button></a>
                 </in>
-                <a href="{:url('Post/coverage',['id'=>$orderId])}"><button type="button" class="btn btn_submit">查看险种 >></button></a>
             </div>
         </div>
     </section>
@@ -56,8 +53,4 @@
     <include file="public@scripts" />
     <hook name="before_body_end" />
 </body>
-
-<script>
-
-</script>
 </html>

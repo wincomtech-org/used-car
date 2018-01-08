@@ -2,6 +2,7 @@
 namespace app\insurance\model;
 
 use app\insurance\model\InsuranceModel;
+use think\Db;
 
 class InsuranceCoverageModel extends InsuranceModel
 {
@@ -59,7 +60,7 @@ class InsuranceCoverageModel extends InsuranceModel
     public function getCoverage($checkedIds=[], $excludeIds=[])
     {
         $where = ['delete_time' => 0, 'insurance_id' => 0];
-        $categories = model('InsuranceCoverage')->field('id,name')->order("list_order ASC")->where($where)->select()->toArray();
+        $categories = $this->field('id,name')->order("list_order ASC")->where($where)->select()->toArray();
 
         $options = '';
         foreach ($categories as $v) {
@@ -68,6 +69,15 @@ class InsuranceCoverageModel extends InsuranceModel
 
         // $options = $this->createOptions($selectId, $option, $data);
         return $options;
+    }
+    public function getCoverageByOrder($orderId='')
+    {
+        // $coverIds = model('insurance/InsuranceOrder')->where('id',$orderId)->value('coverIds');
+        $coverIds = Db::name('insurance_order')->where('id',$orderId)->value('coverIds');
+        $coverIds = json_decode($coverIds,true);
+        // ->toArray()
+        $coverages = $this->field('id,name')->where(['id'=>['in',$coverIds]])->select();
+        return $coverages;
     }
 
 
@@ -91,7 +101,7 @@ class InsuranceCoverageModel extends InsuranceModel
         return $lists;
     }
 
-    public function fromCateList($Ids=0, $limit=20)
+    public function fromCateList($Ids=0,$limit=20, $field=',description,duty,compen_item,compen_total,content',$filter=[],$order='is_top DESC')
     {
         $where = [
             'delete_time' => 0,
@@ -99,12 +109,16 @@ class InsuranceCoverageModel extends InsuranceModel
         ];
         if (is_array($Ids)) {
             $where = array_merge($where,['id'=>['IN',$Ids]]);
-        } else {
+        } elseif (is_numeric($Ids)) {
             $where = array_merge($where,['id'=>$Ids]);
         }
-        $list = $this->field('id,type,name,price,description,content')
+        $fo = 'id,type,name,price';
+        $field = empty($field) ? $fo : $fo.$field;
+        $where = array_merge($where,$filter);
+
+        $list = $this->field($field)
                 ->where($where)
-                ->order('is_top','DESC')
+                ->order($order)
                 ->select()->toArray();
 
         return $list;

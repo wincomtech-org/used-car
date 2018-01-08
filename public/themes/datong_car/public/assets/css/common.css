@@ -9,6 +9,16 @@ input[type=button],input[type=submit],input[type=file],input[type=text],input[ty
 .rt{float:right;}
 .clear{clear:both;}
 a{text-decoration:none;cursor:pointer;}
+/*公共颜色*/
+.success_color{color: #009241!important;}
+.error_color{color: #F00!important;}
+
+/**新添加字体*/
+@font-face
+{
+   font-family: myFirstFont;
+   src: url('../font/font.TTF')    
+}
 
 /*公共颜色*/
 .success_color{color:#009241!important;}

@@ -3,6 +3,7 @@ namespace app\insurance\controller;
 
 use cmf\controller\AdminBaseController;
 use app\insurance\model\InsuranceOrderModel;
+use app\usual\model\UsualCompanyModel;
 use app\usual\model\UsualCarModel;
 use think\Db;
 
@@ -17,16 +18,20 @@ class AdminOrderController extends AdminBaseController
     {
         $param = $this->request->param();//接收筛选条件
         $insuranceId = $this->request->param('insuranceId',0,'intval');
+        $compId = $this->request->param('compId',0,'intval');
 
         $data = model('InsuranceOrder')->getLists($param);
-        $insurances = model('Insurance')->getInsurance($insuranceId);
+        // $insurances = model('Insurance')->getInsurance($insuranceId);
+        $companys = model('usual/UsualCompany')->getCompanys($compId);
 
         $this->assign('start_time', isset($param['start_time']) ? $param['start_time'] : '');
         $this->assign('end_time', isset($param['end_time']) ? $param['end_time'] : '');
         $this->assign('uname', isset($param['uname']) ? $param['uname'] : '');
         $this->assign('sn', isset($param['sn']) ? $param['sn'] : '');
+        // $this->assign('insurances', $insurances);
         $this->assign('insuranceId', $insuranceId);
-        $this->assign('insurances', $insurances);
+        $this->assign('companys', $companys);
+        $this->assign('compId', $compId);
         $this->assign('lists', $data->items());
         $data->appends($param);
         $this->assign('page', $data->render());
@@ -53,18 +58,35 @@ class AdminOrderController extends AdminBaseController
         }
     }
 
+    // 编辑保险单
     public function edit()
     {
         $id = $this->request->param('id', 0, 'intval');
 
-        $iOrderModel = new InsuranceOrderModel();
-        $post = $iOrderModel->getPost($id);
-        $order_status = $iOrderModel->getOrderStatus($post['status']);
-        $car = model('usual/UsualCar')->getPost($post['car_id']);
+        $orderModel = new InsuranceOrderModel();
+        $post = $orderModel->getPost($id);
+        if (!empty($post['compIds'])) {
+            $post['compIds'] = json_decode($post['compIds'],true);
+        }
+        if (!empty($post['coverIds'])) {
+            $post['coverIds'] = json_decode($post['coverIds'],true);
+        }
 
+        // 公司企业
+        $compModel = new UsualCompanyModel();
+        $selcomp   = $compModel->getCompanys(0,0,false,['id'=>['in',$post['compIds']]]);
+        $companys = $compModel->getCompanys($post['company_id']);
+        // 险种
+        $selcover = model('InsuranceCoverage')->field('id,name')->order("list_order ASC")->where(['id'=>['in',$post['coverIds']]])->select()->toArray();
+
+        // 状态
+        $order_status = $orderModel->getOrderStatus($post['status']);
+
+        $this->assign('selcomp', $selcomp);
+        $this->assign('companys', $companys);
+        $this->assign('selcover', $selcover);
         $this->assign('order_status', $order_status);
         $this->assign('post', $post);
-        $this->assign('car', $car);
         return $this->fetch();
     }
     public function editPost()
@@ -72,49 +94,30 @@ class AdminOrderController extends AdminBaseController
         if ($this->request->isPost()) {
             $data   = $this->request->param();
             $post   = $data['post'];
-            $cardata= $data['car'];
-
-            // 处理车子
-            $car_id = DB::name('usual_car')->where('plateNo',$cardata['identi']['plateNo'])->value('id');
-            if (!empty($car_id)) {
-                $post['car_id'] = $car_id;
-            } else {
-                $cardata['plateNo'] = $cardata['identi']['plateNo'];
-
-                $carModel = new UsualCarModel();
-                $result = $this->validate($cardata, 'usual/Car.insurance');
-                if ($result !== true) {
-                    $this->error($result);
-                }
-                // 身份证
-                if (!empty($cardata['identi']['identity_card'])) {
-                    $cardata['identi']['identity_card'] = $carModel->dealFiles($cardata['identi']['identity_card']);
-                }
-                // 行驶证 单图不需要额外处理
-                // $cardata['identi']['driving_license'];
-
-                $carModel->adminAddArticle($cardata);
-                $post['car_id'] = $carModel->id;
-                // model('usual/UsualCar')->adminEditArticle($cardata);
-                // $post['car_id'] = Db::name('usual_car')->insertGetId($cardata);
-            }
+            $post['amount'] = floatval($post['amount']);
 
             // 验证保单
             $result = $this->validate($post, 'Order.edit');
             if ($result !== true) {
                 $this->error($result);
             }
+            if ($post['status']>=1 && empty($post['amount'])) {
+                $this->error('请填写保险金');
+            }
             if ($post['status']==6 && empty($post['pay_time'])) {
                 $this->error('支付时间不能为空 <br> 或者 支付状态为未支付！');
             }
 
-            $iOrderModel = new InsuranceOrderModel();
-            if (!empty($data['file_names'])) {
-                $post['more']['files'] = $iOrderModel->dealFiles(['names'=>$data['file_names'],'urls'=>$data['file_urls']]);
+            $orderModel = new InsuranceOrderModel();
+            // 直接拿官版的
+            if (!empty($data['identity_card'])) {
+                $post['more']['identity_card'] = $orderModel->dealFiles($data['identity_card']);
+            }
+            if (!empty($data['file'])) {
+                $post['more']['file'] = $orderModel->dealFiles($data['file']);
             }
 
-            $post['user_id'] = $cardata['user_id'];
-            $iOrderModel->adminEditArticle($post);
+            $orderModel->adminEditArticle($post);
 
             $this->success('保存成功!');
         }
