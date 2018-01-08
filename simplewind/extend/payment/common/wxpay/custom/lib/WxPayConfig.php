@@ -1,10 +1,5 @@
 <?php
-<<<<<<< HEAD:simplewind/extend/paymentOld/common/wxpay/lib/WxPayConfig.php
-namespace paymentOld\common\wxpay\lib;
-
-=======
 namespace payment\common\wxpay\custom\lib;
->>>>>>> 32ff6e6b7b6c9e7f15cbceab3dc236face57e84b:simplewind/extend/payment/common/wxpay/custom/lib/WxPayConfig.php
 /**
 * 配置账号信息
 * 这里都是静态类 self::$var ，不能用 $this->var

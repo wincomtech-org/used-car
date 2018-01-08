@@ -307,7 +307,7 @@ function lothar_get_funds_log($type='', $dialog=false)
 * @param $data 是否返回数据集、统计
 * @return boolean or array
 */
-function lothar_verify($uid=null, $code='certification', $data=false)
+function lothar_verify($uid=null, $code='certification', $data='status')
 {
     if (is_null($uid)) {
         $uid = cmf_get_current_user_id();
@@ -319,13 +319,10 @@ function lothar_verify($uid=null, $code='certification', $data=false)
     if (!empty($code)) {
         $where['auth_code'] = $code;
     }
+
+    $result = null;
     $obj = Db::name('verify');
-    if ($data===true) {
-        $result = $obj->where($where)->find();
-        if (!empty($result)) {
-            $result['more'] = json_decode($result['more'],true);
-        }
-    } elseif ($data===false) {
+    if ($data=='status') {
         $result = $obj->where($where)->value('auth_status');
     } elseif ($data=='count') {
         $result = $obj->where($where)->count();
@@ -333,6 +330,11 @@ function lothar_verify($uid=null, $code='certification', $data=false)
         $more = $obj->where($where)->value('more');
         if (!empty($more)) {
             $result = json_decode($more,true);
+        }
+    } else {
+        $result = $obj->where($where)->find();
+        if (!empty($result)) {
+            $result['more'] = json_decode($result['more'],true);
         }
     }
 

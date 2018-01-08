@@ -1,14 +1,4 @@
 <?php
-<<<<<<< HEAD:simplewind/extend/paymentOld/common/wxpay/lib/WxPayApi.php
-namespace paymentOld\common\wxpay\lib;
-
-use paymentOld\common\wxpay\lib\WxPayException;
-// use paymentOld\common\wxpay\lib\WxPayConfig;
-use paymentOld\common\wxpay\lib\WxPayData;//用不上也要用
-use paymentOld\common\wxpay\lib\WxPayDataBase;
-use paymentOld\common\wxpay\lib\WxPayResults;
-use paymentOld\common\wxpay\lib\WxPayReport;
-=======
 namespace payment\common\wxpay\custom\lib;
 // require_once "WxPay.Exception.php";
 // require_once "WxPay.Config.php";
@@ -19,11 +9,6 @@ use payment\common\wxpay\custom\lib\WxPayData;//用不上也要用
 use payment\common\wxpay\custom\lib\WxPayDataBase;
 use payment\common\wxpay\custom\lib\WxPayResults;
 use payment\common\wxpay\custom\lib\WxPayReport;
->>>>>>> 32ff6e6b7b6c9e7f15cbceab3dc236face57e84b:simplewind/extend/payment/common/wxpay/custom/lib/WxPayApi.php
-
-// require_once "WxPay.Exception.php";
-// require_once "WxPay.Config.php";
-// require_once "WxPay.Data.php";
 
 /**
  * 
