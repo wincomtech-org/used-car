@@ -331,7 +331,7 @@ function lothar_verify($uid=null, $code='certification', $data='status')
         if (!empty($more)) {
             $result = json_decode($more,true);
         }
-    } else {
+    } elseif ($data=='all') {
         $result = $obj->where($where)->find();
         if (!empty($result)) {
             $result['more'] = json_decode($result['more'],true);

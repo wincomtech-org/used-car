@@ -117,7 +117,7 @@ class SellerController extends TradeController
         // 用户实名认证状态
         $identify = lothar_verify($userId);
         // 开店资料审核 config('verify_define_data');
-        $verifyinfo = lothar_verify($userId,'openshop',true);
+        $verifyinfo = lothar_verify($userId,'openshop','all');
 
         // 实例化
         $carModel = new UsualCarModel();
@@ -251,7 +251,7 @@ class SellerController extends TradeController
     public function audit()
     {
         $userId = cmf_get_current_user_id();
-        $verifyinfo = lothar_verify($userId,'openshop',true);
+        $verifyinfo = lothar_verify($userId,'openshop','all');
         // 如果审核通过，不予再审核
 
         $this->assign('verifyinfo',$verifyinfo);
