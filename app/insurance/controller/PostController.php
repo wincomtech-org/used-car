@@ -52,7 +52,7 @@ class PostController extends HomeBaseController
             $this->error('请登录',url('user/Login/index'));
         }
 
-        $verifyinfo = lothar_verify(cmf_get_current_user_id(),'openshop',true);
+        $verifyinfo = lothar_verify(cmf_get_current_user_id(),'openshop','more');
 
         if ($this->request->isPost()) {
             $data   = $this->request->param();
@@ -86,7 +86,7 @@ class PostController extends HomeBaseController
         $iName = $mainModel->where('id',$id)->value('name');
 
         $this->assign('iName', $iName);
-        $this->assign('verifyinfo', $verifyinfo['more']);
+        $this->assign('verifyinfo', $verifyinfo);
         return $this->fetch();
     }
 
