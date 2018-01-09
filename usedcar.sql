@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50540
 File Encoding         : 65001
 
-Date: 2018-01-06 16:14:35
+Date: 2018-01-08 16:18:14
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -251,14 +251,8 @@ CREATE TABLE `cmf_asset` (
   `suffix` varchar(10) NOT NULL DEFAULT '' COMMENT '文件后缀名,不包括点',
   `more` text COMMENT '其它详细信息,JSON格式',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COMMENT='资源表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='资源表';
 
--- ----------------------------
--- Records of cmf_asset
--- ----------------------------
-INSERT INTO `cmf_asset` VALUES ('5', '1', '4288', '1507876093', '1', '0', '0017258984a2322273fbde79a092b884674ad9f0f016ad18697d9cb29c423616', '大通车服logo.png', 'portal/20171013/1f661e0d9d9f0c97b17a50e6e06580c0.png', '0017258984a2322273fbde79a092b884', '796d87176a36d808062bc11080cde44872bee928', 'png', '');
-INSERT INTO `cmf_asset` VALUES ('6', '1', '389243', '1514186767', '1', '0', '532ecaf040a81801b4997ccd300d0c983c816e42bc7f48d49d2367ccd3f39589', 'background_1_1024x681.jpg', 'default/20171225/cdb2ca0730bc82c9ba240a22f3f89c29.jpg', '532ecaf040a81801b4997ccd300d0c98', '18244c884729886c2e4ef3b4eb339b2099587c8f', 'jpg', null);
-INSERT INTO `cmf_asset` VALUES ('7', '1', '11264', '1514426645', '1', '0', '35707e0cce0f671c3ee98428ff3378aed1406cf1634d4a6e9288d8be2f94779e', '大通车服网站使用说明书.doc', 'insurance/20171228/f11759926f554c76af063aed5e5aae09.doc', '35707e0cce0f671c3ee98428ff3378ae', '6888bfbb2a5dabec5a5a051a0b441fa8a542533f', 'doc', null);
 
 -- ----------------------------
 -- Table structure for cmf_auth_access
@@ -5135,10 +5129,11 @@ CREATE TABLE `cmf_user` (
   `mobile` varchar(20) NOT NULL DEFAULT '' COMMENT '用户手机号',
   `avatar` varchar(255) NOT NULL DEFAULT '' COMMENT '用户头像',
   `sex` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '性别;0:保密,1:男,2:女',
-  `score` int(11) NOT NULL DEFAULT '0' COMMENT '用户积分',
   `coin` decimal(10,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '金币',
-  `freeze` decimal(10,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '冻结',
-  `ticket` decimal(10,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '点券',
+  `freeze` decimal(10,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '冻结金币',
+  `score` decimal(10,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '用户积分',
+  `coupon` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT '优惠券个数',
+  `exp` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '经验值',
   `birthday` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '生日',
   `signature` varchar(255) NOT NULL DEFAULT '' COMMENT '个性签名',
   `user_url` varchar(100) NOT NULL DEFAULT '' COMMENT '用户个人网址',
@@ -5156,11 +5151,11 @@ CREATE TABLE `cmf_user` (
 -- ----------------------------
 -- Records of cmf_user
 -- ----------------------------
-INSERT INTO `cmf_user` VALUES ('1', '1', 'admin', 'admin', '###b0b5b1441fcc40910db4b7d99d049ddf', '###b0b5b1441fcc40910db4b7d99d049ddf', 'admin@admin.com', '', '', '0', '0', '0.00', '0.00', '0.00', '0', '', '', '1507865317', '1513225427', '127.0.0.1', '1', '', '');
-INSERT INTO `cmf_user` VALUES ('2', '1', '超人不会飞', 'super', '###797fe4d0d1b299ac9b581f4fa4025dbb', '###797fe4d0d1b299ac9b581f4fa4025dbb', 'super@qq.com', '', '', '0', '0', '0.00', '0.00', '0.00', '0', '', '', '0', '0', '', '1', '', '');
-INSERT INTO `cmf_user` VALUES ('3', '1', '洛萨', 'lothar', '###797fe4d0d1b299ac9b581f4fa4025dbb', '###797fe4d0d1b299ac9b581f4fa4025dbb', 'lothar@qq.com', '13333333333', 'avatar/20171125/584d5aa4308ccc597df494da2b84700d.jpg', '0', '0', '8600.00', '0.00', '0.00', '785865600', '', '', '0', '1514278004', '127.0.0.1', '1', '', '{\"qq\":\"\",\"address\":\"\"}');
-INSERT INTO `cmf_user` VALUES ('4', '2', '晴天', 'king', '###797fe4d0d1b299ac9b581f4fa4025dbb', '###797fe4d0d1b299ac9b581f4fa4025dbb', '', '18956471234', '', '0', '0', '0.00', '0.00', '0.00', '0', '', '', '1512194173', '1512194173', '127.0.0.1', '2', '', null);
-INSERT INTO `cmf_user` VALUES ('5', '2', '风', 'fy', '###797fe4d0d1b299ac9b581f4fa4025dbb', '###797fe4d0d1b299ac9b581f4fa4025dbb', 'fy@qq.com', '18956243789', 'avatar/20171225/001883f91cd8b2fefe5cad4274a795d8.jpg', '0', '0', '0.00', '0.00', '0.00', '0', '', '', '1514187604', '1514187604', '127.0.0.1', '2', '', '{\"qq\":\"956231850\",\"address\":\"date\"}');
+INSERT INTO `cmf_user` VALUES ('1', '1', 'admin', 'admin', '###b0b5b1441fcc40910db4b7d99d049ddf', '###b0b5b1441fcc40910db4b7d99d049ddf', 'admin@admin.com', '', '', '0', '0.00', '0.00', '0.00', '0', '0', '0', '', '', '1507865317', '1513225427', '127.0.0.1', '1', '', '');
+INSERT INTO `cmf_user` VALUES ('2', '1', '超人不会飞', 'super', '###797fe4d0d1b299ac9b581f4fa4025dbb', '###797fe4d0d1b299ac9b581f4fa4025dbb', 'super@qq.com', '', '', '0', '0.00', '0.00', '0.00', '0', '0', '0', '', '', '0', '0', '', '1', '', '');
+INSERT INTO `cmf_user` VALUES ('3', '1', '洛萨', 'lothar', '###797fe4d0d1b299ac9b581f4fa4025dbb', '###797fe4d0d1b299ac9b581f4fa4025dbb', 'lothar@qq.com', '13333333333', 'avatar/20171125/584d5aa4308ccc597df494da2b84700d.jpg', '0', '8600.00', '0.00', '28.00', '0', '0', '785865600', '', '', '0', '1514278004', '127.0.0.1', '1', '', '{\"qq\":\"\",\"address\":\"\"}');
+INSERT INTO `cmf_user` VALUES ('4', '2', '晴天', 'king', '###797fe4d0d1b299ac9b581f4fa4025dbb', '###797fe4d0d1b299ac9b581f4fa4025dbb', '', '18956471234', '', '0', '0.00', '0.00', '0.00', '0', '0', '0', '', '', '1512194173', '1512194173', '127.0.0.1', '2', '', null);
+INSERT INTO `cmf_user` VALUES ('5', '2', '风', 'fy', '###797fe4d0d1b299ac9b581f4fa4025dbb', '###797fe4d0d1b299ac9b581f4fa4025dbb', 'fy@qq.com', '18956243789', 'avatar/20171225/001883f91cd8b2fefe5cad4274a795d8.jpg', '0', '0.00', '0.00', '0.00', '0', '0', '0', '', '', '1514187604', '1514187604', '127.0.0.1', '2', '', '{\"qq\":\"956231850\",\"address\":\"date\"}');
 
 -- ----------------------------
 -- Table structure for cmf_user_action
@@ -5204,6 +5199,30 @@ CREATE TABLE `cmf_user_action_log` (
 -- ----------------------------
 -- Records of cmf_user_action_log
 -- ----------------------------
+
+-- ----------------------------
+-- Table structure for cmf_user_coupons_log
+-- ----------------------------
+DROP TABLE IF EXISTS `cmf_user_coupons_log`;
+CREATE TABLE `cmf_user_coupons_log` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '用户 id',
+  `type` tinyint(3) NOT NULL DEFAULT '0' COMMENT '用户操作类型funds_type',
+  `coupon` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '优惠券面额',
+  `reduce` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '满减',
+  `deal_uid` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT '操作者ID',
+  `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
+  `due_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '到期时间。0表示无限期',
+  `status` tinyint(3) NOT NULL DEFAULT '0' COMMENT '状态：0未使用 1已使用',
+  PRIMARY KEY (`id`),
+  KEY `uid` (`user_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COMMENT='用户优惠券记录表';
+
+-- ----------------------------
+-- Records of cmf_user_coupons_log
+-- ----------------------------
+INSERT INTO `cmf_user_coupons_log` VALUES ('1', '3', '11', '30', '100', '1', '1515394252', '0', '0');
+INSERT INTO `cmf_user_coupons_log` VALUES ('2', '3', '11', '3', '50', '1', '1515394415', '0', '0');
 
 -- ----------------------------
 -- Table structure for cmf_user_favorite
@@ -5281,35 +5300,20 @@ DROP TABLE IF EXISTS `cmf_user_score_log`;
 CREATE TABLE `cmf_user_score_log` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '用户 id',
-  `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
   `action` varchar(50) NOT NULL DEFAULT '' COMMENT '用户操作名称。自定义：regCar第一次登记申请开店',
   `score` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '更改积分，可以为负',
   `coin` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '更改金币，可以为负',
+  `deal_uid` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '处理人',
+  `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户操作积分等奖励日志表';
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COMMENT='用户操作积分等奖励日志表';
 
 -- ----------------------------
 -- Records of cmf_user_score_log
 -- ----------------------------
-
--- ----------------------------
--- Table structure for cmf_user_ticket_log
--- ----------------------------
-DROP TABLE IF EXISTS `cmf_user_ticket_log`;
-CREATE TABLE `cmf_user_ticket_log` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `user_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '用户 id',
-  `type` tinyint(3) NOT NULL DEFAULT '0' COMMENT '用户操作类型funds_type',
-  `ticket` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '点券数额，可以为负',
-  `deal_uid` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT '操作者ID',
-  `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
-  PRIMARY KEY (`id`),
-  KEY `uid` (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户点券记录表';
-
--- ----------------------------
--- Records of cmf_user_ticket_log
--- ----------------------------
+INSERT INTO `cmf_user_score_log` VALUES ('1', '3', 'admin', '3.00', '0.00', '1', '1515392193');
+INSERT INTO `cmf_user_score_log` VALUES ('2', '3', 'admin', '10.00', '0.00', '1', '1515392483');
+INSERT INTO `cmf_user_score_log` VALUES ('3', '3', 'admin', '15.00', '0.00', '1', '1515392576');
 
 -- ----------------------------
 -- Table structure for cmf_user_token
