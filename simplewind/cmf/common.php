@@ -319,13 +319,10 @@ function lothar_verify($uid=null, $code='certification', $data='status')
     if (!empty($code)) {
         $where['auth_code'] = $code;
     }
+
+    $result = null;
     $obj = Db::name('verify');
-    if ($data===true) {
-        $result = $obj->where($where)->find();
-        if (!empty($result)) {
-            $result['more'] = json_decode($result['more'],true);
-        }
-    } elseif ($data=='status') {
+    if ($data=='status') {
         $result = $obj->where($where)->value('auth_status');
     } elseif ($data=='count') {
         $result = $obj->where($where)->count();
@@ -333,6 +330,11 @@ function lothar_verify($uid=null, $code='certification', $data='status')
         $more = $obj->where($where)->value('more');
         if (!empty($more)) {
             $result = json_decode($more,true);
+        }
+    } else {
+        $result = $obj->where($where)->find();
+        if (!empty($result)) {
+            $result['more'] = json_decode($result['more'],true);
         }
     }
 
