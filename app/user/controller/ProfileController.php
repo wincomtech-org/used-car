@@ -35,11 +35,11 @@ class ProfileController extends UserBaseController
         $user = cmf_get_current_user();
 
         // 用户身份认证体系
-        $verify = lothar_verify($user['id'], 'certification', true);
-        if ($verify['auth_status'] == 1) {
-            $verifyStatus = true;
-        } else {
+        $verify = lothar_verify($user['id'], 'certification', 'all');
+        if (empty($verify['auth_status'])) {
             $verifyStatus = false;
+        } elseif ($verify['auth_status'] == 1) {
+            $verifyStatus = true;
         }
 
         $this->assign('user',$user);
@@ -94,7 +94,7 @@ class ProfileController extends UserBaseController
                 // 直接拿官版的
                 $veri['more']['identity_card'] = $verifyModel->dealFiles($data['identity_card']);
                 $veri['more']['driving_license'] = $data['verify']['more']['driving_license'];
-                $verify = lothar_verify($userId,'certification',true);
+                $verify = lothar_verify($userId,'certification','all');
                 if (empty($verify)) {
                     $veri['user_id'] = $userId;
                     $veri['auth_code'] = 'certification';

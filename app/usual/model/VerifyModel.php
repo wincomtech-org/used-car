@@ -86,7 +86,7 @@ class VerifyModel extends UsualModel
     * @param $data 是否返回数据集、统计
     * @return boolean or array
     */
-    public function outVerify($uid=null, $code='certification', $data=false)
+    public function outVerify($uid=null, $code='certification', $data='status')
     {
         $result = lothar_verify($uid, $code, $data);
         return $result;

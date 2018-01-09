@@ -202,7 +202,7 @@ class AdminCarController extends AdminBaseController
         $sell_status = $this->Model->getSellStatus($post['sell_status']);
 
         // 个人审核资料
-        $verifyinfo = lothar_verify($post['user_id'],'openshop',true);
+        $verifyinfo = lothar_verify($post['user_id'],'openshop','all');
 
         $this->assign('verifyinfo',$verifyinfo);
 
