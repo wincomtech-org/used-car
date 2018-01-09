@@ -5,9 +5,9 @@ use cmf\controller\AdminBaseController;
 
 /**
 * 服务商城 独立模块
-* 产品
+* 评论
 */
-class AdminShopController extends AdminBaseController
+class AdminCommentController extends AdminBaseController
 {
     public function index()
     {

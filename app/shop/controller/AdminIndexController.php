@@ -5,13 +5,13 @@ use cmf\controller\AdminBaseController;
 
 /**
 * 服务商城 独立模块
-* 产品
+* 配置
 */
-class AdminShopController extends AdminBaseController
+class AdminIndexController extends AdminBaseController
 {
     public function index()
     {
-        return $this->fetch();
+        return $this->fetch(':config');
     }
 
     

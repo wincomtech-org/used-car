@@ -8,6 +8,8 @@ GIT源码：
     https://github.com/wincomtech-org/used_car
 DOAMIN：
     http://usedcar.wincomtech.cn/
+测试账号：super  111111
+          lothar  111111
 模板路径：
     \public\themes\datong_car\  主目录
     \public\themes\datong_car\public\  共用文件 head、header、footer、nav、banner、morejs
@@ -36,9 +38,11 @@ DOMEvent DOMDocumentWrapper phpQueryEvents phpQuery Callback JSONP
 
 【设计种种】
 预设变量：
+    父级ID(parent_id)、
     用户名(username)、车牌号(plateNo)、认证资料(auerbach)、合同(contract)、
     金币(coin)、冻结金币(freeze)、积分(score)、优惠券(coupons)、经验值(exp)、
     创建时间(create_time)、更新时间(update_time)、到期时间(due_time)
+    库存(inventory)、
 
 车险服务流程
     已存在的车险查重
@@ -53,11 +57,11 @@ DOMEvent DOMDocumentWrapper phpQueryEvents phpQuery Callback JSONP
 商品属性设计：
     核心：属性类别表 + 属性值表
     产品表(cmf_shop)：
-        (PK)产品ID、(FK1)类别ID、(FK2)品牌ID、产品名称(name)、价格(shop_price)、积分()、添加时间(create_time)、状态(status)
+        (PK)产品ID、(FK1)类别ID、(FK2)品牌ID、产品名称(name)、价格(shop_price)、积分(score)、优惠券(conpon)、、添加时间(create_time)、库存(inventory)、状态(status)
     品牌表(cmf_shop_brand)：可以直接使用已有的
         (PK)品牌ID、品牌名称、logo、推荐(is_rec)、状态
     类目表(cmf_shop_category)：
-        (PK)类别ID、(FK1)类别父ID(pid)、类别名称(name)、深度(level)、排序(listorder)、状态(status)
+        (PK)类别ID、(FK1)类别父ID(parent_id)、类别名称(name)、深度(level)、排序(listorder)、状态(status)
     属性表(cmf_shop_attr)：
         (PK)属性ID、(FK1)类别ID(cateId)、属性名称(name)、显示类型(type,单选、多选、下拉)、排序、状态
     属性值表(cmf_shop_av)：

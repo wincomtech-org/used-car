@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50540
 File Encoding         : 65001
 
-Date: 2018-01-08 16:18:14
+Date: 2018-01-08 17:42:30
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -36,7 +36,7 @@ CREATE TABLE `cmf_admin_menu` (
   KEY `status` (`status`),
   KEY `parentid` (`parent_id`),
   KEY `model` (`controller`)
-) ENGINE=InnoDB AUTO_INCREMENT=191 DEFAULT CHARSET=utf8mb4 COMMENT='后台菜单表';
+) ENGINE=InnoDB AUTO_INCREMENT=197 DEFAULT CHARSET=utf8mb4 COMMENT='后台菜单表';
 
 -- ----------------------------
 -- Records of cmf_admin_menu
@@ -202,10 +202,10 @@ INSERT INTO `cmf_admin_menu` VALUES ('158', '6', '1', '1', '900', 'user', 'Admin
 INSERT INTO `cmf_admin_menu` VALUES ('159', '158', '1', '0', '10000', 'user', 'AdminUserAction', 'edit', '', '编辑用户操作', '', '编辑用户操作');
 INSERT INTO `cmf_admin_menu` VALUES ('160', '158', '2', '0', '10000', 'user', 'AdminUserAction', 'editPost', '', '编辑用户操作提交', '', '编辑用户操作提交');
 INSERT INTO `cmf_admin_menu` VALUES ('161', '158', '1', '0', '10000', 'user', 'AdminUserAction', 'sync', '', '同步用户操作', '', '同步用户操作');
-INSERT INTO `cmf_admin_menu` VALUES ('162', '0', '1', '1', '20', 'insurance', 'AdminIndex', 'default', '', '车险服务', 'flash', '');
-INSERT INTO `cmf_admin_menu` VALUES ('163', '0', '1', '1', '30', 'trade', 'AdminIndex', 'default', '', '车辆买卖', 'car', '');
-INSERT INTO `cmf_admin_menu` VALUES ('164', '0', '1', '1', '40', 'service', 'AdminIndex', 'default', '', '车辆业务', 'cubes', '');
-INSERT INTO `cmf_admin_menu` VALUES ('165', '0', '1', '1', '10', 'usual', 'AdminIndex', 'default', '', '车辆统配', 'cogs', '');
+INSERT INTO `cmf_admin_menu` VALUES ('162', '0', '0', '1', '20', 'insurance', 'AdminIndex', 'default', '', '车险服务', 'flash', '');
+INSERT INTO `cmf_admin_menu` VALUES ('163', '0', '0', '1', '30', 'trade', 'AdminIndex', 'default', '', '车辆买卖', 'car', '');
+INSERT INTO `cmf_admin_menu` VALUES ('164', '0', '0', '1', '40', 'service', 'AdminIndex', 'default', '', '车辆业务', 'cubes', '');
+INSERT INTO `cmf_admin_menu` VALUES ('165', '0', '0', '1', '10', 'usual', 'AdminIndex', 'default', '', '车辆统配', 'cogs', '');
 INSERT INTO `cmf_admin_menu` VALUES ('166', '165', '1', '1', '5', 'usual', 'AdminItemCate', 'index', '', '车辆属性', '', '');
 INSERT INTO `cmf_admin_menu` VALUES ('167', '165', '1', '1', '2', 'usual', 'AdminBrand', 'index', '', '品牌管理', '', '');
 INSERT INTO `cmf_admin_menu` VALUES ('168', '165', '1', '1', '15', 'usual', 'AdminVerify', 'index', '', '认证管理', '', '');
@@ -231,6 +231,12 @@ INSERT INTO `cmf_admin_menu` VALUES ('187', '185', '1', '1', '3', 'funds', 'Admi
 INSERT INTO `cmf_admin_menu` VALUES ('188', '185', '1', '1', '2', 'funds', 'AdminWithdraw', 'index', '', '提现管理', '', '');
 INSERT INTO `cmf_admin_menu` VALUES ('189', '185', '1', '1', '4', 'funds', 'AdminOpenshop', 'index', '', '开店申请', '', '');
 INSERT INTO `cmf_admin_menu` VALUES ('190', '164', '1', '1', '2', 'usual', 'AdminConsign', 'index', '', '寄存点', '', '');
+INSERT INTO `cmf_admin_menu` VALUES ('191', '0', '0', '1', '33', 'shop', 'AdminShop', 'default', '', '服务商城', 'shopping-cart', '');
+INSERT INTO `cmf_admin_menu` VALUES ('192', '191', '1', '1', '10000', 'shop', 'AdminShop', 'index', '', '商品管理', '', '');
+INSERT INTO `cmf_admin_menu` VALUES ('193', '191', '1', '1', '10000', 'shop', 'AdminCategory', 'index', '', '类别管理', '', '');
+INSERT INTO `cmf_admin_menu` VALUES ('194', '191', '1', '1', '10000', 'shop', 'AdminAttr', 'index', '', '属性管理', '', '');
+INSERT INTO `cmf_admin_menu` VALUES ('195', '191', '1', '1', '10000', 'shop', 'AdminOrder', 'index', '', '订单管理', '', '');
+INSERT INTO `cmf_admin_menu` VALUES ('196', '191', '1', '1', '10000', 'shop', 'AdminComment', 'index', '', '评论管理', '', '');
 
 -- ----------------------------
 -- Table structure for cmf_asset
@@ -256,7 +262,6 @@ CREATE TABLE `cmf_asset` (
 -- ----------------------------
 -- Records of cmf_asset
 -- ----------------------------
-INSERT INTO `cmf_asset` VALUES ('5', '1', '4288', '1507876093', '1', '0', '0017258984a2322273fbde79a092b884674ad9f0f016ad18697d9cb29c423616', '大通车服logo.png', 'portal/20171013/1f661e0d9d9f0c97b17a50e6e06580c0.png', '0017258984a2322273fbde79a092b884', '796d87176a36d808062bc11080cde44872bee928', 'png', '');
 INSERT INTO `cmf_asset` VALUES ('6', '1', '389243', '1514186767', '1', '0', '532ecaf040a81801b4997ccd300d0c983c816e42bc7f48d49d2367ccd3f39589', 'background_1_1024x681.jpg', 'default/20171225/cdb2ca0730bc82c9ba240a22f3f89c29.jpg', '532ecaf040a81801b4997ccd300d0c98', '18244c884729886c2e4ef3b4eb339b2099587c8f', 'jpg', null);
 INSERT INTO `cmf_asset` VALUES ('7', '1', '11264', '1514426645', '1', '0', '35707e0cce0f671c3ee98428ff3378aed1406cf1634d4a6e9288d8be2f94779e', '大通车服网站使用说明书.doc', 'insurance/20171228/f11759926f554c76af063aed5e5aae09.doc', '35707e0cce0f671c3ee98428ff3378ae', '6888bfbb2a5dabec5a5a051a0b441fa8a542533f', 'doc', null);
 
@@ -272,7 +277,7 @@ CREATE TABLE `cmf_auth_access` (
   PRIMARY KEY (`id`),
   KEY `role_id` (`role_id`),
   KEY `rule_name` (`rule_name`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=142 DEFAULT CHARSET=utf8 COMMENT='权限授权表';
+) ENGINE=InnoDB AUTO_INCREMENT=426 DEFAULT CHARSET=utf8 COMMENT='权限授权表';
 
 -- ----------------------------
 -- Records of cmf_auth_access
@@ -418,6 +423,151 @@ INSERT INTO `cmf_auth_access` VALUES ('138', '4', 'admin/recyclebin/restore', 'a
 INSERT INTO `cmf_auth_access` VALUES ('139', '4', 'admin/recyclebin/delete', 'admin_url');
 INSERT INTO `cmf_auth_access` VALUES ('140', '4', 'user/adminasset/index', 'admin_url');
 INSERT INTO `cmf_auth_access` VALUES ('141', '4', 'user/adminasset/delete', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('281', '2', 'usual/adminindex/default', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('282', '2', 'usual/admincar/index', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('283', '2', 'usual/adminbrand/index', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('284', '2', 'usual/adminbrand/add', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('285', '2', 'usual/adminseries/index', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('286', '2', 'usual/adminmodels/index', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('287', '2', 'usual/adminitemcate/index', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('288', '2', 'usual/admincompany/index', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('289', '2', 'usual/adminverify/index', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('290', '2', 'usual/adminnews/index', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('291', '2', 'usual/adminindex/config', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('292', '2', 'insurance/adminindex/default', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('293', '2', 'insurance/adminorder/index', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('294', '2', 'insurance/admininsurance/index', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('295', '2', 'insurance/admincoverage/index', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('296', '2', 'trade/adminindex/default', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('297', '2', 'trade/adminorder/index', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('298', '2', 'trade/adminshop/index', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('299', '2', 'shop/adminshop/default', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('300', '2', 'shop/adminshop/index', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('301', '2', 'shop/admincategory/index', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('302', '2', 'shop/adminattr/index', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('303', '2', 'shop/adminorder/index', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('304', '2', 'shop/admincomment/index', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('305', '2', 'service/adminindex/default', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('306', '2', 'service/adminservice/index', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('307', '2', 'usual/adminconsign/index', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('308', '2', 'service/admincategory/index', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('309', '2', 'user/adminindex/default', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('310', '2', 'admin/user/default', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('311', '2', 'admin/rbac/index', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('312', '2', 'admin/rbac/roleadd', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('313', '2', 'admin/rbac/roleaddpost', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('314', '2', 'admin/rbac/roleedit', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('315', '2', 'admin/rbac/roleeditpost', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('316', '2', 'admin/rbac/roledelete', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('317', '2', 'admin/rbac/authorize', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('318', '2', 'admin/rbac/authorizepost', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('319', '2', 'admin/user/index', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('320', '2', 'admin/user/add', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('321', '2', 'admin/user/addpost', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('322', '2', 'admin/user/edit', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('323', '2', 'admin/user/editpost', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('324', '2', 'admin/user/userinfo', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('325', '2', 'admin/user/userinfopost', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('326', '2', 'admin/user/delete', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('327', '2', 'admin/user/ban', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('328', '2', 'admin/user/cancelban', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('329', '2', 'user/adminindex/default1', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('330', '2', 'user/adminindex/index', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('331', '2', 'user/adminindex/ban', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('332', '2', 'user/adminindex/cancelban', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('333', '2', 'user/adminoauth/index', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('334', '2', 'user/adminoauth/delete', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('335', '2', 'funds/adminfunds/default', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('336', '2', 'funds/adminfunds/index', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('337', '2', 'funds/adminwithdraw/index', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('338', '2', 'funds/adminrecharge/index', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('339', '2', 'funds/adminopenshop/index', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('340', '2', 'portal/adminindex/default', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('341', '2', 'portal/adminarticle/index', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('342', '2', 'portal/adminarticle/add', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('343', '2', 'portal/adminarticle/addpost', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('344', '2', 'portal/adminarticle/edit', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('345', '2', 'portal/adminarticle/editpost', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('346', '2', 'portal/adminarticle/delete', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('347', '2', 'portal/adminarticle/publish', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('348', '2', 'portal/adminarticle/top', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('349', '2', 'portal/adminarticle/recommend', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('350', '2', 'portal/adminarticle/listorder', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('351', '2', 'portal/admincategory/index', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('352', '2', 'portal/admincategory/add', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('353', '2', 'portal/admincategory/addpost', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('354', '2', 'portal/admincategory/edit', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('355', '2', 'portal/admincategory/editpost', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('356', '2', 'portal/admincategory/select', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('357', '2', 'portal/admincategory/listorder', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('358', '2', 'portal/admincategory/delete', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('359', '2', 'portal/adminpage/index', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('360', '2', 'portal/adminpage/add', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('361', '2', 'portal/adminpage/addpost', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('362', '2', 'portal/adminpage/edit', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('363', '2', 'portal/adminpage/editpost', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('364', '2', 'portal/adminpage/delete', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('365', '2', 'portal/admintag/index', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('366', '2', 'portal/admintag/add', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('367', '2', 'portal/admintag/addpost', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('368', '2', 'portal/admintag/upstatus', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('369', '2', 'portal/admintag/delete', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('370', '2', 'admin/setting/default', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('371', '2', 'admin/setting/site', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('372', '2', 'admin/setting/sitepost', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('373', '2', 'admin/mailer/index', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('374', '2', 'admin/mailer/indexpost', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('375', '2', 'admin/mailer/template', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('376', '2', 'admin/mailer/templatepost', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('377', '2', 'admin/mailer/test', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('378', '2', 'admin/nav/index', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('379', '2', 'admin/nav/add', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('380', '2', 'admin/nav/addpost', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('381', '2', 'admin/nav/edit', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('382', '2', 'admin/nav/editpost', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('383', '2', 'admin/nav/delete', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('384', '2', 'admin/navmenu/index', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('385', '2', 'admin/navmenu/add', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('386', '2', 'admin/navmenu/addpost', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('387', '2', 'admin/navmenu/edit', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('388', '2', 'admin/navmenu/editpost', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('389', '2', 'admin/navmenu/delete', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('390', '2', 'admin/navmenu/listorder', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('391', '2', 'admin/slide/index', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('392', '2', 'admin/slide/add', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('393', '2', 'admin/slide/addpost', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('394', '2', 'admin/slide/edit', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('395', '2', 'admin/slide/editpost', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('396', '2', 'admin/slide/delete', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('397', '2', 'admin/slideitem/index', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('398', '2', 'admin/slideitem/add', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('399', '2', 'admin/slideitem/addpost', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('400', '2', 'admin/slideitem/edit', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('401', '2', 'admin/slideitem/editpost', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('402', '2', 'admin/slideitem/delete', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('403', '2', 'admin/slideitem/ban', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('404', '2', 'admin/slideitem/cancelban', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('405', '2', 'admin/slideitem/listorder', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('406', '2', 'admin/link/index', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('407', '2', 'admin/link/add', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('408', '2', 'admin/link/addpost', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('409', '2', 'admin/link/edit', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('410', '2', 'admin/link/editpost', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('411', '2', 'admin/link/delete', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('412', '2', 'admin/link/listorder', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('413', '2', 'admin/link/toggle', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('414', '2', 'admin/setting/upload', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('415', '2', 'admin/setting/uploadpost', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('416', '2', 'admin/setting/password', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('417', '2', 'admin/setting/passwordpost', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('418', '2', 'admin/dbbackup/index', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('419', '2', 'admin/setting/clearcache', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('420', '2', 'admin/district/index', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('421', '2', 'admin/recyclebin/index', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('422', '2', 'admin/recyclebin/restore', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('423', '2', 'admin/recyclebin/delete', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('424', '2', 'user/adminasset/index', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('425', '2', 'user/adminasset/delete', 'admin_url');
 
 -- ----------------------------
 -- Table structure for cmf_auth_rule
@@ -435,7 +585,7 @@ CREATE TABLE `cmf_auth_rule` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`) USING BTREE,
   KEY `module` (`app`,`status`,`type`)
-) ENGINE=InnoDB AUTO_INCREMENT=192 DEFAULT CHARSET=utf8mb4 COMMENT='权限规则表';
+) ENGINE=InnoDB AUTO_INCREMENT=198 DEFAULT CHARSET=utf8mb4 COMMENT='权限规则表';
 
 -- ----------------------------
 -- Records of cmf_auth_rule
@@ -631,6 +781,12 @@ INSERT INTO `cmf_auth_rule` VALUES ('188', '1', 'funds', 'admin_url', 'funds/Adm
 INSERT INTO `cmf_auth_rule` VALUES ('189', '1', 'funds', 'admin_url', 'funds/AdminWithdraw/index', '', '提现管理', '');
 INSERT INTO `cmf_auth_rule` VALUES ('190', '1', 'funds', 'admin_url', 'funds/AdminOpenshop/index', '', '开店申请', '');
 INSERT INTO `cmf_auth_rule` VALUES ('191', '1', 'usual', 'admin_url', 'usual/AdminConsign/index', '', '寄存点', '');
+INSERT INTO `cmf_auth_rule` VALUES ('192', '1', 'shop', 'admin_url', 'shop/AdminShop/default', '', '服务商城', '');
+INSERT INTO `cmf_auth_rule` VALUES ('193', '1', 'shop', 'admin_url', 'shop/AdminShop/index', '', '商品管理', '');
+INSERT INTO `cmf_auth_rule` VALUES ('194', '1', 'shop', 'admin_url', 'shop/AdminCategory/index', '', '类别管理', '');
+INSERT INTO `cmf_auth_rule` VALUES ('195', '1', 'shop', 'admin_url', 'shop/AdminAttr/index', '', '属性管理', '');
+INSERT INTO `cmf_auth_rule` VALUES ('196', '1', 'shop', 'admin_url', 'shop/AdminOrder/index', '', '订单管理', '');
+INSERT INTO `cmf_auth_rule` VALUES ('197', '1', 'shop', 'admin_url', 'shop/AdminComment/index', '', '评论管理', '');
 
 -- ----------------------------
 -- Table structure for cmf_comment
@@ -4762,13 +4918,13 @@ CREATE TABLE `cmf_role_user` (
   PRIMARY KEY (`id`),
   KEY `group_id` (`role_id`),
   KEY `user_id` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8 COMMENT='用户角色对应表';
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8 COMMENT='用户角色对应表';
 
 -- ----------------------------
 -- Records of cmf_role_user
 -- ----------------------------
-INSERT INTO `cmf_role_user` VALUES ('12', '2', '2');
 INSERT INTO `cmf_role_user` VALUES ('13', '3', '3');
+INSERT INTO `cmf_role_user` VALUES ('15', '2', '2');
 
 -- ----------------------------
 -- Table structure for cmf_route
@@ -5158,8 +5314,8 @@ CREATE TABLE `cmf_user` (
 -- Records of cmf_user
 -- ----------------------------
 INSERT INTO `cmf_user` VALUES ('1', '1', 'admin', 'admin', '###b0b5b1441fcc40910db4b7d99d049ddf', '###b0b5b1441fcc40910db4b7d99d049ddf', 'admin@admin.com', '', '', '0', '0.00', '0.00', '0.00', '0', '0', '0', '', '', '1507865317', '1513225427', '127.0.0.1', '1', '', '');
-INSERT INTO `cmf_user` VALUES ('2', '1', '超人不会飞', 'super', '###797fe4d0d1b299ac9b581f4fa4025dbb', '###797fe4d0d1b299ac9b581f4fa4025dbb', 'super@qq.com', '', '', '0', '0.00', '0.00', '0.00', '0', '0', '0', '', '', '0', '0', '', '1', '', '');
-INSERT INTO `cmf_user` VALUES ('3', '1', '洛萨', 'lothar', '###797fe4d0d1b299ac9b581f4fa4025dbb', '###797fe4d0d1b299ac9b581f4fa4025dbb', 'lothar@qq.com', '13333333333', 'avatar/20171125/584d5aa4308ccc597df494da2b84700d.jpg', '0', '8600.00', '0.00', '28.00', '0', '0', '785865600', '', '', '0', '1514278004', '127.0.0.1', '1', '', '{\"qq\":\"\",\"address\":\"\"}');
+INSERT INTO `cmf_user` VALUES ('2', '1', '超人不会飞', 'super', '###797fe4d0d1b299ac9b581f4fa4025dbb', '###797fe4d0d1b299ac9b581f4fa4025dbb', 'super@qq.com', '', '', '0', '0.00', '0.00', '0.00', '0', '0', '0', '', '', '0', '1515402315', '127.0.0.1', '1', '', '');
+INSERT INTO `cmf_user` VALUES ('3', '1', '洛萨', 'lothar', '###797fe4d0d1b299ac9b581f4fa4025dbb', '###797fe4d0d1b299ac9b581f4fa4025dbb', 'lothar@qq.com', '13333333333', 'avatar/20171125/584d5aa4308ccc597df494da2b84700d.jpg', '0', '8600.00', '0.00', '28.00', '0', '0', '785865600', '', '', '0', '1515402563', '127.0.0.1', '1', '', '{\"qq\":\"\",\"address\":\"\"}');
 INSERT INTO `cmf_user` VALUES ('4', '2', '晴天', 'king', '###797fe4d0d1b299ac9b581f4fa4025dbb', '###797fe4d0d1b299ac9b581f4fa4025dbb', '', '18956471234', '', '0', '0.00', '0.00', '0.00', '0', '0', '0', '', '', '1512194173', '1512194173', '127.0.0.1', '2', '', null);
 INSERT INTO `cmf_user` VALUES ('5', '2', '风', 'fy', '###797fe4d0d1b299ac9b581f4fa4025dbb', '###797fe4d0d1b299ac9b581f4fa4025dbb', 'fy@qq.com', '18956243789', 'avatar/20171225/001883f91cd8b2fefe5cad4274a795d8.jpg', '0', '0.00', '0.00', '0.00', '0', '0', '0', '', '', '1514187604', '1514187604', '127.0.0.1', '2', '', '{\"qq\":\"956231850\",\"address\":\"date\"}');
 
@@ -5333,13 +5489,14 @@ CREATE TABLE `cmf_user_token` (
   `token` varchar(64) NOT NULL DEFAULT '' COMMENT 'token',
   `device_type` varchar(10) NOT NULL DEFAULT '' COMMENT '设备类型;mobile,android,iphone,ipad,web,pc,mac,wxapp',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COMMENT='用户客户端登录 token 表';
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COMMENT='用户客户端登录 token 表';
 
 -- ----------------------------
 -- Records of cmf_user_token
 -- ----------------------------
 INSERT INTO `cmf_user_token` VALUES ('3', '1', '1528777427', '1513225427', 'b3036200faf69584c27b7fae51db69afb3036200faf69584c27b7fae51db69af', 'web');
 INSERT INTO `cmf_user_token` VALUES ('4', '3', '1527744994', '1512192994', 'dc256e0c455256ac1b543488cfa766c7dc256e0c455256ac1b543488cfa766c7', 'web');
+INSERT INTO `cmf_user_token` VALUES ('5', '2', '1530954315', '1515402315', '3801bef80de1a6f18b2b2c035adf9e3a3801bef80de1a6f18b2b2c035adf9e3a', 'web');
 
 -- ----------------------------
 -- Table structure for cmf_usual_brand

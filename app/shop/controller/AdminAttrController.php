@@ -5,9 +5,11 @@ use cmf\controller\AdminBaseController;
 
 /**
 * 服务商城 独立模块
-* 产品
+* 属性
+* 属性值
+* 属性关系
 */
-class AdminShopController extends AdminBaseController
+class AdminAttrController extends AdminBaseController
 {
     public function index()
     {
