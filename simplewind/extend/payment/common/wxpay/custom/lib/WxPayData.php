@@ -1,6 +1,9 @@
 <?php
 namespace payment\common\wxpay\custom\lib;
 
+// use paymentOld\common\wxpay\lib\WxPayConfig;
+use paymentOld\common\wxpay\lib\WxPayException;
+
 /**
 * 2015-06-29 修复签名问题
 **/
@@ -8,8 +11,8 @@ namespace payment\common\wxpay\custom\lib;
 // require_once "WxPay.Exception.php";
 
 /**
-* 空类，只是与文件名一致，不用则报错。在别的地方使用时带上：use test\Test;new Test();
-* 这是为什么呢？死变态
+* 空类，只是与文件名一致，不用则报错。这是为什么呢？死变态
+* 在别的地方使用时带上： use paymentOld\common\wxpay\lib\WxPayData; new WxPayData();
 * 这里面掺杂着一部分静态方法
 */
 class WxPayData{}

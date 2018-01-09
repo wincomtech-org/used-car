@@ -6,8 +6,8 @@
 </style>
 <script type="text/html" id="photos-item-tpl">
     <li id="saved-image{id}">
-        <input id="photo-{id}" type="hidden" name="photo_urls[]" value="{filepath}">
-        <input class="form-control" id="photo-{id}-name" type="text" name="photo_names[]" value="{name}"
+        <input id="photo-{id}" type="hidden" name="photo[urls][]" value="{filepath}">
+        <input class="form-control" id="photo-{id}-name" type="text" name="photo[names][]" value="{name}"
                style="width: 200px;" title="图片名称">
         <img id="photo-{id}-preview" src="{url}" style="height:36px;width: 36px;"
              onclick="imagePreviewDialog(this.src);">
@@ -17,15 +17,30 @@
 </script>
 <script type="text/html" id="files-item-tpl">
     <li id="saved-file{id}">
-        <input id="file-{id}" type="hidden" name="file_urls[]" value="{filepath}">
-        <input class="form-control" id="file-{id}-name" type="text" name="file_names[]" value="{name}"
+        <input id="file-{id}" type="hidden" name="file[urls][]" value="{filepath}">
+        <input class="form-control" id="file-{id}-name" type="text" name="file[names][]" value="{name}"
                style="width: 200px;" title="文件名称">
         <a id="file-{id}-preview" href="{preview_url}" target="_blank">下载</a>
         <a href="javascript:uploadOne('图片上传','#file-{id}','file');">替换</a>
         <a href="javascript:(function(){$('#saved-file{id}').remove();})();">移除</a>
     </li>
 </script>
+<!-- 身份证 -->
+<script type="text/html" id="identity_card-item-tpl">
+    <li id="saved-identity_card{id}">
+        <input id="identity_card-{id}" type="hidden" name="identity_card[urls][]" value="{filepath}">
+        <input class="form-control" id="identity_card-{id}-name" type="text"
+               name="identity_card[names][]" value="{name}"
+               style="width: 200px;" title="图片名称">
+        <img id="identity_card-{id}-preview" src="{url}"
+             style="height:36px;width:36px;"
+             onclick="imagePreviewDialog(this.src);">
+        <a href="javascript:uploadOneImage('图片上传','#identity_card-{id}');">替换</a>
+        <a href="javascript:(function(){$('#saved-identity_card{id}').remove();})();">移除</a>
+    </li>
+</script>
 </head>
+
 <body>
 <div class="wrap js-check-wrap">
     <ul class="nav nav-tabs">
@@ -93,34 +108,34 @@
                     </tr>
                     <tr>
                         <th>买主</th>
-                        <td><input class="form-control" type="text" name="post[more][uname]" value="{$post.more.uname|default=''}"></td>
+                        <td><input class="form-control" type="text" name="verify[more][username]" value="{$verify.username|default=''}"></td>
                     </tr>
                     <tr>
                         <th>联系方式</th>
                         <td>
-                            <textarea class="form-control" name="post[more][contact]" style="height:50px;" placeholder="手机号、QQ、微信">{$post.more.contact|default=''}</textarea>
+                            <textarea class="form-control" name="verify[more][contact]" style="height:50px;" placeholder="手机号、QQ、微信">{$verify.contact|default=''}</textarea>
                         </td>
                     </tr>
                     <tr>
                         <th>身份证</th>
                         <td>
                             <ul id="photos" class="pic-list list-unstyled form-inline">
-                                <notempty name="post.more.identity_card">
-                                    <foreach name="post.more.identity_card" item="vo">
-                                        <li id="saved-image{$key}">
-                                            <input id="photo-{$key}" type="hidden" name="photo_urls[]"
-                                                   value="{$vo.url}">
-                                            <input class="form-control" id="photo-{$key}-name" type="text"
-                                                   name="photo_names[]"
-                                                   value="{$vo.name|default=''}" style="width: 200px;" title="图片名称">
-                                            <img id="photo-{$key}-preview"
-                                                 src="{:cmf_get_image_preview_url($vo['url'])}"
-                                                 style="height:36px;width: 36px;"
-                                                 onclick="parent.imagePreviewDialog(this.src);">
-                                            <a href="javascript:uploadOneImage('图片上传','#photo-{$key}');">替换</a>
-                                            <a href="javascript:(function(){$('#saved-image{$key}').remove();})();">移除</a>
-                                        </li>
-                                    </foreach>
+                                <notempty name="verify.identity_card">
+                                <foreach name="verify.identity_card" item="vo">
+                                    <li id="saved-image{$key}">
+                                        <input id="photo-{$key}" type="hidden" name="photo_urls[]"
+                                               value="{$vo.url}">
+                                        <input class="form-control" id="photo-{$key}-name" type="text"
+                                               name="photo_names[]"
+                                               value="{$vo.name|default=''}" style="width: 200px;" title="图片名称">
+                                        <img id="photo-{$key}-preview"
+                                             src="{:cmf_get_image_preview_url($vo['url'])}"
+                                             style="height:36px;width: 36px;"
+                                             onclick="parent.imagePreviewDialog(this.src);">
+                                        <a href="javascript:uploadOneImage('图片上传','#photo-{$key}');">替换</a>
+                                        <a href="javascript:(function(){$('#saved-image{$key}').remove();})();">移除</a>
+                                    </li>
+                                </foreach>
                                 </notempty>
                             </ul>
                             <a href="javascript:uploadMultiImage('图片上传','#photos','photos-item-tpl');"
@@ -131,12 +146,12 @@
                         <th>行驶证</th>
                         <td>
                             <div>
-                                <input type="hidden" name="post[more][driving_license]" id="driving_license" value="{$post.more.driving_license|default=''}">
+                                <input type="hidden" name="verify[more][driving_license]" id="driving_license" value="{$verify.driving_license|default=''}">
                                 <a href="javascript:uploadOneImage('图片上传','#driving_license');">
-                                    <empty name="post.more.driving_license">
+                                    <empty name="verify.driving_license">
                                         <img src="__TMPL__/public/assets/images/default-thumbnail.png" id="driving_license-preview" width="135" style="cursor: pointer"/>
                                     <else/>
-                                        <img src="{:cmf_get_image_preview_url($post.more.driving_license)}" id="driving_license-preview" width="135" style="cursor: pointer"/>
+                                        <img src="{:cmf_get_image_preview_url($verify.driving_license)}" id="driving_license-preview" width="135" style="cursor: pointer"/>
                                     </empty>
                                 </a>
                                 <input type="button" class="btn btn-sm btn-cancel-driving_license" value="取消图片">

@@ -93,8 +93,8 @@
 
                         </ul>
                     </div>
-                    <div class="yuyue">
-                        <div class="yuyue_guang">
+                    <div class="yuyue btn-line">
+                        <div class="yuyue_guang btn-style">
                             <eq name="page.platform" value="1">
                                 <empty name="page.inventory">
                                     <span class="btn" style="color:grey;">暂无库存</span>
@@ -113,7 +113,7 @@
                                 </empty>
                             </eq>
                         </div>
-                        <div class="yuyue_guang">
+                        <div class="yuyue_guang btn-style">
                             <if condition="cmf_is_mobile()===true">
                                 <a class="btn iphone" href="tel:{$page.shop_tel}">点我联系</a>
                             <else/>

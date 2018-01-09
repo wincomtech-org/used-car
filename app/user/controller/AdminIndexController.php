@@ -153,8 +153,8 @@ class AdminIndexController extends AdminBaseController
         }
 
         $title = '本站用户';
-        $head = ['注册时间','用户ID','用户名','昵称','手机号','余额','冻结','点券','状态'];
-        $field = 'create_time,id,user_login,user_nickname,mobile,coin,freeze,ticket,user_status';
+        $head = ['注册时间','用户ID','用户名','昵称','手机号','余额','冻结','积分','状态'];
+        $field = 'create_time,id,user_login,user_nickname,mobile,coin,freeze,score,user_status';
         $dir = 'user';
         $types = [0=>'禁用',1=>'正常',2=>'未验证'];
 

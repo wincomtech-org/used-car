@@ -66,7 +66,7 @@ class AdminCategoryController extends AdminBaseController
             /*使用原生处理*/
             // $category = Db::name('service_category')->where('id',$id)->find();
             // // 富文本
-            // $category['content'] = $this->ueditorAfter($category['content']);  
+            // $category['content'] = $this->ueditorAfter($category['content']);
             // // 自定义客户字段
             // $category['define_data'] = json_decode($category['define_data'],true);
 

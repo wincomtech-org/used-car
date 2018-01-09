@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>车辆买卖</title>
+    
+    <include file="public@head"/>
+    <hook name="before_head_end"/>
+</head>
+<body>
+	<!-- 头部 -->
+	 <!-- 头部 -->
+     <include file="public@header" />
+     <!-- 导航 -->
+     <include file="public@nav" />
+
+	
+	<section class="car_message_tit">
+		<div class="main">
+			<ul class="brash">
+				<li>当前位置：</li>
+				<li><a href="">车辆买卖</a></li>
+				<li><a href="">二手车</a></li>
+				<li class="active"><a href="">宝马 7系 2009款 3.0T 自动 740li领先型</a></li>
+			</ul>
+			<div class="car_message_tit_con">
+				<div class="img lf">
+					<div class="lanrenzhijia" >
+						<!-- 大图begin -->
+						<div id="preview" class="spec-preview"> 
+							<div class="jqzoom"><img jqimg="../image/car_big.jpg" src="../image/car_big.jpg" /></div> 
+						</div>
+						<!-- 大图end -->
+						<!-- 缩略图begin -->
+						<div class="spec-scroll"> <a class="prev">&lt;</a> <a class="next">&gt;</a>
+							  <div class="items">
+							    <ul>
+							      <li><img bimg="../image/car_big.jpg" src="../image/car_big.jpg" onmousemove="preview(this);"></li>
+							      <li><img bimg="../image/car_big.jpg" src="../image/car01.jpg" onmousemove="preview(this);"></li>
+							      <li><img bimg="../image/car_big.jpg" src="../image/car_big.jpg" onmousemove="preview(this);"></li>
+							      <li><img bimg="../image/car_big.jpg" src="../image/car_big.jpg" onmousemove="preview(this);"></li>
+							      <li><img bimg="../image/car_big.jpg" src="../image/car_big.jpg" onmousemove="preview(this);"></li>
+							      <li><img bimg="../image/car_big.jpg" src="../image/car_big.jpg" onmousemove="preview(this);"></li>
+							      <li><img bimg="../image/car_big.jpg" src="../image/car_big.jpg" onmousemove="preview(this);"></li>
+							      <li><img bimg="../image/car_big.jpg" src="../image/car_big.jpg" onmousemove="preview(this);"></li>
+							      <li><img bimg="../image/car_big.jpg" src="../image/car_big.jpg" onmousemove="preview(this);"></li>
+							      <li><img bimg="../image/car_big.jpg" src="../image/car_big.jpg" onmousemove="preview(this);"></li>
+							      <li><img bimg="../image/car_big.jpg" src="../image/car_big.jpg" onmousemove="preview(this);"></li>
+							      
+							    </ul>
+							  </div>
+						</div>
+				    </div>
+			    </div>
+			  
+  			
+				<div class="txt rt">
+					<form >
+						<h5>宝马 7系 2009款 3.0T 自动 740Li领先型</h5>	
+						<div class="show-proInfo">
+							<dl class="tab-line">
+								<dt class='tab-tit'>价&nbsp;&nbsp;&nbsp;&nbsp;格</dt>
+								<dd class='tab-con big-red'>￥ <input type="text" name='price' value='120'></dd>
+							</dl>
+							<dl class="tab-line">
+								<dt class='tab-tit'>积&nbsp;&nbsp;&nbsp;&nbsp;分</dt>
+								<dd class='tab-con'><input type="text" name='jifen' value='120'></dd>
+							</dl>
+							<dl class="tab-line">
+								<dt class='tab-tit'>运&nbsp;&nbsp;&nbsp;&nbsp;费</dt>
+								<dd class='tab-con'><input type="text" name='price' value='满99包邮'></dd>
+							</dl>
+						</div>
+						<div class="show-proInfo">
+							<dl class="tab-line">
+								<dt class='tab-tit'>颜色</dt>
+								<dd class='tab-con'>
+									<ul class='genre'>
+										<li class='genre-col selColor'>
+											<label>
+												<b>蓝色</b>
+												<input type="radio" name="goods_spec[color]" value='' >
+													
+											</label>
+											<s></s>
+										</li>
+										<li class='genre-col '>
+											<label >
+												<b>蓝色</b>
+												<input type="radio" name="goods_spec[color]" value='' >
+													
+											</label>
+											<s></s>
+										</li>
+										<li class='genre-col '>
+											<label >
+												<b>蓝色</b>
+												<input type="radio" name="goods_spec[color]" value='' >
+													
+											</label>
+											<s></s>
+										</li>
+									</ul>
+								</dd>
+							</dl>
+						</div>
+						<div class="show-proInfo">
+							<dl class="tab-line">
+								<dt class='tab-tit'>购买数量</dt>
+								<dd class='tab-con'>
+									<ul class="tab-con-row">
+										<li class='tab-con-td amount'>
+											<a class="reduce operate-btn">-</a>
+											<input type="text" readonly="readonly" class='amount_input' value='0'>
+											<a class="add operate-btn">+</a>
+										</li>
+										<li class="tab-con-td">
+											库存数量：<span class='num inventory'>3</span>件
+										</li>
+										
+									</ul>
+									
+								</dd>
+							</dl>
+						</div>
+					</form>
+                   
+					<div class="btn-line">
+						<div class="btn-style">
+							<a href="booking_see_car.html" class="btn car">立即购买</a>
+						</div>
+						<div class="btn-style">
+							<a  class="btn buycar" href="tel:15188888888"><span></span>加入购物车</a>
+						</div>
+						
+					</div>
+						
+				</div>
+			
+			</div>
+		</div>	
+	</section>
+
+	<section class="product-details">
+		<div class="main">
+			<!-- 推荐商品 -->
+			<div class="recommending f1">
+				<div class="product-history-area">
+					<div class="hi47 co-grey"><h3 class="browse-his">推荐商品</h3></div>
+					<div class="history-bott">
+						<ul class="history-comm">
+							<li>
+								<div class="lf img-comm">
+									<a href="">
+										<img src="__TMPL__/public/assets/images/example/goods_thumb_143_60_60.jpeg" alt="">
+									</a>
+								</div>
+								<div class="tx-info">
+									<h6 class='product-history-tit'><a href="">上汽大众 全新朗逸 赢取iPhone8、行车记录仪 整车 新车 订金</a></h6>
+									<p class='product-history-pri'><a href="">￥12</a></p>
+								</div>
+							</li>
+							<li>
+								<div class="lf img-comm">
+									<a href="">
+										<img src="__TMPL__/public/assets/images/example/goods_thumb_143_60_60.jpeg" alt="">
+									</a>
+								</div>
+								<div class="tx-info">
+									<h6 class='product-history-tit'><a href="">上汽大众 全新朗逸 赢取iPhone8、行车记录仪 整车 新车 订金</a></h6>
+									<p class='product-history-pri'><a href="">￥12</a></p>
+								</div>
+							</li>
+							<li>
+								<div class="lf img-comm">
+									<a href="">
+										<img src="__TMPL__/public/assets/images/example/goods_thumb_143_60_60.jpeg" alt="">
+									</a>
+								</div>
+								<div class="tx-info">
+									<h6 class='product-history-tit'><a href="">上汽大众 全新朗逸 赢取iPhone8、行车记录仪 整车 新车 订金</a></h6>
+									<p class='product-history-pri'><a href="">￥12</a></p>
+								</div>
+							</li>
+							<li>
+								<div class="lf img-comm">
+									<a href="">
+										<img src="__TMPL__/public/assets/images/example/goods_thumb_143_60_60.jpeg" alt="">
+									</a>
+								</div>
+								<div class="tx-info">
+									<h6 class='product-history-tit'><a href="">上汽大众 全新朗逸 赢取iPhone8、行车记录仪 整车 新车 订金</a></h6>
+									<p class='product-history-pri'><a href="">￥12</a></p>
+								</div>
+							</li>
+							<li>
+								<div class="lf img-comm">
+									<a href="">
+										<img src="__TMPL__/public/assets/images/example/goods_thumb_143_60_60.jpeg" alt="">
+									</a>
+								</div>
+								<div class="tx-info">
+									<h6 class='product-history-tit'><a href="">上汽大众 全新朗逸 赢取iPhone8、行车记录仪 整车 新车 订金</a></h6>
+									<p class='product-history-pri'><a href="">￥12</a></p>
+								</div>
+							</li>
+							<li>
+								<div class="lf img-comm">
+									<a href="">
+										<img src="__TMPL__/public/assets/images/example/goods_thumb_143_60_60.jpeg" alt="">
+									</a>
+								</div>
+								<div class="tx-info">
+									<h6 class='product-history-tit'><a href="">上汽大众 全新朗逸 赢取iPhone8、行车记录仪 整车 新车 订金</a></h6>
+									<p class='product-history-pri'><a href="">￥12</a></p>
+								</div>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>		
+			<!-- 商品详情评价等-->
+			<div class='product_details r2'>
+				<div class="comm-param">
+					<div class="par-tit co-grey hi47 ">
+						<ul class="commodity-xq ">
+							<li class='current cliks'>
+								<a >商品详情</a>
+							</li>
+							<li class='cliks'>
+								<a >用户评价</a>
+							</li>
+							<li class='cliks'>
+								<a >规格参数</a>
+							</li>
+						</ul>
+					</div>
+					
+					<div class="parame-bott">
+						<!-- 商品详情 -->
+						<div class="commodity-num pro-feature-area" style="display:block;">
+							<div class="commodity-detail"><img style='display:block;margin:0 auto;' src="http://hcsinglyshop.wincomtech.cn/Public/upload/goods/2016/03-09/56e01a6586cd0.jpg" alt=""></div>
+							
+						</div>
+						<!-- 用户评价 -->
+						<div classs="commodity-num pro-feature-area" style="display:block;">
+							<div class="evaluation-top">
+								<div class="eval-le1">
+									<div class="percent">
+										<span>
+											<b class='red'>67</b>%
+										</span>
+										<em>好评度</em>
+									</div>
+									<div class="common-num">
+										<dl>
+											<dt>
+												好评<em>(67%)</em>
+											</dt>
+											<dd>
+												<s style="width:67%;"></s>
+											</dd>
+										</dl>
+										<dl>
+											<dt>
+												中评<em>(30%)</em>
+											</dt>
+											<dd>
+												<s style="width:30%;"></s>
+											</dd>
+										</dl>
+										<dl>
+											<dt>
+												差评<em>(3%)</em>
+											</dt>
+											<dd>
+												<s style="width:3%;"></s>
+											</dd>
+										</dl>
+									</div>
+								</div>
+								<div class="common-tip">
+									<div class="common-tip-con lf">
+										买家评论事项：购买后有什么问题, 满意, 或者不不满, 都可以在这里评论出来, 这里评论全部源于真实的评论.
+									</div>
+									<div class="common-tip-btn rt">
+										<a href="">发表评价</a>
+									</div>
+								</div>
+							</div>
+							<div class="evaluation-cen">
+								<ul class='evaluation-ul'>
+									<li class="current cliks">
+										<a href="">全部评论（3）</a>
+									</li>
+									<li class=" cliks">
+										<a href="">好评（2）</a>
+									</li>
+									<li class=" cliks">
+										<a href="">中评（1）</a>
+									</li>
+									<li class=" cliks">
+										<a href="">差评（0）</a>
+									</li>
+								</ul>
+							</div>
+							<div class="clear"></div>
+							<div class='evaluation-bott pa-to-25 '>
+								<div class="pro-comment">
+									<div class="pro-comment-user">
+										<p class='procoment-img'>
+											<img src="http://hcsinglyshop.wincomtech.cn/Template/pc/default/Static/images/defaultface_user_small.png" alt="">
+										</p>
+										<p class='procomment-name'>嫦娥</p>
+									</div>
+									<div class="pro-user-comment-main">
+										<div class="pro-user-comment">
+											<div class="comm-t1">
+												<div class="pro-user-score lf">
+													<p>
+														<em>发货速度</em>
+														<span class='starRating-area'>
+															<s style='width:100%;'></s>
+														</span>
+													</p>
+													<p>
+														<em>客服态度</em>
+														<span class='starRating-area'>
+															<s style='width:100%;'></s>
+														</span>
+													</p>
+													<p>
+														<em>商品质量</em>
+														<span class='starRating-area'>
+															<s style='width:100%;'></s>
+														</span>
+													</p>
+													
+												</div>
+												<div class="pro-user-time">2016-03-12</div>
+											</div>
+											<div class="comm-t2">
+												<p>非常不错，用的很好，心情美美哒</p>
+												
+											</div>
+											<div class="arrow"></div>
+										</div>
+									</div>
+									<div class="clear"></div>
+								</div>
+								<div class="pro-comment">
+									<div class="pro-comment-user">
+										<p class='procoment-img'>
+											<img src="http://hcsinglyshop.wincomtech.cn/Template/pc/default/Static/images/defaultface_user_small.png" alt="">
+										</p>
+										<p class='procomment-name'>嫦娥</p>
+									</div>
+									<div class="pro-user-comment-main">
+										<div class="pro-user-comment">
+											<div class="comm-t1">
+												<div class="pro-user-score lf">
+													<p>
+														<em>发货速度</em>
+														<span class='starRating-area'>
+															<s style='width:100%;'></s>
+														</span>
+													</p>
+													<p>
+														<em>客服态度</em>
+														<span class='starRating-area'>
+															<s style='width:100%;'></s>
+														</span>
+													</p>
+													<p>
+														<em>商品质量</em>
+														<span class='starRating-area'>
+															<s style='width:100%;'></s>
+														</span>
+													</p>
+													
+												</div>
+												<div class="pro-user-time">2016-03-12</div>
+											</div>
+											<div class="comm-t2">
+												<p>非常不错，用的很好，心情美美哒</p>
+												
+											</div>
+											<div class="arrow"></div>
+										</div>
+									</div>
+									<div class="clear"></div>
+								</div>
+								<div class="pro-comment">
+									<div class="pro-comment-user">
+										<p class='procoment-img'>
+											<img src="http://hcsinglyshop.wincomtech.cn/Template/pc/default/Static/images/defaultface_user_small.png" alt="">
+										</p>
+										<p class='procomment-name'>嫦娥</p>
+									</div>
+									<div class="pro-user-comment-main">
+										<div class="pro-user-comment">
+											<div class="comm-t1">
+												<div class="pro-user-score lf">
+													<p>
+														<em>发货速度</em>
+														<span class='starRating-area'>
+															<s style='width:100%;'></s>
+														</span>
+													</p>
+													<p>
+														<em>客服态度</em>
+														<span class='starRating-area'>
+															<s style='width:100%;'></s>
+														</span>
+													</p>
+													<p>
+														<em>商品质量</em>
+														<span class='starRating-area'>
+															<s style='width:100%;'></s>
+														</span>
+													</p>
+													
+												</div>
+												<div class="pro-user-time">2016-03-12</div>
+											</div>
+											<div class="comm-t2">
+												<p>非常不错，用的很好，心情美美哒</p>
+												
+											</div>
+											<div class="arrow"></div>
+										</div>
+									</div>
+									<div class="clear"></div>
+								</div>
+							</div>
+						</div>
+						<!-- 规格参数 -->
+						<div class="commodity-num">
+							<div class='commodity-num-spec'>
+								<div class="brand-name">规格参数</div>
+								
+								<ul class='Specifications'>
+									
+									<li>
+										<span class="tit">
+												商品品牌：
+										</span>
+										<span class="con">LONGDING LIGHT</span>
+									</li>
+									<li>
+										<span class="tit">
+											证书编号：
+										</span>
+										<span class="con">2013011009594115</span>
+									</li>
+									<li>
+										<span class="tit">
+											证书状态：
+										</span>
+										<span class="con">有效</span>
+									</li>
+									<li>
+										<span class="tit">
+											制造商名称：
+										</span>
+										<span class="con">浙江龙鼎车业有限公司</span>
+									</li>
+									<li>
+										<span class="tit">
+											证书状态：
+										</span>
+										<span class="con">有效</span>
+									</li>
+									<li>
+										<span class="tit">
+												商品品牌：
+										</span>
+										<span class="con">LONGDING LIGHT</span>
+									</li>
+									<li>
+										<span class="tit">
+											证书编号：
+										</span>
+										<span class="con">2013011009594115</span>
+									</li>
+									<li>
+										<span class="tit">
+											证书状态：
+										</span>
+										<span class="con">有效</span>
+									</li>
+									<li>
+										<span class="tit">
+											制造商名称：
+										</span>
+										<span class="con">浙江龙鼎车业有限公司</span>
+									</li>
+									<li>
+										<span class="tit">
+											证书状态：
+										</span>
+										<span class="con">有效</span>
+									</li>
+								</ul>
+							</div>
+						</div>		
+					</div>
+				</div>
+		   </div>		
+
+		</div>
+	</section>
+
+
+	   <!-- 底部 -->
+       <include file="public@footer" />
+       <include file="public@scripts" />
+	   <hook name="before_body_end" />
+	   <!-- 放大镜效果 -->
+		<script src="__TMPL__/public/assets/js/jquery.jqzoom.js"></script>
+		<script src="__TMPL__/public/assets/js/lanrenzhijia.js"></script>
+		<!-- end -->
+</body>
+<script>
+	// 属性选择
+	$('.genre-col').click(function(){
+		$(this).addClass('selColor').siblings().removeClass('selColor')
+	})
+
+	// 购物车
+	$('.add').click(function(){
+		var inventory=$('.inventory').html();
+		var price=$('.amount_input').val();
+		if(inventory > price){
+			$('.amount_input').removeClass('error')
+			price++;
+			$('.amount_input').val(price)
+			return price;
+		}else{
+			$('.amount_input').addClass('error')
+		}
+	})
+	$('.reduce').click(function(){
+		var price=$('.amount_input').val();
+		if(price > 0){
+			$('.amount_input').removeClass('error')
+			price--;
+			$('.amount_input').val(price)
+		} 
+	})
+</script>
+
+</html>

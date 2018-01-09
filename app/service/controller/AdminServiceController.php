@@ -43,7 +43,7 @@ class AdminServiceController extends AdminBaseController
     public function add()
     {
         $categoryTree = model('usual/UsualCategory')->adminCategoryTree(0,0,'service_category');
-        $companyTree = model('usual/UsualCompany')->getCompanys(0,0,0,true);
+        $companyTree = model('usual/UsualCompany')->getCompanys();
 
         $this->assign('category_tree', $categoryTree);
         $this->assign('company_tree', $companyTree);
@@ -55,13 +55,13 @@ class AdminServiceController extends AdminBaseController
         if ($this->request->isPost()) {
             $data   = $this->request->param();
             $username = $this->request->param('username/s');
-            $user_id = Db::name('user')->whereOr(['user_nickname|user_login|user_email|mobile'=>['eq', $username]])->value('id');
-            if (empty($user_id)) {
+            $userId = model('usual/Usual')->getUid($username);
+            if (empty($userId)) {
                 $this->error('系统未检测到该用户');
             }
 
             $post   = $data['post'];
-            $post['user_id'] = intval($user_id);
+            $post['user_id'] = intval($userId);
             $post['create_time'] = time();
 
             $result = $this->validate($post,'Service.add');
@@ -87,7 +87,7 @@ class AdminServiceController extends AdminBaseController
         $id = $this->request->param('id', 0, 'intval');
         $post = model('Service')->getPost($id);
         $categoryTree = model('usual/UsualCategory')->adminCategoryTree($post['model_id'],0,'service_category');
-        $companyTree = model('usual/UsualCompany')->getCompanys($post['company_id'],0,0,true);
+        $companyTree = model('usual/UsualCompany')->getCompanys($post['company_id']);
 
         $this->assign('category_tree', $categoryTree);
         $this->assign('company_tree', $companyTree);
@@ -100,13 +100,13 @@ class AdminServiceController extends AdminBaseController
         if ($this->request->isPost()) {
             $data   = $this->request->param();
             $username = $this->request->param('username/s');
-            $user_id = Db::name('user')->whereOr(['user_nickname|user_login|user_email|mobile'=>['eq', $username]])->value('id');
-            if (empty($user_id)) {
+            $userId = model('usual/Usual')->getUid($username);
+            if (empty($userId)) {
                 $this->error('系统未检测到该用户');
             }
 
             $post   = $data['post'];
-            $post['user_id'] = intval($user_id);
+            $post['user_id'] = intval($userId);
             $result = $this->validate($post, 'Service.edit');
             if ($result !== true) {
                 $this->error($result);

@@ -126,8 +126,8 @@ class AdminCarController extends AdminBaseController
     public function addPost()
     {
         if ($this->request->isPost()) {
-            // $data   = $this->request->param();
-            $data = $_POST;
+            $data   = $this->request->param();
+            // $data = $_POST;
             $post = $data['post'];
             $post['user_id'] = cmf_get_current_admin_id();
             $more = $data['post']['more'];
@@ -240,8 +240,8 @@ class AdminCarController extends AdminBaseController
     public function editPost()
     {
         if ($this->request->isPost()) {
-            // $data   = $this->request->param();
-            $data = $_POST;
+            $data   = $this->request->param();
+            // $data = $_POST;
             $post = $data['post'];
             $more = $data['post']['more'];
             if (empty($post['serie_id'])) {
@@ -251,12 +251,7 @@ class AdminCarController extends AdminBaseController
             $post = $this->Model->identiStatus($post);
 
             // 验证
-            if ($post['sell_status']==0 || $post['sell_status']==-1 || $post['sell_status']==-2) {
-                $post['plateNo'] = empty($post['plateNo'])?$post['identi']['plateNo']:$post['plateNo'];
-                $result = $this->validate($post,'Car.insurance');
-            } else {
-                $result = $this->validate($post,'Car.edit');
-            }
+            $result = $this->validate($post,'Car.edit');
             if ($result !== true) {
                 $this->error($result);
             }
@@ -401,7 +396,7 @@ class AdminCarController extends AdminBaseController
             $this->success("置顶成功！", '');
 
         }
-        if (isset($_POST['ids']) && isset($param["no"])) {
+        if (isset($param['ids']) && isset($param["no"])) {
             $ids = $this->request->param('ids/a');
             $this->Model->where(['id' => ['in', $ids]])->update(['is_top' => 0]);
             $this->success("取消置顶成功！", '');

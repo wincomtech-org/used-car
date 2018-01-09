@@ -206,7 +206,7 @@ js-*系列示例：  没有bootstrap就自定义样式
 
 
 富文本
-<script type="text/plain" id="content" name="post[content]" value="{$post.content|default=''}"></script>
+<script type="text/plain" id="content" name="post[content]">{$post.content|default=''}</script>
 <script type="text/javascript">
     //编辑器路径定义
     var editorURL = GV.WEB_ROOT;

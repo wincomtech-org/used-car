@@ -137,10 +137,9 @@ class UsualModel extends Model
             $data['identi']['driving_license'] = cmf_asset_relative_url($data['identi']['driving_license']);
         }
 
-        $data['status']         = empty($data['status']) ? 0 : 1;
+        $data['status']         = empty($data['status']) ? 0 : $data['status'];
         $data['is_top']         = empty($data['is_top']) ? 0 : 1;
         $data['is_rec']         = empty($data['is_rec']) ? 0 : 1;
-        $data['sell_status']    = empty($data['sell_status']) ? 0 : 1;
         $data['identi_status']  = empty($data['identi_status']) ? 0 : 1;
         $data['is_baoxian']     = empty($data['is_baoxian']) ? 0 : 1;
         $data['is_yewu']        = empty($data['is_yewu']) ? 0 : 1;
@@ -259,6 +258,18 @@ class UsualModel extends Model
     {
         $username = empty($data['user_nickname']) ? (empty($data['user_login']) ? (empty($data['mobile']) ? $data['user_email'] : $data['mobile']) : $data['user_login']) : $data['user_nickname'];
         return $username;
+    }
+    // 获取用户ID
+    public function getUid($uname='')
+    {
+        if (empty($uname)) return false;
+        $uid = intval($uname);
+        if (empty($uid)) {
+            $uid = Db::name('user')->whereOr(['user_nickname|user_login|user_email|mobile'=>$uname])->value('id');
+            // $uid = Db::name('user')->whereOr(['user_nickname|user_login|user_email|mobile'=>['eq',$uname]])->value('id');
+            $uid = intval($uid);
+        }
+        return $uid;
     }
 
     // 状态

@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50540
 File Encoding         : 65001
 
-Date: 2017-12-29 16:46:48
+Date: 2018-01-08 17:42:30
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -36,7 +36,7 @@ CREATE TABLE `cmf_admin_menu` (
   KEY `status` (`status`),
   KEY `parentid` (`parent_id`),
   KEY `model` (`controller`)
-) ENGINE=InnoDB AUTO_INCREMENT=190 DEFAULT CHARSET=utf8mb4 COMMENT='后台菜单表';
+) ENGINE=InnoDB AUTO_INCREMENT=197 DEFAULT CHARSET=utf8mb4 COMMENT='后台菜单表';
 
 -- ----------------------------
 -- Records of cmf_admin_menu
@@ -133,7 +133,7 @@ INSERT INTO `cmf_admin_menu` VALUES ('89', '84', '2', '0', '10000', 'admin', 'Sl
 INSERT INTO `cmf_admin_menu` VALUES ('90', '84', '2', '0', '10000', 'admin', 'SlideItem', 'ban', '', '幻灯片页面隐藏', '', '幻灯片页面隐藏');
 INSERT INTO `cmf_admin_menu` VALUES ('91', '84', '2', '0', '10000', 'admin', 'SlideItem', 'cancelBan', '', '幻灯片页面显示', '', '幻灯片页面显示');
 INSERT INTO `cmf_admin_menu` VALUES ('92', '84', '2', '0', '10000', 'admin', 'SlideItem', 'listOrder', '', '幻灯片页面排序', '', '幻灯片页面排序');
-INSERT INTO `cmf_admin_menu` VALUES ('93', '6', '1', '1', '100', 'admin', 'Storage', 'index', '', '文件存储', '', '文件存储');
+INSERT INTO `cmf_admin_menu` VALUES ('93', '6', '1', '0', '100', 'admin', 'Storage', 'index', '', '文件存储', '', '文件存储');
 INSERT INTO `cmf_admin_menu` VALUES ('94', '93', '2', '0', '10000', 'admin', 'Storage', 'settingPost', '', '文件存储设置提交', '', '文件存储设置提交');
 INSERT INTO `cmf_admin_menu` VALUES ('95', '6', '1', '1', '105', 'admin', 'Theme', 'index', '', '模板管理', '', '模板管理');
 INSERT INTO `cmf_admin_menu` VALUES ('96', '95', '1', '0', '10000', 'admin', 'Theme', 'install', '', '安装模板', '', '安装模板');
@@ -202,10 +202,10 @@ INSERT INTO `cmf_admin_menu` VALUES ('158', '6', '1', '1', '900', 'user', 'Admin
 INSERT INTO `cmf_admin_menu` VALUES ('159', '158', '1', '0', '10000', 'user', 'AdminUserAction', 'edit', '', '编辑用户操作', '', '编辑用户操作');
 INSERT INTO `cmf_admin_menu` VALUES ('160', '158', '2', '0', '10000', 'user', 'AdminUserAction', 'editPost', '', '编辑用户操作提交', '', '编辑用户操作提交');
 INSERT INTO `cmf_admin_menu` VALUES ('161', '158', '1', '0', '10000', 'user', 'AdminUserAction', 'sync', '', '同步用户操作', '', '同步用户操作');
-INSERT INTO `cmf_admin_menu` VALUES ('162', '0', '1', '1', '20', 'insurance', 'AdminIndex', 'default', '', '车险服务', 'flash', '');
-INSERT INTO `cmf_admin_menu` VALUES ('163', '0', '1', '1', '30', 'trade', 'AdminIndex', 'default', '', '车辆买卖', 'car', '');
-INSERT INTO `cmf_admin_menu` VALUES ('164', '0', '1', '1', '40', 'service', 'AdminIndex', 'default', '', '车辆业务', 'cubes', '');
-INSERT INTO `cmf_admin_menu` VALUES ('165', '0', '1', '1', '10', 'usual', 'AdminIndex', 'default', '', '车辆统配', 'cogs', '');
+INSERT INTO `cmf_admin_menu` VALUES ('162', '0', '0', '1', '20', 'insurance', 'AdminIndex', 'default', '', '车险服务', 'flash', '');
+INSERT INTO `cmf_admin_menu` VALUES ('163', '0', '0', '1', '30', 'trade', 'AdminIndex', 'default', '', '车辆买卖', 'car', '');
+INSERT INTO `cmf_admin_menu` VALUES ('164', '0', '0', '1', '40', 'service', 'AdminIndex', 'default', '', '车辆业务', 'cubes', '');
+INSERT INTO `cmf_admin_menu` VALUES ('165', '0', '0', '1', '10', 'usual', 'AdminIndex', 'default', '', '车辆统配', 'cogs', '');
 INSERT INTO `cmf_admin_menu` VALUES ('166', '165', '1', '1', '5', 'usual', 'AdminItemCate', 'index', '', '车辆属性', '', '');
 INSERT INTO `cmf_admin_menu` VALUES ('167', '165', '1', '1', '2', 'usual', 'AdminBrand', 'index', '', '品牌管理', '', '');
 INSERT INTO `cmf_admin_menu` VALUES ('168', '165', '1', '1', '15', 'usual', 'AdminVerify', 'index', '', '认证管理', '', '');
@@ -213,9 +213,9 @@ INSERT INTO `cmf_admin_menu` VALUES ('169', '165', '1', '1', '10', 'usual', 'Adm
 INSERT INTO `cmf_admin_menu` VALUES ('170', '162', '1', '1', '2', 'insurance', 'AdminInsurance', 'index', '', '保险业务', '', '');
 INSERT INTO `cmf_admin_menu` VALUES ('171', '162', '1', '1', '1', 'insurance', 'AdminOrder', 'index', '', '保单管理', '', '');
 INSERT INTO `cmf_admin_menu` VALUES ('172', '163', '1', '1', '10000', 'trade', 'AdminOrder', 'index', '', '订单管理', '', '');
-INSERT INTO `cmf_admin_menu` VALUES ('173', '164', '1', '1', '10000', 'service', 'AdminService', 'index', '', '业务管理', '', '⊙菜鸟验车\r\n⊙预约检车\r\n⊙上牌预约\r\n⊙过户申请\r\n⊙合作寄存点\r\n⊙服务地点');
-INSERT INTO `cmf_admin_menu` VALUES ('174', '164', '1', '1', '10000', 'service', 'AdminCategory', 'index', '', '业务模型', '', '⊙菜鸟验车\r\n⊙预约检车\r\n⊙上牌预约\r\n⊙过户申请\r\n⊙合作寄存点\r\n⊙服务地点');
-INSERT INTO `cmf_admin_menu` VALUES ('175', '163', '1', '1', '10000', 'trade', 'AdminShop', 'index', '', '店铺管理', '', '由用户表里的用户 产生店铺');
+INSERT INTO `cmf_admin_menu` VALUES ('173', '164', '1', '1', '1', 'service', 'AdminService', 'index', '', '业务管理', '', '⊙菜鸟验车\r\n⊙预约检车\r\n⊙上牌预约\r\n⊙过户申请\r\n⊙合作寄存点\r\n⊙服务地点');
+INSERT INTO `cmf_admin_menu` VALUES ('174', '164', '1', '1', '3', 'service', 'AdminCategory', 'index', '', '业务模型', '', '⊙菜鸟验车\r\n⊙预约检车\r\n⊙上牌预约\r\n⊙过户申请\r\n⊙合作寄存点\r\n⊙服务地点');
+INSERT INTO `cmf_admin_menu` VALUES ('175', '163', '1', '0', '10000', 'trade', 'AdminShop', 'index', '', '店铺管理', '', '由用户表里的用户 产生店铺');
 INSERT INTO `cmf_admin_menu` VALUES ('176', '165', '1', '1', '100', 'usual', 'AdminIndex', 'config', '', '二手车配置', '', '');
 INSERT INTO `cmf_admin_menu` VALUES ('177', '165', '1', '1', '3', 'usual', 'AdminSeries', 'index', '', '车系管理', '', '');
 INSERT INTO `cmf_admin_menu` VALUES ('178', '165', '1', '1', '4', 'usual', 'AdminModels', 'index', '', '车型管理', '', '');
@@ -230,6 +230,13 @@ INSERT INTO `cmf_admin_menu` VALUES ('186', '185', '1', '1', '1', 'funds', 'Admi
 INSERT INTO `cmf_admin_menu` VALUES ('187', '185', '1', '1', '3', 'funds', 'AdminRecharge', 'index', '', '充值管理', '', '');
 INSERT INTO `cmf_admin_menu` VALUES ('188', '185', '1', '1', '2', 'funds', 'AdminWithdraw', 'index', '', '提现管理', '', '');
 INSERT INTO `cmf_admin_menu` VALUES ('189', '185', '1', '1', '4', 'funds', 'AdminOpenshop', 'index', '', '开店申请', '', '');
+INSERT INTO `cmf_admin_menu` VALUES ('190', '164', '1', '1', '2', 'usual', 'AdminConsign', 'index', '', '寄存点', '', '');
+INSERT INTO `cmf_admin_menu` VALUES ('191', '0', '0', '1', '33', 'shop', 'AdminShop', 'default', '', '服务商城', 'shopping-cart', '');
+INSERT INTO `cmf_admin_menu` VALUES ('192', '191', '1', '1', '10000', 'shop', 'AdminShop', 'index', '', '商品管理', '', '');
+INSERT INTO `cmf_admin_menu` VALUES ('193', '191', '1', '1', '10000', 'shop', 'AdminCategory', 'index', '', '类别管理', '', '');
+INSERT INTO `cmf_admin_menu` VALUES ('194', '191', '1', '1', '10000', 'shop', 'AdminAttr', 'index', '', '属性管理', '', '');
+INSERT INTO `cmf_admin_menu` VALUES ('195', '191', '1', '1', '10000', 'shop', 'AdminOrder', 'index', '', '订单管理', '', '');
+INSERT INTO `cmf_admin_menu` VALUES ('196', '191', '1', '1', '10000', 'shop', 'AdminComment', 'index', '', '评论管理', '', '');
 
 -- ----------------------------
 -- Table structure for cmf_asset
@@ -255,7 +262,6 @@ CREATE TABLE `cmf_asset` (
 -- ----------------------------
 -- Records of cmf_asset
 -- ----------------------------
-INSERT INTO `cmf_asset` VALUES ('5', '1', '4288', '1507876093', '1', '0', '0017258984a2322273fbde79a092b884674ad9f0f016ad18697d9cb29c423616', '大通车服logo.png', 'portal/20171013/1f661e0d9d9f0c97b17a50e6e06580c0.png', '0017258984a2322273fbde79a092b884', '796d87176a36d808062bc11080cde44872bee928', 'png', '');
 INSERT INTO `cmf_asset` VALUES ('6', '1', '389243', '1514186767', '1', '0', '532ecaf040a81801b4997ccd300d0c983c816e42bc7f48d49d2367ccd3f39589', 'background_1_1024x681.jpg', 'default/20171225/cdb2ca0730bc82c9ba240a22f3f89c29.jpg', '532ecaf040a81801b4997ccd300d0c98', '18244c884729886c2e4ef3b4eb339b2099587c8f', 'jpg', null);
 INSERT INTO `cmf_asset` VALUES ('7', '1', '11264', '1514426645', '1', '0', '35707e0cce0f671c3ee98428ff3378aed1406cf1634d4a6e9288d8be2f94779e', '大通车服网站使用说明书.doc', 'insurance/20171228/f11759926f554c76af063aed5e5aae09.doc', '35707e0cce0f671c3ee98428ff3378ae', '6888bfbb2a5dabec5a5a051a0b441fa8a542533f', 'doc', null);
 
@@ -271,7 +277,7 @@ CREATE TABLE `cmf_auth_access` (
   PRIMARY KEY (`id`),
   KEY `role_id` (`role_id`),
   KEY `rule_name` (`rule_name`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=142 DEFAULT CHARSET=utf8 COMMENT='权限授权表';
+) ENGINE=InnoDB AUTO_INCREMENT=426 DEFAULT CHARSET=utf8 COMMENT='权限授权表';
 
 -- ----------------------------
 -- Records of cmf_auth_access
@@ -417,6 +423,151 @@ INSERT INTO `cmf_auth_access` VALUES ('138', '4', 'admin/recyclebin/restore', 'a
 INSERT INTO `cmf_auth_access` VALUES ('139', '4', 'admin/recyclebin/delete', 'admin_url');
 INSERT INTO `cmf_auth_access` VALUES ('140', '4', 'user/adminasset/index', 'admin_url');
 INSERT INTO `cmf_auth_access` VALUES ('141', '4', 'user/adminasset/delete', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('281', '2', 'usual/adminindex/default', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('282', '2', 'usual/admincar/index', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('283', '2', 'usual/adminbrand/index', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('284', '2', 'usual/adminbrand/add', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('285', '2', 'usual/adminseries/index', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('286', '2', 'usual/adminmodels/index', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('287', '2', 'usual/adminitemcate/index', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('288', '2', 'usual/admincompany/index', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('289', '2', 'usual/adminverify/index', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('290', '2', 'usual/adminnews/index', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('291', '2', 'usual/adminindex/config', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('292', '2', 'insurance/adminindex/default', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('293', '2', 'insurance/adminorder/index', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('294', '2', 'insurance/admininsurance/index', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('295', '2', 'insurance/admincoverage/index', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('296', '2', 'trade/adminindex/default', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('297', '2', 'trade/adminorder/index', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('298', '2', 'trade/adminshop/index', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('299', '2', 'shop/adminshop/default', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('300', '2', 'shop/adminshop/index', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('301', '2', 'shop/admincategory/index', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('302', '2', 'shop/adminattr/index', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('303', '2', 'shop/adminorder/index', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('304', '2', 'shop/admincomment/index', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('305', '2', 'service/adminindex/default', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('306', '2', 'service/adminservice/index', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('307', '2', 'usual/adminconsign/index', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('308', '2', 'service/admincategory/index', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('309', '2', 'user/adminindex/default', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('310', '2', 'admin/user/default', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('311', '2', 'admin/rbac/index', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('312', '2', 'admin/rbac/roleadd', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('313', '2', 'admin/rbac/roleaddpost', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('314', '2', 'admin/rbac/roleedit', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('315', '2', 'admin/rbac/roleeditpost', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('316', '2', 'admin/rbac/roledelete', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('317', '2', 'admin/rbac/authorize', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('318', '2', 'admin/rbac/authorizepost', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('319', '2', 'admin/user/index', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('320', '2', 'admin/user/add', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('321', '2', 'admin/user/addpost', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('322', '2', 'admin/user/edit', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('323', '2', 'admin/user/editpost', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('324', '2', 'admin/user/userinfo', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('325', '2', 'admin/user/userinfopost', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('326', '2', 'admin/user/delete', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('327', '2', 'admin/user/ban', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('328', '2', 'admin/user/cancelban', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('329', '2', 'user/adminindex/default1', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('330', '2', 'user/adminindex/index', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('331', '2', 'user/adminindex/ban', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('332', '2', 'user/adminindex/cancelban', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('333', '2', 'user/adminoauth/index', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('334', '2', 'user/adminoauth/delete', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('335', '2', 'funds/adminfunds/default', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('336', '2', 'funds/adminfunds/index', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('337', '2', 'funds/adminwithdraw/index', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('338', '2', 'funds/adminrecharge/index', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('339', '2', 'funds/adminopenshop/index', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('340', '2', 'portal/adminindex/default', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('341', '2', 'portal/adminarticle/index', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('342', '2', 'portal/adminarticle/add', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('343', '2', 'portal/adminarticle/addpost', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('344', '2', 'portal/adminarticle/edit', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('345', '2', 'portal/adminarticle/editpost', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('346', '2', 'portal/adminarticle/delete', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('347', '2', 'portal/adminarticle/publish', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('348', '2', 'portal/adminarticle/top', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('349', '2', 'portal/adminarticle/recommend', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('350', '2', 'portal/adminarticle/listorder', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('351', '2', 'portal/admincategory/index', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('352', '2', 'portal/admincategory/add', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('353', '2', 'portal/admincategory/addpost', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('354', '2', 'portal/admincategory/edit', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('355', '2', 'portal/admincategory/editpost', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('356', '2', 'portal/admincategory/select', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('357', '2', 'portal/admincategory/listorder', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('358', '2', 'portal/admincategory/delete', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('359', '2', 'portal/adminpage/index', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('360', '2', 'portal/adminpage/add', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('361', '2', 'portal/adminpage/addpost', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('362', '2', 'portal/adminpage/edit', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('363', '2', 'portal/adminpage/editpost', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('364', '2', 'portal/adminpage/delete', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('365', '2', 'portal/admintag/index', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('366', '2', 'portal/admintag/add', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('367', '2', 'portal/admintag/addpost', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('368', '2', 'portal/admintag/upstatus', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('369', '2', 'portal/admintag/delete', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('370', '2', 'admin/setting/default', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('371', '2', 'admin/setting/site', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('372', '2', 'admin/setting/sitepost', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('373', '2', 'admin/mailer/index', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('374', '2', 'admin/mailer/indexpost', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('375', '2', 'admin/mailer/template', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('376', '2', 'admin/mailer/templatepost', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('377', '2', 'admin/mailer/test', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('378', '2', 'admin/nav/index', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('379', '2', 'admin/nav/add', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('380', '2', 'admin/nav/addpost', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('381', '2', 'admin/nav/edit', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('382', '2', 'admin/nav/editpost', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('383', '2', 'admin/nav/delete', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('384', '2', 'admin/navmenu/index', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('385', '2', 'admin/navmenu/add', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('386', '2', 'admin/navmenu/addpost', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('387', '2', 'admin/navmenu/edit', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('388', '2', 'admin/navmenu/editpost', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('389', '2', 'admin/navmenu/delete', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('390', '2', 'admin/navmenu/listorder', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('391', '2', 'admin/slide/index', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('392', '2', 'admin/slide/add', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('393', '2', 'admin/slide/addpost', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('394', '2', 'admin/slide/edit', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('395', '2', 'admin/slide/editpost', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('396', '2', 'admin/slide/delete', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('397', '2', 'admin/slideitem/index', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('398', '2', 'admin/slideitem/add', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('399', '2', 'admin/slideitem/addpost', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('400', '2', 'admin/slideitem/edit', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('401', '2', 'admin/slideitem/editpost', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('402', '2', 'admin/slideitem/delete', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('403', '2', 'admin/slideitem/ban', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('404', '2', 'admin/slideitem/cancelban', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('405', '2', 'admin/slideitem/listorder', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('406', '2', 'admin/link/index', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('407', '2', 'admin/link/add', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('408', '2', 'admin/link/addpost', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('409', '2', 'admin/link/edit', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('410', '2', 'admin/link/editpost', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('411', '2', 'admin/link/delete', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('412', '2', 'admin/link/listorder', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('413', '2', 'admin/link/toggle', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('414', '2', 'admin/setting/upload', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('415', '2', 'admin/setting/uploadpost', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('416', '2', 'admin/setting/password', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('417', '2', 'admin/setting/passwordpost', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('418', '2', 'admin/dbbackup/index', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('419', '2', 'admin/setting/clearcache', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('420', '2', 'admin/district/index', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('421', '2', 'admin/recyclebin/index', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('422', '2', 'admin/recyclebin/restore', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('423', '2', 'admin/recyclebin/delete', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('424', '2', 'user/adminasset/index', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('425', '2', 'user/adminasset/delete', 'admin_url');
 
 -- ----------------------------
 -- Table structure for cmf_auth_rule
@@ -434,7 +585,7 @@ CREATE TABLE `cmf_auth_rule` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`) USING BTREE,
   KEY `module` (`app`,`status`,`type`)
-) ENGINE=InnoDB AUTO_INCREMENT=191 DEFAULT CHARSET=utf8mb4 COMMENT='权限规则表';
+) ENGINE=InnoDB AUTO_INCREMENT=198 DEFAULT CHARSET=utf8mb4 COMMENT='权限规则表';
 
 -- ----------------------------
 -- Records of cmf_auth_rule
@@ -629,6 +780,13 @@ INSERT INTO `cmf_auth_rule` VALUES ('187', '1', 'funds', 'admin_url', 'funds/Adm
 INSERT INTO `cmf_auth_rule` VALUES ('188', '1', 'funds', 'admin_url', 'funds/AdminRecharge/index', '', '充值管理', '');
 INSERT INTO `cmf_auth_rule` VALUES ('189', '1', 'funds', 'admin_url', 'funds/AdminWithdraw/index', '', '提现管理', '');
 INSERT INTO `cmf_auth_rule` VALUES ('190', '1', 'funds', 'admin_url', 'funds/AdminOpenshop/index', '', '开店申请', '');
+INSERT INTO `cmf_auth_rule` VALUES ('191', '1', 'usual', 'admin_url', 'usual/AdminConsign/index', '', '寄存点', '');
+INSERT INTO `cmf_auth_rule` VALUES ('192', '1', 'shop', 'admin_url', 'shop/AdminShop/default', '', '服务商城', '');
+INSERT INTO `cmf_auth_rule` VALUES ('193', '1', 'shop', 'admin_url', 'shop/AdminShop/index', '', '商品管理', '');
+INSERT INTO `cmf_auth_rule` VALUES ('194', '1', 'shop', 'admin_url', 'shop/AdminCategory/index', '', '类别管理', '');
+INSERT INTO `cmf_auth_rule` VALUES ('195', '1', 'shop', 'admin_url', 'shop/AdminAttr/index', '', '属性管理', '');
+INSERT INTO `cmf_auth_rule` VALUES ('196', '1', 'shop', 'admin_url', 'shop/AdminOrder/index', '', '订单管理', '');
+INSERT INTO `cmf_auth_rule` VALUES ('197', '1', 'shop', 'admin_url', 'shop/AdminComment/index', '', '评论管理', '');
 
 -- ----------------------------
 -- Table structure for cmf_comment
@@ -4187,7 +4345,6 @@ CREATE TABLE `cmf_hook_plugin` (
 -- ----------------------------
 -- Records of cmf_hook_plugin
 -- ----------------------------
-INSERT INTO `cmf_hook_plugin` VALUES ('2', '10000', '1', 'send_mobile_verification_code', 'MobileCodeDemo');
 
 -- ----------------------------
 -- Table structure for cmf_insurance
@@ -4343,7 +4500,7 @@ CREATE TABLE `cmf_insurance_order` (
 -- ----------------------------
 -- Records of cmf_insurance_order
 -- ----------------------------
-INSERT INTO `cmf_insurance_order` VALUES ('1', '[\"1\",\"5\"]', '[\"1\",\"2\",\"9\"]', '皖A598H2', '0', '0', '0', '3', '0', 'insurance_2017122750984953', '', '1.00', '', '', '', '1514351938', '0', '1516723200', '0', '1540288800', '0', '{\"plateNo\":\"皖A598H2\",\"username\":\"汪某人\",\"contact\":\"13365897412\",\"address\":\"\",\"driving_license\":\"http:\\/\\/tx.car\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/5.jpg\",\"identity_card\":[{\"url\":\"http:\\/\\/tx.car\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/6.jpg\",\"name\":\"\"},{\"url\":\"http:\\/\\/tx.car\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/7.jpg\",\"name\":\"\"}]}', '0', '', '0', '10000');
+INSERT INTO `cmf_insurance_order` VALUES ('1', '[\"1\",\"5\"]', '[\"1\",\"2\",\"9\"]', '皖A598H2', '0', '0', '0', '3', '0', 'insurance_2017122750984953', '', '1.00', '', '', '', '1514351938', '0', '1516723200', '0', '1540288800', '0', '{\"plateNo\":\"皖A598H2\",\"username\":\"汪某人\",\"contact\":\"13365897412\",\"address\":\"\",\"driving_license\":\"\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/5.jpg\",\"identity_card\":[{\"url\":\"\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/6.jpg\",\"name\":\"\"},{\"url\":\"\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/7.jpg\",\"name\":\"\"}]}', '0', '', '0', '10000');
 
 -- ----------------------------
 -- Table structure for cmf_link
@@ -4502,7 +4659,6 @@ CREATE TABLE `cmf_plugin` (
 -- ----------------------------
 -- Records of cmf_plugin
 -- ----------------------------
-INSERT INTO `cmf_plugin` VALUES ('2', '1', '0', '1', '0', 'MobileCodeDemo', '手机验证码演示插件', '', '', 'ThinkCMF', '', '1.0', '手机验证码演示插件', '{\"account_sid\":\"\",\"auth_token\":\"\",\"app_id\":\"\",\"template_id\":\"\",\"expire_minute\":\"30\"}');
 
 -- ----------------------------
 -- Table structure for cmf_portal_category
@@ -4652,7 +4808,7 @@ INSERT INTO `cmf_portal_post` VALUES ('15', '0', '1', '1', '1', '1', '1', '0', '
 INSERT INTO `cmf_portal_post` VALUES ('16', '0', '1', '1', '1', '1', '1', '0', '0', '0', '0', '0', '1510112820', '1510381166', '1510112760', '0', '预约看车', '', '专人带看\r\n安排售车顾问陪同您看车', '', null, null, '{\"thumbnail\":\"\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/icon_08.png\",\"template\":\"\"}');
 INSERT INTO `cmf_portal_post` VALUES ('17', '0', '1', '1', '1', '1', '1', '0', '0', '0', '0', '0', '1510113114', '1510113114', '1510113010', '0', '签订协议', '', '安排顾问指导您完成协议合同签订', '', null, null, '{\"thumbnail\":\"\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/icon_09.png\",\"template\":\"\"}');
 INSERT INTO `cmf_portal_post` VALUES ('18', '0', '1', '1', '1', '1', '1', '0', '0', '0', '0', '0', '1510113167', '1510113167', '1510113123', '0', '售后服务', '', 'GV预估个人', '', null, null, '{\"thumbnail\":\"\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/icon_10.png\",\"template\":\"\"}');
-INSERT INTO `cmf_portal_post` VALUES ('19', '0', '1', '1', '1', '1', '1', '0', '0', '37', '0', '0', '1510558406', '1510562058', '1510558260', '0', '公司介绍', '', '', '', '\n&lt;p style=&quot;text-indent:2em;&quot;&gt;大通车服有限公司是一家提供各种车险服务，二手车买卖，检车预约，车辆服务的的公司，致力于为广大车友提供最便捷，最安全，最省心的服务。&lt;/p&gt;\n&lt;p&gt;&lt;img src=&quot;/static/js/ueditor/themes/default/images/spacer.gif&quot; word_img=&quot;file:///E:/WXS/%E9%A1%B9%E7%9B%AE/%E4%BA%8C%E6%89%8B%E8%BD%A6%E4%BA%A4%E6%98%93/%E5%89%8D%E7%AB%AF%E4%BB%A3%E7%A0%81/second-hand_car1113/image/about.jpg&quot; style=&quot;background:url(http://tx.car/static/js/ueditor/lang/zh-cn/images/localimage.png) no-repeat center center;border:1px solid #ddd&quot;&gt;&lt;/p&gt;\n&lt;p style=&quot;text-indent:2em;&quot;&gt;华创在线服务领域涵盖网站建设，企业定制化系统（酒店管理系统，医疗管理系统，房产管理系统，金融管理系统，教育管理系统等），APP开发，微信公众号二次开发，商城网站开发，电子商务定制，百度推广服务等。\r\n \r\n华创在线创始团队多数来自百度，腾讯，阿里巴巴，Facebook等知名互联网公司，具备十年以上的互联网行业经验。公司60%以上为技术研发人员，均毕业于清华大学，浙江大学，中国科学技术大学等知名高校，公司技术实力雄厚。&lt;/p&gt;\n&lt;p&gt;&lt;br&gt;&lt;/p&gt;\n&lt;p style=&quot;text-indent: 2em;&quot;&gt;至臻品质，至真服务，华创在线与您携手共赢，共创未来！&lt;/p&gt;\n', null, '{\"thumbnail\":\"\",\"template\":\"about\"}');
+INSERT INTO `cmf_portal_post` VALUES ('19', '0', '1', '1', '1', '1', '1', '0', '0', '37', '0', '0', '1510558406', '1510562058', '1510558260', '0', '公司介绍', '', '', '', '\n&lt;p style=&quot;text-indent:2em;&quot;&gt;大通车服有限公司是一家提供各种车险服务，二手车买卖，检车预约，车辆服务的的公司，致力于为广大车友提供最便捷，最安全，最省心的服务。&lt;/p&gt;\n&lt;p&gt;&lt;img src=&quot;/static/js/ueditor/themes/default/images/spacer.gif&quot; word_img=&quot;file:///E:/WXS/%E9%A1%B9%E7%9B%AE/%E4%BA%8C%E6%89%8B%E8%BD%A6%E4%BA%A4%E6%98%93/%E5%89%8D%E7%AB%AF%E4%BB%A3%E7%A0%81/second-hand_car1113/image/about.jpg&quot; style=&quot;background:url(/static/js/ueditor/lang/zh-cn/images/localimage.png) no-repeat center center;border:1px solid #ddd&quot;&gt;&lt;/p&gt;\n&lt;p style=&quot;text-indent:2em;&quot;&gt;华创在线服务领域涵盖网站建设，企业定制化系统（酒店管理系统，医疗管理系统，房产管理系统，金融管理系统，教育管理系统等），APP开发，微信公众号二次开发，商城网站开发，电子商务定制，百度推广服务等。\r\n \r\n华创在线创始团队多数来自百度，腾讯，阿里巴巴，Facebook等知名互联网公司，具备十年以上的互联网行业经验。公司60%以上为技术研发人员，均毕业于清华大学，浙江大学，中国科学技术大学等知名高校，公司技术实力雄厚。&lt;/p&gt;\n&lt;p&gt;&lt;br&gt;&lt;/p&gt;\n&lt;p style=&quot;text-indent: 2em;&quot;&gt;至臻品质，至真服务，华创在线与您携手共赢，共创未来！&lt;/p&gt;\n', null, '{\"thumbnail\":\"\",\"template\":\"about\"}');
 INSERT INTO `cmf_portal_post` VALUES ('20', '0', '1', '1', '1', '1', '1', '0', '0', '6', '0', '0', '1510558939', '1510562398', '1510558860', '0', '服务理念', '', '', '', '&lt;p&gt;服务理念内容：&lt;/p&gt;', null, '{\"thumbnail\":\"\",\"template\":\"about\"}');
 INSERT INTO `cmf_portal_post` VALUES ('21', '0', '1', '1', '1', '1', '1', '0', '0', '2', '0', '0', '1510559032', '1510562441', '1510558980', '0', '保险服务', '', '', '', '&lt;p&gt;保险服务内容&lt;/p&gt;', null, '{\"thumbnail\":\"\",\"template\":\"about\"}');
 INSERT INTO `cmf_portal_post` VALUES ('22', '0', '1', '1', '1', '1', '1', '0', '0', '7', '0', '0', '1510559763', '1510562424', '1510559700', '0', '交易流程', '', '', '', '&lt;p&gt;交易流程内容&lt;/p&gt;', null, '{\"thumbnail\":\"\",\"template\":\"about\"}');
@@ -4762,13 +4918,13 @@ CREATE TABLE `cmf_role_user` (
   PRIMARY KEY (`id`),
   KEY `group_id` (`role_id`),
   KEY `user_id` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8 COMMENT='用户角色对应表';
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8 COMMENT='用户角色对应表';
 
 -- ----------------------------
 -- Records of cmf_role_user
 -- ----------------------------
-INSERT INTO `cmf_role_user` VALUES ('12', '2', '2');
 INSERT INTO `cmf_role_user` VALUES ('13', '3', '3');
+INSERT INTO `cmf_role_user` VALUES ('15', '2', '2');
 
 -- ----------------------------
 -- Table structure for cmf_route
@@ -4813,7 +4969,7 @@ CREATE TABLE `cmf_service` (
   `car_vin` varchar(17) NOT NULL DEFAULT '' COMMENT '车架号',
   `reg_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '注册时间',
   `appoint_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '预约时间',
-  `service_point` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '服务点',
+  `service_point` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '服务点ID',
   `service_address` varchar(255) NOT NULL DEFAULT '' COMMENT '服务详细地址',
   `coordinate` varchar(50) NOT NULL DEFAULT '' COMMENT '自定义服务点坐标',
   `fix_history` text COMMENT '维修历史',
@@ -4873,8 +5029,8 @@ CREATE TABLE `cmf_service_category` (
 -- ----------------------------
 INSERT INTO `cmf_service_category` VALUES ('1', '0', '0', '1', 'service', '菜鸟验车', 'noob', '', 'admin', '', '平台预约 线下取车、验车、送车  平台工作人员代检', '菜鸟预约上门服务', '&lt;h6 style=&quot;padding: 0px; margin: 0px; color: rgb(51, 51, 51); list-style: none; font-size: 18px; font-weight: normal; font-family: 微软雅黑, &quot; microsoft yahei sans-serif white-space: normal&gt;办理网上预约验车手续须知：&lt;/h6&gt;&lt;p style=&quot;padding: 0px 0px 0px 23px; margin-top: 10px; margin-bottom: 0px; color: rgb(102, 102, 102); list-style: none; font-size: 16px; line-height: 1.78; position: relative;&quot;&gt;&lt;span style=&quot;padding: 0px; margin: 0px; list-style: none; position: absolute; top: 0px; left: 0px;&quot;&gt;1、&lt;/span&gt;本市注册登记的在用机动车（号牌号码后部有汉字的除外）。&lt;/p&gt;&lt;p style=&quot;padding: 0px 0px 0px 23px; margin-top: 10px; margin-bottom: 0px; color: rgb(102, 102, 102); list-style: none; font-size: 16px; line-height: 1.78; position: relative;&quot;&gt;&lt;span style=&quot;padding: 0px; margin: 0px; list-style: none; position: absolute; top: 0px; left: 0px;&quot;&gt;2、&lt;/span&gt;车辆检验有效期在截止前的三个月之内，检验有效期截止的具体日期 请查看您的行驶证副页，或登录交管局主站使用“车辆违法”查询功 能进行查看。&lt;/p&gt;&lt;p style=&quot;padding: 0px 0px 0px 23px; margin-top: 10px; margin-bottom: 0px; color: rgb(102, 102, 102); list-style: none; font-size: 16px; line-height: 1.78; position: relative;&quot;&gt;&lt;span style=&quot;padding: 0px; margin: 0px; list-style: none; position: absolute; top: 0px; left: 0px;&quot;&gt;3、&lt;/span&gt;您可以预约从第二日起连续一周之内的网上预约验车服务。（如：您在07月15日，可以预约07月16-21日之间的预约验车手续。）&lt;/p&gt;&lt;p style=&quot;padding: 0px 0px 0px 23px; margin-top: 10px; margin-bottom: 0px; color: rgb(102, 102, 102); list-style: none; font-size: 16px; line-height: 1.78; position: relative;&quot;&gt;&lt;span style=&quot;padding: 0px; margin: 0px; list-style: none; position: absolute; top: 0px; left: 0px;&quot;&gt;4、&lt;/span&gt;如遇检测场网络设备故障或雨雪等恶劣天气检测场暂停验车的，请您接到通知或看到通报后不要再前往验车，不算爽约，可重新预约。如遇其它问题可联系我们查询检测场电话。&lt;/p&gt;&lt;p style=&quot;padding: 0px 0px 0px 23px; margin-top: 10px; margin-bottom: 0px; color: rgb(102, 102, 102); list-style: none; font-size: 16px; line-height: 1.78; position: relative;&quot;&gt;&lt;span style=&quot;padding: 0px; margin: 0px; list-style: none; position: absolute; top: 0px; left: 0px;&quot;&gt;5、&lt;/span&gt;您在办理网上预约验车过程中遇到问题或有何建议意见请通过以下方 式反映：邮箱：1120594563@163.com；电话：87625172。 感谢 您的支持和关注。&lt;/p&gt;', '{\"thumbnail\":\"\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/cainiao.jpg\"}', '', '1509692503', '0', '0', '1', '1', '[\"username\",\"telephone\",\"plateNo\"]', '10', '下下下', '上上上', '中转站');
 INSERT INTO `cmf_service_category` VALUES ('2', '0', '0', '2', 'service', '预约检车', 'inspectcar', '', 'admin', '', '提供各大车险公司服务\r\n为您的安全保驾护航', '', '&lt;p&gt;预约检车详情&lt;/p&gt;', '{\"thumbnail\":\"\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/service2.jpg\"}', '', '1511768040', '0', '0', '1', '1', '[\"username\",\"contact\",\"plateNo\",\"reg_time\",\"identity_card\",\"driving_license\",\"appoint_time\",\"service_point\"]', '20', '', '', '');
-INSERT INTO `cmf_service_category` VALUES ('3', '0', '0', '2', 'service', '上牌预约', 'applylicense', '', 'admin', '', '随时预约', '', '', '{\"thumbnail\":\"http:\\/\\/tx.car\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/service1.jpg\"}', '', '1509692503', '0', '0', '1', '1', '[\"username\",\"telephone\",\"identity_card\",\"driving_license\",\"appoint_time\",\"service_point\"]', '30', '', '', '');
-INSERT INTO `cmf_service_category` VALUES ('4', '0', '0', '2', 'service', '过户申请', 'assigned', '', 'admin', '', '买卖双方当场过户', '', '', '{\"thumbnail\":\"http:\\/\\/tx.car\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/service2.jpg\"}', '', '1509692460', '0', '0', '1', '1', '[\"username\",\"contact\",\"address\",\"seller_name\",\"seller_contact\",\"plateNo\",\"reg_time\",\"identity_card\",\"driving_license\",\"qualified\",\"loan_invoice\",\"appoint_time\",\"service_point\"]', '40', '', '', '');
+INSERT INTO `cmf_service_category` VALUES ('3', '0', '0', '2', 'service', '上牌预约', 'applylicense', '', 'admin', '', '随时预约', '', '', '{\"thumbnail\":\"\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/service1.jpg\"}', '', '1509692503', '0', '0', '1', '1', '[\"username\",\"telephone\",\"identity_card\",\"driving_license\",\"appoint_time\",\"service_point\"]', '30', '', '', '');
+INSERT INTO `cmf_service_category` VALUES ('4', '0', '0', '2', 'service', '过户申请', 'assigned', '', 'admin', '', '买卖双方当场过户', '', '', '{\"thumbnail\":\"\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/service2.jpg\"}', '', '1509692460', '0', '0', '1', '1', '[\"username\",\"contact\",\"address\",\"seller_name\",\"seller_contact\",\"plateNo\",\"reg_time\",\"identity_card\",\"driving_license\",\"qualified\",\"loan_invoice\",\"appoint_time\",\"service_point\"]', '40', '', '', '');
 INSERT INTO `cmf_service_category` VALUES ('5', '0', '0', '1', 'service', '六年免检', 'six_exempted', '', 'admin', '', '六年免检', '', '\n&lt;p&gt;六年免检业务介绍：&lt;/p&gt;\n&lt;p&gt;1、&lt;/p&gt;\n&lt;p&gt;2、&lt;/p&gt;\n&lt;p&gt;3、&lt;/p&gt;\n', '{\"thumbnail\":\"\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/cainiao.jpg\"}', null, '0', '0', '0', '1', '1', '[\"username\",\"contact\",\"plateNo\",\"appoint_time\",\"service_point\"]', '50', '', '', '');
 INSERT INTO `cmf_service_category` VALUES ('6', '0', '0', '1', 'service', '查找寄存点', 'point', '', 'admin', '', '', '', null, '{\"thumbnail\":\"\"}', null, '1514195034', '0', '0', '0', '1', '[\"service_point\"]', '10000', '', '', '');
 
@@ -5135,10 +5291,11 @@ CREATE TABLE `cmf_user` (
   `mobile` varchar(20) NOT NULL DEFAULT '' COMMENT '用户手机号',
   `avatar` varchar(255) NOT NULL DEFAULT '' COMMENT '用户头像',
   `sex` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '性别;0:保密,1:男,2:女',
-  `score` int(11) NOT NULL DEFAULT '0' COMMENT '用户积分',
   `coin` decimal(10,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '金币',
-  `freeze` decimal(10,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '冻结',
-  `ticket` decimal(10,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '点券',
+  `freeze` decimal(10,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '冻结金币',
+  `score` decimal(10,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '用户积分',
+  `coupon` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT '优惠券个数',
+  `exp` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '经验值',
   `birthday` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '生日',
   `signature` varchar(255) NOT NULL DEFAULT '' COMMENT '个性签名',
   `user_url` varchar(100) NOT NULL DEFAULT '' COMMENT '用户个人网址',
@@ -5156,11 +5313,11 @@ CREATE TABLE `cmf_user` (
 -- ----------------------------
 -- Records of cmf_user
 -- ----------------------------
-INSERT INTO `cmf_user` VALUES ('1', '1', 'admin', 'admin', '###b0b5b1441fcc40910db4b7d99d049ddf', '###b0b5b1441fcc40910db4b7d99d049ddf', 'admin@admin.com', '', '', '0', '0', '0.00', '0.00', '0.00', '0', '', '', '1507865317', '1513225427', '127.0.0.1', '1', '', '');
-INSERT INTO `cmf_user` VALUES ('2', '1', '超人不会飞', 'super', '###797fe4d0d1b299ac9b581f4fa4025dbb', '###797fe4d0d1b299ac9b581f4fa4025dbb', 'super@qq.com', '', '', '0', '0', '0.00', '0.00', '0.00', '0', '', '', '0', '0', '', '1', '', '');
-INSERT INTO `cmf_user` VALUES ('3', '1', '洛萨', 'lothar', '###797fe4d0d1b299ac9b581f4fa4025dbb', '###797fe4d0d1b299ac9b581f4fa4025dbb', 'lothar@qq.com', '13333333333', 'avatar/20171125/584d5aa4308ccc597df494da2b84700d.jpg', '0', '0', '8600.00', '0.00', '0.00', '785865600', '', '', '0', '1514278004', '127.0.0.1', '1', '', '{\"qq\":\"\",\"address\":\"\"}');
-INSERT INTO `cmf_user` VALUES ('4', '2', '晴天', 'king', '###797fe4d0d1b299ac9b581f4fa4025dbb', '###797fe4d0d1b299ac9b581f4fa4025dbb', '', '18956471234', '', '0', '0', '0.00', '0.00', '0.00', '0', '', '', '1512194173', '1512194173', '127.0.0.1', '2', '', null);
-INSERT INTO `cmf_user` VALUES ('5', '2', '风', 'fy', '###797fe4d0d1b299ac9b581f4fa4025dbb', '###797fe4d0d1b299ac9b581f4fa4025dbb', 'fy@qq.com', '18956243789', 'avatar/20171225/001883f91cd8b2fefe5cad4274a795d8.jpg', '0', '0', '0.00', '0.00', '0.00', '0', '', '', '1514187604', '1514187604', '127.0.0.1', '2', '', '{\"qq\":\"956231850\",\"address\":\"date\"}');
+INSERT INTO `cmf_user` VALUES ('1', '1', 'admin', 'admin', '###b0b5b1441fcc40910db4b7d99d049ddf', '###b0b5b1441fcc40910db4b7d99d049ddf', 'admin@admin.com', '', '', '0', '0.00', '0.00', '0.00', '0', '0', '0', '', '', '1507865317', '1513225427', '127.0.0.1', '1', '', '');
+INSERT INTO `cmf_user` VALUES ('2', '1', '超人不会飞', 'super', '###797fe4d0d1b299ac9b581f4fa4025dbb', '###797fe4d0d1b299ac9b581f4fa4025dbb', 'super@qq.com', '', '', '0', '0.00', '0.00', '0.00', '0', '0', '0', '', '', '0', '1515402315', '127.0.0.1', '1', '', '');
+INSERT INTO `cmf_user` VALUES ('3', '1', '洛萨', 'lothar', '###797fe4d0d1b299ac9b581f4fa4025dbb', '###797fe4d0d1b299ac9b581f4fa4025dbb', 'lothar@qq.com', '13333333333', 'avatar/20171125/584d5aa4308ccc597df494da2b84700d.jpg', '0', '8600.00', '0.00', '28.00', '0', '0', '785865600', '', '', '0', '1515402563', '127.0.0.1', '1', '', '{\"qq\":\"\",\"address\":\"\"}');
+INSERT INTO `cmf_user` VALUES ('4', '2', '晴天', 'king', '###797fe4d0d1b299ac9b581f4fa4025dbb', '###797fe4d0d1b299ac9b581f4fa4025dbb', '', '18956471234', '', '0', '0.00', '0.00', '0.00', '0', '0', '0', '', '', '1512194173', '1512194173', '127.0.0.1', '2', '', null);
+INSERT INTO `cmf_user` VALUES ('5', '2', '风', 'fy', '###797fe4d0d1b299ac9b581f4fa4025dbb', '###797fe4d0d1b299ac9b581f4fa4025dbb', 'fy@qq.com', '18956243789', 'avatar/20171225/001883f91cd8b2fefe5cad4274a795d8.jpg', '0', '0.00', '0.00', '0.00', '0', '0', '0', '', '', '1514187604', '1514187604', '127.0.0.1', '2', '', '{\"qq\":\"956231850\",\"address\":\"date\"}');
 
 -- ----------------------------
 -- Table structure for cmf_user_action
@@ -5204,6 +5361,30 @@ CREATE TABLE `cmf_user_action_log` (
 -- ----------------------------
 -- Records of cmf_user_action_log
 -- ----------------------------
+
+-- ----------------------------
+-- Table structure for cmf_user_coupons_log
+-- ----------------------------
+DROP TABLE IF EXISTS `cmf_user_coupons_log`;
+CREATE TABLE `cmf_user_coupons_log` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '用户 id',
+  `type` tinyint(3) NOT NULL DEFAULT '0' COMMENT '用户操作类型funds_type',
+  `coupon` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '优惠券面额',
+  `reduce` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '满减',
+  `deal_uid` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT '操作者ID',
+  `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
+  `due_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '到期时间。0表示无限期',
+  `status` tinyint(3) NOT NULL DEFAULT '0' COMMENT '状态：0未使用 1已使用',
+  PRIMARY KEY (`id`),
+  KEY `uid` (`user_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COMMENT='用户优惠券记录表';
+
+-- ----------------------------
+-- Records of cmf_user_coupons_log
+-- ----------------------------
+INSERT INTO `cmf_user_coupons_log` VALUES ('1', '3', '11', '30', '100', '1', '1515394252', '0', '0');
+INSERT INTO `cmf_user_coupons_log` VALUES ('2', '3', '11', '3', '50', '1', '1515394415', '0', '0');
 
 -- ----------------------------
 -- Table structure for cmf_user_favorite
@@ -5281,35 +5462,20 @@ DROP TABLE IF EXISTS `cmf_user_score_log`;
 CREATE TABLE `cmf_user_score_log` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '用户 id',
-  `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
   `action` varchar(50) NOT NULL DEFAULT '' COMMENT '用户操作名称。自定义：regCar第一次登记申请开店',
   `score` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '更改积分，可以为负',
   `coin` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '更改金币，可以为负',
+  `deal_uid` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '处理人',
+  `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户操作积分等奖励日志表';
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COMMENT='用户操作积分等奖励日志表';
 
 -- ----------------------------
 -- Records of cmf_user_score_log
 -- ----------------------------
-
--- ----------------------------
--- Table structure for cmf_user_ticket_log
--- ----------------------------
-DROP TABLE IF EXISTS `cmf_user_ticket_log`;
-CREATE TABLE `cmf_user_ticket_log` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `user_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '用户 id',
-  `type` tinyint(3) NOT NULL DEFAULT '0' COMMENT '用户操作类型funds_type',
-  `ticket` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '点券数额，可以为负',
-  `deal_uid` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT '操作者ID',
-  `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
-  PRIMARY KEY (`id`),
-  KEY `uid` (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户点券记录表';
-
--- ----------------------------
--- Records of cmf_user_ticket_log
--- ----------------------------
+INSERT INTO `cmf_user_score_log` VALUES ('1', '3', 'admin', '3.00', '0.00', '1', '1515392193');
+INSERT INTO `cmf_user_score_log` VALUES ('2', '3', 'admin', '10.00', '0.00', '1', '1515392483');
+INSERT INTO `cmf_user_score_log` VALUES ('3', '3', 'admin', '15.00', '0.00', '1', '1515392576');
 
 -- ----------------------------
 -- Table structure for cmf_user_token
@@ -5323,13 +5489,14 @@ CREATE TABLE `cmf_user_token` (
   `token` varchar(64) NOT NULL DEFAULT '' COMMENT 'token',
   `device_type` varchar(10) NOT NULL DEFAULT '' COMMENT '设备类型;mobile,android,iphone,ipad,web,pc,mac,wxapp',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COMMENT='用户客户端登录 token 表';
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COMMENT='用户客户端登录 token 表';
 
 -- ----------------------------
 -- Records of cmf_user_token
 -- ----------------------------
 INSERT INTO `cmf_user_token` VALUES ('3', '1', '1528777427', '1513225427', 'b3036200faf69584c27b7fae51db69afb3036200faf69584c27b7fae51db69af', 'web');
 INSERT INTO `cmf_user_token` VALUES ('4', '3', '1527744994', '1512192994', 'dc256e0c455256ac1b543488cfa766c7dc256e0c455256ac1b543488cfa766c7', 'web');
+INSERT INTO `cmf_user_token` VALUES ('5', '2', '1530954315', '1515402315', '3801bef80de1a6f18b2b2c035adf9e3a3801bef80de1a6f18b2b2c035adf9e3a', 'web');
 
 -- ----------------------------
 -- Table structure for cmf_usual_brand
@@ -5783,8 +5950,8 @@ CREATE TABLE `cmf_verify` (
 -- Records of cmf_verify
 -- ----------------------------
 INSERT INTO `cmf_verify` VALUES ('1', '3', '0', 'mobile', '0', '1511768040', '1512768040', '{\"mobile\":\"133654987\",\"email\":\"\",\"identity_card\":\"\",\"driving_license\":\"\",\"real_name\":\"\",\"gender\":\"\",\"birthday\":\"\",\"telephone\":\"\",\"alipay\":\"\",\"weixin\":\"\",\"ID_Type\":\"\",\"ID_No\":\"\",\"booklet\":\"\",\"house_certificate\":\"\",\"marriage_lines\":\"\",\"birthcity\":\"\",\"residecity\":\"\",\"diploma\":\"\",\"graduateschool\":\"\",\"education\":\"\",\"business_license\":\"\",\"work_occupation\":\"\",\"work_company\":\"\",\"work_position\":\"\",\"work_experience\":\"\"}', '0', '0');
-INSERT INTO `cmf_verify` VALUES ('2', '3', '0', 'certification', '0', '1514192573', '0', '{\"identity_card\":[{\"url\":\"http:\\/\\/tx.car\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/6.jpg\",\"name\":\"\"},{\"url\":\"http:\\/\\/tx.car\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/7.jpg\",\"name\":\"\"}],\"driving_license\":\"http:\\/\\/tx.car\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/5.jpg\"}', '0', '0');
-INSERT INTO `cmf_verify` VALUES ('3', '3', '0', 'openshop', '0', '1514192868', '0', '{\"username\":\"汪某人\",\"contact\":\"13365897412\",\"plateNo\":\"皖A598H2\",\"driving_license\":\"http:\\/\\/tx.car\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/5.jpg\",\"identity_card\":[{\"url\":\"http:\\/\\/tx.car\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/6.jpg\",\"name\":\"\"},{\"url\":\"http:\\/\\/tx.car\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/7.jpg\",\"name\":\"\"}]}', '0', '0');
+INSERT INTO `cmf_verify` VALUES ('2', '3', '0', 'certification', '0', '1514192573', '0', '{\"identity_card\":[{\"url\":\"\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/6.jpg\",\"name\":\"\"},{\"url\":\"\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/7.jpg\",\"name\":\"\"}],\"driving_license\":\"\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/5.jpg\"}', '0', '0');
+INSERT INTO `cmf_verify` VALUES ('3', '3', '0', 'openshop', '0', '1514192868', '0', '{\"username\":\"汪某人\",\"contact\":\"13365897412\",\"plateNo\":\"皖A598H2\",\"driving_license\":\"\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/5.jpg\",\"identity_card\":[{\"url\":\"\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/6.jpg\",\"name\":\"\"},{\"url\":\"\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/7.jpg\",\"name\":\"\"}]}', '0', '0');
 
 -- ----------------------------
 -- Table structure for cmf_verify_model

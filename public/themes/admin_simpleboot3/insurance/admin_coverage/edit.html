@@ -101,7 +101,7 @@
                     <tr>
                         <th>内容</th>
                         <td>
-                            <script type="text/plain" id="content" name="post[content]" style="height:160px;">{$post.content}</script>
+                            <script type="text/plain" id="content" name="post[content]" style="height:160px;">{$post.content|default=''}</script>
                         </td>
                     </tr>
                 </table>

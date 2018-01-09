@@ -41,7 +41,7 @@ class AdminConsignController extends AdminBaseController
     {
         $compId = $this->request->param('compId',0,'intval');
         $compModel  = new UsualCompanyModel();
-        $CompanyTree   = $compModel->getCompanys($compId,0,0,true);
+        $CompanyTree   = $compModel->getCompanys($compId);
         $Provinces = model('admin/District')->getDistricts();
 
         $this->assign('company_tree', $CompanyTree);
@@ -86,7 +86,7 @@ class AdminConsignController extends AdminBaseController
         $id = $this->request->param('id', 0, 'intval');
         $post = $this->uModel->getPost($id);
         $compModel  = new UsualCompanyModel();
-        $CompanyTree   = $compModel->getCompanys($post['company_id'],0,0,true);
+        $CompanyTree   = $compModel->getCompanys($post['company_id']);
         $Provinces = model('admin/District')->getDistricts($post['province_id']);
         $Citys = model('admin/District')->getDistricts($post['city_id'],$post['province_id']);
 
