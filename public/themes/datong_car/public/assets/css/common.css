@@ -1,45 +1,3 @@
-<<<<<<< HEAD
-/*
-Error: Invalid charset directive '@charset': expected string.
-        on line 1 of D:\phpStudy\WWW\GitHub\wincomtech-org\used_car\public\themes\datong_car\public\assets\css\common.css
-
-1: @charset "utf-8";
-2: /**公共样式**\/
-3: body{font:12px/1 微软雅黑,"Microsoft Yahei",sans-serif;min-width:320px;}
-4: body,h1,h2,h3,h4,h5,h6,p,ol,li,ul,a,dd,dt,dl,span,em,i,img,input,button,select,textarea,div,a,input{padding:0;margin:0;color:#333;list-style:none;font-style:normal;font-size:inherit;}
-5: textarea,input,button,select,img{border:none;outline:none;}
-6: input[type=button],input[type=submit],input[type=file],input[type=text],input[type=reset],button{cursor:pointer;-webkit-appearance:none;border-radius:0;-webkit-border-radius:0;-moz-border-radius:0;-ms-border-radius:0;}
-
-Backtrace:
-D:\phpStudy\WWW\GitHub\wincomtech-org\used_car\public\themes\datong_car\public\assets\css\common.css:1
-C:/Ruby24-x64/lib/ruby/gems/2.4.0/gems/sass-4.0.0.alpha.1/lib/sass/engine.rb:884:in `parse_charset_directive'
-C:/Ruby24-x64/lib/ruby/gems/2.4.0/gems/sass-4.0.0.alpha.1/lib/sass/engine.rb:810:in `parse_directive'
-C:/Ruby24-x64/lib/ruby/gems/2.4.0/gems/sass-4.0.0.alpha.1/lib/sass/engine.rb:645:in `parse_line'
-C:/Ruby24-x64/lib/ruby/gems/2.4.0/gems/sass-4.0.0.alpha.1/lib/sass/engine.rb:535:in `build_tree'
-C:/Ruby24-x64/lib/ruby/gems/2.4.0/gems/sass-4.0.0.alpha.1/lib/sass/engine.rb:554:in `block in append_children'
-C:/Ruby24-x64/lib/ruby/gems/2.4.0/gems/sass-4.0.0.alpha.1/lib/sass/engine.rb:553:in `each'
-C:/Ruby24-x64/lib/ruby/gems/2.4.0/gems/sass-4.0.0.alpha.1/lib/sass/engine.rb:553:in `append_children'
-C:/Ruby24-x64/lib/ruby/gems/2.4.0/gems/sass-4.0.0.alpha.1/lib/sass/engine.rb:406:in `_to_tree'
-C:/Ruby24-x64/lib/ruby/gems/2.4.0/gems/sass-4.0.0.alpha.1/lib/sass/engine.rb:378:in `_render_with_sourcemap'
-C:/Ruby24-x64/lib/ruby/gems/2.4.0/gems/sass-4.0.0.alpha.1/lib/sass/engine.rb:295:in `render_with_sourcemap'
-C:/Ruby24-x64/lib/ruby/gems/2.4.0/gems/sass-4.0.0.alpha.1/lib/sass/plugin/compiler.rb:490:in `update_stylesheet'
-C:/Ruby24-x64/lib/ruby/gems/2.4.0/gems/sass-4.0.0.alpha.1/lib/sass/plugin/compiler.rb:215:in `block in update_stylesheets'
-C:/Ruby24-x64/lib/ruby/gems/2.4.0/gems/sass-4.0.0.alpha.1/lib/sass/plugin/compiler.rb:209:in `each'
-C:/Ruby24-x64/lib/ruby/gems/2.4.0/gems/sass-4.0.0.alpha.1/lib/sass/plugin/compiler.rb:209:in `update_stylesheets'
-C:/Ruby24-x64/lib/ruby/gems/2.4.0/gems/sass-4.0.0.alpha.1/lib/sass/plugin.rb:82:in `update_stylesheets'
-C:/Ruby24-x64/lib/ruby/gems/2.4.0/gems/sass-4.0.0.alpha.1/lib/sass/exec/sass_scss.rb:361:in `watch_or_update'
-C:/Ruby24-x64/lib/ruby/gems/2.4.0/gems/sass-4.0.0.alpha.1/lib/sass/exec/sass_scss.rb:51:in `process_result'
-C:/Ruby24-x64/lib/ruby/gems/2.4.0/gems/sass-4.0.0.alpha.1/lib/sass/exec/base.rb:52:in `parse'
-C:/Ruby24-x64/lib/ruby/gems/2.4.0/gems/sass-4.0.0.alpha.1/lib/sass/exec/base.rb:19:in `parse!'
-C:/Ruby24-x64/lib/ruby/gems/2.4.0/gems/sass-4.0.0.alpha.1/bin/sass:13:in `<top (required)>'
-C:/Ruby24-x64/bin/sass:23:in `load'
-C:/Ruby24-x64/bin/sass:23:in `<main>'
-*/
-body:before {
-  white-space: pre;
-  font-family: monospace;
-  content: "Error: Invalid charset directive '@charset': expected string.\A         on line 1 of D:\phpStudy\WWW\GitHub\wincomtech-org\used_car\public\themes\datong_car\public\assets\css\common.css\A \A 1: @charset \"utf-8\";\A 2: /**公共样式**/\A 3: body{font:12px/1 微软雅黑,\"Microsoft Yahei\",sans-serif;min-width:320px;}\A 4: body,h1,h2,h3,h4,h5,h6,p,ol,li,ul,a,dd,dt,dl,span,em,i,img,input,button,select,textarea,div,a,input{padding:0;margin:0;color:#333;list-style:none;font-style:normal;font-size:inherit;}\A 5: textarea,input,button,select,img{border:none;outline:none;}\A 6: input[type=button],input[type=submit],input[type=file],input[type=text],input[type=reset],button{cursor:pointer;-webkit-appearance:none;border-radius:0;-webkit-border-radius:0;-moz-border-radius:0;-ms-border-radius:0;}"; }
-=======
 @charset "utf-8";
 /**公共样式**/
 body{font:12px/1 微软雅黑,"Microsoft Yahei",sans-serif;min-width:320px;}
@@ -96,9 +54,9 @@ img{transform:scale(1) translateZ(0);}
 .iphone p.i2{font-size:32px;font-family:Arial;margin-left:-3px;}
 .iphone p .red{color:#d00000;font-family:Arial;font-size:22px;}
 @media only screen and (min-width:769px){
-	.header_search{padding:20px 0;text-align:center;}
-	.header_search .main{position:relative;}
-	.search{position:absolute;top:50%;left:50%;-webkit-transform:translate(-50%,-50%);transform:translate(-50%,-50%);}
+    .header_search{padding:20px 0;text-align:center;}
+    .header_search .main{position:relative;}
+    .search{position:absolute;top:50%;left:50%;-webkit-transform:translate(-50%,-50%);transform:translate(-50%,-50%);}
 }
 
 /**首页下面公共头部**/
@@ -221,150 +179,149 @@ nav{background-color:#000;}
 
 /*车辆买卖表格**/
 @media only screen and (max-width:1690px) and (min-width:1024px){
-	.registration_information{width:500px;padding:27px 44px 15px;}
-	.analogy.no input{width:80px;}
-	.analogy.no  .kuang{width:128px;}
-	.analogy.no  .analogy_change{font-size:14px;}
+    .registration_information{width:500px;padding:27px 44px 15px;}
+    .analogy.no input{width:80px;}
+    .analogy.no  .kuang{width:128px;}
+    .analogy.no  .analogy_change{font-size:14px;}
 }
 @media only screen and (max-width:1500px) and (min-width:1024px){
-	.regist_info_tit p{font-size:19px;}
-	.regist_info_form_item span{font-size:14px;}
-	.regist_info_form_item{height:28px;line-height:28px;}
-	.analogy p{font-size:14px;}
-	.analogy p input{font-size:14px;}
-	.analogy{height:30px;}
+    .regist_info_tit p{font-size:19px;}
+    .regist_info_form_item span{font-size:14px;}
+    .regist_info_form_item{height:28px;line-height:28px;}
+    .analogy p{font-size:14px;}
+    .analogy p input{font-size:14px;}
+    .analogy{height:30px;}
 }
 @media only screen and (max-width:1300px) and (min-width:1024px){
-	.regist_info_form_item{margin:10px 0;}
+    .regist_info_form_item{margin:10px 0;}
 }
 @media only screen and (max-width:1210px) and (min-width:1024px){
-	.registration_information{width:535px;padding:13px 38px 8px;}
-	.regist_info_tit p{font-size:17px;}
-	.regist_info_form_item span{font-size:13px;}
-	.regist_info_form_item{height:25px;line-height:25px;}
-	.analogy p input{font-size:13px;}
-	.analogy p{font-size:13px;}
+    .registration_information{width:535px;padding:13px 38px 8px;}
+    .regist_info_tit p{font-size:17px;}
+    .regist_info_form_item span{font-size:13px;}
+    .regist_info_form_item{height:25px;line-height:25px;}
+    .analogy p input{font-size:13px;}
+    .analogy p{font-size:13px;}
 }
 @media only screen and (max-width:600px){
-	.regist_info_tit p{font-size:18px;}
-	.registration_information{padding:25px 35px;}
-	.regist_info_form_item span{font-size:14px;}
-	.analogy p{font-size:14px;}
-	.analogy.no input{width:80px;}
-	.analogy.no  .analogy_change{font-size:14px;}
+    .regist_info_tit p{font-size:18px;}
+    .registration_information{padding:25px 35px;}
+    .regist_info_form_item span{font-size:14px;}
+    .analogy p{font-size:14px;}
+    .analogy.no input{width:80px;}
+    .analogy.no  .analogy_change{font-size:14px;}
 }
 @media only screen and (max-width:413px){
-	.registration_information{padding:20px 19px;}
-	.regist_info_form_item span{width:71px;}
-	.analogy.no  .kuang{margin:0;}
-	.analogy.no input,.analogy.no  .kuang{width:68px;}
-	.analogy.no  .kuang{width:109px;}
-	.analogy.no  .analogy_change{font-size:12px;}
+    .registration_information{padding:20px 19px;}
+    .regist_info_form_item span{width:71px;}
+    .analogy.no  .kuang{margin:0;}
+    .analogy.no input,.analogy.no  .kuang{width:68px;}
+    .analogy.no  .kuang{width:109px;}
+    .analogy.no  .analogy_change{font-size:12px;}
 }
 @media only screen and (min-width:1200px){
-	header,section,nav,footer{min-width:100%;}
-	html,body{font-size:24px;}
+    header,section,nav,footer{min-width:100%;}
+    html,body{font-size:24px;}
 }
 @media only screen and (min-width:1024px){
-	.login_m{display:none;}
+    .login_m{display:none;}
 }
 @media only screen and (min-width:769px){
-	.headerM{display:none;}
+    .headerM{display:none;}
 }
 
 /**在1200尺寸下*/
 @media only screen and (max-width:1198px) and (min-width:801px){
-	html,body{font-size:22px;}
+    html,body{font-size:22px;}
 }
 @media only screen and (max-width:800px) and (min-width:601px){
-	html,body{font-size:20px;}
+    html,body{font-size:20px;}
 }
 @media only screen and (max-width:600px) and (min-width:415px){
-	html,body{font-size:18px;}
+    html,body{font-size:18px;}
 }
 @media only screen and (max-width:414px){
-	html,body{font-size:16px;}
+    html,body{font-size:16px;}
 }
 @media only screen and (max-width:1199px){
-	html{-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;}
-	.main{width:100%;padding:.5rem;-webkit-box-sizing:border-box;box-sizing:border-box;}
-	header,section,nav,footer{min-width:100%;}
-	.recommend{display:none;}
+    html{-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;}
+    .main{width:100%;padding:.5rem;-webkit-box-sizing:border-box;box-sizing:border-box;}
+    header,section,nav,footer{min-width:100%;}
+    .recommend{display:none;}
 
-	/*返回顶部*/
-	.back_to_top{width:70px;right:4px;}
-	.back_to_top .txt{font-size:14px;}
-	.back_to_top .icon{height:33px;}
+    /*返回顶部*/
+    .back_to_top{width:70px;right:4px;}
+    .back_to_top .txt{font-size:14px;}
+    .back_to_top .icon{height:33px;}
 }
 @media only screen and (max-width:1199px) and (min-width:769px){
 
-	/*导航搜索*/
-	.header_search .logo{width:18%;}
-	.header_search .logo img{width:100%;}
-	.search input.ser_input{width:225px;}
-	.search input.ser_button{padding:0 13px;}
-	.iphone p.i2{font-size:20px;}
-	.iphone p .red{font-size:20px;}
-	.iphone img{vertical-align:bottom;}
+    /*导航搜索*/
+    .header_search .logo{width:18%;}
+    .header_search .logo img{width:100%;}
+    .search input.ser_input{width:225px;}
+    .search input.ser_button{padding:0 13px;}
+    .iphone p.i2{font-size:20px;}
+    .iphone p .red{font-size:20px;}
+    .iphone img{vertical-align:bottom;}
 
-	/*登录注册*/
-	.regist_con{padding:8px 25px 6px;}
-	.login_m{width:100%;}
+    /*登录注册*/
+    .regist_con{padding:8px 25px 6px;}
+    .login_m{width:100%;}
 }
 @media only screen and (max-width:768px){
 
-	/**顶部和导航*/
-	.navPc,.headerPc,.login_pc{display:none;}
-	.headerM{overflow:hidden;}
+    /**顶部和导航*/
+    .navPc,.headerPc,.login_pc{display:none;}
+    .headerM{overflow:hidden;}
 
-	/**手机端顶部和导航*/
-	.header_top{display:-webkit-box;display:-ms-flexbox;display:flex;-ms-flex-wrap:wrap;flex-wrap:wrap;-webkit-box-pack:justify;-ms-flex-pack:justify;justify-content:space-between;padding:1%;align-items:center;}
-	.header_top .logo{width:20%;}
-	.header_top .logo img{width:100%;}
-	.header_top .menu{display:inline-block;display:-webkit-box;display:-ms-flexbox;display:flex;width:10%;height:1rem;}
-	.header_top .menu .icon{display:block;width:100%;max-width:40px;height:1rem;border-bottom:2px solid #bbb;position:relative;}
-	.header_top .menu .icon:after,.header_top .menu .icon:before{content:"";display:block;width:100%;border-bottom:2px solid #bbb;position:absolute;left:0;}
-	.header_top .menu .icon:after{top:50%;-webkit-transform:translateY(-50%);transform:translateY(-50%);}
-	.header_top .menu .icon:before{top:-3px;}
+    /**手机端顶部和导航*/
+    .header_top{display:-webkit-box;display:-ms-flexbox;display:flex;-ms-flex-wrap:wrap;flex-wrap:wrap;-webkit-box-pack:justify;-ms-flex-pack:justify;justify-content:space-between;padding:1%;align-items:center;}
+    .header_top .logo{width:20%;}
+    .header_top .logo img{width:100%;}
+    .header_top .menu{display:inline-block;display:-webkit-box;display:-ms-flexbox;display:flex;width:10%;height:1rem;}
+    .header_top .menu .icon{display:block;width:100%;max-width:40px;height:1rem;border-bottom:2px solid #bbb;position:relative;}
+    .header_top .menu .icon:after,.header_top .menu .icon:before{content:"";display:block;width:100%;border-bottom:2px solid #bbb;position:absolute;left:0;}
+    .header_top .menu .icon:after{top:50%;-webkit-transform:translateY(-50%);transform:translateY(-50%);}
+    .header_top .menu .icon:before{top:-3px;}
 
-	/**搜索框*/
-	.search{width:80%;max-width:450px;}
-	.search label{width:100%;}
-	.search input.ser_input{width:70%;font-size:0.75rem;}
-	.search input.ser_button{padding:0;width:30%;font-size:0.75rem;max-width:120px;}
-	.header_search{display:-webkit-box;display:-ms-flexbox;display:flex;-ms-flex-wrap:wrap;flex-wrap:wrap;-webkit-box-pack:justify;-ms-flex-pack:justify;justify-content:space-between;padding:1rem .5rem .5rem;-webkit-box-sizing:border-box;box-sizing:border-box;}
-	.user_m{width:19%;text-align:right;}
-	.user_m .icon{display:inline-block;width:40px;height:40px;background:url(../images/example/login_icon.png) no-repeat -2px -185px;}
+    /**搜索框*/
+    .search{width:80%;max-width:450px;}
+    .search label{width:100%;}
+    .search input.ser_input{width:70%;font-size:0.75rem;}
+    .search input.ser_button{padding:0;width:30%;font-size:0.75rem;max-width:120px;}
+    .header_search{display:-webkit-box;display:-ms-flexbox;display:flex;-ms-flex-wrap:wrap;flex-wrap:wrap;-webkit-box-pack:justify;-ms-flex-pack:justify;justify-content:space-between;padding:1rem .5rem .5rem;-webkit-box-sizing:border-box;box-sizing:border-box;}
+    .user_m{width:19%;text-align:right;}
+    .user_m .icon{display:inline-block;width:40px;height:40px;background:url(../images/example/login_icon.png) no-repeat -2px -185px;}
 
-	/*banner图*/
-	.banner img{min-height:auto;min-width:320px;width:100%;}
+    /*banner图*/
+    .banner img{min-height:auto;min-width:320px;width:100%;}
 
-	/**车辆信息里的小图*/
-	.analogy.no  .kuang img{min-width:0;}
-	@media only screen and (max-width:615px){
+    /**车辆信息里的小图*/
+    .analogy.no  .kuang img{min-width:0;}
+    @media only screen and (max-width:615px){
 
-		/**手机端顶部和导航*/
-		.header_top .logo{width:32%;}
-	}
-	@media only screen and (max-width:414px){
-		.search{width:85%;}
-		.user_m{width:10%;}
-		.search input.ser_input{width:80%;}
-		.search input.ser_button{width:20%;}
-	}
-	@media only screen and (max-width:320px){
-		.search{width:92%;}
-		.user_m{width:7%;}
-		.search input.ser_input{padding-left:2px;}
-	}
+        /**手机端顶部和导航*/
+        .header_top .logo{width:32%;}
+    }
+    @media only screen and (max-width:414px){
+        .search{width:85%;}
+        .user_m{width:10%;}
+        .search input.ser_input{width:80%;}
+        .search input.ser_button{width:20%;}
+    }
+    @media only screen and (max-width:320px){
+        .search{width:92%;}
+        .user_m{width:7%;}
+        .search input.ser_input{padding-left:2px;}
+    }
 }
 
 /*弹出窗口*/
 @media only screen and (max-width:767px){
-	.simpleAlertBody{min-width:0;}
-	.simpleAlertBody{width:315px;padding:1.2rem 2rem .7rem;}
-	.simpleAlertBodyContent{width:244px;}
-	.simpleAlertBodyContent img{width:244px;}
-	.simpleAlertBodyContent  .BodyContent{min-height:200px;}
+    .simpleAlertBody{min-width:0;}
+    .simpleAlertBody{width:315px;padding:1.2rem 2rem .7rem;}
+    .simpleAlertBodyContent{width:244px;}
+    .simpleAlertBodyContent img{width:244px;}
+    .simpleAlertBodyContent  .BodyContent{min-height:200px;}
 }
->>>>>>> acf01fe50acb932b5fdcc78ef7dc00d31c697dc0

@@ -56,17 +56,17 @@ DOMEvent DOMDocumentWrapper phpQueryEvents phpQuery Callback JSONP
 点券改成优惠券
 商品属性设计：
     核心：属性类别表 + 属性值表
-    产品表(cmf_shop)：
+    产品表(cmf_shop_goods)：
         (PK)产品ID、(FK1)类别ID、(FK2)品牌ID、产品名称(name)、价格(shop_price)、积分(score)、优惠券(conpon)、、添加时间(create_time)、库存(inventory)、状态(status)
-    品牌表(cmf_shop_brand)：可以直接使用已有的
+    品牌表(cmf_shop_goods_brand)：可以直接使用已有的
         (PK)品牌ID、品牌名称、logo、推荐(is_rec)、状态
-    类目表(cmf_shop_category)：
-        (PK)类别ID、(FK1)类别父ID(parent_id)、类别名称(name)、深度(level)、排序(listorder)、状态(status)
-    属性表(cmf_shop_attr)：
-        (PK)属性ID、(FK1)类别ID(cateId)、属性名称(name)、显示类型(type,单选、多选、下拉)、排序、状态
-    属性值表(cmf_shop_av)：
-        (PK)属性值ID、(FK1)属性ID(attrId)、属性值名称(name)、状态
-    产品属性关系表(cmf_shop_sav)：
+    类目表(cmf_shop_goods_category)：
+        (PK)类别ID、(FK1)类别父ID(parent_id)、深度(path)、类别名称(name)、状态(status)、排序(listorder)
+    属性表(cmf_shop_goods_attr)：
+        (PK)属性ID、(FK1)类别ID(cateId)、属性名称(name)、显示类型(input_type,单选、多选、下拉)、状态、排序、是否查询(is_query)、值类型(vtype)、值长度(vlength)
+    属性值表(cmf_shop_goods_av)：
+        (PK)属性值ID、(FK1)属性ID(attrId)、属性值名称(name)、状态、排序
+    产品属性关系表(cmf_shop_gav)：
         (PK)属性关系ID、(FK1)产品ID(proId)、(FK2)属性ID(attrId)、(FK3)属性值ID(avId)
     说明：属性值可以是在一个 textarea 框中用 | 隔开 获取。
 
