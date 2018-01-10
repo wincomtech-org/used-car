@@ -2,12 +2,14 @@
 namespace app\shop\controller;
 
 use cmf\controller\AdminBaseController;
+use app\shop\model\ShopGoodsModel;
+
 
 /**
 * 服务商城 独立模块
-* 店铺
+* 产品
 */
-class AdminShopController extends AdminBaseController
+class AdminGoodsController extends AdminBaseController
 {
     public function index()
     {

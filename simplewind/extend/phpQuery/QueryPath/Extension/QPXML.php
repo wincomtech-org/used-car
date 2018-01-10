@@ -56,7 +56,7 @@ class QPXML implements QueryPathExtension {
         $cdata = $element->ownerDocument->createCDATASection($text);
         $element->appendChild($cdata);
       }
-      return $this->qp;;
+      return $this->qp;
     }
 
     // Look for CDATA sections.

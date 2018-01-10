@@ -57,7 +57,7 @@ class UserController extends AdminBaseController
             $where['user_login'] = ['like', "%$user_login%"];
         }
         if (!empty($user_email)) {
-            $where['user_email'] = ['like', "%$user_email%"];;
+            $where['user_email'] = ['like', "%$user_email%"];
         }
 
         $users = Db::name('user')
@@ -263,7 +263,7 @@ class UserController extends AdminBaseController
             $data             = $this->request->post();
             $data['birthday'] = strtotime($data['birthday']);
             $data['id']       = cmf_get_current_admin_id();
-            $create_result    = Db::name('user')->update($data);;
+            $create_result    = Db::name('user')->update($data);
             if ($create_result !== false) {
                 $this->success("保存成功！");
             } else {

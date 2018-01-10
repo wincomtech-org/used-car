@@ -109,10 +109,10 @@ class UsualModel extends Model
         }
 
         if (!empty($data['buyer_username'])) {
-            $data['buyer_uid'] = Db::name('user')->whereOr(['user_login|user_nickname|user_email'=>['eq', $data['buyer_username']]])->value('id');
+            $data['buyer_uid'] = $this->getUid($data['buyer_username']);
         }
         if (!empty($data['seller_username'])) {
-            $data['seller_uid'] = Db::name('user')->whereOr(['user_login|user_nickname|user_email'=>['eq', $data['seller_username']]])->value('id');
+            $data['seller_uid'] = $this->getUid($data['seller_username']);
         }
 
         $data['create_time'] = time();
@@ -267,6 +267,7 @@ class UsualModel extends Model
         if (empty($uid)) {
             $uid = Db::name('user')->whereOr(['user_nickname|user_login|user_email|mobile'=>$uname])->value('id');
             // $uid = Db::name('user')->whereOr(['user_nickname|user_login|user_email|mobile'=>['eq',$uname]])->value('id');
+            // $uid = Db::name('user')->whereOr(['user_nickname|user_login|user_email|mobile'=>['like', "%$uname%"]])->value('id');
             $uid = intval($uid);
         }
         return $uid;

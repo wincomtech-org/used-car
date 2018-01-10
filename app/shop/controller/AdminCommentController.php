@@ -2,6 +2,7 @@
 namespace app\shop\controller;
 
 use cmf\controller\AdminBaseController;
+use app\shop\model\ShopGoodsCommentModel;
 
 /**
 * 服务商城 独立模块
