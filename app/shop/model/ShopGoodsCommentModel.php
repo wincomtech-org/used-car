@@ -5,7 +5,7 @@ namespace app\shop\model;
 use app\usual\model\UsualModel;
 
 /**
-* 商品属性模型 cmf_shop_goods_comment
+* 商品评价模型 cmf_shop_goods_comment
 */
 class ShopGoodsCommentModel extends UsualModel
 {

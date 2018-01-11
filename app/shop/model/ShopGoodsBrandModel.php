@@ -1,5 +1,5 @@
 <?php
-namespace app\trade\model;
+namespace app\shop\model;
 
 // use think\Model;
 use app\usual\model\UsualModel;

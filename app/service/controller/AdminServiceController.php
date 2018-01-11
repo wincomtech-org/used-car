@@ -35,7 +35,7 @@ class AdminServiceController extends AdminBaseController
         $this->assign('category_tree', $categoryTree);
         $this->assign('lists', $data->items());
         $data->appends($param);
-        $this->assign('page', $data->render());
+        $this->assign('pager', $data->render());
 
         return $this->fetch();
     }

@@ -54,7 +54,7 @@ class AdminCarController extends AdminBaseController
         $this->assign('plat', isset($param['plat']) ? $param['plat'] : '');
         $this->assign('articles', $data->items());
         $this->assign('brand_tree', $brandTree);
-        $this->assign('page', $data->render());
+        $this->assign('pager', $data->render());
 
         return $this->fetch();
     }

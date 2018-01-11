@@ -5,9 +5,9 @@ namespace app\shop\model;
 use app\usual\model\UsualModel;
 
 /**
-* 商品属性关系模型 cmf_shop_gav
+* 收货地址模型 cmf_shop_shipping_address
 */
-class ShopGoodsGavModel extends UsualModel
+class ShopShippingAddressModel extends UsualModel
 {
     // 获取列表数据
     public function getLists($filter=[], $order='', $limit='', $extra=[], $field='*')

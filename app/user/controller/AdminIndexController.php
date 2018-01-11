@@ -74,7 +74,7 @@ class AdminIndexController extends AdminBaseController
         // 获取分页显示
         $page = $list->render();
         $this->assign('list', $list);
-        $this->assign('page', $page);
+        $this->assign('pager', $page);
         // 渲染模板输出
         return $this->fetch();
     }

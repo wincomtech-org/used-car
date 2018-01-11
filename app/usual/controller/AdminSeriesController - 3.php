@@ -53,7 +53,7 @@ class AdminSeriesController extends AdminBaseController
         $this->assign('articles', $data->items());
         $this->assign('category_tree', $categoryTree);
         $this->assign('categoryId', $categoryId);
-        $this->assign('page', $data->render());
+        $this->assign('pager', $data->render());
 
         return $this->fetch();
     }

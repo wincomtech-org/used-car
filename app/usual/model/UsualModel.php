@@ -38,7 +38,7 @@ class UsualModel extends Model
         return $this->belongsToMany('PortalCategoryModel', 'portal_category_post', 'category_id', 'post_id');
     }
 
-    /**
+    /** 富文本自动转化
      * content 自动转化
      * @param $value
      * @return string

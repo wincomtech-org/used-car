@@ -32,7 +32,7 @@ class AdminConsignController extends AdminBaseController
         $this->assign('articles', $data->items());
         $this->assign('company_tree', $CompanyTree);
         $this->assign('compId', $compId);
-        $this->assign('page', $data->render());
+        $this->assign('pager', $data->render());
 
         return $this->fetch();
     }

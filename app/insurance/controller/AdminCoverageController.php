@@ -31,7 +31,7 @@ class AdminCoverageController extends AdminBaseController
         $this->assign('companys', $companys);
         $this->assign('insuranceId', $insuranceId);
         $this->assign('compId', $compId);
-        $this->assign('page', $data->render());
+        $this->assign('pager', $data->render());
 
         return $this->fetch();
     }

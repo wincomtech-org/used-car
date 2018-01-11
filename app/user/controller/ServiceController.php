@@ -68,7 +68,7 @@ class ServiceController extends UserBaseController
         $this->assign('define_data',$define_data);
         $this->assign('servicePoint',$servicePoint);
         $this->assign('mid',$mid);
-        $this->assign('page',$page);
+        $this->assign('pager',$page);
         return $this->fetch();
     }
 

@@ -73,7 +73,7 @@ class UserController extends AdminBaseController
             $roleId           = $r['id'];
             $roles["$roleId"] = $r;
         }
-        $this->assign("page", $page);
+        $this->assign("pager", $page);
         $this->assign("roles", $roles);
         $this->assign("users", $users);
         return $this->fetch();

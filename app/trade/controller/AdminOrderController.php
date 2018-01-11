@@ -32,7 +32,7 @@ class AdminOrderController extends AdminBaseController
         $this->assign('uname', isset($param['uname']) ? $param['uname'] : '');
         $this->assign('sn', isset($param['sn']) ? $param['sn'] : '');
         $this->assign('lists', $data->items());
-        $this->assign('page', $data->render());
+        $this->assign('pager', $data->render());
 
         return $this->fetch();
     }

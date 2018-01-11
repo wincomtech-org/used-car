@@ -1,72 +1,82 @@
 <?php
 namespace app\shop\model;
 
-// use think\Model;
-use app\usual\model\UsualModel;
+use think\Model;
 
 /**
 * 商品属性模型 cmf_shop_goods_attr
 */
-class ShopGoodsAttrModel extends UsualModel
+class ShopGoodsAttrModel extends Model
 {
+    protected $type = [
+        'more' => 'array',
+    ];
+    // 开启自动写入时间戳字段
+    protected $autoWriteTimestamp = true;
     // protected $hidden = ['delete_time', 'update_time'];
-    // 关联产品表
-    public function goods()
+    // 关联商品表 cmf_shop_goods
+    public function attrGoods()
     {
-        return $this->belongsToMany('ShopGoodsModel', 'shop_gav', 'proId', 'attrId');
+        return $this->belongsToMany('ShopGoodsModel', 'shop_gav', 'goods_id', 'attr_id');
     }
-    // 关联分类表
-    // public function goodscate()
-    // {
-    //     return $this->belongsToMany('ShopGoodsCategoryModel', 'shop_gav', 'proId', 'attrId');
-    // }
-
-    // 获取列表数据
-    public function getLists($filter=[], $order='', $limit='', $extra=[], $field='*')
+    // 关联分类表 cmf_shop_category_attr
+    public function attrCates()
     {
-        // 筛选条件
-        $where = [];
-        $where = ['a.delete_time' => 0];
-        // 分类ID
-        if (!empty($filter['cateId'])) {
-            $where['a.cateId'] = $filter['cateId'];
-        }
-        // 创建时间
-        $startTime = empty($filter['start_time']) ? 0 : strtotime($filter['start_time']);
-        $endTime   = empty($filter['end_time']) ? 0 : strtotime($filter['end_time']);
-        if (!empty($startTime) && !empty($endTime)) {
-            $where['a.create_time'] = [['>= time', $startTime], ['<= time', $endTime]];
-        } else {
-            if (!empty($startTime)) {
-                $where['a.create_time'] = ['>= time', $startTime];
-            }
-            if (!empty($endTime)) {
-                $where['a.create_time'] = ['<= time', $endTime];
-            }
-        }
-        if (!empty($extra)) {
-            $where = array_merge($where,$extra);
-        }
-        // 其它项
-        $field = '*';
-        $join = [];
-        $order = empty($order) ? 'a.id DESC' : $order;
-        $limit = empty($limit) ? config('pagerset.size') : $limit;
-
-        $series = $this->alias('a')->field($field)
-            ->join($join)
-            ->where($where)
-            ->order($order)
-            ->paginate($limit);
-
-        return $series;
+        return $this->belongsToMany('ShopGoodsCategoryModel', 'shop_category_attr', 'category_id', 'attr_id');
     }
 
-    // 获取单条数据
-    public function getPost($id)
+    /*添加属性*/
+    public function addAttr($data,$categories)
     {
-        $post = $this->get($id)->toArray();
+        if (!empty($data['more']['thumbnail'])) {
+            $data['more']['thumbnail'] = cmf_asset_relative_url($data['more']['thumbnail']);
+        }
 
-        return $post;
+        $this->allowField(true)->data($data, true)->isUpdate(false)->save();
+
+        if (isset($categories)) {
+            if (is_string($categories)) {
+                $categories = explode(',', $categories);
+            }
+            $this->attrCates()->save($categories);
+        }
+
+        return $this;
+    }
+
+    /*编辑属性*/
+    public function editAttr($data, $categories)
+    {
+        if (!empty($data['more']['thumbnail'])) {
+            $data['more']['thumbnail'] = cmf_asset_relative_url($data['more']['thumbnail']);
+        }
+
+        $this->allowField(true)->isUpdate(true)->data($data, true)->save();
+
+        if (isset($categories)) {
+            if (is_string($categories)) {
+                $categories = explode(',', $categories);
+            }
+            // 去重
+            $oldCategoryIds        = $this->categories()->column('category_id');
+            $sameCategoryIds       = array_intersect($categories, $oldCategoryIds);
+            $needDeleteCategoryIds = array_diff($oldCategoryIds, $sameCategoryIds);
+            $newCategoryIds        = array_diff($categories, $sameCategoryIds);
+            // 更新
+            if (!empty($needDeleteCategoryIds)) {
+                $this->categories()->detach($needDeleteCategoryIds);
+            }
+            if (!empty($newCategoryIds)) {
+                $this->categories()->attach(array_values($newCategoryIds));
+            }
+        }
+
+        return $this;
+    }
+
+    /*删除属性*/
+    public function deleteAttr($data)
+    {
+        # code...
     }
 }

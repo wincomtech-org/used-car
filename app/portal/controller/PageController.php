@@ -15,7 +15,7 @@ class PageController extends HomeBaseController
             abort(404, ' 页面不存在!');
         }
 
-        $this->assign('page', $page);
+        $this->assign('pager', $page);
 
         $more = $page['more'];
         $tplName = empty($more['template']) ? 'page' : $more['template'];

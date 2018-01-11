@@ -5,7 +5,7 @@ namespace app\shop\model;
 use app\usual\model\UsualModel;
 
 /**
-* 商品店铺模型 cmf_shop
+* 店铺模型 cmf_shop
 */
 class ShopModel extends UsualModel
 {

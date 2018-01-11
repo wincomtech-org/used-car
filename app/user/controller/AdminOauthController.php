@@ -37,7 +37,7 @@ class AdminOauthController extends AdminBaseController
         // 获取分页显示
         $page = $lists->render();
         $this->assign('lists', $lists);
-        $this->assign('page', $page);
+        $this->assign('pager', $page);
         // 渲染模板输出
         return $this->fetch();
     }

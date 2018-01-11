@@ -35,7 +35,7 @@ class AdminVerifyController extends AdminBaseController
         $this->assign('category_tree', $categoryTree);
         $this->assign('status_tree', $statusTree);
         $this->assign('lists', $data->items());
-        $this->assign('page', $data->render());
+        $this->assign('pager', $data->render());
 
         return $this->fetch();
     }

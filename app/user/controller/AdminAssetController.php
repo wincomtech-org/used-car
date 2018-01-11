@@ -38,7 +38,7 @@ class AdminAssetController extends AdminBaseController
             ->order('create_time', 'DESC')
             ->paginate(10);
         $this->assign('assets', $result->items());
-        $this->assign('page', $result->render());
+        $this->assign('pager', $result->render());
         return $this->fetch();
     }
 

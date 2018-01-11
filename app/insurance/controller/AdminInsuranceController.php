@@ -31,7 +31,7 @@ class AdminInsuranceController extends AdminBaseController
         $this->assign('lists', $data->items());
         $this->assign('companys', $companys);
         $this->assign('companyId', $companyId);
-        $this->assign('page', $data->render());
+        $this->assign('pager', $data->render());
 
         return $this->fetch();
     }

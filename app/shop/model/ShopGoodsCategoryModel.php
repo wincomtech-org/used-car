@@ -10,13 +10,6 @@ use app\usual\model\UsualCategoryModel;
 */
 class ShopGoodsCategoryModel extends UsualCategoryModel
 {
-    // protected $hidden = ['delete_time', 'update_time'];
-    // 关联产品表
-    // public function goods()
-    // {
-    //     return $this->belongsToMany('ShopGoodsCategoryModel', 'shop_gav', 'proId', 'attrId');
-    // }
-
     // 获取列表数据 table表
     public function shopGoodsCategoryTableTree($currentIds=0, $tpl='')
     {

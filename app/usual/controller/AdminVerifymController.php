@@ -23,7 +23,7 @@ class AdminVerifymController extends AdminBaseController
 
         $categories->appends($param);//添加URL参数
         $this->assign('categories', $categories->items());// 获取查询数据并赋到模板
-        $this->assign('page', $categories->render());// 获取分页代码并赋到模板
+        $this->assign('pager', $categories->render());// 获取分页代码并赋到模板
 
         return $this->fetch();
     }

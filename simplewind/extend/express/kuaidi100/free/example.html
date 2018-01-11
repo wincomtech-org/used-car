@@ -16,24 +16,26 @@
 			$.get("get.php",{com:expressid,nu:expressno},
 				function(data)
 				{
-					// $("#retData").html(data);
-
-					// var retData = eval(data);
-					// var retMsg = '';
-					// var j = 0;
-
-					// for (var i=0;i<retData.length;i++)
-					// {
-					// 	if (i == retData.length -1)
-					// 	{
-					// 		retMsg += "<font color='#CC0000'>" + retData[i].item + "</font><br/>";
-					// 	}else{
-					// 		retMsg += retData[i].item + "<br/>";
-					// 	}
-					// }
+//					$("#retData").html(data);
+//
+//					var retData = eval(data);
+//					var retMsg = '';
+//					var j = 0;
+//
+//					for (var i=0;i<retData.length;i++)
+//					{
+//						if (i == retData.length -1)
+//						{
+//							retMsg += "<font color='#CC0000'>" + retData[i].item + "</font><br/>";
+//						}else{
+//							retMsg += retData[i].item + "<br/>";
+//						}
+//					}
+//					
 					$("#retData").html(data);
 				}
 			);
+ 
 			return false;
 		});
 	});
@@ -46,7 +48,7 @@
 	line-height:18px;
 	width: 96%;
 	border: 0;
-	}
+}
 	.txtPartner{width:960px;margin:20px 10px;padding:10px 0 0 0;border-top:1px solid #dfdfdf;}
 	.txtPartner h1{font-size:14px;color:#FF5632;}
 	.txtPartner a{float:left;margin:0 10px 10px 0;}
@@ -56,11 +58,11 @@
 	text-align: center;
 	padding: 10px;
 	font-family: "微软雅黑";
-	}
+}
     .txtURL {
 	font-size: 12px;
 	padding: 10px;
-	}
+}
     </style>
 </head>
  
@@ -71,8 +73,8 @@
 <div class="seatchForm">
 		<div class="txtURL">
           <p>快递公司：
-          <input name="expressid" type="text" id="expressid" value="yuantong"/> 
-		  快递单号：<input name="expressno" type="text" id="expressno" value="883178203196469940"/>
+          <input name="expressid" type="text" id="expressid" value="tnt"/> 
+		  快递单号：<input name="expressno" type="text" id="expressno" value="382351534"/>
 		  </p>
           <p>说明：查询时需要发送两个参数：公司名（拼音或英文）；快递单号</p>
 </div>

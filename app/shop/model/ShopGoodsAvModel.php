@@ -13,7 +13,7 @@ class ShopGoodsAvModel extends UsualModel
     // 关联属性表
     public function goodsattr()
     {
-        return $this->belongsToMany('ShopGoodsAttrModel', 'shop_gav', 'attrId', 'avId');
+        return $this->belongsToMany('ShopGoodsAttrModel', 'shop_gav', 'attr_id', 'av_id');
     }
 
     // 获取列表数据

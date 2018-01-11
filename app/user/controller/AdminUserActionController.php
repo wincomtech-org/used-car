@@ -55,7 +55,7 @@ class AdminUserActionController extends AdminBaseController
         // 获取分页显示
         $page = $actions->render();
         $this->assign('actions', $actions);
-        $this->assign('page', $page);
+        $this->assign('pager', $page);
         // 渲染模板输出
         return $this->fetch();
     }

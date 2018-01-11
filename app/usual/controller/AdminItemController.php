@@ -27,7 +27,7 @@ class AdminItemController extends AdminBaseController
         $this->assign('cateId', $cateId);
         $this->assign('categorys', $cates);
         $this->assign('lists', $data->items());
-        $this->assign('page', $data->render());
+        $this->assign('pager', $data->render());
 
         return $this->fetch();
     }
