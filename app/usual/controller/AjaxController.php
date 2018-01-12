@@ -57,10 +57,10 @@ class AjaxController extends BaseController
     public function coordinate()
     {
         $result =  $this->coords('请选择服务点',false);
-        if ($result) {
-            return $result;
-        } else {
+        if (empty($result)) {
             return '<option>--暂无该区数据--</option>';
+        } else {
+            return $result;
         }
     }
     public function coords($option=false, $json=true)

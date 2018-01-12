@@ -44,7 +44,6 @@ class DbBackupController extends AdminBaseController
     */
     public function index()
     {
-        // dump($this->dir);die;
         $list = $this->sqlback->lists($this->dir);
 
         $this->assign('list',$list);

@@ -109,22 +109,22 @@
                                     </div>
                                 </case>
                                 <case value="service_point">
-                                    <select name="more[province_id]" id="input-province" >
-                                        <option value="" >--请选择省份--</option>
-                                        {$Provinces}
-                                    </select>&nbsp;&nbsp;
-                                    <select name="more[city_id]" id="input-city">
-                                        <option value="">--请选择城市--</option>
-                                    </select>&nbsp;&nbsp;
+                                    <notempty name="servicePoint">
+                                        <select name="more[province_id]" id="input-province" >
+                                            <option value="" >--请选择省份--</option>
+                                            {$Provinces}
+                                        </select>&nbsp;&nbsp;
+                                        <select name="more[city_id]" id="input-city">
+                                            <option value="">--请选择城市--</option>
+                                        </select>&nbsp;&nbsp;
 
-                                    <select name="post[service_point]" id="input-coordinate">
-                                        <option value="">--请选择--</option>
-                                        <notempty name="servicePoint">
-                                        <foreach name="servicePoint" item="vo">
-                                        <option value="{$vo.id}">{$vo.name}</option>
-                                        </foreach>
-                                        </notempty>
-                                    </select>
+                                        <select name="post[service_point]" id="input-coordinate">
+                                            <option value="">--请选择--</option>
+                                            <foreach name="servicePoint" item="vo">
+                                            <option value="{$vo.id}">{$vo.name}</option>
+                                            </foreach>
+                                        </select>
+                                    </notempty>
                                 </case>
                                 <default /><input type="text" name="post[{$vo.name}]" required>
                             </switch>

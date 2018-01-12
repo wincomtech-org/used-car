@@ -3,6 +3,7 @@ namespace app\insurance\controller;
 
 use cmf\controller\AdminBaseController;
 // use app\insurance\model\InsuranceCoverageModel;
+// use app\usual\model\UsualCompanyModel;
 use think\Db;
 
 class AdminCoverageController extends AdminBaseController
@@ -21,7 +22,13 @@ class AdminCoverageController extends AdminBaseController
         $data = model('InsuranceCoverage')->getLists($param);
         $data->appends($param);
         $insurances = model('InsuranceCoverage')->getInsurance($insuranceId,$compId);
-        $companys = model('usual/UsualCompany')->getCompanys($compId);
+        $where = [
+            'identi_status' => 1,
+            'status'        => 1,
+            'is_rec'        => 1,
+            'is_baoxian'    => 1,
+        ];
+        $companys = model('usual/UsualCompany')->getCompanys($compId,0,'',$where);
 
         $this->assign('start_time', isset($param['start_time']) ? $param['start_time'] : '');
         $this->assign('end_time', isset($param['end_time']) ? $param['end_time'] : '');
@@ -39,13 +46,19 @@ class AdminCoverageController extends AdminBaseController
     public function add()
     {
         $categoryId = $this->request->param('cid',0,'intval');
-        $companyId = $this->request->param('compId',0,'intval');
+        $compId = $this->request->param('compId',0,'intval');
 
-        $insurances = model('InsuranceCoverage')->getInsurance($categoryId,$companyId);
-        $companys = model('usual/UsualCompany')->getCompanys($companyId);
+        $insurances = model('InsuranceCoverage')->getInsurance($categoryId,$compId);
+        $where = [
+            'identi_status' => 1,
+            'status'        => 1,
+            'is_rec'        => 1,
+            'is_baoxian'    => 1,
+        ];
+        $companys = model('usual/UsualCompany')->getCompanys($compId,0,'',$where);
 
         $this->assign('categoryId', $categoryId);
-        $this->assign('companyId', $companyId);
+        $this->assign('companyId', $compId);
         $this->assign('insurances', $insurances);
         $this->assign('companys', $companys);
         return $this->fetch();
@@ -79,19 +92,25 @@ class AdminCoverageController extends AdminBaseController
     {
         $id = $this->request->param('id', 0, 'intval');
         $categoryId = $this->request->param('cid', 0, 'intval');
-        $companyId = $this->request->param('compId',0,'intval');
+        $compId = $this->request->param('compId',0,'intval');
 
         $post = model('InsuranceCoverage')->getPost($id);
         // $post = model('InsuranceCoverage')->where('id', $id)->find();
         $company_id = model('Insurance')->where('id',$post['insurance_id'])->value('company_id');
-        $insurances = model('InsuranceCoverage')->getInsurance($post['insurance_id'],$companyId);
-        $companys = model('usual/UsualCompany')->getCompanys($company_id);
+        $insurances = model('InsuranceCoverage')->getInsurance($post['insurance_id'],$compId);
+        $where = [
+            'identi_status' => 1,
+            'status'        => 1,
+            'is_rec'        => 1,
+            'is_baoxian'    => 1,
+        ];
+        $companys = model('usual/UsualCompany')->getCompanys($company_id,0,'',$where);
 
         $this->assign('post', $post);
         $this->assign('insurances', $insurances);
         $this->assign('companys', $companys);
         $this->assign('categoryId', $categoryId);
-        $this->assign('companyId', $companyId);
+        $this->assign('companyId', $compId);
         return $this->fetch();
     }
     public function editPost()

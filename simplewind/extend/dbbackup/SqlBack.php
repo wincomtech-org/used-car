@@ -1,5 +1,5 @@
 <?php
-
+// namespace dbbackup;
 /**
  * 数据库备份与还原
  *

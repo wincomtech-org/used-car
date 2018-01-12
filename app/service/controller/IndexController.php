@@ -4,6 +4,8 @@ namespace app\service\controller;
 use cmf\controller\HomeBaseController;
 use app\portal\service\PostService;
 use app\service\model\ServiceCategoryModel;
+// use app\usual\model\UsualCoordinateModel;
+// use app\admin\model\DistrictModel;
 use think\Db;
 use think\Validate;
 
@@ -41,7 +43,8 @@ class IndexController extends HomeBaseController
             $this->error('请登录',url('user/Login/index'));
         }
 
-        $servId = $this->request->param('id',0,'intval');
+        $servId = $this->request->param('id/d',0);
+
         if (empty($servId)) {
             $this->error('数据非法！');
         }
@@ -58,14 +61,13 @@ class IndexController extends HomeBaseController
             $this->assign('new_data',$new_data);
             if (in_array('service_point',$define_data)) {
                 $Provinces = model('admin/District')->getDistricts(0,1);
-                $servicePoint = model('usual/UsualCoordinate')->getCoordinates(0, [], false);
+                $servicePoint = model('usual/UsualCoordinate')->getCoordinates(0, ['sc_id'=>$servId], false);
                 $this->assign('Provinces', $Provinces);
                 $this->assign('servicePoint',$servicePoint);
                 $this->assign('servicePointJson',json_encode($servicePoint));
             }
         }
 
-        $this->assign('id',$servId);
         $this->assign('page',$page);
         return $this->fetch('step1_'. $page['platform']);
     }

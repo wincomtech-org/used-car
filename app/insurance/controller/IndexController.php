@@ -32,6 +32,7 @@ class IndexController extends HomeBaseController
         ];
         $uModel = new UsualCompanyModel();
         $companys = $uModel->field('id,name')->where($where)->select()->toArray();
+        // $companys = $uModel->getCompanys(0, 0, '', $where);
         // $companys = $uModel->createOptions(0, 0, $companys);
 
         // 获取用户资料 cmf_verify

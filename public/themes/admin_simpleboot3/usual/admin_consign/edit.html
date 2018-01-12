@@ -1,11 +1,11 @@
 <include file="public@header"/>
-
 </head>
+
 <body>
 <div class="wrap js-check-wrap">
     <ul class="nav nav-tabs">
         <li><a href="{:url('AdminConsign/index')}">坐标管理</a></li>
-        <li><a href="{:url('AdminConsign/add',['compId'=>$post.company_id])}">添加该公司坐标</a></li>
+        <li><a href="{:url('AdminConsign/add',['scId'=>$post.sc_id])}">添加该公司坐标</a></li>
         <li class="active"><a href="#">编辑坐标</a></li>
     </ul>
     <form action="{:url('AdminConsign/editPost')}" method="post" class="form-horizontal js-ajax-form margin-top-20">
@@ -13,10 +13,10 @@
             <div class="col-md-9">
                 <table class="table table-bordered">
                     <tr>
-                        <th>所属公司</th>
+                        <th>业务模型</th>
                         <td>
-                            <select class="form-control" style="width:140px;" name="post[company_id]">
-                                {$company_tree|default=''}
+                            <select class="form-control" style="width:140px;" name="post[sc_id]">
+                                {$serviceCategoryTree|default=''}
                             </select>
                         </td>
                     </tr>

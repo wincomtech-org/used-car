@@ -3,7 +3,9 @@ namespace app\usual\controller;
 
 use cmf\controller\AdminBaseController;
 use app\usual\model\UsualCoordinateModel;
-use app\usual\model\UsualCompanyModel;
+// use app\usual\model\UsualCompanyModel;
+use app\service\model\ServiceCategoryModel;
+use app\admin\model\DistrictModel;
 use think\Db;
 
 /**
@@ -20,18 +22,22 @@ class AdminConsignController extends AdminBaseController
     public function index()
     {
         $param = $this->request->param();//接收筛选条件
-        $compId = $this->request->param('compId',0,'intval');
+        // $compId = $this->request->param('compId',0,'intval');
+        $scId = $this->request->param('scId',0,'intval');
 
-        $data        = $this->uModel->getLists($param);
-        $data->appends($param);
+        $data = $this->uModel->getLists($param);
 
-        $compModel  = new UsualCompanyModel();
-        $CompanyTree   = $compModel->getCompanys($compId);
+        // $compModel = new UsualCompanyModel();
+        // $CompanyTree = $compModel->getCompanys($compId);
+        $scModel = new ServiceCategoryModel();
+        $serviceCategoryTree = $scModel->getOptions($scId);
 
         $this->assign('keyword', isset($param['keyword']) ? $param['keyword'] : '');
         $this->assign('articles', $data->items());
-        $this->assign('company_tree', $CompanyTree);
-        $this->assign('compId', $compId);
+        // $this->assign('company_tree', $CompanyTree);
+        $this->assign('serviceCategoryTree', $serviceCategoryTree);
+        $this->assign('scId', $scId);
+        $data->appends($param);
         $this->assign('page', $data->render());
 
         return $this->fetch();
@@ -39,13 +45,17 @@ class AdminConsignController extends AdminBaseController
 
     public function add()
     {
-        $compId = $this->request->param('compId',0,'intval');
-        $compModel  = new UsualCompanyModel();
-        $CompanyTree   = $compModel->getCompanys($compId);
+        // $compId = $this->request->param('compId',0,'intval');
+        $scId = $this->request->param('scId',0,'intval');
+        // $compModel  = new UsualCompanyModel();
+        // $CompanyTree   = $compModel->getCompanys($compId);
+        $scModel = new ServiceCategoryModel();
+        $serviceCategoryTree = $scModel->getOptions($scId);
         $Provinces = model('admin/District')->getDistricts();
 
-        $this->assign('company_tree', $CompanyTree);
-        $this->assign('compId', $compId);
+        // $this->assign('company_tree', $CompanyTree);
+        $this->assign('serviceCategoryTree', $serviceCategoryTree);
+        $this->assign('scId', $scId);
         $this->assign('Provinces', $Provinces);
         return $this->fetch();
     }
@@ -69,14 +79,6 @@ class AdminConsignController extends AdminBaseController
 
             $this->uModel->adminAddArticle($post);
 
-            // 钩子
-            // $post['id'] = $this->uModel->id;
-            // $hookParam          = [
-            //     'is_add'  => true,
-            //     'article' => $post
-            // ];
-            // hook('portal_admin_after_save_article', $hookParam);
-
             $this->success('添加成功!', url('AdminConsign/edit', ['id' => $this->uModel->id]));
         }
     }
@@ -85,13 +87,18 @@ class AdminConsignController extends AdminBaseController
     {
         $id = $this->request->param('id', 0, 'intval');
         $post = $this->uModel->getPost($id);
-        $compModel  = new UsualCompanyModel();
-        $CompanyTree   = $compModel->getCompanys($post['company_id']);
-        $Provinces = model('admin/District')->getDistricts($post['province_id']);
-        $Citys = model('admin/District')->getDistricts($post['city_id'],$post['province_id']);
+        // $compModel  = new UsualCompanyModel();
+        // $CompanyTree   = $compModel->getCompanys($post['company_id']);
+        $scModel = new ServiceCategoryModel();
+        $serviceCategoryTree = $scModel->getOptions($post['sc_id']);
+
+        $districtModel = new DistrictModel();
+        $Provinces = $districtModel->getDistricts($post['province_id']);
+        $Citys = $districtModel->getDistricts($post['city_id'],$post['province_id']);
 
         $this->assign('post', $post);
-        $this->assign('company_tree', $CompanyTree);
+        // $this->assign('company_tree', $CompanyTree);
+        $this->assign('serviceCategoryTree', $serviceCategoryTree);
         $this->assign('Provinces', $Provinces);
         $this->assign('Citys', $Citys);
 

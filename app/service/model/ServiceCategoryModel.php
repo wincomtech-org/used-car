@@ -31,10 +31,21 @@ class ServiceCategoryModel extends UsualModel
         return $categories;
     }
 
-    public function getOptions($selectId=0, $parentId=0, $option='')
+    public function getOptions($selectId=0, $parentId=0, $option='', $condition=[])
     {
+        $where = [];
+        $where = [
+            // 'delete_time' => 0,
+            'status' => 1,
+        ];
+        if (!empty($condition)) {
+            $where = array_merge($where,$condition);
+        }
+        // $order = 'is_top desc,is_rec desc,id desc';
+        $order = 'is_rec desc,id desc';
+
         // $data = $this->all()->toArray();
-        $data = $this->field(['id','name'])->select()->toArray();
+        $data = $this->field('id,name')->where($where)->order($order)->select()->toArray();
 
         $options = $this->createOptions($selectId, $option, $data);
         return $options;

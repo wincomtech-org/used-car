@@ -1,6 +1,6 @@
 <include file="public@header"/>
-
 </head>
+
 <body>
 <div class="wrap js-check-wrap">
     <ul class="nav nav-tabs">
@@ -12,10 +12,10 @@
             <div class="col-md-9">
                 <table class="table table-bordered">
                     <tr>
-                        <th>所属公司</th>
+                        <th>业务模型</th>
                         <td>
-                            <select class="form-control" style="width:140px;" name="post[company_id]">
-                                {$company_tree|default=''}
+                            <select class="form-control" style="width:140px;" name="post[sc_id]">
+                                {$serviceCategoryTree|default=''}
                             </select>
                         </td>
                     </tr>

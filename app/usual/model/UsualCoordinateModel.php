@@ -5,18 +5,24 @@ use app\usual\model\UsualModel;
 
 class UsualCoordinateModel extends UsualModel
 {
-    public function getLists($filter)
+    public function getLists($filter=[])
     {
         $join = [
-            ['__USUAL_COMPANY__ b', 'a.company_id = b.id']
+            ['__SERVICE_CATEGORY__ b', 'a.sc_id = b.id', 'LEFT'],
+            // ['__USUAL_COMPANY__ b', 'a.company_id = b.id'],
         ];
         // array_push($join, ['__DISTRICT__ d', 'a.city_id = d.id']);
-        $field = 'a.*,b.name company';
+        // $field = 'a.*,b.name company';
+        $field = 'a.*,b.name scname';
 
         $where = [];
-
-        if (!empty($filter['compId'])) {
-            $where['a.company_id'] = $filter['compId'];
+        // 所属公司
+        // if (!empty($filter['compId'])) {
+        //     $where['a.company_id'] = $filter['compId'];
+        // }
+        // 所属业务模型
+        if (!empty($filter['scId'])) {
+            $where['a.sc_id'] = $filter['scId'];
         }
         $keyword = empty($filter['keyword']) ? '' : $filter['keyword'];
         if (!empty($keyword)) {
@@ -27,7 +33,7 @@ class UsualCoordinateModel extends UsualModel
             ->field($field)
             ->join($join)
             ->where($where)
-            ->order('a.company_id')
+            ->order('a.sc_id')
             ->paginate(config('pagerset.size'));
 
         return $series;
@@ -40,7 +46,7 @@ class UsualCoordinateModel extends UsualModel
             $where = array_merge($where,$condition);
         }
         // $data = $this->all()->toArray();
-        $data = $this->field(['id','name','ucs_x','ucs_y','tel','addr','remark'])
+        $data = $this->field('id,name,ucs_x,ucs_y,tel,addr,remark')
             ->where($where)
             ->order('id')
             ->select()->toArray();
