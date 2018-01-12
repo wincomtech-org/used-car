@@ -35,9 +35,17 @@ class AdminCompanyController extends AdminBaseController
     public function index()
     {
         $param = $this->request->param();//接收筛选条件
+        $compType = $this->request->param('compType/d',0);
 
-        $data        = $this->UsualModel->getLists($param);
-        $data->appends($param);
+        if ($compType==1) {
+            $extra['is_baoxian'] = 1;
+        } elseif ($compType==2) {
+            $extra['is_yewu'] = 1;
+        } else {
+            $extra = [];
+        }
+
+        $data = $this->UsualModel->getLists($param,'','',$extra);
 
         // $CategoryModel  = new UsualBrandModel();
         // $categoryTree   = $CategoryModel->adminCategoryTree($categoryId);
@@ -45,8 +53,9 @@ class AdminCompanyController extends AdminBaseController
         $this->assign('start_time', isset($param['start_time']) ? $param['start_time'] : '');
         $this->assign('end_time', isset($param['end_time']) ? $param['end_time'] : '');
         $this->assign('keyword', isset($param['keyword']) ? $param['keyword'] : '');
+        $this->assign('compType',$compType);
         $this->assign('articles', $data->items());
-        // $this->assign('category_tree', $categoryTree);
+        $data->appends($param);
         $this->assign('page', $data->render());
 
         return $this->fetch();

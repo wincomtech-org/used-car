@@ -59,9 +59,9 @@ class UsualCompanyModel extends UsualModel
     {
         $where = array_merge([
             'delete_time'   => 0,
-            // 'is_yewu'       => 1,
             'identi_status' => 1,
             'status'        => 1,
+            // 'is_yewu'       => 1,
         ],$where);
         $order = array_merge($order,['is_rec'=>'DESC','update_time'=>'DESC']);
 

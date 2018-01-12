@@ -8,9 +8,10 @@
     </ul>
     <form class="well form-inline margin-top-20" method="post" action="{:url('AdminCompany/index')}">
         分类:
-        <select class="form-control" name="categoryId" style="width: 140px;">
+        <select class="form-control" name="compType" style="width:140px;">
             <option value='0'>全部</option>
-            {$category_tree|default=''}
+            <option {$compType==1?='selected'} value="1">保险</option>
+            <option {$compType==2?='selected'} value="2">服务</option>
         </select> &nbsp;&nbsp;
         时间:
         <input type="text" class="form-control js-bootstrap-datetime" name="start_time"
@@ -40,17 +41,29 @@
                     <td><b>{$vo.id}</b></td>
                     <td>
                         <notempty name="categoryId">
-                            <a href="{//:cmf_url('portal/Article/index',array('id'=>$vo['id'],'cid'=>$vo['brand_id']))}"
+                            <a href="{//:cmf_url('portal/Article/index',['id'=>$vo.id,'cid'=>$vo.brand_id])}"
                                target="_blank">{$vo.name}</a>
                         <else/>
-                            <a href="{//:cmf_url('portal/Article/index',array('id'=>$vo['id']))}"
+                            <a href="{//:cmf_url('portal/Article/index',['id'=>$vo.id])}"
                                target="_blank">{$vo.name}</a>
                         </notempty>
                     </td>
 
-                    <td><a href="{:url('AdminConsign/index',['compId'=>$vo['id']])}">查看寄存点</a></td>
-                    <td><eq name='vo.is_baoxian' value='1'><a href="{:url('insurance/AdminInsurance/index',['companyId'=>$vo['id']])}">查看保险</a></eq></td>
-                    <td><eq name="vo.is_yewu" value="1"><a href="{:url('service/AdminService/index',['companyId'=>$vo['id']])}">查看服务</a></eq></td>
+                    <td>
+                        <span style="color:#F00">{$vo.is_baoxian?='保险'}</span> &nbsp;
+                        <span style="color:#FF8000">{$vo.is_yewu?='服务'}</span>
+                    </td>
+                    <td>
+                        <eq name='vo.is_baoxian' value='1'><a href="{:url('insurance/AdminInsurance/index',['companyId'=>$vo.id])}">查看保险</a></eq>
+                    </td>
+                    <td>
+                        <eq name="vo.is_yewu" value="1"><a href="{:url('service/AdminService/index',['companyId'=>$vo.id])}">查看服务</a></eq>
+                    </td>
+
+                    <td>
+                        <a href="{:url('AdminConsign/index',['compId'=>$vo.id])}">查看寄存点</a>
+                    </td>
+
                     <td>
                         <notempty name="vo.more.thumbnail">
                             <a href="javascript:parent.imagePreviewDialog('{:cmf_get_image_preview_url($vo.more.thumbnail)}');">
@@ -58,6 +71,8 @@
                             </a>
                         </notempty>
                     </td>
+
+                    <td>{$vo.description|default=''}</td>
                     <td>
                         <notempty name="vo.update_time">
                             {:date('Y-m-d H:i',$vo['update_time'])}
