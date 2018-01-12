@@ -34,6 +34,13 @@
                         <td><input name="list_orders[{$vo.id}]" type="text" size="3" value="{$vo.list_order}" class="input-order"></td>
                         <td>{$vo.id}</td>
                         <td><a>{$vo.name|default=''}</a></td>
+                        <td>
+                            <switch name="vo.platform">
+                                <case value="1">自营</case>
+                                <case value="2">公司企业</case>
+                                <default/>外资
+                            </switch>
+                        </td>
                         <td>{$vo.type|default=''}</td>
                         <td>{$vo.code|default=''}</td>
                         <td>{$vo.description|default=''}</td>
