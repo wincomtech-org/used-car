@@ -47,7 +47,7 @@
                     <div class="form-group">
                         <label for="input-name"><span class="form-required">*</span>业务模型名称</label>
                         <div>
-                            <input type="text" class="form-control" id="input-name" name="cate[name]" value="{$name}">
+                            <input type="text" class="form-control" id="input-name" name="cate[name]" value="{$name|default=''}">
                         </div>
                     </div>
                     <div class="form-group">
@@ -59,20 +59,26 @@
                     <div class="form-group">
                         <label for="input-dir">模型文件夹</label>
                         <div>
-                            <input type="text" class="form-control" id="input-dir" name="cate[dir]" value="{$dir}">
+                            <input type="text" class="form-control" id="input-dir" name="cate[dir]" value="{$dir|default=''}">
                         </div>
                     </div>
 
                     <div class="form-group">
                         <label for="input-description">描述</label>
                         <div>
-                            <textarea class="form-control" name="cate[description]" id="input-description">{$description}</textarea>
+                            <textarea class="form-control" name="cate[description]" id="input-description">{$description|default=''}</textarea>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="input-desc2">次级描述</label>
                         <div>
-                            <textarea class="form-control" name="cate[desc2]" id="input-desc2">{$desc2}</textarea>
+                            <textarea class="form-control" name="cate[desc2]" id="input-desc2">{$desc2|default=''}</textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="input-notice">温馨提示</label>
+                        <div>
+                            <input id="input-notice" class="form-control" type="text" name="cate[notice]" value="{$notice|default=''}">
                         </div>
                     </div>
                     <div class="form-group">
@@ -94,19 +100,19 @@
                     <div class="form-group">
                         <label for="input-seo_title">SEO标题</label>
                         <div>
-                            <input type="text" class="form-control" id="input-seo_title" name="cate[seo_title]" value="{$seo_title}">
+                            <input type="text" class="form-control" id="input-seo_title" name="cate[seo_title]" value="{$seo_title|default=''}">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="input-seo_keywords">SEO关键字</label>
                         <div>
-                            <input type="text" class="form-control" id="input-seo_keywords" name="cate[seo_keywords]" value="{$seo_keywords}">
+                            <input type="text" class="form-control" id="input-seo_keywords" name="cate[seo_keywords]" value="{$seo_keywords|default=''}">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="input-seo_description">SEO描述</label>
                         <div>
-                            <textarea class="form-control" name="cate[seo_description]" id="input-seo_description">{$seo_description}</textarea>
+                            <textarea class="form-control" name="cate[seo_description]" id="input-seo_description">{$seo_description|default=''}</textarea>
                         </div>
                     </div>
                 </div>
@@ -147,7 +153,7 @@
                 </tr>
                 <tr>
                     <td>
-                        <input class="form-control js-bootstrap-datetime" value="{:date('Y-m-d H:i',$create_time)}">
+                        <input class="form-control js-bootstrap-datetime" value="{$create_time?date('Y-m-d H:i',$create_time):''}">
                     </td>
                 </tr>
                 <tr>

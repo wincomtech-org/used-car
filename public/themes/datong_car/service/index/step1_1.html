@@ -55,7 +55,7 @@
                 <div class="rookie_inspection_form">
                     <h4>{$page.desc2?$page.desc2:$page.name}</h4>
                     <form action="{:url('Index/appointPost')}" method="post" class="inspection_form js-ajax-form">
-                        <p class="red">请确认您的机动车是否属于免检车型。</p>
+                        <p class="red">{$page.notice}</p>
                         <foreach name="new_data" item="vo">
                         <div class="inspection_list">
                             <span>{$vo.title}</span>
