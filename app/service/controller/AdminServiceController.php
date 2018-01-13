@@ -88,6 +88,7 @@ class AdminServiceController extends AdminBaseController
     {
         $id = $this->request->param('id', 0, 'intval');
         $post = model('Service')->getPost($id);
+        $post['coordinate'] = $post['ucs_x'].(empty($post['ucs_y'])?'':','.$post['ucs_y']);
 
         $scModel = new ServiceCategoryModel();
         $compModel = new UsualCompanyModel();
