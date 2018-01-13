@@ -220,7 +220,7 @@ class AdminArticleController extends AdminBaseController
     }
 
     /**
-     * 文章删除
+     * 文章删除 回收机制
      * @adminMenu(
      *     'name'   => '文章删除',
      *     'parent' => 'index',

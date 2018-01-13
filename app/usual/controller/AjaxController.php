@@ -65,20 +65,21 @@ class AjaxController extends BaseController
     }
     public function coords($option=false, $json=true)
     {
-        $compId = $this->request->param('compId',0,'intval');
+        // $compId = $this->request->param('compId',0,'intval');
+        $servId = $this->request->param('servId',0,'intval');
         $provId = $this->request->param('provId',0,'intval');
         $cityId = $this->request->param('cityId',0,'intval');
         if (!empty($cityId)) {
-            if (empty($compId)) {
+            if (empty($servId)) {
                 $where = ['city_id'=>$cityId];
             } else {
-                $where = ['company_id'=>$compId,'city_id'=>$cityId];
+                $where = ['sc_id'=>$servId,'city_id'=>$cityId];
             }
         } elseif (!empty($provId)) {
-            if (empty($compId)) {
+            if (empty($servId)) {
                 $where = ['province_id'=>$provId];
             } else {
-                $where = ['company_id'=>$compId,'province_id'=>$provId];
+                $where = ['sc_id'=>$servId,'province_id'=>$provId];
             }
         }
 

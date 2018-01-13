@@ -120,6 +120,7 @@ tpl;
         $this->success("排序更新成功！", '');
     }
 
+    // 删除 回收机制
     public function delete()
     {
         $id = $this->request->param('id');

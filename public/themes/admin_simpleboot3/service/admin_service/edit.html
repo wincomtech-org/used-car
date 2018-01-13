@@ -33,98 +33,148 @@
         <li><a href="{:url('AdminService/add')}">添加预约单</a></li>
         <li class="active"><a href="#">编辑预约单</a></li>
     </ul>
-    <form action="{:url('AdminService/editPost')}" method="post" class="form-horizontal js-ajax-form margin-top-20">
-        <div class="row">
-            <div class="col-md-9">
-                <table class="table table-bordered">
-                    <tr>
-                        <th width="100">业务模型<span class="form-required">*</span></th>
-                        <td>
-                            <select class="form-control" style="width:140px" name="post[model_id]" required>
-                                <option value="0">--请选择--</option>
-                                {$category_tree}
-                            </select>
-                        </td>
-                    </tr>
-                    <!-- <tr>
-                        <th>卖家</th>
-                        <td><input class="form-control" type="text" name="post[seller_username]" value="{$post.seller_uid|default=''}"></td>
-                    </tr> -->
-
-                    <tr>
-                        <th>客户<span class="form-required">*</span></th>
-                        <td>
-                            <input class="form-control" type="text" name="username" value="{$post.buyer_username|default=''}">
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>联系方式</th>
-                        <td>
-                            <textarea class="form-control" name="post[contact]" style="height:50px;" placeholder="客户的联系方式">{$post.contact|default=''}</textarea>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>客户地址</th>
-                        <td>
-                            <textarea class="form-control" name="post[address]" style="height:50px;" placeholder="客户的地址">{$post.address|default=''}</textarea>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>车架号</th>
-                        <td><input class="form-control" type="text" name="post[car_vin]" value="{$post.car_vin|default=''}"></td>
-                    </tr>
-                    <tr>
-                        <th>车牌号</th>
-                        <td><input class="form-control" type="text" name="post[plateNo]" value="{$post.plateNo|default=''}"></td>
-                    </tr>
-
-                    <tr>
-                        <th>预约公司<span class="form-required">*</span></th>
-                        <td>
-                            <select class="form-control" style="width:140px" name="post[company_id]" required>
-                                {$company_tree}
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>服务点ID</th>
-                        <td><input class="form-control" type="text" name="post[service_point]" value="{$post.service_point|default=''}" placeholder="预约公司的服务点坐标"></td>
-                    </tr>
-                    <tr>
-                        <th>服务点地址</th>
-                        <td>
-                            <notempty name="post.servicePoint">
-                            <span class="form-control">{$post.servicePoint}</span>
-                            </notempty>
-                            <textarea class="form-control" name="post[service_address]" style="height:50px;" placeholder="预约公司的服务点">{$post.service_address|default=''}</textarea>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>服务点坐标</th>
-                        <td><input class="form-control" type="text" name="post[coordinate]" value="{$post.coordinate|default='0,0'}" placeholder="预约公司的服务点坐标"></td>
-                    </tr>
-
-                    <tr>
-                        <th>维修历史</th>
-                        <td>
-                            <textarea class="form-control" name="post[fix_history]" style="height:150px;" placeholder="">{$post.fix_history|default=''}</textarea>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>备注</th>
-                        <td>
-                            <textarea class="form-control" name="post[remark]" style="height:50px;" placeholder="备注，给管理员区分记录类型用">{$post.remark|default=''}</textarea>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>描述</th>
-                        <td>
-                            <textarea class="form-control" name="post[description]" style="height:50px;" placeholder="描述，给前台用户用">{$post.description|default=''}</textarea>
-                        </td>
-                    </tr>
-                </table>
+    
+    <form action="{:url('AdminService/editPost')}" method="post" class="form-horizontal js-ajax-form">
+        <div class="row margin-top-20">
+            <div class="col-md-1">
+                <div class="list-group">
+                    <a class="list-group-item" href="#BASE" data-toggle="tab">基本属性</a>
+                    <a class="list-group-item" href="#AUDIT" data-toggle="tab">客户资料</a>
+                </div>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-9">
+                <div class="tab-content">
+                    <div class="tab-pane active" id="BASE">
+                        <table class="table table-bordered">
+                            <tr>
+                                <th width="100">业务模型<span class="form-required">*</span></th>
+                                <td>
+                                    <select class="form-control" style="width:140px" name="post[model_id]" required>
+                                        <option value="0">--请选择--</option>
+                                        {$category_tree}
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>维修历史</th>
+                                <td>
+                                    <textarea class="form-control" name="post[fix_history]" style="height:150px;" placeholder="">{$post.fix_history|default=''}</textarea>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>备注</th>
+                                <td>
+                                    <textarea class="form-control" name="post[remark]" style="height:50px;" placeholder="备注，给管理员区分记录类型用">{$post.remark|default=''}</textarea>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>描述</th>
+                                <td>
+                                    <textarea class="form-control" name="post[description]" style="height:50px;" placeholder="描述，给前台用户用">{$post.description|default=''}</textarea>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="tab-pane" id="AUDIT">
+                        <table class="table table-bordered">
+                            <!-- <tr>
+                                <th>卖家</th>
+                                <td><input class="form-control" type="text" name="post[seller_username]" value="{$post.seller_uid|default=''}"></td>
+                            </tr> -->
+                            <tr>
+                                <th width="100">客户<span class="form-required">*</span></th>
+                                <td>
+                                    <input class="form-control" type="text" name="username" value="{$post.buyer_username|default=''}">
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>联系方式</th>
+                                <td>
+                                    <textarea class="form-control" name="post[contact]" style="height:50px;" placeholder="客户的联系方式">{$post.contact|default=''}</textarea>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>客户地址</th>
+                                <td>
+                                    <textarea class="form-control" name="post[address]" style="height:50px;" placeholder="客户的地址">{$post.address|default=''}</textarea>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>车架号</th>
+                                <td><input class="form-control" type="text" name="post[car_vin]" value="{$post.car_vin|default=''}"></td>
+                            </tr>
+                            <tr>
+                                <th>车牌号</th>
+                                <td><input class="form-control" type="text" name="post[plateNo]" value="{$post.plateNo|default=''}"></td>
+                            </tr>
+
+                            <tr>
+                                <th>服务点ID</th>
+                                <td><input class="form-control" type="text" name="post[service_point]" value="{$post.service_point|default=''}" placeholder="服务点坐标ID"></td>
+                            </tr>
+                            <tr>
+                                <th>服务点地址</th>
+                                <td>
+                                    <notempty name="post.servicePoint">
+                                        <span class="form-control">{$post.servicePoint}</span>
+                                    </notempty>
+                                    <textarea class="form-control" name="post[service_address]" style="height:50px;" placeholder="服务点的详细地址">{$post.service_address|default=''}{//$post.addr|default=''}</textarea>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>服务点坐标</th>
+                                <td>
+                                    <!-- <input class="form-control" type="text" name="post[coordinate]" value="{$post.coordinate|default='0,0'}"> -->
+                                    <span class="form-control">{$post.coordinate|default='0,0'}</span>
+                                    <p class="help-block">服务点坐标格式(横坐标,纵坐标)：0,0</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>服务点所属公司</th>
+                                <td>
+                                    <span class="form-control">{$post.company_name}</span>
+                                </td>
+                            </tr>
+                            <notempty name="post.more">
+                            <foreach name="define_data" item="vo">
+                            <tr>
+                                <th>{$vo.title}</th>
+                                <td>
+                                <switch name="vo.name">
+                                    <case value="driving_license|qualified|loan_invoice">
+                                        <span>
+                                        <if condition="empty($post['more'][$vo.name])">
+                                            <img src="__TMPL__/public/assets/images/default_width.png" alt="">
+                                        <else/>
+                                            <img src="{:cmf_get_image_preview_url($post.more[$vo.name])}" alt="" width="135" onclick="imagePreviewDialog(this.src);">
+                                        </if>
+                                        </span>
+                                    </case>
+                                    <case value="identity_card">
+                                        <span>
+                                        <empty name="post.more.identity_card">
+                                            <img src="__TMPL__/public/assets/images/default_width.png" alt="">
+                                        <else/>
+                                        <ul>
+                                            <foreach name="post.more.identity_card" item="vo">
+                                            <li class="">
+                                                <img src="{:cmf_get_image_preview_url($vo.url)}" alt="" width="135" onclick="imagePreviewDialog(this.src);" />
+                                            </li>
+                                            </foreach>
+                                        </ul>
+                                        </empty>
+                                        </span>
+                                    </case>
+                                </switch>
+                                </td>
+                            </tr>
+                            </foreach>
+                            </notempty>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2">
                 <table class="table table-bordered">
                     <!-- <tr>
                         <th>客户头像</th>

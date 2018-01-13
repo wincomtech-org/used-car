@@ -3,7 +3,7 @@ namespace app\usual\controller;
 
 use cmf\controller\AdminBaseController;
 use app\usual\model\UsualCoordinateModel;
-// use app\usual\model\UsualCompanyModel;
+use app\usual\model\UsualCompanyModel;
 use app\service\model\ServiceCategoryModel;
 use app\admin\model\DistrictModel;
 use think\Db;
@@ -22,21 +22,24 @@ class AdminConsignController extends AdminBaseController
     public function index()
     {
         $param = $this->request->param();//接收筛选条件
-        // $compId = $this->request->param('compId',0,'intval');
+        $compId = $this->request->param('compId',0,'intval');
         $scId = $this->request->param('scId',0,'intval');
 
         $data = $this->uModel->getLists($param);
-
-        // $compModel = new UsualCompanyModel();
-        // $CompanyTree = $compModel->getCompanys($compId);
+        $compModel = new UsualCompanyModel();
+        $companyTree = $compModel->getCompanys($compId);
         $scModel = new ServiceCategoryModel();
         $serviceCategoryTree = $scModel->getOptions($scId);
 
+        // 模板赋值
         $this->assign('keyword', isset($param['keyword']) ? $param['keyword'] : '');
-        $this->assign('articles', $data->items());
-        // $this->assign('company_tree', $CompanyTree);
+
+        $this->assign('company_tree', $companyTree);
+        $this->assign('compId', $compId);
         $this->assign('serviceCategoryTree', $serviceCategoryTree);
         $this->assign('scId', $scId);
+
+        $this->assign('articles', $data->items());
         $data->appends($param);
         $this->assign('page', $data->render());
 
@@ -45,18 +48,21 @@ class AdminConsignController extends AdminBaseController
 
     public function add()
     {
-        // $compId = $this->request->param('compId',0,'intval');
+        $compId = $this->request->param('compId',0,'intval');
         $scId = $this->request->param('scId',0,'intval');
-        // $compModel  = new UsualCompanyModel();
-        // $CompanyTree   = $compModel->getCompanys($compId);
+
+        $compModel  = new UsualCompanyModel();
+        $companyTree   = $compModel->getCompanys($compId);
         $scModel = new ServiceCategoryModel();
         $serviceCategoryTree = $scModel->getOptions($scId);
-        $Provinces = model('admin/District')->getDistricts();
+        $provinces = model('admin/District')->getDistricts();
 
-        // $this->assign('company_tree', $CompanyTree);
+        // 模板赋值
+        $this->assign('company_tree', $companyTree);
+        // $this->assign('compId', $compId);
         $this->assign('serviceCategoryTree', $serviceCategoryTree);
-        $this->assign('scId', $scId);
-        $this->assign('Provinces', $Provinces);
+        // $this->assign('scId', $scId);
+        $this->assign('provinces', $provinces);
         return $this->fetch();
     }
 
@@ -65,6 +71,7 @@ class AdminConsignController extends AdminBaseController
         if ($this->request->isPost()) {
             $data   = $this->request->param();
             $post   = $data['post'];
+
             $result = $this->validate($post, 'Consign.add');
             if ($result !== true) {
                 $this->error($result);
@@ -86,31 +93,36 @@ class AdminConsignController extends AdminBaseController
     public function edit()
     {
         $id = $this->request->param('id', 0, 'intval');
+
         $post = $this->uModel->getPost($id);
-        // $compModel  = new UsualCompanyModel();
-        // $CompanyTree   = $compModel->getCompanys($post['company_id']);
+        if (empty($post)) {
+            abort(404, '页面不存在!');
+        }
+        $compModel  = new UsualCompanyModel();
+        $companyTree   = $compModel->getCompanys($post['company_id']);
         $scModel = new ServiceCategoryModel();
         $serviceCategoryTree = $scModel->getOptions($post['sc_id']);
-
         $districtModel = new DistrictModel();
-        $Provinces = $districtModel->getDistricts($post['province_id']);
-        $Citys = $districtModel->getDistricts($post['city_id'],$post['province_id']);
+        $provinces = $districtModel->getDistricts($post['province_id']);
+        $citys = $districtModel->getDistricts($post['city_id'],$post['province_id']);
 
         $this->assign('post', $post);
-        // $this->assign('company_tree', $CompanyTree);
+        $this->assign('company_tree', $companyTree);
+        $this->assign('compId', $post['company_id']);
         $this->assign('serviceCategoryTree', $serviceCategoryTree);
-        $this->assign('Provinces', $Provinces);
-        $this->assign('Citys', $Citys);
+        $this->assign('scId', $post['sc_id']);
+        $this->assign('provinces', $provinces);
+        $this->assign('citys', $citys);
 
         return $this->fetch();
     }
 
     public function editPost()
     {
-
         if ($this->request->isPost()) {
             $data   = $this->request->param();
             $post   = $data['post'];
+
             $result = $this->validate($post, 'Consign.edit');
             if ($result !== true) {
                 $this->error($result);
@@ -125,40 +137,30 @@ class AdminConsignController extends AdminBaseController
 
             $this->uModel->adminEditArticle($post);
 
-            // 钩子
-            // $hookParam = [
-            //     'is_add'  => false,
-            //     'article' => $post
-            // ];
-            // hook('portal_admin_after_save_article', $hookParam);
-
             $this->success('保存成功!');
-
         }
     }
 
     public function delete()
     {
-        $param           = $this->request->param();
+        $param = $this->request->param();
 
         if (isset($param['id'])) {
-            $id           = $this->request->param('id', 0, 'intval');
-            $result       = $this->uModel->where(['id' => $id])->find();
-            $data         = [
+            $id     = $this->request->param('id', 0, 'intval');
+            $result = $this->uModel->where(['id' => $id])->find();
+            $data = [
                 'object_id'   => $result['id'],
                 'create_time' => time(),
                 'table_name'  => 'UsualCoordinate',
                 'name'        => $result['name']
             ];
-            $result = $this->uModel
-                ->where(['id' => $id])
-                ->delete();
+            $result = $this->uModel->where(['id' => $id])->delete();
             $this->success("删除成功！", '');
         }
 
         if (isset($param['ids'])) {
-            $ids     = $this->request->param('ids/a');
-            $result  = $this->uModel->where(['id' => ['in', $ids]])->delete();
+            $ids    = $this->request->param('ids/a');
+            $result = $this->uModel->where(['id' => ['in', $ids]])->delete();
             if ($result) {
                 $this->success("删除成功！", '');
             }
@@ -167,29 +169,25 @@ class AdminConsignController extends AdminBaseController
 
     public function publish()
     {
-        $param           = $this->request->param();
-
+        $param = $this->request->param();
         if (isset($param['ids']) && isset($param["yes"])) {
             $ids = $this->request->param('ids/a');
             $this->uModel->where(['id' => ['in', $ids]])->update(['status' => 1]);
             $this->success("发布成功！", '');
         }
-
         if (isset($param['ids']) && isset($param["no"])) {
             $ids = $this->request->param('ids/a');
             $this->uModel->where(['id' => ['in', $ids]])->update(['status' => 0]);
             $this->success("隐藏成功！", '');
         }
     }
-
     public function top()
     {
-        $param           = $this->request->param();
+        $param = $this->request->param();
         if (isset($param['ids']) && isset($param["yes"])) {
             $ids = $this->request->param('ids/a');
             $this->uModel->where(['id' => ['in', $ids]])->update(['is_top' => 1]);
             $this->success("置顶成功！", '');
-
         }
         if (isset($_POST['ids']) && isset($param["no"])) {
             $ids = $this->request->param('ids/a');
@@ -197,29 +195,25 @@ class AdminConsignController extends AdminBaseController
             $this->success("取消置顶成功！", '');
         }
     }
-
     public function recommend()
     {
-        $param           = $this->request->param();
-
+        $param = $this->request->param();
         if (isset($param['ids']) && isset($param["yes"])) {
             $ids = $this->request->param('ids/a');
             $this->uModel->where(['id' => ['in', $ids]])->update(['is_rec' => 1]);
             $this->success("推荐成功！", '');
-
         }
         if (isset($param['ids']) && isset($param["no"])) {
             $ids = $this->request->param('ids/a');
             $this->uModel->where(['id' => ['in', $ids]])->update(['is_rec' => 0]);
             $this->success("取消推荐成功！", '');
-
         }
     }
 
     public function listOrder()
     {
-        // parent::listOrders(Db::name('UsualCoordinate'));
-        // $this->success("排序更新成功！", '');
+        parent::listOrders(Db::name('usual_coordinate'));
+        $this->success("排序更新成功！", '');
     }
 
     public function move()

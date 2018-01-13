@@ -200,7 +200,7 @@ class AdminCompanyController extends AdminBaseController
     }
 
     /**
-     * 公司删除
+     * 公司删除 回收机制
      * @adminMenu(
      *     'name'   => '公司删除',
      *     'parent' => 'index',

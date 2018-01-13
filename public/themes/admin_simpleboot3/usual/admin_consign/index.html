@@ -4,12 +4,18 @@
 <div class="wrap js-check-wrap">
     <ul class="nav nav-tabs">
         <li class="active"><a href="javascript:;">所有坐标</a></li>
-        <li><a href="{:url('AdminConsign/add',['scId'=>$scId])}">添加坐标</a></li>
+        <li><a href="{:url('AdminConsign/add',['scId'=>$scId,'compId'=>$compId])}">添加坐标</a></li>
     </ul>
     <form class="well form-inline margin-top-20" method="post" action="{:url('AdminConsign/index')}">
+        所属公司:
+        <select class="form-control" name="compId" style="width:140px;">
+            <option value="">全部</option>
+            <!-- <option value="0">通用</option> -->
+            {$company_tree|default=''}
+        </select> &nbsp;&nbsp;
         所属模型:
         <select class="form-control" name="scId" style="width:140px;">
-            <option value=''>全部</option>
+            <option value="">全部</option>
             {$serviceCategoryTree|default=''}
         </select> &nbsp;&nbsp;
         关键字:
@@ -32,8 +38,9 @@
                     </td>
                     <td><b>{$vo.id}</b></td>
 
-                    <td><a href="" target="_blank">{$vo.name|default='[暂未设置]'}</a></td>
-                    <td><a href="{:url('service/AdminCategory/index',['keyword'=>$vo['scname']])}">{$vo.scname}</a></td>
+                    <td><a href="#" target="_blank">{$vo.name|default='[暂未设置]'}</a></td>
+                    <td><a href="{:url('service/AdminCategory/index',['keyword'=>$vo['scname']])}">{$vo.scname|default='[通用]'}</a></td>
+                    <td><a href="{:url('AdminCompany/index',['keyword'=>$vo['company']])}">{$vo.company|default='[通用]'}</a></td>
 
                     <td><span>{$vo.ucs_x}</span></td>
                     <td><span>{$vo.ucs_y}</span></td>

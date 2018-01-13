@@ -1,24 +1,25 @@
 
-<script type="text/javascript" src="__TMPL__/public/assets/js/laydate/laydate.js"></script>
 <!-- <script src="__TMPL__/public/assets/js/Area.js" type="text/javascript"></script>
 <script src="__TMPL__/public/assets/js/AreaData_min.js" type="text/javascript"></script> -->
+<!-- <script type="text/javascript" src="__TMPL__/public/assets/js/laydate/laydate.js"></script> -->
 
 <script>
 $(function(){
     /**日期时间**/
-    var date=new Date();
-    var date_year=date.getFullYear()
-    var date_month=date.getMonth()+1
-    var date_day=date.getDate();
-    var now_date=date_year + "-" + date_month +"-" +date_day;
-    var date_var = ['appoint_time','birthday','seller_birthday','reg_time'];
-    for (var i = 0; i < date_var.length; i++) {
-        laydate.render({
-            elem: '#'+date_var[i],
-            value: now_date
-        });
-    }
-
+    // var date = new Date();
+    // var date_year = date.getFullYear(),
+    //     date_month = date.getMonth()+1,
+    //     date_day = date.getDate();
+    // // 组装
+    // var now_date = date_year +"-"+ date_month +"-"+ date_day;
+    // // 遍历
+    // var date_var = ['appoint_time','birthday','seller_birthday','reg_time'];
+    // for (var i = 0; i < date_var.length; i++) {
+    //     laydate.render({
+    //         elem: '#'+date_var[i],
+    //         value: now_date
+    //     });
+    // }
     /**出生日期: 买家和卖家两个遍历**/
     // lay('.birthday').each(function(){
     //     laydate.render({
@@ -36,15 +37,14 @@ $(function(){
         select_province('',url);
         // 坐标获取
         var Id = $(this).val();
-        var data = {provId: Id};
-
+        var data = {servId:'{$page.id}',provId: Id};
         coordJson(data);
     });
 
     // 选城市时
     $('#input-city').change(function() {
         var provId = $('#input-province').val(),cityId = $(this).val();
-        var data = {provId: provId, cityId: cityId};
+        var data = {servId:'{$page.id}',provId: provId, cityId: cityId};
         coordJson(data);
     });
 

@@ -7,19 +7,20 @@ class UsualCoordinateModel extends UsualModel
 {
     public function getLists($filter=[])
     {
+        $field = 'a.*,b.name company,c.name scname';
         $join = [
-            ['__SERVICE_CATEGORY__ b', 'a.sc_id = b.id', 'LEFT'],
-            // ['__USUAL_COMPANY__ b', 'a.company_id = b.id'],
+            ['__USUAL_COMPANY__ b', 'a.company_id=b.id', 'LEFT'],
+            ['__SERVICE_CATEGORY__ c', 'a.sc_id=c.id', 'LEFT']
         ];
-        // array_push($join, ['__DISTRICT__ d', 'a.city_id = d.id']);
-        // $field = 'a.*,b.name company';
-        $field = 'a.*,b.name scname';
 
         $where = [];
         // 所属公司
-        // if (!empty($filter['compId'])) {
-        //     $where['a.company_id'] = $filter['compId'];
-        // }
+        if (!empty($filter['compId'])) {
+            // $field .= ',b.name company';
+            // $join = array_merge($join,['__USUAL_COMPANY__ b', 'a.company_id=b.id', 'LEFT']);
+            // array_push($join,['__USUAL_COMPANY__ b', 'a.company_id=b.id', 'LEFT']);
+            $where['a.company_id'] = $filter['compId'];
+        }
         // 所属业务模型
         if (!empty($filter['scId'])) {
             $where['a.sc_id'] = $filter['scId'];
@@ -34,6 +35,7 @@ class UsualCoordinateModel extends UsualModel
             ->join($join)
             ->where($where)
             ->order('a.sc_id')
+            // ->fetchSql(true)->select();
             ->paginate(config('pagerset.size'));
 
         return $series;
@@ -61,7 +63,7 @@ class UsualCoordinateModel extends UsualModel
     /*车业务服务点*/
     public function getPostList($where=[], $order=[], $limit=12)
     {
-        $where = array_merge(['status' => 1],$where);
+        $where = array_merge(['status'=>1],$where);
         $order = array_merge($order,['id'=>'DESC']);
 
         $lists = $this->field('id,name,ucs_x,ucs_y,remark')

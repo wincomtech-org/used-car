@@ -123,6 +123,7 @@ class AdminVerifyController extends AdminBaseController
         }
     }
 
+    // 删除 回收机制
     public function delete()
     {
         $param = $this->request->param();
@@ -225,7 +226,7 @@ class AdminVerifyController extends AdminBaseController
 
     public function listOrder()
     {
-        parent::listOrders(Db::name('Verify'));
+        parent::listOrders(Db::name('verify'));
         $this->success("排序更新成功！", '');
     }
 

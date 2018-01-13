@@ -5,3 +5,8 @@ alter table `cmf_usual_coordinate` add `sc_id` smallint(6) unsigned not null def
 update `cmf_usual_coordinate` set `sc_id`=2;
 
 
+
+
+
+
+

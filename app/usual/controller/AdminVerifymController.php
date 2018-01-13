@@ -105,10 +105,11 @@ class AdminVerifymController extends AdminBaseController
 
     public function listOrder()
     {
-        parent::listOrders(Db::name('VerifyModel'));
+        parent::listOrders(Db::name('verify_model'));
         $this->success("排序更新成功！", '');
     }
 
+    // 删除 回收机制
     public function delete()
     {
         $id = $this->request->param('id');

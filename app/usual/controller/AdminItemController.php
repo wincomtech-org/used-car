@@ -114,6 +114,7 @@ class AdminItemController extends AdminBaseController
         }
     }
 
+    // 删除 回收机制
     public function delete()
     {
         $param = $this->request->param();

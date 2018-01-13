@@ -14,8 +14,13 @@
                     <tr>
                         <th>业务模型</th>
                         <td>
-                            <select class="form-control" style="width:140px;" name="post[sc_id]">
+                            <select class="form-control" style="width:150px;float:left;" name="post[sc_id]">
                                 {$serviceCategoryTree|default=''}
+                            </select>
+                            <b style="margin:0px 8px 0px 150px;line-height:34px;float:left;">所属公司</b>
+                            <select class="form-control" style="width:150px;" name="post[company_id]">
+                                <option value="0">--通用--</option>
+                                {$company_tree}
                             </select>
                         </td>
                     </tr>
@@ -24,7 +29,7 @@
                         <td>
                             <select class="form-control" style="width:150px;float:left;" name="post[province_id]" id="input-province">
                                 <option value="0" selected>--请选择--</option>
-                                {$Provinces}
+                                {$provinces}
                             </select>
                             <select class="form-control" style="width:150px;display:none" name="post[city_id]" id="input-city">
                                 <option value="0">--请选择--</option>

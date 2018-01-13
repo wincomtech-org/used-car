@@ -7,7 +7,7 @@
         <li><a href="{:url('AdminCompany/add')}">添加公司</a></li>
     </ul>
     <form class="well form-inline margin-top-20" method="post" action="{:url('AdminCompany/index')}">
-        分类:
+        公司类型:
         <select class="form-control" name="compType" style="width:140px;">
             <option value='0'>全部</option>
             <option {$compType==1?='selected'} value="1">保险</option>

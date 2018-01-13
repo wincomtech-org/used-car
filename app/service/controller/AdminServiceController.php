@@ -2,7 +2,10 @@
 namespace app\service\controller;
 
 use cmf\controller\AdminBaseController;
+use app\service\model\ServiceCategoryModel;
 // use app\service\model\ServiceModel;
+use app\usual\model\UsualCompanyModel;
+// use app\usual\model\UsualCategoryModel;
 use think\Db;
 // use think\Config;
 
@@ -27,10 +30,12 @@ class AdminServiceController extends AdminBaseController
         $data = model('Service')->getLists($param);
         $categoryTree = model('usual/UsualCategory')->adminCategoryTree($modelId,0,'service_category');
 
+        // 模板赋值
         $this->assign('start_time', isset($param['start_time']) ? $param['start_time'] : '');
         $this->assign('end_time', isset($param['end_time']) ? $param['end_time'] : '');
         $this->assign('uname', isset($param['uname']) ? $param['uname'] : '');
         $this->assign('keyword', isset($param['keyword']) ? $param['keyword'] : '');
+
         $this->assign('modelId', $modelId);
         $this->assign('category_tree', $categoryTree);
         $this->assign('lists', $data->items());
@@ -42,8 +47,13 @@ class AdminServiceController extends AdminBaseController
 
     public function add()
     {
-        $categoryTree = model('usual/UsualCategory')->adminCategoryTree(0,0,'service_category');
-        $companyTree = model('usual/UsualCompany')->getCompanys();
+        $scModel = new ServiceCategoryModel();
+        $compModel = new UsualCompanyModel();
+
+        // $categoryTree = model('usual/UsualCategory')->adminCategoryTree(0,0,'service_category');
+        $categoryTree = $scModel->getOptions();
+        $compModel = new UsualCompanyModel();
+        $companyTree = $compModel->getCompanys();
 
         $this->assign('category_tree', $categoryTree);
         $this->assign('company_tree', $companyTree);
@@ -70,14 +80,6 @@ class AdminServiceController extends AdminBaseController
             }
             model('Service')->adminAddArticle($post);
 
-            // 钩子
-            // $post['id'] = model('Service')->id;
-            // $hookParam          = [
-            //     'is_add'  => true,
-            //     'article' => $post
-            // ];
-            // hook('portal_admin_after_save_article', $hookParam);
-
             $this->success('添加成功!', url('AdminService/edit', ['id' => model('Service')->id]));
         }
     }
@@ -86,11 +88,31 @@ class AdminServiceController extends AdminBaseController
     {
         $id = $this->request->param('id', 0, 'intval');
         $post = model('Service')->getPost($id);
-        $categoryTree = model('usual/UsualCategory')->adminCategoryTree($post['model_id'],0,'service_category');
-        $companyTree = model('usual/UsualCompany')->getCompanys($post['company_id']);
+
+        $scModel = new ServiceCategoryModel();
+        $compModel = new UsualCompanyModel();
+
+        // $categoryTree = model('usual/UsualCategory')->adminCategoryTree($post['model_id'],0,'service_category');
+        $categoryTree = $scModel->getOptions($post['model_id']);
+        $companyTree = $compModel->getCompanys($post['company_id']);
+        // 用户提交资料
+        $postMore = array_keys($post['more']);
+        $define_data = [];
+        // $define_data = $scModel->getDefineData($post['model_id'],false);
+        $defconf = config('service_define_data');
+        $ddkey = array_keys($defconf);
+        foreach ($postMore as $row) {
+            if (in_array($row,$ddkey)) {
+                $define_data[] = [
+                    'title' => $defconf[$row],
+                    'name' => $row
+                ];
+            }
+        }
 
         $this->assign('category_tree', $categoryTree);
         $this->assign('company_tree', $companyTree);
+        $this->assign('define_data', $define_data);
         $this->assign('service_status', model('Service')->getServiceStatus($post['status']));
         $this->assign('post', $post);
         return $this->fetch();
@@ -125,6 +147,7 @@ class AdminServiceController extends AdminBaseController
         }
     }
 
+    // 删除 回收机制
     public function delete()
     {
         $param = $this->request->param();

@@ -14,22 +14,22 @@ class ServiceModel extends UsualModel
 
     public function getLists($filter=[], $order='', $limit='', $extra=[])
     {
-        $field = 'a.*,b.name AS model_name,c.name AS company_name,d.user_nickname AS buyer_nickname,d.user_login AS buyer_login,f.user_nickname AS deal_nickname,f.user_login AS deal_login';
+        $field = 'a.*,b.name AS model_name,d.user_nickname AS buyer_nickname,d.user_login AS buyer_login,f.user_nickname AS deal_nickname,f.user_login AS deal_login,g.name AS servicePoint,g.ucs_x,g.ucs_y,h.name AS company_name';
         $join = [
             ['service_category b','a.model_id=b.id','LEFT'],
-            ['usual_company c','a.company_id=c.id','LEFT'],
+            // ['usual_company c','a.company_id=c.id','LEFT'],
             ['user d','a.user_id=d.id','LEFT'],
             // ['user e','a.seller_uid=e.id','LEFT'],
             ['user f','a.deal_uid=f.id','LEFT'],
+            ['usual_coordinate g','a.service_point=g.id','LEFT'],
+            ['usual_company h','g.company_id=h.id','LEFT'],
         ];
-
 
         // 筛选条件
         $where = ['a.delete_time' => 0];
         if (!empty($extra)) {
             $where = array_merge($where,$extra);
         }
-
         // 模型
         if (!empty($filter['modelId'])) {
             $where['a.model_id'] = $filter['modelId'];
@@ -74,6 +74,7 @@ class ServiceModel extends UsualModel
             ->join($join)
             ->where($where)
             ->order($order)
+            // ->fetchSql(true)->find();
             ->paginate($limit);
 
         return $series;
@@ -81,17 +82,19 @@ class ServiceModel extends UsualModel
 
     public function getPost($id)
     {
-        // $post = $this->get($id)->toArray();
         // $field = 'a.*,b.name model_name,c.name company_name,d.user_nickname buyer_nickname,d.user_login buyer_login,e.user_nickname seller_nickname,e.user_login seller_login';
-        $field = 'a.*,b.name model_name,c.name company_name,d.user_nickname buyer_nickname,d.user_login buyer_login,g.name AS servicePoint';
-        // $where = ['a.id' => $id];
+        $field = 'a.*,b.name model_name,d.user_nickname AS buyer_nickname,d.user_login AS buyer_login,g.name AS servicePoint,g.ucs_x,g.ucs_y,h.name AS company_name';
         $join = [
             ['service_category b','a.model_id=b.id','LEFT'],
-            ['usual_company c','a.company_id=c.id','LEFT'],
+            // ['usual_company c','a.company_id=c.id','LEFT'],
             ['user d','a.user_id=d.id','LEFT'],
             // ['user e','a.seller_uid=e.id','LEFT'],
             ['usual_coordinate g','a.service_point=g.id','LEFT'],
+            ['usual_company h','g.company_id=h.id','LEFT'],
         ];
+
+        // $where = ['a.id' => $id];
+        // $post = $this->get($id)->toArray();
         $post = $this->alias('a')
             ->field($field)
             ->join($join)

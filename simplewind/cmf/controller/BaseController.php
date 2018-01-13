@@ -59,8 +59,9 @@ class BaseController extends Controller
     }
 
     /**
-     *  排序 排序字段为list_orders数组 POST 排序字段为：list_order
-     */
+     * 排序 排序字段为list_orders数组 POST 排序字段为：list_order
+     * @param $model object 
+    */
     protected function listOrders($model)
     {
         if (!is_object($model)) {
@@ -81,7 +82,7 @@ class BaseController extends Controller
     }
 
     /**
-     *  刪除 
+     *  刪除 回收机制
      *  通用的
      */
     protected function dels($model, $obj='')
@@ -97,6 +98,7 @@ class BaseController extends Controller
         }
 
         if ($result) {
+            // $data = [];
             // Db::name('recycleBin')->insert($data);
             return true;
         } else {

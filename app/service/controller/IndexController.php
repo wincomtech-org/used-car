@@ -87,51 +87,50 @@ class IndexController extends HomeBaseController
 
         // 获取数据
         $data = $this->request->param();
-        $compId = $this->request->param('compId',0,'intval');
         $userId = cmf_get_current_user_id();
         if (empty($data)) {
             $this->error('数据为空！',url('Index/index'));
         }
 
-        $post = $data['post'];
-        $post['company_id'] = $compId;
+        $post = $data['post'];//包括单图
         $post['user_id'] = $userId;
-        // $more = $data['more'];
+        // $more = $data['more'];//省份、城市
 
         $servCates = Db::name('service_category')->field('platform,name,define_data')->where('id',$post['model_id'])->find();
 
         // 防止重复提交
         if (!empty($post['plateNo'])) {
             // $count = Db::name('service')->where('plateNo',$post['plateNo'])->count();
-            $find = Db::name('service')->field('id,model_id,company_id,user_id')->where('plateNo',$post['plateNo'])->find();
+            $find = Db::name('service')->field('id,model_id,user_id')->where('plateNo',$post['plateNo'])->find();
             if (!empty($find)) {
                 if ($find['user_id']!=$userId) {
                     $this->error('该车牌号已被其他用户占领：用户ID：'.$find['user_id'],null,'',5);
                 }
-                if ($servCates['platform']==1) {
-                    if (empty($find['company_id'])) {
-                        $this->error('去选公司',url('Index/step2',['id'=>$find['id']]));
-                    } else {
-                        $this->error('请不要重复提交！');
-                    }
-                } else {
-                    $this->error('您已提交过');
-                }
+                // if ($servCates['platform']==1) {
+                //     if (empty($find['company_id'])) {
+                //         $this->error('去选公司',url('Index/step2',['id'=>$find['id']]));
+                //     } else {
+                //         $this->error('请不要重复提交！');
+                //     }
+                // } else {
+                //     $this->error('您已提交过');
+                // }
+                $this->error('您已提交过');
             }
         }
 
         // 数据验证
         $rule = [
             'model_id' => 'require',
-            'company_id' => 'require',
             'username|姓名' => 'chsAlpha|max:32',
             'telephone' => 'require',
-            'birthday|生日'   => 'dateFormat:Y-m-d|after:-88 year|before:-1 day',
+            'birthday|生日' => 'dateFormat:Y-m-d|after:-88 year|before:-1 day',
             'seller_name|卖家姓名' => 'chsAlpha|max:32',
             'plateNo' => 'require',
             'car_vin' => 'require',
-            'reg_time|注册日期'   => 'dateFormat:Y-m-d|before:-1 day',
-            'appoint_time|预约时间'   => 'dateFormat:Y-m-d|after:1 day',
+            'reg_time|注册日期' => 'dateFormat:Y-m-d H:i|before:-1 day',
+            'appoint_time|预约时间' => 'dateFormat:Y-m-d H:i|after:30 minute',
+            'service_point' => 'require',
         ];
         // 筛选需要验证的字段
         $filter_var = json_decode($servCates['define_data']);
@@ -148,7 +147,6 @@ class IndexController extends HomeBaseController
         $validate->rule($rule);
         $validate->message([
             'model_id.require' => '模型数据丢失',
-            'company_id.require' => '公司数据丢失',
             'username.chsDash' => '姓名只能是汉字、字母',
             'username.max' => '姓名最大长度为32个字符',
             'telephone.require' => '电话必填',
@@ -164,6 +162,7 @@ class IndexController extends HomeBaseController
             'reg_time.before' => '注册日期太晚了吧？',
             'appoint_time.dateFormat' => '预约时间格式不正确',
             'appoint_time.after' => '预约时间也太早了吧？',
+            'service_point.require' => '服务点未选择',
         ]);
         if (!$validate->check($post)) {
             $this->error($validate->getError());
@@ -174,6 +173,10 @@ class IndexController extends HomeBaseController
         if (!empty($data['identity_card'])) {
             $post['more']['identity_card'] = model('Service')->dealFiles($data['identity_card']);
         }
+        // 处理服务点
+        // if (!empty($post['service_point'])) {
+        //     $coord = Db::name('usual_coordinate')->where('id',$post['service_point'])->find();
+        // }
 
         // 提交
         Db::startTrans();
@@ -184,7 +187,7 @@ class IndexController extends HomeBaseController
                 'title'     => '预约车辆服务：'.$servCates['name'],
                 'user_id'   => $userId,
                 'object'    => 'service:'.$id,
-                'content'   => '客户ID：'.$userId.'，公司ID：'.$compId,
+                'content'   => '客户ID：'.$userId.'，服务点ID：'.$post['service_point'],
                 'adminurl'  => 3,
             ];
             lothar_put_news($data);
@@ -197,11 +200,13 @@ class IndexController extends HomeBaseController
         if ($transStatus===false) {
             $this->error('提交失败');
         }
-        if ($servCates['platform']==1) {
-            $this->success('提交成功，请等待工作人员回复',url('user/Service/index',['mid'=>$post['model_id']]));
-        } else {
-            $this->success('正在帮您转入选公司页面……',url('service/Index/step2',['id'=>$id]));
-        }
+
+        $this->success('提交成功，请等待工作人员回复',url('user/Service/index',['mid'=>$post['model_id']]));
+        // if ($servCates['platform']==1) {
+        //     $this->success('提交成功，请等待工作人员回复',url('user/Service/index',['mid'=>$post['model_id']]));
+        // } else {
+        //     $this->success('正在帮您转入选公司页面……',url('service/Index/step2',['id'=>$id]));
+        // }
     }
 
     // 进入选公司

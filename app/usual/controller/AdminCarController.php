@@ -291,7 +291,7 @@ class AdminCarController extends AdminBaseController
     }
 
     /**
-     * 车辆删除
+     * 车辆删除 回收机制
      * @adminMenu(
      *     'name'   => '车辆删除',
      *     'parent' => 'index',

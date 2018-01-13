@@ -50,6 +50,9 @@ DOMEvent DOMDocumentWrapper phpQueryEvents phpQuery Callback JSONP
     原版：
     先是录入车辆信息，然后进行意向投保公司选择，下一步选取投保项目，然后点击核算保险，后台提醒工作人员查看信息，人工核算后进行电话联系，个人中心里面给予显示核算价格和选择领取保单方式，还是在线付费邮寄和现场收费领取
 
+车辆服务流程修改：
+    服务点可与公司挂钩？
+
 涉及支付的地方：
     trade/Post/seeCarPost
     trade/Post/depositPost

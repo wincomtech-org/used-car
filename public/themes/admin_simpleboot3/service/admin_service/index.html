@@ -46,7 +46,9 @@
                     <td>
                         <a href="{:cmf_url('AdminServiceCategory/edit',['id'=>$vo.model_id])}" target="_blank">{$vo.model_name}</a>
                     </td>
-                    <td><a href="{:url('usual/AdminCompany/edit',['id'=>$vo.company_id])}">{$vo.company_name}</a></td>
+                    <td>
+                        <a href="{:url('usual/AdminCompany/edit',['id'=>$vo.company_id])}">{$vo.company_name}</a>
+                    </td>
 
                     <!-- <td><a href="{//:url('user/AdminIndex/index',['uid'=>$vo.seller_uid])}">{//$vo.seller_nickname ? $vo.seller_nickname : $vo.seller_login}</a></td> -->
                     <td><a href="{:url('user/AdminIndex/index',['uid'=>$vo.user_id])}">{$vo.buyer_nickname ? $vo.buyer_nickname : $vo.buyer_login}</a></td>

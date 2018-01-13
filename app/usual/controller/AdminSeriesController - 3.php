@@ -232,7 +232,7 @@ class AdminSeriesController extends AdminBaseController
     }
 
     /**
-     * 车系删除
+     * 车系删除 回收机制
      * @adminMenu(
      *     'name'   => '车系删除',
      *     'parent' => 'index',
