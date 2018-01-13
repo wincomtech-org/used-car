@@ -63,24 +63,35 @@ class AdminServiceController extends AdminBaseController
     public function addPost()
     {
         if ($this->request->isPost()) {
-            $data   = $this->request->param();
+            $data = $this->request->param();
+            $post = $data['post'];
             $username = $this->request->param('username/s');
-            $user_id = Db::name('user')->whereOr(['user_nickname|user_login|user_email|mobile'=>['eq', $username]])->value('id');
-            if (empty($user_id)) {
+
+            // 判断用户
+            if (empty($username)) {
+                $this->error('客户名不能为空');
+            }
+            $userId = Db::name('user')->whereOr(['user_nickname|user_login|user_email|mobile'=>['eq', $username]])->value('id');
+            if (empty($userId)) {
                 $this->error('系统未检测到该用户');
             }
+            $count = Db::name('service')->where(['model_id'=>$post['model_id'],'user_id'=>$userId])->count();
+            if ($count>0) {
+                $this->error('预约单已存在',url('index',['modelId'=>$post['model_id'],'uname'=>$username]));
+            }
 
-            $post   = $data['post'];
-            $post['user_id'] = intval($user_id);
+            // 预处理数据
+            $post['user_id'] = intval($userId);
             $post['create_time'] = time();
-
+            // 验证
             $result = $this->validate($post,'Service.add');
             if ($result !== true) {
                 $this->error($result);
             }
+            dump($post);die;
             model('Service')->adminAddArticle($post);
 
-            $this->success('添加成功!', url('AdminService/edit', ['id' => model('Service')->id]));
+            $this->success('添加成功!', url('AdminService/edit', ['id'=>model('Service')->id]));
         }
     }
 
@@ -97,17 +108,20 @@ class AdminServiceController extends AdminBaseController
         $categoryTree = $scModel->getOptions($post['model_id']);
         $companyTree = $compModel->getCompanys($post['company_id']);
         // 用户提交资料
-        $postMore = array_keys($post['more']);
+        // 更多 more
         $define_data = [];
-        // $define_data = $scModel->getDefineData($post['model_id'],false);
-        $defconf = config('service_define_data');
-        $ddkey = array_keys($defconf);
-        foreach ($postMore as $row) {
-            if (in_array($row,$ddkey)) {
-                $define_data[] = [
-                    'title' => $defconf[$row],
-                    'name' => $row
-                ];
+        if (!empty($post['more'])) {
+            $postMore = array_keys($post['more']);
+            // $define_data = $scModel->getDefineData($post['model_id'],false);
+            $defconf = config('service_define_data');
+            $ddkey = array_keys($defconf);
+            foreach ($postMore as $row) {
+                if (in_array($row,$ddkey)) {
+                    $define_data[] = [
+                        'title' => $defconf[$row],
+                        'name' => $row
+                    ];
+                }
             }
         }
 
@@ -154,40 +168,53 @@ class AdminServiceController extends AdminBaseController
         $param = $this->request->param();
 
         if (isset($param['id'])) {
-            $id           = $this->request->param('id', 0, 'intval');
-            $resultPortal = model('Service')
-                ->where(['id' => $id])
-                ->update(['delete_time' => time()]);
-            if ($resultPortal) {
-                $result       = model('Service')->where(['id' => $id])->find();
-                $data         = [
-                    'object_id'   => $result['id'],
+            $id = $this->request->param('id', 0, 'intval');
+            $transStatus = true;
+            Db::startTrans();
+            try{
+                model('Service')->where('id',$id)->update(['delete_time'=>time()]);
+                $find = model('Service')->where('id',$id)->find();
+                $data = [
+                    'object_id'   => $find['id'],
                     'create_time' => time(),
                     'table_name'  => 'Service',
-                    'name'        => $result['order_sn']
+                    'name'        => $find['username']
                 ];
                 Db::name('recycleBin')->insert($data);
+                Db::commit();
+            }catch(Exception $e){
+                Db::rollback();
+                $transStatus = false;
             }
-            $this->success("删除成功！", '');
         }
 
         if (isset($param['ids'])) {
-            $ids     = $this->request->param('ids/a');
-            $recycle = model('Service')->where(['id' => ['in', $ids]])->select();
-            $result  = model('Service')->where(['id' => ['in', $ids]])->update(['delete_time' => time()]);
-            if ($result) {
+            $ids = $this->request->param('ids/a');
+            $transStatus = true;
+            Db::startTrans();
+            try{
+                model('Service')->where(['id'=>['in',$ids]])->update(['delete_time'=>time()]);
+                $recycle = model('Service')->where(['id'=>['in',$ids]])->select();
                 foreach ($recycle as $value) {
                     $data = [
                         'object_id'   => $value['id'],
                         'create_time' => time(),
                         'table_name'  => 'Service',
-                        'name'        => $value['order_sn']
+                        'name'        => $value['username']
                     ];
                     Db::name('recycleBin')->insert($data);
                 }
-                $this->success("删除成功！", '');
+                Db::commit();
+            }catch(Exception $e){
+                Db::rollback();
+                $transStatus = false;
             }
         }
+
+        if ($transStatus === false) {
+            $this->success("删除失败！", '');
+        }
+        $this->success("删除成功！", '');
     }
 
     public function publish()

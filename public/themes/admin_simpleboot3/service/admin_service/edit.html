@@ -6,8 +6,8 @@
 </style>
 <script type="text/html" id="photos-item-tpl">
     <li id="saved-image{id}">
-        <input id="photo-{id}" type="hidden" name="photo_urls[]" value="{filepath}">
-        <input class="form-control" id="photo-{id}-name" type="text" name="photo_names[]" value="{name}"
+        <input id="photo-{id}" type="hidden" name="photo[urls][]" value="{filepath}">
+        <input class="form-control" id="photo-{id}-name" type="text" name="photo[names][]" value="{name}"
                style="width: 200px;" title="图片名称">
         <img id="photo-{id}-preview" src="{url}" style="height:36px;width: 36px;"
              onclick="imagePreviewDialog(this.src);">
@@ -17,8 +17,8 @@
 </script>
 <script type="text/html" id="files-item-tpl">
     <li id="saved-file{id}">
-        <input id="file-{id}" type="hidden" name="file_urls[]" value="{filepath}">
-        <input class="form-control" id="file-{id}-name" type="text" name="file_names[]" value="{name}"
+        <input id="file-{id}" type="hidden" name="file[urls][]" value="{filepath}">
+        <input class="form-control" id="file-{id}-name" type="text" name="file[names][]" value="{name}"
                style="width: 200px;" title="文件名称">
         <a id="file-{id}-preview" href="{preview_url}" target="_blank">下载</a>
         <a href="javascript:uploadOne('图片上传','#file-{id}','file');">替换</a>
@@ -50,7 +50,7 @@
                                 <th width="100">业务模型<span class="form-required">*</span></th>
                                 <td>
                                     <select class="form-control" style="width:140px" name="post[model_id]" required>
-                                        <option value="0">--请选择--</option>
+                                        <option value="">--请选择--</option>
                                         {$category_tree}
                                     </select>
                                 </td>
@@ -82,7 +82,7 @@
                                 <td><input class="form-control" type="text" name="post[seller_username]" value="{$post.seller_uid|default=''}"></td>
                             </tr> -->
                             <tr>
-                                <th width="100">客户<span class="form-required">*</span></th>
+                                <th width="100">客户名(车主)<span class="form-required">*</span></th>
                                 <td>
                                     <input class="form-control" type="text" name="username" value="{$post.buyer_username|default=''}">
                                 </td>
@@ -135,7 +135,7 @@
                                     <span class="form-control">{$post.company_name}</span>
                                 </td>
                             </tr>
-                            <notempty name="post.more">
+                            <notempty name="define_data">
                             <foreach name="define_data" item="vo">
                             <tr>
                                 <th>{$vo.title}</th>
