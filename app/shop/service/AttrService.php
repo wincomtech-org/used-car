@@ -11,9 +11,7 @@ class AttrService
     {
         $field = 'a.*';
         $join = [];
-        $where = [
-            'a.delete_time' => 0
-        ];
+        $where = [];
         // 查找分类
         $category = empty($filter['category']) ? 0 : intval($filter['category']);
         if (!empty($category)) {

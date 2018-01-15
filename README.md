@@ -52,14 +52,13 @@ DOMEvent DOMDocumentWrapper phpQueryEvents phpQuery Callback JSONP
 原版：
     先是录入车辆信息，然后进行意向投保公司选择，下一步选取投保项目，然后点击核算保险，后台提醒工作人员查看信息，人工核算后进行电话联系，个人中心里面给予显示核算价格和选择领取保单方式，还是在线付费邮寄和现场收费领取
 
-新增服务商城：
-点券改成优惠券
+【新增服务商城】
+修改内容：
+    点券改成优惠券
 商品属性设计：
     核心：属性类别表 + 属性值表
     产品表(cmf_shop_goods)：
         (PK)产品ID、(FK1)类别ID、(FK2)品牌ID、产品名称(name)、价格(shop_price)、积分(score)、优惠券(conpon)、、添加时间(create_time)、库存(inventory)、状态(status)
-    品牌表(cmf_shop_goods_brand)：可以直接使用已有的
-        (PK)品牌ID、品牌名称、logo、推荐(is_rec)、状态
     类目表(cmf_shop_goods_category)：
         (PK)类别ID、(FK1)类别父ID(parent_id)、深度(path)、类别名称(name)、状态(status)、排序(listorder)
     属性表(cmf_shop_goods_attr)：
@@ -69,6 +68,14 @@ DOMEvent DOMDocumentWrapper phpQueryEvents phpQuery Callback JSONP
     产品属性关系表(cmf_shop_gav)：
         (PK)属性关系ID、(FK1)产品ID(proId)、(FK2)属性ID(attrId)、(FK3)属性值ID(avId)
     说明：属性值可以是在一个 textarea 框中用 | 隔开 获取。
+其它表设计：
+    分类属性关系表(cmf_shop_category_attr)：
+    品牌表(cmf_shop_goods_brand)：可以直接使用已有的
+        (PK)品牌ID、品牌名称、logo、推荐(is_rec)、状态
+    订单表(cmf_shop_order)：
+    订单详情表(cmf_shop_order_detail)：
+    收货地址表(cmf_shop_shipping_address)：
+    快递公司表(cmf_express)：
 
 
 

@@ -107,9 +107,9 @@ class AdminCategoryController extends AdminBaseController
     <td>\$spacer <a href='\$url' target='_blank'>\$name</a></td>
 </tr>
 tpl;
-
-        $categoryTree = $goodsCate->adminCategoryTableTree($selectedIds, $tpl);
-
+        $config = ['url'=>'shop/AdminCategory/edit'];
+        $categoryTree = $goodsCate->adminCategoryTableTree($selectedIds, $tpl, $config);
+// dump($categoryTree);die;
         $where      = ['delete_time' => 0];
         $categories = $goodsCate->where($where)->select();
 
