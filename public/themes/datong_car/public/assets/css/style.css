@@ -1078,7 +1078,7 @@
 
 /*预约详情*/
 .form_details{font-size:16px;}
-.form_details  li{margin:26px 0;}
+.form_details  li{margin:26px 0px 0px 0px;}
 .form_details  li a.file{color:#d00000;}
 .form_details  li a.file_down{margin-left:20px;}
 .form_details .icon{width:100px;display:inline-block;text-align:right;margin-right:30px;vertical-align:middle;}

@@ -5,6 +5,7 @@ use cmf\controller\UserBaseController;
 use app\user\model\UserModel;
 use app\service\model\ServiceModel;
 use app\service\model\ServiceCategoryModel;
+use app\usual\model\UsualCoordinateModel;
 // use think\Validate;
 use think\Db;
 
@@ -52,21 +53,24 @@ class ServiceController extends UserBaseController
         $id = $this->request->param('id/d');
         $mid = $this->request->param('mid/d');
 
-        $scModel = new ServiceCategoryModel();
-        $serviceNav = cache('serviceNav');
-        $define_data = $scModel->getDefineData($mid,false);
-
         $page = model('service/Service')->getPost($id);
         if (empty($page)) {
             abort(404,'数据不存在！');
         }
         $page['statusV'] = config('service_status')[$page['status']];
 
+        $serviceNav = cache('serviceNav');
+        $scModel = new ServiceCategoryModel();
+        $define_data = $scModel->getDefineData($mid,false);
+
+        // 处理服务点
         $servicePoint = Db::name('usual_coordinate')->where('id',$page['service_point'])->value('name');
+        $servicePoints = model('usual/UsualCoordinate')->getCoordinates(0, ['id'=>$page['service_point']], false);
 
         $this->assign('serviceNav',$serviceNav);
         $this->assign('define_data',$define_data);
         $this->assign('servicePoint',$servicePoint);
+        $this->assign('servicePointJson',json_encode($servicePoints));
         $this->assign('mid',$mid);
         $this->assign('page',$page);
         return $this->fetch();

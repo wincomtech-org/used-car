@@ -56,83 +56,17 @@
                     <h4>{$page.desc2?$page.desc2:$page.name}</h4>
                     <form action="{:url('Index/appointPost')}" method="post" class="inspection_form js-ajax-form">
                         <p class="red">{$page.notice}</p>
+
                         <foreach name="new_data" item="vo">
                         <div class="inspection_list">
                             <span>{$vo.title}</span>
-                            <switch name="vo.name">
-                                <case value="plateNo" break="1">
-                                    <input type="text" name="post[{$vo.name}]" placeholder="请输入7位车牌号" minlength="7" maxlength="7" required>
-                                    <b class="red" style="display:none;">*请输入7位车牌号</b>
-                                </case>
-                                <case value="telephone">
-                                    <input type="tel" name="post[{$vo.name}]" placeholder="请填写正确电话" maxlength="15" required>
-                                    <i>请填写正确的号码，如是固话，请按照格式：0551-1234567</i>
-                                    <!-- <b class="red" style="display:none;">*请填写正确联系方式,如是固话，请按格式：0551-1234567</b> -->
-                                </case>
-                                <case value="appoint_time|reg_time|birthday|seller_birthday">
-                                    <input type="text" name="post[{$vo.name}]" id="{$vo.name}" class="js-datetime" required>
-                                    <i>请填写正确的日期，按照格式：2017-11-11</i>
-                                </case>
-                                <case value="driving_license|qualified|loan_invoice">
-                                    <div class="file">
-                                        <input type="hidden" name="post[more][{$vo.name}]" id="{$vo.name}" value="">
-                                        <a href="javascript:uploadOneImage('图片上传','#{$vo.name}');" class="demonstrate_pre">
-                                            <img src="__TMPL__/public/assets/images/add.png"
-                                                 id="{$vo.name}-preview"
-                                                  style="cursor: pointer;max-width:200px;"/>
-                                            <i class="photo_tip">请上传{$vo.title}照片，不宜过大</i>
-                                        </a>
-                                       <div class="demonstrate">
-                                            <div class="demonstrate_img">
-                                                <img src="__TMPL__/public/assets/images/example/5.jpg" alt="">
-                                            </div>
-                                            <i class="photo_tip">请按照上图样式上传图片</i>
-                                        </div>
-                                    </div>
-                                </case>
-                                <case value="identity_card">
-                                    <div class="file">
-                                        <ul id="identity_card" class="pic-list list-unstyled form-inline"></ul>
-                                        <a href="javascript:uploadMultiImage('图片上传','#identity_card','identity_card-item-tpl');"
-                                           class="btn btn-default btn-sm demonstrate_pre">
-                                                <img src="__TMPL__/public/assets/images/add.png"
-                                                  style="cursor: pointer:"/>
-                                                  <i class='photo_tip'>请上传{$vo.title}照片，不宜过大</i>
-                                         </a>
-                                         <div class="demonstrate sf">
-                                            <div class="demonstrate_img">
-                                                <img src="__TMPL__/public/assets/images/example/6.jpg" alt="">
-                                                <img src="__TMPL__/public/assets/images/example/7.jpg" alt="">
-                                            </div>
-                                            <i class="photo_tip">请按照上图样式上传图片</i>
-                                        </div>
-                                    </div>
-                                </case>
-                                <case value="service_point">
-                                    <select name="more[province_id]" id="input-province" >
-                                        <option value="" >--请选择省份--</option>
-                                        {$Provinces}
-                                    </select>&nbsp;&nbsp;
-                                    <select name="more[city_id]" id="input-city">
-                                        <option value="">--请选择城市--</option>
-                                    </select>&nbsp;&nbsp;
-
-                                    <select name="post[service_point]" id="input-coordinate">
-                                        <option value="">--请选择--</option>
-                                        <notempty name="servicePoint">
-                                        <foreach name="servicePoint" item="vo">
-                                        <option value="{$vo.id}">{$vo.name}</option>
-                                        </foreach>
-                                        </notempty>
-                                    </select>
-                                </case>
-                                <default /><input type="text" name="post[{$vo.name}]" required>
-                            </switch>
+                            <include file="index/service_data_switch1"/>
                         </div>
                         </foreach>
 
                         <div class="inspection_list">
                         <if condition="count($new_data) eq 1 and $new_data[0]['name'] eq 'service_point'">
+                            <!-- 只是服务点 -->
                         <else/>
                             <input type="hidden" name="post[model_id]" value="{$page.id}">
                             <input type="hidden" name="compId" value="1">
