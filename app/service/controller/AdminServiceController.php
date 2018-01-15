@@ -3,7 +3,7 @@ namespace app\service\controller;
 
 use cmf\controller\AdminBaseController;
 use app\service\model\ServiceCategoryModel;
-// use app\service\model\ServiceModel;
+use app\service\model\ServiceModel;
 use app\usual\model\UsualCompanyModel;
 // use app\usual\model\UsualCategoryModel;
 use think\Db;
@@ -88,10 +88,11 @@ class AdminServiceController extends AdminBaseController
             if ($result !== true) {
                 $this->error($result);
             }
-            dump($post);die;
-            model('Service')->adminAddArticle($post);
 
-            $this->success('添加成功!', url('AdminService/edit', ['id'=>model('Service')->id]));
+            $serviceModel = new ServiceModel();
+            $serviceModel->adminAddArticle($post);
+
+            $this->success('添加成功!', url('AdminService/edit', ['id'=>$serviceModel->id]));
         }
     }
 
@@ -142,21 +143,22 @@ class AdminServiceController extends AdminBaseController
                 $this->error('系统未检测到该用户');
             }
 
-            $post   = $data['post'];
+            $post = $data['post'];
             $post['user_id'] = intval($user_id);
             $result = $this->validate($post, 'Service.edit');
             if ($result !== true) {
                 $this->error($result);
             }
 
-            if (!empty($data['photo_names'])) {
-                $post['more']['photos'] = model('Service')->dealFiles(['names'=>$data['photo_names'],'urls'=>$data['photo_urls']]);
+            $serviceModel = new ServiceModel();
+            if (!empty($data['photo'])) {
+                $post['more']['photos'] = $serviceModel->dealFiles($data['photo']);
             }
-            if (!empty($data['file_names'])) {
-                $post['more']['files'] = model('Service')->dealFiles(['names'=>$data['file_names'],'urls'=>$data['file_urls']]);
+            if (!empty($data['file'])) {
+                $post['more']['files'] = $serviceModel->dealFiles($data['file']);
             }
 
-            model('Service')->adminEditArticle($post);
+            $serviceModel->adminEditArticle($post);
 
             $this->success('保存成功!');
         }

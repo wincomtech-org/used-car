@@ -38,13 +38,13 @@
         <div class="row margin-top-20">
             <div class="col-md-1">
                 <div class="list-group">
-                    <a class="list-group-item" href="#BASE" data-toggle="tab">基本属性</a>
+                    <a class="list-group-item" href="#BASE" data-toggle="tab">其它属性</a>
                     <a class="list-group-item" href="#AUDIT" data-toggle="tab">客户资料</a>
                 </div>
             </div>
             <div class="col-md-9">
                 <div class="tab-content">
-                    <div class="tab-pane active" id="BASE">
+                    <div class="tab-pane" id="BASE">
                         <table class="table table-bordered">
                             <tr>
                                 <th width="100">业务模型<span class="form-required">*</span></th>
@@ -75,7 +75,7 @@
                             </tr>
                         </table>
                     </div>
-                    <div class="tab-pane" id="AUDIT">
+                    <div class="tab-pane active" id="AUDIT">
                         <table class="table table-bordered">
                             <!-- <tr>
                                 <th>卖家</th>
@@ -155,13 +155,13 @@
                                         <empty name="post.more.identity_card">
                                             <img src="__TMPL__/public/assets/images/default_width.png" alt="">
                                         <else/>
-                                        <ul>
-                                            <foreach name="post.more.identity_card" item="vo">
-                                            <li class="">
-                                                <img src="{:cmf_get_image_preview_url($vo.url)}" alt="" width="135" onclick="imagePreviewDialog(this.src);" />
-                                            </li>
-                                            </foreach>
-                                        </ul>
+                                            <ul>
+                                                <foreach name="post.more.identity_card" item="vo">
+                                                <li class="">
+                                                    <img src="{:cmf_get_image_preview_url($vo.url)}" alt="" width="135" onclick="imagePreviewDialog(this.src);" />
+                                                </li>
+                                                </foreach>
+                                            </ul>
                                         </empty>
                                         </span>
                                     </case>
@@ -206,7 +206,7 @@
                     <tr>
                         <td>
                             <input class="form-control" type="text"
-                                   value="{$post.create_time?=date('Y-m-d H:i',$post['create_time'])}">
+                                   value="{$post.create_time?=date('Y-m-d H:i',$post.create_time)}">
                         </td>
                     </tr>
                     <tr>
@@ -215,7 +215,7 @@
                     <tr>
                         <td>
                             <input class="form-control js-bootstrap-datetime" type="text" name="post[appoint_time]"
-                                   value="{$post.appoint_time?=date('Y-m-d H:i',$post['appoint_time'])}">
+                                   value="{$post.appoint_time?=date('Y-m-d H:i',$post.appoint_time)}">
                         </td>
                     </tr>
                     <tr>
@@ -224,7 +224,7 @@
                     <tr>
                         <td>
                             <input class="form-control js-bootstrap-datetime" type="text" name="post[end_time]"
-                                   value="{$post.end_time?=date('Y-m-d H:i',$post['end_time'])}">
+                                   value="{$post.end_time?=date('Y-m-d H:i',$post.end_time)}">
                         </td>
                     </tr>
                     <tr>
@@ -233,7 +233,7 @@
                     <tr>
                         <td>
                             <div class="checkbox">
-                                <label><input type="checkbox" name="post[is_top]" value="1">置顶</label>
+                                <label><input type="checkbox" name="post[is_top]" value="1" {$post.is_top?='checked'} >置顶</label>
                             </div>
                         </td>
                     </tr>
