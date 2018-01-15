@@ -53,7 +53,7 @@ class DbBackupController extends AdminBaseController
     }
 
     /**
-     * 数据库备份
+     * 数据库备份 backup
      * @adminMenu(
      *     'name'   => '数据库备份',
      *     'parent' => 'index',
@@ -70,16 +70,16 @@ class DbBackupController extends AdminBaseController
         //设置超时时间为0，表示一直执行。当php在safe mode模式下无效，此时可能会导致导入超时，此时需要分段导入
         set_time_limit(0);
 
-        if ($this->sqlback->backup()) {
-            $this->success('数据备份成功',url('DbBackup/index'));
-        } else {
-            $this->error('数据备份失败！',url('index'));
+        // $result = true;
+        $result = $this->sqlback->backup();
+        if ($result===false) {
+            $this->error('数据备份失败！',url('DbBackup/index'));
         }
-        $this->success('添加成功!', url('DbBackup/index'));
+        $this->success('数据备份成功',url('DbBackup/index'));
     }
 
     /**
-     * 数据库还原
+     * 数据库还原 restore
      * @adminMenu(
      *     'name'   => '数据库还原',
      *     'parent' => 'index',
@@ -98,11 +98,11 @@ class DbBackupController extends AdminBaseController
         $file = $this->dir . $file;
 
         if(is_file($file)){
-            if ($this->sqlback->restore($file)) {
-                $this->success('数据备份成功',url('DbBackup/index'));
-            } else {
-                $this->error('数据备份失败！',url('index'));
+            $result = $this->sqlback->restore($file);
+            if ($result===false) {
+                $this->error('数据备份失败！',url('DbBackup/index'));
             }
+            $this->success('数据备份成功',url('DbBackup/index'));
         } else {
             $this->error('文件不存在！',url('DbBackup/index'));
         }
