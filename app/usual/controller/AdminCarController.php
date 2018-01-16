@@ -43,7 +43,6 @@ class AdminCarController extends AdminBaseController
         $brandId = $this->request->param('brandId',0,'intval');
 
         $data        = $this->Model->getLists($param);
-        $data->appends($param);
 
         $cateModel  = new UsualBrandModel();
         $brandTree   = $cateModel->adminCategoryTree($brandId);
@@ -52,8 +51,9 @@ class AdminCarController extends AdminBaseController
         $this->assign('end_time', isset($param['end_time']) ? $param['end_time'] : '');
         $this->assign('keyword', isset($param['keyword']) ? $param['keyword'] : '');
         $this->assign('plat', isset($param['plat']) ? $param['plat'] : '');
-        $this->assign('articles', $data->items());
         $this->assign('brand_tree', $brandTree);
+        $this->assign('articles', $data->items());
+        $data->appends($param);
         $this->assign('pager', $data->render());
 
         return $this->fetch();

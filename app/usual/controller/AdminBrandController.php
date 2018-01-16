@@ -47,8 +47,8 @@ class AdminBrandController extends AdminBaseController
         $categories = $this->UsualModel->getLists($param);
         // $categories = model('UsualBrand')->getLists($param);
 
-        $categories->appends($param);//添加URL参数
         $this->assign('categories', $categories->items());// 获取查询数据并赋到模板
+        $categories->appends($param);//添加URL参数
         $this->assign('pager', $categories->render());// 获取分页代码并赋到模板
         // $this->assign('category_tree', $categoryTree);
         return $this->fetch();

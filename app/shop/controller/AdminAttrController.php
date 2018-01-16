@@ -23,7 +23,6 @@ class AdminAttrController extends AdminBaseController
 
         $postService = new AttrService();
         $list = $postService->adminAttrList($param);
-        $list->appends($param);
 
         $cateModel = new ShopGoodsCategoryModel();
         $categoryTree = $cateModel->adminCategoryTree($categoryId);
@@ -31,9 +30,10 @@ class AdminAttrController extends AdminBaseController
         $this->assign('start_time', isset($param['start_time']) ? $param['start_time'] : '');
         $this->assign('end_time', isset($param['end_time']) ? $param['end_time'] : '');
         $this->assign('keyword', isset($param['keyword']) ? $param['keyword'] : '');
-        $this->assign('list', $list->items());
         $this->assign('category_tree', $categoryTree);
         $this->assign('category', $categoryId);
+        $this->assign('list', $list->items());
+        $list->appends($param);
         $this->assign('pager', $list->render());
 
         return $this->fetch();

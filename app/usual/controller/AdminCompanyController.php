@@ -37,7 +37,6 @@ class AdminCompanyController extends AdminBaseController
         $param = $this->request->param();//接收筛选条件
 
         $data        = $this->UsualModel->getLists($param);
-        $data->appends($param);
 
         // $CategoryModel  = new UsualBrandModel();
         // $categoryTree   = $CategoryModel->adminCategoryTree($categoryId);
@@ -45,8 +44,9 @@ class AdminCompanyController extends AdminBaseController
         $this->assign('start_time', isset($param['start_time']) ? $param['start_time'] : '');
         $this->assign('end_time', isset($param['end_time']) ? $param['end_time'] : '');
         $this->assign('keyword', isset($param['keyword']) ? $param['keyword'] : '');
-        $this->assign('articles', $data->items());
         // $this->assign('category_tree', $categoryTree);
+        $this->assign('articles', $data->items());
+        $data->appends($param);
         $this->assign('pager', $data->render());
 
         return $this->fetch();

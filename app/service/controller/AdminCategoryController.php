@@ -21,12 +21,12 @@ class AdminCategoryController extends AdminBaseController
 
         $cateType = isset($param['cateType']) ? $param['cateType'] : '';
         $keyword = isset($param['keyword']) ? $param['keyword'] : '';
-
-        $categories->appends($param);//添加URL参数
-        $this->assign('categories', $categories->items());// 获取查询数据并赋到模板
-        $this->assign('pager', $categories->render());// 获取分页代码并赋到模板
+        
         $this->assign('cateType',$cateType);
         $this->assign('keyword',$keyword);
+        $this->assign('categories', $categories->items());// 获取查询数据并赋到模板
+        $categories->appends($param);//添加URL参数
+        $this->assign('pager', $categories->render());// 获取分页代码并赋到模板
 
         return $this->fetch();
     }
