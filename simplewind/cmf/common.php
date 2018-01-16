@@ -49,18 +49,17 @@ function cmf_get_current_user_id()
 
 /**
  * 获取当前登录的前台用户的信息，未登录时，返回false
+ * 统一成数组(Db::name('user'))，不用对象($this->)
+ * more 用户拓展属性 json格式
  * @return array|boolean
  */
 function cmf_get_current_user()
 {
-    // $s = Db::name('user')->field('more')->where('id',3)->find();
-    // dump(json_decode($s['more'],true));
     $sessionUser = session('user');
-    // dump($sessionUser);
     if (!empty($sessionUser)) {
-        // if (!empty($sessionUser['more'])) {
-        //     $sessionUser['more'] = json_decode($sessionUser->more[0],true);
-        // }
+        if (!empty($sessionUser['more']) && is_string($sessionUser['more'])) {
+            $sessionUser['more'] = json_decode($sessionUser['more'],true);
+        }
         return $sessionUser;
     } else {
         return false;
@@ -69,11 +68,13 @@ function cmf_get_current_user()
 
 /**
  * 更新当前登录前台用户的信息
+ * 统一成数组(Db::name('user'))，不用对象($this->)
+ * more 用户拓展属性 json格式
  * @param array $user 前台用户的信息
  */
 function cmf_update_current_user($user)
 {
-    if (!empty($user['more'])) {
+    if (!empty($user['more']) && is_array($user['more'])) {
         $user['more'] = json_encode($user['more']);
     }
     session('user', $user);

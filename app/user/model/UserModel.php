@@ -240,7 +240,7 @@ class UserModel extends Model
             'birthday'      => strtotime($user['birthday']),
             'user_url'      => $user['user_url'],
             'signature'     => $user['signature'],
-            'more'          => $user['more'],//使用模型层自动json_encode()
+            'more'          => json_encode($user['more']),//为统一session不使用模型层
         ];
         if (empty($oldInfo['user_login'])) {
             $data['user_login'] = $user['user_login'];
@@ -248,14 +248,16 @@ class UserModel extends Model
         if (empty($oldInfo['user_email'])) {
             $data['user_email'] = $user['user_email'];
         }
+        // dump($data);die;
 
         // 数据库操作
-        $result = $this->where('id', $oldInfo['id'])->update($data);
-        // if (!empty($result)) {
-            $userInfo = $this->where('id', $oldInfo['id'])->find();
+        $userQuery = Db::name("user");
+        $result = $userQuery->where('id', $oldInfo['id'])->update($data);
+        if (!empty($result)) {
+            $userInfo = $userQuery->where('id', $oldInfo['id'])->find();
             cmf_update_current_user($userInfo);
             return 1;
-        // }
+        }
         return 0;
     }
 

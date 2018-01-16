@@ -20,7 +20,6 @@ use think\Db;
 
 class ProfileController extends UserBaseController
 {
-
     function _initialize()
     {
         parent::_initialize();
@@ -70,12 +69,13 @@ class ProfileController extends UserBaseController
                 $veri['more']['identity_card'] = $verifyModel->dealFiles($data['identity_card']);
                 $veri['more']['driving_license'] = $data['verify']['more']['driving_license'];
                 $verify = lothar_verify($userId,'certification','all');
+                $reVerify = false;// 重新认证
                 if (empty($verify)) {
                     $veri['user_id'] = $userId;
                     $veri['auth_code'] = 'certification';
                     $veri['create_time'] = time();
                     $verifyModel->adminAddArticle($veri);
-                } else {
+                } elseif (!empty($reVerify)) {
                     $veri['id'] = $verify['id'];
                     // $veri['auth_status'] = 0;
                     $veri['auth_status'] = 2;
