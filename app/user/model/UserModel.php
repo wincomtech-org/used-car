@@ -20,13 +20,11 @@ class UserModel extends Model
         'identi' => 'array',
         'define_data' => 'array',
     ];
+
     public function doMobile($user)
     {
         $userQuery = Db::name("user");
-
         $result = $userQuery->where('mobile', $user['mobile'])->find();
-
-
         if (!empty($result)) {
             $comparePasswordResult = cmf_compare_password($user['user_pass'], $result['user_pass']);
             $hookParam =[
@@ -60,7 +58,6 @@ class UserModel extends Model
     public function doName($user)
     {
         $userQuery = Db::name("user");
-
         $result = $userQuery->where('user_login', $user['user_login'])->find();
         if (!empty($result)) {
             $comparePasswordResult = cmf_compare_password($user['user_pass'], $result['user_pass']);
@@ -94,12 +91,8 @@ class UserModel extends Model
 
     public function doEmail($user)
     {
-
         $userQuery = Db::name("user");
-
         $result = $userQuery->where('user_email', $user['user_email'])->find();
-
-
         if (!empty($result)) {
             $comparePasswordResult = cmf_compare_password($user['user_pass'], $result['user_pass']);
             $hookParam =[
@@ -131,46 +124,11 @@ class UserModel extends Model
         return 2;
     }
 
-    public function registerEmail($user)
-    {
-        $userQuery = Db::name("user");
-        $result    = $userQuery->where('user_email', $user['user_email'])->find();
-
-        $userStatus = 1;
-
-        if (cmf_is_open_registration()) {
-            $userStatus = 2;
-        }
-
-        if (empty($result)) {
-            $user_pass = cmf_password($user['user_pass']);
-            $data   = [
-                'user_login'      => '',
-                'user_email'      => $user['user_email'],
-                'mobile'          => '',
-                'user_nickname'   => '',
-                'user_pass'       => $user_pass,
-                'paypwd'          => $user_pass,
-                'last_login_ip'   => get_client_ip(0, true),
-                'create_time'     => time(),
-                'last_login_time' => time(),
-                'user_status'     => $userStatus,
-                "user_type"       => 2,
-            ];
-            $userId = $userQuery->insertGetId($data);
-            $date   = $userQuery->where('id', $userId)->find();
-            cmf_update_current_user($date);
-            return 0;
-        }
-        return 1;
-    }
-
     public function registerMobile($user)
     {
         $result = Db::name("user")->where('mobile', $user['mobile'])->find();
 
         $userStatus = 1;
-
         if (cmf_is_open_registration()) {
             $userStatus = 2;
         }
@@ -198,20 +156,34 @@ class UserModel extends Model
         return 1;
     }
 
-    /**
-     * 通过邮箱重置密码
-     * @param $email
-     * @param $password
-     * @return int
-     */
-    public function emailPasswordReset($email, $password)
+    public function registerEmail($user)
     {
-        $result = $this->where('user_email', $email)->find();
-        if (!empty($result)) {
-            $data = [
-                'user_pass' => cmf_password($password),
+        $userQuery = Db::name("user");
+        $result    = $userQuery->where('user_email', $user['user_email'])->find();
+
+        $userStatus = 1;
+        if (cmf_is_open_registration()) {
+            $userStatus = 2;
+        }
+
+        if (empty($result)) {
+            $user_pass = cmf_password($user['user_pass']);
+            $data   = [
+                'user_login'      => '',
+                'user_email'      => $user['user_email'],
+                'mobile'          => '',
+                'user_nickname'   => '',
+                'user_pass'       => $user_pass,
+                'paypwd'          => $user_pass,
+                'last_login_ip'   => get_client_ip(0, true),
+                'create_time'     => time(),
+                'last_login_time' => time(),
+                'user_status'     => $userStatus,
+                "user_type"       => 2,
             ];
-            $this->where('user_email', $email)->update($data);
+            $userId = $userQuery->insertGetId($data);
+            $date   = $userQuery->where('id', $userId)->find();
+            cmf_update_current_user($date);
             return 0;
         }
         return 1;
@@ -237,33 +209,54 @@ class UserModel extends Model
         return 1;
     }
 
-    public function editData($data)
+    /**
+     * 通过邮箱重置密码
+     * @param $email
+     * @param $password
+     * @return int
+     */
+    public function emailPasswordReset($email, $password)
     {
-        $userId           = cmf_get_current_user_id();
-        $data['birthday'] = strtotime($data['birthday']);
-
-        // 事务处理
-        $result = true;
-        self::startTrans();
-        try {
-            $this->isUpdate(true)->allowField(true)->save($data, ['id' => $userId]);
-            // $userId          = $this->id;
-            $userInfo = $this->where('id', $userId)->find();
-            cmf_update_current_user($userInfo);
-            self::commit();
-        } catch (\Exception $e) {
-            self::rollback();
-            $result = false;
+        $result = $this->where('user_email', $email)->find();
+        if (!empty($result)) {
+            $data = [
+                'user_pass' => cmf_password($password),
+            ];
+            $this->where('user_email', $email)->update($data);
+            return 0;
         }
-        return $result;
+        return 1;
+    }
 
-        // $userQuery        = Db::name("user");
-        // if ($userQuery->where('id', $userId)->update($data)) {
-        //     $userInfo = $userQuery->where('id', $userId)->find();
-        //     cmf_update_current_user($userInfo);
-        //     return 1;
+    public function editData($user)
+    {
+        error_reporting(0);
+        $oldInfo = cmf_get_current_user();
+        // return $oldInfo;
+        // 锁定字段，避免非法操作
+        $data = [
+            'user_nickname' => $user['user_nickname'],
+            'sex'           => $user['sex'],
+            'birthday'      => strtotime($user['birthday']),
+            'user_url'      => $user['user_url'],
+            'signature'     => $user['signature'],
+            'more'          => $user['more'],//使用模型层自动json_encode()
+        ];
+        if (empty($oldInfo['user_login'])) {
+            $data['user_login'] = $user['user_login'];
+        }
+        if (empty($oldInfo['user_email'])) {
+            $data['user_email'] = $user['user_email'];
+        }
+
+        // 数据库操作
+        $result = $this->where('id', $oldInfo['id'])->update($data);
+        // if (!empty($result)) {
+            $userInfo = $this->where('id', $oldInfo['id'])->find();
+            cmf_update_current_user($userInfo);
+            return 1;
         // }
-        // return 0;
+        return 0;
     }
 
     /**

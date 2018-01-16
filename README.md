@@ -28,7 +28,6 @@ DOMEvent DOMDocumentWrapper phpQueryEvents phpQuery Callback JSONP
     <!-- 全站搜索链接修改。 -->
     检查一些页面的跳转，是否可改用js的。
     导航变色
-    富文本编辑器bug。
     自定义属性图集。
     用户上传图片裁剪？
     清除缓存对session是否操作？

@@ -46,14 +46,13 @@
 <script src="__TMPL__/public/assets/js/jquery-migrate-1.2.1.js"></script>
 <script src="__STATIC__/js/wind.js"></script>
 
-<script>
+<script type="text/javascript">
+    if(navigator.appName == "Microsoft Internet Explorer"&&parseInt(navigator.appVersion.split(";")[1].replace(/[ ]/g, "").replace("MSIE",""))<9){
+        alert("当前浏览器版本过低，为不影响网站体验效果，请下载最新版本的浏览器！");
+    }
 
-if(navigator.appName == "Microsoft Internet Explorer"&&parseInt(navigator.appVersion.split(";")[1].replace(/[ ]/g, "").replace("MSIE",""))<9){
-    alert("当前浏览器版本过低，为不影响网站体验效果，请下载最新版本的浏览器！");
-}
-
-$(window).on('load', function() {
-    $('.preloader-wrap').fadeOut('slow', function() { $(this).remove(); });
-});
+    $(window).on('load', function() {
+        $('.preloader-wrap').fadeOut('slow', function() { $(this).remove(); });
+    });
 </script>
 

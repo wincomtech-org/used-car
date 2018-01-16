@@ -1,0 +1,143 @@
+<ul class="info_detail_list">
+    <li class="details_item">
+        <span class="details_tit">登录名</span>
+        <div class="idetails_con">
+            <input type="text" name="user[user_login]" value="{$user.user_login|default=''}" placeholder="登录名" {$user.user_login?='readonly'}>
+            <i class="tip">登录名唯一，只能做一次修改</i>
+        </div>
+    </li>
+    <li class="details_item">
+        <span class="details_tit">昵称</span>
+        <div class="idetails_con">
+            <input type="text" name="user[user_nickname]" value="{$user.user_nickname|default=''}" placeholder="昵称">
+        </div>
+    </li>
+    <li class="details_item">
+        <span class="details_tit">手机号码</span>
+        <div class="idetails_con">
+            <input type="text" name="user[mobile]" value="{$user.mobile|default=''}" placeholder="手机号" {$user.mobile?='readonly'}>
+            <i class="tip">手机号唯一</i>
+        </div>
+    </li>
+    <li class="details_item">
+        <span class="details_tit">邮箱</span>
+        <div class="idetails_con">
+            <input type="text" name="user[user_email]" value="{$user.user_email|default=''}" placeholder="{$user.user_email?'重新认证？':''}">
+            <i class="tip">请核实后再填写</i>
+        </div>
+    </li>
+    <li class="details_item">
+        <span class="details_tit">QQ</span>
+        <div class="idetails_con">
+            <input type="text" name="user[more][qq]" value="{$user.more.qq|default=''}"  placeholder="QQ">
+        </div>
+    </li>
+    <li class="details_item">
+        <span class="details_tit">性别</span>
+        <php>
+            $sexs=array("0"=>"保密","1"=>"程序猿","2"=>"程序媛");
+        </php>
+        <div class="idetails_con">
+            <select class="" id="input-sex" name="user[sex]">
+                <foreach name="sexs" item="vo">
+                <php>$sexselected=$key==$user['sex']?"selected":"";</php>
+                    <option value="{$key}" {$sexselected}>{$vo}</option>
+                </foreach>
+            </select>
+        </div>
+    </li>
+    <li class="details_item">
+        <span class="details_tit">生日</span>
+        <div class="idetails_con">
+            <input type="text" name="user[birthday]" value="{:date('Y-m-d',$user.birthday)}" placeholder="2013-01-04" class="" id="input-birthday">
+        </div>
+    </li>
+    <li class="details_item">
+        <span class="details_tit">详细地址</span>
+        <div class="idetails_con">
+            <input type="text" name="user[more][address]" value="{$user.more.address|default=''}">
+        </div>
+    </li>
+
+    <!-- 认证 -->
+    <li class="details_item {$verifyStatus==1?'authenticated':'unauthorized'}">
+        <span class="details_tit">身份证照片</span>
+        <div class="idetails_con">
+            <ul id="identity_card" class="pic-list list-unstyled form-inline">
+                <notempty name="verify.more.identity_card">
+                    <foreach name="verify.more.identity_card" item="vo">
+                        <li id="saved-identity_card{$key}">
+                            <input id="identity_card-{$key}" type="hidden"
+                                   name="identity_card[urls][]" value="{$vo.url}" />
+                            <input id="identity_card-{$key}-name" type="text"
+                                   name="identity_card[names][]" value="{$vo.name|default=''}"
+                                   class="form-control" title="图片名称" />
+                            <img id="identity_card-{$key}-preview"
+                                 src="{:cmf_get_image_preview_url($vo['url'])}"
+                                 style="height:120px;width: 200px;"
+                                 onclick="parent.imagePreviewDialog(this.src);">
+                            <a href="javascript:uploadOneImage('图片上传','#identity_card-{$key}');">替换</a>
+                            <a href="javascript:(function(){$('#saved-identity_card{$key}').remove();})();">移除</a>
+                        </li>
+                    </foreach>
+                </notempty>
+            </ul>
+            <a href="javascript:uploadMultiImage('图片上传','#identity_card','identity_card-item-tpl');"
+               class="btn btn-default btn-sm demonstrate_pre">
+                <img src="__TMPL__/public/assets/images/add.png" style="cursor: pointer:"/>
+                <i class='photo_tip'>请上传身份证正反两面</i>
+            </a>
+            <div class="demonstrate sf">
+                <div class="demonstrate_img">
+                    <img src="__TMPL__/public/assets/images/example/6.jpg" alt="">
+                    <img src="__TMPL__/public/assets/images/example/7.jpg" alt="">
+                </div>
+                <i class="photo_tip">请按照上图样式上传图片</i>
+            </div>
+        </div>
+    </li>
+
+    <!-- 认证 -->
+    <li class="details_item unauthorized" >
+        <span class="details_tit">行车本照片</span>
+        <div class="idetails_con">
+            <input type="hidden" name="verify[more][driving_license]" id="driving_license" value="{$verify.more.driving_license|default=''}" />
+            <a href="javascript:uploadOneImage('图片上传','#driving_license');" class="demonstrate_pre">
+                <if condition="empty($verify.more.driving_license)">
+                    <img src="__TMPL__/public/assets/images/add.png" id="driving_license-preview"  style="cursor: pointer;max-width:200px"/>
+                <else/>
+                    <img src="{:cmf_get_image_preview_url($verify.more.driving_license)}" id="driving_license-preview" width="135" style="cursor: pointer"/>
+                </if>
+                <i class="photo_tip">请上传行车本照片（尽可能的小）</i>
+            </a>
+            <div class="demonstrate">
+                <div class="demonstrate_img">
+                    <img src="__TMPL__/public/assets/images/example/5.jpg" alt="">
+                </div>
+                <i class="photo_tip">请按照上图样式上传图片</i>
+            </div>
+        </div>
+    </li>
+
+    <li class="details_item">
+        <span class="details_tit">实名认证</span>
+        <div class="idetails_con">
+            <div class="stauts">
+                <switch name="verifyStatus">
+                    <case value="1"><p class="yes">已认证</p></case>
+                    <case value="2"><p class="no">重新认证中……</p></case>
+                    <default/><p class="no">未认证</p>
+                </switch>
+            </div>
+        </div>
+    </li>
+    <li class="details_item">
+        <span class="details_tit"></span>
+        <div class="idetails_con">
+            <button type="submit" class="conserve btn-red js-ajax-submit1">保存</button>
+        </div>
+    </li>
+</ul>
+<script type="text/javascript">
+    $.ajax(url, settings, settings)
+</script>

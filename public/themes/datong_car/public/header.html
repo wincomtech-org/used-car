@@ -73,15 +73,13 @@
             <ul id="main-head-user">
                 <!-- 登陆后 -->
                 <li class="logining">
-                    <php>$user=cmf_get_current_user();</php>
                     <a href="{:cmf_url('user/Profile/center')}">
                         <!-- <if condition="empty($user['avatar'])">
                             <img src="__TMPL__/public/assets/images/headicon.png" class="headicon">
-                            <else/>
+                        <else/>
                             <img src="{//:cmf_get_user_avatar_url($user['avatar'])}" class="headicon" width="30"/>
                         </if> -->
                         <span class="user-nickname"></span>
-                        <!-- <a class="dropdown-toggle notifactions" href="{//:cmf_url('user/Notification/index')}"><i class="fa fa-envelope"></i> <span class="count">0</span></a> -->
                     </a>
                     <a href="{:cmf_url('user/Profile/center')}" class="">个人中心</a>
                     <a href="{:cmf_url('user/Index/logout')}" class="">退出</a>

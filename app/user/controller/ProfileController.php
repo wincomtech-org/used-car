@@ -36,15 +36,10 @@ class ProfileController extends UserBaseController
 
         // 用户身份认证体系
         $verify = lothar_verify($user['id'], 'certification', 'all');
-        if (empty($verify['auth_status'])) {
-            $verifyStatus = false;
-        } elseif ($verify['auth_status'] == 1) {
-            $verifyStatus = true;
-        }
 
         $this->assign('user',$user);
         $this->assign('verify',$verify);
-        $this->assign('verifyStatus',$verifyStatus);
+        $this->assign('verifyStatus',$verify['auth_status']);
         return $this->fetch();
     }
 
@@ -64,28 +59,8 @@ class ProfileController extends UserBaseController
     public function editPost()
     {
         $userId = cmf_get_current_user_id();
-        if ($this->request->isPost()) {
-            $validate = new Validate([
-                'user_nickname' => 'chsDash|max:32',
-                'sex'     => 'number|between:0,2',
-                'birthday'   => 'dateFormat:Y-m-d|after:-88 year|before:-1 day',
-                // 'user_url'   => 'url|max:64',
-                // 'signature'   => 'chsDash|max:128',
-            ]);
-            $validate->message([
-                'user_nickname.chsDash' => '昵称只能是汉字、字母、数字和下划线_及破折号-',
-                'user_nickname.max' => '昵称最大长度为32个字符',
-                'sex.number' => '请选择性别',
-                'sex.between' => '无效的性别选项',
-                'birthday.dateFormat' => '生日格式不正确',
-                'birthday.after' => '出生日期也太早了吧？',
-                'birthday.before' => '出生日期也太晚了吧？',
-                // 'user_url.url' => '个人网址错误',
-                // 'user_url.max' => '个人网址长度不得超过64个字符',
-                // 'signature.chsDash' => '个性签名只能是汉字、字母、数字和下划线_及破折号-',
-                // 'signature.max' => '个性签名长度不得超过128个字符',
-            ]);
 
+        if ($this->request->isPost()) {
             $data = $this->request->post();
 
             // 处理认证资料 手机号 邮箱 身份证
@@ -109,18 +84,41 @@ class ProfileController extends UserBaseController
                 }
             }
 
-            // 处理用户表信息
+            // 处理用户资料
             if (!empty($data['user'])) {
                 $data = $data['user'];
             }
+            // 验证
+            $validate = new Validate([
+                'user_nickname' => 'chsDash|max:32',
+                'sex'     => 'number|between:0,2',
+                'birthday'   => 'dateFormat:Y-m-d|after:-88 year|before:-1 day',
+                // 'user_url'   => 'url|max:64',
+                // 'signature'   => 'chsDash|max:128',
+            ]);
+            $validate->message([
+                'user_nickname.chsDash' => '昵称只能是汉字、字母、数字和下划线_及破折号-',
+                'user_nickname.max' => '昵称最大长度为32个字符',
+                'sex.number' => '请选择性别',
+                'sex.between' => '无效的性别选项',
+                'birthday.dateFormat' => '生日格式不正确',
+                'birthday.after' => '出生日期也太早了吧？',
+                'birthday.before' => '出生日期也太晚了吧？',
+                // 'user_url.url' => '个人网址错误',
+                // 'user_url.max' => '个人网址长度不得超过64个字符',
+                // 'signature.chsDash' => '个性签名只能是汉字、字母、数字和下划线_及破折号-',
+                // 'signature.max' => '个性签名长度不得超过128个字符',
+            ]);
             if (!$validate->check($data)) {
                 $this->error($validate->getError());
             }
+// dump($data);die;
             $editData = new UserModel();
-            if ($editData->editData($data)) {
-                $this->success("保存成功！", "user/profile/center");
-            } else {
+            $result = $editData->editData($data);
+            if (empty($result)) {
                 $this->error("没有新的修改信息！");
+            } else {
+                $this->success("保存成功！", "user/profile/center");
             }
         } else {
             $this->error("请求错误");

@@ -44,7 +44,6 @@ function cmf_get_current_user_id()
     if (empty($sessionUserId)) {
         return 0;
     }
-
     return $sessionUserId;
 }
 
@@ -54,8 +53,14 @@ function cmf_get_current_user_id()
  */
 function cmf_get_current_user()
 {
+    // $s = Db::name('user')->field('more')->where('id',3)->find();
+    // dump(json_decode($s['more'],true));
     $sessionUser = session('user');
+    // dump($sessionUser);
     if (!empty($sessionUser)) {
+        // if (!empty($sessionUser['more'])) {
+        //     $sessionUser['more'] = json_decode($sessionUser->more[0],true);
+        // }
         return $sessionUser;
     } else {
         return false;
@@ -68,6 +73,9 @@ function cmf_get_current_user()
  */
 function cmf_update_current_user($user)
 {
+    if (!empty($user['more'])) {
+        $user['more'] = json_encode($user['more']);
+    }
     session('user', $user);
 }
 
@@ -85,10 +93,8 @@ function cmf_get_user_avatar_url($avatar)
             if (strpos($avatar, 'avatar/') === false) {
                 $avatar = 'avatar/' . $avatar;
             }
-
             return cmf_get_image_url($avatar, 'avatar');
         }
-
     } else {
         return $avatar;
     }

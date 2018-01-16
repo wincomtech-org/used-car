@@ -4,7 +4,6 @@
 	<title>{$user.user_login} - 个人中心</title>
 	<meta name="keywords" content=""/>
 	<meta name="description" content="">
-
 	<include file="public@head"/>
 
     <style type="text/css">
@@ -15,17 +14,14 @@
     <script type="text/html" id="identity_card-item-tpl">
         <li id="saved-identity_card{id}">
             <input id="identity_card-{id}" type="hidden" name="identity_card[urls][]" value="{filepath}">
-
-            <img id="identity_card-{id}-preview" src="{url}" style="height:108px;width:180px;"
-                 onclick="imagePreviewDialog(this.src);">
-
+            <img id="identity_card-{id}-preview" src="{url}" style="height:108px;width:180px;" onclick="imagePreviewDialog(this.src);">
             <a href="javascript:uploadOneImage('图片上传','#identity_card-{id}');">替换</a>
             <a href="javascript:(function(){$('#saved-identity_card{id}').remove();})();">移除</a>
-            <input class="form-control" id="identity_card-{id}-name" type="text" name="identity_card[names][]" value="{name}"
-                   style="" title="图片名称">
+            <input class="form-control" id="identity_card-{id}-name" type="text" name="identity_card[names][]" value="{name}" style="" title="图片名称">
         </li>
     </script>
 </head>
+
 <body>
 <!-- 头部 -->
 <include file="public@header" />
@@ -59,235 +55,13 @@
 					<p class="info_tit">基本信息</p>
 					<!-- 查看 -->
 					<div class="info_detail">
-						<ul class="info_detail_list">
-							<li class="details_item">
-								<span class="details_tit">昵称</span>
-								<div class="idetails_con">
-									<input value="{$user.user_nickname|default='未填写'}" readonly>
-								</div>
-							</li>
-							<li class="details_item">
-								<span class="details_tit">手机号码</span>
-								<div class="idetails_con">
-									<input value="{$user.mobile|default='未填写'}" readonly>
-								</div>
-							</li>
-							<li class="details_item">
-								<span class="details_tit">邮箱</span>
-								<div class="idetails_con">
-									<input value="{$user.user_email|default='未填写'}" readonly>
-								</div>
-							</li>
-							<li class="details_item">
-								<span class="details_tit">QQ</span>
-								<div class="idetails_con">
-									<input value="{$user.more.qq|default=''}" readonly>
-								</div>
-							</li>
-							<li class="details_item">
-								<span class="details_tit">性别</span>
-								<div class="idetails_con">
-									<input <php>$sexs=array("0"=>"保密","1"=>"程序猿","2"=>"程序媛");echo 'value="'.$sexs[$user['sex']].'"';</php> readonly />
-								</div>
-							</li>
-							<li class="details_item">
-								<span class="details_tit">生日</span>
-								<div class="idetails_con">
-									<input value="{:date('Y-m-d',$user.birthday)}" readonly>
-								</div>
-							</li>
-							<li class="details_item">
-								<span class="details_tit">详细地址</span>
-								<div class="idetails_con">
-									<input value="{$user.more.address|default=''}" readonly>
-								</div>
-							</li>
-
-							<li class="details_item">
-								<span class="details_tit">身份证照片</span>
-								<div class="idetails_con">
-									<ul class="pic-list list-unstyled form-inline">
-									    <notempty name="verify.more.identity_card">
-								        <foreach name="verify.more.identity_card" item="vo">
-								            <li>
-								            <img src="{:cmf_get_image_preview_url($vo['url'])}" style="height:108px;width:180px;" onclick="parent.imagePreviewDialog(this.src);">
-								            </li>
-								        </foreach>
-									    </notempty>
-									</ul>
-								</div>
-							</li>
-							<li class="details_item">
-								<span class="details_tit">行车本照片</span>
-								<div class="idetails_con">
-									<ul class="pic-list list-unstyled form-inline">
-									    <notempty name="verify.more.driving_license">
-                                        <li>
-                                            <img src="{:cmf_get_image_preview_url($verify.more.driving_license)}" style="height:108px;width:180px;" onclick="parent.imagePreviewDialog(this.src);">
-                                        </li>
-									    </notempty>
-									</ul>
-								</div>
-							</li>
-							<li class="details_item">
-								<span class="details_tit">实名认证</span>
-								<div class="idetails_con">
-									<div class="stauts">
-										<empty name="verifyStatus">
-											<p class="no">未认证</p>
-										<else/>
-											<p class="yes">已认证</p>
-										</empty>
-									</div>
-								</div>
-							</li>
-							<li class="details_item">
-								<span class="details_tit"></span>
-								<div class="idetails_con">
-									<p class="edit btn-red">编辑</p>
-								</div>
-							</li>
-						</ul>
+						<include file="profile/center_viewInfo"/>
 					</div>
-
-
 
 					<!-- 编辑 -->
 					<div class="edit_info_detail" style="display:none;">
 						<form action="{:url('user/profile/editPost')}" method="post" enctype="multipart/form-data" class="js-ajax-form">
-							<ul class="info_detail_list">
-								<li class="details_item">
-									<span class="details_tit">昵称</span>
-									<div class="idetails_con">
-										<input type="text" name="user[user_nickname]" value="{$user.user_nickname|default=''}" placeholder="昵称">
-										<i class="tip">昵称唯一</i>
-									</div>
-								</li>
-								<li class="details_item">
-									<span class="details_tit">手机号码</span>
-									<div class="idetails_con">
-										<input type="text" name="user[mobile]" value="{$user.mobile|default=''}" placeholder="手机号" {$user.mobile?='readonly'}>
-									</div>
-								</li>
-								<li class="details_item">
-									<span class="details_tit">邮箱</span>
-									<div class="idetails_con">
-										<input type="text" name="user[user_email]" value="{$user.user_email|default=''}" placeholder="{$user.user_email?'重新认证？':''}">
-										<i class="tip">请核实后再填写</i>
-									</div>
-								</li>
-								<li class="details_item">
-									<span class="details_tit">QQ</span>
-									<div class="idetails_con">
-										<input type="text" name="user[more][qq]" value="{$user.more.qq|default=''}"  placeholder="QQ">
-									</div>
-								</li>
-                                <li class="details_item">
-                                    <span class="details_tit">性别</span>
-                   					<php>
-                     					$sexs=array("0"=>"保密","1"=>"程序猿","2"=>"程序媛");
-                     				</php>
-                                    <div class="idetails_con">
-                       					<select class="" id="input-sex" name="user[sex]">
-                       						<foreach name="sexs" item="vo">
-                       						<php>$sexselected=$key==$user['sex']?"selected":"";</php>
-                       							<option value="{$key}" {$sexselected}>{$vo}</option>
-                       						</foreach>
-                       					</select>
-                                    </div>
-                                </li>
-								<li class="details_item">
-									<span class="details_tit">生日</span>
-									<div class="idetails_con">
-										<input type="text" name="user[birthday]" value="{:date('Y-m-d',$user.birthday)}" placeholder="2013-01-04" class="" id="input-birthday">
-									</div>
-								</li>
-								<li class="details_item">
-									<span class="details_tit">详细地址</span>
-									<div class="idetails_con">
-										<input type="text" name="user[more][address]" value="{$user.more.address|default=''}">
-									</div>
-								</li>
-
-								<!-- 认证 -->
-								<li class="details_item {$verifyStatus?'authenticated':'unauthorized'}">
-									<span class="details_tit">身份证照片</span>
-									<div class="idetails_con">
-							            <ul id="identity_card" class="pic-list list-unstyled form-inline">
-							                <notempty name="verify.more.identity_card">
-							                    <foreach name="verify.more.identity_card" item="vo">
-							                        <li id="saved-identity_card{$key}">
-							                            <input id="identity_card-{$key}" type="hidden"
-							                                   name="identity_card[urls][]" value="{$vo.url}" />
-							                            <input id="identity_card-{$key}-name" type="text"
-							                                   name="identity_card[names][]" value="{$vo.name|default=''}"
-							                                   class="form-control" title="图片名称" />
-							                            <img id="identity_card-{$key}-preview"
-							                                 src="{:cmf_get_image_preview_url($vo['url'])}"
-							                                 style="height:120px;width: 200px;"
-							                                 onclick="parent.imagePreviewDialog(this.src);">
-							                            <a href="javascript:uploadOneImage('图片上传','#identity_card-{$key}');">替换</a>
-							                            <a href="javascript:(function(){$('#saved-identity_card{$key}').remove();})();">移除</a>
-							                        </li>
-							                    </foreach>
-							                </notempty>
-							            </ul>
-							            <a href="javascript:uploadMultiImage('图片上传','#identity_card','identity_card-item-tpl');"
-							               class="btn btn-default btn-sm demonstrate_pre">
-							               	<img src="__TMPL__/public/assets/images/add.png" style="cursor: pointer:"/>
-											<i class='photo_tip'>请上传身份证正反两面</i>
-							            </a>
-							            <div class="demonstrate sf">
-							            	<div class="demonstrate_img">
-							            		<img src="__TMPL__/public/assets/images/example/6.jpg" alt="">
-							            		<img src="__TMPL__/public/assets/images/example/7.jpg" alt="">
-							            	</div>
-							            	<i class="photo_tip">请按照上图样式上传图片</i>
-							            </div>
-									</div>
-								</li>
-
-								<!-- 认证 -->
-								<li class="details_item unauthorized" >
-							        <span class="details_tit">行车本照片</span>
-							        <div class="idetails_con">
-							            <input type="hidden" name="verify[more][driving_license]" id="driving_license" value="{$verify.more.driving_license|default=''}" />
-							            <a href="javascript:uploadOneImage('图片上传','#driving_license');" class="demonstrate_pre">
-							                <if condition="empty($verify.more.driving_license)">
-							                    <img src="__TMPL__/public/assets/images/add.png" id="driving_license-preview"  style="cursor: pointer;max-width:200px"/>
-							                <else/>
-							                    <img src="{:cmf_get_image_preview_url($verify.more.driving_license)}" id="driving_license-preview" width="135" style="cursor: pointer"/>
-							                </if>
-							                <i class="photo_tip">请上传行车本照片（尽可能的小）</i>
-							            </a>
-							            <div class="demonstrate">
-							            	<div class="demonstrate_img">
-							            		<img src="__TMPL__/public/assets/images/example/5.jpg" alt="">
-							            	</div>
-							            	<i class="photo_tip">请按照上图样式上传图片</i>
-							            </div>
-							        </div>
-							    </li>
-
-								<li class="details_item">
-									<span class="details_tit">实名认证</span>
-									<div class="idetails_con">
-										<div class="stauts">
-											<empty name="verifyStatus">
-												<p class="no">未认证</p>
-											<else/>
-												<p class="yes">已认证</p>
-											</empty>
-										</div>
-									</div>
-								</li>
-								<li class="details_item">
-									<span class="details_tit"></span>
-									<div class="idetails_con">
-										<button type="submit" class="conserve btn-red js-ajax-submit">保存</button>
-									</div>
-								</li>
-							</ul>
+							<include file="profile/center_editInfo"/>
 						</form>
 					</div>
 				</div>
@@ -304,37 +78,31 @@
 <script type="text/javascript" src="__TMPL__/public/assets/js/laydate/laydate.js"></script>
 <!-- 弹窗 -->
 <script src="__TMPL__/public/assets/js/jquery.qrcode.min.js"></script>
-<script>
-$('.edit').click(function(){
-	$('.info_detail').hide();
-	$('.edit_info_detail').show();
-})
-
-laydate.render({
-  elem: '#input-birthday' //指定元素
-});
-
-/*图片弹窗*/
-$('.c1').click(function(){
-	var Liimg = $(this).find('img')
-	var z="";
-	for(var i=0;i<Liimg.length;i++){
-
-		z+=Liimg[i].outerHTML;
-		// return z;
-	}
-	var onlyChoseAlert = simpleAlert({
-		"content":z,/**显示点击图片的*/
-		"buttons":{
-			"确定":function () {
-				onlyChoseAlert.close();
-			}
-		}
+<script type="text/javascript">
+	$('.edit').click(function(){
+		$('.info_detail').hide();
+		$('.edit_info_detail').show();
 	})
-})
 
+	laydate.render({
+	  elem: '#input-birthday' //指定元素
+	});
 
-
-
+	/*图片弹窗*/
+	$('.c1').click(function(){
+		var Liimg = $(this).find('img');
+		var z = '';
+		for(var i=0;i<Liimg.length;i++){
+			z += Liimg[i].outerHTML;
+		}
+		var onlyChoseAlert = simpleAlert({
+			"content":z,// 显示点击图片的
+			"buttons":{
+				"确定":function () {
+					onlyChoseAlert.close();
+				}
+			}
+		})
+	})
 </script>
 </html>
