@@ -253,6 +253,20 @@ class UsualModel extends Model
         return $post;
     }
 
+    // 分页数据量
+    public function limitCom($limit=5)
+    {
+        if (empty($limit)) {
+            $usualSettings = cmf_get_option('usual_settings');
+            if (empty($usualSettings['pagesize'])) {
+                $limit = config('pagerset.size');
+            } else {
+                $limit = $usualSettings['pagesize'];
+            }
+        }
+        return $limit;
+    }
+
     // 处理用户名 user_nickname|user_login|user_email|mobile
     public function getUsername($data=[])
     {

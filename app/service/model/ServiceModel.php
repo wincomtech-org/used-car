@@ -68,7 +68,7 @@ class ServiceModel extends UsualModel
         $order = empty($order) ? 'a.is_top DESC,a.id DESC' : $order;
 
         // 数据量
-        $limit = empty($limit) ? config('pagerset.size') : $limit;
+        $limit = $this->limitCom($limit);
 
         $series = $this->alias('a')->field($field)
             ->join($join)

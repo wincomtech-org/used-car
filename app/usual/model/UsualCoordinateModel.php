@@ -5,7 +5,7 @@ use app\usual\model\UsualModel;
 
 class UsualCoordinateModel extends UsualModel
 {
-    public function getLists($filter=[])
+    public function getLists($filter=[], $order='', $limit='',$extra=[])
     {
         $field = 'a.*,b.name company,c.name scname';
         $join = [
@@ -30,13 +30,16 @@ class UsualCoordinateModel extends UsualModel
             $where['a.remark'] = ['like', "%$keyword%"];
         }
 
+        // 数据量
+        $limit = $this->limitCom($limit);
+
         $series = $this->alias('a')
             ->field($field)
             ->join($join)
             ->where($where)
             ->order('a.sc_id')
             // ->fetchSql(true)->select();
-            ->paginate(config('pagerset.size'));
+            ->paginate($limit);
 
         return $series;
     }

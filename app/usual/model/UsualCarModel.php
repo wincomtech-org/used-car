@@ -64,7 +64,7 @@ class UsualCarModel extends UsualModel
         $order = empty($order) ? 'a.is_top DESC,a.is_rec DESC,a.update_time DESC' : $order;
 
         // 数据量
-        $limit = empty($limit) ? config('pagerset.size') : $limit;
+        $limit = $this->limitCom($limit);
 
         // 查数据
         $series = $this->alias('a')->field($field)

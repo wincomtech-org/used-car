@@ -14,7 +14,6 @@ use think\Db;
 
 class AdminBaseController extends BaseController
 {
-
     public function _initialize()
     {
         //只报告错误,忽略通知

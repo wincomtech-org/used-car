@@ -134,10 +134,16 @@ class FundsController extends UserBaseController
     // 提现
     public function withdraw()
     {
+        $usualSettings = cmf_get_option('usual_settings');
+        $this->assign('withdraw_switch',$usualSettings['withdraw_switch']);
         return $this->fetch();
     }
     public function withdrawPost()
     {
+        $usualSettings = cmf_get_option('usual_settings');
+        if ($usualSettings['withdraw_switch'] != 1) {
+            $this->error('管理员已关闭了提现功能');
+        }
         $data = $this->request->post();
         // dump($data);die;
 
@@ -160,8 +166,8 @@ class FundsController extends UserBaseController
             $this->error('您有提现待处理的数据',url('user/Funds/apply',['status'=>0,'type'=>'withdraw']));
         }
         $count = $applyModel->counts($this->user['id'],'time');
-        if ($count>=1) {
-            $this->error('每天仅限一次，请明天再来');
+        if ($count>=$usualSettings['withdraw_num']) {
+            $this->error('每天仅限'.$usualSettings['withdraw_num'].'次，请明天再来');
         }
 
         bcscale(2);

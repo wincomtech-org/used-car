@@ -55,7 +55,7 @@ class FundsApplyModel extends UsualModel
         $order = empty($order) ? 'a.id DESC' : $order;
 
         // 数据量
-        $limit = empty($limit) ? config('pagerset.size') : $limit;
+        $limit = $this->limitCom($limit);
 
         $series = $this->alias('a')
                 ->field($field)

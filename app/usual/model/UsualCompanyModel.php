@@ -33,10 +33,12 @@ class UsualCompanyModel extends UsualModel
             $where = array_merge($where,$extra);
         }
 
+        $limit = $this->limitCom($limit);
+
         $series = $this->alias('a')->field($field)
             ->where($where)
             ->order('update_time DESC')
-            ->paginate(config('pagerset.size'));
+            ->paginate($limit);
 
         return $series;
     }

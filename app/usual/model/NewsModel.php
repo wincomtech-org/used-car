@@ -54,7 +54,7 @@ class NewsModel extends Model
         $order = empty($order) ? 'id DESC' : $order;
 
         // 数据量
-        $limit = empty($limit) ? config('pagerset.size') : $limit;
+        $limit = model('usual/Usual')->limitCom($limit);
 
         // 查数据
         $series = $this->where($where)->order($order)->paginate($limit);

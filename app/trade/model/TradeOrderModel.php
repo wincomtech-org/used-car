@@ -68,13 +68,13 @@ class TradeOrderModel extends UsualModel
         // $order = empty($order) ? 'is_top DESC,is_rec DESC,update_time DESC' : $order;
 
         // 数据量
-        // $limit = empty($limit) ? config('pagerset.size') : $limit;
+        $limit = $this->limitCom($limit);
 
         $series = $this->alias('a')->field($field)
             ->join($join)
             ->where($where)
             ->order('a.id DESC')
-            ->paginate(config('pagerset.size'));
+            ->paginate($limit);
 
         return $series;
     }

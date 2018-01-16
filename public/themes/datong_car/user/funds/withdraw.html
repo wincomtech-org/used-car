@@ -29,6 +29,8 @@
                             <include file="funds/comm"/>
 
                             <div class="mode_payment">
+                                <!-- 提现开关 -->
+                                <eq name="withdraw_switch" value="11">
                                 <form action="{:url('user/Funds/withdrawPost')}" method="post" class="js-ajax-form" accept-charset="utf-8">
                                     <div class="mode_payment_con">
                                         <p class="fund_managemen_title">请选择提现方式</p>
@@ -79,6 +81,11 @@
                                     </div>
                                     <p class="cz_btn_p"><button type="submit" class="btn-red js-ajax-submit">确认提交</button></p>
                                 </form>
+                                <else/>
+                                    <div class="mode_payment_con">
+                                        <p>管理员已关闭了提现功能</p>
+                                    </div>
+                                </eq>
                             </div>
                         </div>
                     </div>

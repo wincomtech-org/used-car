@@ -8,8 +8,17 @@ class UsualBrandModel extends UsualCategoryModel
     public function getLists($filter=[], $order='', $limit='',$extra=[])
     {
         $where = ['delete_time' => 0];
+        $field = 'id,name,description,list_order';
+        // 数据量
+        $limit = model('usual/Usual')->limitCom($limit);
+
         // $categories = $this->field('id,name,description,list_order')->order("list_order ASC")->where($where)->select()->toArray();
-        $categories = $this->field('id,name,description,list_order')->order("list_order ASC,id DESC")->where($where)->paginate(config('pagerset.size'));
+
+        $categories = $this->field($field)
+            ->order("list_order ASC,id DESC")
+            ->where($where)
+            ->paginate($limit);
+
         return $categories;
     }
 

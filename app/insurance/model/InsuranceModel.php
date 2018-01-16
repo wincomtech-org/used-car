@@ -6,7 +6,7 @@ use app\usual\model\UsualModel;
 
 class InsuranceModel extends UsualModel
 {
-    public function getLists($filter)
+    public function getLists($filter=[], $order='', $limit='',$extra=[])
     {
         $field = 'a.*,b.name AS bname';
         $where = [
@@ -36,11 +36,13 @@ class InsuranceModel extends UsualModel
             $where['a.name'] = ['like', "%$keyword%"];
         }
 
+        $limit = $this->limitCom($limit);
+
         $series = $this->alias('a')->field($field)
             ->join('__USUAL_COMPANY__ b','a.company_id=b.id','LEFT')
             ->where($where)
             ->order('a.update_time DESC')
-            ->paginate(config('pagerset.size'));
+            ->paginate($limit);
 
         return $series;
     }

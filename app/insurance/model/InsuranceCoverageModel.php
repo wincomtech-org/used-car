@@ -44,11 +44,14 @@ class InsuranceCoverageModel extends InsuranceModel
             $where['a.name'] = ['like', "%$keyword%"];
         }
 
+        // 数据量
+        $limit = $this->limitCom($limit);
+
         $series = $this->alias('a')->field($field)
             ->join($join)
             ->where($where)
             ->order('update_time DESC')
-            ->paginate(config('pagerset.size'));
+            ->paginate($limit);
 
         return $series;
     }

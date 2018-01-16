@@ -66,11 +66,13 @@ class InsuranceOrderModel extends InsuranceModel
             $where['a.order_sn'] = ['like', "%$sn%"];
         }
 
+        $limit = $this->limitCom($limit);
+
         $series = $this->alias('a')->field($field)
             ->join($join)
             ->where($where)
             ->order('a.id DESC')
-            ->paginate(config('pagerset.size'));
+            ->paginate($limit);
 
         return $series;
     }

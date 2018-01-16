@@ -220,6 +220,7 @@ function lothar_put_news($data, $file = null)
 }
 /*
 * 取出未处理消息 提醒
+* 二手车配置 $usualSettings = cmf_get_option('usual_settings');
 * __STATIC__ 可换成 /static
 */
 function lothar_get_news($type='', $dialog=false)
@@ -232,29 +233,31 @@ function lothar_get_news($type='', $dialog=false)
 
     // 执行JS弹窗
     if ($dialog===true) {
-        // $new = json_encode($news);
-        $count = count($news);
-        if ($count>0) {
-            $msg = '您有 '.$count.' 条未处理消息！';
-            $jumpurl = url('usual/AdminNews/index',['status'=>0]);
-            $audio = '/static/audio/4182.mp3';
-            $audio = '';
-$html = <<<EOT
-    <style type="text/css">
-        /*提示信息消息*/
-        .alert_msg{position:absolute;width:320px;right:0;bottom:0;background-color:#FCEFCF;color:#6A5128;font-size:16px;font-weight:bold;padding:25px 15px;box-sizing:border-box;box-sizing:-webkit-border-box;box-sizing:-moz-border-box;box-sizing:-ms-border-box;box-sizing:-o-border-box;}
-        .alert_msg a{display:block;margin-top:4px;}
-        .alert_msg b{position:absolute;top:3px;right:17px;font-size:23px;cursor:pointer;}
-    </style>
-    <script type="text/javascript">
-        $("#news_clock").append("<div class='alert_msg'><b>x</b>{$msg}<br/><a href='{$jumpurl}'>点击查看</a></div><audio id='sound' autoplay='autoplay' src='{$audio}'>");
-        // 消息提示弹窗
-        $(document).delegate(".alert_msg b","click",function(){
-            $(this).parent().hide(600);
-        })
-    </script>
+        $usualSettings = cmf_get_option('usual_settings');
+        if ($usualSettings['news_switch']==1) {
+            $count = count($news);
+            if ($count>0) {
+                $msg = '您有 '.$count.' 条未处理消息！';
+                $jumpurl = url('usual/AdminNews/index',['status'=>0]);
+                $audio = '/static/audio/4182.mp3';
+                $audio = '';
+                $html = <<<EOT
+                    <style type="text/css">
+                        /*提示信息消息*/
+                        .alert_msg{position:absolute;width:320px;right:0;bottom:0;background-color:#FCEFCF;color:#6A5128;font-size:16px;font-weight:bold;padding:25px 15px;box-sizing:border-box;box-sizing:-webkit-border-box;box-sizing:-moz-border-box;box-sizing:-ms-border-box;box-sizing:-o-border-box;}
+                        .alert_msg a{display:block;margin-top:4px;}
+                        .alert_msg b{position:absolute;top:3px;right:17px;font-size:23px;cursor:pointer;}
+                    </style>
+                    <script type="text/javascript">
+                        $("#news_clock").append("<div class='alert_msg'><b>x</b>{$msg}<br/><a href='{$jumpurl}'>点击查看</a></div><audio id='sound' autoplay='autoplay' src='{$audio}'>");
+                        // 消息提示弹窗
+                        $(document).delegate(".alert_msg b","click",function(){
+                            $(this).parent().hide(600);
+                        })
+                    </script>
 EOT;
-            echo $html;
+                echo $html;
+            }
         }
     } else {
         return $news;

@@ -49,11 +49,14 @@ class UsualItemModel extends UsualModel
             $where['a.name'] = ['like', "%$keyword%"];
         }
 
+        // 数据量
+        $limit = $this->limitCom($limit);
+
         $series = $this->alias('a')->field($field)
             ->join($join)
             ->where($where)
             ->order('is_top DESC,id DESC')
-            ->paginate(config('pagerset.size'));
+            ->paginate($limit);
 
         return $series;
     }

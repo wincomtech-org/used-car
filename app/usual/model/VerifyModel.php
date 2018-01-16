@@ -48,11 +48,14 @@ class VerifyModel extends UsualModel
             $where['a.user_id'] = $uid;
         }
 
+        // 数据量
+        $limit = $this->limitCom($limit);
+
         $series = $this->alias('a')->field($field)
             ->join($join)
             ->where($where)
             ->order('a.is_top DESC,a.id DESC')
-            ->paginate(config('pagerset.size'));
+            ->paginate($limit);
 
         return $series;
     }

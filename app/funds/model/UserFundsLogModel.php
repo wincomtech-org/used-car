@@ -43,7 +43,7 @@ class UserFundsLogModel extends UsualModel
         $order = empty($order) ? 'id DESC' : $order;
 
         // 数据量
-        $limit = empty($limit) ? config('pagerset.size') : $limit;
+        $limit = $this->limitCom($limit);
 
         $series = $this->where($where)->order($order)->paginate($limit);
 

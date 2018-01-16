@@ -13,6 +13,7 @@ class ServiceCategoryModel extends UsualModel
     // 获取列表数据
     public function getLists($filter=[], $order='', $limit='',$extra=[])
     {
+        $field = 'id,name,code,type,platform,description,more,list_order';
         $where = [];
         if (!empty($filter['cateType'])) {
             $where['type'] = $filter['cateType'];
@@ -23,11 +24,16 @@ class ServiceCategoryModel extends UsualModel
         if (!empty($extra)) {
             $where = array_merge($where,$extra);
         }
+
+        $limit = $this->limitCom($limit);
+
         // $categories = $this->field('id,name,description,list_order')->order("list_order ASC")->where($where)->select()->toArray();
-        $categories = $this->field('id,name,code,type,platform,description,more,list_order')
-                    ->where($where)
-                    ->order("is_top DESC,list_order ASC")
-                    ->paginate(config('pagerset.size'));
+        // 对象型
+        $categories = $this->field($field)
+            ->where($where)
+            ->order("is_top DESC,list_order ASC")
+            ->paginate($limit);
+            
         return $categories;
     }
 

@@ -10,8 +10,11 @@ class VerifyModelModel extends UsualModel
     // 获取列表数据
     public function getLists($filter=[], $order='', $limit='',$extra=[])
     {
+        // 数据量
+        $limit = $this->limitCom($limit);
+
         // $categories = $this->field('id,name,list_order')->order("list_order ASC")->where($where)->select()->toArray();
-        $categories = $this->order("list_order ASC,id DESC")->paginate(config('pagerset.size'));
+        $categories = $this->order("list_order ASC,id DESC")->paginate($limit);
         return $categories;
     }
 
