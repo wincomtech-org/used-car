@@ -230,17 +230,17 @@ class UserModel extends Model
 
     public function editData($user)
     {
-        error_reporting(0);
+        error_reporting(0);//Linux不起作用
         $oldInfo = cmf_get_current_user();
         // return $oldInfo;
         // 锁定字段，避免非法操作
         $data = [
             'user_nickname' => $user['user_nickname'],
-            'sex'           => $user['sex'],
-            'birthday'      => strtotime($user['birthday']),
-            'user_url'      => $user['user_url'],
-            'signature'     => $user['signature'],
-            'more'          => json_encode($user['more']),//为统一session不使用模型层
+            'sex'           => empty($user['sex'])?'':$user['sex'],
+            'birthday'      => empty($user['birthday'])?'':strtotime($user['birthday']),
+            'user_url'      => empty($user['user_url'])?'':$user['user_url'],
+            'signature'     => empty($user['signature'])?'':$user['signature'],
+            'more'          => empty($user['more'])?:json_encode($user['more']),//为统一session不使用模型层
         ];
         if (empty($oldInfo['user_login'])) {
             $data['user_login'] = $user['user_login'];
