@@ -23,15 +23,15 @@ class AdminAttrController extends AdminBaseController
 
         $postService = new AttrService();
         $list = $postService->adminAttrList($param);
-        $list->appends($param);
 
         $cateModel = new ShopGoodsCategoryModel();
         $categoryTree = $cateModel->adminCategoryTree($categoryId);
 
         $this->assign('keyword', isset($param['keyword']) ? $param['keyword'] : '');
-        $this->assign('list', $list->items());
         $this->assign('category_tree', $categoryTree);
         $this->assign('category', $categoryId);
+        $this->assign('list', $list->items());
+        $list->appends($param);
         $this->assign('pager', $list->render());
 
         return $this->fetch();

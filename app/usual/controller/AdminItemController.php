@@ -18,7 +18,6 @@ class AdminItemController extends AdminBaseController
         $cateId = $this->request->param('cateId',0,'intval');
 
         $data = model('UsualItem')->getLists($param);
-        $data->appends($param);
         $cates = model('UsualItemCate')->getCategoryTree($cateId,0,0,true);
 
         $this->assign('start_time', isset($param['start_time']) ? $param['start_time'] : '');
@@ -27,6 +26,7 @@ class AdminItemController extends AdminBaseController
         $this->assign('cateId', $cateId);
         $this->assign('categorys', $cates);
         $this->assign('lists', $data->items());
+        $data->appends($param);
         $this->assign('pager', $data->render());
 
         return $this->fetch();

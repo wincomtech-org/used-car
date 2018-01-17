@@ -71,10 +71,9 @@ class AdminIndexController extends AdminBaseController
 
         $usersQuery = Db::name('user');
         $list = $usersQuery->whereOr($keywordComplex)->where($where)->order("create_time DESC")->paginate(10);
-        // 获取分页显示
-        $page = $list->render();
+        
         $this->assign('list', $list);
-        $this->assign('pager', $page);
+        $this->assign('pager', $list->render());// 获取分页显示
         // 渲染模板输出
         return $this->fetch();
     }

@@ -19,18 +19,15 @@ class AdminInsuranceController extends AdminBaseController
         $companyId = $this->request->param('companyId',0,'intval');
 
         $data = model('Insurance')->getLists($param);
-        // dump($data);die;
-        // dump($data->items());die;
-        $data->appends($param);
-
         $companys = model('usual/UsualCompany')->getCompanys($companyId);
 
         $this->assign('start_time', isset($param['start_time']) ? $param['start_time'] : '');
         $this->assign('end_time', isset($param['end_time']) ? $param['end_time'] : '');
         $this->assign('keyword', isset($param['keyword']) ? $param['keyword'] : '');
-        $this->assign('lists', $data->items());
         $this->assign('companys', $companys);
         $this->assign('companyId', $companyId);
+        $this->assign('lists', $data->items());
+        $data->appends($param);
         $this->assign('pager', $data->render());
 
         return $this->fetch();

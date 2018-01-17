@@ -52,10 +52,9 @@ class AdminUserActionController extends AdminBaseController
         }
 
         $actions = Db::name('user_action')->paginate(20);
-        // 获取分页显示
-        $page = $actions->render();
+        
         $this->assign('actions', $actions);
-        $this->assign('pager', $page);
+        $this->assign('pager', $actions->render());// 获取分页显示
         // 渲染模板输出
         return $this->fetch();
     }

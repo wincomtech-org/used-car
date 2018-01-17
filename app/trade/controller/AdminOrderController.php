@@ -24,7 +24,6 @@ class AdminOrderController extends AdminBaseController
         $param = $this->request->param();//接收筛选条件
 
         $data = model('TradeOrder')->getLists($param);
-        $data->appends($param);
 
         $this->assign('payId', isset($param['payId']) ? $param['payId'] : '');
         $this->assign('start_time', isset($param['start_time']) ? $param['start_time'] : '');
@@ -32,6 +31,7 @@ class AdminOrderController extends AdminBaseController
         $this->assign('uname', isset($param['uname']) ? $param['uname'] : '');
         $this->assign('sn', isset($param['sn']) ? $param['sn'] : '');
         $this->assign('lists', $data->items());
+        $data->appends($param);
         $this->assign('pager', $data->render());
 
         return $this->fetch();
