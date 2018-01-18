@@ -67,14 +67,14 @@ class BuyerController extends TradeController
         $user = cmf_get_current_user();
 
         // $order = model('trade/TradeOrder')->getPost($id);
-        $order = Db::name('trade_order')->field('bargain_money,product_amount')->where('id',$id)->find();
+        $order = Db::name('trade_order')->field('bargain_money,product_amount,status')->where('id',$id)->find();
 
         bcscale(2);
         $refunds = 0;
-        if (bccomp($order['bargain_money'],0) == 1) {
+        if ($order['status']==1 && (bccomp($order['bargain_money'],0)==1)) {
             $refunds = $order['bargain_money'];
         }
-        if (bccomp($order['product_amount'], 0) == 1) {
+        if ($order['status']==8 && (bccomp($order['product_amount'],0)==1) ) {
             $refunds = bcadd($refunds,$order['product_amount']);
         }
 
@@ -83,9 +83,11 @@ class BuyerController extends TradeController
         Db::startTrans();
         try{
             Db::name('trade_order')->where('id',$id)->setField('status',-1);
-            Db::name('user')->where('id',$user['id'])->setInc('coin',$refunds);
-            $user['coin'] = bcadd($user['coin'], $refunds);
-            lothar_put_funds_log($user['id'],-6,$refunds,$user['coin'],'user');
+            if ($refunds>0) {
+                Db::name('user')->where('id',$user['id'])->setInc('coin',$refunds);
+                $user['coin'] = bcadd($user['coin'], $refunds);
+                lothar_put_funds_log($user['id'],-6,$refunds,$user['coin'],'user');
+            }
             Db::commit();
         } catch(\Exception $e) {
             Db::rollback();
@@ -95,7 +97,18 @@ class BuyerController extends TradeController
         if ($transStatus === false) {
             $this->error('取消失败！');
         }
-        cmf_update_current_user($user);
+        if ($refunds>0) {
+            cmf_update_current_user($user);
+        }
         $this->success('取消成功');
+    }
+
+    public function again()
+    {
+        $id = $this->request->param('id/d');
+
+        Db::name('trade_order')->where('id',$id)->setField('status',0);
+
+        $this->success('再次预约成功');
     }
 }

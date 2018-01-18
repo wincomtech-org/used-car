@@ -19,7 +19,7 @@
             <ul class="brash">
                 <li>当前位置：</li>
                 <li><a href="{:url('Index/index')}">车商城</a></li>
-                <li><a href="{:url('trade/Index/platform',['plat'=>$page.platform])}">{$page.platform==1?'新车':'二手车'}</a></li>
+                <li><a href="{:url('trade/Index/platform',['plat'=>$plat])}">新车</a></li>
                 <li class="active"><a href="#">{$page.name}</a></li>
             </ul>
             <div class="car_message_tit_con">
@@ -63,55 +63,29 @@
                         </a>
                     </div>
                     <div class="detail2">
-                        <ul >
-                            <li class="offter">
-                                <b>{$page.car_mileage}万公里</b>
-                                <span>表显里程</span>
-                            </li>
-                            <li class="offter">
-                                <b>{$page.car_license_time?=date('Y-m-d',$page.car_license_time)}</b>
-                                <span>上牌时间</span>
-                            </li>
-                            <li class="offter">
-                                <b>{$page.car_color}</b>
-                                <span>颜色</span>
-                            </li>
-                        </ul>
                         <ul>
                             <li class="offter">
-                                <b>{$page.car_effluent}</b>
-                                <span>排放标准</span>
+                                <b>{$page.car_color} ??</b>
+                                <span>车身颜色</span>
                             </li>
                             <li class="offter">
-                                <b>{$page.car_displacement}L/{$page.car_gearbox}</b>
-                                <span>排量/变速箱</span>
+                                <b>{$page.car_effluent}/{$page.car_displacement}L</b>
+                                <span>排放标准/排量</span>
                             </li>
                             <li class="offter">
-                                <b>{$page.cityname}</b>
-                                <span>所在城市</span>
+                                <b>{$page.car_gearbox}/{$page.modelname|default='？'}</b>
+                                <span>变速箱/级别</span>
                             </li>
-
                         </ul>
+                        <ul></ul>
                     </div>
                     <div class="yuyue">
                         <div class="yuyue_guang">
-                            <eq name="page.platform" value="1">
-                                <empty name="page.inventory">
-                                    <span class="btn" style="color:grey;">暂无库存</span>
-                                <else/>
-                                    <a class="btn" href="{:url('seeCar',['id'=>$page.id])}">预约看车</a>
-                                </empty>
+                            <empty name="page.inventory">
+                                <span class="btn" style="color:grey;">暂无库存</span>
                             <else/>
-                                <empty name="findOrder">
-                                    <a class="btn" href="{:url('seeCar',['id'=>$page.id])}">预约看车</a>
-                                <else/>
-                                    <if condition="$userId eq $findOrder">
-                                        <a class="btn" href="{:url('user/Buyer/index',['carId'=>$page.id])}">查看订单 >></a>
-                                    <else/>
-                                        <span class="btn" style="color:#F00;">已被锁单</span>
-                                    </if>
-                                </empty>
-                            </eq>
+                                <a class="btn" href="{:url('seeCar',['id'=>$page.id])}">预约看车</a>
+                            </empty>
                         </div>
                         <div class="yuyue_guang">
                             <if condition="cmf_is_mobile()===true">
@@ -133,58 +107,48 @@
             <div class="empty-placeholder empty_hidden"></div>
             <ul class="car_message_nav">
                 <li class="car_message_nav_list active"><a href="#li1" class="nav_li1">车辆信息</a></li>
-                <li class="car_message_nav_list"><a href="#li2" class="nav_li2">检测报告</a></li>
-                <li class="car_message_nav_list"><a href="#li3" class="nav_li3">报告详情</a></li>
                 <li class="car_message_nav_list"><a href="#li4" class="nav_li4">车辆实拍</a></li>
                 <li class="car_message_nav_list"><a href="#li5" class="nav_li5">推荐相似</a></li>
             </ul>
             <div class="car_message_con_list">
+                <!-- 车辆信息 -->
                 <div class="car_message_con_item" id="li1">
                     <h4 class="car_message_con_tit">车辆信息</h4>
                     <ul class="car_mess_list">
                         <li class="car_mess_item">
                             <div class="img"><span></span></div>
-                            <div class="txt">车况信息</div>
-                            <ul class="con">
-                                <li><span>行驶时间</span><i>{$page.car_age}年</i></li>
-                                <li><span>座位数</span><i>{$page.car_seating}座</i></li>
-                            </ul>
-                        </li>
-                        <li class="car_mess_item">
-                            <div class="img"><span></span></div>
                             <div class="txt">品牌车系</div>
                             <ul class="con">
-                                <li><span>品牌</span><i>{$page.brandname}</i></li>
-                                <li><span>车系</span><i>{$page.seriename}</i></li>
+                                <li><span>品牌</span><i>{$page.brandname|default='暂缺'}</i></li>
+                                <li><span>车系</span><i>{$page.seriename|default='暂缺'}</i></li>
                             </ul>
                         </li>
                         <li class="car_mess_item">
                             <div class="img"><span></span></div>
-                            <div class="txt">符合本地环保标准</div>
+                            <div class="txt">车况信息</div>
                             <ul class="con">
-                                <li><span>所在地</span><i>{$page.cityname}</i></li>
-                                <li><span>环保标准</span><i>{$page.car_effluent}</i></li>
+                                <li><span>级别</span><i>{$page.modelname|default='暂缺'}</i></li>
+                                <li><span>座位数</span><i>{$page.car_seating|default='暂缺'}座</i></li>
+                            </ul>
+                        </li>
+                        <li class="car_mess_item">
+                            <div class="img"><span></span></div>
+                            <div class="txt">环保标准</div>
+                            <ul class="con">
+                                <li><span>发动机</span><i>{$page.more.car_engine|default='暂缺'}</i></li>
+                                <li><span>环保标准</span><i>{$page.car_effluent|default='暂缺'}</i></li>
                             </ul>
                         </li>
                         <li class="car_mess_item">
                             <div class="img"><span></span></div>
                             <div class="txt">无需年检，保险未到期</div>
                             <ul class="con">
-                                <li><span>年检到期日</span><i>{$car_check_time?date('Y年m月',$page.car_check_time):'未知'}</i></li>
-                                <li><span>保险到期日</span><i>{$page.car_insur_time?date('Y年m月',$page.car_insur_time):'未知'}</i></li>
+                                <li><span>年检到期日</span><i>{$car_check_time?date('Y年m月',$page.car_check_time):'暂缺'}</i></li>
+                                <li><span>保险到期日</span><i>{$page.car_insur_time?date('Y年m月',$page.car_insur_time):'暂缺'}</i></li>
                             </ul>
                         </li>
                     </ul>
                     <div class="base_mess">
-                        <dl class="base_mess_item">
-                            <dt><strong class="base">基本信息</strong></dt>
-                            <dd><span>厂商 </span>{$page.brandname}</dd>
-                            <dd><span>级别 </span>{$page.modelname}</dd>
-                            <dd><span>上牌时间 </span>{$page.car_license_time?=date('Y-m-d',$page.car_license_time)}</dd>
-                            <dd><span>发动机 </span>{$page.more.car_engine}</dd>
-                            <dd><span>上牌时间</span>{$page.car_license_time?=date('Y-m-d',$page.car_license_time)}</dd>
-                            <dd><span>保养情况</span>--</dd>
-                        </dl>
                         <foreach name="allItems" item="cate">
                         <dl class="base_mess_item">
                             <dt><strong class="base">{$cate.name}</strong></dt>
@@ -205,20 +169,6 @@
                             </foreach>
                         </dl>
                         </foreach>
-                    </div>
-                </div>
-
-                <!-- 车辆检测 -->
-                <div class="car_message_con_item" id="li2">
-                    <h4 class="car_message_con_tit">检测报告</h4>
-                    <div class="jiance">
-                        暂无图片……
-                    </div>
-                </div>
-                <div class="car_message_con_item" id="li3">
-                    <h4 class="car_message_con_tit">报告详情</h4>
-                    <div class="jiance">
-                        <div>暂无内容……</div>
                     </div>
                 </div>
 

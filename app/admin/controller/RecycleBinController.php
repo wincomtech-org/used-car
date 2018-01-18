@@ -31,7 +31,7 @@ class RecycleBinController extends AdminBaseController
      */
     function index()
     {
-        $list = Db::name('recycleBin')->order('create_time desc')->paginate(10);
+        $list = Db::name('recycleBin')->order('create_time desc')->paginate(18);
         // 获取分页显示
         $page = $list->render();
         $this->assign('page', $page);

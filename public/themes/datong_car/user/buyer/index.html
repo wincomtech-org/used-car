@@ -104,6 +104,10 @@
                                                     </span>
                                                 </in>
 
+                                                <in name="vo.status" value="-1,-2,-3">
+                                                    <span><a href="{:url('user/Buyer/again',['id'=>$vo.id])}" data-msg="确定再次预约吗？" class="detail2 js-ajax-dialog-btn">再次预约</a></span>
+                                                </in>
+
                                                 <eq name="vo.status" value="0">
                                                     <span><a href="{:url('trade/Post/seeCar',['id'=>$vo.car_id])}">支付订金</a></span>
                                                 </eq>

@@ -36,7 +36,7 @@ class IndexController extends HomeBaseController
     public function platform()
     {
         // 写在前面
-        $plat = $this->request->param('plat',0,'intval');
+        $plat = $this->request->param('plat',1,'intval');
         if ($plat==3) {
             return $this->fetch('platform3');
         }
@@ -123,7 +123,6 @@ class IndexController extends HomeBaseController
         }
 
 
-
         /*筛选机制*/
         // 初始化
         $separator = '_';// 分隔符 避免被转义
@@ -177,13 +176,17 @@ class IndexController extends HomeBaseController
         $string1 = empty($newString1) ? $string1 : $newString1;
 
         // 获取树形结构的属性筛选
-        $filter_var_0 = config('usual_car_filter_var0');
+        if ($plat == 1) {
+            $filter_var_0 = config('usual_car_filter_var01');
+        } else {
+            $filter_var_0 = config('usual_car_filter_var02');
+        }
         $filter_var_1 = config('usual_car_filter_var');
-        $moreTree = cache('moreTree');
+        $moreTree = cache('moreTree'.$plat);
         if (empty($moreTree)) {
             $filter_var = $filter_var_0 .','.$filter_var_1;
             $moreTree = model('usual/UsualItem')->getItemTable(['code'=>['IN',$filter_var]]);
-            cache('moreTree',$moreTree,3600);
+            cache('moreTree'.$plat,$moreTree,3600);
         }
         // dump($moreTree);die;
         // 处理 普通级。 将usual_item的name与usual_car中的对应值作比较
@@ -298,7 +301,9 @@ class IndexController extends HomeBaseController
         // $carlist->appends('jumpext',$jumpext);//添加分页URL参数
         $this->assign('pager', $carlist->render());// 获取分页代码并赋到模板
 
-        return $this->fetch();
+        return $this->fetch('platform'.$plat);
+        // return $this->fetch();
+        // return $this->fetch('platform2');
     }
 
 
