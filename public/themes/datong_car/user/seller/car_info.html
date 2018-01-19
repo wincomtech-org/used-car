@@ -65,7 +65,12 @@
 
                         <input type="hidden" name="post[id]" value="{$post.id|default=''}">
                         <input type="hidden" name="post[user_id]" value="{$post.user_id|default=''}">
+                        <!-- 5个状态 -->
+                        <input type="hidden" name="post[identi_status]" value="{$post.identi_status|default='0'}">
                         <input type="hidden" name="post[sell_status]" value="{$post.sell_status|default='0'}">
+                        <input type="hidden" name="post[status]" value="{$post.status|default='0'}">
+                        <input type="hidden" name="post[is_rec]" value="{$post.is_rec|default='0'}">
+                        <input type="hidden" name="post[is_top]" value="{$post.is_top|default='0'}">
                     </form>
                     <div class="custom_service">
                         <span class="icon"><img src="__TMPL__/public/assets/images/example/custorm.png" alt=""></span>

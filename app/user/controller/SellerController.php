@@ -254,7 +254,7 @@ class SellerController extends TradeController
     }
 
     // 检测项目
-    public function report()
+    public function report5()
     {
         $id = $this->request->param('id/d');
         if (empty($id)) {
