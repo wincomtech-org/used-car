@@ -288,6 +288,49 @@ dump($carModel->id);die;
         $this->assign('verifyinfo',$verifyinfo);
         return $this->fetch();
     }
+
+    // 这个是前端自己写的 
+    public function report()
+    {
+        $userId = cmf_get_current_user_id();
+        $verifyinfo = lothar_verify($userId,'openshop','all');
+        // 如果审核通过，不予再审核
+
+        $this->assign('verifyinfo',$verifyinfo);
+        return $this->fetch();
+    }
+
+
+    public function report2()
+    {
+        $userId = cmf_get_current_user_id();
+        $verifyinfo = lothar_verify($userId,'openshop','all');
+        // 如果审核通过，不予再审核
+
+        $this->assign('verifyinfo',$verifyinfo);
+        return $this->fetch();
+    }
+
+    public function report3()
+    {
+        $userId = cmf_get_current_user_id();
+        $verifyinfo = lothar_verify($userId,'openshop','all');
+        // 如果审核通过，不予再审核
+
+        $this->assign('verifyinfo',$verifyinfo);
+        return $this->fetch();
+    }
+
+    public function report4()
+    {
+        $userId = cmf_get_current_user_id();
+        $verifyinfo = lothar_verify($userId,'openshop','all');
+        // 如果审核通过，不予再审核
+
+        $this->assign('verifyinfo',$verifyinfo);
+        return $this->fetch();
+    }
+
     public function auditPost()
     {
         $userId = cmf_get_current_user_id();

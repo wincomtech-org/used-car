@@ -89,13 +89,13 @@
                 <ul class="Insurance_recommendation_lists">
                     <foreach name="insurances" item="vo">
                     <li class="Insurance_recommendation_item">
-                    <a href="{:cmf_url('insurance/Post/step1',['id'=>$vo.id])}">
-                        <div class="img"><img src="{:cmf_get_image_preview_url($vo.more.thumbnail)}" alt=""></div>
-                        <div class="txt">
-                            <p><a >{$vo.description}</a></p>
-                            <span><a >{$vo.desc2}</a></span>
-                        </div>
-                    </a>
+                        <a href="{:cmf_url('insurance/Post/step1',['id'=>$vo.id])}">
+                            <div class="img"><img src="{:cmf_get_image_preview_url($vo.more.thumbnail)}" alt=""></div>
+                            <div class="txt">
+                                <p><a >{$vo.description}</a></p>
+                                <span><a >{$vo.desc2}</a></span>
+                            </div>
+                        </a>
                     </li>
                     </foreach>
                 </ul>
