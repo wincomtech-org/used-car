@@ -5,7 +5,7 @@
 .slick-list:focus{outline:none;}
 .slick-loading .slick-list{background:white  center center no-repeat;}
 .slick-list.dragging{cursor:pointer;cursor:hand;}
-/* .slick-slider .slick-list,.slick-track,.slick-slide,.slick-slide img{-webkit-transform:translate3d(0,0,0);-moz-transform:translate3d(0,0,0);-ms-transform:translate3d(0,0,0);-o-transform:translate3d(0,0,0);transform:translate3d(0,0,0);} */
+.slick-slider .slick-list,.slick-track,.slick-slide,.slick-slide img{-webkit-transform:translate3d(0,0,0);-moz-transform:translate3d(0,0,0);-ms-transform:translate3d(0,0,0);-o-transform:translate3d(0,0,0);transform:translate3d(0,0,0);}
 .slick-track{position:relative;left:0;top:0;display:block;zoom:1;}
 .slick-track:before,.slick-track:after{content:"";display:table;}
 .slick-track:after{clear:both;}

@@ -49,21 +49,9 @@
         <div class="main">
             <ul class="brash">
                 <li>当前位置：</li>
-<<<<<<< HEAD:public/themes/datong_car/trade/post/details.html
-                <li>
-                    <a href="{:url('Index/index')}">车商城</a>
-                </li>
-                <li>
-                    <a href="{:url('trade/Index/platform',['plat'=>$page.platform])}">{$page.platform==1?'新车':'二手车'}</a>
-                </li>
-                <li class="active">
-                    <a href="#">{$page.name}</a>
-                </li>
-=======
                 <li><a href="{:url('Index/index')}">车商城</a></li>
                 <li><a href="{:url('trade/Index/platform',['plat'=>$plat])}">二手车</a></li>
                 <li class="active"><a href="#">{$page.name}</a></li>
->>>>>>> e66830d7f7b12566d966989044f23335e8d36950:public/themes/datong_car/trade/post/details2.html
             </ul>
             <div class="car_message_tit_con">
                 <div class="img lf">
@@ -149,27 +137,8 @@
                     </div>
                     <div class="yuyue">
                         <div class="yuyue_guang">
-<<<<<<< HEAD:public/themes/datong_car/trade/post/details.html
-                            <eq name="page.platform" value="1">
-                                <empty name="page.inventory">
-                                    <span class="btn" style="color:grey;">暂无库存</span>
-                                    <else/>
-                                    <a class="btn" href="{:url('seeCar',['id'=>$page.id])}"><span></span>预约看车</a>
-                                </empty>
-                                <else/>
-                                <empty name="findOrder">
-                                    <a class="btn" href="{:url('seeCar',['id'=>$page.id])}">预约看车</a>
-                                    <else/>
-                                    <if condition="$userId eq $findOrder">
-                                        <a class="btn" href="{:url('user/Buyer/index',['carId'=>$page.id])}">查看订单 >></a>
-                                        <else/>
-                                        <span class="btn" style="color:#F00;">已被锁单</span>
-                                    </if>
-                                </empty>
-                            </eq>
-=======
                             <empty name="findOrder">
-                                <a class="btn" href="{:url('seeCar',['id'=>$page.id])}">预约看车</a>
+                                <a class="btn" href="{:url('seeCar',['id'=>$page.id])}"><span></span>预约看车</a>
                             <else/>
                                 <if condition="$userId eq $findOrder">
                                     <a class="btn" href="{:url('user/Buyer/index',['carId'=>$page.id])}">查看订单 >></a>
@@ -177,7 +146,6 @@
                                     <span class="btn" style="color:#F00;">已被锁单</span>
                                 </if>
                             </empty>
->>>>>>> e66830d7f7b12566d966989044f23335e8d36950:public/themes/datong_car/trade/post/details2.html
                         </div>
                         <div class="yuyue_guang">
                             <if condition="cmf_is_mobile()===true">
