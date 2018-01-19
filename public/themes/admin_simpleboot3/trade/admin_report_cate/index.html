@@ -1,0 +1,43 @@
+<include file="public@header" />
+</head>
+<body>
+<div class="wrap">
+	<ul class="nav nav-tabs">
+		<li class="active"><a href="{:url('AdminReportCate/index')}">检测分类管理</a></li>
+		<li><a href="{:url('AdminReportCate/add')}">添加分类</a></li>
+	</ul>
+    <form class="well form-inline margin-top-20" method="post" action="{:url('AdminReportCate/index')}">
+        一级分类:
+        <select class="form-control" name="topId">
+            <option value="">全部</option>
+            {$firstTree|default=''}
+        </select> &nbsp;&nbsp;
+        关键字:
+        <input type="text" class="form-control" name="keyword" style="width:200px;"
+               value="{$keyword|default=''}" placeholder="请输入关键字...">
+        <input type="submit" class="btn btn-primary" value="搜索"/>
+        <a class="btn btn-danger" href="{:url('AdminReportCate/index')}">清空</a>
+    </form>
+	<form method="post" class="js-ajax-form" action="{:url('AdminReportCate/listOrder')}">
+		<div class="table-actions">
+			<button type="submit" class="btn btn-primary btn-sm js-ajax-submit">{:lang('SORT')}</button>
+		</div>
+		<table class="table table-hover table-bordered table-list">
+			<thead>
+				<include file="admin_report_cate/table-th" />
+			</thead>
+			<tbody>
+				{$category_tree}
+			</tbody>
+			<tfoot>
+				<include file="admin_report_cate/table-th" />
+			</tfoot>
+		</table>
+		<div class="table-actions">
+			<button type="submit" class="btn btn-primary btn-sm js-ajax-submit">{:lang('SORT')}</button>
+		</div>
+	</form>
+</div>
+<script src="__STATIC__/js/admin.js"></script>
+</body>
+</html>

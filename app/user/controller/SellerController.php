@@ -107,10 +107,22 @@ class SellerController extends TradeController
         return $this->fetch();
     }
 
+    public function carInfoBefore()
+    {
+        $userId = cmf_get_current_user_id();
+        // 卖车资质证明
+        $rs = model('trade/Trade')->check_sell($userId);
+        if (!empty($rs)) {
+            $this->error($rs[1], $rs[2],'',5);
+        } else {
+            $this->success('进入卖车资料填写页……',url('user/Seller/carInfo'));
+        }
+    }
     // 填写车子信息
     public function carInfo()
     {
         error_reporting(E_ALL^(E_WARNING|E_NOTICE));
+
         $id = $this->request->param('id/d',0,'intval');
         $srcol = $this->request->param('srcol/s','base','strval');
         $userId = cmf_get_current_user_id();
@@ -190,12 +202,6 @@ class SellerController extends TradeController
     {
         $userId = cmf_get_current_user_id();
 
-        // 卖车资质证明
-        $rs = model('trade/Trade')->check_sell($userId);
-        if (!empty($rs)) {
-            $this->error($rs[1], $rs[2],'',5);
-        }
-
         if ($this->request->isPost()) {
             $data = $this->request->post();
             $post = $data['post'];
@@ -247,6 +253,31 @@ class SellerController extends TradeController
         }
     }
 
+    // 检测项目
+    public function report()
+    {
+        $id = $this->request->param('id/d');
+        if (empty($id)) {
+            $this->error('非法操作！');
+        }
+        $carInfo = Db::name('usual_car')->field('id,name')->where('id',$id)->find();
+dump($carInfo);
+        $this_>assign('car',$carInfo);
+        return $this->fetch();
+    }
+    public function reportPost()
+    {
+        $data = $this->request->param();
+        $post = $data['post'];
+
+        // 图集处理
+
+        $carModel = new UsualCarModel();
+        $carModel->adminEditArticle($post);
+dump($carModel->id);die;
+        $this->success('提交成功',url('Seller/car',['id'=>$carModel->id]));
+    }
+
     // 店铺 个人审核资料填写
     public function audit()
     {
@@ -262,6 +293,7 @@ class SellerController extends TradeController
         $userId = cmf_get_current_user_id();
         $data = $this->request->param();
         $post = $data['verify'];
+        $post['auth_code'] = 'openshop';
 
         // 不做车牌号唯一性检测，会省去很多不必要的麻烦。 cmf_verify,cmf_usual_car
         // $this->more();
@@ -283,6 +315,7 @@ class SellerController extends TradeController
             if (empty($post['id'])) {
                 $result = model('usual/Verify')->adminAddArticle($post);
             } else {
+                $post['auth_status'] = 2;
                 $result = model('usual/Verify')->adminEditArticle($post);
             }
             // $vid = $result->id;

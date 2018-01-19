@@ -21,7 +21,7 @@ class TradeModel extends Model
         // 开店资料审核 config('verify_define_data');
         $verify = lothar_verify($uid,'openshop');
         if ($verify!=1) {
-            return [0,'您的个人审核资料未通过',url('user/Seller/audit')];
+            return [0,'您的个人审核资料未通过，请进行卖车资质认证',url('user/Seller/audit')];
         }
         // 是否第一次申请登记 如果是交保证金 deposit
         $result = Db::name('funds_apply')->where(['user_id'=>$uid,'type'=>'openshop'])->find();

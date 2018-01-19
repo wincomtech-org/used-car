@@ -196,7 +196,7 @@ class PostController extends HomeBaseController
         // 判断是否为手机端、微信端
         $map = [
             'action'    => $action,
-            'order_sn'  => $post['order_sn'],
+            'order_sn'  => empty($findOrder['order_sn'])?$post['order_sn']:$findOrder['order_sn'],
             'coin'      => $coin,
             'id'        => $orderId,
         ];

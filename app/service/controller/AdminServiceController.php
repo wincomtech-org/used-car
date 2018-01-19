@@ -28,7 +28,7 @@ class AdminServiceController extends AdminBaseController
         // $companyId = $this->request->param('companyId', 0, 'intval');
 
         $data = model('Service')->getLists($param);
-        $categoryTree = model('usual/UsualCategory')->adminCategoryTree($modelId,0,'service_category');
+        $categoryTree = model('ServiceCategory')->adminCategoryTree($modelId);
 
         // 模板赋值
         $this->assign('start_time', isset($param['start_time']) ? $param['start_time'] : '');
@@ -105,7 +105,6 @@ class AdminServiceController extends AdminBaseController
         $scModel = new ServiceCategoryModel();
         $compModel = new UsualCompanyModel();
 
-        // $categoryTree = model('usual/UsualCategory')->adminCategoryTree($post['model_id'],0,'service_category');
         $categoryTree = $scModel->getOptions($post['model_id']);
         $companyTree = $compModel->getCompanys($post['company_id']);
         // 用户提交资料

@@ -18,7 +18,13 @@
         <span style="font-size:12px;color:#F00">（未通过）</span>
     </eq>
     <neq name="u_s_nav" value="audit">
-        <a href="{:url('user/Seller/audit')}" style="color:#F00">>>去审核</a>
+        <a href="{:url('user/Seller/audit')}" style="color:#F00">
+            <empty name="verifyinfo.auth_status">
+                >>去审核
+            <else/>
+                >>去查看
+            </empty>
+        </a>
         <ul class="page_turning">
             <li><a class="pre">上一页</a></li>
             <notempty name="post.identi_status">
@@ -114,7 +120,13 @@
         <div class="idetails_con">
             <empty name="post.identi_status">
                 <input type="hidden" name="verify[id]" value="{$verifyinfo.id|default=''}">
-                <button type="submit" class="btn-red js-ajax-submit">{:lang('SAVE')}</button>
+                <button type="submit" class="btn-red js-ajax-submit">
+                    <empty name="verifyinfo.auth_status">
+                        {:lang('SAVE')}
+                    <else/>
+                        {:lang('SAVE')}<!-- 重新认证 -->
+                    </empty>
+                </button>
                 <!-- <a class="btn-red" href="javascript:history.back(-1);">{:lang('BACK')}</a> -->
             <else/>
                 <a class="btn-red pre">上一页</a>

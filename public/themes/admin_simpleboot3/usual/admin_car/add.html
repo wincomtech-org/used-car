@@ -51,7 +51,7 @@
         <div class="col-md-6">
             <div class="tab-content">
                 <!-- 基本属性S -->
-                <div class="tab-pane active" id="BASE_">
+                <div class="tab-pane" id="BASE_">
                     <table class="table table-bordered">
                     <tr>
                         <th width="100">标题<span class="form-required">*</span></th>
@@ -228,6 +228,13 @@
                     </table>
                 </div>
                 <!-- 优化属性E -->
+
+                <!-- 检测项目报告S -->
+                <div class="tab-pane active" id="REPORT_">
+                    <include file="admin_car/reportItems" />
+                </div>
+                <!-- 检测项目报告E -->
+
                 <!-- 审核资料S -->
                 <!-- 开店资料审核 config('verify_define_data'); -->
                 <div class="tab-pane" id="AUDIT_">
@@ -276,6 +283,7 @@
                     </table>
                 </div>
                 <!-- 审核资料E -->
+
                 <!-- 店铺相关S -->
                 <div class="tab-pane" id="SHOP_">
                     <table class="table table-bordered">

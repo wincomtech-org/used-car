@@ -68,8 +68,8 @@ class AdminSeriesController extends AdminBaseController
         $parentId           = $this->request->param('parent', 0, 'intval');
         $categoriesTree     = $this->UsualModel->adminCategoryTree($parentId);
         $brand_id = $this->UsualModel->where('id',$parentId)->value('brand_id');
-        $BrandId            = !empty($brand_id) ? $brand_id : $this->request->param('brand', 0, 'intval');
-        $BrandTree          = $this->UsualModel->adminCategoryTree($BrandId,0,'usual_brand');
+        $brandId            = !empty($brand_id) ? $brand_id : $this->request->param('brand', 0, 'intval');
+        $BrandTree          = model('UsualBrand')->adminCategoryTree($brandId);
 
         $this->assign('categories_tree', $categoriesTree);
         $this->assign('BrandTree', $BrandTree);
@@ -126,8 +126,8 @@ class AdminSeriesController extends AdminBaseController
         if ($id > 0) {
             $category = UsualSeriesModel::get($id)->toArray();
 
-            $categoriesTree      = $this->UsualModel->adminCategoryTree($category['parent_id'], $id);
-            $BrandTree           = $this->UsualModel->adminCategoryTree($category['brand_id'],0,'usual_brand');
+            $categoriesTree = $this->UsualModel->adminCategoryTree($category['parent_id'], $id);
+            $BrandTree = model('UsualBrand')->adminCategoryTree($category['brand_id']);
 
             $this->assign($category);
             $this->assign('categories_tree', $categoriesTree);

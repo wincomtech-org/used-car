@@ -1,0 +1,117 @@
+<include file="public@header"/>
+</head>
+<body>
+<div class="wrap js-check-wrap">
+    <ul class="nav nav-tabs">
+        <li><a href="{:url('AdminReport/index')}">属性值管理</a></li>
+        <li><a href="{:url('AdminReport/add',array('cid'=>$cateId))}">添加属性值</a></li>
+        <li class="active"><a href="#">编辑属性值</a></li>
+        <li><a style="margin-left:150px" href="{:url('AdminReportCate/index')}">属性分类管理</a></li>
+    </ul>
+    <form action="{:url('AdminReport/editPost')}" method="post" class="form-horizontal js-ajax-form margin-top-20">
+        <div class="row">
+            <div class="col-md-9">
+                <table class="table table-bordered">
+                    <tr>
+                        <th>分类</th>
+                        <td>
+                            <select class="form-control" name="post[cate_id]" style="width:140px;">
+                                {$categorys|default=''}
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>ID<span class="form-required">*</span></th>
+                        <td>
+                            <span class="form-control">{$post.id}</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th width="100">属性值<span class="form-required">*</span></th>
+                        <td>
+                            <input class="form-control" type="text" name="post[name]" required value="{$post.name}" placeholder="请输入名称"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>描述</th>
+                        <td>
+                            <textarea class="form-control" name="post[description]" placeholder="请填写描述">{$post.description}</textarea>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th>替换规则</th>
+                        <td>
+                            <!-- <input class="form-control" type="text" name="post[rule]" value="{//$post.rule}" /> -->
+                            <include file="admin_item/help-block" />
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-md-3">
+                <table class="table table-bordered">
+                    <tr>
+                        <th>小图标</th>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div style="text-align:center;">
+                                <input type="hidden" name="post[more][thumbnail]" id="thumbnail" value="{$post.more.thumbnail|default=''}">
+                                <a href="javascript:uploadOneImage('图片上传','#thumbnail');">
+                                    <if condition="empty($post.more.thumbnail)">
+                                        <img src="__TMPL__/public/assets/images/default-thumbnail.png" id="thumbnail-preview" width="64" style="cursor:pointer"/>
+                                    <else/>
+                                        <img src="{:cmf_get_image_preview_url($post.more.thumbnail)}" id="thumbnail-preview" width="64" style="cursor:pointer"/>
+                                    </if>
+                                </a>
+                                <input type="button" class="btn btn-sm btn-cancel-thumbnail" value="取消图片">
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>更新时间</th>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span class="form-control">{:date('Y-m-d H:i',$post['update_time'])}</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>状态</th>
+                        <php>
+                            $status_yes=$post['status']==1?"checked":"";
+                            $is_top_yes=$post['is_top']==1?"checked":"";
+                        </php>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="checkbox">
+                                <label><input type="checkbox" name="post[status]" value="1" {$status_yes}>启用</label>&nbsp;&nbsp;&nbsp;&nbsp;
+                                <label><input type="checkbox" name="post[is_top]" value="1" {$is_top_yes}>置顶</label>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <input type="hidden" name="post[id]" value="{$post.id}">
+                <button type="submit" class="btn btn-primary js-ajax-submit">{:lang('SAVE')}</button> &nbsp; &nbsp;
+                <a class="btn btn-default" href="javascript:history.back(-1);">{:lang('BACK')}</a>
+            </div>
+        </div>
+    </form>
+</div>
+<script type="text/javascript" src="__STATIC__/js/admin.js"></script>
+
+<script type="text/javascript">
+    $(function(){
+        $('.btn-cancel-thumbnail').click(function () {
+            $('#thumbnail-preview').attr('src', '__TMPL__/public/assets/images/default-thumbnail.png');
+            $('#thumbnail').val('');
+        });
+    });
+</script>
+</body>
+</html>

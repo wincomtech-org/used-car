@@ -13,7 +13,7 @@ class ItemValidate extends Validate
     ];
     protected $message = [
         'id.require'  => 'ID非法',
-        'cate_id.gt' => '属性分类必选',
+        'cate_id.gt' => '分类必选',
         'name.require' => '属性值不能为空',
         'name.checkName' => '属性值已存在',
         'name.checkNameEdit' => '属性值不存在',

@@ -41,7 +41,7 @@
 <div class="wrap js-check-wrap">
     <ul class="nav nav-tabs">
         <li><a href="{:url('AdminCar/index')}">二手车管理</a></li>
-        <!-- <li><a href="{:url('AdminCar/add')}">添加二手车</a></li> -->
+        <li><a href="{:url('AdminCar/add')}">添加二手车</a></li>
         <li class="active"><a href="#">编辑二手车</a></li>
     </ul>
     <div class="row margin-top-20">
@@ -251,6 +251,12 @@
                     </table>
                 </div>
                 <!-- 优化属性E -->
+                <!-- 检测项目报告S -->
+                <div class="tab-pane" id="REPORT_">
+                    <include file="admin_car/reportItems" />
+                </div>
+                <!-- 检测项目报告E -->
+
                 <!-- 审核资料S -->
                 <!-- 开店资料审核 config('verify_define_data'); -->
                 <div class="tab-pane" id="AUDIT_">
@@ -323,6 +329,7 @@
                     </table>
                 </div>
                 <!-- 审核资料E -->
+                
                 <!-- 店铺相关S -->
                 <div class="tab-pane" id="SHOP_">
                     <table class="table table-bordered">

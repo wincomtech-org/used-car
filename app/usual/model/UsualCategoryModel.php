@@ -36,17 +36,16 @@ class UsualCategoryModel extends Model
      * @param int $currentCid 需要隐藏的分类 id
      * @return string
      */
-    public function adminCategoryTree($selectId = 0, $currentCid = 0, $table = '')
+    public function adminCategoryTree($selectId=0, $currentCid=0, $topId=null)
     {
         $where = ['delete_time' => 0];
         if (!empty($currentCid)) {
             $where['id'] = ['neq', $currentCid];
         }
-        if (empty($table)) {
-            $categories = $this->order("list_order ASC")->where($where)->select()->toArray();
-        } else {
-            $categories = Db::name($table)->order("list_order ASC")->where($where)->select()->toArray();
+        if (!is_null($topId)) {
+            $where['parent_id'] = $topId;
         }
+        $categories = $this->order("list_order ASC")->where($where)->select()->toArray();
 
         $tree       = new Tree();
         $tree->icon = ['&nbsp;&nbsp;│', '&nbsp;&nbsp;├─', '&nbsp;&nbsp;└─'];
@@ -70,7 +69,7 @@ class UsualCategoryModel extends Model
      * @param string $tpl
      * @return string
      */
-    public function adminCategoryTableTree($currentIds=0, $tpl='', $config=null,$extra=null)
+    public function adminCategoryTableTree($currentIds=0, $tpl='', $config=null,$extra=null, $filter=[])
     {
         if (!isset($config)) {
             $request = Request::instance();
@@ -83,12 +82,16 @@ class UsualCategoryModel extends Model
                 'table2'    => ''
             ];
         }
+        $where = [];
 
         // if (!empty($currentCid)) {
         //     $where['id'] = ['neq', $currentCid];
         // }
+        if (!empty($filter)) {
+            $where = array_merge($where,$filter);
+        }
         if (isset($config['table2']) && $config['table2']=='usual_brand') {
-            $where = ['a.delete_time' => 0];
+            $where['a.delete_time'] = 0;
             $categories = $this->alias('a')
                 ->field('a.id,a.parent_id,a.brand_id,a.name,a.description,a.is_rec,a.list_order,b.name bname')
                 ->order("a.list_order,a.brand_id")
@@ -98,7 +101,7 @@ class UsualCategoryModel extends Model
                 ->toArray();
                 // dump($categories);die;
         } else {
-            $where = ['delete_time' => 0];
+            $where['delete_time'] = 0;
             $categories = $this->order("list_order ASC")->where($where)->select()->toArray();
         }
 

@@ -2,6 +2,7 @@
 namespace app\usual\validate;
 
 use think\Validate;
+use think\Db;
 
 class ItemCateValidate extends Validate
 {
@@ -30,10 +31,10 @@ class ItemCateValidate extends Validate
     // 自定义验证规则
     protected function checkParentId($value)
     {
-        $find = model('UsualItemCate')->where(['id' => $value])->value('parent_id');
+        $find = Db::name('UsualItemCate')->where(['id' => $value])->value('parent_id');
         if ($find) {
             return false;
-            // $find2 = Db::name('UsualBrand')->where(["id" => $find])->value('parent_id');
+            // $find2 = Db::name('UsualItemCate')->where(["id" => $find])->value('parent_id');
             // if ($find2) {
             //     return false;
             // }
@@ -43,13 +44,13 @@ class ItemCateValidate extends Validate
 
     protected function checkName($value,$rule,$data)
     {
-        $find = model('UsualItemCate')->where(['parent_id'=>$data['parent_id'],'name'=>$value])->count();
+        $find = Db::name('UsualItemCate')->where(['parent_id'=>$data['parent_id'],'name'=>$value])->count();
         if ($find>0) return false; return true;
     }
 
     protected function checkCode($value)
     {
-        $find = model('UsualItemCate')->where(['code'=>$value])->count();
+        $find = Db::name('UsualItemCate')->where(['code'=>$value])->count();
         if ($find>0) return false;return true;
     }
 

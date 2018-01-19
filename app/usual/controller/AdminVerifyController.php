@@ -218,7 +218,7 @@ class AdminVerifyController extends AdminBaseController
         $ids = $this->request->param('ids/a');
         $s = $this->request->param('s/d');
         if (!empty($ids) && isset($s)) {
-            model('Verify')->where(['id'=>['in',$ids]])->update(['status'=>$s]);
+            model('Verify')->where(['id'=>['in',$ids]])->setField('auth_status',$s);
             $this->success('状态修改成功');
         }
     }
