@@ -12,18 +12,7 @@
         .banner_lunbo  .slick-dots{bottom:25px;}
     </style>
     <link rel="stylesheet" href="__TMPL__/public/assets/css/slick.css">
-    <script src="__TMPL__/public/assets/js/slick.min.js"></script>
-    <script>
-     $(function(){
-        $('.slick').slick({
-            dots: true,
-            slidesToShow: 1,
-            slidesToScroll: 1,
-            autoplay: true,
-            autoplaySpeed: 4000
-        });
-      });
-    </script>
+    
     <hook name="before_head_end"/>
 </head>
 <body>
@@ -329,18 +318,22 @@
 </body>
 
 <include file="public@morejs"/>
-
+<!-- 滑动轮播图 -->
+<script src="__TMPL__/public/assets/js/slick.min.js"></script>
+<!--end-->
 <script>
-    // 手机端首页图片滑动事件
-    $(function(){
+ 
+//    滑动轮播图
+     $(function(){
         $('.slick').slick({
             dots: true,
             slidesToShow: 1,
             slidesToScroll: 1,
             autoplay: true,
-            autoplaySpeed: 2000
+            autoplaySpeed: 4000
         });
-    });
+      });
+
 
     $(document).ready(function(){
         $('.flicker-example').flicker();

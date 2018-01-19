@@ -30,11 +30,6 @@ $('.list-block .item-content').on('touchend',function(e){
 })
 
 
-
-// $('.accordion-item>a.item-link').on('click',function(e){
-
-// 	e.stopPropagation()
-// })
 $('.accordion-item>a.item-link').on('touchend',function(e){
 
 	if($(this).parent().hasClass('accordion-item-expanded')){
@@ -316,29 +311,8 @@ $('.analogy').delegate('.analogy_tit', 'click', function(e) {
 
 // 个人中心在线充值
 // 支付方式切换
-$(function(){
 
-});
 
-// 	$('.custom_amount input').change(function() {
-// 		var changeVal = $(this).val();
-// 		$(this).parent().parent().siblings('.payment_amount ').find('input').val(toDecimal2(changeVal))
-// 	})
-// }
-
-// function powAmount(amount, _pow_) {
-// 	var amount_bak = amount;
-// 	var base = 10;
-// 	if (isNaN(amount)) {
-// 		return "0.00";
-// 	} else if (amount < 0) {
-// 		return "0.00"
-// 	}
-// 	amount = Math.round((amount - Math.floor(amount)) * Math.pow(base, _pow_));
-// 	amount = amount < 10 ? '.0' + amount : '.' + amount
-// 	amount = Math.floor(amount_bak) + amount;
-// 	return amount;
-// }
   function toDecimal2(money) {
         var f = parseFloat(money);
         if (isNaN(f)) {
@@ -366,15 +340,7 @@ function isPhoneNo(phone) {
 	return pattern.test(phone);
 }
 
-// $('input[name="tel"]').blur(function(){
-// 	if(isPhoneNo($.trim($(this).val())) == false ){
-// 			$(this).parent().css('height','auto')
-// 			$(this).parent().siblings('i').show()
-// 		}else{
-// 			$(this).parent().css('height','35px')
-// 			$(this).parent().siblings('i').hide()
-// 		}
-// })
+
 
 $('.yuyue_guang').hover(function() {
 	$(this).children('.yuyueguang').show();
@@ -395,26 +361,8 @@ $(document).delegate('.cycle_icon li', 'click', function() {
 	$(this).parent().parent().siblings().find('ul').animate({
 		'margin-left': -t * 100 + "%"
 	}, 600);
-	// $('.simila_recommendation_list ').animate({'margin-left':-t*100+"%"},600);
+	
 })
-
-// carousel_pic();
-// // setInterval('carousel_pic()',3000);
-// function  carousel_pic(){
-// 	$('.cycle_icon li').each(function(){
-// 		var p=$(this).parent().children().length-1;
-// 		var t=$(this).index();
-// 		console.log(t,p)
-// 		$(this).addClass('active').siblings().removeClass('active').animate(1500);
-// 		if(t>=p ){
-// 			$(this).parent().parent().siblings().find('ul').animate({'margin-left':-t*100+"%"},1500);
-// 			return t=0;
-// 		}else{
-// 			$(this).parent().parent().siblings().find('ul').animate({'margin-left':-t*100+"%"},1500);
-// 		}
-// 	})
-// }
-
 
 
 
@@ -478,30 +426,21 @@ function car_mess_btn_submit() {
 		return false;
 	}
 }
-// $('.yuyue_guang_mess_list input').blur(function(){
-// 	if($.trim($('input[name="tel"]').val()) == "" || $.trim($('input[name="tel"]').val()) == "请输入电话号码" || isPhoneNo($.trim($('input[name="tel"]').val())) == false){
-// 		$(this).siblings('i').css('display','inline-block');
-// 	}else{
-// 		$(this).siblings('i').css('display','none');
-// 	}
-// })
+
 
 /*车辆买卖信息*/
 /*表单验证*/
 function check() {
 	if ($('input[name="brand"]').val() == "请选择品牌") {
-		// $('input[name="brand"]').parent().parent().parent().css('height','auto')
-		// $('input[name="brand"]').parent().parent().siblings('i').show();
+		
 		alert('请选择品牌')
 		return false;
 	} else if ($('input[name="motorcycle"]').val() == "请选择车系") {
-		// $('input[name="motorcycle"]').parent().parent().parent().css('height','auto')
-		// $('input[name="motorcycle"]').parent().parent().siblings('i').show();
+		
 		alert('请选择车系')
 		return false;
 	} else if ($('input[name="tel"]').val() == "") {
-		// $('input[name="tel"]').parent().parent().parent().css('height','auto')
-		// $('input[name="tel"]').parent().parent().siblings('i').show();
+		
 		alert('请填写手机号')
 		return false;
 	}

@@ -15,13 +15,42 @@ function setMapIni(default_point){
     map.enableScrollWheelZoom();
     var searchInfoWindow = null;
     var opts={};
+    
 
     return map;
 }
 
-// 创建坐标
-function createCoords(z){
+   // 地理位置定位
+function geographic(data){
+    var fy_opt = [];
+    var geolocation = new BMap.Geolocation();
+    geolocation.getCurrentPosition(function (r) {
+        // 如果成功的话
+        if (this.getStatus() == BMAP_STATUS_SUCCESS) {
+            // 中心点
+            var mk = new BMap.Marker(r.point);
+            // map.addOverlay(mk);
+            // map.panTo(r.point);
+            // 地理位置经纬度
+            fy_opt.push(r.point.lng);
+            fy_opt.push(r.point.lat);
+           
 
+            createCoords(data,fy_opt);
+            map_click(r.point.lng, r.point.lat);
+
+        }
+        else {
+            alert('failed' + this.getStatus());
+            createCoords(z);
+        }
+    }, { enableHighAccuracy: true })
+}
+
+
+// 创建坐标
+function createCoords(z,fy_opt){
+  
     for (var i = 0; i < z.length; i ++) {
         var point = new BMap.Point(z[i].ucs_x, z[i].ucs_y);
         /*定义小图标*/
@@ -41,13 +70,14 @@ function createCoords(z){
         '<form id="gotobaiduform" action="http://api.map.baidu.com/direction" target="_blank" method="get">'+
             '<span class="input">'+
                 '<strong>起点：</strong>'+
-                '<input class="outset" type="text" name="origin" id="origin"  placeholder="请输入你所在的位置" />'+
+                '<input class="outset origin_input" type="text" name="origin" id="origin"  placeholder="请输入你所在的位置" />'+
+                // '<input class="outset origin_input_hide" type="hidden" name="origin" id="origin"  value="" />'+
                 '<div id="searchResultPanel" style="border:1px solid #C0C0C0;width:150px;height:auto; display:none;"></div>'+
                 '<input class="outset-but" type="button" value="公交" onclick="gotobaidu(1)" />'+
                 '<input class="outset-but" type="button" value="驾车" onclick="gotobaidu(2)" />'+
                 '<a class="gotob"'+ 'href="url='+'http://api.map.baidu.com/direction?destination=latlng:'+marker.getPosition().lat+',' +  marker.getPosition().lng+ '|name:'+  z[i].name + '®ion='+z[i].name+'&output=html"'+ 'target="_blank"></a>'+
             '</span>'+
-            '<input type="hidden" value="'+ '合肥' +'" name="region" />'+
+            '<input type="hidden" class="region"  value="'+ '合肥' +'" name="region" />'+
             '<input type="hidden" value="html" name="output" />'+
             '<input type="hidden" value="driving" name="mode" />'+
             '<input type="hidden" value="latlng:' +  marker.getPosition().lat + "," + marker.getPosition().lng + '|name:' + z[i].name + '"' +' name="destination" />'+
@@ -65,9 +95,10 @@ function createCoords(z){
         };
 
         map.addOverlay(marker); //在地图中添加marker
-        addClickHandler(content,opts,marker);
+        addClickHandler(content,opts,marker,fy_opt);
     }
 
+  
     // 输入提示
     // 百度地图API功能(但是这里页面会报错，不会修改错误，但是不影响页面的整体功能)
     function G(id) {
@@ -110,6 +141,7 @@ function gotobaidu(type){
         alert("请输入起点！");
         return;
     }else{
+       
         if(type==1){
             $("input[name=mode]").val("transit");
             $("#gotobaiduform")[0].submit();
@@ -121,11 +153,30 @@ function gotobaidu(type){
 }
 
 // 增加监听事件
-function addClickHandler(content,opts,marker){
+function addClickHandler(content,opts,marker,fy_opt){
     marker.addEventListener("click",function(e){
          searchInfoWindow = new BMapLib.SearchInfoWindow(map, content,opts)
          searchInfoWindow.open(marker);
+         
+        console.log(fy_opt)
+         map_click(fy_opt[1],fy_opt[0])
     })
 }
 
 
+// 经纬度转为详细地址
+function map_click(lng, lat) {
+    url = 'http://api.map.baidu.com/geocoder/v2/?callback=renderReverse&location=' + lng + ',' + lat + '&output=json&pois=0&ak=x87CLuOuBaZ0Pet6KMjnTQKKl0zPO7Ku';
+    var v = '';
+    $.ajax({
+        url: url,
+        async: false,
+        type: "POST",
+        dataType: 'JSONP',
+        success: function (res) {
+            v = res.result.formatted_address;
+             $('.origin_input').val(v) 
+        }
+    });
+
+}

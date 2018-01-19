@@ -24,9 +24,11 @@
             // console.log(data);
             // 起始点
             var default_point = [data[0]['ucs_x'],data[0]['ucs_y']];
+            
             // // 生效
             setMapIni(default_point);
-            createCoords(data);
+            geographic(data)
+            // createCoords(data);
         });
         </script>
     </div>
