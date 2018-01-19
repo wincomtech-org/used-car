@@ -132,7 +132,7 @@ class IndexController extends HomeBaseController
         // $Prices = model('usual/UsualItem')->getItems(0,21,false);
         $Prices = ['0~3'=>'3万以下','3~5'=>'3-5万','5~8'=>'5-8万','8~10'=>'8-10万','10~15'=>'10-15万','15~20'=>'15-20万','20~30'=>'20-30万','30~50'=>'30-50万','>50'=>'50万以上'];
         // 其它
-        $filter_var_0 = config('usual_car_filter_var0');
+        $filter_var_0 = config('usual_car_filter_var02');
         $filter_var_1 = config('usual_car_filter_var');
         $moreTree = cache('moreTree');
         if (empty($moreTree)) {

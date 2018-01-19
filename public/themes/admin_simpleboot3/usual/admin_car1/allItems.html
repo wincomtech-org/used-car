@@ -1,0 +1,61 @@
+<!--  -->
+<foreach name="allItems" item="pa">
+    <tr>
+        <th width="160"></th>
+        <td align="center">
+            <big><b>{$pa.name}</b></big>
+            <notempty name="pa.description"><p class="help-block">描述：{$pa.description}</p></notempty>
+        </td>
+    </tr>
+    <foreach name="pa.children" item="vo">
+        <php>
+            $biz_compare = empty($post['more'][$vo['code']]) ? '': $post['more'][$vo['code']];
+            $biz = 'post[more]['.$vo['code'].']';
+        </php>
+        <tr>
+            <th>{$vo.name}</th>
+            <td>
+                <switch name="vo.code_type">
+                    <case value="select">
+                        <select class="form-control" style="width:140px;" name="post[more][{$vo.code}]">
+                            <option value="">--请选择--</option>
+                            <notempty name="vo.form_element">
+                                <foreach name="vo.form_element" item="it">
+                                    <option {$biz_compare==$it.id?'selected':''} value="{$it.id}">{$it.description?$it.description:$it.name.$vo.unit}</option>
+                                </foreach>
+                            </notempty>
+                        </select>
+                    </case>
+                    <case value="radio">
+                        <notempty name="vo.form_element">
+                            <foreach name="vo.form_element" item="it">
+                                <label>
+                                    <input type="radio" {$biz_compare==$it.id?'checked':''} name="post[more][{$vo.code}]" value="{$it.id}"> 
+                                    {$it.description?$it.description:$it.name.$vo.unit} &nbsp; &nbsp;
+                                </label>
+                            </foreach>
+                        </notempty>
+                    </case>
+                    <case value="checkbox">
+                        <notempty name="vo.form_element">
+                            <foreach name="vo.form_element" item="it">
+                                <label>
+                                    <input type="checkbox" {$biz_compare==$it.id?'checked':''} name="post[more][{$vo.code}][]" value="{$it.id}"> 
+                                    {$it.description?$it.description:$it.name.$vo.unit} &nbsp; &nbsp;
+                                </label>
+                            </foreach>
+                        </notempty>
+                    </case>
+                    <case value="number">
+                        <input class="form-control" placeholder="{$vo.description}" type="number" name="post[more][{$vo.code}]" value="{$biz_compare|default=''}">
+                    </case>
+                    <case value="hidden">
+                        <input class="form-control" type="hidden" name="post[more][{$vo.code}]" value="{$it.id}">
+                    </case>
+                    <default /><input class="form-control" placeholder="{$vo.description}" type="text" name="post[more][{$vo.code}]" value="{$biz_compare|default=''}">
+                </switch>
+                <p class="help-block">{$vo.description|default=''} <notempty name="vo.unit">单位：{$vo.unit}</notempty></p>
+            </td>
+        </tr>
+    </foreach>
+</foreach>

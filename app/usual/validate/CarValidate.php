@@ -39,6 +39,8 @@ class CarValidate extends Validate
     protected $scene = [
         'add' => ['name','brand_id','serie_id','model_id','car_vin','plateNo','car_mileage','car_license_time','city_id','sell_status'],
         'edit' => ['name'=>'require','brand_id','serie_id','model_id','plateNo'=>'require','car_mileage','car_license_time','city_id','sell_status'],
+        'add1' => ['name','brand_id','serie_id','model_id','car_vin','sell_status'],
+        'edit1' => ['name'=>'require','brand_id','serie_id','model_id','car_vin','sell_status'],
         // 'seller' => ['brand_id','serie_id','model_id','city_id'],
         'insurance' => ['user_id','plateNo'=>'require'],
     ];

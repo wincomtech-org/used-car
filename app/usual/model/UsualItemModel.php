@@ -16,7 +16,7 @@ class UsualItemModel extends UsualModel
         // $this->filter_var = config('usual_car_filter_var');
     }*/
 
-    public function getLists($filter)
+    public function getLists($filter=[], $order='', $limit='',$extra=[])
     {
         $field = 'a.*,b.name AS bname';
         $where = [

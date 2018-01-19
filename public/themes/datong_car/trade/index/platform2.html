@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>车辆买卖 - {$site_info.site_name|default=''}</title>
+    <meta name="keywords" content="{$site_info.site_seo_keywords|default=''}"/>
+    <meta name="description" content="{$site_info.site_seo_description|default=''}">
+
+    <include file="public@head"/>
+    <hook name="before_head_end"/>
+</head>
+<body>
+    <!-- 头部 -->
+    <include file="public@header" />
+    <!-- 导航 -->
+    <include file="public@nav" />
+
+    <!-- 免费登记卖车信息 -->
+    <include file="index/regcar" />
+
+    <!-- 车辆买卖 -->
+    <section class="vehiTrad" id="AAA">
+
+        <div class="main">
+             <h3 class="index_tit">二手车商城<span class="index_tit_supply">一体化的服务流程，为您带来便捷生活 </span></h3>
+            <!-- 车辆买卖条件筛选 -->
+            <div class="vehiTrad_tit">
+                <!-- 品牌 -->
+                <div class="vehiTrad_tit_list">
+                    <span class="vehiTrad_tit_condition">品牌</span>
+                    <div class="vehiTrad_tit_item">
+                        <ul class="vehiTrad_tit_item_con">
+                            <li <empty name="brandId">class="active"</empty>>
+                                <a href="{:url('trade/Index/platform', $jumpext.'&brandId=null')}#AAA">不限</a>
+                            </li>
+                            <foreach name="Brands" item="vo">
+                            <li {$brandId==$vo.id?='class="active"'}>
+                                <a href="{:url('trade/Index/platform', $jumpext.'&brandId='.$vo.id)}#AAA">{$vo.name}</a>
+                            </li>
+                            </foreach>
+                        </ul>
+                        <div class="more">
+                            全部<span class="icon"> < </span>
+                        </div>
+                    </div>
+                </div>
+                <!-- 车系 -->
+                <div class="vehiTrad_tit_list">
+                    <span class="vehiTrad_tit_condition">车系</span>
+                    <div class="vehiTrad_tit_item">
+                        <ul class="vehiTrad_tit_item_con">
+                            <li <empty name="serieId">class="active"</empty>>
+                                <a href="{:url('trade/Index/platform', $jumpext.'&serieId=null')}#AAA">不限</a>
+                            </li>
+                            <foreach name="Series" item="vo">
+                            <li {$serieId==$vo.id?='class="active"'}>
+                                <a href="{:url('trade/Index/platform', $jumpext.'&serieId='.$vo.id)}#AAA">{$vo.name}</a>
+                            </li>
+                            </foreach>
+                        </ul>
+                        <div class="more">
+                            全部<span class="icon"> < </span>
+                        </div>
+                    </div>
+                </div>
+                <!-- 价格 -->
+                <div class="vehiTrad_tit_list">
+                    <span class="vehiTrad_tit_condition">价格</span>
+                    <div class="vehiTrad_tit_item">
+                        <ul class="vehiTrad_tit_item_con">
+                            <li <empty name="priceId">class="active"</empty>>
+                                <a href="{:url('trade/Index/platform', $jumpext.'&priceId=null')}#AAA">不限</a>
+                            </li>
+                            <foreach name="Prices" item="vo" key="key">
+                            <li <if condition="$priceId===$key">class="active"</if>>
+                                <a href="{:url('trade/Index/platform', $jumpext.'&priceId='.$key)}#AAA">{$vo}</a>
+                            </li>
+                            </foreach>
+                                <!-- <a href="">{//$vo.description ?? $vo.name}</a> -->
+                        </ul>
+                        <div class="more">
+                            全部<span class="icon"> < </span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 其它 -->
+                <div class="vehiTrad_tit_list">
+                    <span class="vehiTrad_tit_condition">其它</span>
+                    <div class="vehiTrad_tit_item_other">
+                        <!-- model -->
+                        <div class="vehiTrad_tit_item_other_list">
+                            <p>车型</p>
+                            <ul style="display:none;">
+                                <foreach name="Models" item="vo">
+                                <li {$modelId==$vo.id?='class="active"'}><a href="{:url('trade/Index/platform', $jumpext.'&modelId='.$vo.id)}#AAA">{$vo.name}</a></li>
+                                </foreach>
+                            </ul>
+                        </div>
+                        <!-- 普通级 optimize -->
+
+                        <!-- 以下针对item -->
+                        <foreach name="moreTree" item="vo">
+                        <div class="vehiTrad_tit_item_other_list">
+                            <p>{$vo.name}</p>
+                            <notempty name="vo.form_element">
+                            <ul style="display:none;">
+                                <foreach name="vo.form_element" item="v">
+                                <li {$$vo.code==$v.id?='class="active"'}><a href="{:url('trade/Index/platform', $jumpext.'&'.$vo.code.'='.$v.id)}#AAA">{$v.description?$v.description:$v.name.$vo.unit}</a></li>
+                                </foreach>
+                            </ul>
+                            </notempty>
+                        </div>
+                        </foreach>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 车辆 -->
+            <div class="vehiTrad_con">
+                <div class="vehiTrad_con_tit">
+                    <ul class="vehiTrad_con_tit_list">
+                        <foreach name="Types" item="vo" key="key">
+                        <li {$key==$typeId?='class="active"'}>
+                            <a href="{:url('trade/Index/platform', $jumpext.'&typeId='.$key)}#AAA">{$vo}</a>
+                        </li>
+                        </foreach>
+                    </ul>
+                </div>
+                <div class="vehiTrad_con_con">
+                    <!-- 车辆列表 -->
+                    <ul class="vehiTrad_con_con_list">
+                        <foreach name="carlist" item="vo">
+                        <li class="vehicle_con_detail_items">
+                            <div class="img"><a href="{:url('Post/details',['id'=>$vo.id])}">
+                                <img src="{:cmf_get_image_preview_url($vo.more.thumbnail)}" alt="">
+                            </a></div>
+                            <div class="txt">
+                                <h6><a href="{:url('Post/details',['id'=>$vo.id])}">{$vo.name}</a></h6>
+                                <p>
+                                    <span>{$vo.car_mileage}万公里</span>
+                                    <span>{:date('Y-m-d',$vo.car_license_time)}上牌</span>
+                                    <span>{$vo.ename}</span>
+                                </p>
+                                <p><b>{$vo.shop_price}万</b> <s>{$vo.market_price}万</s></p>
+                            </div>
+                        </li>
+                        </foreach>
+                    </ul>
+                    <!-- 页码 -->
+                    <div class="page">
+                        <ul class="page_con">
+                            {$pager|default=''}
+                            <!-- <li class="active"><a href="">1</a></li>
+                            <li><a href="">1</a></li>
+                            <li><a href="">1</a></li>
+                            <li><a href="">1</a></li>
+                            <li><a href="">100</a></li> -->
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 底部 -->
+    <include file="public@footer" />
+    <include file="public@scripts" />
+    <hook name="before_body_end" />
+</body>
+<script>
+    function changeBrand(o){
+        var brandId = $(o).attr('data-val');
+
+        $.post('{:url("usual/Ajax/serieByBrand")}', {brandId: brandId}, function(data) {
+            $('#input-series').html(data);
+        });
+    }
+
+    if(screen.width<1024){
+        $('.veh_trading_pc .main .registration_information').remove();
+        $('.veh_trading_m').show()
+    }
+</script>
+</html>

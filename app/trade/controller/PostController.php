@@ -24,6 +24,7 @@ class PostController extends HomeBaseController
         if (empty($page)) {
             abort(404,'数据不存在！');
         }
+        $plat = $page['platform'];
 
         // 检查是否锁单
         // $where = ['car_id'=>$id,'status'=>['in','1,8,10,-11']];
@@ -44,12 +45,13 @@ class PostController extends HomeBaseController
         // 获取推荐车辆
         $carTuis = $carModel->getLists([],'',12,['a.is_rec'=>1]);
 
+        $this->assign('plat',$plat);
         $this->assign('findOrder',$findOrder);
         $this->assign('userId',$userId);
         $this->assign('page',$page);
         $this->assign('allItems',$allItems);
         $this->assign('carTuis',$carTuis);
-        return $this->fetch();
+        return $this->fetch('details'.$plat);
     }
 
     /*

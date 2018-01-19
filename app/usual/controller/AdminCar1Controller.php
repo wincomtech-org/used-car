@@ -12,37 +12,22 @@ use think\Db;
 * 车辆模块
 * 二手车模块
 */
-class AdminCarController extends AdminBaseController
+class AdminCar1Controller extends AdminBaseController
 {
     function _initialize()
     {
         parent::_initialize();
-
-        //只报告错误,忽略通知
-        // error_reporting(E_ALL ^ E_NOTICE);
-
-        // $data = $this->request->param();
         $this->Model = new UsualCarModel();
     }
 
     /**
      * 车辆列表
-     * @adminMenu(
-     *     'name'   => '车辆管理',
-     *     'parent' => 'usual/AdminCar/default',
-     *     'display'=> true,
-     *     'hasView'=> true,
-     *     'order'  => 10000,
-     *     'icon'   => '',
-     *     'remark' => '车辆列表',
-     *     'param'  => ''
-     * )
-     */
+    */
     public function index()
     {
         $param = $this->request->param();//接收筛选条件
         $brandId = $this->request->param('brandId',0,'intval');
-        $param['plat'] = 2;
+        $param['plat'] = 1;
 
         $data        = $this->Model->getLists($param);
 
@@ -62,17 +47,7 @@ class AdminCarController extends AdminBaseController
 
     /**
      * 添加车辆
-     * @adminMenu(
-     *     'name'   => '添加车辆',
-     *     'parent' => 'index',
-     *     'display'=> false,
-     *     'hasView'=> true,
-     *     'order'  => 10000,
-     *     'icon'   => '',
-     *     'remark' => '添加车辆',
-     *     'param'  => ''
-     * )
-     */
+    */
     public function add()
     {
         $Brands = model('UsualBrand')->getBrands();
@@ -94,7 +69,7 @@ class AdminCarController extends AdminBaseController
 
 
         // 售卖状态
-        $sell_status = $this->Model->getSellStatus();
+        $sell_status = $this->Model->getSellStatus(1);
 
         $this->assign('Brands', $Brands);
         $this->assign('Models', $Models);
@@ -110,20 +85,6 @@ class AdminCarController extends AdminBaseController
 
         return $this->fetch();
     }
-
-    /**
-     * 添加车辆提交
-     * @adminMenu(
-     *     'name'   => '添加车辆提交',
-     *     'parent' => 'index',
-     *     'display'=> false,
-     *     'hasView'=> false,
-     *     'order'  => 10000,
-     *     'icon'   => '',
-     *     'remark' => '添加车辆提交',
-     *     'param'  => ''
-     * )
-     */
     public function addPost()
     {
         if ($this->request->isPost()) {
@@ -143,7 +104,7 @@ class AdminCarController extends AdminBaseController
             $post = $this->Model->identiStatus($post);
 
             // 验证
-            $result = $this->validate($post, 'Car.add');
+            $result = $this->validate($post, 'Car.add1');
             if ($result !== true) {
                 $this->error($result);
             }
@@ -165,17 +126,7 @@ class AdminCarController extends AdminBaseController
 
     /**
      * 编辑车辆
-     * @adminMenu(
-     *     'name'   => '编辑车辆',
-     *     'parent' => 'index',
-     *     'display'=> false,
-     *     'hasView'=> true,
-     *     'order'  => 10000,
-     *     'icon'   => '',
-     *     'remark' => '编辑车辆',
-     *     'param'  => ''
-     * )
-     */
+    */
     public function edit()
     {
         $id = $this->request->param('id', 0, 'intval');
@@ -224,20 +175,6 @@ class AdminCarController extends AdminBaseController
 
         return $this->fetch();
     }
-
-    /**
-     * 编辑车辆提交
-     * @adminMenu(
-     *     'name'   => '编辑车辆提交',
-     *     'parent' => 'index',
-     *     'display'=> false,
-     *     'hasView'=> false,
-     *     'order'  => 10000,
-     *     'icon'   => '',
-     *     'remark' => '编辑车辆提交',
-     *     'param'  => ''
-     * )
-     */
     public function editPost()
     {
         if ($this->request->isPost()) {
@@ -252,7 +189,7 @@ class AdminCarController extends AdminBaseController
             $post = $this->Model->identiStatus($post);
 
             // 验证
-            $result = $this->validate($post,'Car.edit');
+            $result = $this->validate($post,'Car.edit1');
             if ($result !== true) {
                 $this->error($result);
             }
@@ -291,19 +228,6 @@ class AdminCarController extends AdminBaseController
         }
     }
 
-    /**
-     * 车辆删除 回收机制
-     * @adminMenu(
-     *     'name'   => '车辆删除',
-     *     'parent' => 'index',
-     *     'display'=> false,
-     *     'hasView'=> false,
-     *     'order'  => 10000,
-     *     'icon'   => '',
-     *     'remark' => '车辆删除',
-     *     'param'  => ''
-     * )
-     */
     public function delete()
     {
         $param           = $this->request->param();
@@ -345,19 +269,6 @@ class AdminCarController extends AdminBaseController
         }
     }
 
-    /**
-     * 车辆发布
-     * @adminMenu(
-     *     'name'   => '车辆发布',
-     *     'parent' => 'index',
-     *     'display'=> false,
-     *     'hasView'=> false,
-     *     'order'  => 10000,
-     *     'icon'   => '',
-     *     'remark' => '车辆发布',
-     *     'param'  => ''
-     * )
-     */
     public function publish()
     {
         $param           = $this->request->param();
@@ -375,19 +286,6 @@ class AdminCarController extends AdminBaseController
         }
     }
 
-    /**
-     * 车辆置顶
-     * @adminMenu(
-     *     'name'   => '车辆置顶',
-     *     'parent' => 'index',
-     *     'display'=> false,
-     *     'hasView'=> false,
-     *     'order'  => 10000,
-     *     'icon'   => '',
-     *     'remark' => '车辆置顶',
-     *     'param'  => ''
-     * )
-     */
     public function top()
     {
         $param           = $this->request->param();
@@ -404,22 +302,9 @@ class AdminCarController extends AdminBaseController
         }
     }
 
-    /**
-     * 车辆推荐
-     * @adminMenu(
-     *     'name'   => '车辆推荐',
-     *     'parent' => 'index',
-     *     'display'=> false,
-     *     'hasView'=> false,
-     *     'order'  => 10000,
-     *     'icon'   => '',
-     *     'remark' => '车辆推荐',
-     *     'param'  => ''
-     * )
-     */
     public function recommend()
     {
-        $param           = $this->request->param();
+        $param = $this->request->param();
         if (isset($param['ids']) && isset($param["yes"])) {
             $ids = $this->request->param('ids/a');
             $this->Model->where(['id' => ['in', $ids]])->update(['is_rec' => 1]);
@@ -434,37 +319,6 @@ class AdminCarController extends AdminBaseController
         }
     }
 
-    /**
-     * 车辆认证
-     * @adminMenu(
-     *     'name'   => '车辆认证',
-     *     'parent' => 'index',
-     *     'display'=> false,
-     *     'hasView'=> false,
-     *     'order'  => 10000,
-     *     'icon'   => '',
-     *     'remark' => '车辆认证',
-     *     'param'  => ''
-     * )
-     */
-    public function audit()
-    {
-        # code...
-    }
-
-    /**
-     * 通用排序
-     * @adminMenu(
-     *     'name'   => '通用排序',
-     *     'parent' => 'index',
-     *     'display'=> false,
-     *     'hasView'=> false,
-     *     'order'  => 10000,
-     *     'icon'   => '',
-     *     'remark' => '通用排序',
-     *     'param'  => ''
-     * )
-     */
     public function listOrder()
     {
         parent::listOrders(Db::name('UsualCar'));

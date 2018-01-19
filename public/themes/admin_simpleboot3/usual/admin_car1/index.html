@@ -3,10 +3,10 @@
 <body>
 <div class="wrap js-check-wrap">
     <ul class="nav nav-tabs">
-        <li class="active"><a href="javascript:;">所有二手车</a></li>
-        <!-- <li><a href="{:url('AdminCar/add')}">添加二手车</a></li> -->
+        <li class="active"><a href="javascript:;">所有新车</a></li>
+        <li><a href="{:url('AdminCar1/add')}">添加新车</a></li>
     </ul>
-    <form class="well form-inline margin-top-20" method="post" action="{:url('AdminCar/index')}">
+    <form class="well form-inline margin-top-20" method="post" action="{:url('AdminCar1/index')}">
         所属品牌:
         <select class="form-control" name="brandId">
             <option value='0'>全部</option>
@@ -23,13 +23,13 @@
         <input type="text" class="form-control" name="keyword" style="width:200px;"
                value="{$keyword|default=''}" placeholder="请输入关键字...">
         <input type="submit" class="btn btn-primary" value="搜索"/>
-        <a class="btn btn-danger" href="{:url('AdminCar/index')}">清空</a>
+        <a class="btn btn-danger" href="{:url('AdminCar1/index')}">清空</a>
     </form>
     <form class="js-ajax-form" action="" method="post">
-        <include file="admin_car/table-actions" />
+        <include file="admin_car1/table-actions" />
         <table class="table table-hover table-bordered table-list">
             <thead>
-                <include file="admin_car/table-th" />
+                <include file="admin_car1/table-th" />
             </thead>
             <foreach name="articles" item="vo">
                 <tr>
@@ -67,16 +67,16 @@
                         <empty name="vo.status">不发布<else/>发布</empty>
                     </td>
                     <td>
-                        <a href="{:url('AdminCar/edit',array('id'=>$vo['id']))}">{:lang('EDIT')}</a> &nbsp;
-                        <a href="{:url('AdminCar/delete',array('id'=>$vo['id']))}" class="js-ajax-delete">{:lang('DELETE')}</a>
+                        <a href="{:url('AdminCar1/edit',array('id'=>$vo['id']))}">{:lang('EDIT')}</a> &nbsp;
+                        <a href="{:url('AdminCar1/delete',array('id'=>$vo['id']))}" class="js-ajax-delete">{:lang('DELETE')}</a>
                     </td>
                 </tr>
             </foreach>
             <tfoot>
-                <include file="admin_car/table-th" />
+                <include file="admin_car1/table-th" />
             </tfoot>
         </table>
-        <include file="admin_car/table-actions" />
+        <include file="admin_car1/table-actions" />
         <ul class="pagination">{$pager|default=''}</ul>
     </form>
 </div>
@@ -110,7 +110,7 @@
                 }
 
                 ids = ids.join(',');
-                art.dialog.open("__ROOT__/index.php?g=usual&m=AdminCar&a=copy&ids=" + ids, {
+                art.dialog.open("__ROOT__/index.php?g=usual&m=AdminCar1&a=copy&ids=" + ids, {
                     title: "批量复制",
                     width: "300px"
                 });
@@ -136,7 +136,7 @@
                 }
 
                 ids = ids.join(',');
-                art.dialog.open("__ROOT__/index.php?g=usual&m=AdminCar&a=move&old_term_id={$term.term_id|default=0}&ids=" + ids, {
+                art.dialog.open("__ROOT__/index.php?g=usual&m=AdminCar1&a=move&old_term_id={$term.term_id|default=0}&ids=" + ids, {
                     title: "批量移动",
                     width: "300px"
                 });
