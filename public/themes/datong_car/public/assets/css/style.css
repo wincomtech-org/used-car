@@ -1284,6 +1284,114 @@
 .seller_center .analogy p{padding:0;width:auto;position:static;}
 .details_item .idetails_con .analogy_con input{border:none;}
 .analogy_tip i{display:block;line-height:2;}
+/* 车损图 */
+.car-appearance-con-show dl dt,.car-appearance-con-show dl dd{
+    float:left;
+    line-height:28px;
+    font-size:14px;
+}
+.car-appearance-con-show dl dt{
+    margin-top:8px;
+}
+.car-appearance-con-show dl dd{
+    padding:0 5px;
+}
+.car-appearance-con-show{
+    margin:10px 0;
+}
+.car-appearance-con-show dl dd input{
+    border:none;
+}
+.car-appearance-con-show  .position-show input{
+    min-width:0;
+    border:0;
+    width:50px;
+    height:40px;
+}
+.car-appearance-con-show dl dd .photo_tip{
+    display:inline-block;
+    vertical-align: top;
+    margin-top: 10px;
+    margin-left:5px;
+}
+.car-appearance-con-show dl dd:last-child{
+    margin-left: 16px;
+    margin-top: 6px;
+}
+.car-appearance-con-show dl dd:last-child .remove-img-btn{
+    background-color: #C60;
+    color: #fff;
+    font-size: 14px;
+    padding: 2px 5px;
+}
+.car-appearance-li{
+    width:100%;
+}
+.car-appearance-li:after{
+    content:"";
+    display:block;
+    clear:both;
+}
+.position-show{
+    border:1px solid #ddd;
+}
+.out-scroll{
+    width:100%;
+}
+
+/* 个人中心检测报告 */
+
+.jiance-edit{
+    background-color:#C60;
+    color:#fff;
+    padding:5px 14px;
+    font-size:14px;
+    display:inline-block;
+    vertical-align:middle;
+    margin-top:9px;
+    float:right;
+}
+.info_detail_list.jiance{
+    width:100%;
+}
+.info_detail_list.jiance .details_item{
+    width:100%;
+}
+/* 检测详情 */
+.jiance-con .analogy{
+    border:none;
+}
+.jiance-con .idetails_con .analogy select:last-child{
+    width:120px !important;
+    font-size:13px;
+    padding:0 10px;
+}
+.jiance-con  .analogy{
+    border:none;
+}
+
+.jiance-con .details_item .details_tit{
+    font-size:14px;
+}
+
+
+@media screen and (max-width:768px){
+    .out-scroll .jiance-con{
+        overflow-x:scroll;
+    }
+    .jiance-con .details_item .details_tit{
+        width:120px;
+    }
+   .jiance .details_item .idetails_con{
+        display:table-cell;
+    }
+    .jiance  .details_item .details_tit{
+        width:120px;
+    }
+    .jiance-con .details_item .idetails_con{
+        display:table-cell;
+    }
+}
 
 /*个人中心车辆业务*/
 .person_carBuss{width:100%;border:1px solid #ddd;border-collapse:collapse}
