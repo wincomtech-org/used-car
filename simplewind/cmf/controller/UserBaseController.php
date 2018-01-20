@@ -20,7 +20,10 @@ class UserBaseController extends HomeBaseController
         $this->checkUserLogin();
 
         $usernav = $this->request->controller();
+        $this->user = cmf_get_current_user();
+
         $this->assign('usernav',$usernav);
+        $this->assign('user',$this->user);
     }
 
     public function navAction()

@@ -29,7 +29,7 @@ class AdminCar1Controller extends AdminBaseController
         $brandId = $this->request->param('brandId',0,'intval');
         $param['plat'] = 1;
 
-        $data        = $this->Model->getLists($param);
+        $data = $this->Model->getLists($param);
 
         $cateModel  = new UsualBrandModel();
         $brandTree   = $cateModel->adminCategoryTree($brandId);
@@ -64,8 +64,7 @@ class AdminCar1Controller extends AdminBaseController
         // 从属性表里被推荐的
         $recItems = model('UsualItem')->getItemTable('is_rec',1);
         // 属性表里所有属性（不包含推荐的）
-        $allItems = model('UsualItem')->getItemTable('','',true);
-        // 开店资料审核 config('verify_define_data');
+        $allItems = model('UsualItem')->getItemTable(null,'',true);
 
 
         // 售卖状态
@@ -116,11 +115,10 @@ class AdminCar1Controller extends AdminBaseController
                 $post['more']['files'] = $this->Model->dealFiles($data['file']);
             }
 
-            // 事务处理
             // 提交车子数据
             $this->Model->adminAddArticle($post);
 
-            $this->success('添加成功!', url('AdminCar/edit', ['id' => $this->Model->id]));
+            $this->success('添加成功!', url('AdminCar/edit', ['id'=>$this->Model->id]));
         }
     }
 
@@ -140,7 +138,6 @@ class AdminCar1Controller extends AdminBaseController
         $Citys = model('admin/District')->getDistricts($post['city_id'],$post['province_id']);
         // 车源类别
         $Types = $this->Model->getCarType($post['type']);
-        // 开店资料审核 config('verify_define_data');
 
 
         // 用于前台车辆条件筛选且与属性表name同值的字段码
@@ -148,15 +145,10 @@ class AdminCar1Controller extends AdminBaseController
         // 从属性表里被推荐的
         $recItems = model('UsualItem')->getItemTable('is_rec',1);
         // 属性表里所有属性（不包含推荐的）
-        $allItems = model('UsualItem')->getItemTable('','',true);
+        $allItems = model('UsualItem')->getItemTable(null,'',true);
 
         // 售卖状态
         $sell_status = $this->Model->getSellStatus($post['sell_status']);
-
-        // 个人审核资料
-        $verifyinfo = lothar_verify($post['user_id'],'openshop','all');
-
-        $this->assign('verifyinfo',$verifyinfo);
 
         $this->assign('Brands', $Brands);
         $this->assign('Models', $Models);
@@ -201,30 +193,10 @@ class AdminCar1Controller extends AdminBaseController
                 $post['more']['files'] = $this->Model->dealFiles($data['file']);
             }
 
-            /*个人审核资料填写*/
-            $verify = $data['verify'];
-            // 直接拿官版的
-            if (!empty($data['identity_card'])) {
-                $verify['more']['identity_card'] = $this->Model->dealFiles($data['identity_card']);
-            }
-            // 验证数据的完备性
-            $result = $this->validate($verify,'usual/Verify.openshop');
-
-            // 事务处理？
             // 更新车子数据
             $this->Model->adminEditArticle($post);
-            // 更新车主数据，如果审核通过，不予再审核
-            if ($result===true) {
-                if (empty($verify['id'])) {
-                    $verify['auth_code'] = 'openshop';
-                    $verify['create_time'] = time();
-                    model('usual/Verify')->adminAddArticle($verify);
-                } else {
-                    model('usual/Verify')->adminEditArticle($verify);
-                }
-            }
 
-            $this->success('保存成功!');
+            $this->success('保存成功!',url('index'));
         }
     }
 

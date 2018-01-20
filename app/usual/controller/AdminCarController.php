@@ -17,11 +17,6 @@ class AdminCarController extends AdminBaseController
     function _initialize()
     {
         parent::_initialize();
-
-        //只报告错误,忽略通知
-        // error_reporting(E_ALL ^ E_NOTICE);
-
-        // $data = $this->request->param();
         $this->Model = new UsualCarModel();
     }
 
@@ -89,7 +84,7 @@ class AdminCarController extends AdminBaseController
         // 从属性表里被推荐的
         $recItems = model('UsualItem')->getItemTable('is_rec',1);
         // 属性表里所有属性（不包含推荐的）
-        $allItems = model('UsualItem')->getItemTable('','',true);
+        $allItems = model('UsualItem')->getItemTable(null,'',true);
         // 开店资料审核 config('verify_define_data');
 
 
@@ -197,7 +192,7 @@ class AdminCarController extends AdminBaseController
         // 从属性表里被推荐的
         $recItems = model('UsualItem')->getItemTable('is_rec',1);
         // 属性表里所有属性（不包含推荐的）
-        $allItems = model('UsualItem')->getItemTable('','',true);
+        $allItems = model('UsualItem')->getItemTable(null,'',true);
 
         // 售卖状态
         $sell_status = $this->Model->getSellStatus($post['sell_status']);

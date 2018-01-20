@@ -33,11 +33,13 @@ class HomeBaseController extends BaseController
         $navMenus = $navMenuModel->navMenusTreeArray(null,2);
         $apiModel = new ApiService();
         $friendLink = $apiModel->links('url,name,target,description');
+        // 用户数据
+        // $this->user = cmf_get_current_user();
 
-// dump($friendLink);die;
         View::share('site_info', $siteInfo);
         View::share('navMenus', $navMenus);
         View::share('friendLink', $friendLink);
+        // $this->assign('user',$this->user);
     }
 
     public function _initializeView()

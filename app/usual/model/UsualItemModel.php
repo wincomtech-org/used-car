@@ -65,19 +65,24 @@ class UsualItemModel extends UsualModel
     public function ItemMulti($post=[], $more=[])
     {
         // 筛选项字段
-        
+        // $filter_var02 = config('usual_car_filter_var02');
+        // $filter_var_search = $filter_var02 .','. $this->filter_var;
+        $filter_var_search = $this->filter_var;
+
         // 推荐项字段
         $itemCateModel = new UsualItemCateModel();
         $filterRec = $itemCateModel->field('code')->where('is_rec',1)->select()->toArray();
-        $rec = '';
+        $rec_var = '';
         foreach ($filterRec as $value) {
-            $rec .= ','.$value['code'];
+            $rec_var .= ','.$value['code'];
         }
+        $filter_var_rec = $this->filter_var . $rec_var;
+
         // 开始过滤
-        $filters = explode(',',$this->filter_var.$rec);
+        $filters = explode(',',$filter_var_rec);
         $newArr = $post;
         if (!empty($post['id'])) {
-            $data = model('usual/UsualCar')->field($this->filter_var)->where('id',$post['id'])->find();
+            $data = model('usual/UsualCar')->field($filter_var_search)->where('id',$post['id'])->find();
         }
         foreach ($filters as $xx) {
             if (!empty($post[$xx]) && empty($more[$xx])) {
@@ -112,13 +117,13 @@ class UsualItemModel extends UsualModel
     }
 
     // 获取属性表数据及关联属性值表的属性值
-    public function getItemTable($key='', $var='', $recursive=false)
+    public function getItemTable($key=null, $var='', $recursive=false)
     {
         $filter = [];
-        if (!empty($var)) {
-            $filter[$key] = $var;
-        } else {
+        if (is_array($key)) {
             $filter = $key;
+        } elseif (is_string($key)) {
+            $filter[$key] = $var;
         }
         return $this->ItemBaseData($filter, $recursive);
     }
@@ -184,11 +189,22 @@ class UsualItemModel extends UsualModel
         return $newItem;
     }
 
-    // 获取前台 车子详情页 自定义数据集描述 $data数据集非ID？
-    public function getItemShow($data=[])
+    /**
+     * 获取前台 车子详情页 自定义数据集描述 
+     * $data数据集非ID？
+     * @param  array  $data   [数据集]
+     * @param  array  $filter [需要去除的]
+     * @return [type]         [description]
+     */
+    public function getItemShow($data=[], $filter=[])
     {
-        $allItems = $this->getItemTable('','',true);
-// return $allItems;
+        if (empty($filter)) {
+            $allItems = $this->getItemTable(null,'',true);
+        } else {
+            // $allItems = $this->getItemTable(['code'=>['not in',$filter]],'',true);
+            $allItems = $this->getItemTable('code',['not in',$filter],true);
+        }
+
         $newData = $children = $element = [];
         foreach ($allItems as  $key => $cate) {
             // echo "1=>".$cate['name'].'<br>';

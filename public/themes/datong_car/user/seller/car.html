@@ -50,15 +50,24 @@
                                         </tr>
                                         <tr>
                                             <td class="order_detail">
-                                                <div class="left"><img src="__TMPL__/public/assets/images/example/order_car.jpg" alt=""></div>
+                                                <div class="left">
+                                                    <empty name="vo.more.thumbnail">
+                                                        <img src="__TMPL__/public/assets/images/example/order_car.jpg" alt="">
+                                                    <else/>
+                                                        <img src="{:cmf_get_image_preview_url($vo.more.thumbnail)}" alt="">
+                                                    </empty>
+                                                </div>
                                                 <div class="right">
                                                     <h6>{$vo.name}</h6>
                                                     <p>
-                                                        <span>{$vo.car_mileage}万公里</span> |
-                                                        <span>{:date('Y-d',$vo.car_license_time)}</span> |
+                                                        <span>{$vo.car_mileage}万公里</span> | 
+                                                        <span>{:date('Y-d',$vo.car_license_time)}</span> | 
                                                         <span>{$vo.ename}</span>
                                                     </p>
-                                                    <p><span>{$vo.car_seating}座</span><span>{$vo.dname}</span></p>
+                                                    <p>
+                                                        <span>{$vo.car_seating}座</span> | 
+                                                        <span>{$vo.dname}</span>
+                                                    </p>
                                                 </div>
                                             </td>
 

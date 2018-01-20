@@ -91,7 +91,7 @@ class AdminWithdrawController extends AdminBaseController
         }
 
         // $result = model('FundsApply')->allowField(true)->isUpdate(true)->data($data, true)->save();
-        // $result = Db::name('funnds_apply')->update($data);
+        // $result = Db::name('funds_apply')->update($data);
 
         if (empty($transStatus)) {
             $this->error('修改失败');

@@ -1,4 +1,4 @@
-<?php 
+<?php	
 return [
   'show_error_msg' => true,
   'cmf_default_theme' => 'datong_car',
@@ -78,7 +78,7 @@ return [
     -2 => '禁止出售',
     -1 => '下架',
     0 => '初始态',
-    1 => '上架(售卖中)',
+    1 => '上架(售卖中]',
     2 => '已下单',
     3 => '已付款',
     10 => '完成',
@@ -97,8 +97,6 @@ return [
     'checkbox' => '复选框',
     'number' => '数字型',
     'hidden' => '隐藏域',
-    // 'photo' => '图片',
-    // 'file' => '文件',
   ],
   'verify_status' => 
   [

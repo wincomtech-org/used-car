@@ -31,7 +31,7 @@ class SellerController extends TradeController
     {
         // $param = $this->request->param();
         // $id = $this->request->param('id/d');
-        $userId = cmf_get_current_user_id();
+        $userId = $this->user['id'];
 
         $extra = [
             'seller_uid' => $userId,
@@ -52,7 +52,7 @@ class SellerController extends TradeController
     public function cancel()
     {
         $id = $this->request->param('id/d');
-        $userId = cmf_get_current_user_id();
+        $userId = $this->user['id'];
         bcscale(2);
         $orderInfo = Db::name('trade_order')->field('buyer_uid,bargain_money')->where('id',$id)->find();
         $bargain_money = floatval($orderInfo['bargain_money']);
@@ -91,7 +91,7 @@ class SellerController extends TradeController
     {
         // $param = $this->request->param();
         $id = $this->request->param('id/d');
-        $userId = cmf_get_current_user_id();
+        $userId = $this->user['id'];
         // $userId = 1;
 
         $extra = ['a.user_id'=>$userId];
@@ -109,9 +109,8 @@ class SellerController extends TradeController
 
     public function carInfoBefore()
     {
-        $userId = cmf_get_current_user_id();
         // 卖车资质证明
-        $rs = model('trade/Trade')->check_sell($userId);
+        $rs = model('trade/Trade')->check_sell($this->user['id']);
         if (!empty($rs)) {
             $this->error($rs[1], $rs[2],'',5);
         } else {
@@ -125,7 +124,7 @@ class SellerController extends TradeController
 
         $id = $this->request->param('id/d',0,'intval');
         $srcol = $this->request->param('srcol/s','base','strval');
-        $userId = cmf_get_current_user_id();
+        $userId = $this->user['id'];
         // 用户实名认证状态
         $identify = lothar_verify($userId);
         // 开店资料审核 config('verify_define_data');
@@ -200,32 +199,43 @@ class SellerController extends TradeController
 
     public function carInfoPost()
     {
-        $userId = cmf_get_current_user_id();
+        $userId = $this->user['id'];
 
         if ($this->request->isPost()) {
             $data = $this->request->post();
+            $carModel = new UsualCarModel();
+            $itemModel = new UsualItemModel();
+
+            // 处理请求数据
             $post = $data['post'];
-            $id = intval($post['id']);
-
-            // $more = !empty($data['post']['more'])?$data['post']['more']:'';
-            // $post   = model('usual/UsualItem')->ItemMulti($post,$more);
-
             if (empty($post['serie_id'])) {
                 $post['serie_id'] = $post['serie_pid'];
             }
-            $post['platform'] = 2;//新车平台自己发布
-            $post['user_id'] = !empty($post['user_id'])?$post['user_id']:$userId;
+            $more = $data['post']['more'];
+            // $filter_var02 = config('usual_car_filter_var02');
+            $filter_var = config('usual_car_filter_var');
+            // $filter_var = $filter_var02.','.$filter_var;
+            $filter = explode(',', $filter_var);
+            foreach ($filter as $var) {
+                $more2[$var] = '';
+            }
+            $more = array_merge($more2,$more);
+            $post = $itemModel->ItemMulti($post,$more);
+            $post = $carModel->identiStatus($post);
+
+            // 预设值
+            $id = intval($post['id']);
+            $post['platform'] = 2;//二手车。新车平台自己发布
             $post['update_time'] = time();
-
-            $carModel = new UsualCarModel();
-
             if (empty($id)) {
                 $post['create_time'] = time();
+                $post['user_id'] = $userId;
                 $valid = 'add';
             } else {
                 $valid = 'edit';
             }
 
+            // 验证
             $result = $this->validate($post,'usual/Car.'.$valid);
             if ($result !== true) {
                 $this->error($result,null,'',5);
@@ -246,7 +256,6 @@ class SellerController extends TradeController
                 $id = $result->id;
             } else {
                 $result = $carModel->adminEditArticle($post);
-                // 审核资料重新审核时
             }
 
             $this->success('提交成功',url('Seller/car',['id'=>$id]));
@@ -278,10 +287,13 @@ dump($carModel->id);die;
         $this->success('提交成功',url('Seller/car',['id'=>$carModel->id]));
     }
 
-    // 店铺 个人审核资料填写
+    /**
+     * 店铺 个人审核资料填写
+     * 审核资料重新审核时？
+     */
     public function audit()
     {
-        $userId = cmf_get_current_user_id();
+        $userId = $this->user['id'];
         $verifyinfo = lothar_verify($userId,'openshop','all');
         // 如果审核通过，不予再审核
 
@@ -333,7 +345,7 @@ dump($carModel->id);die;
 
     public function auditPost()
     {
-        $userId = cmf_get_current_user_id();
+        $userId = $this->user['id'];
         $data = $this->request->param();
         $post = $data['verify'];
         $post['auth_code'] = 'openshop';
@@ -384,6 +396,7 @@ dump($carModel->id);die;
     // 更多……  保留代码
     public function more()
     {
+        $userId = $this->user['id'];
         // 车牌号查重 verify、usual_car
         $plateNo = $post['more']['plateNo'];
         $verifyinfo = DB::name('verify')->where('plateNo',$plateNo)->value('user_id');

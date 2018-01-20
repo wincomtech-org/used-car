@@ -12,8 +12,7 @@ class AdminModelsController extends AdminBaseController
 {
     function _initialize()
     {
-        // parent::_initialize();
-        // $data = $this->request->param();
+        parent::_initialize();
         $this->UsualModel = new UsualModelsModel();
     }
 

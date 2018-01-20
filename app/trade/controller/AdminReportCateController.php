@@ -10,8 +10,7 @@ class AdminReportCateController extends AdminBaseController
 {
     function _initialize()
     {
-        // parent::_initialize();
-        // $data = $this->request->param();
+        parent::_initialize();
         $this->uModel = new TradeReportCateModel();
     }
 
@@ -47,7 +46,7 @@ class AdminReportCateController extends AdminBaseController
     {
         $parentId           = $this->request->param('parent', 0, 'intval');
         $categoriesTree     = $this->uModel->adminCategoryTree($parentId);
-        $codeType           = $this->uModel->getCodeType();
+        $codeType           = $this->uModel->getCodeType('all');
 
         $this->assign('categories_tree', $categoriesTree);
         $this->assign('codeType', $codeType);
@@ -56,7 +55,7 @@ class AdminReportCateController extends AdminBaseController
     public function addPost()
     {
         $data = $this->request->param();
-        $result = $this->validate($data,'usual/ItemCate.add');
+        $result = $this->validate($data,'ReportCate.add');
         if ($result !== true) {
             $this->error($result);
         }
@@ -69,6 +68,7 @@ class AdminReportCateController extends AdminBaseController
 
     public function edit()
     {
+        $this->success('ok',url('index'));
         $id = $this->request->param('id', 0, 'intval');
         if ($id > 0) {
             $category = TradeReportCateModel::get($id)->toArray();
@@ -87,17 +87,17 @@ class AdminReportCateController extends AdminBaseController
     {
         $data = $this->request->param();
         // 字段验证
-        $result = $this->validate($data,'usual/ItemCate.edit');
+        $result = $this->validate($data,'ReportCate.edit');
         if ($result !== true) {
             $this->error($result);
         }
+
         // 提交结果
-        unset($data['code']);
         $result = $this->uModel->editCategory($data);
         if ($result === false) {
-            $this->error('保存失败!');
+            $this->error('保存失败!',url('index'));
         }
-        $this->success('保存成功!');
+        $this->success('保存成功!',url('index'));
     }
 
     public function select()
@@ -151,17 +151,17 @@ tpl;
             $this->error('此分类有属性无法删除，请改名!');
         }
 
-        // $data   = [
+        // $log   = [
         //     'object_id'   => $findCategory['id'],
         //     'create_time' => time(),
-        //     'table_name'  => 'usual_brand',
+        //     'table_name'  => 'trade_report_cate',
         //     'name'        => $findCategory['name']
         // ];
         $result = $this->uModel
             ->where('id', $id)
             ->update(['delete_time' => time()]);
         if ($result) {
-            // Db::name('recycleBin')->insert($data);
+            // Db::name('recycleBin')->insert($log);
             $this->success('删除成功!');
         } else {
             $this->error('删除失败');

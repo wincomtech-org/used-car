@@ -24,7 +24,7 @@ class ServiceController extends UserBaseController
     {
         // $param = $this->request->param();
         $mid = $this->request->param('mid/d',1,'intval');
-        $userId = cmf_get_current_user_id();
+        $userId = $this->user['id'];
         $extra = [
             'a.user_id'     => $userId,
             'a.model_id'    => $mid
