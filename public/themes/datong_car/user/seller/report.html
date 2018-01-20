@@ -6,21 +6,6 @@
     <meta name="description" content="{$site_info.site_seo_description|default=''}">
 
     <include file="public@head"/>
-
-    <style type="text/css">
-        .pic-list li { margin-bottom: 5px;}
-    </style>
-    <script type="text/html" id="photos-item-tpl">
-        <li id="saved-image{id}">
-            <input id="photo-{id}" type="hidden" name="photo[urls][]" value="{filepath}">
-            <img id="photo-{id}-preview" src="{url}" style="height:108px;width:180px;"
-                 onclick="imagePreviewDialog(this.src);">
-            <a href="javascript:uploadOneImage('图片上传','#photo-{id}');">替换</a>
-            <a href="javascript:(function(){$('#saved-image{id}').remove();})();">移除</a>
-            <input class="form-control" id="photo-{id}-name" type="text" name="photo[names][]" value="{name}"
-                    title="图片名称">
-        </li>
-    </script>
 </head>
 <body>
     <!-- 头部 -->
@@ -37,39 +22,148 @@
                 <div class="person_right_tit">
                     <include file="seller/nav" />
                 </div>
-                <div class="person_right_con">
+                <div class="person_right_con ">
                     <div class="info_tit">检测报告编辑</div>
 
-                    <ul class="info_detail_list jiance" style="width:100%;">
-                        <li class="details_item">
-                            <span class="details_tit">事故排查</span>
-                            <div class="idetails_con">
-                               <a href="" class='jiance-edit'>编辑</a>
+                    <div class="info_detail_list text_con" style="width:100%;">
+                        <div class="details_item clearfix">
+                            <span class="details_tit">请选择</span>
+                            <div class="idetails_con clearfix">
+                               <select name="" id="" class='select-option'>
+                                   <option value="">事故排查</option>
+                                   <option value="">内外观检测</option>
+                               </select>
+                               <select name="" id=""  class='select-option' >
+                                    <option value="">事故排查</option>
+                                    <option value="">内外观检测</option>
+                                </select>
                             </div>
-                        </li>
-                        <li class="details_item">
-                            <span class="details_tit">核心部件检测</span>
-                            <div class="idetails_con">
-                                <a href="" class='jiance-edit'>编辑</a>
-                            </div>
-                        </li>
-                        <li class="details_item">
-                            <span class="details_tit">常用功能检测</span>
-                            <div class="idetails_con">
-                                <a href="" class='jiance-edit'>编辑</a>  
-                            </div>
-                        </li>
-                        <li class="details_item">
-                            <span class="details_tit">启动驾驶检测</span>
-                            <div class="idetails_con">
-                                <a href="" class='jiance-edit'>编辑</a> 
-                            </div>
-                        </li>
-                        <li class="details_item">
-                            <span class="details_tit">车损图</span>
-                            <div class="idetails_con">
+                        </div>
+                        <div class='show_test'>
+                            <ul class="info_detail_list jiance-con clearfix" style="width:100%;">
+                                <li class="details_item">
+                                    <span class="details_tit">左C柱</span>
+                                    <div class="idetails_con">
+                                        <div class="analogy">
+                                            <select class="form-control" >
+                                                <option value="">--正常--</option>
+                                                <option value="">--未检测--</option>
+                                                <option value="">--轻微受损（0~3m²）--</option>
+                                                <option value="">--严重受损（3~15m²）--</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="details_item">
+                                    <span class="details_tit">左前翼子板内衬</span>
+                                    <div class="idetails_con">
+                                        <div class="analogy">
+                                            <select class="form-control" >
+                                                <option value="">--正常--</option>
+                                                <option value="">--未检测--</option>
+                                                <option value="">--轻微受损（0~3m²）--</option>
+                                                <option value="">--严重受损（3~15m²）--</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="details_item">
+                                    <span class="details_tit"> 后围板</span>
+                                    <div class="idetails_con">
+                                        <div class="analogy">
+                                            <select class="form-control" >
+                                                <option value="">--正常--</option>
+                                                <option value="">--未检测--</option>
+                                                <option value="">--轻微受损（0~3m²）--</option>
+                                                <option value="">--严重受损（3~15m²）--</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="details_item">
+                                    <span class="details_tit">左B柱</span>
+                                    <div class="idetails_con">
+                                        <div class="analogy">
+                                            <select class="form-control" >
+                                                <option value="">--正常--</option>
+                                                <option value="">--未检测--</option>
+                                                <option value="">--轻微受损（0~3m²）--</option>
+                                                <option value="">--严重受损（3~15m²）--</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="details_item">
+                                    <span class="details_tit">右D柱</span>
+                                    <div class="idetails_con">
+                                        <div class="analogy">
+                                            <select class="form-control" >
+                                                <option value="">--正常--</option>
+                                                <option value="">--未检测--</option>
+                                                <option value="">--轻微受损（0~3m²）--</option>
+                                                <option value="">--严重受损（3~15m²）--</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="details_item">
+                                    <span class="details_tit"> 右前纵梁</span>
+                                    <div class="idetails_con">
+                                        <div class="analogy">
+                                            <select class="form-control" >
+                                                <option value="">--正常--</option>
+                                                <option value="">--未检测--</option>
+                                                <option value="">--轻微受损（0~3m²）--</option>
+                                                <option value="">--严重受损（3~15m²）--</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="details_item">
+                                    <span class="details_tit"> 左前减震器座</span>
+                                    <div class="idetails_con">
+                                        <div class="analogy">
+                                            <select class="form-control" >
+                                                <option value="">--正常--</option>
+                                                <option value="">--未检测--</option>
+                                                <option value="">--轻微受损（0~3m²）--</option>
+                                                <option value="">--严重受损（3~15m²）--</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="details_item">
+                                    <span class="details_tit"> 右前翼子板内衬</span>
+                                    <div class="idetails_con">
+                                        <div class="analogy">
+                                            <select class="form-control" >
+                                                <option value="">--正常--</option>
+                                                <option value="">--未检测--</option>
+                                                <option value="">--轻微受损（0~3m²）--</option>
+                                                <option value="">--严重受损（3~15m²）--</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="details_item">
+                                    <span class="details_tit"> 右前减震器座</span>
+                                    <div class="idetails_con">
+                                        <div class="analogy">
+                                            <select class="form-control" >
+                                                <option value="">--正常--</option>
+                                                <option value="">--未检测--</option>
+                                                <option value="">--轻微受损（0~3m²）--</option>
+                                                <option value="">--严重受损（3~15m²）--</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </li>
+                               
+                            </ul>
+                            
+                            <div class="chesun">
                                 <div class="car-appearance-con out1">
-                                    <div class="car-appearance-left" id='car-appearance-left'></div>
+                                    <div class="car-appearance-left" id='car-appearance-left1'></div>
                                     <!-- 缺陷图 -->
                                     <div class="appearance-det" style='top:30px;left:380px;'>
                                         <i class='appear-point'></i>
@@ -111,15 +205,145 @@
                                         </ul>
                                     </div>
                                 </div>
+                                <div class="car-appearance-con out2 ">
+                                    <div class="car-appearance-left" id='car-appearance-left2'></div>
+                                    <!-- 缺陷图 -->
+                                    <div class="appearance-det" style='top:30px;left:380px;'>
+                                        <i class='appear-point'></i>
+                                        <div class="appear-mat" style="display:none;">
+                                            <div class="appear-ct">
+                                                <p>剐蹭</p>
+                                                <div class="appear-pic " onClick="javascript:parent.imagePreviewDialog('{//:cmf_get_image_preview_url($vo.url)}')">
+                                                    <img src="__TMPL__/public/assets/images/example/car03.jpg" alt="">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="car-appearance-con-show">
+                                        <ul>
+                                            <!-- <li class='car-appearance-li'>
+                                                <dl>
+                                                    <dt>坐标：</dt>
+                                                    <dd class='position-show' style="margin-right:5px;"> 
+                                                    
+                                                        <input type="text" name="position-x" value=''>
+                                                        <input type="text" name="position-y" value=''>
+                                                    </dd>
+                                                  
+                                                    <dd>
+                                                        <a href="javascript:uploadOneImage('图片上传','#driving_license1');" class="demonstrate_pre">
+                                                            <if condition="empty($verifyinfo.more.driving_license)">
+                                                                <img src="__TMPL__/public/assets/images/add.png" id="driving_license1-preview"  style="cursor: pointer;max-width:200px"/>
+                                                            <else/>
+                                                                <img src="__TMPL__/public/assets/images/add.png" id="driving_license1-preview" height="40px" style="cursor: pointer"/>
+                                                            </if>
+                                                            <i class="photo_tip">请上传缺陷图</i>
+                                                        </a>
+                                                    </dd>
+                                                    <dd class='last-dd'>
+                                                        <input class='beizhu' type="text" placeholder='剪短描述，不超过十字' max-length='10'>
+                                                        <a href="javascript:void(0)" class='remove-img-btn'>删除</a>
+                                                    </dd>
+                                                </dl>
+                                            </li> -->
+                                        </ul>
+                                    </div>
+                                </div>
                             </div>
-                        </li>
-                    </ul>
+                          
+
+                            <div class="idetails_con">
+                                <input type="hidden" name="verify[id]" value="3">
+                                <button type="submit" class="btn-red js-ajax-submit">保存</button>
+                            </div>
+                        </div>
+                       
+                    </div>
                 </div>
             </div>
 
         </div>
     </section>
+    <!-- 底部 -->
+    <include file="public@footer" />
+    <include file="public@scripts" />
+    <hook name="before_body_end" />
+    <script>
+        // 后台增加缺陷图
+        var x=1;
+        $('.car-appearance-left').click(function (e) {
+            e = e || window.event;
+            var imgId = '#' + $(e.target).attr('id');
+            var offsetX = e.pageX - $(imgId).offset().left;
+            var offsetY = e.pageY - $(imgId).offset().top;
+            
+            x++;
+            console.log(x)
+            
+            var str = '<div class="appearance-det" style="top:' + offsetY + 'px;left:' + offsetX + 'px">' +
+                '<i class="appear-point"></i>' +
+                '<div class="appear-mat"' + 'style="display:none;"' + '>' +
+                '<div class="appear-ct">' +
+                '<p>剐蹭</p>' +
+                '<div class="appear-pic">' +
+                '<img src="__TMPL__/public/assets/images/example/car03.jpg" alt="">' +
+                '</div>' +
+                '</div>' +
+                '</div>' +
+                ' </div>';
     
+            // 卖家中心增加沦陷图
+            var str2="<li class='car-appearance-li'>"+
+                        " <dl>"+
+                            "<dt>坐标：</dt>"+
+                            "<dd class='position-show' style='margin-right:5px;'>"+ 
+                            
+                                "<input type='text' name='position-x' value='"+offsetX +"'>"+
+                                "<input type='text' name='position-y' value='"+offsetY +"'>"+
+                            "</dd>"+
+                            " <dd>"+
+                                '<a href="javascript:uploadOneImage('+" '图片上传'," + "'#driving_license"+x+"')"+'"'+' class="demonstrate_pre">'+
+                           
+                                        '<img src="__TMPL__/public/assets/images/add.png" id="driving_license'+x+'-preview"' +' style="cursor: pointer;width:40px"/>'+
+                                   
+                                    '<i class="photo_tip">请上传缺陷图</i>'+
+                                '</a>'+
+                            '</dd>'+
+                            '<dd class="last-dd">'+
+                                "<input class='beizhu' type='text' placeholder='简短描述，不超过十字' max-length='10'>"+
+                                '<a class="remove-img-btn">删除</a>'+
+                            '</dd>'+
+                        '</dl>'+
+                    '</li>'
+            $(this).after(str);
+            $(this).parents('.car-appearance-con').find('.car-appearance-con-show').append(str2)
+        })
+    
+        if ($(window).width() > 1199) {
+            $('.appearance-det').hover(function () {
+                $(this).find('.appear-mat').css('display', 'block')
+            }, function () {
+                $(this).find('.appear-mat').css('display', 'none')
+            })
+        } else {
+            $('.appearance-det').click(function () {
+    
+                var x=$('.appearance-det').css('left').split('px')[0];
+                console.log(x)
+                if(x>250){
+                    alert(12)
+                    $(this).find('.appear-ct').css('right','0')
+                }
+                $('.appear-mat').css('display', 'none')
+                $(this).find('.appear-mat').css('display', 'block')
+            })
+        }
+    
+        // 删除
+        $('.car-appearance-con-show').delegate('.remove-img-btn','click',function(){
+            $(this).parents('.car-appearance-li').remove();
+        })
+    </script>
 </body>
 </html>
 
