@@ -40,7 +40,7 @@ class PostController extends HomeBaseController
         // dump($page['more']);die;
 
         // 所有车辆属性
-        $allItems = $itModel->getItemShow($page['more']);
+        $allItems = $itModel->getItemShow($page['more'],config('usual_car_filter_var02'));
 
         // 获取推荐车辆
         $carTuis = $carModel->getLists([],'',12,['a.is_rec'=>1]);

@@ -10,16 +10,11 @@ use think\Db;
 */
 class InsuranceController extends UserBaseController
 {
-    // function _initialize()
-    // {
-    //     parent::_initialize();
-    // }
-
     // 列表页
     public function index()
     {
         // $param = $this->request->param();
-        $filter['user_id'] = cmf_get_current_user_id();
+        $filter['user_id'] = $this->user['id'];
         $policy = model('insurance/InsuranceOrder')->getLists($filter);
 
         $this->assign('policy', $policy->items());// 获取查询数据并赋到模板
@@ -85,7 +80,7 @@ class InsuranceController extends UserBaseController
     public function cancel()
     {
         $orderId = $this->request->param('id',0,'intval');
-        $uid = cmf_get_current_user_id();
+        $uid = $this->user['id'];
 
         $where = ['id'=>$orderId,'user_id'=>$uid];
 

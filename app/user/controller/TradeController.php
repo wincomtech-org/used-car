@@ -15,7 +15,7 @@ class TradeController extends UserBaseController
     public function orderDetail()
     {
         $id = $this->request->param('id/d');
-        // $userId = cmf_get_current_user_id();
+        // $userId = $this->user['id'];
 
         $where = [
             // 'user_id'=>$userId,
@@ -47,7 +47,7 @@ class TradeController extends UserBaseController
     public function backfund()
     {$this->success('请耐心等待工作人员操作');
         $id = $this->request->param('id/d');
-        $userId = cmf_get_current_user_id();
+        $userId = $this->user['id'];
 
         return $this->fetch();
     }

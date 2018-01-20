@@ -49,9 +49,9 @@ class AdminOpenshopController extends AdminBaseController
         //     $this->error($result);
         // }
 
-        $result = Db::name('funnds_apply')->update($data);
+        $result = Db::name('funds_apply')->update($data);
 
-        if (empty($transStatus)) {
+        if (empty($result)) {
             $this->error('修改失败');
         }
         $this->success('修改成功',url('index'));

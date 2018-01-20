@@ -13,7 +13,7 @@ class CollectController extends UserBaseController
     */
     public function index()
     {
-        $userId = cmf_get_current_user_id();
+        $userId = $this->user['id'];
 
         // 获取数据
         $list = model('UserFavorite')->collects();
@@ -24,8 +24,7 @@ class CollectController extends UserBaseController
         // dump($subsql);die;
         // Db::name('user_favorite')->alias('a')->join([$subsql=> 'b'], 'a.object_id=b.id')->select();
 
-        // $user = cmf_get_current_user();
-        // $this->assign($user);
+        // $this->assign($this->user);
 
         // 赋值
         $this->assign("list", $list->items());
@@ -66,10 +65,10 @@ class CollectController extends UserBaseController
             $this->error($result);
         }
 
-        // 获取每个参数
+        // 初始化
         $id = $this->request->param('id', 0, 'intval');
         $table = $data['table'];
-        $userId = cmf_get_current_user_id();
+        $userId = $this->user['id'];
         $colQuery = Db::name("user_favorite");
 
         // 是否收藏过

@@ -16,7 +16,7 @@ class BuyerController extends TradeController
     {
         $param = $this->request->param();
         $id = $this->request->param('id/d');
-        $userId = cmf_get_current_user_id();
+        $userId = $this->user['id'];
 
         $extra['a.buyer_uid'] = $userId;
         if (!empty($id)) {
@@ -64,7 +64,7 @@ class BuyerController extends TradeController
     public function cancel()
     {
         $id = $this->request->param('id/d');
-        $user = cmf_get_current_user();
+        $user = $this->user;
 
         // $order = model('trade/TradeOrder')->getPost($id);
         $order = Db::name('trade_order')->field('bargain_money,product_amount,status')->where('id',$id)->find();

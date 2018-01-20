@@ -6,9 +6,9 @@ namespace app\service\model;
 // use tree\Tree;
 // use think\Request;
 // use app\admin\model\RouteModel;
-use app\usual\model\UsualModel;
+use app\usual\model\UsualCategoryModel;
 
-class ServiceCategoryModel extends UsualModel
+class ServiceCategoryModel extends UsualCategoryModel
 {
     // 获取列表数据
     public function getLists($filter=[], $order='', $limit='',$extra=[])

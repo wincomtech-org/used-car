@@ -187,67 +187,35 @@
                     <h4 class="car_message_con_tit">车辆信息</h4>
                     <ul class="car_mess_list">
                         <li class="car_mess_item">
-                            <div class="img">
-                                <span></span>
-                            </div>
-                            <div class="txt">车况信息</div>
-                            <ul class="con">
-                                <li>
-                                    <span>行驶时间</span>
-                                    <i>{$page.car_age}年</i>
-                                </li>
-                                <li>
-                                    <span>座位数</span>
-                                    <i>{$page.car_seating}座</i>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="car_mess_item">
-                            <div class="img">
-                                <span></span>
-                            </div>
+                            <div class="img"><span></span></div>
                             <div class="txt">品牌车系</div>
                             <ul class="con">
-                                <li>
-                                    <span>品牌</span>
-                                    <i>{$page.brandname}</i>
-                                </li>
-                                <li>
-                                    <span>车系</span>
-                                    <i>{$page.seriename}</i>
-                                </li>
+                                <li><span>品牌</span><i>{$page.brandname}</i></li>
+                                <li><span>车系</span><i>{$page.seriename}</i></li>
                             </ul>
                         </li>
                         <li class="car_mess_item">
-                            <div class="img">
-                                <span></span>
-                            </div>
+                            <div class="img"><span></span></div>
+                            <div class="txt">车况信息</div>
+                            <ul class="con">
+                                <li><span>行驶时间</span><i>{$page.car_age}年</i></li>
+                                <li><span>座位数</span><i>{$page.car_seating}座</i></li>
+                            </ul>
+                        </li>
+                        <li class="car_mess_item">
+                            <div class="img"><span></span></div>
                             <div class="txt">符合本地环保标准</div>
                             <ul class="con">
-                                <li>
-                                    <span>所在地</span>
-                                    <i>{$page.cityname}</i>
-                                </li>
-                                <li>
-                                    <span>环保标准</span>
-                                    <i>{$page.car_effluent}</i>
-                                </li>
+                                <li><span>所在地</span><i>{$page.cityname}</i></li>
+                                <li><span>环保标准</span><i>{$page.car_effluent}</i></li>
                             </ul>
                         </li>
                         <li class="car_mess_item">
-                            <div class="img">
-                                <span></span>
-                            </div>
+                            <div class="img"><span></span></div>
                             <div class="txt">无需年检，保险未到期</div>
                             <ul class="con">
-                                <li>
-                                    <span>年检到期日</span>
-                                    <i>{$car_check_time?date('Y年m月',$page.car_check_time):'未知'}</i>
-                                </li>
-                                <li>
-                                    <span>保险到期日</span>
-                                    <i>{$page.car_insur_time?date('Y年m月',$page.car_insur_time):'未知'}</i>
-                                </li>
+                                <li><span>年检到期日</span><i>{$car_check_time?date('Y年m月',$page.car_check_time):'未知'}</i></li>
+                                <li><span>保险到期日</span><i>{$page.car_insur_time?date('Y年m月',$page.car_insur_time):'未知'}</i></li>
                             </ul>
                         </li>
                     </ul>

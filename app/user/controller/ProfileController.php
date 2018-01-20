@@ -30,13 +30,10 @@ class ProfileController extends UserBaseController
      */
     public function center()
     {
-        // 获取用户信息
-        $user = cmf_get_current_user();
-
         // 用户身份认证体系
-        $verify = lothar_verify($user['id'], 'certification', 'all');
+        $verify = lothar_verify($this->user['id'], 'certification', 'all');
 
-        $this->assign('user',$user);
+        $this->assign('user',$this->user);
         $this->assign('verify',$verify);
         $this->assign('verifyStatus',$verify['auth_status']);
         return $this->fetch();
@@ -47,8 +44,7 @@ class ProfileController extends UserBaseController
      */
     public function edit()
     {
-        $user = cmf_get_current_user();
-        $this->assign($user);
+        $this->assign($this->user);
         return $this->fetch('edit');
     }
 
@@ -57,7 +53,7 @@ class ProfileController extends UserBaseController
      */
     public function editPost()
     {
-        $userId = cmf_get_current_user_id();
+        $userId = $this->user['id'];
 
         if ($this->request->isPost()) {
             $data = $this->request->post();
@@ -132,16 +128,14 @@ class ProfileController extends UserBaseController
      */
     public function password()
     {
-        $user = cmf_get_current_user();
-        $this->assign('user',$user);
+        $this->assign('user',$this->user);
         // $this->assign($user);
         return $this->fetch();
     }
     // 修改支付密码 默认与注册密码一致
     public function paypwd()
     {
-        $user = cmf_get_current_user();
-        $this->assign('user',$user);
+        $this->assign('user',$this->user);
         return $this->fetch();
     }
 
@@ -202,8 +196,7 @@ class ProfileController extends UserBaseController
     // 用户头像编辑
     public function avatar()
     {
-        $user = cmf_get_current_user();
-        $this->assign('user',$user);
+        $this->assign('user',$this->user);
         return $this->fetch();
     }
 
@@ -257,8 +250,7 @@ class ProfileController extends UserBaseController
                 $storage = new Storage();
                 $result  = $storage->upload($avatar, $avatarPath, 'image');
 
-                $userId = cmf_get_current_user_id();
-                Db::name("user")->where(["id" => $userId])->update(["avatar" => $avatar]);
+                Db::name("user")->where(["id"=>$this->user['id']])->update(["avatar"=>$avatar]);
                 session('user.avatar', $avatar);
                 $this->success("头像更新成功！");
             } else {
@@ -273,8 +265,7 @@ class ProfileController extends UserBaseController
      */
     public function binding()
     {
-        $user = cmf_get_current_user();
-        $this->assign($user);
+        $this->assign($this->user);
         return $this->fetch();
     }
 

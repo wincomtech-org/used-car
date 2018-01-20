@@ -19,12 +19,9 @@ class FundsController extends UserBaseController
         parent::_initialize();
         $u_f_nav = $this->request->action();
 
-        $this->user = cmf_get_current_user();
-
 // dump($u_f_nav);
 
         $this->assign('u_f_nav',$u_f_nav);
-        $this->assign('user',$this->user);
     }
 
     // 列表页
