@@ -1,30 +1,24 @@
 
-        <div class="table-actions">
-            <notempty name="categoryId_off">
-                <button class="btn btn-primary btn-sm js-ajax-submit" type="submit"
-                        data-action="{:url('AdminReport/listOrder')}">{:lang('SORT')}
-                </button>
-            </notempty>
-            <button class="btn btn-primary btn-sm js-ajax-submit" type="submit"
-                    data-action="{:url('AdminReport/publish',array('yes'=>1))}" data-subcheck="true">启用
-            </button>
-            <button class="btn btn-primary btn-sm js-ajax-submit" type="submit"
-                    data-action="{:url('AdminReport/publish',array('no'=>1))}" data-subcheck="true">取消启用
-            </button>
-            <button class="btn btn-primary btn-sm js-ajax-submit" type="submit"
-                    data-action="{:url('AdminReport/top',array('yes'=>1))}" data-subcheck="true">置顶
-            </button>
-            <button class="btn btn-primary btn-sm js-ajax-submit" type="submit"
-                    data-action="{:url('AdminReport/top',array('no'=>1))}" data-subcheck="true">取消置顶
-            </button>
-            <!--
-            <notempty name="categoryId">
-                <button class="btn btn-primary btn-sm js-articles-move" type="button">批量移动</button>
-            </notempty>
-            <button class="btn btn-primary btn-sm js-articles-copy" type="button">批量复制</button>
-            -->
-            <button class="btn btn-danger btn-sm js-ajax-submit" type="submit"
-                    data-action="{:url('AdminReport/delete')}" data-subcheck="true" data-msg="您确定删除吗？">
-                {:lang('DELETE')}
-            </button>
-        </div>
+<div class="table-actions">
+    <notempty name="categoryId">
+        <button class="btn btn-primary btn-sm js-ajax-submit" type="submit"
+                data-action="{:url('AdminReport/listOrder')}">{:lang('SORT')}
+        </button>
+    </notempty>
+    <button class="btn btn-primary btn-sm js-ajax-submit" type="submit"
+            data-action="{:url('AdminReport/change',['status'=>1])}" data-subcheck="true">启用
+    </button>
+    <button class="btn btn-primary btn-sm js-ajax-submit" type="submit"
+            data-action="{:url('AdminReport/change',['status'=>0])}" data-subcheck="true">不启用
+    </button>
+    <!--
+    <notempty name="categoryId">
+        <button class="btn btn-primary btn-sm js-articles-move" type="button">批量移动</button>
+    </notempty>
+    <button class="btn btn-primary btn-sm js-articles-copy" type="button">批量复制</button>
+    -->
+    <button class="btn btn-danger btn-sm js-ajax-submit" type="submit"
+            data-action="{:url('AdminReport/delete')}" data-subcheck="true" data-msg="您确定删除吗？">
+        {:lang('DELETE')}
+    </button>
+</div>

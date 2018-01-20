@@ -92,7 +92,7 @@ return [
   'usual_item_cate_codetype' => 
   [
     'text' => '文本类型',
-    'select' => '选择框',
+    'select' => '下拉框',
     'radio' => '单选框',
     'checkbox' => '复选框',
     'number' => '数字型',
@@ -196,6 +196,13 @@ return [
     6 => 'funds/AdminRecharge/addTicket',
     7 => 'usual/AdminVerify/index',
     8 => 'funds/AdminOpenshop/index',
+  ],
+  'trade_report_status' => 
+  [
+    '1' => '正常',
+    '2' => '未检测',
+    '3' => '轻微受损',
+    '4' => '严重受损',
   ],
   'pagerset' => 
   [

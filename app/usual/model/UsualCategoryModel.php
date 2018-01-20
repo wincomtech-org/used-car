@@ -118,11 +118,14 @@ class UsualCategoryModel extends Model
         foreach ($categories as $item) {
             $item['checked'] = in_array($item['id'], $currentIds) ? "checked" : "";
             $item['url']     = $config['url'] ? '<a href="'. cmf_url($config['url'], ['id' => $item['id']]) .'">'. $item['name'] .'</a>' : $item['name'];
-            if (isset($extra['is_rec'])) {
-                $item['is_rec'] = $item['is_rec']?'<font color="#F00">是</font>':'否';
-            }
             if (isset($extra['is_top'])) {
-                $item['is_top'] = $item['is_top']?'<font color="#F00">是</font>':'否';
+                $item['is_top'] = !empty($item['is_top'])?'<font color="#F00">是</font>':'否';
+            }
+            if (isset($extra['is_rec'])) {
+                $item['is_rec'] = !empty($item['is_rec'])?'<font color="#F00">是</font>':'否';
+            }
+            if (isset($extra['status'])) {
+                $item['status'] = !empty($item['status'])?'<font color="#F00">是</font>':'否';
             }
             if (isset($extra['code_type'])) {
                 $item['code_type'] = ($item['code_type']=='all') ? '<font color="#FCA005">默认</font>' : config('usual_item_cate_codetype')[$item['code_type']] ;
@@ -153,8 +156,9 @@ class UsualCategoryModel extends Model
             $tpl .= isset($extra['unit']) ? "<td><font color='#041DFA'>\$unit</font></td>" : '';
             if (isset($config['table2'])) $tpl .= "<td>\$bname</td>";
             $tpl .= "<td>\$description</td>";
-            $tpl .= isset($extra['is_rec']) ? "<td>\$is_rec</td>" : '';
             $tpl .= isset($extra['is_top']) ? "<td>\$is_top</td>" : '';
+            $tpl .= isset($extra['is_rec']) ? "<td>\$is_rec</td>" : '';
+            $tpl .= isset($extra['status']) ? "<td>\$status</td>" : '';
             $tpl .= "<td>\$str_action</td>";
             $tpl .= '</tr>';
 

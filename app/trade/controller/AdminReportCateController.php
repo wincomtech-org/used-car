@@ -16,7 +16,8 @@ class AdminReportCateController extends AdminBaseController
 
     public function index()
     {
-        $topId = $request = input('request.topId');
+        // $topId = $request = input('request.topId');
+        $topId = $this->request->param('topId/d',0,'intval');
         // dump($topId);die;
         $config = [
             'm'         => 'AdminReportCate',
@@ -25,7 +26,7 @@ class AdminReportCateController extends AdminBaseController
             'edit'      => true,
             'delete'    => false
         ];
-        $extra = ['unit'=>1,'code_type'=>1,'is_rec'=>1];
+        $extra = ['status'=>1];
         $filter = [];
         if (!empty($topId)) {
             $filter['path'] = [['eq',"0-{$topId}"],['like',"0-{$topId}-%"],'OR'];
@@ -46,10 +47,8 @@ class AdminReportCateController extends AdminBaseController
     {
         $parentId           = $this->request->param('parent', 0, 'intval');
         $categoriesTree     = $this->uModel->adminCategoryTree($parentId);
-        $codeType           = $this->uModel->getCodeType('all');
 
         $this->assign('categories_tree', $categoriesTree);
-        $this->assign('codeType', $codeType);
         return $this->fetch();
     }
     public function addPost()
@@ -63,21 +62,18 @@ class AdminReportCateController extends AdminBaseController
         if ($result === false) {
             $this->error('添加失败!');
         }
-        $this->success('添加成功!', url('AdminReportCate/index'));
+        $this->success('添加成功!', url('index',['parentId'=>$data['parent_id']]));
     }
 
     public function edit()
     {
-        $this->success('ok',url('index'));
         $id = $this->request->param('id', 0, 'intval');
         if ($id > 0) {
             $category = TradeReportCateModel::get($id)->toArray();
             $categoriesTree = $this->uModel->adminCategoryTree($category['parent_id'], $id);
-            $codeType = $this->uModel->getCodeType($category['code_type']);
 
             $this->assign($category);
             $this->assign('categories_tree', $categoriesTree);
-            $this->assign('codeType', $codeType);
             return $this->fetch();
         } else {
             $this->error('操作错误!');
@@ -97,7 +93,7 @@ class AdminReportCateController extends AdminBaseController
         if ($result === false) {
             $this->error('保存失败!',url('index'));
         }
-        $this->success('保存成功!',url('index'));
+        $this->success('保存成功!',url('index',['parentId'=>$data['parent_id']]));
     }
 
     public function select()
