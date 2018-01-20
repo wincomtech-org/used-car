@@ -36,7 +36,7 @@ class IndexController extends HomeBaseController
     public function platform()
     {
         // 写在前面
-        $plat = $this->request->param('plat',0,'intval');
+        $plat = $this->request->param('plat',1,'intval');
         if ($plat==3) {
             $this->redirect('shop/Index/index');
         }

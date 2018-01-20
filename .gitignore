@@ -11,3 +11,4 @@ composer.lock
 /public/api
 /public/upload/
 !/public/upload/index.html
+*.zip
