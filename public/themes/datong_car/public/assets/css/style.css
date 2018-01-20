@@ -1340,23 +1340,19 @@
 }
 
 /* 个人中心检测报告 */
+.show_test{
+    width:100%;
+}
+.show_test .details_item{
+    width:33.33%;
+    display:block;
+    float:left;
+}
+.select-option{
+    height:40px;
+    border:1px solid #ddd;
+}
 
-.jiance-edit{
-    background-color:#C60;
-    color:#fff;
-    padding:5px 14px;
-    font-size:14px;
-    display:inline-block;
-    vertical-align:middle;
-    margin-top:9px;
-    float:right;
-}
-.info_detail_list.jiance{
-    width:100%;
-}
-.info_detail_list.jiance .details_item{
-    width:100%;
-}
 /* 检测详情 */
 .jiance-con .analogy{
     border:none;
@@ -1364,7 +1360,6 @@
 .jiance-con .idetails_con .analogy select:last-child{
     width:120px !important;
     font-size:13px;
-    padding:0 10px;
 }
 .jiance-con  .analogy{
     border:none;
@@ -1373,7 +1368,35 @@
 .jiance-con .details_item .details_tit{
     font-size:14px;
 }
+.chesun{
+    overflow-x:scroll;
+}
+.chesun:after{
+    content:"";
+    display:block;
+    clear:both;
+}
+.chesun .out2{
+    float:left;
+}
+.car-appearance-con-show dl .last-dd{
+    display:block;
+    float:none;
+}
+.last-dd input[type='text']{
+    border: 1px solid #ddd;
+    height: 40px;
+    line-height: 40px;
+    margin-right: 22px;
+    margin-left: 22px;
+    padding-left:3px;
+}
 
+@media screen and (max-width:1023px){
+    .show_test .details_item{
+        width:50%;
+    }
+}
 
 @media screen and (max-width:768px){
     .out-scroll .jiance-con{
@@ -1381,15 +1404,30 @@
     }
     .jiance-con .details_item .details_tit{
         width:120px;
+        vertical-align: baseline;
+        
     }
-   .jiance .details_item .idetails_con{
+   /* .jiance .details_item .idetails_con{
         display:table-cell;
     }
     .jiance  .details_item .details_tit{
         width:120px;
-    }
+    } */
     .jiance-con .details_item .idetails_con{
         display:table-cell;
+    }
+    .show_test .details_item{
+        margin:7px 0;
+    }
+    .select-option{
+        font-size:14px;
+    }
+}
+
+
+@media screen and (max-width:500px){
+    .jiance-con .details_item .details_tit{
+        margin-bottom:5px;
     }
 }
 
