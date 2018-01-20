@@ -7,95 +7,7 @@ $('.nav_item ').hover(function() {
 	$(this).find('.nav_second_item').hide();
 });
 
-// 手机目录点击事件
-$('.open-panel').click(function(e){
-	if($('body').hasClass('with-panel-left-cover')){
-       $('body').removeClass('with-panel-left-cover');
-       $('.panel-cover').removeClass('active').hide()
-	}else{
-		$('body').addClass('with-panel-left-cover');
-		$('.panel-cover').show()
-	    $('.panel-cover').addClass('active');
-	}
-	e.stopPropagation()
-})
 
-$('.list-block .item-content').on('clcik',function(e){
-	e.stopPropagation();
-})
-
-$('.list-block .item-content').on('touchend',function(e){
-
-	e.stopPropagation();
-})
-
-
-$('.accordion-item>a.item-link').on('touchend',function(e){
-
-	if($(this).parent().hasClass('accordion-item-expanded')){
-
-		$(this).parent().removeClass('accordion-item-expanded')
-
-	}else{
-
-		$(this).parent().addClass('accordion-item-expanded')
-	}
-	e.stopPropagation();
-
-	return false;
-})
-
-// 点击目录的标题跳转
-$('.item-title').on('click',function(e){
-
-	var a_href=$(this).parent().parent().attr('href');
-
-	window.location.href=a_href;
-
-	e.stopPropagation();
-})
-
-$('.item-title').on('touchend',function(e){
-
-	var a_href=$(this).parent().parent().attr('href');
-
-	window.location.href=a_href;
-
-	e.stopPropagation();
-})
-
-$('.accordion-item>a.item-link').on('click',function(e){
-
-	if($(this).parent().hasClass('accordion-item-expanded')){
-
-		$(this).parent().removeClass('accordion-item-expanded')
-
-	}else{
-
-		$(this).parent().addClass('accordion-item-expanded')
-	}
-	e.stopPropagation();
-	return false;
-})
-
-$(document).on('click',function(){
-	_closeAction();
-})
-
-
-$("body:not('.accordion-item')").on('touchend',function(){
-	_closeAction();
-})
-
-function _closeAction(){
-
-	$('.panel-cover').hide();
-	$('.accordion-item>').removeClass('accordion-item-expanded');
-	$('body').removeClass('with-panel-left-cover')
-
-}
-
-/*结束手机目录点击事件*/
 
 
 // 关于我们手机端显示问题
@@ -569,25 +481,7 @@ function is_submit(value) {
 	}
 }
 
-// $('.data_filling_list  .right input').blur(function(){
-// 	if($.trim($(this).val()) == ""){
-// 		$(this).siblings('b').css('display','block');
-// 		if($(this).attr('type') == 'file'){
-// 			$(this).parent().parent().siblings('b').hide();
-// 		}
-// 	}else if($(this).attr('name') == 'tel' && isPhoneNo($.trim($('input[name="tel"]').val())) == false){
-// 		$(this).siblings('b').css('display','block');
 
-
-// 	}else if($(this).attr('name') == 'car_num' && car_num($.trim($('input[name="car_num"]').val())) == false){
-// 		$(this).siblings('b').css('display','block');
-// 	}else{
-// 		$(this).siblings('b').css('display','none');
-// 		if($(this).attr('type') == 'file'){
-// 			$(this).parent().parent().siblings('b').show();
-// 		}
-// 	}
-// })
 /*end**险种选择，资料填写*/
 
 /*车险选择签合同 */

@@ -141,9 +141,9 @@
                                 <a class="btn" href="{:url('seeCar',['id'=>$page.id])}"><span></span>预约看车</a>
                             <else/>
                                 <if condition="$userId eq $findOrder">
-                                    <a class="btn" href="{:url('user/Buyer/index',['carId'=>$page.id])}">查看订单 >></a>
+                                    <a class="btn" href="{:url('user/Buyer/index',['carId'=>$page.id])}">查看订单</a>
                                 <else/>
-                                    <span class="btn" style="color:#F00;">已被锁单</span>
+                                    <span class="btn" >已被锁单</span>
                                 </if>
                             </empty>
                         </div>

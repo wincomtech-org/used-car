@@ -1509,8 +1509,8 @@
 .order_detail .right p{margin:10px 0;}
 .order_detail .right p span{color:#666;}
 .order_detail .right p:first-child span:not(:last-child):after{content:" \/";display:inline-block;margin-right:5px;margin-left:5px;}
-.state span,.operate span,.detail span{display:block;text-align:center;margin:10px 0;}
-.state span a,.state span em,.operate span a,.operate span em,.detail span a,.detail span em{font-size:16px;white-space:nowrap;}
+.state span,.operate span,.detail span{display:block;text-align:center;margin:5px 0;}
+.state span a,.state span em,.operate span a,.operate span em,.detail span a,.detail span em{font-size:14px;white-space:nowrap;}
 .state1,.operate1{color:#d00000;}
 .state2{color:green;}
 
@@ -1519,7 +1519,7 @@
 .expense span{display:block;margin:9px 0;}
 .home_list table tbody tr:nth-child(2) td.subscription{text-align:center;}
 .subscription span{display:block;text-align:center;}
-.home_list .detail1,.home_list .detail2,.home_list .detail3{display:block;width:80px;height:30px;line-height:30px;font-size:14px!important;margin:3px auto;color:#fff;}
+.home_list .detail1,.home_list .detail2,.home_list .detail3{display:block;width:75px;height:24px;line-height:24px;font-size:12px!important;margin:3px auto;color:#fff;}
 .home_list .detail1{background-color:#d00000;}
 .home_list .detail2{background-color:#2662f1;}
 .home_list .detail3{background-color:transparent;color:#666;}
