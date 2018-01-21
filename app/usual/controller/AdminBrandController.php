@@ -201,15 +201,7 @@ class AdminBrandController extends AdminBaseController
     <td>\$spacer <a style='text-decoration:none;cursor:pointer;'>\$name</a></td>
 </tr>
 tpl;
-        $config = [
-            'm'=>'AdminBrand',
-            'url'=>'',
-            'add'=>true,
-            'add_title'=>'',
-            'edit'=>true,
-            'delete'=>true,
-            'table2'=>''
-        ];
+        $config = ['url'=>'usual/AdminBrand/edit'];
         $categoryTree = $this->UsualModel->adminCategoryTableTree($selectedIds, $tpl, $config);
 
         $where      = ['delete_time' => 0];
