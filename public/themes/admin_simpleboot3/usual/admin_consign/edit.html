@@ -106,12 +106,12 @@
 <script type="text/javascript">
     $(function () {
         $('#input-province').change(function() {
-            var Id = $(this).val();
+            var pid = $(this).val();
             $.ajax({
                 url: '{:url("usual/Ajax/getCitys")}',
                 type: 'POST',
                 // dataType: 'json',
-                data: {parentId: Id},
+                data: {parentId: pid},
             })
             .done(function(data) {
                 // console.log("success");

@@ -1,0 +1,99 @@
+<table class="table table-bordered">
+<tr>
+    <th width="100">标题<span class="form-required">*</span></th>
+    <td>
+        <input class="form-control" type="text" name="post[name]" required value="{$post.name|default=''}" placeholder="起个合适的标题吧"/>
+    </td>
+</tr>
+<tr>
+    <th>购入价格</th>
+    <td>
+        <input class="form-control" type="text" name="post[price]" value="{$post.price|default='0.00'}" />
+        <p class="help-block">单位：万元</p>
+    </td>
+</tr>
+
+<tr>
+    <th>所属品牌</th>
+    <td>
+        <select class="form-control" style="width:150px;" name="post[brand_id]" id="input-brand">
+            <option value="">--请选择--</option>
+            {$Brands|default=''}
+        </select>
+    </td>
+</tr>
+<tr>
+    <th>所属车系</th>
+    <td>
+        <select class="form-control" style="width:150px;float:left;" name="post[serie_pid]" id="input-series">
+            <option value="">--请选择--</option>
+            {$Series|default=''}
+        </select>
+        <select class="form-control" style="width:150px;float:left;margin-left:20px;" name="post[serie_id]" id="input-serie">
+            <option value="">--请选择--</option>
+            {$Series2|default=''}
+        </select>
+    </td>
+</tr>
+<tr>
+    <th>车型</th>
+    <td>
+        <select class="form-control" style="width:150px;" name="post[model_id]" id="input-model">
+            <option value="">--请选择--</option>
+            {$Models|default=''}
+        </select>
+    </td>
+</tr>
+<tr>
+    <th>所在城市</th>
+    <td>
+        <select class="form-control" style="width:150px;float:left;" name="post[province_id]" id="input-province">
+            <option value="">--请选择--</option>
+            {$Provinces|default=''}
+        </select>
+        <select class="form-control" style="width:150px;float:left;margin-left:20px;" name="post[city_id]" id="input-city">
+            <option value="">--请选择--</option>
+            {$Citys|default=''}
+        </select>
+    </td>
+</tr>
+
+<tr>
+    <th>简介</th>
+    <td>
+        <textarea class="form-control" style="height:50px;" placeholder="请填写描述" name="post[description]" value="{$post.description|default=''}"></textarea>
+    </td>
+</tr>
+<tr>
+    <th>详情</th>
+    <td>
+        <script style="height:300px;" type="text/plain" id="content" name="post[content]">{$post.content|default=''}</script>
+    </td>
+</tr>
+<tr>
+    <th>相册</th>
+    <td>
+        <ul id="photos" class="pic-list list-unstyled form-inline">
+            <notempty name="post.more.photos">
+            <foreach name="post.more.photos" item="vo">
+                <li id="saved-image{$key}">
+                    <input id="photo-{$key}" type="hidden"
+                           name="photo[urls][]" value="{$vo.url}">
+                    <input id="photo-{$key}-name" type="text"
+                           name="photo[names][]" value="{$vo.name|default=''}"
+                           class="form-control" style="width: 200px;" title="图片名称">
+                    <img id="photo-{$key}-preview"
+                         src="{:cmf_get_image_preview_url($vo['url'])}"
+                         style="height:36px;width: 36px;"
+                         onclick="parent.imagePreviewDialog(this.src);">
+                    <a href="javascript:uploadOneImage('图片上传','#photo-{$key}');">替换</a>
+                    <a href="javascript:(function(){$('#saved-image{$key}').remove();})();">移除</a>
+                </li>
+            </foreach>
+            </notempty>
+        </ul>
+        <a href="javascript:uploadMultiImage('图片上传','#photos','photos-item-tpl');"
+           class="btn btn-default btn-sm">选择图片</a>
+    </td>
+</tr>
+</table>

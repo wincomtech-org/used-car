@@ -265,13 +265,7 @@ class SellerController extends TradeController
     // 检测项目
     public function report()
     {
-        $id = $this->request->param('id/d');
-        if (empty($id)) {
-            $this->error('非法操作！');
-        }
-        $carInfo = Db::name('usual_car')->field('id,name')->where('id',$id)->find();
-dump($carInfo);
-        $this_>assign('car',$carInfo);
+
         return $this->fetch();
     }
     public function reportPost()

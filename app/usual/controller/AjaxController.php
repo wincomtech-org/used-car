@@ -127,6 +127,28 @@ class AjaxController extends BaseController
         }
     }
 
+    /**
+     * 获取检测项目二级类
+     * @param  string  $selectId [description]
+     * @param  integer $parentId [description]
+     * @param  string  $option   [description]
+     * @return [type]            [description]
+     */
+    public function getReportCate()
+    {
+        $selectId = $this->request->param('selectId/d',0,'intval');
+        $parentId = $this->request->param('parentId/d',0,'intval');
+        $option = $this->request->param('option/s','请选择');
+
+        if ($option=='json' || $option=='false' || $option===false) {
+            $options = model('trade/TradeReportCate')->getCate($selectId, $parentId, $option);
+            echo $options;exit;
+        } else {
+            $options = model('trade/TradeReportCate')->getCate($selectId, $parentId, $option);
+            return $options;
+        }
+    }
+
     /*
     * 用户
     * 验证用户

@@ -6,6 +6,7 @@ use app\usual\model\UsualCarModel;
 use app\usual\model\UsualBrandModel;
 // use app\usual\model\UsualItemModel;
 // use app\admin\model\DistrictModel;
+use app\trade\model\TradeReportCateModel;
 use think\Db;
 
 /**
@@ -85,9 +86,11 @@ class AdminCarController extends AdminBaseController
         $recItems = model('UsualItem')->getItemTable('is_rec',1);
         // 属性表里所有属性（不包含推荐的）
         $allItems = model('UsualItem')->getItemTable(null,'',true);
+        // 检测报告
+        $reportModel = new TradeReportCateModel();
+        $reportCate = $reportCate2 = $reportModel->getCate();
+
         // 开店资料审核 config('verify_define_data');
-
-
         // 售卖状态
         $sell_status = $this->Model->getSellStatus();
 
@@ -100,6 +103,8 @@ class AdminCarController extends AdminBaseController
         $this->assign('searchCode', $searchCode);
         $this->assign('recItems', $recItems);
         $this->assign('allItems', $allItems);
+        $this->assign('reportCate', $reportCate);
+        $this->assign('reportCate2', $reportCate2);
 
         $this->assign('sell_status', $sell_status);
 
@@ -123,7 +128,6 @@ class AdminCarController extends AdminBaseController
     {
         if ($this->request->isPost()) {
             $data   = $this->request->param();
-            // $data = $_POST;
             $post = $data['post'];
             $post['user_id'] = cmf_get_current_admin_id();
             $more = $data['post']['more'];
@@ -149,6 +153,7 @@ class AdminCarController extends AdminBaseController
             if (!empty($data['file'])) {
                 $post['more']['files'] = $this->Model->dealFiles($data['file']);
             }
+            $post['report'] = $data['report'];
 
             // 事务处理
             // 提交车子数据
@@ -193,12 +198,14 @@ class AdminCarController extends AdminBaseController
         $recItems = model('UsualItem')->getItemTable('is_rec',1);
         // 属性表里所有属性（不包含推荐的）
         $allItems = model('UsualItem')->getItemTable(null,'',true);
-
-        // 售卖状态
-        $sell_status = $this->Model->getSellStatus($post['sell_status']);
+        // 检测报告
+        $reportModel = new TradeReportCateModel();
+        $reportCate = $reportCate2 = $reportModel->getCate();
 
         // 个人审核资料
         $verifyinfo = lothar_verify($post['user_id'],'openshop','all');
+        // 售卖状态
+        $sell_status = $this->Model->getSellStatus($post['sell_status']);
 
         $this->assign('verifyinfo',$verifyinfo);
 
@@ -213,6 +220,8 @@ class AdminCarController extends AdminBaseController
         $this->assign('searchCode', $searchCode);
         $this->assign('recItems', $recItems);
         $this->assign('allItems', $allItems);
+        $this->assign('reportCate', $reportCate);
+        $this->assign('reportCate2', $reportCate2);
 
         $this->assign('sell_status', $sell_status);
         $this->assign('post', $post);
@@ -237,9 +246,10 @@ class AdminCarController extends AdminBaseController
     {
         if ($this->request->isPost()) {
             $data   = $this->request->param();
-            // $data = $_POST;
             $post = $data['post'];
             $more = $data['post']['more'];
+            $report = $data['report'];
+
             if (empty($post['serie_id'])) {
                 $post['serie_id'] = $post['serie_pid'];
             }
@@ -258,6 +268,7 @@ class AdminCarController extends AdminBaseController
             if (!empty($data['file'])) {
                 $post['more']['files'] = $this->Model->dealFiles($data['file']);
             }
+            $post['report'] = $report;
 
             /*个人审核资料填写*/
             $verify = $data['verify'];

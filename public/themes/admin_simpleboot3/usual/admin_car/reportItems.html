@@ -1,42 +1,20 @@
 <!--  -->
-<style type="text/css">
-    .fl{float: left;}
-    .fr{float: right;}
-    .clear{clear: both;}
-</style>
-
-<div><big><b>检测项目报告</b></big></div>
 <table class="table table-bordered">
     <tr>
-        <th width="160"></th>
-        <td align="center">
-            <big><b>一级类1</b></big>
-            <p class="help-block">描述：</p>
+        <th></th>
+        <td align="center"><big><b>检测项目报告</b></big></td>
+    </tr>
+    <tr id="attr_each">
+        <th width="110">选择检测类别</th>
+        <td>
+            <select class="form-control" style="width:150px;float:left;" id="input-report1">
+                <option value="">--请选择--</option>
+                {$reportCate|default=''}
+            </select>
+            <select class="form-control" style="width:150px;float:left;margin-left:20px;display:none" id="input-report2">
+                <option value="">--请选择--</option>
+                {$reportCate2|default=''}
+            </select>
         </td>
-    </tr>
-    <tr>
-        <th>二级类1_1</th>
-        <td></td>
-    </tr>
-    <tr>
-        <th>二级类1_2</th>
-        <td></td>
-    </tr>
-
-
-    <tr>
-        <th width="160"></th>
-        <td align="center">
-            <big><b>一级类2</b></big>
-            <p class="help-block">描述：</p>
-        </td>
-    </tr>
-    <tr>
-        <th>二级类2_1</th>
-        <td></td>
-    </tr>
-    <tr>
-        <th>二级类2_2</th>
-        <td></td>
     </tr>
 </table>

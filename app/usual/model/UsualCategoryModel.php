@@ -276,17 +276,20 @@ class UsualCategoryModel extends Model
     // 选择框
     public function createOptions($selectId, $option, $data)
     {
-        if ($option===false) {
+
+        if ($option=='json') {
+            return json_encode($data);
+        } elseif ($option=='false' || $option===false) {
             return $data;
-        } else {
-            $options = (empty($option)) ? '':'<option value="">--'.$option.'--</option>';
-            if (is_array($data)) {
-                foreach ($data as $v) {
-                    $options .= '<option value="'.$v['id'].'" '.($selectId==$v['id']?'selected':'').' >'.$v['name'].'</option>';
-                }
-            }
-            return $options;
         }
+
+        $options = (empty($option)) ? '':'<option value="">--'.$option.'--</option>';
+        if (is_array($data)) {
+            foreach ($data as $v) {
+                $options .= '<option value="'.$v['id'].'" '.($selectId==$v['id']?'selected':'').' >'.$v['name'].'</option>';
+            }
+        }
+        return $options;
     }
 
 }

@@ -36,8 +36,8 @@ $(function(){
         // 地区选择
         select_province('',url);
         // 坐标获取
-        var Id = $(this).val();
-        var data = {servId:'{$page.id}',provId: Id};
+        var pid = $(this).val();
+        var data = {servId:'{$page.id}',provId: pid};
         coordJson(data);
     });
 

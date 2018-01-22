@@ -18,6 +18,7 @@ class UsualModel extends Model
         'identi' => 'array',
         'define_data' => 'array',
         'file' => 'array',
+        'report' => 'array',
     ];
     // 开启自动写入时间戳字段
     protected $autoWriteTimestamp = true;
@@ -296,17 +297,18 @@ class UsualModel extends Model
     // 选择框
     public function createOptions($selectId=0, $option='', $data=[])
     {
-        if ($option===false) {
+        if ($option=='json') {
+            return json_encode($data);
+        } elseif ($option=='false' || $option===false) {
             return $data;
-        } else {
-            $options = (empty($option)) ? '':'<option value="">--'.$option.'--</option>';
-            if (is_array($data)) {
-                foreach ($data as $v) {
-                    $options .= '<option value="'.$v['id'].'" '.($selectId==$v['id']?'selected':'').'>'.$v['name'].'</option>';
-                }
-            }
-            return $options;
         }
+        $options = (empty($option)) ? '':'<option value="">--'.$option.'--</option>';
+        if (is_array($data)) {
+            foreach ($data as $v) {
+                $options .= '<option value="'.$v['id'].'" '.($selectId==$v['id']?'selected':'').'>'.$v['name'].'</option>';
+            }
+        }
+        return $options;
     }
 
     // Excel 处理

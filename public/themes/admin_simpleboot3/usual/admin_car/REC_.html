@@ -1,0 +1,60 @@
+
+<tr>
+    <th width="100">车架号</th>
+    <td>
+        <input class="form-control" maxlength="17" placeholder="17位的车架号" type="text" name="post[car_vin]" value="{$post.car_vin|default=''}">
+    </td>
+</tr>
+<tr>
+    <th>车牌号码<span class="form-required">*</span></th>
+    <td>
+        <input class="form-control" minlength="7" maxlength="7" placeholder="7位的车牌号" type="text" name="post[plateNo]" value="{$post.plateNo|default=''}">
+    </td>
+</tr>
+<tr>
+    <th>上牌时间</th>
+    <td>
+        <input class="form-control js-bootstrap-datetime" placeholder="" type="text" name="post[car_license_time]" value="{$post.car_license_time?=date('Y-m-d',$post.car_license_time)}">
+    </td>
+</tr>
+<tr>
+    <th>年检到期日</th>
+    <td>
+        <input class="form-control js-bootstrap-datetime" placeholder="" type="text" name="post[car_check_time]" value="{$post.car_check_time?=date('Y-m-d',$post.car_check_time)}">
+    </td>
+</tr>
+<tr>
+    <th>保险到期日</th>
+    <td>
+        <input class="form-control js-bootstrap-datetime" placeholder="" type="text" name="post[car_insur_time]" value="{$post.car_insur_time?=date('Y-m-d',$post.car_insur_time)}">
+    </td>
+</tr>
+
+<tr>
+    <th>车龄</th>
+    <td>
+        <input class="form-control" max="999" placeholder="" type="number" name="post[car_age]" value="{$post.car_age|default=''}">
+        <p class="help-block">单位：年</p>
+    </td>
+</tr>
+<tr>
+    <th>里程数</th>
+    <td>
+        <input class="form-control" placeholder="" type="text" name="post[car_mileage]" value="{$post.car_mileage|default=''}">
+        <p class="help-block">单位：万公里</p>
+    </td>
+</tr>
+<tr>
+    <th>排量</th>
+    <td>
+        <input class="form-control" placeholder="" type="text" name="post[car_displacement]" value="{$post.car_displacement|default=''}">
+        <p class="help-block">单位：升（L）</p>
+    </td>
+</tr>
+<tr>
+    <th>座位数</th>
+    <td>
+        <input class="form-control" placeholder="默认5，最大99" type="text" name="post[car_seating]" value="{$post.car_seating|default=''}" max="99">
+        <p class="help-block">单位：座</p>
+    </td>
+</tr>

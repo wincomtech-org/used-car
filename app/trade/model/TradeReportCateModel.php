@@ -56,6 +56,11 @@ class TradeReportCateModel extends UsualCategoryModel
         // return $this->getStatus($status,'usual_item_cate_codetype');
     }
 
+    public function getCate($selectId=0, $parentId=0, $option='')
+    {
+        $data = $this->field('id,name')->where('parent_id',$parentId)->select()->toArray();
+        return $this->createOptions($selectId, $option, $data);
+    }
 
 
 }

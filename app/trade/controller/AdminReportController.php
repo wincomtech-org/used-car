@@ -14,6 +14,7 @@ class AdminReportController extends AdminBaseController
 
     public function index()
     {
+        return '检测报告在二手车编辑页的 检测项目里';
         $param = $this->request->param();//接收筛选条件
         $cateId = $this->request->param('cateId',0,'intval');
 

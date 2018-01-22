@@ -362,12 +362,12 @@
         });
 
         $('#input-province').change(function() {
-            var Id = $(this).val();
+            var pid = $(this).val();
             $.ajax({
                 url: '{:url("Ajax/getCitys")}',
                 type: 'POST',
                 // dataType: 'json',
-                data: {parentId: Id},
+                data: {parentId: pid},
             })
             .done(function(data) {
                 // console.log("success");
@@ -382,8 +382,8 @@
         });
 
         $('#input-series').change(function() {
-            var Id = $(this).val();
-            $.post('{:url("Ajax/getSecondSeries")}', {parentId: Id}, function(data) {
+            var pid = $(this).val();
+            $.post('{:url("Ajax/getSecondSeries")}', {parentId: pid}, function(data) {
                 if (data) {$('#input-serie').show().html(data);}
             });
         });
