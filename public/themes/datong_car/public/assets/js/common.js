@@ -8,25 +8,23 @@ $('.nav_item ').hover(function() {
 });
 
 
-
-
 // 关于我们手机端显示问题
-    if(screen.width<768){
-         $('.about_btn_span').on('click',function(){
-            if($('.about_us_list').css('display') == "none"){
-                $('.about_us_list').css('display','inline-block')
-            }else{
-                $('.about_us_list').css('display','none')
-            }
-        })
+if(screen.width<768){
+		$('.about_btn_span').on('click',function(){
+		if($('.about_us_list').css('display') == "none"){
+			$('.about_us_list').css('display','inline-block')
+		}else{
+			$('.about_us_list').css('display','none')
+		}
+	})
 
-        $(document).mouseup(function(e){
-            var _con = $(' .about_us_list ');   // 设置目标区域
-            if(!_con.is(e.target) && _con.has(e.target).length === 0){ // Mark 1
-                $('.about_us_list').css('display','none')
-            }
-        });
-    }
+	$(document).mouseup(function(e){
+		var _con = $(' .about_us_list ');   // 设置目标区域
+		if(!_con.is(e.target) && _con.has(e.target).length === 0){ // Mark 1
+			$('.about_us_list').css('display','none')
+		}
+	});
+}
 /**
  * 查看图片对话框
  * @param img 图片地址
