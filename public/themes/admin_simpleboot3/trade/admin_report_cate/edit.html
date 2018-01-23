@@ -32,6 +32,15 @@
                                 <input type="text" class="form-control" id="input-name" name="name" value="{$name}">
                             </div>
                         </div>
+                        <div class="form-group">
+                            <label>类型</label>
+                            <div>
+                                <select class="form-control" name="code_type">
+                                    <option {$code_type=='select'?='selected'} value="select">--文本(下拉)--</option>
+                                    <option {$code_type=='photo'?='selected'} value="photo">--图--</option>
+                                </select>
+                            </div>
+                        </div>
 
                         <div class="form-group">
                             <label for="input-description">描述</label>
@@ -40,6 +49,13 @@
                             </div>
                         </div>
 
+                        <div class="form-group">
+                            <label>是否开启</label>
+                            <div>
+                                <label><input type="radio" name="status" value="1" {$status==1?='checked'}> 是 &nbsp; &nbsp;</label>
+                                <label><input type="radio" name="status" value="0" {$status==0?='checked'}> 否</label>
+                            </div>
+                        </div>
                         <div class="form-group">
                             <label>是否置顶</label>
                             <div>

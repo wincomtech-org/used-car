@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50540
 File Encoding         : 65001
 
-Date: 2018-01-20 15:08:47
+Date: 2018-01-23 18:14:13
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -4376,7 +4376,7 @@ CREATE TABLE `cmf_hook_plugin` (
   `hook` varchar(50) NOT NULL DEFAULT '' COMMENT '钩子名',
   `plugin` varchar(30) NOT NULL DEFAULT '' COMMENT '插件',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='系统钩子插件表';
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COMMENT='系统钩子插件表';
 
 -- ----------------------------
 -- Records of cmf_hook_plugin
@@ -4691,7 +4691,7 @@ CREATE TABLE `cmf_plugin` (
   `description` varchar(255) NOT NULL COMMENT '插件描述',
   `config` text COMMENT '插件配置',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='插件表';
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COMMENT='插件表';
 
 -- ----------------------------
 -- Records of cmf_plugin
@@ -5582,12 +5582,12 @@ CREATE TABLE `cmf_trade_report` (
   `cate_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '分类ID',
   `deal_uid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '处理人ID',
   `name` varchar(150) NOT NULL DEFAULT '' COMMENT '属性值的名称',
+  `ucs` varchar(255) NOT NULL DEFAULT '' COMMENT '坐标系',
   `rule` varchar(255) NOT NULL DEFAULT '' COMMENT '替换规则',
   `remark` varchar(255) NOT NULL DEFAULT '' COMMENT '备注',
   `description` varchar(255) NOT NULL DEFAULT '' COMMENT '描述',
+  `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '提交时间',
   `update_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
-  `delete_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '删除时间',
-  `is_top` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '是否置顶：1是 0否',
   `status` tinyint(3) NOT NULL DEFAULT '1' COMMENT '状态：-1禁用 0隐藏 1显示',
   `more` text COMMENT '扩展属性：',
   `list_order` float unsigned NOT NULL DEFAULT '10000' COMMENT '排序：从小到大',
@@ -5597,43 +5597,43 @@ CREATE TABLE `cmf_trade_report` (
 -- ----------------------------
 -- Records of cmf_trade_report
 -- ----------------------------
-INSERT INTO `cmf_trade_report` VALUES ('1', '22', '0', '2', '', '', '', '1510281005', '0', '0', '1', '{\"thumbnail\":\"\"}', '10000');
-INSERT INTO `cmf_trade_report` VALUES ('2', '22', '0', '4', '', '', '', '1510281034', '0', '0', '1', '{\"thumbnail\":\"\"}', '10000');
-INSERT INTO `cmf_trade_report` VALUES ('3', '22', '0', '5', '', '', '', '1510281639', '0', '0', '1', '', '10000');
-INSERT INTO `cmf_trade_report` VALUES ('4', '22', '0', '7', '', '', '', '1510281698', '0', '0', '1', '', '10000');
-INSERT INTO `cmf_trade_report` VALUES ('5', '22', '0', '>7', '', '', '7座以上', '1510281865', '0', '0', '1', '', '10000');
-INSERT INTO `cmf_trade_report` VALUES ('6', '20', '0', '1', '', '', '白色', '1510397216', '0', '0', '1', '{\"thumbnail\":\"\"}', '10000');
-INSERT INTO `cmf_trade_report` VALUES ('7', '20', '0', '2', '', '', '黑色', '1510394432', '0', '0', '1', '{\"thumbnail\":\"\"}', '10000');
-INSERT INTO `cmf_trade_report` VALUES ('8', '20', '0', '3', '', '', '灰色', '1510394454', '0', '0', '1', '{\"thumbnail\":\"\"}', '10000');
-INSERT INTO `cmf_trade_report` VALUES ('9', '20', '0', '4', '', '', '黄色', '1510394486', '0', '0', '1', '{\"thumbnail\":\"\"}', '10000');
-INSERT INTO `cmf_trade_report` VALUES ('10', '20', '0', '5', '', '', '红色', '1510394510', '0', '0', '1', '{\"thumbnail\":\"\"}', '10000');
-INSERT INTO `cmf_trade_report` VALUES ('11', '20', '0', '6', '', '', '彩色', '1510396450', '0', '0', '1', '{\"thumbnail\":\"\"}', '10000');
-INSERT INTO `cmf_trade_report` VALUES ('12', '18', '0', '>=3', '', '', '国三以上', '1510396584', '0', '0', '1', '{\"thumbnail\":\"\"}', '10000');
-INSERT INTO `cmf_trade_report` VALUES ('13', '18', '0', '>=4', '', '', '国四以上', '1510396715', '0', '0', '1', '{\"thumbnail\":\"\"}', '10000');
-INSERT INTO `cmf_trade_report` VALUES ('14', '18', '0', '5', '', '', '国五', '1510396736', '0', '0', '1', '{\"thumbnail\":\"\"}', '10000');
-INSERT INTO `cmf_trade_report` VALUES ('15', '19', '0', '1', '', '', '汽油', '1510396789', '0', '0', '1', '{\"thumbnail\":\"\"}', '10000');
-INSERT INTO `cmf_trade_report` VALUES ('16', '19', '0', '2', '', '', '柴油', '1510396878', '0', '0', '1', '{\"thumbnail\":\"\"}', '10000');
-INSERT INTO `cmf_trade_report` VALUES ('17', '19', '0', '3', '', '', '纯电动', '1510396840', '0', '0', '1', '{\"thumbnail\":\"\"}', '10000');
-INSERT INTO `cmf_trade_report` VALUES ('18', '19', '0', '4', '', '', '油电混合', '1510396859', '0', '0', '1', '{\"thumbnail\":\"\"}', '10000');
-INSERT INTO `cmf_trade_report` VALUES ('19', '21', '0', '<1', '', '', '1.0L以下', '1510283163', '0', '0', '1', '{\"thumbnail\":\"\"}', '10000');
-INSERT INTO `cmf_trade_report` VALUES ('20', '21', '0', '1.0~1.6', '', '', '1.1L-1.6L', '1510283479', '0', '0', '1', '{\"thumbnail\":\"\"}', '10000');
-INSERT INTO `cmf_trade_report` VALUES ('21', '21', '0', '1.7~2', '', '', '1.7L-2.0L', '1510283465', '0', '0', '1', '{\"thumbnail\":\"\"}', '10000');
-INSERT INTO `cmf_trade_report` VALUES ('22', '21', '0', '2.1~2.5', '', '', '2.1L-2.5L', '1510283449', '0', '0', '1', '{\"thumbnail\":\"\"}', '10000');
-INSERT INTO `cmf_trade_report` VALUES ('23', '21', '0', '2.5~3', '', '', '2.6L-3.0L', '1510283514', '0', '0', '1', '{\"thumbnail\":\"\"}', '10000');
-INSERT INTO `cmf_trade_report` VALUES ('24', '21', '0', '3~4', '', '', '3.0L-4.0L', '1510283540', '0', '0', '1', '{\"thumbnail\":\"\"}', '10000');
-INSERT INTO `cmf_trade_report` VALUES ('25', '21', '0', '>4', '', '', '4.0L以上', '1510283564', '0', '0', '1', '{\"thumbnail\":\"\"}', '10000');
-INSERT INTO `cmf_trade_report` VALUES ('26', '17', '0', '1', '', '', '自动', '1510394362', '0', '0', '1', '{\"thumbnail\":\"\"}', '10000');
-INSERT INTO `cmf_trade_report` VALUES ('27', '17', '0', '2', '', '', '手动', '1510394344', '0', '0', '1', '{\"thumbnail\":\"\"}', '10000');
-INSERT INTO `cmf_trade_report` VALUES ('28', '17', '0', '3', '', '', '手自一体', '1510394325', '0', '0', '1', '{\"thumbnail\":\"\"}', '10000');
-INSERT INTO `cmf_trade_report` VALUES ('29', '25', '0', '<=1', '', '', '1年以内', '1511344443', '0', '0', '1', '{\"thumbnail\":\"\"}', '10000');
-INSERT INTO `cmf_trade_report` VALUES ('30', '25', '0', '<=3', '', '', '3年以内', '1511344475', '0', '0', '1', '{\"thumbnail\":\"\"}', '10000');
-INSERT INTO `cmf_trade_report` VALUES ('31', '25', '0', '<=5', '', '', '5年以内', '1511344502', '0', '0', '1', '{\"thumbnail\":\"\"}', '10000');
-INSERT INTO `cmf_trade_report` VALUES ('32', '25', '0', '>5', '', '', '5年以上', '1511344524', '0', '0', '1', '{\"thumbnail\":\"\"}', '10000');
-INSERT INTO `cmf_trade_report` VALUES ('33', '24', '0', '<=1', '', '', '1万公里以内', '1511344578', '0', '0', '1', '{\"thumbnail\":\"\"}', '10000');
-INSERT INTO `cmf_trade_report` VALUES ('34', '24', '0', '<=3', '', '', '3万公里以内', '1511344826', '0', '0', '1', '{\"thumbnail\":\"\"}', '10000');
-INSERT INTO `cmf_trade_report` VALUES ('35', '24', '0', '<=5', '', '', '5万公里以内', '1511345046', '0', '0', '1', '{\"thumbnail\":\"\"}', '10000');
-INSERT INTO `cmf_trade_report` VALUES ('36', '24', '0', '<=8', '', '', '8万公里以内', '1511345085', '0', '0', '1', '{\"thumbnail\":\"\"}', '10000');
-INSERT INTO `cmf_trade_report` VALUES ('37', '24', '0', '>8', '', '', '8万公里以上', '1511345540', '0', '0', '1', '{\"thumbnail\":\"\"}', '10000');
+INSERT INTO `cmf_trade_report` VALUES ('1', '22', '0', '2', '', '', '', '', '0', '1510281005', '1', '{\"thumbnail\":\"\"}', '10000');
+INSERT INTO `cmf_trade_report` VALUES ('2', '22', '0', '4', '', '', '', '', '0', '1510281034', '1', '{\"thumbnail\":\"\"}', '10000');
+INSERT INTO `cmf_trade_report` VALUES ('3', '22', '0', '5', '', '', '', '', '0', '1510281639', '1', '', '10000');
+INSERT INTO `cmf_trade_report` VALUES ('4', '22', '0', '7', '', '', '', '', '0', '1510281698', '1', '', '10000');
+INSERT INTO `cmf_trade_report` VALUES ('5', '22', '0', '>7', '', '', '', '7座以上', '0', '1510281865', '1', '', '10000');
+INSERT INTO `cmf_trade_report` VALUES ('6', '20', '0', '1', '', '', '', '白色', '0', '1510397216', '1', '{\"thumbnail\":\"\"}', '10000');
+INSERT INTO `cmf_trade_report` VALUES ('7', '20', '0', '2', '', '', '', '黑色', '0', '1510394432', '1', '{\"thumbnail\":\"\"}', '10000');
+INSERT INTO `cmf_trade_report` VALUES ('8', '20', '0', '3', '', '', '', '灰色', '0', '1510394454', '1', '{\"thumbnail\":\"\"}', '10000');
+INSERT INTO `cmf_trade_report` VALUES ('9', '20', '0', '4', '', '', '', '黄色', '0', '1510394486', '1', '{\"thumbnail\":\"\"}', '10000');
+INSERT INTO `cmf_trade_report` VALUES ('10', '20', '0', '5', '', '', '', '红色', '0', '1510394510', '1', '{\"thumbnail\":\"\"}', '10000');
+INSERT INTO `cmf_trade_report` VALUES ('11', '20', '0', '6', '', '', '', '彩色', '0', '1510396450', '1', '{\"thumbnail\":\"\"}', '10000');
+INSERT INTO `cmf_trade_report` VALUES ('12', '18', '0', '>=3', '', '', '', '国三以上', '0', '1510396584', '1', '{\"thumbnail\":\"\"}', '10000');
+INSERT INTO `cmf_trade_report` VALUES ('13', '18', '0', '>=4', '', '', '', '国四以上', '0', '1510396715', '1', '{\"thumbnail\":\"\"}', '10000');
+INSERT INTO `cmf_trade_report` VALUES ('14', '18', '0', '5', '', '', '', '国五', '0', '1510396736', '1', '{\"thumbnail\":\"\"}', '10000');
+INSERT INTO `cmf_trade_report` VALUES ('15', '19', '0', '1', '', '', '', '汽油', '0', '1510396789', '1', '{\"thumbnail\":\"\"}', '10000');
+INSERT INTO `cmf_trade_report` VALUES ('16', '19', '0', '2', '', '', '', '柴油', '0', '1510396878', '1', '{\"thumbnail\":\"\"}', '10000');
+INSERT INTO `cmf_trade_report` VALUES ('17', '19', '0', '3', '', '', '', '纯电动', '0', '1510396840', '1', '{\"thumbnail\":\"\"}', '10000');
+INSERT INTO `cmf_trade_report` VALUES ('18', '19', '0', '4', '', '', '', '油电混合', '0', '1510396859', '1', '{\"thumbnail\":\"\"}', '10000');
+INSERT INTO `cmf_trade_report` VALUES ('19', '21', '0', '<1', '', '', '', '1.0L以下', '0', '1510283163', '1', '{\"thumbnail\":\"\"}', '10000');
+INSERT INTO `cmf_trade_report` VALUES ('20', '21', '0', '1.0~1.6', '', '', '', '1.1L-1.6L', '0', '1510283479', '1', '{\"thumbnail\":\"\"}', '10000');
+INSERT INTO `cmf_trade_report` VALUES ('21', '21', '0', '1.7~2', '', '', '', '1.7L-2.0L', '0', '1510283465', '1', '{\"thumbnail\":\"\"}', '10000');
+INSERT INTO `cmf_trade_report` VALUES ('22', '21', '0', '2.1~2.5', '', '', '', '2.1L-2.5L', '0', '1510283449', '1', '{\"thumbnail\":\"\"}', '10000');
+INSERT INTO `cmf_trade_report` VALUES ('23', '21', '0', '2.5~3', '', '', '', '2.6L-3.0L', '0', '1510283514', '1', '{\"thumbnail\":\"\"}', '10000');
+INSERT INTO `cmf_trade_report` VALUES ('24', '21', '0', '3~4', '', '', '', '3.0L-4.0L', '0', '1510283540', '1', '{\"thumbnail\":\"\"}', '10000');
+INSERT INTO `cmf_trade_report` VALUES ('25', '21', '0', '>4', '', '', '', '4.0L以上', '0', '1510283564', '1', '{\"thumbnail\":\"\"}', '10000');
+INSERT INTO `cmf_trade_report` VALUES ('26', '17', '0', '1', '', '', '', '自动', '0', '1510394362', '1', '{\"thumbnail\":\"\"}', '10000');
+INSERT INTO `cmf_trade_report` VALUES ('27', '17', '0', '2', '', '', '', '手动', '0', '1510394344', '1', '{\"thumbnail\":\"\"}', '10000');
+INSERT INTO `cmf_trade_report` VALUES ('28', '17', '0', '3', '', '', '', '手自一体', '0', '1510394325', '1', '{\"thumbnail\":\"\"}', '10000');
+INSERT INTO `cmf_trade_report` VALUES ('29', '25', '0', '<=1', '', '', '', '1年以内', '0', '1511344443', '1', '{\"thumbnail\":\"\"}', '10000');
+INSERT INTO `cmf_trade_report` VALUES ('30', '25', '0', '<=3', '', '', '', '3年以内', '0', '1511344475', '1', '{\"thumbnail\":\"\"}', '10000');
+INSERT INTO `cmf_trade_report` VALUES ('31', '25', '0', '<=5', '', '', '', '5年以内', '0', '1511344502', '1', '{\"thumbnail\":\"\"}', '10000');
+INSERT INTO `cmf_trade_report` VALUES ('32', '25', '0', '>5', '', '', '', '5年以上', '0', '1511344524', '1', '{\"thumbnail\":\"\"}', '10000');
+INSERT INTO `cmf_trade_report` VALUES ('33', '24', '0', '<=1', '', '', '', '1万公里以内', '0', '1511344578', '1', '{\"thumbnail\":\"\"}', '10000');
+INSERT INTO `cmf_trade_report` VALUES ('34', '24', '0', '<=3', '', '', '', '3万公里以内', '0', '1511344826', '1', '{\"thumbnail\":\"\"}', '10000');
+INSERT INTO `cmf_trade_report` VALUES ('35', '24', '0', '<=5', '', '', '', '5万公里以内', '0', '1511345046', '1', '{\"thumbnail\":\"\"}', '10000');
+INSERT INTO `cmf_trade_report` VALUES ('36', '24', '0', '<=8', '', '', '', '8万公里以内', '0', '1511345085', '1', '{\"thumbnail\":\"\"}', '10000');
+INSERT INTO `cmf_trade_report` VALUES ('37', '24', '0', '>8', '', '', '', '8万公里以上', '0', '1511345540', '1', '{\"thumbnail\":\"\"}', '10000');
 
 -- ----------------------------
 -- Table structure for cmf_trade_report_cate
@@ -5645,23 +5645,50 @@ CREATE TABLE `cmf_trade_report_cate` (
   `path` varchar(255) NOT NULL DEFAULT '' COMMENT '分类层级关系路径',
   `deal_uid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '处理人ID',
   `name` varchar(150) NOT NULL DEFAULT '' COMMENT '检测项目名',
-  `unit` varchar(10) NOT NULL DEFAULT '' COMMENT '单位：',
-  `code_type` varchar(10) NOT NULL DEFAULT 'text' COMMENT '字段码类型',
+  `code_type` varchar(10) NOT NULL DEFAULT 'select' COMMENT '字段码类型：select下拉框 photo图',
   `remark` varchar(255) NOT NULL DEFAULT '' COMMENT '备注',
   `description` varchar(255) NOT NULL DEFAULT '' COMMENT '描述',
   `delete_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '删除时间',
   `is_top` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '是否置顶',
-  `is_rec` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '是否推荐：1是 0否',
   `status` tinyint(3) NOT NULL DEFAULT '1' COMMENT '状态：-1禁用 0隐藏 1显示',
   `more` text COMMENT '扩展属性',
   `list_order` float unsigned NOT NULL DEFAULT '10000' COMMENT '排序：从小到大',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COMMENT='属性(分类)表';
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8mb4 COMMENT='属性(分类)表';
 
 -- ----------------------------
 -- Records of cmf_trade_report_cate
 -- ----------------------------
-INSERT INTO `cmf_trade_report_cate` VALUES ('1', '0', '0-1', '0', '事故排查', '', 'all', '', '', '0', '0', '0', '1', '{\"thumbnail\":\"\"}', '10000');
+INSERT INTO `cmf_trade_report_cate` VALUES ('1', '0', '0-1', '0', '事故排查', '', '', '', '0', '0', '1', '{\"thumbnail\":\"\"}', '10000');
+INSERT INTO `cmf_trade_report_cate` VALUES ('2', '1', '0-1-2', '0', '事故排查', '', '', '', '0', '0', '1', '{\"thumbnail\":\"\"}', '10000');
+INSERT INTO `cmf_trade_report_cate` VALUES ('3', '1', '0-1-3', '0', '泡水排查', '', '', '', '0', '0', '1', '{\"thumbnail\":\"\"}', '10000');
+INSERT INTO `cmf_trade_report_cate` VALUES ('4', '1', '0-1-4', '0', '火烧排查', '', '', '', '0', '0', '1', '{\"thumbnail\":\"\"}', '10000');
+INSERT INTO `cmf_trade_report_cate` VALUES ('5', '0', '0-5', '0', '核心部件检测', '', '', '', '0', '0', '1', '{\"thumbnail\":\"\"}', '10000');
+INSERT INTO `cmf_trade_report_cate` VALUES ('6', '5', '0-5-6', '0', '机舱顶', '', '', '', '0', '0', '1', '{\"thumbnail\":\"\"}', '10000');
+INSERT INTO `cmf_trade_report_cate` VALUES ('7', '5', '0-5-7', '0', '底盘悬架顶', '', '', '', '0', '0', '1', '{\"thumbnail\":\"\"}', '10000');
+INSERT INTO `cmf_trade_report_cate` VALUES ('8', '0', '0-8', '0', '常用功能检测', '', '', '', '0', '0', '1', '{\"thumbnail\":\"\"}', '10000');
+INSERT INTO `cmf_trade_report_cate` VALUES ('9', '8', '0-8-9', '0', '安全系统', '', '', '', '0', '0', '1', '{\"thumbnail\":\"\"}', '10000');
+INSERT INTO `cmf_trade_report_cate` VALUES ('10', '8', '0-8-10', '0', '外部配置', '', '', '', '0', '0', '1', '{\"thumbnail\":\"\"}', '10000');
+INSERT INTO `cmf_trade_report_cate` VALUES ('11', '8', '0-8-11', '0', '内部配置', '', '', '', '0', '0', '1', '{\"thumbnail\":\"\"}', '10000');
+INSERT INTO `cmf_trade_report_cate` VALUES ('12', '8', '0-8-12', '0', '灯光系统', '', '', '', '0', '0', '1', '{\"thumbnail\":\"\"}', '10000');
+INSERT INTO `cmf_trade_report_cate` VALUES ('13', '8', '0-8-13', '0', '高科技配置', '', '', '', '0', '0', '1', '{\"thumbnail\":\"\"}', '10000');
+INSERT INTO `cmf_trade_report_cate` VALUES ('14', '8', '0-8-14', '0', '随车工具', '', '', '', '0', '0', '1', '{\"thumbnail\":\"\"}', '10000');
+INSERT INTO `cmf_trade_report_cate` VALUES ('15', '0', '0-15', '0', '启动驾驶检测', '', '', '', '0', '0', '1', '{\"thumbnail\":\"\"}', '10000');
+INSERT INTO `cmf_trade_report_cate` VALUES ('16', '15', '0-15-16', '0', '仪表台指示灯', '', '', '', '0', '0', '1', '{\"thumbnail\":\"\"}', '10000');
+INSERT INTO `cmf_trade_report_cate` VALUES ('17', '15', '0-15-17', '0', '发动机状态', '', '', '', '0', '0', '1', '{\"thumbnail\":\"\"}', '10000');
+INSERT INTO `cmf_trade_report_cate` VALUES ('18', '15', '0-15-18', '0', '变速箱及转向', '', '', '', '0', '0', '1', '{\"thumbnail\":\"\"}', '10000');
+INSERT INTO `cmf_trade_report_cate` VALUES ('19', '0', '0-19', '0', '外观内侧检测', 'photo', '', '', '0', '0', '1', '{\"thumbnail\":\"\"}', '10000');
+INSERT INTO `cmf_trade_report_cate` VALUES ('20', '19', '0-19-20', '0', '车损图', 'photo', '', '图', '0', '0', '1', '{\"thumbnail\":\"\"}', '10000');
+INSERT INTO `cmf_trade_report_cate` VALUES ('21', '2', '0-1-2-21', '0', '左前大灯框架', '', '', '', '0', '0', '1', '{\"thumbnail\":\"\"}', '10000');
+INSERT INTO `cmf_trade_report_cate` VALUES ('22', '2', '0-1-2-22', '0', '右前大灯框架', '', '', '', '0', '0', '1', '{\"thumbnail\":\"\"}', '10000');
+INSERT INTO `cmf_trade_report_cate` VALUES ('23', '2', '0-1-2-23', '0', '左前翼子板内衬', '', '', '', '0', '0', '1', null, '10000');
+INSERT INTO `cmf_trade_report_cate` VALUES ('24', '2', '0-1-2-24', '0', '右前翼子板内衬', '', '', '', '0', '0', '1', null, '10000');
+INSERT INTO `cmf_trade_report_cate` VALUES ('25', '3', '0-1-3-25', '0', '机舱保险盒', '', '', '', '0', '0', '1', null, '10000');
+INSERT INTO `cmf_trade_report_cate` VALUES ('26', '3', '0-1-3-26', '0', '座椅滑轨及固定螺丝', '', '', '', '0', '0', '1', null, '10000');
+INSERT INTO `cmf_trade_report_cate` VALUES ('27', '4', '0-1-4-27', '0', '防火墙隔音棉', '', '', '', '0', '0', '1', null, '10000');
+INSERT INTO `cmf_trade_report_cate` VALUES ('28', '4', '0-1-4-28', '0', '发动机主线束', '', '', '', '0', '0', '1', null, '10000');
+INSERT INTO `cmf_trade_report_cate` VALUES ('29', '20', '0-19-20-29', '0', '外观图', 'select', '', '', '0', '0', '1', null, '10000');
+INSERT INTO `cmf_trade_report_cate` VALUES ('30', '20', '0-19-20-30', '0', '内饰图', 'select', '', '', '0', '0', '1', null, '10000');
 
 -- ----------------------------
 -- Table structure for cmf_trade_shop
@@ -5961,7 +5988,7 @@ INSERT INTO `cmf_usual_brand` VALUES ('10', '0', '0-10', '0', '奥迪', '', '', 
 DROP TABLE IF EXISTS `cmf_usual_car`;
 CREATE TABLE `cmf_usual_car` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `parent_id` int(11) DEFAULT NULL,
+  `parent_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '父级ID，用于新车不同配置车',
   `platform` tinyint(3) unsigned NOT NULL DEFAULT '1' COMMENT '车源平台： 1新车 2旧车 3服务商城',
   `brand_id` smallint(6) unsigned NOT NULL DEFAULT '0' COMMENT '品牌ID',
   `serie_id` smallint(6) unsigned NOT NULL DEFAULT '0' COMMENT '车系ID',
@@ -5987,27 +6014,26 @@ CREATE TABLE `cmf_usual_car` (
   `car_effluent` smallint(6) unsigned NOT NULL DEFAULT '0' COMMENT '排放标准',
   `car_fuel` smallint(6) unsigned NOT NULL DEFAULT '0' COMMENT '燃料类型',
   `car_color` smallint(6) unsigned NOT NULL DEFAULT '0' COMMENT '颜色',
+  `remark` varchar(255) NOT NULL DEFAULT '' COMMENT '备注',
+  `description` varchar(255) NOT NULL DEFAULT '' COMMENT '描述',
+  `content` text COMMENT '内容详情',
+  `seo_title` varchar(100) NOT NULL DEFAULT '' COMMENT 'SEO标题',
+  `seo_keywords` varchar(255) NOT NULL DEFAULT '' COMMENT 'SEO关键字',
+  `seo_description` varchar(255) NOT NULL DEFAULT '' COMMENT 'SEO描述',
   `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
   `update_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
   `delete_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '删除时间',
   `is_hot` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '是否热门',
   `is_top` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '是否置顶',
   `is_rec` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '是否推荐',
-  `remark` varchar(255) NOT NULL DEFAULT '' COMMENT '备注',
-  `description` varchar(255) NOT NULL DEFAULT '' COMMENT '描述',
-  `content` text COMMENT '内容详情',
-  `more` text COMMENT '扩展属性',
-  `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '状态：-1禁用 0隐藏 1显示 ',
   `identi_status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '认证审核状态： -1审核不通过 0未审核 1审核通过 2禁止操作',
-  `identi` text COMMENT '认证体系 认证资料',
-  `seo_title` varchar(100) NOT NULL DEFAULT '' COMMENT 'SEO标题',
-  `seo_keywords` varchar(255) NOT NULL DEFAULT '' COMMENT 'SEO关键字',
-  `seo_description` varchar(255) NOT NULL DEFAULT '' COMMENT 'SEO描述',
+  `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '状态：-1禁用 0隐藏 1显示 ',
+  `more` text COMMENT '扩展属性',
   `list_order` float unsigned NOT NULL DEFAULT '10000' COMMENT '排序：从小到大',
   `sell_status` tinyint(3) NOT NULL DEFAULT '0' COMMENT '售卖状态： -11售罄 -2禁止出售 -1下架 0初始态 1上架(售卖中) 2已下单 3已付款 10完成(最终确认) ',
   `published_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '上架时间',
-  `price` decimal(10,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '原价',
   `type` tinyint(4) unsigned NOT NULL DEFAULT '0' COMMENT '车源类别：0未分类 1准新车、2练手车、3分期购',
+  `price` decimal(10,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '原价',
   `market_price` decimal(10,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '市场价',
   `shop_price` decimal(10,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '店铺价',
   `down_payment` decimal(10,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '首付',
@@ -6015,18 +6041,19 @@ CREATE TABLE `cmf_usual_car` (
   `inventory` smallint(6) unsigned NOT NULL DEFAULT '1' COMMENT '库存',
   `shop_tel` varchar(100) NOT NULL DEFAULT '' COMMENT '店铺电话',
   `old_user` varchar(255) NOT NULL DEFAULT '' COMMENT '以前的车主',
+  `report` text COMMENT '检测报告 检测项目',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COMMENT='车辆表';
 
 -- ----------------------------
 -- Records of cmf_usual_car
 -- ----------------------------
-INSERT INTO `cmf_usual_car` VALUES ('1', null, '1', '2', '2', '2', '1', '0', '3', '3401', '0', '大众 CC 2015款 1.8T 自动 豪华型', '', '', 'eq123456789875463', '皖AH67XB', '1510243200', '0', '0', '3', '7.50', '1.8', '5', '26', '14', '15', '6', '1510814246', '1513222621', '0', '0', '0', '0', '', '', '', '{\"car_seating\":\"3\",\"car_color\":\"6\",\"car_length\":\"144\",\"car_age\":\"30\",\"car_effluent\":\"14\",\"car_fuel\":\"15\",\"car_displacement\":\"21\",\"car_mileage\":\"36\",\"car_engine\":\"\",\"car_gearbox\":\"26\",\"thumbnail\":\"https:\\/\\/c1.xinstatic.com\\/f2\\/20171129\\/1213\\/5a1e3406f185c449197_18.jpg\",\"photos\":[{\"url\":\"https:\\/\\/c1.xinstatic.com\\/f2\\/20171129\\/1213\\/5a1e3406f185c449197_18.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c2.xinstatic.com\\/f2\\/20171128\\/1747\\/5a1d309c1a2f3394194_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c2.xinstatic.com\\/f2\\/20171128\\/1746\\/5a1d30692245f485179_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c2.xinstatic.com\\/f2\\/20171128\\/1747\\/5a1d3096e0b4a149087_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c2.xinstatic.com\\/f2\\/20171128\\/1746\\/5a1d30912c8eb290047_20.jpg\",\"name\":\"\"}]}', '1', '1', '{\"username\":\"王铮\",\"contact\":\"手机：13333333333\",\"plateNo\":\"皖AH67XB\",\"driving_license\":\"\"}', '', '', '', '10000', '1', '1509590656', '10.78', '1', '29.18', '19.98', '5.99', '150.00', '1', '0551-6234586', '');
-INSERT INTO `cmf_usual_car` VALUES ('2', null, '1', '4', '11', '2', '1', '0', '3', '3401', '0', '福特 嘉年华两厢 2011款 1.5 自动 时尚型', '', '', 'xzuih433hf7463343', '皖H967JN', '1352563200', '1544025600', '1544025600', '5', '4.40', '1.5', '5', '26', '13', '15', '10', '1510814220', '1513222566', '0', '0', '0', '1', '', '', '', '{\"car_seating\":\"3\",\"car_color\":\"10\",\"car_length\":\"121\",\"car_age\":\"31\",\"car_effluent\":\"13\",\"car_fuel\":\"15\",\"car_displacement\":\"20\",\"car_mileage\":\"35\",\"car_engine\":\"JX493ZLQ3\",\"car_gearbox\":\"26\",\"thumbnail\":\"https:\\/\\/c3.xinstatic.com\\/f2\\/20171129\\/1752\\/5a1e8372a23ff749974_19.jpg\",\"photos\":[{\"url\":\"https:\\/\\/c3.xinstatic.com\\/f2\\/20171129\\/1752\\/5a1e8372a23ff749974_19.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c3.xinstatic.com\\/f2\\/20171129\\/1755\\/5a1e83fe9df67478481_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c3.xinstatic.com\\/f2\\/20171129\\/1752\\/5a1e8369598d4375149_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c3.xinstatic.com\\/f2\\/20171129\\/1754\\/5a1e83e7b0d7b426279_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c3.xinstatic.com\\/f2\\/20171129\\/1752\\/5a1e836d94e07827031_20.jpg\",\"name\":\"\"}]}', '1', '1', '{\"username\":\"澄迈\",\"contact\":\"\",\"plateNo\":\"皖H967JN\",\"driving_license\":\"\"}', '', '', '', '10000', '1', '1510392426', '9.80', '2', '10.63', '4.78', '1.43', '100.00', '1', '0556-7023654', '');
-INSERT INTO `cmf_usual_car` VALUES ('3', null, '1', '1', '17', '2', '1', '0', '3', '3401', '0', '宝马 1系两厢五门版 2012款 1.6T 自动 116i都市版', '', '', '', '皖A95K88', '1350057600', '0', '0', '0', '14.00', '2.5', '3', '28', '14', '15', '8', '1510814246', '1513222608', '0', '0', '0', '0', '', '', '', '{\"car_seating\":\"3\",\"car_color\":\"8\",\"car_length\":\"\",\"car_age\":\"\",\"car_effluent\":\"14\",\"car_fuel\":\"15\",\"car_displacement\":\"\",\"car_mileage\":\"\",\"car_engine\":\"\",\"car_gearbox\":\"28\",\"thumbnail\":\"https:\\/\\/c2.xinstatic.com\\/f2\\/20171129\\/1726\\/5a1e7d3fa651c407670_19.jpg\",\"photos\":[{\"url\":\"https:\\/\\/c2.xinstatic.com\\/f2\\/20171129\\/1726\\/5a1e7d3fa651c407670_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c2.xinstatic.com\\/f2\\/20171129\\/1727\\/5a1e7d7a28744241112_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c2.xinstatic.com\\/f2\\/20171129\\/1726\\/5a1e7d2fbae64486662_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c2.xinstatic.com\\/f2\\/20171129\\/1727\\/5a1e7d741c49c885807_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c2.xinstatic.com\\/f2\\/20171129\\/1726\\/5a1e7d3c7ab05985442_20.jpg\",\"name\":\"\"}]}', '1', '1', '{\"username\":\"贝尔\",\"contact\":\"QQ：456876646\",\"plateNo\":\"皖A95K88\",\"driving_license\":\"https:\\/\\/c1.xinstatic.com\\/f2\\/20171113\\/1802\\/5a096daf09902191543_18.jpg\"}', '', '', '', '10000', '1', '1510552638', '30.00', '3', '30.18', '17.98', '5.39', '200.00', '1', '400-2263-6547', '');
-INSERT INTO `cmf_usual_car` VALUES ('4', null, '1', '4', '14', '4', '1', '0', '31', '383', '0', '福特 Mustang 2015款 2.3T 自动 性能版', '', '', '', '皖A85K88', '1325433600', '0', '0', '5', '2.80', '2.3', '3', '26', '14', '15', '7', '1512119386', '1513222595', '0', '0', '0', '0', '', '', '', '{\"car_seating\":\"3\",\"car_color\":\"7\",\"car_length\":\"160\",\"car_age\":\"\",\"car_effluent\":\"14\",\"car_fuel\":\"15\",\"car_displacement\":\"\",\"car_mileage\":\"\",\"car_engine\":\"\",\"car_gearbox\":\"26\",\"thumbnail\":\"https:\\/\\/c4.xinstatic.com\\/f2\\/20171130\\/1712\\/5a1fcb9209ee7452880_19.jpg\",\"photos\":[{\"url\":\"https:\\/\\/c4.xinstatic.com\\/f2\\/20171130\\/1712\\/5a1fcb9209ee7452880_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c4.xinstatic.com\\/f2\\/20171130\\/1713\\/5a1fcbc848c81733344_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c4.xinstatic.com\\/f2\\/20171130\\/1712\\/5a1fcb8c75a67422131_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c4.xinstatic.com\\/f2\\/20171130\\/1713\\/5a1fcbc2394c8716043_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c4.xinstatic.com\\/f2\\/20171130\\/1712\\/5a1fcb8f3e9ca641995_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c4.xinstatic.com\\/f2\\/20171130\\/1713\\/5a1fcb9f9b50d944989_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c4.xinstatic.com\\/f2\\/20171130\\/1713\\/5a1fcba31ed87538246_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c4.xinstatic.com\\/f2\\/20171130\\/1713\\/5a1fcba68b7c0631568_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c4.xinstatic.com\\/f2\\/20171130\\/1713\\/5a1fcbbc7e6c5748880_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c4.xinstatic.com\\/f2\\/20171130\\/1713\\/5a1fcbd0d8804237222_20.jpg\",\"name\":\"\"}]}', '1', '1', '{\"username\":\"陈东\",\"contact\":\"18956743215\",\"plateNo\":\"皖A85K88\",\"driving_license\":\"\"}', '', '', '', '10000', '1', '1512118965', '37.06', '0', '43.40', '37.06', '10.74', '500.00', '1', '0551-4623156', '');
-INSERT INTO `cmf_usual_car` VALUES ('5', null, '1', '4', '13', '5', '1', '0', '3', '3401', '0', '福特 全顺经典 2009款 2.8T 手动 标准型短轴中顶JX493ZLQ3 柴油', '', '', '', '皖A55K88', '1391443200', '0', '0', '3', '9.30', '2.8', '4', '27', '12', '16', '6', '1512119920', '1512465558', '0', '0', '0', '0', '', '', '', '{\"car_seating\":\"2\",\"car_color\":\"6\",\"car_length\":\"220\",\"car_age\":\"\",\"car_effluent\":\"12\",\"car_fuel\":\"16\",\"car_displacement\":\"\",\"car_mileage\":\"\",\"car_engine\":\"\",\"car_gearbox\":\"27\",\"thumbnail\":\"https:\\/\\/c5.xinstatic.com\\/f2\\/20171119\\/1642\\/5a1143e6ca019161901_20.jpg\",\"photos\":[{\"url\":\"https:\\/\\/c5.xinstatic.com\\/f2\\/20171119\\/1642\\/5a1143e6ca019161901_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c5.xinstatic.com\\/f2\\/20171119\\/1643\\/5a114442b77d2947738_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c5.xinstatic.com\\/f2\\/20171119\\/1642\\/5a1143dd2f6ca814522_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c5.xinstatic.com\\/f2\\/20171119\\/1643\\/5a1144305ccc7526465_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c5.xinstatic.com\\/f2\\/20171119\\/1642\\/5a1143e202340843673_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c5.xinstatic.com\\/f2\\/20171119\\/1642\\/5a1143f8d7695187119_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c5.xinstatic.com\\/f2\\/20171119\\/1642\\/5a1143fd311fa347233_20.jpg\",\"name\":\"\"}]}', '1', '1', '{\"username\":\"\",\"contact\":\"\",\"plateNo\":\"皖A55K88\",\"driving_license\":\"\"}', '', '', '', '10000', '1', '1512119643', '16.52', '0', '15.72', '8.88', '1.36', '200.00', '1', '400-3145-6874', '');
-INSERT INTO `cmf_usual_car` VALUES ('6', null, '2', '2', '9', '1', '3', '0', '3', '3401', '0', '自定义车辆1', '', '', '', '皖AH67LO', '1453132800', '1580400000', '1579795200', '5', '33.00', '2.7', '5', '28', '13', '15', '6', '1516356522', '0', '0', '0', '0', '0', '', '', null, '{\"car_engine\":\"\",\"car_length\":\"\",\"thumbnail\":\"https:\\/\\/c6.xinstatic.com\\/f2\\/20180119\\/1748\\/5a61bee1d6592400617_19.jpg\",\"car_gearbox\":\"28\",\"car_effluent\":\"13\",\"car_fuel\":\"15\",\"car_color\":\"6\",\"photos\":[{\"url\":\"https:\\/\\/c6.xinstatic.com\\/f2\\/20180119\\/1748\\/5a61bee1d6592400617_19.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c6.xinstatic.com\\/f2\\/20180119\\/1748\\/5a61bee314f04580857_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c6.xinstatic.com\\/f2\\/20180119\\/1748\\/5a61bee0dc786643430_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c6.xinstatic.com\\/f2\\/20180119\\/1748\\/5a61bee585beb459907_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c6.xinstatic.com\\/f2\\/20180119\\/1748\\/5a61bee712d05460314_20.jpg\",\"name\":\"\"}]}', '1', '1', null, '', '', '', '10000', '1', '1516358400', '12.00', '1', '16.00', '10.00', '1.20', '200.00', '1', '', '');
+INSERT INTO `cmf_usual_car` VALUES ('1', '0', '1', '2', '2', '2', '0', '0', '3', '3401', '0', '大众 CC 2015款 1.8T 自动 豪华型', '', '', 'eq123456789875463', '皖AH67XB', '1510243200', '0', '0', '3', '7.50', '1.8', '5', '26', '14', '15', '6', '', '', '', '', '', '', '1510814246', '1513222621', '0', '0', '0', '0', '1', '1', '{\"car_seating\":\"3\",\"car_color\":\"6\",\"car_length\":\"144\",\"car_age\":\"30\",\"car_effluent\":\"14\",\"car_fuel\":\"15\",\"car_displacement\":\"21\",\"car_mileage\":\"36\",\"car_engine\":\"\",\"car_gearbox\":\"26\",\"thumbnail\":\"https:\\/\\/c1.xinstatic.com\\/f2\\/20171129\\/1213\\/5a1e3406f185c449197_18.jpg\",\"photos\":[{\"url\":\"https:\\/\\/c1.xinstatic.com\\/f2\\/20171129\\/1213\\/5a1e3406f185c449197_18.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c2.xinstatic.com\\/f2\\/20171128\\/1747\\/5a1d309c1a2f3394194_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c2.xinstatic.com\\/f2\\/20171128\\/1746\\/5a1d30692245f485179_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c2.xinstatic.com\\/f2\\/20171128\\/1747\\/5a1d3096e0b4a149087_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c2.xinstatic.com\\/f2\\/20171128\\/1746\\/5a1d30912c8eb290047_20.jpg\",\"name\":\"\"}]}', '10000', '1', '1509590656', '1', '10.78', '29.18', '19.98', '5.99', '150.00', '1', '0551-6234586', '', '');
+INSERT INTO `cmf_usual_car` VALUES ('2', '0', '1', '4', '11', '2', '0', '0', '3', '3401', '0', '福特 嘉年华两厢 2011款 1.5 自动 时尚型', '', '', 'xzuih433hf7463343', '皖H967JN', '1352563200', '1544025600', '1544025600', '5', '4.40', '1.5', '5', '26', '13', '15', '10', '', '', '', '', '', '', '1510814220', '1513222566', '0', '0', '0', '1', '1', '1', '{\"car_seating\":\"3\",\"car_color\":\"10\",\"car_length\":\"121\",\"car_age\":\"31\",\"car_effluent\":\"13\",\"car_fuel\":\"15\",\"car_displacement\":\"20\",\"car_mileage\":\"35\",\"car_engine\":\"JX493ZLQ3\",\"car_gearbox\":\"26\",\"thumbnail\":\"https:\\/\\/c3.xinstatic.com\\/f2\\/20171129\\/1752\\/5a1e8372a23ff749974_19.jpg\",\"photos\":[{\"url\":\"https:\\/\\/c3.xinstatic.com\\/f2\\/20171129\\/1752\\/5a1e8372a23ff749974_19.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c3.xinstatic.com\\/f2\\/20171129\\/1755\\/5a1e83fe9df67478481_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c3.xinstatic.com\\/f2\\/20171129\\/1752\\/5a1e8369598d4375149_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c3.xinstatic.com\\/f2\\/20171129\\/1754\\/5a1e83e7b0d7b426279_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c3.xinstatic.com\\/f2\\/20171129\\/1752\\/5a1e836d94e07827031_20.jpg\",\"name\":\"\"}]}', '10000', '1', '1510392426', '2', '9.80', '10.63', '4.78', '1.43', '100.00', '1', '0556-7023654', '', '');
+INSERT INTO `cmf_usual_car` VALUES ('3', '0', '1', '1', '17', '2', '0', '0', '3', '3401', '0', '宝马 1系两厢五门版 2012款 1.6T 自动 116i都市版', '', '', '', '皖A95K88', '1350057600', '0', '0', '0', '14.00', '2.5', '3', '28', '14', '15', '8', '', '', '', '', '', '', '1510814246', '1516432670', '0', '0', '0', '0', '1', '1', '{\"car_seating\":\"3\",\"car_color\":\"8\",\"car_length\":\"\",\"car_age\":\"\",\"car_effluent\":\"14\",\"car_fuel\":\"15\",\"car_displacement\":\"\",\"car_mileage\":\"\",\"car_engine\":\"\",\"car_gearbox\":\"28\",\"thumbnail\":\"https:\\/\\/c2.xinstatic.com\\/f2\\/20171129\\/1726\\/5a1e7d3fa651c407670_19.jpg\",\"photos\":[{\"url\":\"https:\\/\\/c2.xinstatic.com\\/f2\\/20171129\\/1726\\/5a1e7d3fa651c407670_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c2.xinstatic.com\\/f2\\/20171129\\/1727\\/5a1e7d7a28744241112_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c2.xinstatic.com\\/f2\\/20171129\\/1726\\/5a1e7d2fbae64486662_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c2.xinstatic.com\\/f2\\/20171129\\/1727\\/5a1e7d741c49c885807_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c2.xinstatic.com\\/f2\\/20171129\\/1726\\/5a1e7d3c7ab05985442_20.jpg\",\"name\":\"\"}]}', '10000', '1', '1510552638', '3', '30.00', '30.18', '17.98', '5.39', '200.00', '1', '400-2263-6547', '', '');
+INSERT INTO `cmf_usual_car` VALUES ('4', '0', '1', '4', '14', '4', '0', '0', '31', '383', '0', '福特 Mustang 2015款 2.3T 自动 性能版', '', '', '', '皖A85K88', '1325433600', '0', '0', '5', '2.80', '2.3', '3', '26', '14', '15', '7', '', '', '', '', '', '', '1512119386', '1516432617', '0', '0', '0', '0', '1', '1', '{\"car_seating\":\"3\",\"car_color\":\"7\",\"car_length\":\"160\",\"car_age\":\"\",\"car_effluent\":\"14\",\"car_fuel\":\"15\",\"car_displacement\":\"\",\"car_mileage\":\"\",\"car_engine\":\"\",\"car_gearbox\":\"26\",\"thumbnail\":\"https:\\/\\/c4.xinstatic.com\\/f2\\/20171130\\/1712\\/5a1fcb9209ee7452880_19.jpg\",\"photos\":[{\"url\":\"https:\\/\\/c4.xinstatic.com\\/f2\\/20171130\\/1712\\/5a1fcb9209ee7452880_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c4.xinstatic.com\\/f2\\/20171130\\/1713\\/5a1fcbc848c81733344_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c4.xinstatic.com\\/f2\\/20171130\\/1712\\/5a1fcb8c75a67422131_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c4.xinstatic.com\\/f2\\/20171130\\/1713\\/5a1fcbc2394c8716043_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c4.xinstatic.com\\/f2\\/20171130\\/1712\\/5a1fcb8f3e9ca641995_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c4.xinstatic.com\\/f2\\/20171130\\/1713\\/5a1fcb9f9b50d944989_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c4.xinstatic.com\\/f2\\/20171130\\/1713\\/5a1fcba31ed87538246_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c4.xinstatic.com\\/f2\\/20171130\\/1713\\/5a1fcba68b7c0631568_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c4.xinstatic.com\\/f2\\/20171130\\/1713\\/5a1fcbbc7e6c5748880_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c4.xinstatic.com\\/f2\\/20171130\\/1713\\/5a1fcbd0d8804237222_20.jpg\",\"name\":\"\"}]}', '10000', '1', '1512118965', '0', '37.06', '43.40', '37.06', '10.74', '500.00', '1', '0551-4623156', '', '');
+INSERT INTO `cmf_usual_car` VALUES ('5', '0', '1', '4', '13', '5', '1', '0', '3', '3401', '0', '福特 全顺经典 2009款 2.8T 手动 标准型短轴中顶JX493ZLQ3 柴油', '', '', '', '皖A55K88', '1391443200', '0', '0', '3', '9.30', '2.8', '4', '27', '12', '16', '6', '', '', '', '', '', '', '1512119920', '1512465558', '0', '0', '0', '0', '1', '1', '{\"car_seating\":\"2\",\"car_color\":\"6\",\"car_length\":\"220\",\"car_age\":\"\",\"car_effluent\":\"12\",\"car_fuel\":\"16\",\"car_displacement\":\"\",\"car_mileage\":\"\",\"car_engine\":\"\",\"car_gearbox\":\"27\",\"thumbnail\":\"https:\\/\\/c5.xinstatic.com\\/f2\\/20171119\\/1642\\/5a1143e6ca019161901_20.jpg\",\"photos\":[{\"url\":\"https:\\/\\/c5.xinstatic.com\\/f2\\/20171119\\/1642\\/5a1143e6ca019161901_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c5.xinstatic.com\\/f2\\/20171119\\/1643\\/5a114442b77d2947738_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c5.xinstatic.com\\/f2\\/20171119\\/1642\\/5a1143dd2f6ca814522_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c5.xinstatic.com\\/f2\\/20171119\\/1643\\/5a1144305ccc7526465_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c5.xinstatic.com\\/f2\\/20171119\\/1642\\/5a1143e202340843673_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c5.xinstatic.com\\/f2\\/20171119\\/1642\\/5a1143f8d7695187119_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c5.xinstatic.com\\/f2\\/20171119\\/1642\\/5a1143fd311fa347233_20.jpg\",\"name\":\"\"}]}', '10000', '1', '1512119643', '0', '16.52', '15.72', '8.88', '1.36', '200.00', '1', '400-3145-6874', '', '');
+INSERT INTO `cmf_usual_car` VALUES ('6', '0', '2', '2', '9', '1', '3', '0', '3', '3401', '0', '自定义车辆1', '', '', '', '皖AH67LO', '1453132800', '1580400000', '1579795200', '5', '33.00', '2.7', '5', '28', '13', '15', '6', '', '', null, '', '', '', '1516356522', '1516692620', '0', '0', '0', '0', '1', '1', '{\"car_seating\":\"\",\"car_color\":\"6\",\"car_length\":\"\",\"car_age\":\"\",\"car_effluent\":\"13\",\"car_fuel\":\"15\",\"car_displacement\":\"\",\"car_mileage\":\"\",\"car_engine\":\"\",\"car_gearbox\":\"28\",\"thumbnail\":\"https:\\/\\/c6.xinstatic.com\\/f2\\/20180119\\/1748\\/5a61bee1d6592400617_19.jpg\",\"photos\":[{\"url\":\"https:\\/\\/c6.xinstatic.com\\/f2\\/20180119\\/1748\\/5a61bee1d6592400617_19.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c6.xinstatic.com\\/f2\\/20180119\\/1748\\/5a61bee314f04580857_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c6.xinstatic.com\\/f2\\/20180119\\/1748\\/5a61bee0dc786643430_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c6.xinstatic.com\\/f2\\/20180119\\/1748\\/5a61bee585beb459907_20.jpg\",\"name\":\"\"},{\"url\":\"https:\\/\\/c6.xinstatic.com\\/f2\\/20180119\\/1748\\/5a61bee712d05460314_20.jpg\",\"name\":\"\"}]}', '10000', '1', '1516358400', '1', '12.00', '16.00', '10.00', '1.20', '200.00', '1', '', '', '{\"21\":\"-1\",\"22\":\"1\",\"23\":\"3\",\"24\":\"-1\",\"25\":\"-1\",\"26\":\"2\",\"27\":\"3\",\"28\":\"2\"}');
 
 -- ----------------------------
 -- Table structure for cmf_usual_company

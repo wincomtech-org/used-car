@@ -3,7 +3,7 @@
 <tr>
     <th width="100">用户名(车主)</th>
     <td>
-        <input type="hidden" name="verify[id]" value="{$verifyinfo.id|default=''}">
+        <input type="hidden" name="verify[id]" value="{$verifyinfo.id|default='0'}">
         <input type="hidden" name="verify[user_id]" value="{$post.user_id|default='0'}">
         <input class="form-control" placeholder="" type="text" name="verify[more][username]" value="{$verifyinfo.more.username|default=''}">
     </td>

@@ -200,8 +200,8 @@ class AdminCarController extends AdminBaseController
         $allItems = model('UsualItem')->getItemTable(null,'',true);
         // 检测报告
         $reportModel = new TradeReportCateModel();
-        $reportCateTree = $reportModel->getCateTree();
-// dump($reportCateTree);die;
+        $reportCate = $reportCate2 = $reportModel->getCate();
+
         // 个人审核资料
         $verifyinfo = lothar_verify($post['user_id'],'openshop','all');
         // 售卖状态
@@ -220,8 +220,8 @@ class AdminCarController extends AdminBaseController
         $this->assign('searchCode', $searchCode);
         $this->assign('recItems', $recItems);
         $this->assign('allItems', $allItems);
-        $this->assign('reportCateTree', $reportCateTree);
-        $this->assign('reportIds', $post['report']);
+        $this->assign('reportCate', $reportCate);
+        $this->assign('reportCate2', $reportCate2);
 
         $this->assign('sell_status', $sell_status);
         $this->assign('post', $post);
@@ -248,7 +248,7 @@ class AdminCarController extends AdminBaseController
             $data   = $this->request->param();
             $post = $data['post'];
             $more = $data['post']['more'];
-            // $report = $data['post']['report'];
+            $report = $data['report'];
 
             if (empty($post['serie_id'])) {
                 $post['serie_id'] = $post['serie_pid'];
@@ -268,6 +268,7 @@ class AdminCarController extends AdminBaseController
             if (!empty($data['file'])) {
                 $post['more']['files'] = $this->Model->dealFiles($data['file']);
             }
+            $post['report'] = $report;
 
             /*个人审核资料填写*/
             $verify = $data['verify'];

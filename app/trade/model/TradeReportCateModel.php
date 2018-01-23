@@ -56,10 +56,66 @@ class TradeReportCateModel extends UsualCategoryModel
         // return $this->getStatus($status,'usual_item_cate_codetype');
     }
 
+    /**
+     * 获取检测项目分类树
+     * @param  array  $reportIds [description]
+     * @param  [type] $parentId  [description]
+     * @param  string $option    [description]
+     * @return [type]            [description]
+     */
+    public function getCateTree($selectId=0, $parentId=null, $option='')
+    {
+        $where = [
+            'status' => 1,
+        ];
+        if (!is_null($parentId)) {
+            $where['parent_id'] = intval($parentId);
+        }
+        $data = $this->field('id,parent_id,name,code_type,description')
+                    ->where($where)
+                    ->order('is_top,list_order')
+                    ->select()->toArray();
+        $cateTree = [];
+        $tree = new Tree();
+        // model('admin/NavMenu')->parseNavMenu4Home($data);
+        $tree->init($data);
+        $cateTree = $tree->getTreeArray(0);
+        return $cateTree;
+    }
     public function getCate($selectId=0, $parentId=0, $option='')
     {
         $data = $this->field('id,name')->where('parent_id',$parentId)->select()->toArray();
         return $this->createOptions($selectId, $option, $data);
+    }
+    /**
+     * 依据检测报告数组
+     * @param  [type] $reportIds [description]
+     * @param  [type] $parentId  [description]
+     * @param  string $option    [description]
+     * @return [type]            [description]
+     */
+    public function getCateByCar($selectId=0, $parentId=0, $option='', $reportIds=[])
+    {
+        $data = $this->field('id,name')->where('parent_id',$parentId)->select()->toArray();
+
+        if (empty($reportIds)) {
+            $options = $this->getCate($selectId,$parentId,$option);
+        } else {
+            if ($option=='json') {
+                return json_encode($data);
+            } elseif ($option=='false' || $option===false) {
+                return $data;
+            }
+            $reportIdsKeys = array_keys($reportIds);
+            // $options = (empty($option)) ? '':'<option value="">--'.$option.'--</option>';
+            // if (is_array($data)) {
+            //     foreach ($data as $v) {
+            //         $options .= '<option value="'.$v['id'].'" '.($selectId==$v['id']?'selected':'').'>'.$v['name'].'</option>';
+            //     }
+            // }
+        }
+
+        return $options;
     }
 
 

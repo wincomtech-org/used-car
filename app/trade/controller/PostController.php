@@ -6,6 +6,7 @@ use app\usual\model\UsualModel;
 use app\usual\model\UsualCarModel;
 use app\usual\model\UsualCompanyModel;
 use app\usual\model\UsualItemModel;
+use app\trade\model\TradeReportCateModel;
 use think\Db;
 
 /**
@@ -37,7 +38,6 @@ class PostController extends HomeBaseController
         // 查找相关属性值 id
         $page2 = $itModel->getItemFilterVar($id);
         $page = array_merge($page,$page2);
-        // dump($page['more']);die;
 
         // 所有车辆属性
         $allItems = $itModel->getItemShow($page['more'],config('usual_car_filter_var02'));
@@ -45,12 +45,23 @@ class PostController extends HomeBaseController
         // 获取推荐车辆
         $carTuis = $carModel->getLists([],'',12,['a.is_rec'=>1]);
 
+        // 车主信息
+        $sellerInfo = lothar_verify($userId,'openshop','more');
+
+        // 检测报告
+        $reportModel = new TradeReportCateModel();
+        $reportCateTree = $reportModel->getCateTree();
+
         $this->assign('plat',$plat);
         $this->assign('findOrder',$findOrder);
         $this->assign('userId',$userId);
         $this->assign('page',$page);
         $this->assign('allItems',$allItems);
         $this->assign('carTuis',$carTuis);
+        $this->assign('seller',$sellerInfo);
+        $this->assign('reportCateTree', $reportCateTree);
+        $this->assign('reportIds', $page['report']);
+
         return $this->fetch('details'.$plat);
     }
 

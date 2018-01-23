@@ -136,15 +136,15 @@ class AjaxController extends BaseController
      */
     public function getReportCate()
     {
-        $selectId = $this->request->param('selectId/d',0,'intval');
+        $selectId = $this->request->param('selectId/d',0,'intval');//只起到赋默认值的作用
         $parentId = $this->request->param('parentId/d',0,'intval');
         $option = $this->request->param('option/s','请选择');
 
         if ($option=='json' || $option=='false' || $option===false) {
-            $options = model('trade/TradeReportCate')->getCate($selectId, $parentId, $option);
+            $options = model('trade/TradeReportCate')->getCateByCar($selectId, $parentId, $option);
             echo $options;exit;
         } else {
-            $options = model('trade/TradeReportCate')->getCate($selectId, $parentId, $option);
+            $options = model('trade/TradeReportCate')->getCateByCar($selectId, $parentId, $option);
             return $options;
         }
     }

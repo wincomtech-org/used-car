@@ -262,7 +262,35 @@
         });
 
         // 检测报告
-
+        $('#input-report1').change(function() {
+            var pid = $(this).val();
+            $.post('{:url("Ajax/getReportCate")}', {parentId: pid}, function(data) {
+                $('#input-report2').show().html(data);
+            });
+        });
+        $('#input-report2').change(function() {
+            var pid = $(this).val();
+            // var cid = $(this).val();
+            $.post('{:url("Ajax/getReportCate")}', {parentId:pid, option:'json'}, function(data){
+                console.log(data)
+                var tpl = '';
+                for(var key in data){
+                    // console.log(key)
+                    // console.log(data[key].id)
+                    // console.log(data[key].name)
+                    
+                    tpl += '<tr>';
+                    tpl += '<th>'+data[key].name+'</th>';
+                    tpl += '<td><select class="form-control" style="width:110px;" name="report['+data[key].id+']">';
+                    tpl += '<option value="0">--未检测--</option><option value="1" selected>--正常--</option><option value="2">--轻微受损--</option><option value="3">--严重受损--</option>';
+                    tpl += '</select></td>';
+                    tpl += '</tr>';
+                }
+                // console.log(tpl)
+                $('#attr_each').after(tpl);
+                // $('#attr_each').html(tpl);
+            },'json');
+        });
 
     });
 
