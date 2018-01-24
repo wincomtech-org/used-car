@@ -28,6 +28,7 @@ a{text-decoration:none;cursor:pointer;}
 .backg-orange{background-color:#c60 !important;}
 .backg-green{background-color:#22ac38;}
 .backg-border{border:1px solid #ddd;color:#666;box-sizing:border-box;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;-ms-box-sizing:border-box;-o-box-sizing:border-box;}
+
 /* 实心圆，空心圆，虚线 */
 .real_point,.hollow_point,.dashed{width:20px;height:20px;display:inline-block;}
 .real_point:after{ content:"";
@@ -86,10 +87,30 @@ header,section,nav,footer{min-width:1200px;}
 img{transform:scale(1) translateZ(0);}
 
 /* 公用具有盒模型 */
-.fitter-div-con li{
+.fitter-div-con li,.group .item .inner{
 	box-sizing:border-box;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;-ms-box-sizing:border-box;-o-box-sizing:border-box;
 }
 
+/* 小于1199px的flex布局 */
+@media screen and (max-width:1199px){
+	.fitterFlex{
+		display:-webkit-box;
+		display: -moz-box;
+		display: -ms-flexbox;
+		display: -webkit-flex;
+		display: flex;
+		-webkit-justify-content:space-between;
+		justify-content:space-between;
+		-moz-box-pack:space-between;
+		-webkit--moz-box-pack:space-between;
+		box-pack:space-between;
+		　-webkit-flex-wrap:wrap;
+		-webkit-box-lines:multiple;
+		-moz-flex-wrap:wrap;
+		flex-wrap:wrap;
+	}
+	
+}
 
 
 /*返回顶部*/

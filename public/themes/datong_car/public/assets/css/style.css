@@ -668,10 +668,13 @@
 .fitter-div-con dl{
     width:33.33%;
     float:left;
+    margin:5px 0;
 }
+
 .fitter-div-con dl dt,.fitter-div-con dl dd{
     float:left;
     font-size:14px;
+    line-height:1.6;
 }
 .fitter-div-con dl dd input[type='text']{
     width:auto;
@@ -858,7 +861,7 @@
 }
 .group .item .inner {
     display: table-cell;
-    height: 2rem;
+    height: 2.5rem;
     padding: 0 .25rem;
     font-size: 13px;
     color: #666;
@@ -939,12 +942,6 @@
     display:block;
 }
 
-/* 滚动条 */
-/* ::-webkit-scrollbar { width: 12px;}
-::-webkit-scrollbar-track { -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); border-radius: 10px;}
-::-webkit-scrollbar-thumb { border-radius: 10px; background: rgba(0,0,0,0.1); 
-    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5);}
-::-webkit-scrollbar-thumb:window-inactive { background: rgba(255,0,0,0.4);} */
 
 @media screen and (max-width:1199px){
     .fitter-results-right{
@@ -954,12 +951,49 @@
         width:100%;
         overflow-x:scroll;
         overflow-y:hidden;
+        position: absolute;
+        top:0;
+        left:0;
     }
     .fitter-detail{
-        overflow:hidden;}
+        overflow:hidden;
+    }
+    .fitter-results-right{
+        display:table-cell;
+        width:calc(100% - 6rem);
+        width:-webkit-calc(100% - 6rem);
+        width:-moz-calc(100% - 6rem);
+        width:-ms-calc(100% - 6rem);
+        width:-o-calc(100% - 6rem);
+        width:calc(100% - 6rem);
+        position:relative;
+    }
+    .fitter-div-con dl {
+        width: auto;
+        float: none;
+    }
 }
 
-
+@media screen and (max-width:768px){
+    .fitter-results-right .column h4{
+        font-size:12px;
+    }
+    .supplement dl{
+        width:88px;
+    }
+    .supplement dd{
+        width:53px;
+    }
+    .supplement dd span{
+        font-size:12px;
+    }
+    .group .item .inner{
+        font-size:12px;
+    }
+    .group .item .inner{
+        height:3rem;
+    }
+}
 
 /* 基本信息 */
 .car_owner{

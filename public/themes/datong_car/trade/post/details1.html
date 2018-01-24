@@ -91,7 +91,7 @@
                             <if condition="cmf_is_mobile()===true">
                                 <a class="btn iphone" href="tel:{$page.shop_tel}">点我联系</a>
                             <else/>
-                                <a class="btn iphone">电话联系</a>
+                                <a class="btn iphone">免费咨询</a>
                                 <a id="teltouch" class="btn iphone" style="display:none;">{$page.shop_tel}</a>
                             </if>
                         </div>
@@ -184,7 +184,7 @@
                                         <dt>筛选条件</dt>
                                     </dl>
                                 </li>
-                                <li  class='clearfix'>
+                                <li  class='clearfix fitterFlex'>
                                     <dl class='clearfix checkbox-dl'>
                                         <dt>年代款:</dt>
                                         <dd><label><input type="checkbox" value="2017款"><span>2017款</span></label></dd>
@@ -200,7 +200,7 @@
                                         <dd> <label><input type="checkbox"  value=''><span>隐藏暂无</span></label></dd>
                                     </dl>
                                 </li>
-                                <li  class='clearfix' >
+                                <li  class='clearfix fitterFlex' >
                                     <dl class='clearfix checkbox-dl'>
                                         <dt>座位数:</dt>
                                         <dd> <label><input type="checkbox"  value=''><span>隐藏暂无</span></label></dd>
@@ -412,7 +412,7 @@
                                                                 <strong class='orage-color'>28.3万</strong>
                                                         </span>
                                                         <span class="inner ">
-                                                            <<strong class='orage-color'>28.3万</strong>
+                                                            <strong class='orage-color'>28.3万</strong>
                                                         </span>
                                                     </div>
                                                     <div class="item">
@@ -779,15 +779,10 @@
     <include file="public@scripts" />
     <hook name="before_body_end" />
 </body>
-<!-- <script src="__TMPL__/public/assets/js/slick.min.js"></script> -->
-<!--end-->
-
- 
 
 <script>
 // 汽车信息
 scroll()
-
 
 function scroll() {
     var subNav_active = $('.car_message_nav .active');
