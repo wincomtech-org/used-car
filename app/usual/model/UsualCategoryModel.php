@@ -5,9 +5,10 @@ use think\Db;
 use think\Model;
 use tree\Tree;
 use think\Request;
-use app\admin\model\RouteModel;
+// use app\admin\model\RouteModel;
+use app\usual\model\ComModel;
 
-class UsualCategoryModel extends Model
+class UsualCategoryModel extends ComModel
 {
     protected $type = [
         'more' => 'array',
@@ -268,28 +269,6 @@ class UsualCategoryModel extends Model
         }
 
         return $result;
-    }
-
-
-
-/*自己添加的*/
-    // 选择框
-    public function createOptions($selectId, $option, $data)
-    {
-
-        if ($option=='json') {
-            return json_encode($data);
-        } elseif ($option=='false' || $option===false) {
-            return $data;
-        }
-
-        $options = (empty($option)) ? '':'<option value="">--'.$option.'--</option>';
-        if (is_array($data)) {
-            foreach ($data as $v) {
-                $options .= '<option value="'.$v['id'].'" '.($selectId==$v['id']?'selected':'').' >'.$v['name'].'</option>';
-            }
-        }
-        return $options;
     }
 
 }

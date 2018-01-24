@@ -4,8 +4,7 @@ namespace app\service\model;
 // use think\Db;
 // use think\Model;
 // use tree\Tree;
-// use think\Request;
-// use app\admin\model\RouteModel;
+use app\usual\model\UsualModel;
 use app\usual\model\UsualCategoryModel;
 
 class ServiceCategoryModel extends UsualCategoryModel
