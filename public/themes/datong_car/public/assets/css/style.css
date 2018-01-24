@@ -643,6 +643,9 @@
 .base_mess_item:not(:first-child){border-left:1px solid #ddd;}
 
 /* 新车配置信息 */
+.preferences{
+    overflow:hidden;
+}
 .slide-table{
     display:table;
     width:100%;
@@ -679,15 +682,9 @@
     margin-right:5px;
 }
 
-.fitter-results-slide{
-    width:100%;
-    overflow-x:scroll;
-    overflow-y:hidden;
-}
 .fitter-results-head{
     display: table;
     width: 100%;
-    height: 5rem;
     background-color: #fff;
     -webkit-transform: translate3d(0, 0, 0);
     transform: translate3d(0, 0, 0);
@@ -702,6 +699,7 @@
 .fitter-results-left {
     display: table-cell;
     width: 6rem;
+    height:5rem;
     border-right: solid #d7d7d7 1px;
     vertical-align: middle;
 }
@@ -727,18 +725,17 @@
     vertical-align: top;
 }
 .fitter-results-right{
-    position: relative;
-    display: table-cell;
     overflow: hidden;
+    width: 1055px;
 }
+ 
 .fitter-results-slide {
-    position: absolute;
-    top: 0;
-    left: 0;
+
     height: 100%;
     font-size: 0;
     white-space: nowrap;
-    -webkit-transform:translate3d(0,0,0);-moz-transform:translate3d(0,0,0);-ms-transform:translate3d(0,0,0);-o-transform:translate3d(0,0,0);transform:translate3d(0,0,0);
+    overflow-x: scroll;
+
 }
 .fitter-results-right .column {
     position: relative;
@@ -807,7 +804,7 @@
     background-color: #f0f0f0;
     -webkit-transform: translate3d(0, 0, 0);
     transform: translate3d(0, 0, 0);
-    margin-top:10px;
+    margin-top:-3px;
 }
 .markbar::before{
     content: "";
@@ -897,10 +894,71 @@
     word-wrap:break-word;
 }
 .fitter-detail{
-    overflow:hidden;
     display: table;
     width: 100%;
 }
+
+
+/* 标配，适配，无 */
+.supplement{
+    height:5rem;
+    position:relative;
+  
+    border-left:1px solid #ddd;
+}
+@media screen and (min-width:1199px){
+    .supplement{
+        margin-top:-17px;
+    }
+    
+}
+
+.supplement dl{
+    width:102px;
+    position: absolute;
+    top: 50%;
+    left:50%;
+    -moz-transform: translate(-50%,-50%);
+    -webkit-transform:  translate(-50%,-50%);
+    -ms-transform: translate(-50%,-50%);
+    -o-transform:  translate(-50%,-50%);
+    transform:  translate(-50%,-50%);
+}
+.supplement dt,.supplement dd{
+    float:left;
+    font-size:14px;
+}
+.supplement dt{
+    width:32px;
+    font-size:14px;
+}
+.supplement dd {
+    width:62px;
+}
+.supplement dd span{
+    display:block;
+}
+
+/* 滚动条 */
+/* ::-webkit-scrollbar { width: 12px;}
+::-webkit-scrollbar-track { -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); border-radius: 10px;}
+::-webkit-scrollbar-thumb { border-radius: 10px; background: rgba(0,0,0,0.1); 
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5);}
+::-webkit-scrollbar-thumb:window-inactive { background: rgba(255,0,0,0.4);} */
+
+@media screen and (max-width:1199px){
+    .fitter-results-right{
+        overflow:hidden;
+    }
+    .fitter-results-slide{
+        width:100%;
+        overflow-x:scroll;
+        overflow-y:hidden;
+    }
+    .fitter-detail{
+        overflow:hidden;}
+}
+
 
 
 /* 基本信息 */
