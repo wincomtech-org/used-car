@@ -48,7 +48,6 @@
                     </div>
                 </div>
 
-
                 <div class="txt rt">
                     <h5>{$page.name}</h5>
                     <ul class="detail1">
@@ -91,7 +90,7 @@
                             <if condition="cmf_is_mobile()===true">
                                 <a class="btn iphone" href="tel:{$page.shop_tel}">点我联系</a>
                             <else/>
-                                <a class="btn iphone">电话联系</a>
+                                <a class="btn iphone">免费咨询</a>
                                 <a id="teltouch" class="btn iphone" style="display:none;">{$page.shop_tel}</a>
                             </if>
                         </div>
@@ -107,9 +106,9 @@
             <div class="empty-placeholder empty_hidden"></div>
             <ul class="car_message_nav">
                 <!-- <li class="car_message_nav_list active"><a href="#li1" class="nav_li1">车辆信息</a></li> -->
-                <li class="car_message_nav_list active"><a href="#li2" class="nav_li2">配置信息</a></li>
-                <li class="car_message_nav_list"><a href="#li4" class="nav_li4">车辆实拍</a></li>
-                <li class="car_message_nav_list"><a href="#li5" class="nav_li5">推荐相似</a></li>
+                <li class="car_message_nav_list active"><a href="#li1" class="nav_li1">配置信息</a></li>
+                <li class="car_message_nav_list"><a href="#li2" class="nav_li2">车辆实拍</a></li>
+                <li class="car_message_nav_list"><a href="#li3" class="nav_li3">推荐相似</a></li>
             </ul>
             <div class="car_message_con_list">
                 <!-- 车辆信息 -->
@@ -174,7 +173,7 @@
                 </div> -->
 
                  <!-- 配置信息 -->
-                 <div class="car_message_con_item" id="li2">
+                 <div class="car_message_con_item" id="li1">
                     <h4 class="car_message_con_tit">配置信息</h4>
                     <div class="preferences">
                         <div class="fitter-div">
@@ -184,7 +183,7 @@
                                         <dt>筛选条件</dt>
                                     </dl>
                                 </li>
-                                <li  class='clearfix'>
+                                <li  class='clearfix fitterFlex'>
                                     <dl class='clearfix checkbox-dl'>
                                         <dt>年代款:</dt>
                                         <dd><label><input type="checkbox" value="2017款"><span>2017款</span></label></dd>
@@ -200,7 +199,7 @@
                                         <dd> <label><input type="checkbox"  value=''><span>隐藏暂无</span></label></dd>
                                     </dl>
                                 </li>
-                                <li  class='clearfix' >
+                                <li  class='clearfix fitterFlex' >
                                     <dl class='clearfix checkbox-dl'>
                                         <dt>座位数:</dt>
                                         <dd> <label><input type="checkbox"  value=''><span>隐藏暂无</span></label></dd>
@@ -220,8 +219,6 @@
                         </div>
                         <div class="fitter-results">
                             <div class="fitter-results-head">
-                           
-                                
                                 <section class='markbar'>
                                     <strong>基本参数</strong>
                                 </section >
@@ -412,7 +409,7 @@
                                                                 <strong class='orage-color'>28.3万</strong>
                                                         </span>
                                                         <span class="inner ">
-                                                            <<strong class='orage-color'>28.3万</strong>
+                                                            <strong class='orage-color'>28.3万</strong>
                                                         </span>
                                                     </div>
                                                     <div class="item">
@@ -719,7 +716,7 @@
                 </div>
 
                 <!-- 图集 -->
-                <div class="car_message_con_item" id="li4">
+                <div class="car_message_con_item" id="li2">
                     <h4 class="car_message_con_tit">车辆实拍</h4>
                     <div class="car_realShot">
                         <ul class="car_realShot_list">
@@ -738,7 +735,7 @@
                 </div>
 
                 <!-- 推荐 -->
-                <div class="car_message_con_item" id="li5">
+                <div class="car_message_con_item" id="li3">
                     <h4 class="car_message_con_tit">相似推荐</h4>
                     <div class="simila_recommendation">
                         <div class="simila_recommendation_list_con">
@@ -779,15 +776,10 @@
     <include file="public@scripts" />
     <hook name="before_body_end" />
 </body>
-<!-- <script src="__TMPL__/public/assets/js/slick.min.js"></script> -->
-<!--end-->
-
- 
 
 <script>
 // 汽车信息
 scroll()
-
 
 function scroll() {
     var subNav_active = $('.car_message_nav .active');
@@ -833,7 +825,7 @@ function scroll() {
 
         // 新车信息
         var yh=fitterTop-fitterHeight;
-        var xh=prefTop + prefHeight -fitterHeight;
+        var xh=prefTop + prefHeight -fitterHeight*2-56;
         var fitter_result_h4=$('.fitter-results-left .group h4');
         var markTop=$('.markbar').offset().top;
 
