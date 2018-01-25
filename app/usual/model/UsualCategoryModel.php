@@ -13,11 +13,20 @@ class UsualCategoryModel extends ComModel
     // 结合 ->toArray() 使用的，将json对象转维数组
     protected $type = [
         'more' => 'array',
-        // 'identi' => 'array',
+        'identi' => 'array',
         'define_data' => 'array',
     ];
     // 开启自动写入时间戳字段
     protected $autoWriteTimestamp = true;
+    
+    public function setContentAttr($value)
+    {
+        return htmlspecialchars(cmf_replace_content_file_url(htmlspecialchars_decode($value), true));
+    }
+    public function getContentAttr($value)
+    {
+        return cmf_replace_content_file_url(htmlspecialchars_decode($value));
+    }
 
     /**
      * published_time 自动完成

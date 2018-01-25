@@ -61,6 +61,19 @@ class ComModel extends Model
         $username = empty($data['user_nickname']) ? (empty($data['user_login']) ? (empty($data['mobile']) ? $data['user_email'] : $data['mobile']) : $data['user_login']) : $data['user_nickname'];
         return $username;
     }
+    // 获取用户ID
+    public function getUid($uname='')
+    {
+        if (empty($uname)) return false;
+        $uid = intval($uname);
+        if (empty($uid)) {
+            $uid = Db::name('user')->whereOr(['user_nickname|user_login|user_email|mobile'=>$uname])->value('id');
+            // $uid = Db::name('user')->whereOr(['user_nickname|user_login|user_email|mobile'=>['eq',$uname]])->value('id');
+            // $uid = Db::name('user')->whereOr(['user_nickname|user_login|user_email|mobile'=>['like', "%$uname%"]])->value('id');
+            $uid = intval($uid);
+        }
+        return $uid;
+    }
 
     // 状态
     public function getStatus($status='',$config='trade_order_status')

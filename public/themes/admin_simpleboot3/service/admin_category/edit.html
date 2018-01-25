@@ -38,8 +38,8 @@
                         <div>
                             <span class="define_plat">平台类型 </span>
                             <select class="form-control" style="width:140px" name="cate[platform]">
-                                <option {$platform==1?='selected'} value="1">自营</option>
                                 <option {$platform==2?='selected'} value="2">公司企业</option>
+                                <option {$platform==1?='selected'} value="1">自营</option>
                                 <option {$platform==3?='selected'} value="3">外资</option>
                             </select>
                         </div>
@@ -56,12 +56,12 @@
                             <input type="text" class="form-control" id="input-code" name="cate[code]" value="{$code|default=''}">
                         </div>
                     </div>
-                    <div class="form-group">
+                    <!-- <div class="form-group">
                         <label for="input-dir">模型文件夹</label>
                         <div>
                             <input type="text" class="form-control" id="input-dir" name="cate[dir]" value="{$dir|default=''}">
                         </div>
-                    </div>
+                    </div> -->
 
                     <div class="form-group">
                         <label for="input-description">描述</label>
@@ -156,15 +156,20 @@
                         <input class="form-control js-bootstrap-datetime" value="{$create_time?date('Y-m-d H:i',$create_time):''}">
                     </td>
                 </tr>
+                
                 <tr>
-                    <th><b>状态</b></th>
+                    <th><b>置顶</b></th>
                 </tr>
                 <tr>
                     <td>
                         <div class="checkbox">
-                            <label><input type="checkbox" name="cate[is_top]" value="1" {$is_top?='checked'}>置顶</label>
+                            <label><input type="radio" name="cate[is_top]" value="0" {$is_top==0?='checked'}>否</label>
+                            <label><input type="radio" name="cate[is_top]" value="1" {$is_top==1?='checked'}>是</label>
                         </div>
                     </td>
+                </tr>
+                <tr>
+                    <th><b>状态</b></th>
                 </tr>
                 <tr>
                     <td>
