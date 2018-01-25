@@ -343,18 +343,9 @@ nav{background-color:#000;}
 
 /*弹出窗口*/
 @media only screen and (max-width:767px){
-<<<<<<< HEAD
 	.simpleAlertBody{min-width:0;}
 	.simpleAlertBody{width:315px;padding:1.2rem 2rem .7rem;}
 	.simpleAlertBodyContent{width:244px;}
 	.simpleAlertBodyContent img{width:244px;}
 	.simpleAlertBodyContent  .BodyContent{min-height:200px;}
 }
-=======
-    .simpleAlertBody{min-width:0;}
-    .simpleAlertBody{width:315px;padding:1.2rem 2rem .7rem;}
-    .simpleAlertBodyContent{width:244px;}
-    .simpleAlertBodyContent img{width:244px;}
-    .simpleAlertBodyContent  .BodyContent{min-height:200px;}
-}
->>>>>>> ebb26a1be3b179465e043a1124a43ced73c2add9
