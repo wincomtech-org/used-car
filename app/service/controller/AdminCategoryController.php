@@ -62,7 +62,7 @@ class AdminCategoryController extends AdminBaseController
         if ($id > 0) {
             /*使用模型处理*/
             $category = model('ServiceCategory')->getPost($id);
-
+dump($category);die;
             /*使用原生处理*/
             // $category = Db::name('service_category')->where('id',$id)->find();
             // // 富文本

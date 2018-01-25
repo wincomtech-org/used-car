@@ -59,6 +59,9 @@ class ServiceCategoryModel extends UsualCategoryModel
     public function getDefineData($selectIds=[], $freestyle='checkbox', $default='请选择')
     {
         $defconf = config('service_define_data');
+        dump($defconf);
+        dump($selectIds);
+        die;
         $tpl = '';
         if ($freestyle=='checkbox') {
             foreach ((array)$defconf as $key => $vo) {

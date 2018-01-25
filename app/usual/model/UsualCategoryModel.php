@@ -10,14 +10,14 @@ use app\usual\model\ComModel;
 
 class UsualCategoryModel extends ComModel
 {
+    // 结合 ->toArray() 使用的，将json对象转维数组
     protected $type = [
         'more' => 'array',
         // 'identi' => 'array',
-        // 'define_data' => 'array',
+        'define_data' => 'array',
     ];
-
     // 开启自动写入时间戳字段
-    // protected $autoWriteTimestamp = true;
+    protected $autoWriteTimestamp = true;
 
     /**
      * published_time 自动完成

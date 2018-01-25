@@ -12,7 +12,7 @@ use app\usual\model\ComModel;
 */
 class UsualModel extends ComModel
 {
-    // 结合 ->toArray() 使用的，将对象转维数组
+    // 结合 ->toArray() 使用的，将json对象转维数组
     protected $type = [
         'more' => 'array',
         'identi' => 'array',
