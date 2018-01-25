@@ -23,16 +23,16 @@ class AdminConsignController extends AdminBaseController
         $compId = $this->request->param('compId',0,'intval');
 
         $data        = $this->uModel->getLists($param);
-        $data->appends($param);
 
         $compModel  = new UsualCompanyModel();
         $CompanyTree   = $compModel->getCompanys($compId);
 
         $this->assign('keyword', isset($param['keyword']) ? $param['keyword'] : '');
-        $this->assign('articles', $data->items());
         $this->assign('company_tree', $CompanyTree);
         $this->assign('compId', $compId);
-        $this->assign('page', $data->render());
+        $this->assign('articles', $data->items());
+        $data->appends($param);
+        $this->assign('pager', $data->render());
 
         return $this->fetch();
     }

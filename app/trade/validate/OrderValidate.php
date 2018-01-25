@@ -31,14 +31,14 @@ class OrderValidate extends Validate
     }
     protected function checkBname($value)
     {
-        if (model('portal/User')->whereOr(['user_login|user_nickname|user_email'=>['like', "%$value%"]])->value('id')) {
+        if (model('portal/User')->whereOr(['user_login|user_nickname|user_email|mobile'=>['like', "%$value%"]])->value('id')) {
             return true;
         }
         return false;
     }
     protected function checkSname($value)
     {
-        if (model('portal/User')->whereOr(['user_login|user_nickname|user_email'=>['like', "%$value%"]])->value('id')) {
+        if (model('portal/User')->whereOr(['user_login|user_nickname|user_email|mobile'=>['like', "%$value%"]])->value('id')) {
             return true;
         }
         return false;

@@ -20,7 +20,7 @@ class PluginController extends HomeBaseController
 
         $_controller = Loader::parseName($_controller, 1);
 
-        $pluginControllerClass = "plugins\\{$_plugin}\\controller\\{$_controller}Controller";;
+        $pluginControllerClass = "plugins\\{$_plugin}\\controller\\{$_controller}Controller";
 
         $vars = [];
         return App::invokeMethod([$pluginControllerClass, $_action, $vars]);

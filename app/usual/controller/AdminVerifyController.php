@@ -25,7 +25,6 @@ class AdminVerifyController extends AdminBaseController
         $auth_status = $this->request->param('auth_status',0,'intval');
 
         $data = model('Verify')->getLists($param);
-        $data->appends($param);
         $categoryTree = model('VerifyModel')->getOptions($auth_code);
         $statusTree = model('Verify')->getVerifyStatus($auth_status);
 
@@ -35,7 +34,8 @@ class AdminVerifyController extends AdminBaseController
         $this->assign('category_tree', $categoryTree);
         $this->assign('status_tree', $statusTree);
         $this->assign('lists', $data->items());
-        $this->assign('page', $data->render());
+        $data->appends($param);
+        $this->assign('pager', $data->render());
 
         return $this->fetch();
     }

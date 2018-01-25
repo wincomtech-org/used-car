@@ -46,7 +46,7 @@ class PostController extends HomeBaseController
 
         $this->assign('findOrder',$findOrder);
         $this->assign('userId',$userId);
-        $this->assign('page',$page);
+        $this->assign("page",$page);
         $this->assign('allItems',$allItems);
         $this->assign('carTuis',$carTuis);
         return $this->fetch();

@@ -5,7 +5,7 @@ use cmf\controller\AdminBaseController;
 
 /**
 * 服务商城 独立模块
-* 产品
+* 店铺
 */
 class AdminShopController extends AdminBaseController
 {

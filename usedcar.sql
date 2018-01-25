@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50540
 File Encoding         : 65001
 
-Date: 2018-01-08 17:42:30
+Date: 2018-01-10 18:25:40
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -231,12 +231,12 @@ INSERT INTO `cmf_admin_menu` VALUES ('187', '185', '1', '1', '3', 'funds', 'Admi
 INSERT INTO `cmf_admin_menu` VALUES ('188', '185', '1', '1', '2', 'funds', 'AdminWithdraw', 'index', '', '提现管理', '', '');
 INSERT INTO `cmf_admin_menu` VALUES ('189', '185', '1', '1', '4', 'funds', 'AdminOpenshop', 'index', '', '开店申请', '', '');
 INSERT INTO `cmf_admin_menu` VALUES ('190', '164', '1', '1', '2', 'usual', 'AdminConsign', 'index', '', '寄存点', '', '');
-INSERT INTO `cmf_admin_menu` VALUES ('191', '0', '0', '1', '33', 'shop', 'AdminShop', 'default', '', '服务商城', 'shopping-cart', '');
-INSERT INTO `cmf_admin_menu` VALUES ('192', '191', '1', '1', '10000', 'shop', 'AdminShop', 'index', '', '商品管理', '', '');
-INSERT INTO `cmf_admin_menu` VALUES ('193', '191', '1', '1', '10000', 'shop', 'AdminCategory', 'index', '', '类别管理', '', '');
-INSERT INTO `cmf_admin_menu` VALUES ('194', '191', '1', '1', '10000', 'shop', 'AdminAttr', 'index', '', '属性管理', '', '');
-INSERT INTO `cmf_admin_menu` VALUES ('195', '191', '1', '1', '10000', 'shop', 'AdminOrder', 'index', '', '订单管理', '', '');
-INSERT INTO `cmf_admin_menu` VALUES ('196', '191', '1', '1', '10000', 'shop', 'AdminComment', 'index', '', '评论管理', '', '');
+INSERT INTO `cmf_admin_menu` VALUES ('191', '0', '0', '1', '33', 'shop', 'AdminIndex', 'default', '', '服务商城', 'shopping-cart', '');
+INSERT INTO `cmf_admin_menu` VALUES ('192', '191', '1', '1', '1', 'shop', 'AdminGoods', 'index', '', '商品管理', '', '');
+INSERT INTO `cmf_admin_menu` VALUES ('193', '191', '1', '1', '2', 'shop', 'AdminCategory', 'index', '', '类别管理', '', '');
+INSERT INTO `cmf_admin_menu` VALUES ('194', '191', '1', '1', '3', 'shop', 'AdminAttr', 'index', '', '属性管理', '', '');
+INSERT INTO `cmf_admin_menu` VALUES ('195', '191', '1', '1', '4', 'shop', 'AdminOrder', 'index', '', '订单管理', '', '');
+INSERT INTO `cmf_admin_menu` VALUES ('196', '191', '1', '1', '5', 'shop', 'AdminComment', 'index', '', '评论管理', '', '');
 
 -- ----------------------------
 -- Table structure for cmf_asset
@@ -781,8 +781,8 @@ INSERT INTO `cmf_auth_rule` VALUES ('188', '1', 'funds', 'admin_url', 'funds/Adm
 INSERT INTO `cmf_auth_rule` VALUES ('189', '1', 'funds', 'admin_url', 'funds/AdminWithdraw/index', '', '提现管理', '');
 INSERT INTO `cmf_auth_rule` VALUES ('190', '1', 'funds', 'admin_url', 'funds/AdminOpenshop/index', '', '开店申请', '');
 INSERT INTO `cmf_auth_rule` VALUES ('191', '1', 'usual', 'admin_url', 'usual/AdminConsign/index', '', '寄存点', '');
-INSERT INTO `cmf_auth_rule` VALUES ('192', '1', 'shop', 'admin_url', 'shop/AdminShop/default', '', '服务商城', '');
-INSERT INTO `cmf_auth_rule` VALUES ('193', '1', 'shop', 'admin_url', 'shop/AdminShop/index', '', '商品管理', '');
+INSERT INTO `cmf_auth_rule` VALUES ('192', '1', 'shop', 'admin_url', 'shop/AdminIndex/default', '', '服务商城', '');
+INSERT INTO `cmf_auth_rule` VALUES ('193', '1', 'shop', 'admin_url', 'shop/AdminGoods/index', '', '商品管理', '');
 INSERT INTO `cmf_auth_rule` VALUES ('194', '1', 'shop', 'admin_url', 'shop/AdminCategory/index', '', '类别管理', '');
 INSERT INTO `cmf_auth_rule` VALUES ('195', '1', 'shop', 'admin_url', 'shop/AdminAttr/index', '', '属性管理', '');
 INSERT INTO `cmf_auth_rule` VALUES ('196', '1', 'shop', 'admin_url', 'shop/AdminOrder/index', '', '订单管理', '');
@@ -4340,7 +4340,7 @@ CREATE TABLE `cmf_hook_plugin` (
   `hook` varchar(50) NOT NULL DEFAULT '' COMMENT '钩子名',
   `plugin` varchar(30) NOT NULL DEFAULT '' COMMENT '插件',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COMMENT='系统钩子插件表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='系统钩子插件表';
 
 -- ----------------------------
 -- Records of cmf_hook_plugin
@@ -4520,12 +4520,13 @@ CREATE TABLE `cmf_link` (
   `rel` varchar(50) NOT NULL DEFAULT '' COMMENT '链接与网站的关系',
   PRIMARY KEY (`id`),
   KEY `link_visible` (`status`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COMMENT='友情链接表';
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COMMENT='友情链接表';
 
 -- ----------------------------
 -- Records of cmf_link
 -- ----------------------------
-INSERT INTO `cmf_link` VALUES ('1', '0', '1', '1', '8', '华创再在线官网', 'http://www.wincomtech.cn', '华创在线', '', '_blank', '');
+INSERT INTO `cmf_link` VALUES ('1', '0', '1', '1', '1', '华创再在线官网', 'http://www.wincomtech.cn', '华创在线', '', '_blank', '');
+INSERT INTO `cmf_link` VALUES ('2', '0', '1', '0', '2', '物流接口', 'https://m.kuaidi100.com/', '快递查询', 'https://cdn.kuaidi100.com/images/logo.png?version=201707191039', '_blank', '');
 
 -- ----------------------------
 -- Table structure for cmf_nav
@@ -4654,7 +4655,7 @@ CREATE TABLE `cmf_plugin` (
   `description` varchar(255) NOT NULL COMMENT '插件描述',
   `config` text COMMENT '插件配置',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COMMENT='插件表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='插件表';
 
 -- ----------------------------
 -- Records of cmf_plugin
@@ -4667,18 +4668,18 @@ DROP TABLE IF EXISTS `cmf_portal_category`;
 CREATE TABLE `cmf_portal_category` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '分类id',
   `parent_id` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT '分类父id',
-  `post_count` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT '分类文章数',
-  `status` tinyint(3) unsigned NOT NULL DEFAULT '1' COMMENT '状态,1:发布,0:不发布',
-  `delete_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '删除时间',
-  `list_order` float NOT NULL DEFAULT '10000' COMMENT '排序',
+  `path` varchar(255) NOT NULL DEFAULT '' COMMENT '分类层级关系路径',
   `name` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '分类名称',
   `description` varchar(255) NOT NULL COMMENT '分类描述',
-  `path` varchar(255) NOT NULL DEFAULT '' COMMENT '分类层级关系路径',
+  `list_tpl` varchar(50) NOT NULL DEFAULT '' COMMENT '分类列表模板',
+  `one_tpl` varchar(50) NOT NULL DEFAULT '' COMMENT '分类文章页模板',
+  `post_count` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT '分类文章数',
+  `delete_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '删除时间',
+  `status` tinyint(3) unsigned NOT NULL DEFAULT '1' COMMENT '状态,1:发布,0:不发布',
+  `list_order` float NOT NULL DEFAULT '10000' COMMENT '排序',
   `seo_title` varchar(100) NOT NULL DEFAULT '',
   `seo_keywords` varchar(255) NOT NULL DEFAULT '',
   `seo_description` varchar(255) NOT NULL DEFAULT '',
-  `list_tpl` varchar(50) NOT NULL DEFAULT '' COMMENT '分类列表模板',
-  `one_tpl` varchar(50) NOT NULL DEFAULT '' COMMENT '分类文章页模板',
   `more` text COMMENT '扩展属性',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COMMENT='portal应用 文章分类表';
@@ -4686,16 +4687,16 @@ CREATE TABLE `cmf_portal_category` (
 -- ----------------------------
 -- Records of cmf_portal_category
 -- ----------------------------
-INSERT INTO `cmf_portal_category` VALUES ('1', '0', '0', '1', '0', '10000', '新闻资讯', '新闻', '0-1', '大通车服新闻', '大通车服,新闻', '大通车服新闻资讯', 'list', 'article', '{\"thumbnail\":\"\"}');
-INSERT INTO `cmf_portal_category` VALUES ('2', '0', '0', '1', '0', '10000', '活动推荐', '活动', '0-2', '大通车服活动', '大通车服，活动', '大通车服活动推荐', 'list', 'article', '{\"thumbnail\":\"\"}');
-INSERT INTO `cmf_portal_category` VALUES ('3', '0', '0', '1', '0', '10000', '车辆服务', '', '0-3', '', '', '', 'list', 'article', '{\"thumbnail\":\"\"}');
-INSERT INTO `cmf_portal_category` VALUES ('4', '3', '0', '1', '0', '10000', '买车流程', '', '0-3-4', '', '', '', 'list', 'article', '{\"thumbnail\":\"\"}');
-INSERT INTO `cmf_portal_category` VALUES ('5', '1', '0', '1', '0', '10000', '热门新闻', '', '0-1-5', '', '', '', 'list', 'article', '{\"thumbnail\":\"\"}');
-INSERT INTO `cmf_portal_category` VALUES ('6', '0', '0', '1', '0', '10000', '关于我们', '', '0-6', '', '', '', 'list', 'about', '{\"thumbnail\":\"\"}');
-INSERT INTO `cmf_portal_category` VALUES ('7', '1', '0', '1', '0', '10000', '用车技巧', '', '0-1-7', '', '', '', 'list', 'article', '{\"thumbnail\":\"\"}');
-INSERT INTO `cmf_portal_category` VALUES ('8', '3', '0', '1', '0', '10000', '理赔指引', '有了理赔指引，出险理赔不慌乱', '0-3-8', '', '', '', 'list', 'article', '{\"thumbnail\":\"\"}');
-INSERT INTO `cmf_portal_category` VALUES ('9', '3', '0', '1', '0', '10000', '新手帮助', '有问题找车服', '0-3-9', '', '', '', 'list', 'article', '{\"thumbnail\":\"\"}');
-INSERT INTO `cmf_portal_category` VALUES ('10', '0', '0', '1', '0', '10000', '资金问题', '', '0-10', '', '', '', 'list', 'article', '{\"thumbnail\":\"\"}');
+INSERT INTO `cmf_portal_category` VALUES ('1', '0', '0-1', '新闻资讯', '新闻', 'list', 'article', '0', '0', '1', '10000', '大通车服新闻', '大通车服,新闻', '大通车服新闻资讯', '{\"thumbnail\":\"\"}');
+INSERT INTO `cmf_portal_category` VALUES ('2', '0', '0-2', '活动推荐', '活动', 'list', 'article', '0', '0', '1', '10000', '大通车服活动', '大通车服，活动', '大通车服活动推荐', '{\"thumbnail\":\"\"}');
+INSERT INTO `cmf_portal_category` VALUES ('3', '0', '0-3', '车辆服务', '', 'list', 'article', '0', '0', '1', '10000', '', '', '', '{\"thumbnail\":\"\"}');
+INSERT INTO `cmf_portal_category` VALUES ('4', '3', '0-3-4', '买车流程', '', 'list', 'article', '0', '0', '1', '10000', '', '', '', '{\"thumbnail\":\"\"}');
+INSERT INTO `cmf_portal_category` VALUES ('5', '1', '0-1-5', '热门新闻', '', 'list', 'article', '0', '0', '1', '10000', '', '', '', '{\"thumbnail\":\"\"}');
+INSERT INTO `cmf_portal_category` VALUES ('6', '0', '0-6', '关于我们', '', 'list', 'about', '0', '0', '1', '10000', '', '', '', '{\"thumbnail\":\"\"}');
+INSERT INTO `cmf_portal_category` VALUES ('7', '1', '0-1-7', '用车技巧', '', 'list', 'article', '0', '0', '1', '10000', '', '', '', '{\"thumbnail\":\"\"}');
+INSERT INTO `cmf_portal_category` VALUES ('8', '3', '0-3-8', '理赔指引', '有了理赔指引，出险理赔不慌乱', 'list', 'article', '0', '0', '1', '10000', '', '', '', '{\"thumbnail\":\"\"}');
+INSERT INTO `cmf_portal_category` VALUES ('9', '3', '0-3-9', '新手帮助', '有问题找车服', 'list', 'article', '0', '0', '1', '10000', '', '', '', '{\"thumbnail\":\"\"}');
+INSERT INTO `cmf_portal_category` VALUES ('10', '0', '0-10', '资金问题', '', 'list', 'article', '0', '0', '1', '10000', '', '', '', '{\"thumbnail\":\"\"}');
 
 -- ----------------------------
 -- Table structure for cmf_portal_category_post
@@ -5035,6 +5036,153 @@ INSERT INTO `cmf_service_category` VALUES ('5', '0', '0', '1', 'service', '六�
 INSERT INTO `cmf_service_category` VALUES ('6', '0', '0', '1', 'service', '查找寄存点', 'point', '', 'admin', '', '', '', null, '{\"thumbnail\":\"\"}', null, '1514195034', '0', '0', '0', '1', '[\"service_point\"]', '10000', '', '', '');
 
 -- ----------------------------
+-- Table structure for cmf_shop_gav
+-- ----------------------------
+DROP TABLE IF EXISTS `cmf_shop_gav`;
+CREATE TABLE `cmf_shop_gav` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `proId` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT '父级ID',
+  `attrId` mediumint(11) unsigned NOT NULL DEFAULT '0' COMMENT '属性ID',
+  `avId` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '属性值ID',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='服务商城产品属性关系表';
+
+-- ----------------------------
+-- Records of cmf_shop_gav
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for cmf_shop_goods
+-- ----------------------------
+DROP TABLE IF EXISTS `cmf_shop_goods`;
+CREATE TABLE `cmf_shop_goods` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT '用户id',
+  `cateId` smallint(6) unsigned NOT NULL DEFAULT '0' COMMENT '类别ID',
+  `brandId` smallint(6) unsigned NOT NULL DEFAULT '0' COMMENT '品牌ID',
+  `name` varchar(200) NOT NULL DEFAULT '' COMMENT '产品名称',
+  `market_price` decimal(10,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '市场价',
+  `shop_price` decimal(10,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '店铺价',
+  `score` smallint(6) unsigned NOT NULL DEFAULT '0' COMMENT '积分兑换商品、服务。0表示不允许',
+  `coupon` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '优惠券开关：0关闭 1开启',
+  `inventory` smallint(6) unsigned NOT NULL DEFAULT '1' COMMENT '库存',
+  `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
+  `update_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
+  `delete_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '删除时间',
+  `is_rec` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '推荐：0否 1是',
+  `status` tinyint(3) NOT NULL DEFAULT '0' COMMENT '商品状态',
+  `more` text COMMENT '其它详细信息,JSON格式',
+  PRIMARY KEY (`id`),
+  KEY `idx1` (`cateId`),
+  KEY `idx2` (`brandId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='服务商城商品表';
+
+-- ----------------------------
+-- Records of cmf_shop_goods
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for cmf_shop_goods_attr
+-- ----------------------------
+DROP TABLE IF EXISTS `cmf_shop_goods_attr`;
+CREATE TABLE `cmf_shop_goods_attr` (
+  `id` mediumint(11) unsigned NOT NULL AUTO_INCREMENT,
+  `cateId` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '分类ID',
+  `name` varchar(201) NOT NULL DEFAULT '' COMMENT '名称',
+  `input_type` tinyint(20) NOT NULL DEFAULT '1' COMMENT '显示类型：0默认、1文本框、2单选、3多选、4下拉、5数字、6文件、7隐藏',
+  `status` tinyint(3) NOT NULL DEFAULT '0' COMMENT '状态',
+  `list_order` float unsigned NOT NULL DEFAULT '10000' COMMENT '排序：从小到大',
+  `is_query` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '是否用户查询，前台筛选：0否 1是',
+  `vtype` tinyint(3) unsigned NOT NULL DEFAULT '1' COMMENT '值类型',
+  `vlength` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT '值长度',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='服务商城属性表';
+
+-- ----------------------------
+-- Records of cmf_shop_goods_attr
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for cmf_shop_goods_av
+-- ----------------------------
+DROP TABLE IF EXISTS `cmf_shop_goods_av`;
+CREATE TABLE `cmf_shop_goods_av` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `attrId` mediumint(11) unsigned NOT NULL DEFAULT '0' COMMENT '属性ID',
+  `name` varchar(202) NOT NULL DEFAULT '' COMMENT '名称',
+  `status` tinyint(3) NOT NULL DEFAULT '0' COMMENT '状态',
+  `list_order` float unsigned NOT NULL DEFAULT '10000' COMMENT '排序：从小到大',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='服务商城属性值表';
+
+-- ----------------------------
+-- Records of cmf_shop_goods_av
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for cmf_shop_goods_brand
+-- ----------------------------
+DROP TABLE IF EXISTS `cmf_shop_goods_brand`;
+CREATE TABLE `cmf_shop_goods_brand` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(200) NOT NULL DEFAULT '' COMMENT '名称',
+  `logo` varchar(255) NOT NULL DEFAULT '' COMMENT 'LOGO',
+  `is_rec` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '推荐',
+  `status` tinyint(3) NOT NULL DEFAULT '0' COMMENT '状态',
+  `list_order` float unsigned NOT NULL DEFAULT '10000' COMMENT '排序：从小到大',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='服务商城品牌表';
+
+-- ----------------------------
+-- Records of cmf_shop_goods_brand
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for cmf_shop_goods_category
+-- ----------------------------
+DROP TABLE IF EXISTS `cmf_shop_goods_category`;
+CREATE TABLE `cmf_shop_goods_category` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `parent_id` smallint(6) unsigned NOT NULL DEFAULT '0' COMMENT '父级ID',
+  `path` varchar(255) NOT NULL DEFAULT '' COMMENT '深度，分类层级关系路径',
+  `name` varchar(200) NOT NULL DEFAULT '' COMMENT '名称',
+  `description` varchar(255) NOT NULL DEFAULT '' COMMENT '描述',
+  `delete_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '删除时间',
+  `status` tinyint(3) NOT NULL DEFAULT '0' COMMENT '状态',
+  `list_order` float unsigned NOT NULL DEFAULT '10000' COMMENT '排序：从小到大',
+  `more` text COMMENT '其它详细信息,JSON格式',
+  PRIMARY KEY (`id`),
+  KEY `idx1` (`parent_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb4 COMMENT='服务商城类别表';
+
+-- ----------------------------
+-- Records of cmf_shop_goods_category
+-- ----------------------------
+INSERT INTO `cmf_shop_goods_category` VALUES ('1', '0', '0-1', '线下服务', '', '0', '0', '10000', null);
+INSERT INTO `cmf_shop_goods_category` VALUES ('2', '0', '0-2', '维修保养', '', '0', '0', '10000', null);
+INSERT INTO `cmf_shop_goods_category` VALUES ('3', '0', '0-3', '车载电器', '', '0', '0', '10000', null);
+INSERT INTO `cmf_shop_goods_category` VALUES ('4', '0', '0-4', '汽车装饰', '', '0', '0', '10000', null);
+INSERT INTO `cmf_shop_goods_category` VALUES ('5', '1', '0-1-5', '维修', '', '0', '0', '10000', null);
+INSERT INTO `cmf_shop_goods_category` VALUES ('6', '1', '0-1-6', '美容清洗', '', '0', '0', '10000', null);
+INSERT INTO `cmf_shop_goods_category` VALUES ('7', '1', '0-1-7', '功能升级', '', '0', '0', '10000', null);
+INSERT INTO `cmf_shop_goods_category` VALUES ('8', '1', '0-1-8', '贴膜专区', '', '0', '0', '10000', null);
+INSERT INTO `cmf_shop_goods_category` VALUES ('9', '1', '0-1-9', '车机导航', '', '0', '0', '10000', null);
+INSERT INTO `cmf_shop_goods_category` VALUES ('10', '2', '0-2-10', '润滑油', '', '0', '0', '10000', null);
+INSERT INTO `cmf_shop_goods_category` VALUES ('11', '2', '0-2-11', '轮胎', '', '0', '0', '10000', null);
+INSERT INTO `cmf_shop_goods_category` VALUES ('12', '2', '0-2-12', '配件', '', '0', '0', '10000', null);
+INSERT INTO `cmf_shop_goods_category` VALUES ('13', '2', '0-2-13', '添加剂', '', '0', '0', '10000', null);
+INSERT INTO `cmf_shop_goods_category` VALUES ('14', '2', '0-2-14', '贴膜', '', '0', '0', '10000', null);
+INSERT INTO `cmf_shop_goods_category` VALUES ('15', '3', '0-3-15', '行车记录仪', '', '0', '0', '10000', null);
+INSERT INTO `cmf_shop_goods_category` VALUES ('16', '3', '0-3-16', '发烧音响', '', '0', '0', '10000', null);
+INSERT INTO `cmf_shop_goods_category` VALUES ('17', '3', '0-3-17', '车载净化器', '', '0', '0', '10000', null);
+INSERT INTO `cmf_shop_goods_category` VALUES ('18', '3', '0-3-18', '冰箱电源', '', '0', '0', '10000', null);
+INSERT INTO `cmf_shop_goods_category` VALUES ('19', '3', '0-3-19', '车载导航', '', '0', '0', '10000', null);
+INSERT INTO `cmf_shop_goods_category` VALUES ('20', '4', '0-4-20', '座垫', '', '0', '0', '10000', null);
+INSERT INTO `cmf_shop_goods_category` VALUES ('21', '4', '0-4-21', '车香脚垫', '', '0', '0', '10000', null);
+INSERT INTO `cmf_shop_goods_category` VALUES ('22', '4', '0-4-22', '内饰', '', '0', '0', '10000', null);
+INSERT INTO `cmf_shop_goods_category` VALUES ('23', '4', '0-4-23', '头枕腰靠', '', '0', '0', '10000', null);
+
+-- ----------------------------
 -- Table structure for cmf_slide
 -- ----------------------------
 DROP TABLE IF EXISTS `cmf_slide`;
@@ -5315,7 +5463,7 @@ CREATE TABLE `cmf_user` (
 -- ----------------------------
 INSERT INTO `cmf_user` VALUES ('1', '1', 'admin', 'admin', '###b0b5b1441fcc40910db4b7d99d049ddf', '###b0b5b1441fcc40910db4b7d99d049ddf', 'admin@admin.com', '', '', '0', '0.00', '0.00', '0.00', '0', '0', '0', '', '', '1507865317', '1513225427', '127.0.0.1', '1', '', '');
 INSERT INTO `cmf_user` VALUES ('2', '1', '超人不会飞', 'super', '###797fe4d0d1b299ac9b581f4fa4025dbb', '###797fe4d0d1b299ac9b581f4fa4025dbb', 'super@qq.com', '', '', '0', '0.00', '0.00', '0.00', '0', '0', '0', '', '', '0', '1515402315', '127.0.0.1', '1', '', '');
-INSERT INTO `cmf_user` VALUES ('3', '1', '洛萨', 'lothar', '###797fe4d0d1b299ac9b581f4fa4025dbb', '###797fe4d0d1b299ac9b581f4fa4025dbb', 'lothar@qq.com', '13333333333', 'avatar/20171125/584d5aa4308ccc597df494da2b84700d.jpg', '0', '8600.00', '0.00', '28.00', '0', '0', '785865600', '', '', '0', '1515402563', '127.0.0.1', '1', '', '{\"qq\":\"\",\"address\":\"\"}');
+INSERT INTO `cmf_user` VALUES ('3', '1', '洛萨', 'lothar', '###797fe4d0d1b299ac9b581f4fa4025dbb', '###797fe4d0d1b299ac9b581f4fa4025dbb', 'lothar@qq.com', '13333333333', 'avatar/20171125/584d5aa4308ccc597df494da2b84700d.jpg', '0', '8600.00', '0.00', '28.00', '0', '0', '785865600', '', '', '0', '1515488460', '127.0.0.1', '1', '', '{\"qq\":\"\",\"address\":\"\"}');
 INSERT INTO `cmf_user` VALUES ('4', '2', '晴天', 'king', '###797fe4d0d1b299ac9b581f4fa4025dbb', '###797fe4d0d1b299ac9b581f4fa4025dbb', '', '18956471234', '', '0', '0.00', '0.00', '0.00', '0', '0', '0', '', '', '1512194173', '1512194173', '127.0.0.1', '2', '', null);
 INSERT INTO `cmf_user` VALUES ('5', '2', '风', 'fy', '###797fe4d0d1b299ac9b581f4fa4025dbb', '###797fe4d0d1b299ac9b581f4fa4025dbb', 'fy@qq.com', '18956243789', 'avatar/20171225/001883f91cd8b2fefe5cad4274a795d8.jpg', '0', '0.00', '0.00', '0.00', '0', '0', '0', '', '', '1514187604', '1514187604', '127.0.0.1', '2', '', '{\"qq\":\"956231850\",\"address\":\"date\"}');
 
@@ -5505,6 +5653,7 @@ DROP TABLE IF EXISTS `cmf_usual_brand`;
 CREATE TABLE `cmf_usual_brand` (
   `id` smallint(6) unsigned NOT NULL AUTO_INCREMENT,
   `parent_id` smallint(6) unsigned NOT NULL DEFAULT '0' COMMENT '父级ID',
+  `path` varchar(255) NOT NULL DEFAULT '' COMMENT '分类层级关系路径',
   `deal_uid` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '处理人ID',
   `name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '分类名称',
   `image` varchar(255) NOT NULL DEFAULT '' COMMENT '图片',
@@ -5513,9 +5662,8 @@ CREATE TABLE `cmf_usual_brand` (
   `delete_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '删除时间',
   `remark` varchar(255) NOT NULL DEFAULT '' COMMENT '备注',
   `description` varchar(255) NOT NULL DEFAULT '' COMMENT '描述',
-  `status` tinyint(2) NOT NULL DEFAULT '1' COMMENT '状态,1:发布,0:不发布',
   `more` text COMMENT '扩展',
-  `path` varchar(255) NOT NULL DEFAULT '' COMMENT '分类层级关系路径',
+  `status` tinyint(2) NOT NULL DEFAULT '1' COMMENT '状态,1:发布,0:不发布',
   `list_order` float unsigned NOT NULL DEFAULT '10000' COMMENT '排序：从小到大',
   `seo_title` varchar(100) NOT NULL DEFAULT '',
   `seo_keywords` varchar(255) NOT NULL DEFAULT '',
@@ -5527,16 +5675,16 @@ CREATE TABLE `cmf_usual_brand` (
 -- ----------------------------
 -- Records of cmf_usual_brand
 -- ----------------------------
-INSERT INTO `cmf_usual_brand` VALUES ('1', '0', '0', '宝马', '', '', '*', '0', '', '德国', '0', '{\"thumbnail\":\"http:\\/\\/www.bmw.com.cn\\/content\\/dam\\/bmw\\/marketCN\\/bmw_com_cn\\/bmw_ds2_module_box.png.asset.1481563906324.png\"}', '0-1', '10000', '', '', '');
-INSERT INTO `cmf_usual_brand` VALUES ('2', '0', '0', '大众', '', '', '*', '0', '', '德国', '0', '{\"thumbnail\":\"http:\\/\\/www.vw.com.cn\\/content\\/dam\\/vw-ngw\\/vw\\/logo\\/PC_93x122_Final.png\"}', '0-2', '10000', '', '', '');
-INSERT INTO `cmf_usual_brand` VALUES ('3', '0', '0', '雪佛兰', '', '', '*', '0', '', '', '0', '{\"thumbnail\":\"https:\\/\\/www.chevrolet.com.cn\\/\\/img\\/navigation\\/logo.png\"}', '0-3', '10000', '', '', '');
-INSERT INTO `cmf_usual_brand` VALUES ('4', '0', '0', '福特', '', '', '*', '0', '', '美国福特汽车公司（Ford Motor Company）旗下的众多品牌之一', '0', '{\"thumbnail\":\"https:\\/\\/www.ford.com.cn\\/content\\/dam\\/Ford\\/website-assets\\/ap\\/ch\\/header\\/logo.jpg\"}', '0-4', '10000', '', '', '');
-INSERT INTO `cmf_usual_brand` VALUES ('5', '0', '0', '凯迪拉克', '', '', '*', '0', '', '', '0', '{\"thumbnail\":\"https:\\/\\/www.cadillac.com.cn\\/images\\/logo.png\"}', '0-5', '10000', '', '', '');
-INSERT INTO `cmf_usual_brand` VALUES ('6', '0', '0', '斯巴鲁', '', '', '*', '0', '', '日本。\r\n富士重工业株式会社（ FHI ）。', '0', '{\"thumbnail\":\"http:\\/\\/www.subaru-china.cn\\/impublic\\/common\\/img\\/logo.jpg\"}', '0-6', '10000', '', '', '');
-INSERT INTO `cmf_usual_brand` VALUES ('7', '0', '0', '比亚迪', '', '', '*', '0', '', '', '0', '{\"thumbnail\":\"http:\\/\\/www.bydauto.com.cn\\/template\\/images\\/header\\/logo_xny.png\"}', '0-7', '10000', '', '', '');
-INSERT INTO `cmf_usual_brand` VALUES ('8', '0', '0', '别克', '', '', '*', '0', '', '美国通用汽车公司', '0', '{\"thumbnail\":\"http:\\/\\/www.buick.com.cn\\/img\\/shared\\/logo_buick.png\"}', '0-8', '10000', '', '', '');
-INSERT INTO `cmf_usual_brand` VALUES ('9', '0', '0', '林肯', '', '', '*', '0', '', '', '0', '{\"thumbnail\":\"https:\\/\\/www.lincoln.com.cn\\/content\\/dam\\/lincoln\\/logo.png\"}', '0-9', '10000', '', '', '');
-INSERT INTO `cmf_usual_brand` VALUES ('10', '0', '0', '奥迪', '', '', '*', '0', '', '德国大众汽车集团子公司奥迪汽车公司旗下的', '0', '{\"thumbnail\":\"\"}', '0-10', '10000', '', '', '');
+INSERT INTO `cmf_usual_brand` VALUES ('1', '0', '0-1', '0', '宝马', '', '', '*', '0', '', '德国', '{\"thumbnail\":\"http:\\/\\/www.bmw.com.cn\\/content\\/dam\\/bmw\\/marketCN\\/bmw_com_cn\\/bmw_ds2_module_box.png.asset.1481563906324.png\"}', '0', '10000', '', '', '');
+INSERT INTO `cmf_usual_brand` VALUES ('2', '0', '0-2', '0', '大众', '', '', '*', '0', '', '德国', '{\"thumbnail\":\"http:\\/\\/www.vw.com.cn\\/content\\/dam\\/vw-ngw\\/vw\\/logo\\/PC_93x122_Final.png\"}', '0', '10000', '', '', '');
+INSERT INTO `cmf_usual_brand` VALUES ('3', '0', '0-3', '0', '雪佛兰', '', '', '*', '0', '', '', '{\"thumbnail\":\"https:\\/\\/www.chevrolet.com.cn\\/\\/img\\/navigation\\/logo.png\"}', '0', '10000', '', '', '');
+INSERT INTO `cmf_usual_brand` VALUES ('4', '0', '0-4', '0', '福特', '', '', '*', '0', '', '美国福特汽车公司（Ford Motor Company）旗下的众多品牌之一', '{\"thumbnail\":\"https:\\/\\/www.ford.com.cn\\/content\\/dam\\/Ford\\/website-assets\\/ap\\/ch\\/header\\/logo.jpg\"}', '0', '10000', '', '', '');
+INSERT INTO `cmf_usual_brand` VALUES ('5', '0', '0-5', '0', '凯迪拉克', '', '', '*', '0', '', '', '{\"thumbnail\":\"https:\\/\\/www.cadillac.com.cn\\/images\\/logo.png\"}', '0', '10000', '', '', '');
+INSERT INTO `cmf_usual_brand` VALUES ('6', '0', '0-6', '0', '斯巴鲁', '', '', '*', '0', '', '日本。\r\n富士重工业株式会社（ FHI ）。', '{\"thumbnail\":\"http:\\/\\/www.subaru-china.cn\\/impublic\\/common\\/img\\/logo.jpg\"}', '0', '10000', '', '', '');
+INSERT INTO `cmf_usual_brand` VALUES ('7', '0', '0-7', '0', '比亚迪', '', '', '*', '0', '', '', '{\"thumbnail\":\"http:\\/\\/www.bydauto.com.cn\\/template\\/images\\/header\\/logo_xny.png\"}', '0', '10000', '', '', '');
+INSERT INTO `cmf_usual_brand` VALUES ('8', '0', '0-8', '0', '别克', '', '', '*', '0', '', '美国通用汽车公司', '{\"thumbnail\":\"http:\\/\\/www.buick.com.cn\\/img\\/shared\\/logo_buick.png\"}', '0', '10000', '', '', '');
+INSERT INTO `cmf_usual_brand` VALUES ('9', '0', '0-9', '0', '林肯', '', '', '*', '0', '', '', '{\"thumbnail\":\"https:\\/\\/www.lincoln.com.cn\\/content\\/dam\\/lincoln\\/logo.png\"}', '0', '10000', '', '', '');
+INSERT INTO `cmf_usual_brand` VALUES ('10', '0', '0-10', '0', '奥迪', '', '', '*', '0', '', '德国大众汽车集团子公司奥迪汽车公司旗下的', '{\"thumbnail\":\"\"}', '0', '10000', '', '', '');
 
 -- ----------------------------
 -- Table structure for cmf_usual_car
