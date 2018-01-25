@@ -1190,18 +1190,18 @@
     position: relative;
     margin: 0 auto;
 }
-.out1{
+.out29{
     float:left;
 }
-.out2{
+.out30{
     float:right;
 }
-.out1 .car-appearance-left {
+.out29 .car-appearance-left {
     background-image: url(../images/example/cheshun.png);
     width: 487px;
     height: 346px;
 }
-.out2 .car-appearance-left {
+.out30 .car-appearance-left {
     background-image: url(../images/example/cheshun1.png);
     width: 388px;
     height: 513px;
@@ -1271,16 +1271,13 @@
     }
 }
 @media screen and (max-width:1199px){
-  
-
-
-    .out1{
+    .out29{
         width:388px;
     }
-    .out2{
+    .out30{
         width:513px;
     }
-    .out1,.out2{
+    .out29,.out30{
         float:none;
         margin:10px auto;
     }
@@ -1729,7 +1726,7 @@
     display:block;
     clear:both;
 }
-.chesun .out2{
+.chesun .out30{
     float:left;
 }
 .car-appearance-con-show dl .last-dd{

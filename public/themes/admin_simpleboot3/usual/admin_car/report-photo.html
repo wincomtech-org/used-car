@@ -1,38 +1,68 @@
-<!-- 这里的 $key 与 $third.id 是一样的 -->
+<!-- 这里的 $tk 与 $third.id 是一样的 -->
 <div class="chesun">
-    <div class="car-appearance-con out{$key}">
-        <div class="car-appearance-left" id="car-appearance-left{$key}" fk="{$key}" lastk="{$reportIds[$key]['lastk']|default='0'}">
+    <div class="car-appearance-con out{$tk}">
+        <div class="car-appearance-left" id="car-appearance-left{$tk}" fk="{$tk}" lastk="{$reportIds[$tk]['lastk']|default='0'}">
             <!-- <img src="__TMPL__/public/assets/images/cheshun.png" alt=""> -->
         </div>
-        <!-- 显示已有缺陷图 -->
+        <!-- 显示已有缺陷图 坐标点 -->
         <!-- 示例图 __TMPL__/public/assets/images/car03.jpg -->
         <notempty name="reportIds[$third.id]">
-        <php>
-            //dump($reportIds[$key]);
-            $rdata = $reportIds[$key]['data'];
-            //dump($rdata);
-        </php>
-        <foreach name="rdata" item="uc">
-        <div class="appearance-det" style='left:{$uc.x|default='0'}px;top:{$uc.y|default='0'}px;'>
-            <i class='appear-point'></i>
-            <div class="appear-mat" style="display:none;">
-                <div class="appear-ct">
-                    <p>{$uc.desc|default=''}</p>
-                    <div class="appear-pic ">
-                        <notempty name="uc.photo">
-                        <img src="{:cmf_get_image_preview_url($uc.photo)}" alt="">
-                        </notempty>
+            <php>
+                $rdata = empty($reportIds[$tk]['data'])? []: $reportIds[$tk]['data'];
+            </php>
+            <notempty name="rdata">
+            <foreach name="rdata" item="uc">
+            <div class="appearance-det" style="left:{$uc.x|default='0'}px;top:{$uc.y|default='0'}px;">
+                <i class='appear-point'></i>
+                <div class="appear-mat" style="display:none;">
+                    <div class="appear-ct">
+                        <p>{$uc.desc|default=''}</p>
+                        <div class="appear-pic ">
+                            <notempty name="uc.photo">
+                            <img src="{:cmf_get_image_preview_url($uc.photo)}" alt="">
+                            </notempty>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        </foreach>
+            </foreach>
+            </notempty>
         </notempty>
 
-        <!-- 卖家中心增加沦陷图 -->
+        <!-- 显示已有缺陷图 操作 -->
         <div class="car-appearance-con-show">
             <ul>
-               
+                <notempty name="rdata">
+                <foreach name="rdata" item="uc" key="uk">
+                    <li class="car-appearance-li">
+                        <dl>
+                            <dt>坐标：</dt>
+                            <dd class="position-show" style="margin-right:5px;"> 
+                                <input type="text" name="post[report][{$tk}][data][{$uk}][x]" value="{$uc.x}">
+                            </dd>
+                            <dd class="position-show" style="margin-right:5px;"> 
+                                <input type="text" name="post[report][{$tk}][data][{$uk}][y]" value="{$uc.y}">
+                            </dd>
+                            <dd>
+                                <a href="javascript:uploadOneImage('图片上传','#report_photo{$uk}');" class="demonstrate_pre">
+                                    <empty name="uc.photo">
+                                        <img src="__TMPL__/public/assets/images/add.png" id="report_photo{$uk}-preview" style="cursor:pointer;width:40px"/>
+                                        <else/>
+                                        <img src="{:cmf_get_image_preview_url($uc.photo)}" id="report_photo{$uk}-preview" style="cursor:pointer;width:40px"/>
+                                    </empty>
+                                    <i class="photo_tip">请上传缺陷图</i>
+                                </a>
+                            </dd>
+                            <dd class="last-dd">
+                                <input class="beizhu" type="text" name="post[report][{$tk}][data][{$uk}][desc]" value="{$uc.desc}" placeholder="简短描述，不超过十字" max-length="10">
+                                <input type="hidden" name="post[report][{$tk}][data][{$uk}][photo]" id="report_photo{$uk}" value="{$uc.photo}">
+                                <input type="hidden" name="post[report][{$tk}][lastk]" value="{$reportIds[$tk]['lastk']|default='0'}">
+                                <a class="remove-img-btn">删除</a>
+                            </dd>
+                        </dl>
+                    </li>
+                </foreach>
+                </notempty>
             </ul>
         </div>
     </div>

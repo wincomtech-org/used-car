@@ -51,7 +51,8 @@ class PostController extends HomeBaseController
         // 检测报告
         $reportModel = new TradeReportCateModel();
         $reportCateTree = $reportModel->getCateTree();
-
+// dump($reportCateTree);die;
+// dump($page['report']);die;
         $this->assign('plat',$plat);
         $this->assign('findOrder',$findOrder);
         $this->assign('userId',$userId);

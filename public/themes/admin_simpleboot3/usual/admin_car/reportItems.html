@@ -67,7 +67,7 @@
                     <th width="110"><span style="color:#FF8000">{$child.name}</span></th>
                     <td></td>
                 </tr>
-                <foreach name="child.children" item="third">
+                <foreach name="child.children" item="third" key="tk">
                     <tr>
                         <th>{$third.name}</th>
                         <td>
@@ -113,14 +113,11 @@ $(function() {
         if (!lk) { lk = $(e.target).attr('lastk'); }
         x++;
         lk++;
-        console.log( e.pageX, e.pageY )
-        console.log($(this).offset().left,$(this).offset().top)
-        console.log(offsetX,offsetY)
-        // new add car 
+
+        // 在图上显示添加轨迹
         var str = 
             '<div class="appearance-det" style="top:' + offsetY + 'px;left:' + offsetX + 'px">' +
                 '<i class="appear-point"></i>' +
-               
             '</div>';
         $(this).after(str);
 
@@ -136,15 +133,15 @@ $(function() {
                         '<input type="text" name="post[report]['+reportId+'][data]['+lk+'][y]" value="'+offsetY+'">'+
                     '</dd>'+
                     '<dd>'+
-                        '<a href="javascript:uploadOneImage(\'图片上传\',\'#report_photo'+x+'\');" class="demonstrate_pre">' +
-                            '<img src="__TMPL__/public/assets/images/add.png" id="report_photo'+x+'-preview"' +' style="cursor: pointer;width:40px"/>'+
+                        '<a href="javascript:uploadOneImage(\'图片上传\',\'#report_photo'+x+'\');" class="demonstrate_pre">'+
+                            '<img src="__TMPL__/public/assets/images/add.png" id="report_photo'+x+'-preview" style="cursor: pointer;width:40px"/>'+
                             '<i class="photo_tip">请上传缺陷图</i>'+
                         '</a>'+
                     '</dd>'+
                     '<dd class="last-dd">'+
                         '<input class="beizhu" type="text" name="post[report]['+reportId+'][data]['+lk+'][desc]" placeholder="简短描述，不超过十字" max-length="10">'+
                         '<input type="hidden" name="post[report]['+reportId+'][data]['+lk+'][photo]" id="report_photo'+x+'" value="">'+
-                        '<input type="hidden" name="post[report]['+reportId+'][lastk]" value="'+lk+'">' +
+                        '<input type="hidden" name="post[report]['+reportId+'][lastk]" value="'+lk+'">'+
                         '<a class="remove-img-btn">删除</a>'+
                     '</dd>'+
                 '</dl>'+

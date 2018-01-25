@@ -53,106 +53,10 @@
             <div class="tab-content">
                 <!-- 基本属性S -->
                 <div class="tab-pane active" id="BASE_">
-                    <table class="table table-bordered">
-                    <tr>
-                        <th width="100">标题<span class="form-required">*</span></th>
-                        <td>
-                            <input class="form-control" type="text" name="post[name]" required value="{$post.name|default=''}" placeholder="起个合适的标题吧"/>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>购入价格</th>
-                        <td>
-                            <input class="form-control" type="text" name="post[price]" value="{$post.price|default='0.00'}" /> 万元
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <th>所属品牌</th>
-                        <td>
-                            <select class="form-control" style="width:150px;" name="post[brand_id]" id="input-brand">
-                                <option value="">--请选择--</option>
-                                {$Brands}
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>所属车系</th>
-                        <td>
-                            <select class="form-control" style="width:150px;float:left;" name="post[serie_pid]" id="input-series">
-                                <option value="">--请选择--</option>
-                                {$Series}
-                            </select>
-                            <select class="form-control" style="width:150px;" name="post[serie_id]" id="input-serie">
-                                <option value="">--请选择--</option>
-                                {$Series2}
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>车型</th>
-                        <td>
-                            <select class="form-control" style="width:150px;" name="post[model_id]" id="input-model">
-                                <option value="">--请选择--</option>
-                                {$Models}
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>所在城市</th>
-                        <td>
-                            <select class="form-control" style="width:150px;float:left;" name="post[province_id]" id="input-province">
-                                <option value="">--请选择--</option>
-                                {$Provinces}
-                            </select>
-                            <select class="form-control" style="width:150px;" name="post[city_id]" id="input-city">
-                                <option value="">--请选择--</option>
-                                {$Citys}
-                            </select>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <th>简介</th>
-                        <td>
-                            <textarea class="form-control" style="height:50px;" placeholder="请填写描述" name="post[description]" value="{$post.description|default=''}"></textarea>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>详情</th>
-                        <td>
-                            <script style="height:300px;" type="text/plain" id="content" name="post[content]">{$post.content|default=''}</script>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>相册</th>
-                        <td>
-                            <ul id="photos" class="pic-list list-unstyled form-inline">
-                                <notempty name="post.more.photos">
-                                    <foreach name="post.more.photos" item="vo">
-                                        <li id="saved-image{$key}">
-                                            <input id="photo-{$key}" type="hidden"
-                                                   name="photo[urls][]" value="{$vo.url}">
-                                            <input id="photo-{$key}-name" type="text"
-                                                   name="photo[names][]" value="{$vo.name|default=''}"
-                                                   class="form-control" style="width: 200px;" title="图片名称">
-                                            <img id="photo-{$key}-preview"
-                                                 src="{:cmf_get_image_preview_url($vo['url'])}"
-                                                 style="height:36px;width: 36px;"
-                                                 onclick="parent.imagePreviewDialog(this.src);">
-                                            <a href="javascript:uploadOneImage('图片上传','#photo-{$key}');">替换</a>
-                                            <a href="javascript:(function(){$('#saved-image{$key}').remove();})();">移除</a>
-                                        </li>
-                                    </foreach>
-                                </notempty>
-                            </ul>
-                            <a href="javascript:uploadMultiImage('图片上传','#photos','photos-item-tpl');"
-                               class="btn btn-default btn-sm">选择图片</a>
-                        </td>
-                    </tr>
-                    </table>
+                    <include file="admin_car1/BASE_" />
                 </div>
                 <!-- 基本属性E -->
+
                 <!-- 所有属性S -->
                 <div class="tab-pane " id="EXT_">
                     <table class="table table-bordered">
@@ -160,129 +64,47 @@
                     </table>
                 </div>
                 <!-- 所有属性E -->
+
                 <!-- 优化属性S -->
                 <div class="tab-pane " id="REC_">
                     <table class="table table-bordered">
-                    <tr>
-                        <th width="100">车架号</th>
-                        <td>
-                            <input class="form-control" maxlength="17" placeholder="17位的车架号" type="text" name="post[car_vin]" value="{$post.car_vin|default=''}">
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>年检到期日</th>
-                        <td>
-                            <input class="form-control js-bootstrap-datetime" placeholder="" type="text" name="post[car_check_time]" value="{:date('Y-m-d',$post.car_check_time)}">
-                        </td>
-                    </tr>
+                        <include file="admin_car1/REC_" />
+                        <tr>
+                            <th></th>
+                            <td align="center"><big><b>以下仍作为前台筛选项</b></big></td>
+                        </tr>
+                        <foreach name="searchCode" item="vo">
+                            <php>
+                                $biz_compare = empty($post[$vo['code']]) ?  '': $post[$vo['code']];
+                                //echo $biz_compare;
+                                $biz = 'post['.$vo['code'].']';
+                            </php>
+                            <include file="admin_car1/recItems" />
+                        </foreach>
 
-                    <tr>
-                        <th>排量</th>
-                        <td>
-                            <input class="form-control" placeholder="" type="text" name="post[car_displacement]" value="{$post.car_displacement|default=''}">
-                            <p class="help-block">单位：升（L）</p>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>座位数</th>
-                        <td>
-                            <input class="form-control" placeholder="默认5，最大99" type="text" name="post[car_seating]" value="{$post.car_seating|default=''}" max="99">
-                            <p class="help-block">单位：座</p>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <th></th>
-                        <td align="center"><big><b>以下仍作为前台筛选项</b></big></td>
-                    </tr>
-                    <foreach name="searchCode" item="vo">
-                        <php>
-                            $biz_compare = empty($post[$vo['code']]) ?  '': $post[$vo['code']];
-                            //echo $biz_compare;
-                            $biz = 'post['.$vo['code'].']';
-                        </php>
-                        <include file="admin_car1/recItems" />
-                    </foreach>
-
-                    <tr>
-                        <th></th>
-                        <td align="center"><big><b>以下是属性分类推荐项</b></big></td>
-                    </tr>
-                    <foreach name="recItems" item="vo">
-                        <php>
-                            $biz_compare = empty($post['more'][$vo['code']]) ?  '': $post['more'][$vo['code']];
-                            //echo $biz_compare;
-                            $biz = 'post[more]['.$vo['code'].']';
-                        </php>
-                        <include file="admin_car1/recItems" />
-                    </foreach>
+                        <tr>
+                            <th></th>
+                            <td align="center"><big><b>以下是属性分类推荐项</b></big></td>
+                        </tr>
+                        <foreach name="recItems" item="vo">
+                            <php>
+                                $biz_compare = empty($post['more'][$vo['code']]) ?  '': $post['more'][$vo['code']];
+                                //echo $biz_compare;
+                                $biz = 'post[more]['.$vo['code'].']';
+                            </php>
+                            <include file="admin_car1/recItems" />
+                        </foreach>
                     </table>
                 </div>
                 <!-- 优化属性E -->
+
                 <!-- 店铺相关S -->
                 <div class="tab-pane" id="SHOP_">
-                    <table class="table table-bordered">
-                    <tr>
-                        <th width="100">车源类别</th>
-                        <td>
-                            <select class="form-control" style="width:150px;" name="post[type]">
-                                <option value="">--请选择--</option>
-                                {$Types}
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>市场价</th>
-                        <td>
-                            <input class="form-control" placeholder="" name="post[market_price]" value="{$post.market_price|default='0.00'}"> 万元
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>店铺价</th>
-                        <td>
-                            <input class="form-control" placeholder="" name="post[shop_price]" value="{$post.shop_price|default='0.00'}"> 万元
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>首付价</th>
-                        <td>
-                            <input class="form-control" placeholder="" name="post[down_payment]" value="{$post.down_payment|default='0.00'}"> 万元
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>订金、预约金</th>
-                        <td>
-                            <input class="form-control" placeholder="" name="post[bargain_money]" value="{$post.bargain_money|default='0.00'}"> 元
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>库存</th>
-                        <td>
-                            <input class="form-control" placeholder="" name="post[inventory]" value="{$post.inventory|default='1'}"> 辆
-                        </td>
-                    </tr>
-                    </table>
+                    <include file="admin_car1/SHOP_" />
                 </div>
                 <!-- 店铺相关E -->
                 <div class="tab-pane" id="SEO_">
-                    <div class="form-group">
-                        <label for="input-seo_title">SEO标题</label>
-                        <div>
-                            <input class="form-control" id="input-seo_title" type="text" name="post[seo_title]" value="{$post.seo_title|default=''}">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="input-seo_keywords">SEO关键字</label>
-                        <div>
-                            <input class="form-control" id="input-seo_keywords" type="text" name="post[seo_keywords]" value="{$post.seo_keywords|default=''}">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="input-seo_description">SEO描述</label>
-                        <div>
-                            <textarea class="form-control" id="input-seo_description" name="post[seo_description]">{$post.seo_description|default=''}</textarea>
-                        </div>
-                    </div>
+                    <include file="admin_car1/SEO_" />
                 </div>
             </div>
             <div class="form-group">

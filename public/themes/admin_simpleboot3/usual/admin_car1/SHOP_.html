@@ -1,0 +1,47 @@
+<table class="table table-bordered">
+    <tr>
+        <th width="100">车源类别</th>
+        <td>
+            <select class="form-control" style="width:150px;" name="post[type]">
+                <option value="">--请选择--</option>
+                {$Types}
+            </select>
+        </td>
+    </tr>
+    <tr>
+        <th>市场价</th>
+        <td>
+            <input class="form-control" placeholder="" name="post[market_price]" value="{$post.market_price|default='0.00'}"> 万元
+        </td>
+    </tr>
+    <tr>
+        <th>店铺价</th>
+        <td>
+            <input class="form-control" placeholder="" name="post[shop_price]" value="{$post.shop_price|default='0.00'}"> 万元
+        </td>
+    </tr>
+    <tr>
+        <th>首付价</th>
+        <td>
+            <input class="form-control" placeholder="" name="post[down_payment]" value="{$post.down_payment|default='0.00'}"> 万元
+        </td>
+    </tr>
+    <tr>
+        <th>订金、预约金</th>
+        <td>
+            <input class="form-control" placeholder="" name="post[bargain_money]" value="{$post.bargain_money|default='0.00'}"> 元
+        </td>
+    </tr>
+    <tr>
+        <th>店铺电话</th>
+        <td>
+            <input class="form-control" placeholder="" name="post[shop_tel]" value="{$post.shop_tel|default=''}">
+        </td>
+    </tr>
+    <tr>
+        <th>库存</th>
+        <td>
+            <input class="form-control" placeholder="" name="post[inventory]" value="{$post.inventory|default='1'}"> 辆
+        </td>
+    </tr>
+</table>
