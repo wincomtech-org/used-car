@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>个人中心 - 服务商城 - {$site_info.site_name|default=''}</title>
+    <meta name="keywords" content="{$site_info.site_seo_keywords|default=''}"/>
+    <meta name="description" content="{$site_info.site_seo_description|default=''}">
+
+    <include file="public@head"/>
+</head>
+<body>
+    <!-- 头部 -->
+    <include file="public@header" />
+   
+
+    <!-- 热门资讯 -->
+    <section class="person">
+        <div class="main">
+
+            <ul class="brash">
+                <li>当前位置：</li>
+                <li class=""><a href="">服务商城</a></li>
+                <li class=""><a href="">配件服务</a></li>
+                <li class="active"><a href="#">确认收货</a></li>
+            </ul>
+            <div class="order-details">
+                <div class="order-details-mess">
+                   
+                    <div class='logistics'>
+                        <p class="logistics-p">我已收到货，同意支付宝付款</p>
+                        
+                    </div>  
+                 
+                        
+                    <div class="shop_orders">
+                        <ul class='order-ul'>
+                            <li class='order-li'>订单信息</li>
+                        </ul>
+        
+                        <dl class='order-dl'>
+                            <dt>订单地址：</dt>
+                            <dd>张三，13121212121212，安徽省 合肥市 蜀山区 荷叶地街道 绿地蓝海大厦b座605 ，230061</dd>
+                        </dl>
+                        <!-- 运送方式 -->
+                        <dl class='order-dl'>
+                            <dt>运送方式：</dt>
+                            <dd>快递</dd>
+                        </dl>
+                        <!-- 订单信息 -->
+                        <dl class='order-dl'>
+                            <dt>订单信息</dt>
+                            <dd class='order-dd-list'>
+                                <ul class="order-ul-mess">
+                                    <li class='order-li-mess'>
+                                        订单编号：
+                                        <span>100825015955328090</span>
+                                    </li>
+                                    <li class='order-li-mess'>
+                                        支付宝交易号：
+                                        <span>100825015955328090</span>
+                                    </li>
+                                    <li class='order-li-mess'>
+                                        创建时间：
+                                        <span>100825015955328090</span>
+                                    </li>
+                                    <li class='order-li-mess'>
+                                        发货时间：
+                                        <span>100825015955328090</span>
+                                    </li>
+                                    <li class='order-li-mess'>
+                                        付款时间：
+                                        <span>100825015955328090</span>
+                                    </li>
+                                    <li class='order-li-mess'>
+                                        成交时间：
+                                        <span>100825015955328090</span>
+                                    </li>
+                                </ul>
+                            </dd>
+                        </dl>
+                       
+                        <include file="shop/order_table" />  
+                        <aside class="cofimReceipt-buc">
+                            <ul class='orders-supply'>
+                                <li><h6 class='red-color'>请收到货后，再确认收货！否则您可能钱货两空！</h6></li>
+                                <li>如果您想申请退款，<a href="" class='blue-color'>请点击这里</a></li>
+                            </ul>
+                            <div class="cofimReceipt-button">
+                                <dl class="cofimReceipt-button-dl">
+                                    <dt class='hi30'>支付宝支付密码：</dt>
+                                    <dd class='cofimReceipt-form'>
+                                        <form action="">
+                                            <input type="text"class='cofimReceipt-input' required >
+                                            <input type="submit" class='btn-style backg-orange cofimReceipt-input' value='确认'>
+                                        </form>
+                                    </dd>
+                                    <dd class='hi30'><a href="" class='blue-color'>忘记密码</a></dd>
+                                    
+                                </dl>
+                            </div>
+                        </aside>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 底部 -->
+    <include file="public@footer" />
+    <include file="public@scripts" />
+       
+</body>
+<include file="public@morejs" />
+
+</html>

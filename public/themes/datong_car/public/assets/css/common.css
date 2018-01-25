@@ -1,48 +1,7 @@
-<<<<<<< HEAD
-/*
-Error: Invalid charset directive '@charset': expected string.
-        on line 1 of D:\phpStudy\WWW\GitHub\wincomtech-org\used_car\public\themes\datong_car\public\assets\css\common.css
-
-1: @charset "utf-8";
-2: /**公共样式**\/
-3: body{font:12px/1 微软雅黑,"Microsoft Yahei",sans-serif;min-width:320px;}
-4: body,h1,h2,h3,h4,h5,h6,p,ol,li,ul,a,dd,dt,dl,span,em,i,img,input,button,select,textarea,div,a,input{padding:0;margin:0;color:#333;list-style:none;font-style:normal;font-size:inherit;}
-5: textarea,input,button,select,img{border:none;outline:none;}
-6: input[type=button],input[type=submit],input[type=file],input[type=text],input[type=reset],button{cursor:pointer;-webkit-appearance:none;border-radius:0;-webkit-border-radius:0;-moz-border-radius:0;-ms-border-radius:0;}
-
-Backtrace:
-D:\phpStudy\WWW\GitHub\wincomtech-org\used_car\public\themes\datong_car\public\assets\css\common.css:1
-C:/Ruby24-x64/lib/ruby/gems/2.4.0/gems/sass-4.0.0.alpha.1/lib/sass/engine.rb:884:in `parse_charset_directive'
-C:/Ruby24-x64/lib/ruby/gems/2.4.0/gems/sass-4.0.0.alpha.1/lib/sass/engine.rb:810:in `parse_directive'
-C:/Ruby24-x64/lib/ruby/gems/2.4.0/gems/sass-4.0.0.alpha.1/lib/sass/engine.rb:645:in `parse_line'
-C:/Ruby24-x64/lib/ruby/gems/2.4.0/gems/sass-4.0.0.alpha.1/lib/sass/engine.rb:535:in `build_tree'
-C:/Ruby24-x64/lib/ruby/gems/2.4.0/gems/sass-4.0.0.alpha.1/lib/sass/engine.rb:554:in `block in append_children'
-C:/Ruby24-x64/lib/ruby/gems/2.4.0/gems/sass-4.0.0.alpha.1/lib/sass/engine.rb:553:in `each'
-C:/Ruby24-x64/lib/ruby/gems/2.4.0/gems/sass-4.0.0.alpha.1/lib/sass/engine.rb:553:in `append_children'
-C:/Ruby24-x64/lib/ruby/gems/2.4.0/gems/sass-4.0.0.alpha.1/lib/sass/engine.rb:406:in `_to_tree'
-C:/Ruby24-x64/lib/ruby/gems/2.4.0/gems/sass-4.0.0.alpha.1/lib/sass/engine.rb:378:in `_render_with_sourcemap'
-C:/Ruby24-x64/lib/ruby/gems/2.4.0/gems/sass-4.0.0.alpha.1/lib/sass/engine.rb:295:in `render_with_sourcemap'
-C:/Ruby24-x64/lib/ruby/gems/2.4.0/gems/sass-4.0.0.alpha.1/lib/sass/plugin/compiler.rb:490:in `update_stylesheet'
-C:/Ruby24-x64/lib/ruby/gems/2.4.0/gems/sass-4.0.0.alpha.1/lib/sass/plugin/compiler.rb:215:in `block in update_stylesheets'
-C:/Ruby24-x64/lib/ruby/gems/2.4.0/gems/sass-4.0.0.alpha.1/lib/sass/plugin/compiler.rb:209:in `each'
-C:/Ruby24-x64/lib/ruby/gems/2.4.0/gems/sass-4.0.0.alpha.1/lib/sass/plugin/compiler.rb:209:in `update_stylesheets'
-C:/Ruby24-x64/lib/ruby/gems/2.4.0/gems/sass-4.0.0.alpha.1/lib/sass/plugin.rb:82:in `update_stylesheets'
-C:/Ruby24-x64/lib/ruby/gems/2.4.0/gems/sass-4.0.0.alpha.1/lib/sass/exec/sass_scss.rb:361:in `watch_or_update'
-C:/Ruby24-x64/lib/ruby/gems/2.4.0/gems/sass-4.0.0.alpha.1/lib/sass/exec/sass_scss.rb:51:in `process_result'
-C:/Ruby24-x64/lib/ruby/gems/2.4.0/gems/sass-4.0.0.alpha.1/lib/sass/exec/base.rb:52:in `parse'
-C:/Ruby24-x64/lib/ruby/gems/2.4.0/gems/sass-4.0.0.alpha.1/lib/sass/exec/base.rb:19:in `parse!'
-C:/Ruby24-x64/lib/ruby/gems/2.4.0/gems/sass-4.0.0.alpha.1/bin/sass:13:in `<top (required)>'
-C:/Ruby24-x64/bin/sass:23:in `load'
-C:/Ruby24-x64/bin/sass:23:in `<main>'
-*/
-body:before {
-  white-space: pre;
-  font-family: monospace;
-  content: "Error: Invalid charset directive '@charset': expected string.\A         on line 1 of D:\phpStudy\WWW\GitHub\wincomtech-org\used_car\public\themes\datong_car\public\assets\css\common.css\A \A 1: @charset \"utf-8\";\A 2: /**公共样式**/\A 3: body{font:12px/1 微软雅黑,\"Microsoft Yahei\",sans-serif;min-width:320px;}\A 4: body,h1,h2,h3,h4,h5,h6,p,ol,li,ul,a,dd,dt,dl,span,em,i,img,input,button,select,textarea,div,a,input{padding:0;margin:0;color:#333;list-style:none;font-style:normal;font-size:inherit;}\A 5: textarea,input,button,select,img{border:none;outline:none;}\A 6: input[type=button],input[type=submit],input[type=file],input[type=text],input[type=reset],button{cursor:pointer;-webkit-appearance:none;border-radius:0;-webkit-border-radius:0;-moz-border-radius:0;-ms-border-radius:0;}"; }
-=======
 @charset "utf-8";
 /**公共样式**/
-body{font:12px/1 微软雅黑,"Microsoft Yahei",sans-serif;min-width:320px;}
+body{min-width:320px;}
+body{font:12px/1 微软雅黑,"Microsoft Yahei",sans-serif;}
 body,h1,h2,h3,h4,h5,h6,p,ol,li,ul,a,dd,dt,dl,span,em,i,img,input,button,select,textarea,div,a,input{padding:0;margin:0;color:#333;list-style:none;font-style:normal;font-size:inherit;}
 textarea,input,button,select,img{border:none;outline:none;}
 input[type=button],input[type=submit],input[type=file],input[type=text],input[type=reset],button{cursor:pointer;-webkit-appearance:none;border-radius:0;-webkit-border-radius:0;-moz-border-radius:0;-ms-border-radius:0;}
@@ -50,12 +9,35 @@ input[type=button],input[type=submit],input[type=file],input[type=text],input[ty
 .rt{float:right;}
 .clear{clear:both;}
 a{text-decoration:none;cursor:pointer;}
-/*公共颜色*/
-.success_color{color: #009241!important;}
-.error_color{color: #F00!important;}
 
-/**新添加字体*/
-/* @font-face{font-family:myFirstFont;src:url('../font/font.TTF')} */
+/*公共颜色*/
+.success_color{color:#009241!important;}
+.error_color{color:#F00!important;}
+.orage-color{color:#C60;}
+.blue-color{color:#2652A5;}
+.red-color{color:#d00000;}
+.small{font-size:12px;color:#666;line-height:1.36;}
+/* 按钮块 */
+.btn-style-auto{padding:10px 0;color:#fff;display:inline-block;}
+.btn-style{padding:10px 0;width:85px;color:#fff;}
+.btn-small{display:inline-block;padding:5px;color:#fff;}
+/* 背景色 */
+.backg-red{background-color:#d00000;}
+.backg-blue{background-color:#66b6ff;}
+.backg-orange{background-color:#c60;}
+.backg-border{border:1px solid #ddd;color:#666;box-sizing:border-box;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;-ms-box-sizing:border-box;-o-box-sizing:border-box;}
+/* 圆角 */
+.border-r{
+	-webkit-border-radius:5px;
+	-moz-border-radius:5px;
+	-ms-border-radius:5px;
+	-o-border-radius:5px;
+	border-radius:5px;
+}
+.hi30{
+    height:30px;
+    line-height:30px;
+}
 
 /*h5标签公共样式**/
 article,aside,figcaption,figure,footer,header,hgroup,nav,section,strong{display:block}
@@ -367,4 +349,3 @@ nav{background-color:#000;}
 	.simpleAlertBodyContent img{width:244px;}
 	.simpleAlertBodyContent  .BodyContent{min-height:200px;}
 }
->>>>>>> acf01fe50acb932b5fdcc78ef7dc00d31c697dc0
