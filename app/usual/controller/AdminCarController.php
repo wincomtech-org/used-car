@@ -88,7 +88,7 @@ class AdminCarController extends AdminBaseController
         $allItems = model('UsualItem')->getItemTable(null,'',true);
         // 检测报告
         $reportModel = new TradeReportCateModel();
-        $reportCate = $reportCate2 = $reportModel->getCate();
+        $reportCateTree = $reportModel->getCateTree();
 
         // 开店资料审核 config('verify_define_data');
         // 售卖状态
@@ -103,8 +103,7 @@ class AdminCarController extends AdminBaseController
         $this->assign('searchCode', $searchCode);
         $this->assign('recItems', $recItems);
         $this->assign('allItems', $allItems);
-        $this->assign('reportCate', $reportCate);
-        $this->assign('reportCate2', $reportCate2);
+        $this->assign('reportCateTree', $reportCateTree);
 
         $this->assign('sell_status', $sell_status);
 
@@ -153,7 +152,7 @@ class AdminCarController extends AdminBaseController
             if (!empty($data['file'])) {
                 $post['more']['files'] = $this->Model->dealFiles($data['file']);
             }
-            $post['report'] = $data['report'];
+            // $post['report'] = $data['report'];
 
             // 事务处理
             // 提交车子数据
@@ -201,7 +200,7 @@ class AdminCarController extends AdminBaseController
         // 检测报告
         $reportModel = new TradeReportCateModel();
         $reportCateTree = $reportModel->getCateTree();
-// dump($reportCateTree);die;
+// dump($post);die;
         // 个人审核资料
         $verifyinfo = lothar_verify($post['user_id'],'openshop','all');
         // 售卖状态

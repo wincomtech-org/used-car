@@ -1,20 +1,35 @@
+<!-- 这里的 $key 与 $third.id 是一样的 -->
 <div class="chesun">
     <div class="car-appearance-con out{$key}">
-        <div class="car-appearance-left" id='car-appearance-left{$key}'>
+        <div class="car-appearance-left" id="car-appearance-left{$key}" fk="{$key}" lastk="{$reportIds[$key]['lastk']|default='0'}">
             <!-- <img src="__TMPL__/public/assets/images/cheshun.png" alt=""> -->
         </div>
-        <!-- 缺陷图 -->
-        <div class="appearance-det" style='top:30px;left:380px;'>
+        <!-- 显示已有缺陷图 -->
+        <!-- 示例图 __TMPL__/public/assets/images/car03.jpg -->
+        <notempty name="reportIds[$third.id]">
+        <php>
+            //dump($reportIds[$key]);
+            $rdata = $reportIds[$key]['data'];
+            //dump($rdata);
+        </php>
+        <foreach name="rdata" item="uc">
+        <div class="appearance-det" style='top:{$uc.x|default='0'}px;left:{$uc.y|default='0'}px;'>
             <i class='appear-point'></i>
             <div class="appear-mat" style="display:none;">
                 <div class="appear-ct">
-                    <p>剐蹭</p>
+                    <p>{$uc.desc|default=''}</p>
                     <div class="appear-pic ">
-                        <img src="__TMPL__/public/assets/images/car03.jpg" alt="">
+                        <notempty name="uc.photo">
+                        <img src="{:cmf_get_image_preview_url($uc.photo)}" alt="">
+                        </notempty>
                     </div>
                 </div>
             </div>
         </div>
+        </foreach>
+        </notempty>
+
+        <!-- 卖家中心增加沦陷图 -->
         <div class="car-appearance-con-show">
             <ul>
                

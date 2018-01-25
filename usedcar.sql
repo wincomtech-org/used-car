@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50540
 File Encoding         : 65001
 
-Date: 2018-01-23 18:14:13
+Date: 2018-01-25 15:13:51
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -264,13 +264,14 @@ CREATE TABLE `cmf_asset` (
   `suffix` varchar(10) NOT NULL DEFAULT '' COMMENT '文件后缀名,不包括点',
   `more` text COMMENT '其它详细信息,JSON格式',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COMMENT='资源表';
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COMMENT='资源表';
 
 -- ----------------------------
 -- Records of cmf_asset
 -- ----------------------------
 INSERT INTO `cmf_asset` VALUES ('6', '1', '389243', '1514186767', '1', '0', '532ecaf040a81801b4997ccd300d0c983c816e42bc7f48d49d2367ccd3f39589', 'background_1_1024x681.jpg', 'default/20171225/cdb2ca0730bc82c9ba240a22f3f89c29.jpg', '532ecaf040a81801b4997ccd300d0c98', '18244c884729886c2e4ef3b4eb339b2099587c8f', 'jpg', '');
 INSERT INTO `cmf_asset` VALUES ('7', '1', '11264', '1514426645', '1', '0', '35707e0cce0f671c3ee98428ff3378aed1406cf1634d4a6e9288d8be2f94779e', '大通车服网站使用说明书.doc', 'insurance/20171228/f11759926f554c76af063aed5e5aae09.doc', '35707e0cce0f671c3ee98428ff3378ae', '6888bfbb2a5dabec5a5a051a0b441fa8a542533f', 'doc', '');
+INSERT INTO `cmf_asset` VALUES ('8', '1', '89448', '1516851225', '1', '0', '031781917e4d00bae53bdc371e203c61f96209abe99664a59efe9a3d0cda290f', 'cba93d4ecd0386ec0f18e51b4ea491a6.jpg', 'portal/20180125/2ade3e9104e5bc39763d035551bc3c0b.jpg', '031781917e4d00bae53bdc371e203c61', 'f42e36eb80662776de4436ffc827f1f4965dc370', 'jpg', null);
 
 -- ----------------------------
 -- Table structure for cmf_auth_access
@@ -284,7 +285,7 @@ CREATE TABLE `cmf_auth_access` (
   PRIMARY KEY (`id`),
   KEY `role_id` (`role_id`),
   KEY `rule_name` (`rule_name`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=426 DEFAULT CHARSET=utf8 COMMENT='权限授权表';
+) ENGINE=InnoDB AUTO_INCREMENT=431 DEFAULT CHARSET=utf8 COMMENT='权限授权表';
 
 -- ----------------------------
 -- Records of cmf_auth_access
@@ -575,6 +576,11 @@ INSERT INTO `cmf_auth_access` VALUES ('422', '2', 'admin/recyclebin/restore', 'a
 INSERT INTO `cmf_auth_access` VALUES ('423', '2', 'admin/recyclebin/delete', 'admin_url');
 INSERT INTO `cmf_auth_access` VALUES ('424', '2', 'user/adminasset/index', 'admin_url');
 INSERT INTO `cmf_auth_access` VALUES ('425', '2', 'user/adminasset/delete', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('426', '5', 'usual/adminindex/default', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('427', '5', 'usual/admincompany/index', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('428', '5', 'usual/adminnews/index', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('429', '5', 'usual/adminverify/index', 'admin_url');
+INSERT INTO `cmf_auth_access` VALUES ('430', '5', 'usual/adminindex/config', 'admin_url');
 
 -- ----------------------------
 -- Table structure for cmf_auth_rule
@@ -4376,7 +4382,7 @@ CREATE TABLE `cmf_hook_plugin` (
   `hook` varchar(50) NOT NULL DEFAULT '' COMMENT '钩子名',
   `plugin` varchar(30) NOT NULL DEFAULT '' COMMENT '插件',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COMMENT='系统钩子插件表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='系统钩子插件表';
 
 -- ----------------------------
 -- Records of cmf_hook_plugin
@@ -4461,7 +4467,7 @@ CREATE TABLE `cmf_insurance_coverage` (
   `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '状态：-1禁用 0未启用 1启用',
   `list_order` float unsigned NOT NULL DEFAULT '10000' COMMENT '排序：从小到大',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Records of cmf_insurance_coverage
@@ -4475,6 +4481,7 @@ INSERT INTO `cmf_insurance_coverage` VALUES ('6', '0', '0', '2', '自燃险', '0
 INSERT INTO `cmf_insurance_coverage` VALUES ('7', '0', '0', '2', '划痕险', '0', '道路交通事故中造成受害人(不包括本车人员和被保险人)的人身伤亡、财产损失。', '道路交通事故中造成受害人(不包括本车人员和被保险人)的人身伤亡、财产损失。', '', '', '道路交通事故中造成受害人(不包括本车人员和被保险人)的人身伤亡、财产损失。', '', '{\"thumbnail\":\"\"}', '1514281456', '1508980020', '0', '0', '0', '1', '10000');
 INSERT INTO `cmf_insurance_coverage` VALUES ('8', '0', '0', '2', '责任险率', '0', '道路交通事故中造成受害人(不包括本车人员和被保险人)的人身伤亡、财产损失。', '道路交通事故中造成受害人(不包括本车人员和被保险人)的人身伤亡、财产损失。', '道路交通事故中造成受害人(不包括本车人员和被保险人)的人身伤亡、财产损失。', '', '', '', '{\"thumbnail\":\"\"}', '1514281468', '1508980140', '0', '0', '0', '1', '10000');
 INSERT INTO `cmf_insurance_coverage` VALUES ('9', '0', '0', '2', '不计免额险', '0', '道路交通事故中造成受害人(不包括本车人员和被保险人)的人身伤亡、财产损失。', '道路交通事故中造成受害人(不包括本车人员和被保险人)的人身伤亡、财产损失。', '道路交通事故中造成受害人(不包括本车人员和被保险人)的人身伤亡、财产损失。', '', '', '', '{\"thumbnail\":\"\"}', '1514281480', '1508980140', '0', '0', '0', '1', '10000');
+INSERT INTO `cmf_insurance_coverage` VALUES ('10', '0', '0', '1', '车辆强制险', '0', '', '', '', '', '', null, '{\"thumbnail\":\"\"}', '1516848368', '1515554760', '0', '0', '0', '1', '10000');
 
 -- ----------------------------
 -- Table structure for cmf_insurance_option
@@ -4691,7 +4698,7 @@ CREATE TABLE `cmf_plugin` (
   `description` varchar(255) NOT NULL COMMENT '插件描述',
   `config` text COMMENT '插件配置',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COMMENT='插件表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='插件表';
 
 -- ----------------------------
 -- Records of cmf_plugin
@@ -4728,7 +4735,7 @@ INSERT INTO `cmf_portal_category` VALUES ('2', '0', '0-2', '活动推荐', '活�
 INSERT INTO `cmf_portal_category` VALUES ('3', '0', '0-3', '车辆服务', '', 'list', 'article', '0', '0', '1', '10000', '', '', '', '{\"thumbnail\":\"\"}');
 INSERT INTO `cmf_portal_category` VALUES ('4', '3', '0-3-4', '买车流程', '', 'list', 'article', '0', '0', '1', '10000', '', '', '', '{\"thumbnail\":\"\"}');
 INSERT INTO `cmf_portal_category` VALUES ('5', '1', '0-1-5', '热门新闻', '', 'list', 'article', '0', '0', '1', '10000', '', '', '', '{\"thumbnail\":\"\"}');
-INSERT INTO `cmf_portal_category` VALUES ('6', '0', '0-6', '关于我们', '', 'list', 'about', '0', '0', '1', '10000', '', '', '', '{\"thumbnail\":\"\"}');
+INSERT INTO `cmf_portal_category` VALUES ('6', '0', '0-6', '关于我们', '大通车服是集新车上照、二手车过户、车辆年检、车辆综合检测、车辆保险、车辆养护（保养、洗车、维修、板喷、轮胎）、新车销售、二手车买卖车为一体的车辆综合服务平台。', 'list', 'about', '0', '0', '1', '10000', '', '', '', '{\"thumbnail\":\"portal\\/20180125\\/2ade3e9104e5bc39763d035551bc3c0b.jpg\"}');
 INSERT INTO `cmf_portal_category` VALUES ('7', '1', '0-1-7', '用车技巧', '', 'list', 'article', '0', '0', '1', '10000', '', '', '', '{\"thumbnail\":\"\"}');
 INSERT INTO `cmf_portal_category` VALUES ('8', '3', '0-3-8', '理赔指引', '有了理赔指引，出险理赔不慌乱', 'list', 'article', '0', '0', '1', '10000', '', '', '', '{\"thumbnail\":\"\"}');
 INSERT INTO `cmf_portal_category` VALUES ('9', '3', '0-3-9', '新手帮助', '有问题找车服', 'list', 'article', '0', '0', '1', '10000', '', '', '', '{\"thumbnail\":\"\"}');
@@ -4845,7 +4852,7 @@ INSERT INTO `cmf_portal_post` VALUES ('15', '0', '1', '1', '1', '1', '1', '0', '
 INSERT INTO `cmf_portal_post` VALUES ('16', '0', '1', '1', '1', '1', '1', '0', '0', '0', '0', '0', '1510112820', '1510381166', '1510112760', '0', '预约看车', '', '专人带看\r\n安排售车顾问陪同您看车', '', '', '', '{\"thumbnail\":\"\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/icon_08.png\",\"template\":\"\"}');
 INSERT INTO `cmf_portal_post` VALUES ('17', '0', '1', '1', '1', '1', '1', '0', '0', '0', '0', '0', '1510113114', '1510113114', '1510113010', '0', '签订协议', '', '安排顾问指导您完成协议合同签订', '', '', '', '{\"thumbnail\":\"\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/icon_09.png\",\"template\":\"\"}');
 INSERT INTO `cmf_portal_post` VALUES ('18', '0', '1', '1', '1', '1', '1', '0', '0', '0', '0', '0', '1510113167', '1510113167', '1510113123', '0', '售后服务', '', 'GV预估个人', '', '', '', '{\"thumbnail\":\"\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/icon_10.png\",\"template\":\"\"}');
-INSERT INTO `cmf_portal_post` VALUES ('19', '0', '1', '1', '1', '1', '1', '0', '0', '37', '0', '0', '1510558406', '1510562058', '1510558260', '0', '公司介绍', '', '', '', '\n&lt;p style=&quot;text-indent:2em;&quot;&gt;大通车服有限公司是一家提供各种车险服务，二手车买卖，检车预约，车辆服务的的公司，致力于为广大车友提供最便捷，最安全，最省心的服务。&lt;/p&gt;\n&lt;p&gt;&lt;img src=&quot;/static/js/ueditor/themes/default/images/spacer.gif&quot; word_img=&quot;file:///E:/WXS/%E9%A1%B9%E7%9B%AE/%E4%BA%8C%E6%89%8B%E8%BD%A6%E4%BA%A4%E6%98%93/%E5%89%8D%E7%AB%AF%E4%BB%A3%E7%A0%81/second-hand_car1113/image/about.jpg&quot; style=&quot;background:url(/static/js/ueditor/lang/zh-cn/images/localimage.png) no-repeat center center;border:1px solid #ddd&quot;&gt;&lt;/p&gt;\n&lt;p style=&quot;text-indent:2em;&quot;&gt;华创在线服务领域涵盖网站建设，企业定制化系统（酒店管理系统，医疗管理系统，房产管理系统，金融管理系统，教育管理系统等），APP开发，微信公众号二次开发，商城网站开发，电子商务定制，百度推广服务等。\r\n \r\n华创在线创始团队多数来自百度，腾讯，阿里巴巴，Facebook等知名互联网公司，具备十年以上的互联网行业经验。公司60%以上为技术研发人员，均毕业于清华大学，浙江大学，中国科学技术大学等知名高校，公司技术实力雄厚。&lt;/p&gt;\n&lt;p&gt;&lt;br&gt;&lt;/p&gt;\n&lt;p style=&quot;text-indent: 2em;&quot;&gt;至臻品质，至真服务，华创在线与您携手共赢，共创未来！&lt;/p&gt;\n', '', '{\"thumbnail\":\"\",\"template\":\"about\"}');
+INSERT INTO `cmf_portal_post` VALUES ('19', '0', '1', '1', '1', '1', '1', '0', '0', '37', '0', '0', '1510558406', '1516851294', '1510558260', '0', '大通车服', '大通车服', '', '', '&lt;p&gt;&lt;strong style=&quot;text-indent: 32px; white-space: normal;&quot;&gt;&lt;span style=&quot;color: rgb(53, 53, 53); background-color: rgb(255, 255, 255); font-family: 宋体, SimSun;&quot;&gt;大通车服是集新车上照、二手车过户、车辆年检、车辆综合检测、车辆保险、车辆养护（保养、洗车、维修、板喷、轮胎）、新车销售、二手车买卖车为一体的车辆综合服务平台。&lt;/span&gt;&lt;/strong&gt;&lt;/p&gt;', '', '{\"thumbnail\":\"portal\\/20180125\\/2ade3e9104e5bc39763d035551bc3c0b.jpg\",\"template\":\"about\"}');
 INSERT INTO `cmf_portal_post` VALUES ('20', '0', '1', '1', '1', '1', '1', '0', '0', '6', '0', '0', '1510558939', '1510562398', '1510558860', '0', '服务理念', '', '', '', '&lt;p&gt;服务理念内容：&lt;/p&gt;', '', '{\"thumbnail\":\"\",\"template\":\"about\"}');
 INSERT INTO `cmf_portal_post` VALUES ('21', '0', '1', '1', '1', '1', '1', '0', '0', '2', '0', '0', '1510559032', '1510562441', '1510558980', '0', '保险服务', '', '', '', '&lt;p&gt;保险服务内容&lt;/p&gt;', '', '{\"thumbnail\":\"\",\"template\":\"about\"}');
 INSERT INTO `cmf_portal_post` VALUES ('22', '0', '1', '1', '1', '1', '1', '0', '0', '7', '0', '0', '1510559763', '1510562424', '1510559700', '0', '交易流程', '', '', '', '&lt;p&gt;交易流程内容&lt;/p&gt;', '', '{\"thumbnail\":\"\",\"template\":\"about\"}');
@@ -4872,7 +4879,7 @@ CREATE TABLE `cmf_portal_tag` (
   `post_count` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT '标签文章数',
   `name` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '标签名称',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COMMENT='portal应用 文章标签表';
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COMMENT='portal应用 文章标签表';
 
 -- ----------------------------
 -- Records of cmf_portal_tag
@@ -4880,6 +4887,7 @@ CREATE TABLE `cmf_portal_tag` (
 INSERT INTO `cmf_portal_tag` VALUES ('1', '1', '0', '0', '充值');
 INSERT INTO `cmf_portal_tag` VALUES ('2', '1', '0', '0', '提现');
 INSERT INTO `cmf_portal_tag` VALUES ('3', '1', '0', '0', '申请');
+INSERT INTO `cmf_portal_tag` VALUES ('4', '1', '0', '0', '大通车服');
 
 -- ----------------------------
 -- Table structure for cmf_portal_tag_post
@@ -4892,7 +4900,7 @@ CREATE TABLE `cmf_portal_tag_post` (
   `status` tinyint(3) unsigned NOT NULL DEFAULT '1' COMMENT '状态,1:发布;0:不发布',
   PRIMARY KEY (`id`),
   KEY `term_taxonomy_id` (`post_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='portal应用 标签文章对应表';
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COMMENT='portal应用 标签文章对应表';
 
 -- ----------------------------
 -- Records of cmf_portal_tag_post
@@ -4900,6 +4908,7 @@ CREATE TABLE `cmf_portal_tag_post` (
 INSERT INTO `cmf_portal_tag_post` VALUES ('1', '1', '32', '1');
 INSERT INTO `cmf_portal_tag_post` VALUES ('2', '2', '32', '1');
 INSERT INTO `cmf_portal_tag_post` VALUES ('3', '3', '32', '1');
+INSERT INTO `cmf_portal_tag_post` VALUES ('4', '4', '19', '1');
 
 -- ----------------------------
 -- Table structure for cmf_recycle_bin
@@ -4938,7 +4947,7 @@ CREATE TABLE `cmf_role` (
   PRIMARY KEY (`id`),
   KEY `parentId` (`parent_id`),
   KEY `status` (`status`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COMMENT='角色表';
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COMMENT='角色表';
 
 -- ----------------------------
 -- Records of cmf_role
@@ -4947,6 +4956,7 @@ INSERT INTO `cmf_role` VALUES ('1', '0', '1', '1329633709', '1329633709', '0', '
 INSERT INTO `cmf_role` VALUES ('2', '0', '1', '1329633709', '1329633709', '0', '普通管理员', '权限由最高管理员分配！');
 INSERT INTO `cmf_role` VALUES ('3', '0', '1', '0', '0', '0', '客服', '消息处理');
 INSERT INTO `cmf_role` VALUES ('4', '0', '1', '0', '0', '0', '编辑', '');
+INSERT INTO `cmf_role` VALUES ('5', '0', '1', '0', '0', '0', '二手车行', '二手车行');
 
 -- ----------------------------
 -- Table structure for cmf_role_user
@@ -5066,17 +5076,20 @@ CREATE TABLE `cmf_service_category` (
   `seo_description` varchar(255) NOT NULL DEFAULT '' COMMENT 'SEO描述',
   `notice` varchar(100) NOT NULL DEFAULT '' COMMENT '温馨提示',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Records of cmf_service_category
 -- ----------------------------
-INSERT INTO `cmf_service_category` VALUES ('1', '0', '', '1', 'service', '0', '菜鸟验车', 'noob', '', 'admin', '', '平台预约 线下取车、验车、送车  平台工作人员代检', '菜鸟预约上门服务', '\n&lt;h6 style=&quot;padding: 0px; margin: 0px; color: rgb(51, 51, 51); list-style: none; font-size: 18px; font-weight: normal; font-family: 微软雅黑, &quot; microsoft=&quot;&quot; yahei=&quot;&quot; sans-serif=&quot;&quot; white-space:=&quot;&quot; normal=&quot;&quot;&gt;办理网上预约验车手续须知：&lt;/h6&gt;\n&lt;p style=&quot;padding: 0px 0px 0px 23px; margin-top: 10px; margin-bottom: 0px; color: rgb(102, 102, 102); list-style: none; font-size: 16px; line-height: 1.78; position: relative;&quot;&gt;&lt;span style=&quot;padding: 0px; margin: 0px; list-style: none; position: absolute; top: 0px; left: 0px;&quot;&gt;1、&lt;/span&gt;本市注册登记的在用机动车（号牌号码后部有汉字的除外）。&lt;/p&gt;\n&lt;p style=&quot;padding: 0px 0px 0px 23px; margin-top: 10px; margin-bottom: 0px; color: rgb(102, 102, 102); list-style: none; font-size: 16px; line-height: 1.78; position: relative;&quot;&gt;&lt;span style=&quot;padding: 0px; margin: 0px; list-style: none; position: absolute; top: 0px; left: 0px;&quot;&gt;2、&lt;/span&gt;车辆检验有效期在截止前的三个月之内，检验有效期截止的具体日期 请查看您的行驶证副页，或登录交管局主站使用“车辆违法”查询功 能进行查看。&lt;/p&gt;\n&lt;p style=&quot;padding: 0px 0px 0px 23px; margin-top: 10px; margin-bottom: 0px; color: rgb(102, 102, 102); list-style: none; font-size: 16px; line-height: 1.78; position: relative;&quot;&gt;&lt;span style=&quot;padding: 0px; margin: 0px; list-style: none; position: absolute; top: 0px; left: 0px;&quot;&gt;3、&lt;/span&gt;您可以预约从第二日起连续一周之内的网上预约验车服务。（如：您在07月15日，可以预约07月16-21日之间的预约验车手续。）&lt;/p&gt;\n&lt;p style=&quot;padding: 0px 0px 0px 23px; margin-top: 10px; margin-bottom: 0px; color: rgb(102, 102, 102); list-style: none; font-size: 16px; line-height: 1.78; position: relative;&quot;&gt;&lt;span style=&quot;padding: 0px; margin: 0px; list-style: none; position: absolute; top: 0px; left: 0px;&quot;&gt;4、&lt;/span&gt;如遇检测场网络设备故障或雨雪等恶劣天气检测场暂停验车的，请您接到通知或看到通报后不要再前往验车，不算爽约，可重新预约。如遇其它问题可联系我们查询检测场电话。&lt;/p&gt;\n&lt;p style=&quot;padding: 0px 0px 0px 23px; margin-top: 10px; margin-bottom: 0px; color: rgb(102, 102, 102); list-style: none; font-size: 16px; line-height: 1.78; position: relative;&quot;&gt;&lt;span style=&quot;padding: 0px; margin: 0px; list-style: none; position: absolute; top: 0px; left: 0px;&quot;&gt;5、&lt;/span&gt;您在办理网上预约验车过程中遇到问题或有何建议意见请通过以下方 式反映：邮箱：1120594563@163.com；电话：87625172。 感谢 您的支持和关注。&lt;/p&gt;\n', '', '1509692503', '0', '0', '', '1', '10', '1', '[\"username\",\"telephone\",\"plateNo\"]', '{\"thumbnail\":\"\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/cainiao.jpg\"}', '下下下', '上上上', '中转站', '请确认您的机动车是否属于免检车型。');
-INSERT INTO `cmf_service_category` VALUES ('2', '0', '', '2', 'service', '0', '预约检车', 'inspectcar', '', 'admin', '', '提供各大车险公司服务\r\n为您的安全保驾护航', '', '&lt;p&gt;预约检车详情&lt;/p&gt;', '', '1511768040', '0', '0', '', '1', '20', '1', '[\"username\",\"contact\",\"plateNo\",\"reg_time\",\"identity_card\",\"driving_license\",\"appoint_time\",\"service_point\"]', '{\"thumbnail\":\"\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/service2.jpg\"}', '', '', '', '');
-INSERT INTO `cmf_service_category` VALUES ('3', '0', '', '2', 'service', '0', '上牌预约', 'applylicense', '', 'admin', '', '随时预约', '', '', '', '1509692503', '0', '0', '', '1', '30', '1', '[\"username\",\"telephone\",\"identity_card\",\"driving_license\",\"appoint_time\",\"service_point\"]', '{\"thumbnail\":\"\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/service1.jpg\"}', '', '', '', '');
-INSERT INTO `cmf_service_category` VALUES ('4', '0', '', '2', 'service', '0', '过户申请', 'assigned', '', 'admin', '', '买卖双方当场过户', '', '', '', '1509692460', '0', '0', '', '1', '40', '1', '[\"username\",\"contact\",\"address\",\"seller_name\",\"seller_contact\",\"plateNo\",\"reg_time\",\"identity_card\",\"driving_license\",\"qualified\",\"loan_invoice\",\"appoint_time\",\"service_point\"]', '{\"thumbnail\":\"\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/service2.jpg\"}', '', '', '', '');
-INSERT INTO `cmf_service_category` VALUES ('5', '0', '', '1', 'service', '0', '六年免检', 'six_exempted', '', 'admin', '', '六年免检', '', '\n&lt;p&gt;六年免检业务介绍：&lt;/p&gt;\n&lt;p&gt;1、&lt;/p&gt;\n&lt;p&gt;2、&lt;/p&gt;\n&lt;p&gt;3、&lt;/p&gt;\n', '', '0', '0', '0', '', '1', '50', '1', '[\"username\",\"contact\",\"plateNo\",\"appoint_time\",\"service_point\"]', '{\"thumbnail\":\"\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/cainiao.jpg\"}', '', '', '', '请确认您的机动车是否属于免检车型。');
-INSERT INTO `cmf_service_category` VALUES ('6', '0', '', '1', 'service', '0', '查找寄存点', 'point', '', 'admin', '', '', '', '', '', '1514195034', '0', '0', '', '0', '10000', '1', '[\"service_point\"]', '{\"thumbnail\":\"\"}', '', '', '', '');
+INSERT INTO `cmf_service_category` VALUES ('1', '0', '', '1', 'service', '0', '上门验车', 'noob', '', 'admin', '', '足不出户、轻松检车', '菜鸟预约上门服务', '\n&lt;p style=&quot;white-space: normal;&quot;&gt;&lt;span style=&quot;font-family: 宋体, SimSun;&quot;&gt;办理上门预约验车须知：&lt;/span&gt;&lt;/p&gt;\n&lt;p style=&quot;white-space: normal;&quot;&gt;&lt;span style=&quot;font-family: 宋体, SimSun;&quot;&gt; &lt;/span&gt;&lt;/p&gt;\n&lt;p style=&quot;white-space: normal;&quot;&gt;&lt;span style=&quot;font-family: 宋体, SimSun;&quot;&gt;1、关注“大通车服”微信公众号，点击底部菜单栏“车辆业务”里的“上门检车”务，按步骤进行注册，注册完毕即可进行网上预约“上门检车”服务&lt;/span&gt;&lt;/p&gt;\n&lt;p style=&quot;white-space: normal;&quot;&gt;&lt;span style=&quot;font-family: 宋体, SimSun;&quot;&gt;2、预约成功后我公司客服人员会第一时间联系预约车主，  并和车主沟通取车时间和取车地点。&lt;/span&gt;&lt;/p&gt;\n&lt;p style=&quot;white-space: normal;&quot;&gt;&lt;span style=&quot;font-family: 宋体, SimSun;&quot;&gt;3、客服会安排工作人员按客服和车主沟通后提供的取车信息，上门取车。&lt;/span&gt;&lt;/p&gt;\n&lt;p style=&quot;white-space: normal;&quot;&gt;&lt;span style=&quot;font-family: 宋体, SimSun;&quot;&gt;4、工作人员取车后会优先对所取车辆进行安全检测。&lt;/span&gt;&lt;/p&gt;\n&lt;p style=&quot;white-space: normal;&quot;&gt;&lt;span style=&quot;font-family: 宋体, SimSun;&quot;&gt;5、检测完成后我公司工作人员会将您的爱车送到您的身边！让您体验足不出户的检车服务！&lt;/span&gt;&lt;/p&gt;\n&lt;p style=&quot;white-space: normal;&quot;&gt;&lt;span style=&quot;font-family: 宋体, SimSun;&quot;&gt;6、您在办理网上预约验车过程中遇到问题或有何建议意见请通过以下方 式反映：邮箱：datongchefu@163.com；电话：0315-5785388。 感谢 您的支持和关注。&lt;/span&gt;&lt;/p&gt;\n', '', '1509692503', '0', '0', '', '1', '10', '1', '[\"username\",\"telephone\",\"plateNo\"]', '{\"thumbnail\":\"\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/cainiao.jpg\"}', '下下下', '上上上', '中转站', '请确认您的机动车是否符合检验类型。');
+INSERT INTO `cmf_service_category` VALUES ('2', '0', '', '2', 'service', '0', '预约检车', 'inspectcar', '', 'admin', '', '轻松检车、绿色通行', '为您的安全保驾护航', '&lt;p&gt;预约检车详情&lt;/p&gt;', '', '1511768040', '0', '0', '', '1', '20', '1', '[\"username\",\"contact\",\"plateNo\",\"driving_license\",\"appoint_time\",\"service_point\"]', '{\"thumbnail\":\"\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/service2.jpg\"}', '', '', '', '');
+INSERT INTO `cmf_service_category` VALUES ('3', '0', '', '2', 'service', '0', '上牌、过户预约', 'applylicense', '', 'admin', '', '随时预约', '', '', '', '1509692503', '0', '0', '', '1', '30', '1', '[\"username\",\"contact\",\"identity_card\",\"appoint_time\",\"service_point\"]', '{\"thumbnail\":\"\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/service1.jpg\"}', '', '', '', '');
+INSERT INTO `cmf_service_category` VALUES ('4', '0', '', '2', 'service', '0', '车辆保养', 'assigned', '', 'admin', '', '最好的服务、最低的价格', '', '', '', '1509692460', '0', '0', '', '1', '40', '1', '[\"username\",\"contact\",\"plateNo\",\"appoint_time\",\"service_point\"]', '{\"thumbnail\":\"\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/service2.jpg\"}', '', '', '', '');
+INSERT INTO `cmf_service_category` VALUES ('5', '0', '', '1', 'service', '0', '六年免检', 'six_exempted', '', 'admin', '', '六年免检', '更多&gt;&gt;', '\n&lt;p style=&quot;white-space: normal;&quot;&gt;&lt;strong&gt;&lt;span style=&quot;font-size: 21px;&quot;&gt;车辆6年免检车主现场办理或网上预约办理须知：&lt;/span&gt;&lt;/strong&gt;&lt;/p&gt;\n&lt;p style=&quot;margin-left: 48px; white-space: normal;&quot;&gt;&lt;span style=&quot;font-size: 19px;&quot;&gt;一、&lt;span style=\'font-variant-numeric: normal; font-stretch: normal; font-size: 9px; line-height: normal; font-family: &quot;Times New Roman&quot;;\'&gt;    &lt;/span&gt;&lt;/span&gt;&lt;span style=&quot;font-size: 19px;&quot;&gt;车主现场办理须知:车主需携带免检车辆的行车本和车辆有效期内的强制险保单到车辆管理所窗口办理。&lt;/span&gt;&lt;/p&gt;\n&lt;p style=&quot;margin-left: 48px; white-space: normal;&quot;&gt;&lt;span style=&quot;font-size: 19px;&quot;&gt;二、&lt;span style=\'font-variant-numeric: normal; font-stretch: normal; font-size: 9px; line-height: normal; font-family: &quot;Times New Roman&quot;;\'&gt;    &lt;/span&gt;&lt;/span&gt;&lt;span style=&quot;font-size: 19px;&quot;&gt;车主网上预约办理须知：&lt;/span&gt;&lt;/p&gt;\n&lt;p style=&quot;margin-left: 104px; white-space: normal;&quot;&gt;&lt;span style=&quot;font-size: 19px;&quot;&gt;1、&lt;span style=\'font-variant-numeric: normal; font-stretch: normal; font-size: 9px; line-height: normal; font-family: &quot;Times New Roman&quot;;\'&gt;       &lt;/span&gt;&lt;/span&gt;&lt;span style=&quot;font-size: 19px;&quot;&gt;查询该车辆是否属于6年免检期限内，查询方法：可在“大通车服”微信公众号上查询，点击底部菜单栏“车辆业务”里的“年检预约”业务，按步骤进行注册，注册完毕即可进行网上查询该车辆是否属于6年免检期限内。在6年免检期限内即可进行网上办理“年检预约”业务。&lt;/span&gt;&lt;/p&gt;\n&lt;p style=&quot;margin-left: 104px; white-space: normal;&quot;&gt;&lt;span style=&quot;font-size: 19px;&quot;&gt;2、&lt;span style=\'font-variant-numeric: normal; font-stretch: normal; font-size: 9px; line-height: normal; font-family: &quot;Times New Roman&quot;;\'&gt;       &lt;/span&gt;&lt;/span&gt;&lt;span style=&quot;font-size: 19px;&quot;&gt;查询该车辆是否有车辆违章（如果有违章，请先处理好车辆违章）。&lt;/span&gt;&lt;/p&gt;\n&lt;p style=&quot;margin-left: 104px; white-space: normal;&quot;&gt;&lt;span style=&quot;font-size: 19px;&quot;&gt;3、&lt;span style=\'font-variant-numeric: normal; font-stretch: normal; font-size: 9px; line-height: normal; font-family: &quot;Times New Roman&quot;;\'&gt;       &lt;/span&gt;&lt;/span&gt;&lt;span style=&quot;font-size: 19px;&quot;&gt;在网站上查询距离本人较近的我公司合作的寄存点，可在就近寄存点寄存免检手续。&lt;/span&gt;&lt;/p&gt;\n&lt;p style=&quot;margin-left: 104px; white-space: normal;&quot;&gt;&lt;span style=&quot;font-size: 19px;&quot;&gt;4、&lt;span style=\'font-variant-numeric: normal; font-stretch: normal; font-size: 9px; line-height: normal; font-family: &quot;Times New Roman&quot;;\'&gt;       &lt;/span&gt;&lt;/span&gt;&lt;span style=&quot;font-size: 19px;&quot;&gt;请将该车免检手续寄存到我公司合作的就近寄存点寄存我公司会第一时间安排工作人员到寄存点领取免检手续并办理年检服务。（免检手续：该车行车本、车辆有效期内的强制险保单）。&lt;/span&gt;&lt;/p&gt;\n&lt;p style=&quot;margin-left: 104px; white-space: normal;&quot;&gt;&lt;span style=&quot;font-size: 19px;&quot;&gt;5、&lt;span style=\'font-variant-numeric: normal; font-stretch: normal; font-size: 9px; line-height: normal; font-family: &quot;Times New Roman&quot;;\'&gt;       &lt;/span&gt;&lt;/span&gt;&lt;span style=&quot;font-size: 19px;&quot;&gt;车主请于寄存次日到寄存点领取该车辆免检手续。&lt;/span&gt;&lt;/p&gt;\n&lt;p style=&quot;margin-left: 104px; white-space: normal;&quot;&gt;&lt;span style=&quot;font-size: 19px;&quot;&gt;6、&lt;span style=\'font-variant-numeric: normal; font-stretch: normal; font-size: 9px; line-height: normal; font-family: &quot;Times New Roman&quot;;\'&gt;       &lt;/span&gt;&lt;/span&gt;&lt;span style=&quot;font-size: 19px;&quot;&gt;您在办理网上年检预约过程中遇到问题或有何建议意见请通过以下方式反映：邮箱：datongchefu@163.com；电话：0315-5785388，感谢您的支持和关注。&lt;/span&gt;&lt;/p&gt;\n', '', '0', '0', '0', '', '1', '50', '1', '[\"username\",\"contact\",\"plateNo\",\"appoint_time\",\"service_point\"]', '{\"thumbnail\":\"\\/themes\\/datong_car\\/public\\/assets\\/images\\/example\\/cainiao.jpg\"}', '', '', '', '请确认您的机动车是否属于免检车型。');
+INSERT INTO `cmf_service_category` VALUES ('6', '0', '', '2', 'service', '0', '钣金喷漆', 'point', '', 'admin', '', '优质服务、呆萌价格', '', '', '', '1514195034', '0', '0', '', '0', '10000', '1', '[\"username\",\"contact\",\"appoint_time\",\"service_point\"]', '{\"thumbnail\":\"\"}', '', '', '', '');
+INSERT INTO `cmf_service_category` VALUES ('7', '0', '', '2', 'service', '0', '预约洗车', 'null', '', 'admin', '', '不办卡也是会员价', '', null, null, '1516850770', '0', '0', null, '1', '10000', '1', '[\"username\",\"contact\",\"plateNo\",\"appoint_time\",\"service_point\"]', '{\"thumbnail\":\"\"}', '', '', '', '');
+INSERT INTO `cmf_service_category` VALUES ('8', '0', '', '2', 'service', '0', '车辆维修', 'null', '', 'admin', '', '简便快捷的修车方式', '', null, null, '1516850814', '0', '0', null, '1', '10000', '1', '[\"username\",\"telephone\",\"plateNo\",\"appoint_time\",\"service_point\"]', '{\"thumbnail\":\"\"}', '', '', '', '');
+INSERT INTO `cmf_service_category` VALUES ('9', '0', '', '2', 'service', '0', '轮胎更换', 'null', '', 'admin', '', '4s店的服务、淘宝的价格', '', null, null, '1516850915', '0', '0', null, '1', '10000', '1', '[\"username\",\"contact\",\"plateNo\",\"appoint_time\",\"service_point\"]', '{\"thumbnail\":\"\"}', '', '', '', '');
 
 -- ----------------------------
 -- Table structure for cmf_shop_category_attr
@@ -6093,12 +6106,12 @@ CREATE TABLE `cmf_usual_company` (
 -- ----------------------------
 -- Records of cmf_usual_company
 -- ----------------------------
-INSERT INTO `cmf_usual_company` VALUES ('1', '1', '0', '0', '0', '大通车服', '', '', '1511493781', '1516431948', '1511493720', '0', '', '', '', '大通车行', '有限公司', '', '{\"thumbnail\":\"portal\\/20171013\\/1f661e0d9d9f0c97b17a50e6e06580c0.png\"}', '0', '1', '1', '1', '1', '1', '10000');
-INSERT INTO `cmf_usual_company` VALUES ('2', '1', '0', '10', '146', '润之丰车险', '', '', '1508837547', '1510821132', '1508837460', '0', '', '', '', '好车检省更多', '检测省心', '&lt;p&gt;保障&lt;/p&gt;', '{\"thumbnail\":\"\"}', '0', '0', '1', '1', '1', '1', '10000');
-INSERT INTO `cmf_usual_company` VALUES ('3', '1', '0', '10', '146', '开平车检', '', '', '1508990912', '1510820613', '1508990700', '0', '', '', '', '7天左右即可拿检测报告', '快速出结果', '', '{\"thumbnail\":\"http:\\/\\/pimg1.4008000000.com\\/app_images\\/4008000000\\/v20\\/index_b\\/logo.png\",\"photos\":[{\"url\":\"http:\\/\\/pimg1.4008000000.com\\/app_images\\/4008000000\\/v20\\/index_b\\/logo.png\",\"name\":\"\"},{\"url\":\"http:\\/\\/pimg1.4008000000.com\\/app_images\\/4008000000\\/v20\\/index_b\\/logo.png\",\"name\":\"\"}]}', '0', '0', '0', '1', '1', '1', '10000');
-INSERT INTO `cmf_usual_company` VALUES ('4', '0', '0', '0', '0', '中國人民保險', '', '', '1510820665', '1516431934', '1510820640', '0', '', '', '', '各项功能专项检测', '服务新升级', '', '{\"thumbnail\":\"\"}', '0', '0', '1', '0', '1', '1', '10000');
-INSERT INTO `cmf_usual_company` VALUES ('5', '1', '0', '0', '0', '平安车险', '', '', '1510820692', '1510821534', '1510820640', '0', '', '', '', '总部深圳', '全国连锁', '', '{\"thumbnail\":\"\"}', '0', '1', '1', '1', '1', '1', '10000');
-INSERT INTO `cmf_usual_company` VALUES ('6', '1', '0', '10', '146', '锦平车险', '', '', '1508834130', '1510821960', '0', '0', '', '', '', '多家单位，就近选择', '省心车检体验', '', '{\"thumbnail\":\"\"}', '0', '0', '1', '1', '1', '1', '10000');
+INSERT INTO `cmf_usual_company` VALUES ('1', '1', '0', '0', '0', '大通车服', '', '', '1511493781', '1516848049', '1511493720', '0', '', '', '', '大通车行', '有限公司', '', '{\"thumbnail\":\"\"}', '0', '1', '1', '1', '1', '1', '10000');
+INSERT INTO `cmf_usual_company` VALUES ('2', '1', '0', '10', '146', '安盛天平', '', '', '1508837547', '1516847846', '1508837460', '0', '', '', '', '好车检省更多', '检测省心', '&lt;p&gt;保障&lt;/p&gt;', '{\"thumbnail\":\"\"}', '0', '0', '1', '1', '1', '1', '10000');
+INSERT INTO `cmf_usual_company` VALUES ('3', '1', '0', '10', '146', '开平车检', '', '', '1508990912', '1516848070', '1508990700', '0', '', '', '', '7天左右即可拿检测报告', '快速出结果', '', '{\"thumbnail\":\"\"}', '0', '0', '0', '1', '1', '1', '10000');
+INSERT INTO `cmf_usual_company` VALUES ('4', '0', '0', '0', '0', '中國人民保險', '', '', '1510820665', '1516848136', '1510820640', '0', '', '', '', '各项功能专项检测', '服务新升级', '', '{\"thumbnail\":\"\"}', '1', '1', '1', '0', '1', '1', '10000');
+INSERT INTO `cmf_usual_company` VALUES ('5', '1', '0', '0', '0', '平安保險', '', '', '1510820692', '1516848125', '1510820640', '0', '', '', '', '总部', '全国连锁', '', '{\"thumbnail\":\"http:\\/\\/pimg1.4008000000.com\\/app_images\\/4008000000\\/v20\\/index_b\\/logo.png\"}', '1', '1', '1', '0', '1', '1', '10000');
+INSERT INTO `cmf_usual_company` VALUES ('6', '1', '0', '10', '146', '锦平车险', '', '', '1508834130', '1516848114', '0', '0', '', '', '', '多家单位，就近选择', '省心车检体验', '', '{\"thumbnail\":\"\"}', '0', '0', '0', '1', '1', '1', '10000');
 
 -- ----------------------------
 -- Table structure for cmf_usual_coordinate
@@ -6119,21 +6132,28 @@ CREATE TABLE `cmf_usual_coordinate` (
   `status` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT '是否启用：1是 0否',
   `total` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '被选次数',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Records of cmf_usual_coordinate
 -- ----------------------------
-INSERT INTO `cmf_usual_coordinate` VALUES ('1', '5', '2', '3', '3401', '平安合肥地区', '117.241405', '31.819577', '', '', '', '1', '0');
-INSERT INTO `cmf_usual_coordinate` VALUES ('2', '4', '2', '3', '3401', '华通合肥地区', '117.241405', '31.819577', '', '', '', '1', '0');
-INSERT INTO `cmf_usual_coordinate` VALUES ('3', '3', '2', '3', '3401', '开平合肥地区', '117.241405', '31.819577', '', '', '', '1', '0');
-INSERT INTO `cmf_usual_coordinate` VALUES ('4', '2', '2', '3', '3401', '润之丰合肥地区', '117.241405', '31.819577', '', '', '', '1', '0');
-INSERT INTO `cmf_usual_coordinate` VALUES ('5', '6', '2', '3', '3401', '锦平合肥地区', '117.241405', '31.819577', '', '', '', '1', '0');
-INSERT INTO `cmf_usual_coordinate` VALUES ('6', '1', '2', '3', '3401', '三里街', '117.322762', '31.874442', '400-8358009', '合肥瑶海区地区', '全国', '1', '0');
-INSERT INTO `cmf_usual_coordinate` VALUES ('7', '1', '2', '3', '3401', '万达广场', '117.227829', '31.826471', '0551-63512518', '绿地蓝海B座605', '华创公司部', '1', '0');
-INSERT INTO `cmf_usual_coordinate` VALUES ('8', '1', '2', '3', '3401', '包河政府附近', '117.316366', '31.79996', '', '', '', '1', '0');
-INSERT INTO `cmf_usual_coordinate` VALUES ('9', '1', '2', '3', '3401', '杏花公园', '117.278853', '31.875209', '18955172687', '庐阳杏花公园', '曹翔', '1', '0');
-INSERT INTO `cmf_usual_coordinate` VALUES ('10', '1', '2', '2', '52', '北京总部', '116.676204', '40.02398', '010-4685789', '北京市区', '西乡', '1', '0');
+INSERT INTO `cmf_usual_coordinate` VALUES ('1', '0', '2', '10', '146', '唐山锦平机动车检测有限公司', '118.110669', '39.620217', '0315-5399000', '唐山市路北区南新道与西外环交差口南行200米路西', '', '1', '0');
+INSERT INTO `cmf_usual_coordinate` VALUES ('2', '0', '7', '10', '146', '中石油咔咔洗车', '118.147796', '39.617981', '', '唐山市路南区西电路福乐园南门对面', '', '1', '0');
+INSERT INTO `cmf_usual_coordinate` VALUES ('3', '0', '7', '10', '146', '车之道汽车美容会所', '118.06271', '39.63856', '', '唐山市路北区韩城镇左岸公园门口北行100米路西', '', '1', '0');
+INSERT INTO `cmf_usual_coordinate` VALUES ('4', '0', '7', '10', '146', '鑫淼洗车', '118.141811', '39.623083', '', '唐山市路南区南新道与光明路交差口西南50米', '', '1', '0');
+INSERT INTO `cmf_usual_coordinate` VALUES ('5', '0', '7', '10', '146', '尚新洗车', '118.163912', '39.655838', '', '唐山路北长虹道与学院路交叉口西行50米路北', '', '1', '0');
+INSERT INTO `cmf_usual_coordinate` VALUES ('6', '0', '7', '10', '146', '车饰界汽车美容装具', '118.187539', '39.648', '', '唐山市路北区体育馆道15号', '', '1', '0');
+INSERT INTO `cmf_usual_coordinate` VALUES ('7', '0', '7', '10', '146', '天泓汽车美容装饰', '118.170047', '39.66751', '(0315)2099000', '河北省唐山市路北区翔云道街道卫国北路祥荣里 ', '', '1', '0');
+INSERT INTO `cmf_usual_coordinate` VALUES ('8', '0', '7', '10', '146', '石油家园汽车美容俱乐部', '118.141479', '39.660695', '', '光明北路石油家园东口南行50米路东', '', '1', '0');
+INSERT INTO `cmf_usual_coordinate` VALUES ('9', '0', '7', '10', '146', '精工汽车美容装具中心', '118.131129', '39.645757', '', '唐山路北区站前路与兴源道交叉口东行500米路南', '', '1', '0');
+INSERT INTO `cmf_usual_coordinate` VALUES ('10', '0', '3', '10', '146', '唐山交警车管所锦平服务站', '118.110362', '39.619665', '0315-5399000', '河北省唐山市路北区南新道与西外环交差口南行200米路西', '', '1', '0');
+INSERT INTO `cmf_usual_coordinate` VALUES ('11', '0', '5', '10', '146', '唐山公安交警车管所锦平服务站', '118.110362', '39.619665', '0315-5399000', '唐山市路北区南新道与西外环交差口南行200米路西', '', '1', '0');
+INSERT INTO `cmf_usual_coordinate` VALUES ('12', '0', '4', '10', '146', '嘉实多保养店', '118.134288', '39.649574', '(0315)2390799', '河北省唐山市路北区龙源路与翔云道交口南侧 ', '', '1', '0');
+INSERT INTO `cmf_usual_coordinate` VALUES ('13', '0', '9', '10', '146', '卡姆汽车快修', '118.134288', '39.649574', '(0315)2390799', '河北省唐山市路北区龙源路与翔云道交口南侧 ', '', '1', '0');
+INSERT INTO `cmf_usual_coordinate` VALUES ('14', '0', '8', '10', '146', ' 卡姆汽车快修', '118.134288', '39.649574', '(0315)2390799', '河北省唐山市路北区龙源路与翔云道交口南侧 ', '', '1', '0');
+INSERT INTO `cmf_usual_coordinate` VALUES ('15', '0', '9', '10', '146', '学院路德国马牌轮胎', '118.164233', '39.635224', '', '学院路建科楼底商3号', '', '1', '0');
+INSERT INTO `cmf_usual_coordinate` VALUES ('16', '0', '8', '10', '146', '学院路马牌轮胎', '118.164233', '39.635224', '', '路北区学院路建科楼底商3号', '', '1', '0');
+INSERT INTO `cmf_usual_coordinate` VALUES ('17', '0', '4', '10', '146', '学院路马牌快修保养', '118.164233', '39.635224', '', '路北区建科楼底商3号', '', '1', '0');
 
 -- ----------------------------
 -- Table structure for cmf_usual_item

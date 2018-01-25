@@ -15,6 +15,8 @@ class UsualCategoryModel extends ComModel
         'more' => 'array',
         'identi' => 'array',
         'define_data' => 'array',
+        'file' => 'array',
+        'report' => 'array',
     ];
     // 开启自动写入时间戳字段
     protected $autoWriteTimestamp = true;

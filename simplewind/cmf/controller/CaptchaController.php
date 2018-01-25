@@ -82,6 +82,7 @@ class CaptchaController
             $config = array_merge($defaultCaptchaConfig, $config);
         }
 
+        ob_clean();
         $captcha = new Captcha($config);
         return $captcha->entry($id);
     }
