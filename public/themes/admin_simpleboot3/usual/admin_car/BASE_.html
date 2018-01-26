@@ -2,7 +2,7 @@
 <tr>
     <th width="100">标题<span class="form-required">*</span></th>
     <td>
-        <input class="form-control" type="text" name="post[name]" required value="{$post.name|default=''}" placeholder="起个合适的标题吧"/>
+        <input class="form-control" type="text" name="post[name]" value="{$post.name|default=''}" placeholder="起个合适的标题吧"/>
     </td>
 </tr>
 <tr>
@@ -17,7 +17,6 @@
     <th>所属品牌</th>
     <td>
         <select class="form-control" style="width:150px;" name="post[brand_id]" id="input-brand">
-            <option value="">--请选择--</option>
             {$Brands|default=''}
         </select>
     </td>

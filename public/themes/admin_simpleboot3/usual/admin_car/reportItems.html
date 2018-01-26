@@ -48,7 +48,7 @@
 <table class="table table-bordered">
     <tr>
         <th></th>
-        <td align="center"><big><b>检测项目报告</b></big></td>
+        <td align="center"><big><b><a href="{:url('trade/AdminReportCate/index')}">检测项目报告</a></b></big></td>
     </tr>
 
     <!-- 一次性全部显示 -->
@@ -159,7 +159,6 @@ $(function() {
         });
     } else {
         $('.appearance-det').click(function () {
-
             var x=$('.appearance-det').css('left').split('px')[0];
             console.log(x)
             if(x>250){

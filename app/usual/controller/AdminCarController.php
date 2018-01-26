@@ -40,10 +40,10 @@ class AdminCarController extends AdminBaseController
         $brandId = $this->request->param('brandId',0,'intval');
         $param['plat'] = 2;
 
-        $data        = $this->Model->getLists($param);
+        $data = $this->Model->getLists($param);
 
-        $cateModel  = new UsualBrandModel();
-        $brandTree   = $cateModel->adminCategoryTree($brandId);
+        $cateModel = new UsualBrandModel();
+        $brandTree = $cateModel->adminCategoryTree($brandId);
 
         $this->assign('start_time', isset($param['start_time']) ? $param['start_time'] : '');
         $this->assign('end_time', isset($param['end_time']) ? $param['end_time'] : '');
@@ -91,20 +91,25 @@ class AdminCarController extends AdminBaseController
         $reportCateTree = $reportModel->getCateTree();
 
         // 开店资料审核 config('verify_define_data');
+        // 个人审核资料
+        $verifyinfo = [];
         // 售卖状态
         $sell_status = $this->Model->getSellStatus();
+
 
         $this->assign('Brands', $Brands);
         $this->assign('Models', $Models);
         $this->assign('Series', $Series);
-        $this->assign('Types', $Types);
         $this->assign('Provinces', $Provinces);
+        $this->assign('Types', $Types);
 
         $this->assign('searchCode', $searchCode);
         $this->assign('recItems', $recItems);
         $this->assign('allItems', $allItems);
         $this->assign('reportCateTree', $reportCateTree);
+        $this->assign('reportIds',[]);
 
+        $this->assign('verifyinfo',$verifyinfo);
         $this->assign('sell_status', $sell_status);
 
         return $this->fetch();
@@ -126,40 +131,53 @@ class AdminCarController extends AdminBaseController
     public function addPost()
     {
         if ($this->request->isPost()) {
-            $data   = $this->request->param();
-            $post = $data['post'];
-            $post['user_id'] = cmf_get_current_admin_id();
-            $more = $data['post']['more'];
-            if (empty($post['serie_id'])) {
-                $post['serie_id'] = $post['serie_pid'];
-            }
+            $data = $this->request->param();
 
-            $post = model('UsualItem')->ItemMulti($post,$more);
-            // $postadd= model('UsualItem')->ItemMulti($post,$more);
-            // $post   = array_merge($post,$postadd);
-
-            $post = $this->Model->identiStatus($post);
-
-            // 验证
-            $result = $this->validate($post, 'Car.add');
-            if ($result !== true) {
-                $this->error($result);
-            }
-            // 处理文件图片
-            if (!empty($data['photo'])) {
-                $post['more']['photos'] = $this->Model->dealFiles($data['photo']);
-            }
-            if (!empty($data['file'])) {
-                $post['more']['files'] = $this->Model->dealFiles($data['file']);
-            }
-            // $post['report'] = $data['report'];
+            $post = $this->opPost($data);
+            $post['platform'] = 2;
+            $post['deal_uid'] = cmf_get_current_admin_id();
 
             // 事务处理
             // 提交车子数据
             $this->Model->adminAddArticle($post);
 
-            $this->success('添加成功!', url('AdminCar/edit', ['id' => $this->Model->id]));
+            $this->success('添加成功!', url('AdminCar/edit', ['id'=>$this->Model->id]));
         }
+    }
+
+    public function op($data)
+    {
+        # code...
+    }
+    public function opPost($data,$valid='add')
+    {
+        $post = $data['post'];
+        $more = $data['post']['more'];
+        // $report = $data['post']['report'];
+
+        if (empty($post['serie_id'])) {
+            $post['serie_id'] = $post['serie_pid'];
+        }
+        $post = model('UsualItem')->ItemMulti($post,$more);
+        // $postadd= model('UsualItem')->ItemMulti($post,$more);
+        // $post   = array_merge($post,$postadd);
+        $post = $this->Model->identiStatus($post);
+
+        // 验证
+        $result = $this->validate($post, 'Car.'.$valid);
+        if ($result !== true) {
+            $this->error($result);
+        }
+        // 处理文件图片
+        if (!empty($data['photo'])) {
+            $post['more']['photos'] = $this->Model->dealFiles($data['photo']);
+        }
+        if (!empty($data['file'])) {
+            $post['more']['files'] = $this->Model->dealFiles($data['file']);
+        }
+        // $post['report'] = $data['report'];
+
+        return $post;
     }
 
     /**
@@ -188,7 +206,6 @@ class AdminCarController extends AdminBaseController
         $Citys = model('admin/District')->getDistricts($post['city_id'],$post['province_id']);
         // 车源类别
         $Types = $this->Model->getCarType($post['type']);
-        // 开店资料审核 config('verify_define_data');
 
 
         // 用于前台车辆条件筛选且与属性表name同值的字段码
@@ -201,12 +218,12 @@ class AdminCarController extends AdminBaseController
         $reportModel = new TradeReportCateModel();
         $reportCateTree = $reportModel->getCateTree();
 // dump($post);die;
+        // 开店资料审核 config('verify_define_data');
         // 个人审核资料
         $verifyinfo = lothar_verify($post['user_id'],'openshop','all');
         // 售卖状态
         $sell_status = $this->Model->getSellStatus($post['sell_status']);
 
-        $this->assign('verifyinfo',$verifyinfo);
 
         $this->assign('Brands', $Brands);
         $this->assign('Models', $Models);
@@ -222,6 +239,7 @@ class AdminCarController extends AdminBaseController
         $this->assign('reportCateTree', $reportCateTree);
         $this->assign('reportIds', $post['report']);
 
+        $this->assign('verifyinfo',$verifyinfo);
         $this->assign('sell_status', $sell_status);
         $this->assign('post', $post);
 
@@ -244,29 +262,8 @@ class AdminCarController extends AdminBaseController
     public function editPost()
     {
         if ($this->request->isPost()) {
-            $data   = $this->request->param();
-            $post = $data['post'];
-            $more = $data['post']['more'];
-            // $report = $data['post']['report'];
-
-            if (empty($post['serie_id'])) {
-                $post['serie_id'] = $post['serie_pid'];
-            }
-            $post = model('UsualItem')->ItemMulti($post,$more);
-            $post = $this->Model->identiStatus($post);
-
-            // 验证
-            $result = $this->validate($post,'Car.edit');
-            if ($result !== true) {
-                $this->error($result);
-            }
-            // 处理文件图片
-            if (!empty($data['photo'])) {
-                $post['more']['photos'] = $this->Model->dealFiles($data['photo']);
-            }
-            if (!empty($data['file'])) {
-                $post['more']['files'] = $this->Model->dealFiles($data['file']);
-            }
+            $data = $this->request->param();
+            $post = $this->opPost($data,'edit');
 
             /*个人审核资料填写*/
             $verify = $data['verify'];

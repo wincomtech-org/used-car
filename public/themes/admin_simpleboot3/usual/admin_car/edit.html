@@ -141,7 +141,7 @@
             </div>
             <div class="form-group">
                 <input type="hidden" name="post[id]" value="{$post.id}">
-                <button type="submit" class="btn btn-primary js-ajax-submit1">{:lang('SAVE')}</button>
+                <button type="submit" class="btn btn-primary js-ajax-submit">{:lang('SAVE')}</button>
                 <a class="btn btn-default" href="{:url('AdminCar/index')}">{:lang('BACK')}</a>
             </div>
         </div>
@@ -250,6 +250,19 @@
             $('#thumbnail').val('');
         });
 
+        $('#input-brand').change(function() {
+            var bid = $(this).val();
+            $.post("{:url('Ajax/serieByBrand')}", {brandId:bid,option:false}, function(data) {
+                var key;
+                var tpl = '<option value="">--请选择--</option>';
+                for(key in data){
+                    tpl += '<option value="'+data[key].id+'">'+data[key].name+'</option>';
+                }
+                $('#input-series').html(tpl);
+                $('#input-serie').hide().html();
+            },'json');
+        });
+
         $('#input-province').change(function() {
             var v = $(this).val();
             $.ajax({
@@ -272,7 +285,7 @@
 
         $('#input-series').change(function() {
             var pid = $(this).val();
-            $.post('{:url("Ajax/getSecondSeries")}', {parentId: pid}, function(data) {
+            $.post('{:url("Ajax/getSecondSeries")}', {parentId:pid}, function(data) {
                 $('#input-serie').show().html(data);
             });
         });

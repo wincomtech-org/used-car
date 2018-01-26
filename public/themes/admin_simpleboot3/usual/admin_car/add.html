@@ -234,6 +234,19 @@
             $('#thumbnail').val('');
         });
 
+        $('#input-brand').change(function() {
+            var bid = $(this).val();
+            $.post("{:url('Ajax/serieByBrand')}", {brandId:bid,option:false}, function(data) {
+                var key;
+                var tpl = '<option value="">--请选择--</option>';
+                for(key in data){
+                    tpl += '<option value="'+data[key].id+'">'+data[key].name+'</option>';
+                }
+                $('#input-series').html(tpl);
+                $('#input-serie').hide().html();
+            },'json');
+        });
+
         $('#input-province').change(function() {
             var pid = $(this).val();
             $.ajax({

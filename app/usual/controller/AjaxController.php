@@ -105,13 +105,18 @@ class AjaxController extends BaseController
     {
         if ($this->request->isPost()) {
             $brandId = $this->request->param('brandId',0,'intval');
+            $option = $this->request->param('option',false);
 
             $serieModel = new UsualSeriesModel();
             $series = $serieModel->SeriesTree($brandId,false);
 
-            $tpl = '';
-            foreach ($series as $v) {
-                $tpl .= '<li data-val="'. $v['id'] .'"><input value="'. $v['name'] .'" readonly /></li>';
+            if ($option=='false' || $option===false) {
+                echo json_encode($series);exit();
+            } else {
+                $tpl = '';
+                foreach ($series as $v) {
+                    $tpl .= '<li data-val="'. $v['id'] .'"><input value="'. $v['name'] .'" readonly /></li>';
+                }
             }
             return $tpl;
         }

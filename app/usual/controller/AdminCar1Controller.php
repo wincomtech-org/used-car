@@ -87,39 +87,46 @@ class AdminCar1Controller extends AdminBaseController
     public function addPost()
     {
         if ($this->request->isPost()) {
-            $data   = $this->request->param();
-            // $data = $_POST;
-            $post = $data['post'];
-            $post['user_id'] = cmf_get_current_admin_id();
-            $more = $data['post']['more'];
-            if (empty($post['serie_id'])) {
-                $post['serie_id'] = $post['serie_pid'];
-            }
-
-            $post = model('UsualItem')->ItemMulti($post,$more);
-            // $postadd= model('UsualItem')->ItemMulti($post,$more);
-            // $post   = array_merge($post,$postadd);
-
-            $post = $this->Model->identiStatus($post);
-
-            // 验证
-            $result = $this->validate($post, 'Car.add1');
-            if ($result !== true) {
-                $this->error($result);
-            }
-            // 处理文件图片
-            if (!empty($data['photo'])) {
-                $post['more']['photos'] = $this->Model->dealFiles($data['photo']);
-            }
-            if (!empty($data['file'])) {
-                $post['more']['files'] = $this->Model->dealFiles($data['file']);
-            }
+            $data = $this->request->param();
+            $post = $this->opPost($data);
+            $post['deal_uid'] = cmf_get_current_admin_id();
 
             // 提交车子数据
             $this->Model->adminAddArticle($post);
 
             $this->success('添加成功!', url('AdminCar/edit', ['id'=>$this->Model->id]));
         }
+    }
+
+    public function opPost($data,$valid='add1')
+    {
+        $post = $data['post'];
+        $more = $data['post']['more'];
+        // $report = $data['post']['report'];
+
+        if (empty($post['serie_id'])) {
+            $post['serie_id'] = empty($post['serie_pid']) ? 0 : $post['serie_pid'];
+        }
+        $post = model('UsualItem')->ItemMulti($post,$more);
+        // $postadd= model('UsualItem')->ItemMulti($post,$more);
+        // $post   = array_merge($post,$postadd);
+        $post = $this->Model->identiStatus($post);
+
+        // 验证
+        $result = $this->validate($post, 'Car.'.$valid);
+        if ($result !== true) {
+            $this->error($result);
+        }
+        // 处理文件图片
+        if (!empty($data['photo'])) {
+            $post['more']['photos'] = $this->Model->dealFiles($data['photo']);
+        }
+        if (!empty($data['file'])) {
+            $post['more']['files'] = $this->Model->dealFiles($data['file']);
+        }
+        // $post['report'] = $data['report'];
+
+        return $post;
     }
 
     /**
@@ -170,28 +177,8 @@ class AdminCar1Controller extends AdminBaseController
     public function editPost()
     {
         if ($this->request->isPost()) {
-            $data   = $this->request->param();
-            // $data = $_POST;
-            $post = $data['post'];
-            $more = $data['post']['more'];
-            if (empty($post['serie_id'])) {
-                $post['serie_id'] = $post['serie_pid'];
-            }
-            $post = model('UsualItem')->ItemMulti($post,$more);
-            $post = $this->Model->identiStatus($post);
-
-            // 验证
-            $result = $this->validate($post,'Car.edit1');
-            if ($result !== true) {
-                $this->error($result);
-            }
-            // 处理文件图片
-            if (!empty($data['photo'])) {
-                $post['more']['photos'] = $this->Model->dealFiles($data['photo']);
-            }
-            if (!empty($data['file'])) {
-                $post['more']['files'] = $this->Model->dealFiles($data['file']);
-            }
+            $data = $this->request->param();
+            $post = $this->opPost($data,'edit1');
 
             // 更新车子数据
             $this->Model->adminEditArticle($post);
