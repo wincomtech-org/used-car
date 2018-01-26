@@ -69,30 +69,27 @@ class UsualModel extends ComModel
     */
     // 创建时间
     // function setCreateTimeAttr($value){ return strtotime($value);}
-    // 更新时间
+    // 更新时间 发布时间
     function setUpdateTimeAttr($value){ return strtotime($value);}
-    // 发布时间
     function setPublishedTimeAttr($value){ return strtotime($value);}
     // pay_time 支付时间、生效时间
     function setPayTimeAttr($value){ return strtotime($value);}
-    // dead_time 失效时间
+    // dead_time失效时间 dead_time结束时间
     function setDeadTimeAttr($value){ return strtotime($value);}
-    // dead_time 结束时间
     function setEndTimeAttr($value){ return strtotime($value);}
     // 删除时间
     function setDeleteTimeAttr($value){ return strtotime($value);}
 
-    // car_license_time 上牌时间
+    // issue_time发行时间 car_license_time上牌时间
+    function setIssueTimeAttr($value){ return strtotime($value);}
     function setCarLicenseTimeAttr($value){ return strtotime($value);}
     function setCarCheckTimeAttr($value){ return strtotime($value);}
     function setCarInsurTimeAttr($value){ return strtotime($value);}
-    // reg_time 注册时间
+    // reg_time注册时间 appoint_time预约时间
     function setRegTimeAttr($value){ return strtotime($value);}
-    // appoint_time 预约时间
     function setAppointTimeAttr($value){ return strtotime($value);}
-    // birthday 生日
+    // birthday生日 seller_birthday卖家生日
     function setBirthdayAttr($value){ return strtotime($value);}
-    // seller_birthday 卖家生日
     function setSellerBirthdayAttr($value){ return strtotime($value);}
 
 

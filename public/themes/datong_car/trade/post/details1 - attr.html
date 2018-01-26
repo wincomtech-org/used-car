@@ -52,7 +52,7 @@
                     <h5>{$page.name}</h5>
                     <ul class="detail1">
                         <li class="offter"> <span class="big">￥{$page.shop_price}万</span></li>
-                        <li>市场价： <span class="gray">{$page.market_price}万</span></li>
+                        <li>新车价： <span class="gray">{$page.market_price}万</span></li>
                         <!-- <li >车辆所属：<span class="gray">大通车服 </span></li> -->
                     </ul>
                     <div class="down_payments">
@@ -111,6 +111,67 @@
                 <li class="car_message_nav_list"><a href="#li3" class="nav_li3">推荐相似</a></li>
             </ul>
             <div class="car_message_con_list">
+                <!-- 车辆信息 -->
+                <!-- <div class="car_message_con_item" id="li1">
+                    <h4 class="car_message_con_tit">车辆信息</h4>
+                    <ul class="car_mess_list">
+                        <li class="car_mess_item">
+                            <div class="img"><span></span></div>
+                            <div class="txt">品牌车系</div>
+                            <ul class="con">
+                                <li><span>品牌</span><i>{$page.brandname|default='暂缺'}</i></li>
+                                <li><span>车系</span><i>{$page.seriename|default='暂缺'}</i></li>
+                            </ul>
+                        </li>
+                        <li class="car_mess_item">
+                            <div class="img"><span></span></div>
+                            <div class="txt">车况信息</div>
+                            <ul class="con">
+                                <li><span>级别</span><i>{$page.modelname|default='暂缺'}</i></li>
+                                <li><span>座位数</span><i>{$page.car_seating|default='暂缺'}座</i></li>
+                            </ul>
+                        </li>
+                        <li class="car_mess_item">
+                            <div class="img"><span></span></div>
+                            <div class="txt">环保标准</div>
+                            <ul class="con">
+                                <li><span>发动机</span><i>{$page.more.car_engine|default='暂缺'}</i></li>
+                                <li><span>环保标准</span><i>{$page.car_effluent|default='暂缺'}</i></li>
+                            </ul>
+                        </li>
+                        <li class="car_mess_item">
+                            <div class="img"><span></span></div>
+                            <div class="txt">无需年检，保险未到期</div>
+                            <ul class="con">
+                                <li><span>年检到期日</span><i>{$car_check_time?date('Y年m月',$page.car_check_time):'暂缺'}</i></li>
+                                <li><span>保险到期日</span><i>{$page.car_insur_time?date('Y年m月',$page.car_insur_time):'暂缺'}</i></li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <div class="base_mess">
+                        <foreach name="allItems" item="cate">
+                        <dl class="base_mess_item">
+                            <dt><strong class="base">{$cate.name}</strong></dt>
+                            <foreach name="cate.child" item="child">
+                            <dd>
+                            <switch name="child.code_type">
+                                <case value="file">
+                                    <span>{$child.name} </span>
+                                    <a href="javascript:;" class="c1">点击查看车身图片
+                                        <img src="__TMPL__/public/assets/images/example/car03.jpg" alt="">
+                                        <img src="__TMPL__/public/assets/images/example/car02.jpg" alt="">
+                                        <img src="__TMPL__/public/assets/images/example/car01.jpg" alt="">
+                                    </a>
+                                </case>
+                                <default/><span>{$child.name}</span>{$child.sketch}
+                            </switch>
+                            </dd>
+                            </foreach>
+                        </dl>
+                        </foreach>
+                    </div>
+                </div> -->
+
                  <!-- 配置信息 -->
                  <div class="car_message_con_item" id="li1">
                     <h4 class="car_message_con_tit">配置信息</h4>
@@ -124,53 +185,45 @@
                                 </li>
                                 <li  class='clearfix fitterFlex'>
                                     <dl class='clearfix checkbox-dl'>
-                                        <dt>年代款：</dt>
-                                        <dd><label><input type="checkbox" id="" name="issue_time" value="2017"><span>2017款</span></label></dd>
-                                        <dd><label><input type="checkbox" id="" name="issue_time" value="2018"><span>2018款</span></label></dd>
+                                        <dt>年代款:</dt>
+                                        <dd><label><input type="checkbox" value="2017款"><span>2017款</span></label></dd>
+                                        <dd> <label><input type="checkbox" value="2018款"><span>2018款</span></label></dd>
                                     </dl>
                                     <dl class='clearfix checkbox-dl'>
-                                        <dt>车身结构：</dt>
-                                        <dd><label><input type="checkbox" id="" name="car_structure" value="2"><span>两厢车</span></label></dd>
-                                        <dd><label><input type="checkbox" id="" name="car_structure" value="3"><span>三厢车</span></label></dd>
+                                        <dt>车身结构:</dt>
+                                        <dd> <label><input type="checkbox" value=''><span>隐藏暂无</span></label></dd>
                                     </dl>
                                     <dl class='clearfix checkbox-dl'>
-                                        <dt>颜色：</dt>
-                                        <dd> <label><input type="checkbox" id="" name="car_color" value=""><span>白色</span></label></dd>
-                                        <dd> <label><input type="checkbox" id="" name="car_color" value=''><span>黑色</span></label></dd>
-                                        <dd> <label><input type="checkbox" id="" name="car_color" value=''><span>银灰</span></label></dd>
-                                        <dd> <label><input type="checkbox" id="" name="car_color" value=''><span>红色</span></label></dd>
-                                        <dd> <label><input type="checkbox" id="" name="car_color" value=''><span>黄色</span></label></dd>
-                                        <dd> <label><input type="checkbox" id="" name="car_color" value=''><span>蓝色</span></label></dd>
+                                        <dt>驱动方式:</dt>
+                                        <dd> <label><input type="checkbox"  value=''><span>隐藏暂无</span></label></dd>
+                                        <dd> <label><input type="checkbox"  value=''><span>隐藏暂无</span></label></dd>
                                     </dl>
                                 </li>
                                 <li  class='clearfix fitterFlex' >
                                     <dl class='clearfix checkbox-dl'>
-                                        <dt>座位数：</dt>
-                                        <dd><label><input type="checkbox" id="" name="car_seating" value="5"><span>5座</span></label></dd>
-                                        <dd> <label><input type="checkbox" id="" name="car_seating"  value="7"><span>7座</span></label></dd>
+                                        <dt>座位数:</dt>
+                                        <dd> <label><input type="checkbox"  value=''><span>隐藏暂无</span></label></dd>
+                                        <dd> <label><input type="checkbox"  value=''><span>隐藏暂无</span></label></dd>
                                     </dl>
                                     <dl class='clearfix checkbox-dl'>
-                                        <dt>变速箱：</dt>
-                                        <dd><label><input type="checkbox" id="" name="car_gearbox" value=''><span>自动</span></label></dd>
-                                        <dd> <label><input type="checkbox" id="" name="car_gearbox" value=''><span>手动</span></label></dd>
+                                        <dt>变速箱:</dt>
+                                        <dd><label><input type="checkbox"  value=''><span>隐藏暂无</span></label></dd>
+                                        <dd> <label><input type="checkbox"  value=''><span>隐藏暂无</span></label></dd>
                                     </dl>
                                     <dl class='clearfix checkbox-dl'>
-                                        <dt>能源：</dt>
-                                        <dd><label><input type="checkbox" id="" name="car_fuel" value=''><span>汽油</span></label></dd>
-                                        <dd><label><input type="checkbox" id="" name="car_fuel" value=''><span>柴油</span></label></dd>
-                                        <dd><label><input type="checkbox" id="" name="car_fuel" value=''><span>电能</span></label></dd>
+                                        <dt>能源:</dt>
+                                        <dd> <label><input type="checkbox"  value=''><span>隐藏暂无</span></label></dd>
                                     </dl>
                                 </li>
                             </ul>
                         </div>
-
-                        <!-- 车子对比列表 先全部显示 -->
                         <div class="fitter-results">
                             <div class="fitter-results-head">
                                 <section class='markbar'>
                                     <strong>基本参数</strong>
                                 </section >
                             </div> 
+                            
                             <section class="fitter-detail">
                                 <div class="fitter-results-left ">
                                     <div class="group">
@@ -659,6 +712,7 @@
                             </section>
                         </div>
                     </div>
+                   
                 </div>
 
                 <!-- 图集 -->

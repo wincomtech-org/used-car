@@ -40,16 +40,16 @@
 <body>
 <div class="wrap js-check-wrap">
     <ul class="nav nav-tabs">
-        <li><a href="{:url('AdminCar1/index')}">新车管理</a></li>
-        <li><a href="{:url('AdminCar1/add')}">添加新车</a></li>
+        <li><a href="{:url('AdminCar1/design',['parent'=>$post.parent_id])}">新车管理</a></li>
+        <li><a href="{:url('AdminCar1/addDesign',['parent'=>$post.parent_id])}">添加新车</a></li>
         <li class="active"><a href="#">编辑新车</a></li>
-        <li><a href="{:url('addDesign',['parent'=>$post.id])}">添加款式</a></li>
     </ul>
+    <div>所属新车：<a href="{:url('edit',['id'=>$carInfo.id])}">【{$carInfo.id}】{$carInfo.name}</a></div>
     <div class="row margin-top-20">
         <div class="col-md-1">
             <include file="admin_car1/tab" />
         </div>
-        <form class="form-horizontal js-ajax-form" action="{:url('AdminCar1/editPost')}" method="post">
+        <form class="form-horizontal js-ajax-form" action="{:url('AdminCar1/editDesignPost',['parent'=>$post.parent_id])}" method="post">
         <div class="col-md-8">
             <div class="tab-content">
                 <!-- 基本属性S -->
@@ -111,7 +111,7 @@
             <div class="form-group">
                 <input type="hidden" name="post[id]" value="{$post.id}">
                 <button type="submit" class="btn btn-primary js-ajax-submit">{:lang('SAVE')}</button>
-                <a class="btn btn-default" href="{:url('AdminCar1/index')}">{:lang('BACK')}</a>
+                <a class="btn btn-default" href="{:url('AdminCar1/design',['parent'=>$post.parent_id])}">{:lang('BACK')}</a>
             </div>
         </div>
         <div class="col-md-3">
@@ -259,27 +259,6 @@
 
         // $('#more-template-select').val("{$post.more.template|default=''}");
     });
-
-    function doSelectCategory() {
-        var selectedCategoriesId = $('#js-categories-id-input').val();
-        openIframeLayer("{:url('AdminBrand/select')}?ids=" + selectedCategoriesId, '请选择分类', {
-            area: ['700px', '400px'],
-            btn: ['确定', '取消'],
-            yes: function (index, layero) {
-                var iframeWin          = window[layero.find('iframe')[0]['name']];
-                var selectedCategories = iframeWin.confirm();
-                if (selectedCategories.selectedCategoriesId.length == 0) {
-                    layer.msg('请选择分类');
-                    return;
-                }
-                $('#js-categories-id-input').val(selectedCategories.selectedCategoriesId.join(','));
-                $('#js-categories-name-input').val(selectedCategories.selectedCategoriesName.join(' '));
-                //console.log(layer.getFrameIndex(index));
-                layer.close(index); //如果设定了yes回调，需进行手工关闭
-            }
-        });
-    }
 </script>
-
 </body>
 </html>

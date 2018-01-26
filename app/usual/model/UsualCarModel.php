@@ -19,10 +19,13 @@ class UsualCarModel extends UsualModel
 
         // 筛选条件
         $where = ['a.delete_time' => 0];
-        if (!empty($extra)) {
-            $where = array_merge($where,$extra);
-        }
         // 更多
+        if (!empty($filter['parent'])) {
+            $where['a.parent_id'] = intval($filter['parent']);
+        }
+        if (!empty($filter['plat'])) {
+            $where['a.platform'] = intval($filter['plat']);
+        }
         if (!empty($filter['sellStatus'])) {
             $where['a.sell_status'] = $filter['sellStatus'];
         }
@@ -38,10 +41,6 @@ class UsualCarModel extends UsualModel
         if (!empty($filter['cityId'])) {
             $where['a.city_id'] = intval($filter['cityId']);
         }
-        if (!empty($filter['plat'])) {
-            $where['a.platform'] = intval($filter['plat']);
-        }
-
         // 后台
         $startTime = empty($filter['start_time']) ? 0 : strtotime($filter['start_time']);
         $endTime   = empty($filter['end_time']) ? 0 : strtotime($filter['end_time']);
@@ -58,6 +57,9 @@ class UsualCarModel extends UsualModel
         $keyword = empty($filter['keyword']) ? '' : $filter['keyword'];
         if (!empty($keyword)) {
             $where['a.name'] = ['like', "%$keyword%"];
+        }
+        if (!empty($extra)) {
+            $where = array_merge($where,$extra);
         }
 
         // 排序

@@ -9,7 +9,7 @@
         <input id="photo-{id}" type="hidden" name="photo[urls][]" value="{filepath}">
         <input class="form-control" id="photo-{id}-name" type="text" name="photo[names][]" value="{name}"
                style="width: 200px;" title="图片名称">
-        <img id="photo-{id}-preview" src="{url}" style="height:36px;width: 36px;"
+        <img id="photo-{id}-preview" src="{url}" style="height:36px;width:36px;"
              onclick="imagePreviewDialog(this.src);">
         <a href="javascript:uploadOneImage('图片上传','#photo-{id}');">替换</a>
         <a href="javascript:(function(){$('#saved-image{id}').remove();})();">移除</a>
@@ -40,17 +40,16 @@
 <body>
 <div class="wrap js-check-wrap">
     <ul class="nav nav-tabs">
-        <li><a href="{:url('AdminCar1/index')}">新车管理</a></li>
-        <li><a href="{:url('AdminCar1/add')}">添加新车</a></li>
-        <li class="active"><a href="#">编辑新车</a></li>
-        <li><a href="{:url('addDesign',['parent'=>$post.id])}">添加款式</a></li>
+        <li><a href="{:url('AdminCar1/design',['parent'=>$post.id])}">新车款式管理</a></li>
+        <li class="active"><a href="#">添加新车款式</a></li>
     </ul>
+    <div>所属新车：<a href="{:url('edit',['id'=>$post.id])}">【{$post.id}】{$post.name}</a></div>
     <div class="row margin-top-20">
         <div class="col-md-1">
             <include file="admin_car1/tab" />
         </div>
-        <form class="form-horizontal js-ajax-form" action="{:url('AdminCar1/editPost')}" method="post">
-        <div class="col-md-8">
+        <form class="js-ajax-form" action="{:url('AdminCar1/addDesignPost',['parent'=>$post.id])}" method="post">
+        <div class="col-md-6">
             <div class="tab-content">
                 <!-- 基本属性S -->
                 <div class="tab-pane active" id="BASE_">
@@ -67,7 +66,7 @@
                 <!-- 所有属性E -->
 
                 <!-- 优化属性S -->
-                <div class="tab-pane " id="REC_">
+                <div class="tab-pane" id="REC_">
                     <table class="table table-bordered">
                         <include file="admin_car1/REC_" />
                         <tr>
@@ -77,7 +76,6 @@
                         <foreach name="searchCode" item="vo">
                             <php>
                                 $biz_compare = empty($post[$vo['code']]) ?  '': $post[$vo['code']];
-                                //echo $biz_compare;
                                 $biz = 'post['.$vo['code'].']';
                             </php>
                             <include file="admin_car1/recItems" />
@@ -90,7 +88,6 @@
                         <foreach name="recItems" item="vo">
                             <php>
                                 $biz_compare = empty($post['more'][$vo['code']]) ?  '': $post['more'][$vo['code']];
-                                //echo $biz_compare;
                                 $biz = 'post[more]['.$vo['code'].']';
                             </php>
                             <include file="admin_car1/recItems" />
@@ -98,7 +95,7 @@
                     </table>
                 </div>
                 <!-- 优化属性E -->
-
+                
                 <!-- 店铺相关S -->
                 <div class="tab-pane" id="SHOP_">
                     <include file="admin_car1/SHOP_" />
@@ -109,9 +106,9 @@
                 </div>
             </div>
             <div class="form-group">
-                <input type="hidden" name="post[id]" value="{$post.id}">
-                <button type="submit" class="btn btn-primary js-ajax-submit">{:lang('SAVE')}</button>
-                <a class="btn btn-default" href="{:url('AdminCar1/index')}">{:lang('BACK')}</a>
+                <input type="hidden" name="post[parent_id]" value="{$post.id}">
+                <button type="submit" class="btn btn-primary js-ajax-submit">{:lang('ADD')}</button>
+                <a class="btn btn-default" href="{:url('AdminCar1/design',['parent'=>$post.id])}">{:lang('BACK')}</a>
             </div>
         </div>
         <div class="col-md-3">
@@ -121,25 +118,15 @@
                 </tr>
                 <tr>
                     <td>
-                        <div style="text-align:center;">
-                            <input type="hidden" name="post[more][thumbnail]" id="thumbnail" value="{$post.more.thumbnail|default=''}">
+                        <div style="text-align: center;">
+                            <input type="hidden" name="post[more][thumbnail]" id="thumbnail" value="">
                             <a href="javascript:uploadOneImage('图片上传','#thumbnail');">
-                                <if condition="empty($post.more.thumbnail)">
-                                    <img src="__TMPL__/public/assets/images/default-thumbnail.png" id="thumbnail-preview" width="286" height="195" style="cursor:pointer" />
-                                <else/>
-                                    <img src="{:cmf_get_image_preview_url($post.more.thumbnail)}" id="thumbnail-preview" width="286" height="195" style="cursor:pointer" />
-                                </if>
+                                <img src="__TMPL__/public/assets/images/default-thumbnail.png"
+                                     id="thumbnail-preview"
+                                     width="286" height="195" style="cursor:pointer" />
                             </a>
                             <input type="button" class="btn btn-sm btn-cancel-thumbnail" value="取消图片">
                         </div>
-                    </td>
-                </tr>
-                <tr>
-                    <th><b>创建时间</b></th>
-                </tr>
-                <tr>
-                    <td>
-                        <input class="form-control" type="text" value="{:date('Y-m-d H:i:s',$post.create_time)}">
                     </td>
                 </tr>
                 <tr>
@@ -148,7 +135,7 @@
                 <tr>
                     <td>
                         <div class="checkbox">
-                            <label><input type="checkbox" name="post[identi_status]" value="1" {$post.identi_status?='checked'}>审核通过</label>
+                            <label><input type="checkbox" name="post[identi_status]" value="1" checked>审核通过</label>
                         </div>
                     </td>
                 </tr>
@@ -159,9 +146,9 @@
                 <tr>
                     <td>
                         <div class="checkbox">
-                            <label><input type="checkbox" name="post[status]" value="1" {$post.status?='checked'}>启用</label>&nbsp;&nbsp;&nbsp;&nbsp;
-                            <label><input type="checkbox" name="post[is_top]" value="1" {$post.is_top?='checked'}>置顶</label>&nbsp;&nbsp;&nbsp;&nbsp;
-                            <label><input type="checkbox" name="post[is_rec]" value="1" {$post.is_rec?='checked'}>推荐</label>
+                            <label><input type="checkbox" name="post[status]" value="1" checked>启用</label>&nbsp;&nbsp;&nbsp;&nbsp;
+                            <label><input type="checkbox" name="post[is_top]" value="1">置顶</label>&nbsp;&nbsp;&nbsp;&nbsp;
+                            <label><input type="checkbox" name="post[is_rec]" value="1">推荐</label>
                         </div>
                     </td>
                 </tr>
@@ -179,11 +166,11 @@
                     </td>
                 </tr>
                 <tr>
-                    <th><b>添加时间</b></th>
+                    <th><b>上架时间</b></th>
                 </tr>
                 <tr>
                     <td>
-                        <input class="form-control" type="text" value="{:date('Y-m-d H:i:s',$post.create_time)}">
+                        <input class="form-control js-bootstrap-datetime" type="text" name="post[published_time]" value="{:date('Y-m-d H:i:s',time())}">
                     </td>
                 </tr>
             </table>
@@ -199,7 +186,7 @@
 <script type="text/javascript" src="__STATIC__/js/ueditor/ueditor.config.js"></script>
 <script type="text/javascript" src="__STATIC__/js/ueditor/ueditor.all.min.js"></script>
 <script type="text/javascript">
-    $(function(){
+    $(function () {
         editorcontent = new baidu.editor.ui.Editor();
         editorcontent.render('content');
         try {
@@ -240,7 +227,7 @@
             })
             .done(function(data) {
                 // console.log("success");
-                $('#input-city').show().html(data);
+                if (data) {$('#input-city').show().html(data);}
             })
             .fail(function() {
                 // console.log("error");
@@ -253,33 +240,11 @@
         $('#input-series').change(function() {
             var pid = $(this).val();
             $.post('{:url("Ajax/getSecondSeries")}', {parentId: pid}, function(data) {
-                $('#input-serie').show().html(data);
+                if (data) {$('#input-serie').show().html(data);}
             });
         });
 
-        // $('#more-template-select').val("{$post.more.template|default=''}");
     });
-
-    function doSelectCategory() {
-        var selectedCategoriesId = $('#js-categories-id-input').val();
-        openIframeLayer("{:url('AdminBrand/select')}?ids=" + selectedCategoriesId, '请选择分类', {
-            area: ['700px', '400px'],
-            btn: ['确定', '取消'],
-            yes: function (index, layero) {
-                var iframeWin          = window[layero.find('iframe')[0]['name']];
-                var selectedCategories = iframeWin.confirm();
-                if (selectedCategories.selectedCategoriesId.length == 0) {
-                    layer.msg('请选择分类');
-                    return;
-                }
-                $('#js-categories-id-input').val(selectedCategories.selectedCategoriesId.join(','));
-                $('#js-categories-name-input').val(selectedCategories.selectedCategoriesName.join(' '));
-                //console.log(layer.getFrameIndex(index));
-                layer.close(index); //如果设定了yes回调，需进行手工关闭
-            }
-        });
-    }
 </script>
-
 </body>
 </html>

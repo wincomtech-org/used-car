@@ -218,7 +218,7 @@ class UsualItemModel extends UsualModel
                             if (!empty($child['form_element'])) {
                                 foreach ($child['form_element'] as $key => $value) {
                                     // echo "3=>".$value['name'].'<br>';
-                                    if ($value['id']==$data[$child['code']]) {
+                                    if (isset($data[$child['code']]) && ($value['id']==$data[$child['code']])) {
                                         $element = $value;
                                     }
                                 }
@@ -230,12 +230,14 @@ class UsualItemModel extends UsualModel
                         case 'text':
                         case 'number':
                         case 'hidden':
-                            if ($data[$child['code']]) {
+                            if (!empty($data[$child['code']])) {
                                 $sketch = $data[$child['code']].$child['unit'];
                             }
                             break;
                         case 'file':
-                            $sketch = $data[$child['code']];
+                            if (!empty($data[$child['code']])) {
+                                $sketch = $data[$child['code']];
+                            }
                             break;
                     }
                     if (!isset($sketch)) {

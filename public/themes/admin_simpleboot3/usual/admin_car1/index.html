@@ -64,11 +64,16 @@
                         </notempty>
                     </td>
                     <td>
-                        <empty name="vo.status">不发布<else/>发布</empty>
+                        <empty name="vo.status">
+                            <a style="color:#F00" data-toggle="tooltip" title="未发布"><i class="fa fa-close"></i></a>
+                        <else/>
+                            <a data-toggle="tooltip" title="已发布"><i class="fa fa-check"></i></a>
+                        </empty>
                     </td>
                     <td>
-                        <a href="{:url('AdminCar1/edit',array('id'=>$vo['id']))}">{:lang('EDIT')}</a> &nbsp;
-                        <a href="{:url('AdminCar1/delete',array('id'=>$vo['id']))}" class="js-ajax-delete">{:lang('DELETE')}</a>
+                        <a href="{:url('AdminCar1/design',['parent'=>$vo.id])}">款式</a> &nbsp;
+                        <a href="{:url('AdminCar1/edit',['id'=>$vo.id])}">{:lang('EDIT')}</a> &nbsp;
+                        <a href="{:url('AdminCar1/delete',['id'=>$vo.id])}" class="js-ajax-delete">{:lang('DELETE')}</a>
                     </td>
                 </tr>
             </foreach>

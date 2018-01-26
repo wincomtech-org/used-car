@@ -50,37 +50,16 @@ class AdminCar1Controller extends AdminBaseController
     */
     public function add()
     {
-        $Brands = model('UsualBrand')->getBrands();
-        $Models = model('UsualModels')->getModels();
-        $Series = model('UsualSeries')->getSeries();
-        $provId = $this->request->param('provId',1,'intval');
-        $Provinces = model('admin/District')->getDistricts(0,$provId);
-        // 车源类别
-        $Types = $this->Model->getCarType();
-
-        // 用于前台车辆条件筛选且与属性表name同值的字段码
-        $searchCode = model('UsualItem')->getItemSearch();
-        // dump($searchCode);die;
-        // 从属性表里被推荐的
-        $recItems = model('UsualItem')->getItemTable('is_rec',1);
-        // 属性表里所有属性（不包含推荐的）
-        $allItems = model('UsualItem')->getItemTable(null,'',true);
-
-
-        // 售卖状态
-        $sell_status = $this->Model->getSellStatus(1);
-
-        $this->assign('Brands', $Brands);
-        $this->assign('Models', $Models);
-        $this->assign('Series', $Series);
-        $this->assign('Types', $Types);
-        $this->assign('Provinces', $Provinces);
-
-        $this->assign('searchCode', $searchCode);
-        $this->assign('recItems', $recItems);
-        $this->assign('allItems', $allItems);
-
-        $this->assign('sell_status', $sell_status);
+        $post = [
+            'brand_id' => 0,
+            'model_id' => 0,
+            'serie_id' => 0,
+            'province_id' => 0,
+            'city_id' => 0,
+            'type' => 0,
+            'sell_status' => 1,
+        ];
+        $this->op($post);
 
         return $this->fetch();
     }
@@ -94,10 +73,43 @@ class AdminCar1Controller extends AdminBaseController
             // 提交车子数据
             $this->Model->adminAddArticle($post);
 
-            $this->success('添加成功!', url('AdminCar/edit', ['id'=>$this->Model->id]));
+            $this->success('添加成功!', url('AdminCar1/edit', ['id'=>$this->Model->id]));
         }
     }
 
+    public function op($post=[])
+    {
+        $Brands = model('UsualBrand')->getBrands($post['brand_id']);
+        $Models = model('UsualModels')->getModels($post['model_id']);
+        $Series = model('UsualSeries')->getSeries($post['serie_id']);
+        $provId = $this->request->param('provId',1,'intval');
+        $Provinces = model('admin/District')->getDistricts($post['province_id'],$provId);
+        // 车源类别
+        $Types = $this->Model->getCarType($post['type']);
+
+        // 用于前台车辆条件筛选且与属性表name同值的字段码
+        $searchCode = model('UsualItem')->getItemSearch();
+        // dump($searchCode);die;
+        // 从属性表里被推荐的
+        $recItems = model('UsualItem')->getItemTable('is_rec',1);
+        // 属性表里所有属性（不包含推荐的）
+        $allItems = model('UsualItem')->getItemTable(null,'',true);
+
+        // 售卖状态
+        $sell_status = $this->Model->getSellStatus($post['sell_status']);
+
+        $this->assign('Brands', $Brands);
+        $this->assign('Models', $Models);
+        $this->assign('Series', $Series);
+        $this->assign('Types', $Types);
+        $this->assign('Provinces', $Provinces);
+
+        $this->assign('searchCode', $searchCode);
+        $this->assign('recItems', $recItems);
+        $this->assign('allItems', $allItems);
+
+        $this->assign('sell_status', $sell_status);
+    }
     public function opPost($data,$valid='add1')
     {
         $post = $data['post'];
@@ -137,39 +149,12 @@ class AdminCar1Controller extends AdminBaseController
         $id = $this->request->param('id', 0, 'intval');
         $post = $this->Model->getPost($id);
 
-        $Brands = model('UsualBrand')->getBrands($post['brand_id']);
-        $Models = model('UsualModels')->getModels($post['model_id']);
-        $Series = model('UsualSeries')->getSeries($post['serie_id']);
+        $this->op($post);
         $Series2 = model('UsualSeries')->getSeries($post['serie_id'],0,2);
-        $Provinces = model('admin/District')->getDistricts($post['province_id']);
         $Citys = model('admin/District')->getDistricts($post['city_id'],$post['province_id']);
-        // 车源类别
-        $Types = $this->Model->getCarType($post['type']);
 
-
-        // 用于前台车辆条件筛选且与属性表name同值的字段码
-        $searchCode = model('UsualItem')->getItemSearch();
-        // 从属性表里被推荐的
-        $recItems = model('UsualItem')->getItemTable('is_rec',1);
-        // 属性表里所有属性（不包含推荐的）
-        $allItems = model('UsualItem')->getItemTable(null,'',true);
-
-        // 售卖状态
-        $sell_status = $this->Model->getSellStatus($post['sell_status']);
-
-        $this->assign('Brands', $Brands);
-        $this->assign('Models', $Models);
-        $this->assign('Series', $Series);
         $this->assign('Series2', $Series2);
-        $this->assign('Provinces', $Provinces);
         $this->assign('Citys', $Citys);
-        $this->assign('Types', $Types);
-
-        $this->assign('searchCode', $searchCode);
-        $this->assign('recItems', $recItems);
-        $this->assign('allItems', $allItems);
-
-        $this->assign('sell_status', $sell_status);
         $this->assign('post', $post);
 
         return $this->fetch();
@@ -186,6 +171,88 @@ class AdminCar1Controller extends AdminBaseController
             $this->success('保存成功!',url('index'));
         }
     }
+
+
+    /**
+     * 车辆款式
+     * @return [type] [description]
+     */
+    public function design()
+    {
+        $param = $this->request->param();
+        $parent = $this->request->param('parent',0,'intval');
+        $car = Db::name('usual_car')->field('id,name')->where('id',$parent)->find();
+
+        $list = $this->Model->getLists($param);
+
+        $this->assign('list',$list);
+        $this->assign('parent',$parent);
+        $this->assign('carInfo',$car);
+        return $this->fetch();
+    }
+
+    public function addDesign()
+    {
+        $parent = $this->request->param('parent',0,'intval');
+        $field = 'id,brand_id,model_id,serie_id,province_id,city_id,type,sell_status';
+        $field .= ',car_displacement,car_seating,car_gearbox,car_effluent,car_fuel,car_color';
+        $field .= ',issue_time,name';
+        $post = $this->Model->field($field)->where('id',$parent)->find();
+        if (empty($post)) {
+            $this->error('数据获取失败');
+        }
+        // dump($post);die;
+
+        $this->op($post);
+
+        $this->assign('post',$post);
+        return $this->fetch();
+    }
+    public function addDesignPost()
+    {
+        if ($this->request->isPost()) {
+            $data = $this->request->param();
+            $post = $this->opPost($data);
+            $post['deal_uid'] = cmf_get_current_admin_id();
+
+            // 提交车子数据
+            $this->Model->adminAddArticle($post);
+
+            $this->success('添加成功!', url('AdminCar1/editDesign', ['id'=>$this->Model->id]));
+        }
+    }
+
+    public function editDesign()
+    {
+        $id = $this->request->param('id', 0, 'intval');
+        $post = $this->Model->getPost($id);
+
+        $this->op($post);
+        $Series2 = model('UsualSeries')->getSeries($post['serie_id'],0,2);
+        $Citys = model('admin/District')->getDistricts($post['city_id'],$post['province_id']);
+        $car = Db::name('usual_car')->field('id,name')->where('id',$post['parent_id'])->find();
+
+        $this->assign('Series2', $Series2);
+        $this->assign('Citys', $Citys);
+        $this->assign('carInfo',$car);
+        $this->assign('post', $post);
+
+        return $this->fetch();
+    }
+    public function editDesignPost()
+    {
+        if ($this->request->isPost()) {
+            $data = $this->request->param();
+            $post = $this->opPost($data,'edit1');
+
+            // 更新车子数据
+            $this->Model->adminEditArticle($post);
+
+            $this->success('保存成功!',url('index'));
+        }
+    }
+
+
 
     public function delete()
     {
