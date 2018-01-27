@@ -120,7 +120,9 @@ class UsualCarModel extends UsualModel
             //           ->select()->toArray();
             // });
 
-            $where = ['a.status'=>1,'a.sell_status'=>1];
+            $extra['a.delete_time'] = 0;
+            $extra['a.status'] = 1;
+            $extra['a.sell_status'] = ['gt',0];
             if (!empty($type)) {
                 $where['a.type'] = $type;
             }
