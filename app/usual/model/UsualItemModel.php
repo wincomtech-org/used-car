@@ -86,18 +86,18 @@ class UsualItemModel extends UsualModel
         }
         foreach ($filters as $xx) {
             if (!empty($post[$xx]) && empty($more[$xx])) {
-                $newArr['more'][$xx] = $post[$xx];
+                $newArr['more'][$xx] = lothar_num_format($post[$xx]);
             } elseif (!empty($more[$xx]) && empty($post[$xx])) {
-                $newArr[$xx] = $more[$xx];
+                $newArr[$xx] = lothar_num_format($more[$xx]);
             } elseif (!empty($more[$xx]) && !empty($post[$xx])) {
                 if (!empty($post['id'])) {
                     if ($data->$xx==$post[$xx] && $data->$xx!=$more[$xx]) {
-                        $newArr[$xx] = $more[$xx];
+                        $newArr[$xx] = lothar_num_format($more[$xx]);
                     } else {
-                        $newArr['more'][$xx] = $post[$xx];
+                        $newArr['more'][$xx] = lothar_num_format($post[$xx]);
                     }
                 } else {
-                    $newArr['more'][$xx] = $post[$xx];
+                    $newArr['more'][$xx] = lothar_num_format($post[$xx]);
                 }
             }
         }

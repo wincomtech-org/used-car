@@ -390,6 +390,22 @@ function lothar_popup($msg='', $code=1, $url=null, $data='', $wait=3)
 }
 
 /**
+ * 格式化数字
+ * number_format()
+ * @param  string $value [description]
+ * @return [type]        [description]
+ */
+function lothar_num_format($value='')
+{
+    if (is_numeric($value)) {
+        return round($value,2);
+        // return sprintf("%.2f", $value);// 0.01;
+    } else {
+        return $value;
+    }
+}
+
+/**
  * 判断是否为手机访问
  * @return  boolean
  */
