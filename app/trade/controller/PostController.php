@@ -48,11 +48,20 @@ class PostController extends HomeBaseController
         // 车主信息
         $sellerInfo = lothar_verify($userId,'openshop','more');
 
-        // 检测报告
-        $reportModel = new TradeReportCateModel();
-        $reportCateTree = $reportModel->getCateTree();
-// dump($reportCateTree);die;
-// dump($page['report']);die;
+        if ($plat==1) {
+            $skuList = $carModel->getLists(['parent'=>$id]);
+            // dump($skuList);die;
+            $this->assign('skuList',$skuList);
+        } elseif ($plat==2) {
+            // 检测报告
+            $reportModel = new TradeReportCateModel();
+            $reportCateTree = $reportModel->getCateTree();
+            // dump($reportCateTree);die;
+            // dump($page['report']);die;
+            $this->assign('reportCateTree', $reportCateTree);
+            $this->assign('reportIds', $page['report']);
+        }
+
         $this->assign('plat',$plat);
         $this->assign('findOrder',$findOrder);
         $this->assign('userId',$userId);
@@ -60,8 +69,6 @@ class PostController extends HomeBaseController
         $this->assign('allItems',$allItems);
         $this->assign('carTuis',$carTuis);
         $this->assign('seller',$sellerInfo);
-        $this->assign('reportCateTree', $reportCateTree);
-        $this->assign('reportIds', $page['report']);
 
         return $this->fetch('details'.$plat);
     }

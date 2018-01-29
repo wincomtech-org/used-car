@@ -2,7 +2,7 @@
 namespace app\portal\controller;
 
 use cmf\controller\HomeBaseController;
-use app\admin\model\SlideItemModel;
+// use app\admin\model\SlideItemModel;
 use app\service\model\ServiceCategoryModel;
 // use app\insurance\model\InsuranceModel;
 use app\usual\model\UsualCarModel;
@@ -14,8 +14,8 @@ class IndexController extends HomeBaseController
     public function index()
     {
         // 幻灯片
-        $slideModel = new SlideItemModel();
-        $slides = $slideModel->getLists(['cid'=>1]);
+        // $slideModel = new SlideItemModel();
+        // $slides = $slideModel->getLists(['cid'=>1]);
 
         // 我们的服务
         // $ourcore = [];
@@ -57,7 +57,6 @@ class IndexController extends HomeBaseController
         $article_news = $pModel->getIndexPortalList();
 
 
-        $this->assign('slides',$slides);
         // $this->assign('ourcore',$ourcore);
         $this->assign('insurances',$insurances);
         $this->assign('Type',$Type);
