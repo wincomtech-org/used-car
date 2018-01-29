@@ -2,7 +2,8 @@
 namespace app\portal\controller;
 
 use cmf\controller\HomeBaseController;
-// use app\service\model\ServiceCategoryModel;
+use app\admin\model\SlideItemModel;
+use app\service\model\ServiceCategoryModel;
 // use app\insurance\model\InsuranceModel;
 use app\usual\model\UsualCarModel;
 use app\portal\model\PortalPostModel;
@@ -12,6 +13,10 @@ class IndexController extends HomeBaseController
 {
     public function index()
     {
+        // 幻灯片
+        $slideModel = new SlideItemModel();
+        $slides = $slideModel->getLists(['cid'=>1]);
+
         // 我们的服务
         // $ourcore = [];
 
@@ -22,13 +27,13 @@ class IndexController extends HomeBaseController
         $ufoModel = new UsualCarModel();
         $carType = config('usual_car_type');
         $Type = array_merge(['最新上架','新车推荐'],$carType);
-        $newCar = $ufoModel->getIndexCarList('',['a.published_time'=>'desc']);
-        $TuiCar = $ufoModel->getIndexCarList('',['a.is_rec'=>'DESC']);
+        $newCar = $ufoModel->getIndexCarList('new','','a.published_time DESC');
+        $TuiCar = $ufoModel->getIndexCarList('tui',['a.platform'=>1,'a.is_rec'=>1]);
         $cars = array_merge([$newCar],[$TuiCar]);
         // $cars = array_push($newCar,$TuiCar);
         // $cars = $newCar + $TuiCar;
         foreach ($carType as $key => $value) {
-            $cars = array_merge($cars,[$ufoModel->getIndexCarList($key)]);
+            $cars = array_merge($cars,[$ufoModel->getIndexCarList($key,['a.type'=>$key])]);
         }
         // 统一处理
         $newCars = [];
@@ -40,17 +45,19 @@ class IndexController extends HomeBaseController
         }
 
         // 车辆服务 使用Db不能直接转化 json 数组
-        $services = model('service/ServiceCategory')->getIndexServiceList();
+        $scModel = new ServiceCategoryModel();
+        $services = $scModel->getIndexServiceList();
 
         // 买车流程
-        $portalM = new PortalPostModel();
-        $article_flows = $portalM->getIndexPortalList(4,'ASC',7);
+        $pModel = new PortalPostModel();
+        $article_flows = $pModel->getIndexPortalList(4,'ASC',7);
         // 车辆服务文章
-        // $article_services = $portalM->getIndexPortalList(3,'ASC',7);
+        // $article_services = $pModel->getIndexPortalList(3,'ASC',7);
         // 新闻资讯
-        $article_news = $portalM->getIndexPortalList();
+        $article_news = $pModel->getIndexPortalList();
 
 
+        $this->assign('slides',$slides);
         // $this->assign('ourcore',$ourcore);
         $this->assign('insurances',$insurances);
         $this->assign('Type',$Type);

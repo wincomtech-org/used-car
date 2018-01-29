@@ -103,32 +103,32 @@ class UsualCarModel extends UsualModel
 
 // 前台
     /*首页*/
-    public function getIndexCarList($type='', $sort=[], $limit=6)
+    public function getIndexCarList($fk, $filter, $sort='', $limit=6)
     {
-        $ckey = 'gicarl'.$limit;
+        $ckey = 'gicarl'.$fk;
 
         $cars = cache($ckey);
         if (empty($cars)) {
             // $cars = $this->all(function($query){
             //     $query->alias('a')
-            //           ->field('a.id,a.name,a.more,a.car_mileage,a.car_license_time,a.shop_price,a.price,b.name AS city_name')
-            //           // ->join('district b','a.city_id=b.id','LEFT')
-            //           ->join('__DISTRICT__ b','a.city_id=b.id','LEFT')
-            //           ->where('a.sell_status',1)
-            //           ->limit($limit)
-            //           ->order('a.published_time','desc')
-            //           ->select()->toArray();
+            //         ->field('a.id,a.name,a.more,a.car_mileage,a.car_license_time,a.shop_price,a.price,b.name AS city_name')
+            //         // ->join('district b','a.city_id=b.id','LEFT')
+            //         ->join('__DISTRICT__ b','a.city_id=b.id','LEFT')
+            //         ->where('a.sell_status',1)
+            //         ->limit($limit)
+            //         ->order('a.published_time','desc')
+            //         ->select()->toArray();
             // });
 
-            $extra['a.delete_time'] = 0;
-            $extra['a.status'] = 1;
-            $extra['a.sell_status'] = ['gt',0];
-            if (!empty($type)) {
-                $where['a.type'] = $type;
+            $where['a.delete_time'] = 0;
+            $where['a.status'] = 1;
+            $where['a.sell_status'] = ['gt',0];
+            if (!empty($filter)) {
+                $where = array_merge($where,$filter);
             }
-            $order = ['a.id'=>'DESC'];
+            $order = 'a.id DESC';
             if (!empty($sort)) {
-                $order = array_merge($sort,$order);
+                $order = $sort .','. $order;
             }
 
             $cars = $this->alias('a')

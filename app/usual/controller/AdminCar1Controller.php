@@ -28,6 +28,7 @@ class AdminCar1Controller extends AdminBaseController
         $param = $this->request->param();//接收筛选条件
         $brandId = $this->request->param('brandId',0,'intval');
         $param['plat'] = 1;
+        $param['parent'] = 0;
 
         $data = $this->Model->getLists($param);
 

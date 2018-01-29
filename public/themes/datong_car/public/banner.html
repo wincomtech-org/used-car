@@ -1,10 +1,10 @@
-<section>
+<!-- <section>
     <php>
         $top_slide_id=empty($theme_vars['top_slide'])?1:$theme_vars['top_slide'];
     </php>
     <slides id="$top_slide_id">
         <div class="banner">{//$vo.title|default=''}
-            <a href="{$vo.url|default='#'}"><img src="{:cmf_get_image_url($vo.image)}" alt=""></a>
+            <a href="{//$vo.url|default='#'}"><img src="{//:cmf_get_image_url($vo.image)}" alt=""></a>
         </div>
     </slides>
     <noslides id="$top_slide_id">
@@ -12,4 +12,25 @@
             <img src="__TMPL__/public/assets/images/example/banner.jpg" alt="">
         </div>
     </noslides>
+</section> -->
+
+<section>
+    <div class="banner_lunbo">
+        <div class="our_service_show">
+            <div class="slick">
+                <foreach name="slides" item="vo">
+                <div>
+                    <div class="banner_img">
+                        <a href="{$vo.url|default='#'}"></a>
+                        <empty name="vo.image">
+                            <img src="__TMPL__/public/assets/images/example/banner.jpg" alt="{$vo.title|default=''}">
+                        <else/>
+                            <img src="{:cmf_get_image_url($vo.image)}" alt="{$vo.title|default=''}">
+                        </empty>
+                    </div>
+                </div>
+                </foreach>
+           </div>
+        </div>
+    </div>
 </section>
