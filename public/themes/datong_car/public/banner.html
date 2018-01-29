@@ -1,19 +1,9 @@
-<!-- <section>
-    <php>
-        $top_slide_id=empty($theme_vars['top_slide'])?1:$theme_vars['top_slide'];
-    </php>
-    <slides id="$top_slide_id">
-        <div class="banner">{//$vo.title|default=''}
-            <a href="{//$vo.url|default='#'}"><img src="{//:cmf_get_image_url($vo.image)}" alt=""></a>
-        </div>
-    </slides>
-    <noslides id="$top_slide_id">
-        <div class="banner">
-            <img src="__TMPL__/public/assets/images/example/banner.jpg" alt="">
-        </div>
-    </noslides>
-</section> -->
-
+<style type="text/css">
+    .banner_lunbo{width:100%;overflow:hidden;}
+    .banner_lunbo img{width:100%;}
+    .banner_lunbo  .slick-dots{bottom:7px;}
+</style>
+<link rel="stylesheet" href="__TMPL__/public/assets/css/slick.css">
 <section>
     <div class="banner_lunbo">
         <div class="our_service_show">
@@ -34,3 +24,23 @@
         </div>
     </div>
 </section>
+
+<!-- 滑动轮播图 -->
+<script src="__TMPL__/public/assets/js/slick.min.js"></script>
+<!--end-->
+<script type="text/javascript">
+    // 滑动轮播图
+    $(function(){
+        $('.slick').slick({
+            dots: true,
+            slidesToShow: 1,
+            slidesToScroll: 1,
+            autoplay: true,
+            autoplaySpeed: 4000
+        });
+    });
+
+    $(document).ready(function(){
+        $('.flicker-example').flicker();
+    });
+</script>

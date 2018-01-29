@@ -6,12 +6,6 @@
     <meta name="description" content="{$site_info.site_seo_description|default=''}">
 
     <include file="public@head"/>
-    <style >
-        .banner_lunbo{width:100%;overflow:hidden;}
-        .banner_lunbo img{width:100%;}
-        .banner_lunbo  .slick-dots{bottom:7px;}
-    </style>
-    <link rel="stylesheet" href="__TMPL__/public/assets/css/slick.css">
     
     <hook name="before_head_end"/>
 </head>
@@ -295,25 +289,4 @@
 </body>
 
 <include file="public@morejs"/>
-<!-- 滑动轮播图 -->
-<script src="__TMPL__/public/assets/js/slick.min.js"></script>
-<!--end-->
-<script>
- 
-//    滑动轮播图
-     $(function(){
-        $('.slick').slick({
-            dots: true,
-            slidesToShow: 1,
-            slidesToScroll: 1,
-            autoplay: true,
-            autoplaySpeed: 4000
-        });
-      });
-
-
-    $(document).ready(function(){
-        $('.flicker-example').flicker();
-    });
-</script>
 </html>

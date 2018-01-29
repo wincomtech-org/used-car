@@ -80,7 +80,7 @@ class UsualModel extends ComModel
     // 删除时间
     function setDeleteTimeAttr($value){ return strtotime($value);}
 
-    // issue_time发行时间 car_license_time上牌时间
+    // issue_time上市时间 car_license_time上牌时间
     function setIssueTimeAttr($value){ return strtotime($value);}
     function setCarLicenseTimeAttr($value){ return strtotime($value);}
     function setCarCheckTimeAttr($value){ return strtotime($value);}

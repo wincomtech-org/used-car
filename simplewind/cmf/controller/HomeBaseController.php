@@ -14,6 +14,7 @@ use think\Db;
 use app\admin\model\ThemeModel;
 use app\admin\model\NavMenuModel;
 use app\admin\service\ApiService;
+use app\admin\model\SlideItemModel;
 use think\View;
 use think\Request;
 
@@ -31,14 +32,19 @@ class HomeBaseController extends BaseController
         // 导航（手机端）
         $navMenuModel = new NavMenuModel();
         $navMenus = $navMenuModel->navMenusTreeArray(null,2);
+        // 友链
         $apiModel = new ApiService();
         $friendLink = $apiModel->links('url,name,target,description');
+        // 幻灯片
+        $slideModel = new SlideItemModel();
+        $slides = $slideModel->getLists(['cid'=>1]);
         // 用户数据
         // $this->user = cmf_get_current_user();
 
         View::share('site_info', $siteInfo);
         View::share('navMenus', $navMenus);
         View::share('friendLink', $friendLink);
+        View::share('slides', $slides);
         // $this->assign('user',$this->user);
     }
 
