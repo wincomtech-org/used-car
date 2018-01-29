@@ -4,7 +4,7 @@
     <title>车辆买卖详情 - {$site_info.site_name|default=''}</title>
     <meta name="keywords" content="{$site_info.site_seo_keywords|default=''}"/>
     <meta name="description" content="{$site_info.site_seo_description|default=''}">
-
+    <link rel="stylesheet" href="__TMPL__/public/assets/css/newcar.css">
     <include file="public@head"/>
     <hook name="before_head_end"/>
 </head>
@@ -288,13 +288,7 @@ function scroll() {
         return false;
     });
 
-    // if (window.location.hash) {
-    //     console.log($(window.location.hash))
-    //     var targetScroll = $(window.location.hash).offset().top;
-    //     $('html,body').animate({
-    //         scrollTop: targetScroll
-    //     }, 300);
-    // }
+
 
     var divTop = $('.car_message_con').offset().top;
     // 新车信息
@@ -318,34 +312,38 @@ function scroll() {
 
        
        // 新车参数导航变字
-        $('.fitter-results-left .group h4').each(function(){
-            var self_top=$(this).offset().top;
-            var parent_height=$(this).parent().height();
-
-            
-            if(self_top + parent_height > markTop  &&  markTop > self_top){
-            
-                $('.markbar').children('strong').html($(this).children('strong').html())
+       if(screen.width < 1025){
+            if (targetTop >yh  &&  targetTop < xh) {
+                $('.fitter-results-head').addClass('fixed');
+                $('.fitter-detail').css('margin-top',fitterHeight+'px')
+            }else{
+                $('.fitter-results-head').removeClass('fixed');
+                $('.fitter-detail').css('margin-top',0)
             }
-        })
+            $('.fitter-results-left .group h4').each(function(){
+                var self_top=$(this).offset().top;
+                var parent_height=$(this).parent().height();
+
+                
+                if(self_top + parent_height > markTop  &&  markTop > self_top){
+                
+                    $('.markbar').children('strong').html($(this).children('strong').html())
+                }
+            })
+       }
+       
 
 
         if (targetTop > divTop - 57) {
             $('.car_message_nav ').addClass('fixed_nav');
-            $('.fitter-results-head').addClass('fixed')
+            // $('.fitter-results-head').addClass('fixed')
         }else {
             $('.car_message_nav ').removeClass('fixed_nav');
-            $('.fitter-results-head').removeClass('fixed')
+            // $('.fitter-results-head').removeClass('fixed')
         }
 
         // 新车信息
-        if (targetTop >yh  &&  targetTop < xh) {
-            $('.fitter-results-head').addClass('fixed');
-            $('.fitter-detail').css('margin-top',fitterHeight+'px')
-        }else{
-            $('.fitter-results-head').removeClass('fixed');
-            $('.fitter-detail').css('margin-top',0)
-        }
+     
 
         $('.car_message_con_item').each(function() {
             var that = $(this)
@@ -369,12 +367,10 @@ function scroll() {
 // 新车配置筛选删除
 var leng=$('.column').length;
 $('.icon-reduce').on('click',function(){
-    var ind=$(this).parent().index();
+    var ind=$(this).parents('.group-list').index();
     
-    $('.fitter-results-slide .column').eq(ind).remove();
-    $('.fitter-results-slide .group .item').each(function(){
-        $(this).children('.inner').eq(ind).remove();
-    })
+    $('.fitter-results-slide .group-list').eq(ind).remove();
+    
 })
 new_car();
 function new_car(){
