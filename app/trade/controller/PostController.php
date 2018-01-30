@@ -20,55 +20,159 @@ class PostController extends HomeBaseController
         $userId = cmf_get_current_user_id();
 
         $carModel = new UsualCarModel();
-        // $page = $carModel->getPost($id);
-        $page = $carModel->getPostRelate($id);
-        if (empty($page)) {
+        // $car = $carModel->getPost($id);
+        $car = $carModel->getPostRelate($id);
+        if (empty($car)) {
             abort(404,'数据不存在！');
         }
-        $plat = $page['platform'];
+        $plat = $car['platform'];
 
         // 检查是否锁单
         // $where = ['car_id'=>$id,'status'=>['in','1,8,10,-11']];
         $where = ['car_id'=>$id];
         $findOrder = Db::name('trade_order')->where($where)->value('buyer_uid');
         // 所属公司
-        // $company = Db::name('UsualCompany')->where(['user_id'=>$page['user_id']])->find();
-
-        $itModel = new UsualItemModel();
-        // 查找相关属性值 id
-        $page2 = $itModel->getItemFilterVar($id);
-        $page = array_merge($page,$page2);
-
-        // 所有车辆属性
-        $allItems = $itModel->getItemShow($page['more'],config('usual_car_filter_var02'));
-
-        // 获取推荐车辆
-        $carTuis = $carModel->getLists([],'',12,['a.is_rec'=>1]);
+        // $company = Db::name('UsualCompany')->where(['user_id'=>$car['user_id']])->find();
 
         // 车主信息
         $sellerInfo = lothar_verify($userId,'openshop','more');
 
+        // 获取推荐车辆
+        $carTuis = $carModel->getLists([],'',12,['a.is_rec'=>1]);
+
+
+        /*新车、二手车数据分离*/
+        $itModel = new UsualItemModel();
+
         if ($plat==1) {
-            $skuList = $carModel->getLists(['parent'=>$id]);
+            /*处理请求*/
+            $param = $this->request->param();
+            $issue_time = $this->request->param('issue_time','');
+            // 普通级 optimize => name
+            $car_seating = $this->request->param('car_seating/d',0,'intval');
+            // 以下针对item处理 moreTree => ID
+            $car_gearbox = $this->request->param('car_gearbox/d',0,'intval');
+            $car_fuel = $this->request->param('car_fuel/d',0,'intval');
+            $car_color = $this->request->param('car_color/d',0,'intval');
+            // 车身结构 usual_car_filter_var
+            $car_structure = $this->request->param('car_structure/d',0,'intval');
+
+            /*筛选机制*/
+            // 初始化
+            // 处理格式参
+            // 获取树形结构的属性筛选
+            // $moreTree = cache('moreTreePost1');
+            if (empty($moreTree)) {
+                $filter_var0 = 'issue_time,';
+                $filter_var = 'car_structure,car_color,car_seating,car_gearbox,car_fuel';
+                $moreTree = $itModel->getItemTable(['code'=>['IN',$filter_var]]);
+                // cache('moreTreePost1',$moreTree,3600);
+            }
+            // 只取数字型
+            foreach ($moreTree as $key => $rows) {
+                foreach ($rows['form_element'] as $k => $row) {
+                    if (!is_numeric($row['name'])) {
+                        unset($moreTree[$key]['form_element'][$k]);
+                    }
+                }
+            }
+            // dump($moreTree);die;
+            // 合并处理
+
+            /*获取其它筛选相关数据*/
+            $issueTime = ['2016'=>'2016款','2017'=>'2017款','2018'=>'2018款'];
+
+            /*URL 参数*/
+
+
+            $filter['parent'] = $id;
+
+
+            /*车辆买卖 车辆数据*/
+            // 款式对比
+            $skuList = $carModel->getLists($filter)->toArray();
+            $skuList = $skuList['data'];
             // dump($skuList);die;
+
+            /*
+             * 所有款式属性 二次加工
+             * $allItems[$k1]['more'] = $itModel->getItemShow($v1['more'],config('usual_car_filter_var02'));
+             * 'usual_car_filter_var02'=>'car_displacement,car_seating'
+             */
+            $allItemsThead = $allItems = [];
+
+            foreach ($skuList as $v1) {
+                $tbody1 = [[
+                    'child' => [
+                        ['is_rec'=>1,'sketch'=>$v1['shop_price']],
+                        ['is_rec'=>0,'sketch'=>$v1['market_price']],
+                        ['is_rec'=>1,'sketch'=>$v1['bname'].$v1['cname']],
+                        ['is_rec'=>0,'sketch'=>$v1['dname']],
+                        ['is_rec'=>0,'sketch'=>date('Y-m-d',$v1['issue_time'])],
+                        ['is_rec'=>0,'sketch'=>$v1['car_displacement']],
+                        ['is_rec'=>0,'sketch'=>$v1['car_seating']],
+                    ],
+                ]];
+                $tbody2 = $itModel->getItemShow($v1['more'],config('usual_car_filter_var02'));
+                $allItems[] = array_merge($tbody1,$tbody2);
+            }
+
+            $allItemsThead = array_merge([[
+                'name' => '基本信息',
+                'child' => [
+                    ['name'=>'售价'],
+                    ['name'=>'市场价'],
+                    ['name'=>'厂商'],
+                    ['name'=>'级别'],
+                    ['name'=>'上市时间'],
+                    ['name'=>'排量'],
+                    ['name'=>'座位数'],
+                ],
+            ]],$tbody2);
+
+            // dump($allItemsThead);
+            // dump($allItems);
+            // die;
+
+
+            /*模板赋值*/
+            $this->assign('issueTime',$issueTime);
+            // 以下为 item 处理
+            $this->assign('car_seating',$car_seating);
+            $this->assign('car_gearbox',$car_gearbox);
+            $this->assign('car_fuel',$car_fuel);
+            $this->assign('car_color',$car_color);
+            $this->assign('car_structure',$car_structure);
+            $this->assign('moreTree',$moreTree);
+
             $this->assign('skuList',$skuList);
+            $this->assign('allItemsThead',$allItemsThead);
+            $this->assign('allItems',$allItems);
+
         } elseif ($plat==2) {
+
+            // 车辆属性
+            // 查找相关属性值 id
+            $car2 = $itModel->getItemFilterVar($id);
+            $car = array_merge($car,$car2);
+            // 车辆所有属性
+            $allItems = $itModel->getItemShow($car['more'],config('usual_car_filter_var02'));
             // 检测报告
             $reportModel = new TradeReportCateModel();
             $reportCateTree = $reportModel->getCateTree();
-            // dump($reportCateTree);die;
-            // dump($page['report']);die;
+
+            $this->assign('allItems',$allItems);
             $this->assign('reportCateTree', $reportCateTree);
-            $this->assign('reportIds', $page['report']);
+            $this->assign('reportIds', $car['report']);
         }
 
+
         $this->assign('plat',$plat);
-        $this->assign('findOrder',$findOrder);
         $this->assign('userId',$userId);
-        $this->assign('page',$page);
-        $this->assign('allItems',$allItems);
-        $this->assign('carTuis',$carTuis);
+        $this->assign('findOrder',$findOrder);
+        $this->assign('car',$car);
         $this->assign('seller',$sellerInfo);
+        $this->assign('carTuis',$carTuis);
 
         return $this->fetch('details'.$plat);
     }

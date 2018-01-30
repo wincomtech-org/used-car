@@ -41,7 +41,7 @@
                 <li>当前位置：</li>
                 <li><a href="{:url('Index/index')}">车商城</a></li>
                 <li><a href="{:url('trade/Index/platform',['plat'=>$plat])}">二手车</a></li>
-                <li class="active"><a href="#">{$page.name}</a></li>
+                <li class="active"><a href="#">{$car.name}</a></li>
             </ul>
             <div class="car_message_tit_con">
                 <div class="img lf">
@@ -49,9 +49,9 @@
                         <!-- 大图begin -->
                         <div id="preview" class="spec-preview">
                             <div class="jqzoom">
-                                <img jqimg="{:cmf_get_image_preview_url($page.more.thumbnail)}" src="{:cmf_get_image_preview_url($page.more.thumbnail)}"
+                                <img jqimg="{:cmf_get_image_preview_url($car.more.thumbnail)}" src="{:cmf_get_image_preview_url($car.more.thumbnail)}"
                                 />
-                                <a class="shoucang js-favorite-btn" href="{:url('Post/collect',['id'=>$page.id])}">
+                                <a class="shoucang js-favorite-btn" href="{:url('Post/collect',['id'=>$car.id])}">
                                     <i></i>收藏</a>
                             </div>
                         </div>
@@ -62,12 +62,12 @@
                             <a class="next">&gt;</a>
                             <div class="items">
                                 <ul>
-                                    <notempty name="page.more.photos">
-                                        <foreach name="page.more.photos" item="vo">
-                                            <li>
-                                                <img bimg="{:cmf_get_image_preview_url($vo.url)}" src="{:cmf_get_image_preview_url($vo['url'])}" onmousemove="preview(this);">
-                                            </li>
-                                        </foreach>
+                                    <notempty name="car.more.photos">
+                                    <foreach name="car.more.photos" item="vo">
+                                    <li>
+                                        <img bimg="{:cmf_get_image_preview_url($vo.url)}" src="{:cmf_get_image_preview_url($vo['url'])}" onmousemove="preview(this);">
+                                    </li>
+                                    </foreach>
                                     </notempty>
                                 </ul>
                             </div>
@@ -77,12 +77,12 @@
 
 
                 <div class="txt rt">
-                    <h5>{$page.name}</h5>
+                    <h5>{$car.name}</h5>
                     <ul class="detail1">
                         <li class="offter">
-                            <span class="big">￥{$page.shop_price}万</span>（含过户费）</li>
+                            <span class="big">￥{$car.shop_price}万</span>（含过户费）</li>
                         <li>
-                            市场价： <span class="gray">{$page.market_price}万</span>
+                            市场价： <span class="gray">{$car.market_price}万</span>
                         </li>
                         <!-- <li >车辆所属：<span class="gray">大通车服 </span></li> -->
                     </ul>
@@ -92,35 +92,35 @@
                                 <img src="__TMPL__/public/assets/images/example/down_price.png" alt="">
                             </span>
                             <span>首付
-                                <b> {$page.down_payment}万 </b>即刻拥有</span>
+                                <b> {$car.down_payment}万 </b>即刻拥有</span>
                         </a>
                     </div>
                     <div class="detail2">
                         <ul>
                             <li class="offter">
-                                <b>{$page.car_mileage}万公里</b>
+                                <b>{$car.car_mileage}万公里</b>
                                 <span>表显里程</span>
                             </li>
                             <li class="offter">
-                                <b>{$page.car_license_time?=date('Y-m-d',$page.car_license_time)}</b>
+                                <b>{$car.car_license_time?=date('Y-m-d',$car.car_license_time)}</b>
                                 <span>上牌时间</span>
                             </li>
                             <li class="offter">
-                                <b>{$page.car_color}</b>
+                                <b>{$car.car_color}</b>
                                 <span>颜色</span>
                             </li>
                         </ul>
                         <ul>
                             <li class="offter">
-                                <b>{$page.car_effluent}</b>
+                                <b>{$car.car_effluent}</b>
                                 <span>排放标准</span>
                             </li>
                             <li class="offter">
-                                <b>{$page.car_displacement}L/{$page.car_gearbox}</b>
+                                <b>{$car.car_displacement}L/{$car.car_gearbox}</b>
                                 <span>排量/变速箱</span>
                             </li>
                             <li class="offter">
-                                <b>{$page.cityname}</b>
+                                <b>{$car.cityname}</b>
                                 <span>所在城市</span>
                             </li>
                         </ul>
@@ -128,10 +128,10 @@
                     <div class="yuyue">
                         <div class="yuyue_guang">
                             <empty name="findOrder">
-                                <a class="btn" href="{:url('seeCar',['id'=>$page.id])}"><span></span>预约看车</a>
+                                <a class="btn" href="{:url('seeCar',['id'=>$car.id])}"><span></span>预约看车</a>
                             <else/>
                                 <if condition="$userId eq $findOrder">
-                                    <a class="btn" href="{:url('user/Buyer/index',['carId'=>$page.id])}">查看订单</a>
+                                    <a class="btn" href="{:url('user/Buyer/index',['carId'=>$car.id])}">查看订单</a>
                                 <else/>
                                     <span class="btn" >已被锁单</span>
                                 </if>
@@ -139,10 +139,10 @@
                         </div>
                         <div class="yuyue_guang">
                             <if condition="cmf_is_mobile()===true">
-                                <a class="btn iphone" href="tel:{$page.shop_tel}">点我联系</a>
+                                <a class="btn iphone" href="tel:{$car.shop_tel}">点我联系</a>
                                 <else/>
                                 <a class="btn iphone"><span></span>电话联系  </a>
-                                <a id="teltouch" class="btn iphone" style="display:none;">{$page.shop_tel|default='暂无……'}</a>
+                                <a id="teltouch" class="btn iphone" style="display:none;">{$car.shop_tel|default='暂无……'}</a>
                             </if>
                         </div>
                     </div>
@@ -180,39 +180,39 @@
                             <div class="img"><span></span></div>
                             <div class="txt">品牌车系</div>
                             <ul class="con">
-                                <li><span>品牌</span><i>{$page.brandname}</i></li>
-                                <li><span>车系</span><i>{$page.seriename}</i></li>
+                                <li><span>品牌</span><i>{$car.brandname}</i></li>
+                                <li><span>车系</span><i>{$car.seriename}</i></li>
                             </ul>
                         </li>
                         <li class="car_mess_item">
                             <div class="img"><span></span></div>
                             <div class="txt">车况信息</div>
                             <ul class="con">
-                                <li><span>行驶时间</span><i>{$page.car_age}年</i></li>
-                                <li><span>座位数</span><i>{$page.car_seating}座</i></li>
+                                <li><span>行驶时间</span><i>{$car.car_age}年</i></li>
+                                <li><span>座位数</span><i>{$car.car_seating}座</i></li>
                             </ul>
                         </li>
                         <li class="car_mess_item">
                             <div class="img"><span></span></div>
                             <div class="txt">符合本地环保标准</div>
                             <ul class="con">
-                                <li><span>所在地</span><i>{$page.cityname}</i></li>
-                                <li><span>环保标准</span><i>{$page.car_effluent}</i></li>
+                                <li><span>所在地</span><i>{$car.cityname}</i></li>
+                                <li><span>环保标准</span><i>{$car.car_effluent}</i></li>
                             </ul>
                         </li>
                         <li class="car_mess_item">
                             <div class="img"><span></span></div>
                             <div class="txt">无需年检，保险未到期</div>
                             <ul class="con">
-                                <li><span>年检到期日</span><i>{$car_check_time?date('Y年m月',$page.car_check_time):'未知'}</i></li>
-                                <li><span>保险到期日</span><i>{$page.car_insur_time?date('Y年m月',$page.car_insur_time):'未知'}</i></li>
+                                <li><span>年检到期日</span><i>{$car_check_time?date('Y年m月',$car.car_check_time):'未知'}</i></li>
+                                <li><span>保险到期日</span><i>{$car.car_insur_time?date('Y年m月',$car.car_insur_time):'未知'}</i></li>
                             </ul>
                         </li>
                     </ul>
                     <div class="car_owner clearfix">
                         <div class="car_owner-mess clearfix">
                            车主：{$seller.username}
-                           <a class='backg-green zixun parent-hover' tel=''><i></i>咨询看车<b style="display:none;" class='children-hover'><i class='icon-yellow-sanjiao'></i>咨询电话：{//$seller.contact}{$page.shop_tel|default='暂无……'}</b></a>
+                           <a class='backg-green zixun parent-hover' tel=''><i></i>咨询看车<b style="display:none;" class='children-hover'><i class='icon-yellow-sanjiao'></i>咨询电话：{//$seller.contact}{$car.shop_tel|default='暂无……'}</b></a>
                         </div>
                         <!-- <dl class="car_owner-view">
                             <dd>城市道路行驶</dd>
@@ -225,40 +225,42 @@
                                 <strong class="base">基本信息</strong>
                             </dt>
                             <dd>
-                                <span>厂商 </span>{$page.brandname}</dd>
+                                <span>厂商 </span>{$car.brandname}</dd>
                             <dd>
-                                <span>级别 </span>{$page.modelname}</dd>
+                                <span>级别 </span>{$car.modelname}</dd>
                             <dd>
-                                <span>上牌时间 </span>{$page.car_license_time?=date('Y-m-d',$page.car_license_time)}</dd>
+                                <span>上牌时间 </span>{$car.car_license_time?=date('Y-m-d',$car.car_license_time)}</dd>
                             <dd>
-                                <span>发动机 </span>{$page.more.car_engine}</dd>
+                                <span>发动机 </span>{$car.more.car_engine}</dd>
                             <dd>
-                                <span>上牌时间</span>{$page.car_license_time?=date('Y-m-d',$page.car_license_time)}</dd>
+                                <span>上牌时间</span>{$car.car_license_time?=date('Y-m-d',$car.car_license_time)}</dd>
                             <dd>
                                 <span>保养情况</span>--</dd>
                         </dl>
                         <foreach name="allItems" item="cate">
+                            <notempty name="cate.child">
                             <dl class="base_mess_item">
                                 <dt>
                                     <strong class="base">{$cate.name}</strong>
                                 </dt>
                                 <foreach name="cate.child" item="child">
-                                    <dd>
-                                        <switch name="child.code_type">
-                                            <case value="file">
-                                                <span>{$child.name} </span>
-                                                <a href="javascript:;" class="c1">点击查看车身图片
-                                                    <img src="__TMPL__/public/assets/images/example/car03.jpg" alt="">
-                                                    <img src="__TMPL__/public/assets/images/example/car02.jpg" alt="">
-                                                    <img src="__TMPL__/public/assets/images/example/car01.jpg" alt="">
-                                                </a>
-                                            </case>
-                                            <default/>
-                                            <span>{$child.name}</span>{$child.sketch}
-                                        </switch>
-                                    </dd>
+                                <dd>
+                                    <switch name="child.code_type">
+                                        <case value="file">
+                                            <span>{$child.name} </span>
+                                            <a href="javascript:;" class="c1">点击查看车身图片
+                                                <img src="__TMPL__/public/assets/images/example/car03.jpg" alt="">
+                                                <img src="__TMPL__/public/assets/images/example/car02.jpg" alt="">
+                                                <img src="__TMPL__/public/assets/images/example/car01.jpg" alt="">
+                                            </a>
+                                        </case>
+                                        <default/>
+                                        <span>{$child.name}</span>{$child.sketch}
+                                    </switch>
+                                </dd>
                                 </foreach>
                             </dl>
+                            </notempty>
                         </foreach>
                     </div>
                 </div>
@@ -351,16 +353,16 @@
                     <h4 class="car_message_con_tit">车辆实拍</h4>
                     <div class="car_realShot">
                         <ul class="car_realShot_list">
-                            <notempty name="page.more.photos">
-                                <foreach name="page.more.photos" item="vo">
-                                    <li class="car_realShot_item">
-                                        <a href="javascript:parent.imagePreviewDialog('{:cmf_get_image_preview_url($vo.url)}');">
-                                            <i class="fa fa-photo fa-fw">
-                                                <img src="{:cmf_get_image_preview_url($vo.url)}" alt="">
-                                            </i>
-                                        </a>
-                                    </li>
-                                </foreach>
+                            <notempty name="car.more.photos">
+                            <foreach name="car.more.photos" item="vo">
+                            <li class="car_realShot_item">
+                                <a href="javascript:parent.imagePreviewDialog('{:cmf_get_image_preview_url($vo.url)}');">
+                                    <i class="fa fa-photo fa-fw">
+                                        <img src="{:cmf_get_image_preview_url($vo.url)}" alt="">
+                                    </i>
+                                </a>
+                            </li>
+                            </foreach>
                             </notempty>
                         </ul>
                     </div>

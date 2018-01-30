@@ -13,10 +13,10 @@ a{text-decoration:none;cursor:pointer;}
 /*公共颜色*/
 .success_color{color:#009241!important;}
 .error_color{color:#F00!important;}
-.orage-color{color:#C60;}
-.blue-color{color:#2652A5;}
-.red-color{color:#d00000;}
-.gray-style {color: #b4b9bd;}
+.orage-color{color:#C60!important;}
+.blue-color{color:#2652A5!important;}
+.red-color{color:#d00000!important;}
+.gray-style {color: #b4b9bd!important;}
 .small{font-size:12px;color:#666;line-height:1.36;}
 /* 按钮块 */
 .btn-style-auto{padding:10px 0;color:#fff;display:inline-block;}

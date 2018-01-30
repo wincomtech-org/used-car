@@ -1,0 +1,38 @@
+<div class="fitter-div">
+    <ul class='fitter-div-con'>
+        <li class='fitter-div-head clearfix'>
+            <dl>
+                <dt>筛选条件</dt>
+            </dl>
+        </li>
+        <li  class='clearfix fitterFlex'>
+            <dl class='clearfix checkbox-dl'>
+                <dt>年代款：</dt>
+                <foreach name="issueTime" item="vo">
+                    <dd>
+                        <label><input type="checkbox" id="" name="issue_time" value="{$key}"><span>{$vo}</span></label>
+                    </dd>
+                </foreach>
+            </dl>
+        </li>
+        <foreach name="moreTree" item="vo" key="mk">
+        {$mk%3==0?='<li class="clearfix fitterFlex">'}
+            <dl class='clearfix checkbox-dl'>
+                <dt>{$vo.name}{$mk%3}：</dt>
+                <notempty name="vo.form_element">
+                <foreach name="vo.form_element" item="v">
+                <dd>
+                    <label>
+                        <input {$$vo.code==$v.id?='checked'} type="checkbox" id="" name="car_structure" value="{$v.name}">
+                        <span>{$v.description?$v.description:$v.name.$vo.unit}</span>
+                    </label>
+                </dd>
+                </foreach>
+                </notempty>
+            </dl>
+        <if condition="($mk gt 0) && ($mk%2 eq 0)">
+        </li>
+        </if>
+        </foreach>
+    </ul>
+</div>

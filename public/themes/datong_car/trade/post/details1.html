@@ -20,7 +20,7 @@
                 <li>当前位置：</li>
                 <li><a href="{:url('Index/index')}">车商城</a></li>
                 <li><a href="{:url('trade/Index/platform',['plat'=>$plat])}">新车</a></li>
-                <li class="active"><a href="#">{$page.name}</a></li>
+                <li class="active"><a href="#">{$car.name}</a></li>
             </ul>
             <div class="car_message_tit_con">
                 <div class="img lf">
@@ -28,8 +28,8 @@
                         <!-- 大图begin -->
                         <div id="preview" class="spec-preview">
                             <div class="jqzoom">
-                                <img jqimg="{:cmf_get_image_preview_url($page.more.thumbnail)}" src="{:cmf_get_image_preview_url($page.more.thumbnail)}" />
-                                <a class="shoucang js-favorite-btn" href="{:url('Post/collect',['id'=>$page.id])}"><i></i>收藏</a>
+                                <img jqimg="{:cmf_get_image_preview_url($car.more.thumbnail)}" src="{:cmf_get_image_preview_url($car.more.thumbnail)}" />
+                                <a class="shoucang js-favorite-btn" href="{:url('Post/collect',['id'=>$car.id])}"><i></i>收藏</a>
                             </div>
                         </div>
                         <!-- 大图end -->
@@ -37,8 +37,8 @@
                         <div class="spec-scroll"> <a class="prev">&lt;</a> <a class="next">&gt;</a>
                               <div class="items">
                                 <ul>
-                                    <notempty name="page.more.photos">
-                                    <foreach name="page.more.photos" item="vo">
+                                    <notempty name="car.more.photos">
+                                    <foreach name="car.more.photos" item="vo">
                                     <li><img bimg="{:cmf_get_image_preview_url($vo.url)}" src="{:cmf_get_image_preview_url($vo['url'])}" onmousemove="preview(this);"></li>
                                     </foreach>
                                     </notempty>
@@ -49,30 +49,30 @@
                 </div>
 
                 <div class="txt rt">
-                    <h5>{$page.name}</h5>
+                    <h5>{$car.name}</h5>
                     <ul class="detail1">
-                        <li class="offter"> <span class="big">￥{$page.shop_price}万</span></li>
-                        <li>市场价： <span class="gray">{$page.market_price}万</span></li>
+                        <li class="offter"> <span class="big">￥{$car.shop_price}万</span></li>
+                        <li>市场价： <span class="gray">{$car.market_price}万</span></li>
                         <!-- <li >车辆所属：<span class="gray">大通车服 </span></li> -->
                     </ul>
                     <div class="down_payments">
                         <a href="" class="down_payments_a">
                             <span class="icon_img"><img src="__TMPL__/public/assets/images/example/down_price.png" alt=""></span>
-                            <span>首付<b> {$page.down_payment}万 </b>即刻拥有</span>
+                            <span>首付<b> {$car.down_payment}万 </b>即刻拥有</span>
                         </a>
                     </div>
                     <div class="detail2">
                         <ul>
                             <li class="offter">
-                                <b>{$page.car_effluent}</b>
+                                <b>{$car.car_effluent}</b>
                                 <span>排放标准</span>
                             </li>
                             <li class="offter">
-                                <b>{$page.car_gearbox}</b>
+                                <b>{$car.car_gearbox}</b>
                                 <span>变速箱</span>
                             </li>
                             <li class="offter">
-                                <b>{$page.modelname|default='未知'}</b>
+                                <b>{$car.modelname|default='未知'}</b>
                                 <span>级别</span>
                             </li>
                         </ul>
@@ -80,18 +80,18 @@
                     </div>
                     <div class="yuyue">
                         <div class="yuyue_guang">
-                            <empty name="page.inventory">
+                            <empty name="car.inventory">
                                 <span class="btn" style="color:grey;">暂无库存</span>
                             <else/>
-                                <a class="btn" href="{:url('seeCar',['id'=>$page.id])}">预约看车</a>
+                                <a class="btn" href="{:url('seeCar',['id'=>$car.id])}">预约看车</a>
                             </empty>
                         </div>
                         <div class="yuyue_guang">
                             <if condition="cmf_is_mobile()===true">
-                                <a class="btn iphone" href="tel:{$page.shop_tel}">点我联系</a>
+                                <a class="btn iphone" href="tel:{$car.shop_tel}">点我联系</a>
                             <else/>
                                 <a class="btn iphone">免费咨询</a>
-                                <a id="teltouch" class="btn iphone" style="display:none;">{$page.shop_tel}</a>
+                                <a id="teltouch" class="btn iphone" style="display:none;">{$car.shop_tel}</a>
                             </if>
                         </div>
                     </div>
@@ -116,55 +116,7 @@
                     <h4 class="car_message_con_tit">配置信息</h4>
                     <div class="preferences">
                         <!-- 筛选条件 -->
-                        <div class="fitter-div">
-                            <ul class='fitter-div-con'>
-                                <li class='fitter-div-head clearfix'>
-                                    <dl>
-                                        <dt>筛选条件</dt>
-                                    </dl>
-                                </li>
-                                <li  class='clearfix fitterFlex'>
-                                    <dl class='clearfix checkbox-dl'>
-                                        <dt>年代款：</dt>
-                                        <dd><label><input type="checkbox" id="" name="issue_time" value="2017"><span>2017款</span></label></dd>
-                                        <dd><label><input type="checkbox" id="" name="issue_time" value="2018"><span>2018款</span></label></dd>
-                                    </dl>
-                                    <dl class='clearfix checkbox-dl'>
-                                        <dt>车身结构：</dt>
-                                        <dd><label><input type="checkbox" id="" name="car_structure" value="2"><span>两厢车</span></label></dd>
-                                        <dd><label><input type="checkbox" id="" name="car_structure" value="3"><span>三厢车</span></label></dd>
-                                    </dl>
-                                    <dl class='clearfix checkbox-dl'>
-                                        <dt>颜色：</dt>
-                                        <dd> <label><input type="checkbox" id="" name="car_color" value=""><span>白色</span></label></dd>
-                                        <dd> <label><input type="checkbox" id="" name="car_color" value=''><span>黑色</span></label></dd>
-                                        <dd> <label><input type="checkbox" id="" name="car_color" value=''><span>银灰</span></label></dd>
-                                        <dd> <label><input type="checkbox" id="" name="car_color" value=''><span>红色</span></label></dd>
-                                        <dd> <label><input type="checkbox" id="" name="car_color" value=''><span>黄色</span></label></dd>
-                                        <dd> <label><input type="checkbox" id="" name="car_color" value=''><span>蓝色</span></label></dd>
-                                    </dl>
-                                </li>
-                                <li  class='clearfix fitterFlex' >
-                                    <dl class='clearfix checkbox-dl'>
-                                        <dt>座位数：</dt>
-                                        <dd><label><input type="checkbox" id="" name="car_seating" value="5"><span>5座</span></label></dd>
-                                        <dd> <label><input type="checkbox" id="" name="car_seating"  value="7"><span>7座</span></label></dd>
-                                    </dl>
-                                    <dl class='clearfix checkbox-dl'>
-                                        <dt>变速箱：</dt>
-                                        <dd><label><input type="checkbox" id="" name="car_gearbox" value=''><span>自动</span></label></dd>
-                                        <dd> <label><input type="checkbox" id="" name="car_gearbox" value=''><span>手动</span></label></dd>
-                                    </dl>
-                                    <dl class='clearfix checkbox-dl'>
-                                        <dt>能源：</dt>
-                                        <dd><label><input type="checkbox" id="" name="car_fuel" value=''><span>汽油</span></label></dd>
-                                        <dd><label><input type="checkbox" id="" name="car_fuel" value=''><span>柴油</span></label></dd>
-                                        <dd><label><input type="checkbox" id="" name="car_fuel" value=''><span>电能</span></label></dd>
-                                    </dl>
-                                </li>
-                            </ul>
-                        </div>
-
+                        <include file="post/attr-filter" />
                         <!-- 车子对比列表 先全部显示 -->
                         <div class="fitter-results">
                             <div class="fitter-results-head">
@@ -173,25 +125,13 @@
                                 </section >
                             </div> 
                             <section class="fitter-detail">
-                                <div class="fitter-results-left ">
-                                    <div class="group">
-                                        <div class="supplement">
-                                            <dl class='clearfix'>
-                                                <dt class='left'>注：</dt>
-                                                <dd>
-                                                    <span><s class='real_point'></s>标配</span>
-                                                    <span><s class='hollow_point'></s>适配</span>
-                                                    <span><s class='dashed'></s>无</span>
-                                                </dd>
-                                            </dl>
-                                        </div>
-                                    </div>
+                                <div class="fitter-results-left">
                                     <include file="post/attr-thead" />
                                 </div>
                                 <div class="fitter-results-right">
                                     <div class="fitter-results-slide">
                                         <div class="slide-con">
-                                            <div class="datas ">
+                                            <div class="datas">
                                                 <include file="post/attr-tbody" />
                                             </div>
                                         </div>
@@ -207,8 +147,8 @@
                     <h4 class="car_message_con_tit">车辆实拍</h4>
                     <div class="car_realShot">
                         <ul class="car_realShot_list">
-                            <notempty name="page.more.photos">
-                            <foreach name="page.more.photos" item="vo">
+                            <notempty name="car.more.photos">
+                            <foreach name="car.more.photos" item="vo">
                             <li class="car_realShot_item">
                                 <a href="javascript:parent.imagePreviewDialog('{:cmf_get_image_preview_url($vo.url)}');">
                                     <i class="fa fa-photo fa-fw"><img src="{:cmf_get_image_preview_url($vo.url)}" alt=""></i>

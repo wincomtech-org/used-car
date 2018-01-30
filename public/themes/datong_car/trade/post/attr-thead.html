@@ -1,52 +1,26 @@
 
-    <div class="group">
-        <h4>
-            <strong>基本信息</strong>
-        </h4>
-        <div class="item">
-            <span class="inner">厂商指导价（元）</span>
-        </div>
-        <div class="item">
-            <span class="inner">本地参考地价（元）</span>
-        </div>
-        <div class="item">
-            <span class="inner">厂商</span>
-        </div>
-        <div class="item">
-            <span class="inner">级别</span>
-        </div>
+<div class="group">
+    <div class="supplement">
+        <dl class='clearfix'>
+            <dt class='left'>注：</dt>
+            <dd>
+                <span><s class='real_point'></s>标配</span>
+                <span><s class='hollow_point'></s>适配</span>
+                <span><s class='dashed'></s>无</span>
+            </dd>
+        </dl>
     </div>
+</div>
+
+<foreach name="allItemsThead" item="cate">
+    <notempty name="cate.child">
     <div class="group">
-        <h4>
-            <strong>基本参数1</strong>
-        </h4>
+        <h4><strong>{$cate.name}</strong></h4>
+        <foreach name="cate.child" item="child">
         <div class="item">
-            <span class="inner">厂商指导价（元）</span>
+            <span class="inner">{$child.name}</span>
         </div>
-        <div class="item">
-            <span class="inner">本地参考地价（元）</span>
-        </div>
-        <div class="item">
-            <span class="inner">厂商</span>
-        </div>
-        <div class="item">
-            <span class="inner">级别</span>
-        </div>
+        </foreach>
     </div>
-    <div class="group">
-        <h4>
-            <strong>基本参数2</strong>
-        </h4>
-        <div class="item">
-            <span class="inner">厂商指导价（元）</span>
-        </div>
-        <div class="item">
-            <span class="inner">本地参考地价（元）</span>
-        </div>
-        <div class="item">
-            <span class="inner">厂商</span>
-        </div>
-        <div class="item">
-            <span class="inner">级别</span>
-        </div>
-    </div>
+    </notempty>
+</foreach>

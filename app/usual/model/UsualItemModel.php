@@ -8,7 +8,7 @@ use tree\Tree;
 class UsualItemModel extends UsualModel
 {
     // protected $filter_var = config('usual_car_filter_var');
-    protected $filter_var = 'car_gearbox,car_effluent,car_fuel,car_color';
+    protected $filter_var = 'car_gearbox,car_effluent,car_fuel,car_color,car_structure';
 
     /*function _initialize()
     {
@@ -138,7 +138,7 @@ class UsualItemModel extends UsualModel
             $where = array_merge($where,$filter);
         }
         $itemCateModel = new UsualItemCateModel();
-        $itemCate = $itemCateModel->field('id,parent_id,name,unit,code,code_type,description')
+        $itemCate = $itemCateModel->field('id,parent_id,name,unit,code,code_type,description,is_rec')
                 ->where($where)
                 ->order('list_order')
                 ->select()->toArray();
@@ -244,11 +244,12 @@ class UsualItemModel extends UsualModel
                         $sketch = '';
                     }
                     $children[] = [
-                        'code_type'  => $child['code_type'],
-                        // 'code'  => $child['code'],
-                        'name'  => $child['name'],
-                        // 'unit'  => $child['unit'],
-                        'sketch'  => $sketch,
+                        'code_type' => $child['code_type'],
+                        // 'code'      => $child['code'],
+                        'name'      => $child['name'],
+                        // 'unit'      => $child['unit'],
+                        'sketch'    => $sketch,
+                        'is_rec'    => $child['is_rec'],
                     ];
                     unset($element,$sketch);
                     // echo "<br>";

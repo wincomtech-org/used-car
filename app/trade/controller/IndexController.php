@@ -104,6 +104,7 @@ class IndexController extends HomeBaseController
         $car_effluent = $this->request->param('car_effluent/d',0,'intval');
         $car_fuel = $this->request->param('car_fuel/d',0,'intval');
         $car_color = $this->request->param('car_color/d',0,'intval');
+        // $car_structure = $this->request->param('car_structure/d',0,'intval');
 
         // 处理全站搜索 关键词
         if (!empty($keyword)) {
@@ -215,7 +216,7 @@ class IndexController extends HomeBaseController
 
 
 
-        /*获取筛选相关数据*/
+        /*获取其它筛选相关数据*/
         // 车源类别
         // $Types = model('usual/UsualCar')->getCarType();// option
         $Types = config('usual_car_type');
@@ -286,14 +287,15 @@ class IndexController extends HomeBaseController
         $this->assign('priceId',$priceId);
         $this->assign('Prices',$Prices);
         // 以下为 item 处理
+        $this->assign('car_age',$car_age);
+        $this->assign('car_mileage',$car_mileage);
+        $this->assign('car_displacement',$car_displacement);
         $this->assign('car_seating',$car_seating);
         $this->assign('car_gearbox',$car_gearbox);
         $this->assign('car_effluent',$car_effluent);
         $this->assign('car_fuel',$car_fuel);
         $this->assign('car_color',$car_color);
-        $this->assign('car_displacement',$car_displacement);
-        $this->assign('car_mileage',$car_mileage);
-        $this->assign('car_age',$car_age);
+        // $this->assign('car_structure',$car_structure);
         $this->assign('moreTree',$moreTree);
 
         // 数据分页
