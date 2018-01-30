@@ -118,6 +118,7 @@
                         <!-- 筛选条件 -->
                         <include file="post/attr-filter" />
                         <!-- 车子对比列表 先全部显示 -->
+                        <notempty name="skuList">
                         <div class="fitter-results">
                             <div class="fitter-results-head">
                                 <section class='markbar'>
@@ -139,6 +140,7 @@
                                 </div>
                             </section>
                         </div>
+                        </notempty>
                     </div>
                 </div>
 
@@ -204,7 +206,7 @@
     <hook name="before_body_end" />
 </body>
 
-<script>
+<script type="text/javascript">
 // 汽车信息
 scroll()
 
@@ -272,8 +274,6 @@ function scroll() {
             })
        }
        
-
-
         if (targetTop > divTop - 57) {
             $('.car_message_nav ').addClass('fixed_nav');
             // $('.fitter-results-head').addClass('fixed')
@@ -283,8 +283,6 @@ function scroll() {
         }
 
         // 新车信息
-     
-
         $('.car_message_con_item').each(function() {
             var that = $(this)
             var liTop = that.offset().top - 57;
@@ -302,22 +300,17 @@ function scroll() {
     })
 }
 
-
-
 // 新车配置筛选删除
 var leng=$('.column').length;
 $('.icon-reduce').on('click',function(){
     var ind=$(this).parents('.group-list').index();
-    
     $('.fitter-results-slide .group-list').eq(ind).remove();
-    
 })
+
 new_car();
 function new_car(){
     $('.slide-con').css('width',150*leng+'px')
 }
-
-
 </script>
 
 <!-- 放大镜效果 -->
@@ -328,15 +321,16 @@ function new_car(){
  <!-- 图片弹窗 -->
 <script src="__TMPL__/public/assets/js/jquery.qrcode.min.js"></script>
 
-<script>
-
-// 新车筛选条件
+<script type="text/javascript">
+/*新车筛选条件*/
 // slideWidth()    
 function slideWidth(){
     var columLength=$('.fitter-results-slide .column').length;
     var columWid=$('.fitter-results-slide .column').width();
     $('.fitter-results-slide').width(220*columLength)
 }
+// 获取筛选参数
+
 
     
 /**相关推荐*/
@@ -351,8 +345,6 @@ $(document).delegate('.base_mess_item dt strong','click',function(){
 })
 
 // 车辆信息弹出窗口
-
-
 
 </script>
 </html>

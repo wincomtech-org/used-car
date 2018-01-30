@@ -99,40 +99,59 @@ class PostController extends HomeBaseController
              * $allItems[$k1]['more'] = $itModel->getItemShow($v1['more'],config('usual_car_filter_var02'));
              * 'usual_car_filter_var02'=>'car_displacement,car_seating'
              */
-            $allItemsThead = $allItems = [];
-
-            foreach ($skuList as $v1) {
-                $tbody1 = [[
+            $allItemsThead = $allItems = $tbody2 = [];
+            if (!empty($skuList)) {
+                foreach ($skuList as $v1) {
+                    $tbody0 = [[
+                        'child' => [
+                            'name' => $v1['name'],
+                            'price'=> $v1['shop_price'],
+                        ],
+                    ]];
+                    $tbody1 = [[
+                        'child' => [
+                            ['is_rec'=>1,'sketch'=>$v1['shop_price']],
+                            ['is_rec'=>0,'sketch'=>$v1['market_price']],
+                            ['is_rec'=>1,'sketch'=>$v1['bname'].$v1['cname']],
+                            ['is_rec'=>0,'sketch'=>$v1['dname']],
+                            ['is_rec'=>0,'sketch'=>date('Y-m-d',$v1['issue_time'])],
+                            ['is_rec'=>0,'sketch'=>$v1['car_displacement']],
+                            ['is_rec'=>0,'sketch'=>$v1['car_seating']],
+                        ],
+                    ]];
+                    $tbody2 = $itModel->getItemShow($v1['more'],config('usual_car_filter_var02'));
+                    $allItems[] = array_merge($tbody0,$tbody1,$tbody2);
+                }
+                $allItemsThead = array_merge([[
+                    'name' => '基本信息',
                     'child' => [
-                        ['is_rec'=>1,'sketch'=>$v1['shop_price']],
-                        ['is_rec'=>0,'sketch'=>$v1['market_price']],
-                        ['is_rec'=>1,'sketch'=>$v1['bname'].$v1['cname']],
-                        ['is_rec'=>0,'sketch'=>$v1['dname']],
-                        ['is_rec'=>0,'sketch'=>date('Y-m-d',$v1['issue_time'])],
-                        ['is_rec'=>0,'sketch'=>$v1['car_displacement']],
-                        ['is_rec'=>0,'sketch'=>$v1['car_seating']],
+                        ['name'=>'售价'],
+                        ['name'=>'市场价'],
+                        ['name'=>'厂商'],
+                        ['name'=>'级别'],
+                        ['name'=>'上市时间'],
+                        ['name'=>'排量'],
+                        ['name'=>'座位数'],
                     ],
-                ]];
-                $tbody2 = $itModel->getItemShow($v1['more'],config('usual_car_filter_var02'));
-                $allItems[] = array_merge($tbody1,$tbody2);
+                ]],$tbody2);
+
+                // foreach ($allItems as $k1 => $v1) {
+                //     // echo $k1;
+                //     // dump($v1);die;
+                //     foreach ($v1 as $k2 => $v2) {
+                //         // echo $k2;
+                //         // dump($v2['child']);die;
+                //         foreach ($v2 as $k3 => $v3) {
+                //             // echo $k3;
+                //             // dump($v3);
+                //         }
+                //     }
+                // }
+                
+                // dump($allItemsThead);
+                // dump($allItems);
+                // die;
             }
-
-            $allItemsThead = array_merge([[
-                'name' => '基本信息',
-                'child' => [
-                    ['name'=>'售价'],
-                    ['name'=>'市场价'],
-                    ['name'=>'厂商'],
-                    ['name'=>'级别'],
-                    ['name'=>'上市时间'],
-                    ['name'=>'排量'],
-                    ['name'=>'座位数'],
-                ],
-            ]],$tbody2);
-
-            // dump($allItemsThead);
-            // dump($allItems);
-            // die;
 
 
             /*模板赋值*/

@@ -18,7 +18,7 @@
         <foreach name="moreTree" item="vo" key="mk">
         {$mk%3==0?='<li class="clearfix fitterFlex">'}
             <dl class='clearfix checkbox-dl'>
-                <dt>{$vo.name}{$mk%3}：</dt>
+                <dt>{$vo.name}：</dt>
                 <notempty name="vo.form_element">
                 <foreach name="vo.form_element" item="v">
                 <dd>
@@ -30,9 +30,7 @@
                 </foreach>
                 </notempty>
             </dl>
-        <if condition="($mk gt 0) && ($mk%2 eq 0)">
-        </li>
-        </if>
+        <if condition="($mk gt 0) && ($mk%2 eq 0)"></li></if>
         </foreach>
     </ul>
 </div>

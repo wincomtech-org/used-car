@@ -2,30 +2,31 @@
 <!-- 第一级 一辆车的数据 -->
 <foreach name="allItems" item="top">
 <div class="group-list">
-    <!-- 第二级 属性大分类 -->
-    <div class="group">
-        <!-- 第三级 属性小分类 第一个做特殊处理 -->
-        <div class="column">
-            <h4>北京BJ80 2017款2.8TDi手动</h4>
-            <p class='price'>28.30万</p>
-            <i class="icon-reduce"></i>
-        </div>
-    </div>
     <foreach name="top" item="cate">
     <notempty name="cate.child">
     <div class="group">
-        <foreach name="cate.child" item="child">
-        <div class="item">
-            <!-- <span class="inner item-same"> -->
-            <span class="inner">
-                <switch name="child.is_rec">
-                    <case value="1"><strong class='orage-color'>{$child.sketch|default='暂无……'}</strong></case>
-                    <case value="2"><a href="#" class='backg-red btn-small'>询价</a></case>
-                    <default/>{$child.sketch|default='暂无……'}
-                </switch>
-            </span>
-        </div>
-        </foreach>
+        <eq name="key" value="0">
+            <foreach name="cate" item="child">
+            <div class="column">
+                <h4>{$child.name}</h4>
+                <p class='price'>{$child.price}万</p>
+                <i class="icon-reduce"></i>
+            </div>
+            </foreach>
+        <else/>
+            <foreach name="cate.child" item="child">
+            <div class="item">
+                <!-- <span class="inner item-same"> -->
+                <span class="inner">
+                    <switch name="child.is_rec">
+                        <case value="1"><strong class='orage-color'>{$child.sketch|default='暂无……'}</strong></case>
+                        <case value="2"><a href="#" class='backg-red btn-small'>询价</a></case>
+                        <default/>{$child.sketch|default='暂无……'}
+                    </switch>
+                </span>
+            </div>
+            </foreach>
+        </eq>
     </div>
     </notempty>
     </foreach>

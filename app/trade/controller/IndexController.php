@@ -40,6 +40,7 @@ class IndexController extends HomeBaseController
         if ($plat==3) {
             return $this->fetch('platform3');
         }
+        if (!in_array($plat,[1,2,3])) $plat = 1;
 
         // 实例化
         $serieModel = new UsualSeriesModel();
