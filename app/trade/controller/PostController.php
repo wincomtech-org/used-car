@@ -41,24 +41,128 @@ class PostController extends HomeBaseController
         $carTuis = $carModel->getLists([],'',12,['a.is_rec'=>1]);
 
 
-        /*新车、二手车数据分离*/
         $itModel = new UsualItemModel();
+        // 车辆属性
+        // 查找相关属性值 id
+        $car2 = $itModel->getItemFilterVar($id);
+        $car = array_merge($car,$car2);
 
+        /*新车、二手车数据分离*/
         if ($plat==1) {
-            /*处理请求*/
+            /*获取请求数据*/
             $param = $this->request->param();
-            $issue_time = $this->request->param('issue_time','');
+            $issue_time = $this->request->param('issue_time','2017,2018');
             // 普通级 optimize => name
-            $car_seating = $this->request->param('car_seating/d',0,'intval');
+            $car_seating = $this->request->param('car_seating','5,7');
             // 以下针对item处理 moreTree => ID
-            $car_gearbox = $this->request->param('car_gearbox/d',0,'intval');
-            $car_fuel = $this->request->param('car_fuel/d',0,'intval');
-            $car_color = $this->request->param('car_color/d',0,'intval');
+            $car_gearbox = $this->request->param('car_gearbox','1,3');
+            $car_fuel = $this->request->param('car_fuel','1');
+            $car_color = $this->request->param('car_color','2,6');
             // 车身结构 usual_car_filter_var
-            $car_structure = $this->request->param('car_structure/d',0,'intval');
+            $car_structure = $this->request->param('car_structure','1');
 
             /*筛选机制*/
             // 初始化
+            $filter = 'a.parent_id='.$id;
+            $jumpext = '';
+
+            // 处理请求的数据
+            // 使用原生查询 框架不方便
+            if (!empty($issue_time)) {
+                $myarr = explode(',',$issue_time);
+                // print_r($myarr);die;
+                // if (count($myarr)==1) {
+                //     $startTime = strtotime($myarr[0]);
+                //     $endTime = strtotime($myarr[0]+1);
+                // } else {
+                //     $startTime = strtotime(min($myarr));
+                //     $endTime = strtotime(max($myarr)+1);
+                // }
+                // $filter['a.issue_time'] = [['>= time', $startTime], ['<= time', $endTime]];
+
+                if (count($myarr)==1) {
+                    $startTime = strtotime($myarr[0]);
+                    $endTime = strtotime($myarr[0]+1);
+                    $filter .= ' AND (a.issue_time BETWEEN '.$startTime.' AND '.$endTime.')';
+                } else {
+                    // 原型：' AND ((? BETWEEN ? AND ?) OR (? BETWEEN ? AND ?))';
+                    // 是否可以判断连续的年份？
+                    $filter .= ' AND (';
+                    $filter2 = '';
+                    foreach ($myarr as $sv) {
+                        $filter2 .= '(a.issue_time BETWEEN '.strtotime($sv).' AND '.strtotime($sv+1).') OR ';
+                    }
+                    $filter2 = substr($filter2,0,-4);
+                    $filter .= $filter2.')';
+                }
+                $jumpext .= '&issue_time='.$issue_time;
+            }
+
+            if (!empty($car_seating)) {
+                $myarr = explode(',',$car_seating);
+                // print_r($myarr);die;
+                if (count($myarr)==1) {
+                    $filter .= ' AND a.car_seating='.intval($car_seating);
+                } else {
+                    // 原型：' AND (?=? OR ?=?)';
+                    $filter .= $carModel->queryQoute($myarr,'car_seating');
+                }
+                $jumpext .= '&car_seating='.$car_seating;
+            }
+
+            if (!empty($car_gearbox)) {
+                $myarr = explode(',',$car_gearbox);
+                // print_r($myarr);die;
+                if (count($myarr)==1) {
+                    $filter .= ' AND a.car_gearbox='.intval($car_gearbox);
+                } else {
+                    // 原型：' AND (?=? OR ?=?)';
+                    $filter .= $carModel->queryQoute($myarr,'car_gearbox');
+                }
+                $jumpext .= '&car_gearbox='.$car_gearbox;
+            }
+
+            if (!empty($car_fuel)) {
+                $myarr = explode(',',$car_fuel);
+                // print_r($myarr);die;
+                if (count($myarr)==1) {
+                    $filter .= ' AND a.car_fuel='.intval($car_fuel);
+                } else {
+                    // 原型：' AND (?=? OR ?=?)';
+                    $filter .= $carModel->queryQoute($myarr,'car_fuel');
+                }
+                $jumpext .= '&car_fuel='.$car_fuel;
+            }
+
+            if (!empty($car_color)) {
+                $myarr = explode(',',$car_color);
+                // print_r($myarr);die;
+                if (count($myarr)==1) {
+                    $filter .= ' AND a.car_color='.intval($car_color);
+                } else {
+                    // 原型：' AND (?=? OR ?=?)';
+                    $filter .= $carModel->queryQoute($myarr,'car_color');
+                }
+                $jumpext .= '&car_color='.$car_color;
+            }
+
+            if (!empty($car_structure)) {
+                $myarr = explode(',',$car_structure);
+                // print_r($myarr);die;
+                if (count($myarr)==1) {
+                    $filter .= ' AND a.car_structure='.intval($car_structure);
+                } else {
+                    // 原型：' AND (?=? OR ?=?)';
+                    $filter .= $carModel->queryQoute($myarr,'car_structure');
+                }
+                $jumpext .= '&car_structure='.$car_structure;
+            }
+
+// $carModel->queryQoute();
+
+dump($filter);die;
+dump($jumpext);die;
+
             // 处理格式参
             // 获取树形结构的属性筛选
             // $moreTree = cache('moreTreePost1');
@@ -85,12 +189,15 @@ class PostController extends HomeBaseController
             /*URL 参数*/
 
 
-            $filter['parent'] = $id;
-
 
             /*车辆买卖 车辆数据*/
-            // 款式对比
-            $skuList = $carModel->getLists($filter)->toArray();
+            // 款式对比数据查询
+            // $skuList = $carModel->getLists($filter, $order, $limit, $extra)->toArray();
+            // 查数据
+            $skuList = $carModel->getListsOrgin($filter);
+
+
+
             $skuList = $skuList['data'];
             // dump($skuList);die;
 
@@ -147,7 +254,7 @@ class PostController extends HomeBaseController
                 //         }
                 //     }
                 // }
-                
+
                 // dump($allItemsThead);
                 // dump($allItems);
                 // die;
@@ -170,10 +277,6 @@ class PostController extends HomeBaseController
 
         } elseif ($plat==2) {
 
-            // 车辆属性
-            // 查找相关属性值 id
-            $car2 = $itModel->getItemFilterVar($id);
-            $car = array_merge($car,$car2);
             // 车辆所有属性
             $allItems = $itModel->getItemShow($car['more'],config('usual_car_filter_var02'));
             // 检测报告

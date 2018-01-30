@@ -78,6 +78,38 @@ class UsualCarModel extends UsualModel
         return $series;
     }
 
+    // 原生查询
+    public function getListsOrgin($filter='', $field='', $order='', $limit=12)
+    {
+        $field = (empty($field)) ? 'a.*,b.name AS bname,c.name AS cname,d.name AS dname' : $field ;
+        // 售卖条件
+        $where = 'a.status=1 AND a.sell_status>0';
+        if (!empty($filter)) {
+            $where = $where .' AND '. $filter;
+        }
+
+
+        // 拼接
+        // $sql = sprintf("SELECT %s FROM `cmf_usual_car` AS a LEFT JOIN `cmf_usual_brand` AS b ON a.brand_id=b.id LEFT JOIN `cmf_usual_series` AS c ON a.serie_id=c.id LEFT JOIN `cmf_usual_models` AS d ON a.model_id=d.id LEFT JOIN `cmf_district` AS e ON a.city_id=e.id LEFT JOIN `cmf_user` AS f ON a.user_id=f.id WHERE %s ORDER BY %s LIMIT %s", $field, $where, $order, $limit);
+        $sql = sprintf("SELECT %s FROM `cmf_usual_car` AS a LEFT JOIN `cmf_usual_brand` AS b ON a.brand_id=b.id LEFT JOIN `cmf_usual_series` AS c ON a.serie_id=c.id LEFT JOIN `cmf_usual_models` AS d ON a.model_id=d.id WHERE %s ORDER BY %s LIMIT %s", $field, $where, $order, $limit);
+
+        $list = $this->query($sql);
+
+        return $list;
+    }
+    public function queryQoute($myarr='',$key='')
+    {
+        $filter .= ' AND (';
+        $filter2 = '';
+        foreach ($myarr as $sv) {
+            $filter2 .= 'a.'.$key.'='.$sv.' OR ';
+        }
+        $filter2 = substr($filter2,0,-4);
+        $filter .= $filter2.')';
+        
+        return $filter;
+    }
+
     // 获取车源类型
     public function getCarType($status='')
     {

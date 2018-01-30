@@ -83,7 +83,7 @@ class IndexController extends HomeBaseController
         */
         $carModel = new UsualCarModel();
 
-        /*处理请求*/
+        /*获取请求数据*/
         // $param = $this->request->param();
         // dump($param);die;
         $keyword = $this->request->param('keyword/s');
