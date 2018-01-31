@@ -239,8 +239,7 @@
                 data: {parentId: pid},
             })
             .done(function(data) {
-                // console.log("success");
-                $('#input-city').show().html(data);
+                if (data) {$('#input-city').show().html(data);}
             })
             .fail(function() {
                 // console.log("error");
@@ -253,7 +252,7 @@
         $('#input-series').change(function() {
             var pid = $(this).val();
             $.post('{:url("Ajax/getSecondSeries")}', {parentId: pid}, function(data) {
-                $('#input-serie').show().html(data);
+                if (data) {$('#input-serie').show().html(data);}
             });
         });
 

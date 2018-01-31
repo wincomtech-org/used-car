@@ -1,36 +1,54 @@
-<div class="fitter-div">
-    <ul class='fitter-div-con'>
-        <li class='fitter-div-head clearfix'>
-            <dl>
-                <dt>筛选条件</dt>
-            </dl>
-        </li>
-        <li  class='clearfix fitterFlex'>
-            <dl class='clearfix checkbox-dl'>
-                <dt>年代款：</dt>
-                <foreach name="issueTime" item="vo">
+<form action="{:url('Post/ajaxPlat1')}" method="post" id="formPlat1" onsubmit="">
+    <div class="fitter-div">
+        <ul class='fitter-div-con'>
+            <li class='fitter-div-head clearfix'>
+                <dl>
+                    <dt>筛选条件</dt>
+                </dl>
+            </li>
+            <li  class='clearfix fitterFlex'>
+                <dl class='clearfix checkbox-dl'>
+                    <dt>年代款：</dt>
+                    <foreach name="issueTime" item="vo">
+                        <dd>
+                            <label><input onclick="ajaxPlat1(this);" type="checkbox" name="issue_time[]" value="{$key}"><span>{$vo}</span></label>
+                        </dd>
+                    </foreach>
+                </dl>
+            </li>
+            <foreach name="moreTree" item="vo" key="mk">
+            {$mk%3==0?='<li class="clearfix fitterFlex">'}
+                <dl class='clearfix checkbox-dl'>
+                    <dt>{$vo.name}：</dt>
+                    <notempty name="vo.form_element">
+                    <foreach name="vo.form_element" item="v">
                     <dd>
-                        <label><input type="checkbox" id="" name="issue_time" value="{$key}"><span>{$vo}</span></label>
+                        <label>
+                            <input onclick="ajaxPlat1(this);" type="checkbox" name="{$vo.code}[]" value="{$v.id}">
+                            <span>{$v.description?$v.description:$v.name.$vo.unit}</span>
+                        </label>
                     </dd>
-                </foreach>
-            </dl>
-        </li>
-        <foreach name="moreTree" item="vo" key="mk">
-        {$mk%3==0?='<li class="clearfix fitterFlex">'}
-            <dl class='clearfix checkbox-dl'>
-                <dt>{$vo.name}：</dt>
-                <notempty name="vo.form_element">
-                <foreach name="vo.form_element" item="v">
-                <dd>
-                    <label>
-                        <input {$$vo.code==$v.id?='checked'} type="checkbox" id="" name="car_structure" value="{$v.name}">
-                        <span>{$v.description?$v.description:$v.name.$vo.unit}</span>
-                    </label>
-                </dd>
-                </foreach>
-                </notempty>
-            </dl>
-        <if condition="($mk gt 0) && ($mk%2 eq 0)"></li></if>
-        </foreach>
-    </ul>
-</div>
+                    </foreach>
+                    </notempty>
+                </dl>
+            <if condition="($mk gt 0) && ($mk%2 eq 0)"></li></if>
+            </foreach>
+        </ul>
+    </div>
+    <input type="hidden" name="parent_id" value="{$car.id}">
+    <!-- <input type="hidden" name="filter" value="用serialize就不要这个了"> -->
+</form>
+
+<script type="text/javascript">
+    function ajaxPlat1(o) {
+        var string = $('#formPlat1').serialize();
+        // var array = $('#formPlat1').serializeArray();
+        // alert(string);
+        // console.log(array);
+        // $('#formPlat1').submit();
+        $.post("{:url('Post/ajaxPlat1')}", string, function(data){
+            console.log(data)
+            // $('#attrShow8').hide();
+        },'json');
+    }
+</script>

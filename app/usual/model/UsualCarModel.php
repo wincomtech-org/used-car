@@ -83,30 +83,44 @@ class UsualCarModel extends UsualModel
     {
         $field = (empty($field)) ? 'a.*,b.name AS bname,c.name AS cname,d.name AS dname' : $field ;
         // 售卖条件
-        $where = 'a.status=1 AND a.sell_status>0';
+        $where = 'WHERE a.status=1 AND a.sell_status>0';
         if (!empty($filter)) {
-            $where = $where .' AND '. $filter;
+            $where .= ' AND '. $filter;
         }
-
+        if (!empty($order)) {
+            $order = 'ORDER BY '. $order;
+        }
+        $limit = 'LIMIT '. $limit;
 
         // 拼接
         // $sql = sprintf("SELECT %s FROM `cmf_usual_car` AS a LEFT JOIN `cmf_usual_brand` AS b ON a.brand_id=b.id LEFT JOIN `cmf_usual_series` AS c ON a.serie_id=c.id LEFT JOIN `cmf_usual_models` AS d ON a.model_id=d.id LEFT JOIN `cmf_district` AS e ON a.city_id=e.id LEFT JOIN `cmf_user` AS f ON a.user_id=f.id WHERE %s ORDER BY %s LIMIT %s", $field, $where, $order, $limit);
-        $sql = sprintf("SELECT %s FROM `cmf_usual_car` AS a LEFT JOIN `cmf_usual_brand` AS b ON a.brand_id=b.id LEFT JOIN `cmf_usual_series` AS c ON a.serie_id=c.id LEFT JOIN `cmf_usual_models` AS d ON a.model_id=d.id WHERE %s ORDER BY %s LIMIT %s", $field, $where, $order, $limit);
+        $sql = sprintf("SELECT %s FROM `cmf_usual_car` AS a LEFT JOIN `cmf_usual_brand` AS b ON a.brand_id=b.id LEFT JOIN `cmf_usual_series` AS c ON a.serie_id=c.id LEFT JOIN `cmf_usual_models` AS d ON a.model_id=d.id %s %s %s", $field, $where, $order, $limit);
 
-        $list = $this->query($sql);
+        $list = $this->query($sql);//这样获取的是数组
 
         return $list;
     }
-    public function queryQoute($myarr='',$key='')
+    /**
+     * 拼接 查询语句
+     * @param  string $var [数据]
+     * @param  string $key [字段名]
+     * @return [type]      [description]
+     */
+    public function queryQuote($var='',$key='')
     {
-        $filter .= ' AND (';
-        $filter2 = '';
-        foreach ($myarr as $sv) {
-            $filter2 .= 'a.'.$key.'='.$sv.' OR ';
+        $filter = ' AND ';
+        if (count($var)==1) {
+            $filter .= 'a.'.$key.'='.$var[0];
+        } else {
+            // 原型：' AND (?=? OR ?=?)';
+            $filter2 = '';
+            foreach ($var as $sv) {
+                $filter2 .= 'a.'.$key.'='.$sv.' OR ';
+            }
+            $filter2 = substr($filter2,0,-4);
+            $filter = $filter .'('. $filter2 .')';
         }
-        $filter2 = substr($filter2,0,-4);
-        $filter .= $filter2.')';
-        
+
         return $filter;
     }
 
