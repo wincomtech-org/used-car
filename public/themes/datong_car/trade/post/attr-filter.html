@@ -41,14 +41,28 @@
 
 <script type="text/javascript">
     function ajaxPlat1(o) {
+     
         var string = $('#formPlat1').serialize();
+
         // var array = $('#formPlat1').serializeArray();
         // alert(string);
         // console.log(array);
         // $('#formPlat1').submit();
         $.post("{:url('Post/ajaxPlat1')}", string, function(data){
-            console.log(data)
-            // $('#attrShow8').hide();
+
+            $('.group-list').hide();
+
+            $('.group-list').each(function(){
+                
+                var id_num=$(this).attr('id').split('attrShow')[1];
+
+                if(data.indexOf(parseInt(id_num)) > -1 ){
+                    $(this).show();
+                }else{
+                
+                }
+            })
+ 
         },'json');
     }
 </script>
