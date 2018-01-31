@@ -111,7 +111,7 @@ EOT;
         return true;
     }
 
-    //数据库还原
+    //数据库还原 cmf_split_sql()
     public function restore($fname='')
     {
         if (is_file($fname)) {

@@ -29,6 +29,10 @@ class AdminCar1Controller extends AdminBaseController
         $brandId = $this->request->param('brandId',0,'intval');
         $param['plat'] = 1;
         $param['parent'] = 0;
+        $adminId = cmf_get_current_admin_id();
+        if ($adminId!=1) {
+            $param['uid'] = cmf_get_current_admin_id();
+        }
 
         $data = $this->Model->getLists($param);
 
@@ -69,7 +73,7 @@ class AdminCar1Controller extends AdminBaseController
         if ($this->request->isPost()) {
             $data = $this->request->param();
             $post = $this->opPost($data);
-            $post['deal_uid'] = cmf_get_current_admin_id();
+            $post['user_id'] = cmf_get_current_admin_id();
 
             // 提交车子数据
             $this->Model->adminAddArticle($post);
@@ -165,6 +169,7 @@ class AdminCar1Controller extends AdminBaseController
         if ($this->request->isPost()) {
             $data = $this->request->param();
             $post = $this->opPost($data,'edit1');
+            $post['deal_uid'] = cmf_get_current_admin_id();
 
             // 更新车子数据
             $this->Model->adminEditArticle($post);

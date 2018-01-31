@@ -20,6 +20,9 @@ class UsualCarModel extends UsualModel
         // 筛选条件
         $where = ['a.delete_time' => 0];
         // 更多
+        if (!empty($filter['uid'])) {
+            $where['a.user_id'] = intval($filter['uid']);
+        }
         if (isset($filter['parent'])) {
             $where['a.parent_id'] = intval($filter['parent']);
         }
