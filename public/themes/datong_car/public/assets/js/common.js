@@ -227,19 +227,7 @@ function check_pwd(obj){
 	$('.js-ajax-form').submit();
 }
 
-// $('.password_ul input').blur(function(){
-// 	var password = $('.password').val();
-// 	var password2= $('.password2').val();
-// 	var pwd = $.trim($(this).val());
-// 	if(pwd == "" || isPassword(pwd) == false){
-// 		$(this).parent().siblings('b').show();
-// 	}else if( $(this).attr('name') == "password2" &&  password != password2 ){
-// 		$('input[name="password"]').parent().siblings('b').hide();
-// 		$('input[name="password2"]').parent().siblings('b').show();
-// 	}else{
-// 		$(this).parent().siblings('b').hide();
-// 	}
-// })
+
 
 function isPassword(password) {
   var pattern=/^[a-zA-z]{1}[0-9A-Za-z]{7,19}$/;
@@ -247,9 +235,6 @@ function isPassword(password) {
 }
 
 //结束	 重置密码找回密码
-
-
-
 
 
 /*个人中心*/
@@ -271,18 +256,6 @@ $(document).delegate('.detail_see', 'click', function() {
 	// msgDialog(data);
 });
 
-// 个人中心卖家中心取消 效果
-// $(document).delegate('.order_cancel_btn', 'click', function() {
-// 	$(this).parent().parent().prev().find('a').text('已取消')
-// })
-
-// 个人中心卖家中心删除 效果
-// $(document).delegate('.order_err_btn', 'click', function() {
-// 	$(this).parent().parent().parent().parent().parent().remove()
-// })
-
-
-
 
 /**车辆买卖  免费登记信息*/
 $('.analogy').delegate('.analogy_tit', 'click', function(e) {
@@ -300,7 +273,6 @@ $('.analogy').delegate('.analogy_tit', 'click', function(e) {
 		_this_siblings.hide();
 	})
 
-
 	_this_siblings_li.on('click', function() {
 		var txt = $(this).children('input').val();
 		var liID=$(this).attr('data-val');
@@ -309,7 +281,6 @@ $('.analogy').delegate('.analogy_tit', 'click', function(e) {
 		_this_siblings.hide();
 
 	})
-
 	e.stopPropagation();
 
 })
@@ -320,25 +291,7 @@ $(function(){
 
 });
 
-// 	$('.custom_amount input').change(function() {
-// 		var changeVal = $(this).val();
-// 		$(this).parent().parent().siblings('.payment_amount ').find('input').val(toDecimal2(changeVal))
-// 	})
-// }
 
-// function powAmount(amount, _pow_) {
-// 	var amount_bak = amount;
-// 	var base = 10;
-// 	if (isNaN(amount)) {
-// 		return "0.00";
-// 	} else if (amount < 0) {
-// 		return "0.00"
-// 	}
-// 	amount = Math.round((amount - Math.floor(amount)) * Math.pow(base, _pow_));
-// 	amount = amount < 10 ? '.0' + amount : '.' + amount
-// 	amount = Math.floor(amount_bak) + amount;
-// 	return amount;
-// }
   function toDecimal2(money) {
         var f = parseFloat(money);
         if (isNaN(f)) {
@@ -366,15 +319,7 @@ function isPhoneNo(phone) {
 	return pattern.test(phone);
 }
 
-// $('input[name="tel"]').blur(function(){
-// 	if(isPhoneNo($.trim($(this).val())) == false ){
-// 			$(this).parent().css('height','auto')
-// 			$(this).parent().siblings('i').show()
-// 		}else{
-// 			$(this).parent().css('height','35px')
-// 			$(this).parent().siblings('i').hide()
-// 		}
-// })
+
 
 $('.yuyue_guang').hover(function() {
 	$(this).children('.yuyueguang').show();
@@ -397,24 +342,6 @@ $(document).delegate('.cycle_icon li', 'click', function() {
 	}, 600);
 	// $('.simila_recommendation_list ').animate({'margin-left':-t*100+"%"},600);
 })
-
-// carousel_pic();
-// // setInterval('carousel_pic()',3000);
-// function  carousel_pic(){
-// 	$('.cycle_icon li').each(function(){
-// 		var p=$(this).parent().children().length-1;
-// 		var t=$(this).index();
-// 		console.log(t,p)
-// 		$(this).addClass('active').siblings().removeClass('active').animate(1500);
-// 		if(t>=p ){
-// 			$(this).parent().parent().siblings().find('ul').animate({'margin-left':-t*100+"%"},1500);
-// 			return t=0;
-// 		}else{
-// 			$(this).parent().parent().siblings().find('ul').animate({'margin-left':-t*100+"%"},1500);
-// 		}
-// 	})
-// }
-
 
 
 

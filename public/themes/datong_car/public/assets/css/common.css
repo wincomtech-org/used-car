@@ -9,6 +9,7 @@ input[type=button],input[type=submit],input[type=file],input[type=text],input[ty
 .rt{float:right;}
 .clear{clear:both;}
 a{text-decoration:none;cursor:pointer;}
+.clearfix:after {content: " ";display: block;clear: both;height: 0;visibility: hidden;}
 
 /*公共颜色*/
 .success_color{color:#009241!important;}
@@ -26,6 +27,15 @@ a{text-decoration:none;cursor:pointer;}
 .backg-blue{background-color:#66b6ff;}
 .backg-orange{background-color:#c60;}
 .backg-border{border:1px solid #ddd;color:#666;box-sizing:border-box;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;-ms-box-sizing:border-box;-o-box-sizing:border-box;}
+
+/* 公共用盒模型 */
+.group-list{
+    -webkit-box-sizing:border-box;
+    -moz-box-sizing:border-box;
+    -ms-box-sizing:border-box;
+    -o-box-sizing:border-box;
+}
+
 /* 圆角 */
 .border-r{
 	-webkit-border-radius:5px;
