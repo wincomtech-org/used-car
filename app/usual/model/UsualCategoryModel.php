@@ -263,7 +263,8 @@ class UsualCategoryModel extends ComModel
             if (!empty($children)) {
                 foreach ($children as $child) {
                     $childPath = str_replace($oldCategory['path'] . '-', $newPath . '-', $child['path']);
-                    $this->isUpdate(true)->allowField(true)->save(['path' => $childPath], ['id' => $child['id']]);
+                    $this->where('id',$child['id'])->setField('path',$childPath);
+                    // $this->isUpdate(true)->save(['path' => $childPath], ['id' => $child['id']]);
                 }
             }
 
