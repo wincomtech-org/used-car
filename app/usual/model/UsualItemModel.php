@@ -74,9 +74,7 @@ class UsualItemModel extends UsualModel
         $filterRec = $itemCateModel->field('code')->where('is_rec',1)->select()->toArray();
         $rec_var = '';
         foreach ($filterRec as $value) {
-            if (!empty($value['code'])) {
-                $rec_var .= ','.$value['code'];
-            }
+            $rec_var .= ','.$value['code'];
         }
         $filter_var_rec = $this->filter_var . $rec_var;
 

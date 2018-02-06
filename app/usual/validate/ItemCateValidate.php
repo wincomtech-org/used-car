@@ -24,8 +24,7 @@ class ItemCateValidate extends Validate
     ];
 
     protected $scene = [
-       // 'add'  => ['parent_id','name','code','code_type'],
-       'add'  => ['parent_id','name','code_type'],
+       'add'  => ['parent_id','name','code','code_type'],
        'edit' => ['id','parent_id','code_type'],
     ];
 
