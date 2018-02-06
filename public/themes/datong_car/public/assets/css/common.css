@@ -72,7 +72,11 @@ a{text-decoration:none;cursor:pointer;}
 	margin:0 5px;
 }
 
-
+/* 解决移动端点击出现背景色的问题 */
+*{
+    -webkit-tap-highlight-color:transparent;
+    -moz-tap-highlight-color: transparent;
+}
 /*h5标签公共样式**/
 article,aside,figcaption,figure,footer,header,hgroup,nav,section,strong{display:block}
 mark{background:#FF0;color:#000}
@@ -109,9 +113,7 @@ img{transform:scale(1) translateZ(0);}
 		-moz-flex-wrap:wrap;
 		flex-wrap:wrap;
 	}
-	
 }
-
 
 /*返回顶部*/
 .back_to_top{position:fixed;z-index:99;bottom:60px;right:30px;display:block;width:120px;}
