@@ -7,6 +7,17 @@
 			<li><a href="{:url('AdminItemCate/add')}">添加分类</a></li>
         	<li><a style="margin-left:150px" href="{:url('AdminItem/index')}">属性值列表</a></li>
 		</ul>
+		<form class="well form-inline margin-top-20" method="post" action="{:url('AdminItemCate/index')}">
+		    分类:
+		    <select class="form-control" name="parent" style="width:140px;">
+		        {$categorys|default=''}
+		    </select> &nbsp;&nbsp;
+		    关键字:
+		    <input type="text" class="form-control" name="keyword" style="width: 200px;"
+		           value="{$keyword|default=''}" placeholder="请输入关键字...">
+		    <input type="submit" class="btn btn-primary" value="搜索"/>
+		    <a class="btn btn-danger" href="{:url('AdminItemCate/index')}">清空</a>
+		</form>
 		<form method="post" class="js-ajax-form" action="{:url('AdminItemCate/listOrder')}">
 			<div class="table-actions">
 				<button type="submit" class="btn btn-primary btn-sm js-ajax-submit">{:lang('SORT')}</button>
@@ -15,9 +26,64 @@
 				<thead>
 					<include file="admin_item_cate/table-th" />
 				</thead>
+
+
+				<php>$codetype = config('usual_item_cate_codetype');</php>
+				<foreach name="category_tree" item="vo">
 				<tbody>
-					{$category_tree}
+				<tr>
+					<td><input name="list_orders[{$vo.id}]" type="text" size="3" value="{$vo.list_order}" class="input-order"></td>
+					<td>{$vo.id}</td>
+					<td>{$vo.name}</td>
+					<td>
+						<eq name="vo.code_type" value="all">
+							<span style="color:#FCA005">默认</span>
+						<else/>
+							<span>{$codetype[$vo.code_type]}</span>
+						</eq>
+					</td>
+					<td><span style="color:#041DFA">{$vo.unit}</span></td>
+					<td>{$vo.description}</td>
+					<td>{$vo.is_rec?'是':'否'}</td>
+					<td>
+						<a href="{:url('AdminItemCate/edit',['id'=>$vo.id])}">编辑</a>&nbsp;&nbsp;
+						<a href="{:url('AdminItemCate/add',['parent'=>$vo.id])}">添加子分类</a> &nbsp; &nbsp;
+					</td>
+				</tr>
+				<notempty name="vo.children">
+					<php>$count = count($vo['children']);$i=0;</php>
+					<foreach name="vo.children" item="child">
+					<php>$i++;</php>
+					<tr>
+						<td><input name="list_orders[{$child.id}]" type="text" size="3" value="{$child.list_order}" class="input-order"></td>
+						<td>{$child.id}</td>
+						<td>
+							{$i==$count?'&nbsp;&nbsp;└─':'&nbsp;&nbsp;├─'}
+							{$child.name}
+						</td>
+						<td>
+							<eq name="child.code_type" value="all">
+								<span style="color:#FCA005">默认</span>
+							<else/>
+								<span>{$codetype[$child.code_type]}</span>
+							</eq>
+						</td>
+						<td><span style="color:#041DFA">{$child.unit}</span></td>
+						<td>{$child.description}</td>
+						<td>{$child.is_rec?'是':'否'}</td>
+						<td>
+							<a href="{:url('AdminItemCate/edit',['id'=>$child.id])}">编辑</a>&nbsp;&nbsp;
+							<if condition="in_array($child['code_type'],['select','radio','checkbox'])">
+								<a href="{:url('AdminItem/index',['cateId'=>$child.id])}">查看属性值</a>
+							</if>
+						</td>
+					</tr>
+					</foreach>
+				</notempty>
 				</tbody>
+				</foreach>
+
+
 				<tfoot>
 					<include file="admin_item_cate/table-th" />
 				</tfoot>

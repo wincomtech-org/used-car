@@ -18,15 +18,16 @@ class AdminItemCateController extends AdminBaseController
 
     public function index()
     {
-        $config = [
-            'm'         => 'AdminItemCate',
-            'url'       => '',
-            'add'       => true,
-            'edit'      => true,
-            'delete'    => false
-        ];
-        $categoryTree    = $this->UsualModel->adminCategoryTableTree(0,'',$config,['unit'=>1,'code'=>1,'code_type'=>1,'is_rec'=>1]);
+        $param = $this->request->param();//接收筛选条件
+        $parent = $this->request->param('parent',0,'intval');
 
+        $categoryTree = $this->UsualModel->getLists($param);
+        // dump($categoryTree);die;
+        $cates = model('UsualItemCate')->getFirstCate($parent);
+
+        $this->assign('keyword', isset($param['keyword'])?$param['keyword']:'');
+        // $this->assign('jumpext','keyword='.$keyword.'&parent='.$parent);
+        $this->assign('categorys', $cates);
         $this->assign('category_tree', $categoryTree);
         return $this->fetch();
     }

@@ -238,6 +238,7 @@ class WorkPlugin
         $set['key'] = $option['key'];
         // 签约支付宝账号或卖家支付宝帐户
         $set['seller_email'] = trim($option['account']);
+        // $param['seller_id'] = $option['partner'];
 
         //页面跳转同步通知页面路径，要用 http://格式的完整路径，不允许加?id=123这类自定义参数
         //return_url的域名不能写成http://localhost/*** ，否则会导致return_url执行无效
@@ -277,7 +278,8 @@ class WorkPlugin
         $set = $this->p_set();
         $siteInfo = cmf_get_option('site_info');
 
-        $param['service'] = "create_direct_pay_by_user";
+        $param['service'] = "create_direct_pay_by_user";//PC
+        // $param['service'] = "alipay.wap.create.direct.pay.by.user";//WAP
         //支付类型，必填，不能修改
         $param['payment_type'] = "1";
         // 字符编码格式 目前支持 gbk 或 utf-8
@@ -287,6 +289,7 @@ class WorkPlugin
         $param['partner'] = $set['partner'];
         // 收款支付宝账号
         $param['seller_email'] = $set['seller_email'];
+        // $param['seller_id'] = $set['seller_id'];
         
         //服务器异步通知页面路径，需http://格式的完整路径，不能加?id=123这类自定义参数
         $param['notify_url'] = $this->notify_url;

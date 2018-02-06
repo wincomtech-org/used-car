@@ -22,6 +22,7 @@ class PostController extends HomeBaseController
         $carModel = new UsualCarModel();
         // $car = $carModel->getPost($id);
         $car = $carModel->getPostRelate($id);
+        // dump($car);die;
         if (empty($car)) {
             abort(404,'数据不存在！');
         }
@@ -80,7 +81,6 @@ class PostController extends HomeBaseController
             // $jumpext;
 
 
-
             /*车辆买卖 车辆数据*/
             // 款式对比数据查询
             // 应用模型层
@@ -133,8 +133,6 @@ class PostController extends HomeBaseController
                 ]],$tbody2);
             }
 
-
-
             /*模板赋值*/
             // item 处理
             // $this->assign('car_seating',$car_seating);
@@ -150,9 +148,10 @@ class PostController extends HomeBaseController
             $this->assign('allItems',$allItems);
 
         } elseif ($plat==2) {
+
             // 二手车初始化
             // 车辆所有属性
-            $carMore = json_decode($car['more'],true);
+            $carMore = $car['more'];
             $allItems = $itModel->getItemShow($carMore,config('usual_car_filter_var02'));
             // 检测报告
             $reportModel = new TradeReportCateModel();

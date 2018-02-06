@@ -166,9 +166,9 @@ class UsualItemModel extends UsualModel
     public function getItemFilterVar($id)
     {
         $data = model('usual/UsualCar')
-            ->field($this->filter_var)
-            ->where('id',$id)
-            ->find();
+                ->field($this->filter_var)
+                ->where('id',$id)
+                ->find();
         if (empty($data)) {
             $where = [];
         } else {
@@ -176,10 +176,10 @@ class UsualItemModel extends UsualModel
             $where = ['a.id'=>['in',array_values($data)]];
         }
         $items = $this->alias('a')
-            ->field('a.name,a.description,b.code,b.unit')
-            ->join('usual_item_cate b','a.cate_id=b.id','LEFT')
-            ->where($where)
-            ->select()->toArray();
+                ->field('a.name,a.description,b.code,b.unit')
+                ->join('usual_item_cate b','a.cate_id=b.id','LEFT')
+                ->where($where)
+                ->select()->toArray();
         // 描述替代值
         $newItem = [];
         foreach ($items as $val) {

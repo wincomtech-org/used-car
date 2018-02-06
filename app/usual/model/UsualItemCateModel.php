@@ -6,6 +6,46 @@ use tree\Tree;
 
 class UsualItemCateModel extends UsualCategoryModel
 {
+    public function getLists($filter=[], $order='', $limit='',$extra=[])
+    {
+        $field = 'id,parent_id,path,name,unit,code_type,description,is_rec,list_order';
+
+        // 筛选条件
+        $where = [];
+        // 后台
+        $keyword = empty($filter['keyword']) ? '' : $filter['keyword'];
+        if (!empty($keyword)) {
+            $where['a.name'] = ['like', "%$keyword%"];
+        }
+        if (!empty($extra)) {
+            $where = array_merge($where,$extra);
+        }
+        // 更多
+        $myId = isset($filter['parent']) ? intval($filter['parent']) : 0;
+
+        // 排序
+        $order = empty($order) ? 'list_order' : $order;
+
+        // 数据量
+        // $limit = $this->limitCom($limit);
+
+        // 查数据
+        $series = $this->field($field)
+                ->where($where)
+                ->order($order)
+                ->select()
+                ->toArray();
+                // ->paginate($limit);
+
+        $cateTree = [];
+        $tree = new Tree();
+        // model('admin/NavMenu')->parseNavMenu4Home($series);
+        $tree->init($series);
+        $cateTree = $tree->getTreeArray($myId);
+
+        return $cateTree;
+    }
+
     public function getCategoryTree($selectId=0, $currentCid=0, $parentId=0, $codeType=false, $default_option=true, $tpl='')
     {
         $where = [
@@ -19,7 +59,7 @@ class UsualItemCateModel extends UsualCategoryModel
             $where['code_type'] = ['like',['all','select','radio','checkbox'],'OR'];
         }
         $categories = $this->order("list_order ASC")->where($where)->select()->toArray();
-        if (empty($categories)) return;
+        if (empty($categories)) return null;
         // $newCategories = [];
         // foreach ($categories as $item) {
         //     $item['selected'] = $selectId == $item['id'] ? "selected" : "";
@@ -42,6 +82,25 @@ class UsualItemCateModel extends UsualCategoryModel
         $treeStr = ($default_option ?'<option value="0">--请选择--</option>':'') . $treeStr;
 
         return $treeStr;
+    }
+
+    public function getFirstCate($selectId=0, $parentId=0, $option='全部', $condition=[])
+    {
+        $where = [];
+        $where = [
+            // 'delete_time' => 0,
+            'parent_id' => $parentId,
+            'status' => 1,
+        ];
+        if (!empty($condition)) {
+            $where = array_merge($where,$condition);
+        }
+
+        // $data = $this->all()->toArray();
+        $data = $this->field('id,name')->where($where)->select()->toArray();
+
+        $options = $this->createOptions($selectId, $option, $data);
+        return $options;
     }
 
     public function getCodeType($selectId=null, $parentId=0, $default_option=true, $tpl='')
