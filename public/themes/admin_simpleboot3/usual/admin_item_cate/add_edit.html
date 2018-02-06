@@ -25,7 +25,7 @@
 <div class="form-group">
     <label for="input-code"><span class="form-required">*</span>字段码</label>
     <div>
-        <input type="text" class="form-control" id="input-code" disabled readonly name="code" value="{$code|default=''}">
+        <input type="text" class="form-control" id="input-code" {$code?='disabled readonly'} name="code" value="{$code|default=''}">
         <p class="help-block">不可修改；遵循数据库设计字段码。二级字段码以 <span class="form-required">car_</span> 开头。</p>
     </div>
 </div>

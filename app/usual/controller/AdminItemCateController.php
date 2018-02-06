@@ -83,7 +83,6 @@ class AdminItemCateController extends AdminBaseController
         // 提交结果
         unset($data['code']);
         $result = $this->cateModel->editCategory($data);
-        // dump($data);die;
         if ($result === false) {
             $this->error('保存失败!');
         }
