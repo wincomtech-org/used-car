@@ -21,6 +21,7 @@ class ItemCateValidate extends Validate
         'code.require'  => '字段码不能为空',
         'code.alphaDash'  => '字段码只能是以字母开头的字母、数字、下划线(_)及破折号(-)组合',
         'code.checkCode'  => '字段码已存在！',
+        'code.checkCodeEdit'  => '字段码已被使用！',
         'code_type.checkCodeType' => '一级字段码类型只能选默认，二级的不能选默认',
     ];
 
