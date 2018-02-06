@@ -13,7 +13,7 @@ class AdminItemCateController extends AdminBaseController
     function _initialize()
     {
         parent::_initialize();
-        $this->UsualModel = new UsualItemCateModel();
+        $this->cateModel = new UsualItemCateModel();
     }
 
     public function index()
@@ -21,7 +21,7 @@ class AdminItemCateController extends AdminBaseController
         $param = $this->request->param();//接收筛选条件
         $parent = $this->request->param('parent',0,'intval');
 
-        $categoryTree = $this->UsualModel->getLists($param);
+        $categoryTree = $this->cateModel->getLists($param);
         // dump($categoryTree);die;
         $cates = model('UsualItemCate')->getFirstCate($parent);
 
@@ -35,8 +35,8 @@ class AdminItemCateController extends AdminBaseController
     public function add()
     {
         $parentId           = $this->request->param('parent', 0, 'intval');
-        $categoriesTree     = $this->UsualModel->adminCategoryTree($parentId);
-        $codeType           = $this->UsualModel->getCodeType();
+        $categoriesTree     = $this->cateModel->adminCategoryTree($parentId);
+        $codeType           = $this->cateModel->getCodeType();
 
         $this->assign('categories_tree', $categoriesTree);
         $this->assign('codeType', $codeType);
@@ -49,7 +49,7 @@ class AdminItemCateController extends AdminBaseController
         if ($result !== true) {
             $this->error($result);
         }
-        $result = $this->UsualModel->addCategory($data);
+        $result = $this->cateModel->addCategory($data);
         if ($result === false) {
             $this->error('添加失败!');
         }
@@ -61,8 +61,8 @@ class AdminItemCateController extends AdminBaseController
         $id = $this->request->param('id', 0, 'intval');
         if ($id > 0) {
             $category = UsualItemCateModel::get($id)->toArray();
-            $categoriesTree      = $this->UsualModel->adminCategoryTree($category['parent_id'], $id);
-            $codeType           = $this->UsualModel->getCodeType($category['code_type']);
+            $categoriesTree      = $this->cateModel->adminCategoryTree($category['parent_id'], $id);
+            $codeType           = $this->cateModel->getCodeType($category['code_type']);
 
             $this->assign($category);
             $this->assign('categories_tree', $categoriesTree);
@@ -82,7 +82,8 @@ class AdminItemCateController extends AdminBaseController
         }
         // 提交结果
         unset($data['code']);
-        $result = $this->UsualModel->editCategory($data);
+        $result = $this->cateModel->editCategory($data);
+        // dump($data);die;
         if ($result === false) {
             $this->error('保存失败!');
         }
@@ -103,10 +104,10 @@ class AdminItemCateController extends AdminBaseController
     <td>\$spacer <a href='\$url' target='_blank'>\$name</a></td>
 </tr>
 tpl;
-        $categoryTree = $this->UsualModel->adminCategoryTableTree($selectedIds, $tpl);
+        $categoryTree = $this->cateModel->adminCategoryTableTree($selectedIds, $tpl);
 
         $where      = ['delete_time' => 0];
-        $categories = $this->UsualModel->where($where)->select();
+        $categories = $this->cateModel->where($where)->select();
 
         $this->assign('categories', $categories);
         $this->assign('selectedIds', $selectedIds);
@@ -125,12 +126,12 @@ tpl;
     {
         $id = $this->request->param('id');
         //获取删除的内容
-        $findCategory = $this->UsualModel->where('id', $id)->find();
+        $findCategory = $this->cateModel->where('id', $id)->find();
         if (empty($findCategory)) {
             $this->error('分类不存在!');
         }
 
-        $categoryChildrenCount = $this->UsualModel->where('parent_id', $id)->count();
+        $categoryChildrenCount = $this->cateModel->where('parent_id', $id)->count();
         if ($categoryChildrenCount > 0) {
             $this->error('此分类有子类无法删除，请改名!');
         }
@@ -146,7 +147,7 @@ tpl;
         //     'table_name'  => 'usual_brand',
         //     'name'        => $findCategory['name']
         // ];
-        $result = $this->UsualModel
+        $result = $this->cateModel
             ->where('id', $id)
             ->update(['delete_time' => time()]);
         if ($result) {
