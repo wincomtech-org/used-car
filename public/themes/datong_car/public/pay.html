@@ -1,199 +1,56 @@
-<li class="see_car_items">
-    <span class="icon">支付入口</span>
-    <div class="item_con">
-        <div class="payment_tit">
-            <ul class="payment_way">
-                <li class="payment_way_1 label_input"><b></b><label><input type="radio" name="payment_way">余额支付</label></li>
-                <li class="payment_way_2 label_input"><b></b><label><input type="radio" name="payment_way">在线支付</label></li>
-            </ul>
-        </div>
-        <div class="payment_con">
-
-            <!-- 余额支付 -->
-            <div class="payment_way_1_con" style="display:none">
-                <div class="has_money list_money" style="display:block">
-                    <div class="middle">
-                        <p>保证金只需支付一次，便可终生享受卖车资格</p>
-                    </div>
-                    <div class="right">
-                        <form action="{$formurl}" method="post" class="js-ajax-form" onsubmit="getElementById('submitCash').disabled=true;return true;">
-                            <input type="hidden" name="paytype" value="cash">
-                            <input type="hidden" name="orderId" value="{$orderId|default=''}">
-                            <button id="submitCash" class="sure_pay js-ajax-submit" type="submit">确认支付</button>
-                        </form>
-                    </div>
+<style>
+    .saoma{ display:block;position:relative; padding-top:30px; margin:30px auto; }
+    .saoma_tit{position: absolute;top: 2px;font-size: 16px;display: inline-block;width: auto;border: 1px solid #ddd;border-bottom: none;padding:12px 19px 0;background: #fff;left: 1rem;}
+    .saoma_con{padding:1rem;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;border:1px solid #ddd;}
+    .saoma_ul li{float:left;display:block;width:50%;}
+    .payImg2,.payImg3{ display:block;margin:1rem auto;}
+    .pay_img{border:1px solid #ddd;max-width:260px;margin:1rem auto; width:90%;}
+    .payImg1{display:inline-block;width:100%;}
+    .payImg2{max-width:264px; width:90%;}
+    .payImg3{max-width:300px;width:90%; }
+    .btn_div{text-align:center;padding:1rem 0;}
+    .mohu{opacity:.5;}
+    @media screen and (max-width:800px){
+        .pay_img,.payImg2{max-width:240px;}
+    
+    }
+    @media screen and (max-width:414px){
+        .saoma_ul li{width:100%;}
+        .pay_img{max-width:200px;}
+        .payImg2{max-width:160px}
+        .payImg3{max-width:300px;}
+    }
+</style>
+<section class='saoma'>
+    <span class='saoma_tit'>扫码支付</span>
+    <div class="saoma_con">
+        <ul class="saoma_ul clearfix">
+            <li>
+                <div class='pay_img'>
+                        <img src="__TMPL__/public/assets/images/weixin.png" alt="" class='payImg1'>
                 </div>
-            </div>
-
-            <!-- 在线支付 -->
-            <div class="payment_way_2_con" style="display:none;">
-                <div class="pay_mode">
-                    <div class="pay_tab">
-                        <ul class="online_way pay_tab_list">
-                            <li class="label_input pay_tab_list_item"><b></b><label><input type="radio" name="online_payment_way" ><span class="icon_img"></span></label></li>
-                            <li class="label_input pay_tab_list_item"><b></b><label><input type="radio" name="online_payment_way" ><span class="icon_img"></span></label></li>
-                        </ul>
-                        <div class="pay_tab_con">
-                            <ul class="pay_tab_con_list">
-                                <!-- 支付宝 -->
-                                <li class="pay_tab_con_list_item" style="display:none">
-                                    <div class="zhifubao">
-                                        <div class="left" style="display:none">
-                                            <div class="txt"><img src="__TMPL__/public/assets/images/example/erweima_tit.png" alt=""></div>
-                                            <div class="erweima">
-                                                <div class="lf">
-                                                    <!-- 支付二维码 -->
-                                                    <img src="__TMPL__/public/assets/images/example/erweima.png" alt="">
-                                                </div>
-                                                <div class="rt">
-                                                    <!-- 温馨提示图 -->
-                                                    <img src="__TMPL__/public/assets/images/example/erweima_tip.png" alt="">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="left">
-                                            <div class="img">
-                                                <img src="__TMPL__/public/assets/images/example/erweima_wangye.png" alt="">
-                                            </div>
-                                            <div class="button">
-                                                <form action="{$formurl}" method="post" class="js-ajax-form" onsubmit="getElementById('submitAlipay').disabled=true;return true;">
-                                                    <input type="hidden" name="paytype" value="alipay">
-                                                    <input type="hidden" name="orderId" value="{$orderId|default=''}">
-                                                    <button id="submitAlipay" class="sure_pay js-ajax-submit" type="submit">立即支付</button>
-                                                </form>
-                                            </div>
-                                        </div>
-                                        <div class="right"><!-- 冯月，这是以前的右侧 --></div>
-                                        <div class="clear"></div>
-                                    </div>
-                                </li>
-                                <!-- 微信支付 -->
-                                <li class="pay_tab_con_list_item" style="display:none;">
-                                    <div class="weixin">
-                                        <div class="weixin_con">
-                                            <img src="__TMPL__/public/assets/images/example/weixin3.png" alt="">
-                                            <div class="weixin_bottom">
-                                                <php>$wxpay_show='';</php>
-                                                <empty name="wxpay_show">
-                                                    <div class="lf">{$wxpay_show}暂未开放……</div>
-                                                <else/>
-                                                    <switch name="wxpay_show">
-                                                    <case value="js">
-                                                        <div class="lf">
-                                                        <form action="{$formurl}" method="post" class="js-ajax-form" onsubmit="getElementById('submitWxpay').disabled=true;return true;">
-                                                            <input type="hidden" name="paytype" value="wxpay">
-                                                            <input type="hidden" name="orderId" value="{$orderId|default=''}">
-                                                            <button id="submitWxpay" class="sure_pay js-ajax-submit" type="submit">立即支付</button>
-                                                        </form>
-                                                        </div>
-                                                    </case>
-                                                    <default/>
-                                                        <!-- 支付二维码 -->
-                                                        <div class="lf">
-                                                            <empty name="qrcode">
-                                                                <img src="__TMPL__/public/assets/images/example/weixin.png" alt="">
-                                                            <else/>
-                                                                <img alt="模式二扫码支付" src="http://paysdk.weixin.qq.com/example/qrcode.php?data={:urlencode($qrcode)}" style="width:150px;height:150px;"/>
-                                                                <!-- TP5不支持普通模式 -->
-                                                                <!-- <img alt="模式二扫码支付" src="{//:url('funds/Pay/createQRcode',['data'=>urlencode($qrcode)])}" style="width:150px;height:150px;"/> -->
-                                                                <!-- <img alt="模式二扫码支付" src="{//:url('funds/Pay/createQRcode','data='.cmf_str_encode($qrcode))}" style="width:150px;height:150px;"/> -->
-                                                            </empty>
-                                                        </div>
-                                                        <!-- 温馨提示图 -->
-                                                        <div class="lf">
-                                                            <img src="__TMPL__/public/assets/images/example/weixin2.png" alt="">
-                                                        </div>
-                                                    </switch>
-                                                </empty>
-                                                <div class="clear"></div>
-                                            </div>
-                                        </div>
-                                        <div class="nomoney list_money" style="display:none">
-                                            <div class="top">
-                                                <img src="__TMPL__/public/assets/images/example/error.png" alt="">
-                                            </div>
-                                            <div class="bottom">
-                                                余额不足，请<a href="{:url('user/Funds/recharge')}">充值</a>后，再操作
-                                            </div>
-                                        </div>
-                                        <div class="nomoney list_money" style="display:none">
-                                            <div class="top">
-                                                <img src="__TMPL__/public/assets/images/example/duihao.png" alt="">
-                                            </div>
-                                            <div class="bottom">
-                                                <a href="{:url('user/Funds/index')}">支付成功</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
+                
+                <img src="__TMPL__/public/assets/images/weixin2.png" alt=""  class='payImg2'>
+                <img src="__TMPL__/public/assets/images/weixin1.png" alt=""  class='payImg3'>
+            </li>
+            <li>
+                <div class='pay_img'>
+                    <img src="__TMPL__/public/assets/images/zhifubao.png" alt=""  class='payImg1'>
                 </div>
-            </div>
-
-        </div>
+                
+                <img src="__TMPL__/public/assets/images/zhifubao2.png" alt=""  class='payImg2'>
+                <img src="__TMPL__/public/assets/images/zhifubao1.png" alt="" class='payImg3'>
+            </li>
+        </ul>
+     
     </div>
-</li>
+    <div class="btn_div">
+            <!-- 提交之前 -->
+            <!-- <a class="edit btn-red ">已付款</a> -->
 
-<!-- 放大镜效果 -->
-<!-- <script src="__TMPL__/public/assets/js/jquery.jqzoom.js"></script>
-<script src="__TMPL__/public/assets/js/lanrenzhijia.js"></script> -->
-<!-- end -->
-
-<script>
-$('.payment_tit .label_input input').click(function(){
-    var $t=$(this).parent().parent().index();
-    var $div=$('.payment_con>div')
-    if($(this).prop('checked')){
-        $(this).parent().parent().addClass('select').siblings().removeClass('select');
-        $div.eq($t).show().siblings().hide();
-    }
-})
-
-/*支付页面*/
-// 支付方式切换
-$(function(){
-    window.onload=function(){
-        var $pay_li=$('.pay_tab_list_item');
-        var $pay_con=$('.pay_tab_con_list_item');
-        $pay_li.click(function(){
-            var $this=$(this);
-            var $index=$this.index();
-            $pay_li.siblings('.pay_tab_list_item').hide();
-            $pay_li.show();
-            $this.addClass('select').siblings().removeClass('select')
-            $pay_con.css('display','none');
-            $pay_con.eq($index).css('display','block');
-        })
-    }
-
-    /***银行支付**/
-    // $(".pay_bank ").delegate('label',"click",function(){
-    //     var that=$(this);
-    //     var input_val=$(this).siblings('input').val();
-    //     that.parent().siblings('li').find('label').removeClass('select');
-    //     that.addClass('select');
-    // })
-})
-
-// 扫码支付 轮询
-/*$(function(){
-    function checkWxpay() {
-        $.post('{:url("funds/Pay/ajaxWxpay")}', {action:'{//$action}',order_sn:'{//$order_sn}'}, function(data) {
-            if (data) {
-                // clearInterval(pid);
-                console.log(data);
-                // $('.ewm_l').html('<p>已支付，请关闭窗口</p>');
-            }
-            //  else {
-            //     // console.log('no');
-            // }
-        });
-    }
-    var pid = setInterval(checkWxpay,1000);
-    // var pid = window.setInterval("checkWxpay()",3000);
-    // window.clearInterval(pid);
-})*/
-
-</script>
+            <!-- 提交之后 -->
+            <a class="edit btn-red mohu">已付款</a>
+            <p class='small'> 提交成功，后台开始审核订单相关信息，将以消息形式通知您结果，请耐心等待。</p>
+    </div>
+   
+</section>
