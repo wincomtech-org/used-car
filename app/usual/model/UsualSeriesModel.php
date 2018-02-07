@@ -54,12 +54,39 @@ class UsualSeriesModel extends UsualCategoryModel
 
         // 查数据
         $series = $this->alias('a')->field($field)
-            ->join($join)
-            ->where($where)
-            ->order($order)
-            ->paginate($limit);
+                ->join($join)
+                ->where($where)
+                ->order($order)
+                ->select()
+                ->toArray();
+                // ->paginate($limit);
 
-        return $series;
+        $cateTree = [];
+        $tree = new Tree();
+        // model('admin/NavMenu')->parseNavMenu4Home($series);
+        $tree->init($series);
+        $cateTree = $tree->getTreeArray($myId);
+dump($cateTree);die;
+        return $cateTree;
+    }
+
+    public function getFirstCate($selectId=0, $parentId=0, $option='全部', $condition=[])
+    {
+        $where = [];
+        $where = [
+            // 'delete_time' => 0,
+            'parent_id' => $parentId,
+            'status' => 1,
+        ];
+        if (!empty($condition)) {
+            $where = array_merge($where,$condition);
+        }
+
+        // $data = $this->all()->toArray();
+        $data = $this->field('id,name')->where($where)->select()->toArray();
+
+        $options = $this->createOptions($selectId, $option, $data);
+        return $options;
     }
 
     public function getSeries($selectId=0, $parentId=0, $level=1, $default_option=false)

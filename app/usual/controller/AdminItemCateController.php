@@ -21,14 +21,14 @@ class AdminItemCateController extends AdminBaseController
         $param = $this->request->param();//接收筛选条件
         $parent = $this->request->param('parent',0,'intval');
 
-        $categoryTree = $this->cateModel->getLists($param);
-        // dump($categoryTree);die;
+        $list = $this->cateModel->getLists($param);
+        // dump($list);die;
         $cates = model('UsualItemCate')->getFirstCate($parent);
 
         $this->assign('keyword', isset($param['keyword'])?$param['keyword']:'');
         // $this->assign('jumpext','keyword='.$keyword.'&parent='.$parent);
         $this->assign('categorys', $cates);
-        $this->assign('category_tree', $categoryTree);
+        $this->assign('list', $list);
         return $this->fetch();
     }
 
@@ -63,10 +63,18 @@ class AdminItemCateController extends AdminBaseController
             $category = UsualItemCateModel::get($id)->toArray();
             $categoriesTree      = $this->cateModel->adminCategoryTree($category['parent_id'], $id);
             $codeType           = $this->cateModel->getCodeType($category['code_type']);
+            // 被保留的字段码
+            $reserve = config('usual_car_filter_var02').','.config('usual_car_filter_var').','.config('usual_car_filter_var2');
+            $reserve = explode(',', $reserve);
+            $is_reserve = false;
+            if (in_array($category['code'],$reserve)) {
+                $is_reserve = true;
+            }
 
             $this->assign($category);
             $this->assign('categories_tree', $categoriesTree);
             $this->assign('codeType', $codeType);
+            $this->assign('is_reserve', $is_reserve);
             return $this->fetch();
         } else {
             $this->error('操作错误!');

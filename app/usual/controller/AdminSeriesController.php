@@ -32,18 +32,35 @@ class AdminSeriesController extends AdminBaseController
      */
     public function index()
     {
+        $param = $this->request->param();//接收筛选条件
+        $parent = $this->request->param('parent',0,'intval');
+
+        $categoryTree = $this->UsualModel->getLists($param);
+        // dump($categoryTree);die;
+        $cates = model('UsualItemCate')->getFirstCate($parent);
+
+        $this->assign('keyword', isset($param['keyword'])?$param['keyword']:'');
+        // $this->assign('jumpext','keyword='.$keyword.'&parent='.$parent);
+        $this->assign('categorys', $cates);
+        $this->assign('category_tree', $categoryTree);
+        return $this->fetch();
+
+
+
+
         $param = $this->request->param();
         $brandId = $this->request->param('brandId',0,'intval');
 
         $list = model('UsualSeries')->getLists($param,'',30);
-        $categoryTree = model('UsualBrand')->getBrands($brandId);
+        $brands = model('UsualBrand')->getBrands($brandId);
 
 
         $this->assign('start_time', isset($param['start_time']) ? $param['start_time'] : '');
         $this->assign('end_time', isset($param['end_time']) ? $param['end_time'] : '');
         $this->assign('keyword', isset($param['keyword']) ? $param['keyword'] : '');
 
-        $this->assign('categorys', $categoryTree);
+        $this->assign('brands', $brands);
+        $this->assign('categorys', $cates);
         $this->assign('list', $list->items());
         $list->appends($param);
         $this->assign('pager', $list->render());

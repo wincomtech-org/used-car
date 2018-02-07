@@ -29,7 +29,7 @@
 
 
 				<php>$codetype = config('usual_item_cate_codetype');</php>
-				<foreach name="category_tree" item="vo">
+				<foreach name="list" item="vo">
 				<tbody>
 				<tr>
 					<td><input name="list_orders[{$vo.id}]" type="text" size="3" value="{$vo.list_order}" class="input-order"></td>
@@ -45,7 +45,13 @@
 					</td>
 					<td><span style="color:#041DFA">{$vo.unit}</span></td>
 					<td>{$vo.description}</td>
-					<td>{$vo.is_rec?'是':'否'}</td>
+					<td>
+                        <empty name="vo.is_rec">
+                            <a style="color:#CCC" data-toggle="tooltip" title="未推荐"><i class="fa fa-thumbs-down"></i></a>
+                         <else/>
+                            <a data-toggle="tooltip" title="已推荐"><i class="fa fa-thumbs-up"></i></a>
+                        </empty>
+					</td>
 					<td>
 						<a href="{:url('AdminItemCate/edit',['id'=>$vo.id])}">编辑</a>&nbsp;&nbsp;
 						<a href="{:url('AdminItemCate/add',['parent'=>$vo.id])}">添加子分类</a> &nbsp; &nbsp;
@@ -72,7 +78,13 @@
 						</td>
 						<td><span style="color:#041DFA">{$child.unit}</span></td>
 						<td>{$child.description}</td>
-						<td>{$child.is_rec?'是':'否'}</td>
+						<td>
+                        <empty name="vo.is_rec">
+                            <a style="color:#CCC" data-toggle="tooltip" title="未推荐"><i class="fa fa-thumbs-down"></i></a>
+                         <else/>
+                            <a data-toggle="tooltip" title="已推荐"><i class="fa fa-thumbs-up"></i></a>
+                        </empty>
+						</td>
 						<td>
 							<a href="{:url('AdminItemCate/edit',['id'=>$child.id])}">编辑</a>&nbsp;&nbsp;
 							<if condition="in_array($child['code_type'],['select','radio','checkbox'])">
