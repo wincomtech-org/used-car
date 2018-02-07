@@ -236,7 +236,18 @@ js-*系列示例：  没有bootstrap就自定义样式
 <script type="text/javascript" src="__STATIC__/js/ueditor/ueditor.all.min.js"></script>
 <script type="text/javascript">
     $(function () {
-        editorcontent = new baidu.editor.ui.Editor();
+        editorcontent = new baidu.editor.ui.Editor({
+            toolbars: [['source','undo','redo','bold','italic','strikethrough','superscript','subscript','|','fontfamily','fontsize','pasteplain','forecolor','backcolor','date','time'],['simpleupload','insertimage','music','insertvideo','attachment','emotion','spechars','snapscreen','scrawl','|','wordimage','map','inserttable','charts']]
+            ,initialFrameWidth:796          //初始化编辑器宽度,默认1000
+            ,initialFrameHeight:150         //初始化编辑器高度,默认320
+            ,autoHeightEnabled:true         //自动长高
+            ,elementPathEnabled:false       //是否启用元素路径，默认是显示
+            // ,iframeCssUrl: UEDITOR_HOME_URL+'themes/iframe.css'//自定义样式,UEDITOR_HOME_URL为最开始声明的
+            ,indentValue:'2em'              //首行缩进距离
+            ,wordCount:true                 //是否开启字数统计
+            ,maximumWords:5000              //允许的最大字符数
+        });
+        // editorcontent = new baidu.editor.ui.Editor();
         editorcontent.render('content');
         try {
             editorcontent.sync();
