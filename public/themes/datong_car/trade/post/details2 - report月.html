@@ -190,8 +190,8 @@
                             <div class="img"><span></span></div>
                             <div class="txt">品牌车系</div>
                             <ul class="con">
-                                <li><span>品牌</span><i>{$page.brandname}</i></li>
-                                <li><span>车系</span><i>{$page.seriename}</i></li>
+                                <li><span>品牌</span><i>{$page.bname}</i></li>
+                                <li><span>车系</span><i>{$page.cname}</i></li>
                             </ul>
                         </li>
                         <li class="car_mess_item">
@@ -241,9 +241,9 @@
                                 <strong class="base">基本信息</strong>
                             </dt>
                             <dd>
-                                <span>厂商 </span>{$page.brandname}</dd>
+                                <span>厂商 </span>{$page.bname}</dd>
                             <dd>
-                                <span>级别 </span>{$page.modelname}</dd>
+                                <span>级别 </span>{$page.dname}</dd>
                             <dd>
                                 <span>上牌时间 </span>{$page.car_license_time?=date('Y-m-d',$page.car_license_time)}</dd>
                             <dd>

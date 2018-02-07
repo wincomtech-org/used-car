@@ -45,6 +45,7 @@
 					</td>
 					<td><span style="color:#041DFA">{$vo.unit}</span></td>
 					<td>{$vo.description}</td>
+
 					<td>
                         <empty name="vo.is_rec">
                             <a style="color:#CCC" data-toggle="tooltip" title="未推荐"><i class="fa fa-thumbs-down"></i></a>
@@ -53,8 +54,17 @@
                         </empty>
 					</td>
 					<td>
+                        <empty name="vo.status">
+                            <a style="color:#F00" data-toggle="tooltip" title="隐藏"><i class="fa fa-close"></i></a>
+                        <else/>
+                            <a data-toggle="tooltip" title="显示"><i class="fa fa-check"></i></a>
+                        </empty>
+					</td>
+					<td>
 						<a href="{:url('AdminItemCate/edit',['id'=>$vo.id])}">编辑</a>&nbsp;&nbsp;
-						<a href="{:url('AdminItemCate/add',['parent'=>$vo.id])}">添加子分类</a> &nbsp; &nbsp;
+						<empty name="vo.parent_id">
+							<a href="{:url('AdminItemCate/add',['parent'=>$vo.id])}">添加子分类</a> &nbsp; &nbsp;
+						</empty>
 					</td>
 				</tr>
 				<notempty name="vo.children">
@@ -78,17 +88,25 @@
 						</td>
 						<td><span style="color:#041DFA">{$child.unit}</span></td>
 						<td>{$child.description}</td>
+						
 						<td>
-                        <empty name="vo.is_rec">
-                            <a style="color:#CCC" data-toggle="tooltip" title="未推荐"><i class="fa fa-thumbs-down"></i></a>
-                         <else/>
-                            <a data-toggle="tooltip" title="已推荐"><i class="fa fa-thumbs-up"></i></a>
-                        </empty>
+	                        <empty name="child.is_rec">
+	                            <a style="color:#CCC" data-toggle="tooltip" title="未推荐"><i class="fa fa-thumbs-down"></i></a>
+	                         <else/>
+	                            <a data-toggle="tooltip" title="已推荐"><i class="fa fa-thumbs-up"></i></a>
+	                        </empty>
+						</td>
+						<td>
+	                        <empty name="child.status">
+	                            <a style="color:#F00" data-toggle="tooltip" title="隐藏"><i class="fa fa-close"></i></a>
+	                        <else/>
+	                            <a data-toggle="tooltip" title="显示"><i class="fa fa-check"></i></a>
+	                        </empty>
 						</td>
 						<td>
 							<a href="{:url('AdminItemCate/edit',['id'=>$child.id])}">编辑</a>&nbsp;&nbsp;
 							<if condition="in_array($child['code_type'],['select','radio','checkbox'])">
-								<a href="{:url('AdminItem/index',['cateId'=>$child.id])}">查看属性值</a>
+								<a style="color:#F00" href="{:url('AdminItem/index',['cateId'=>$child.id])}">查看属性值</a>
 							</if>
 						</td>
 					</tr>

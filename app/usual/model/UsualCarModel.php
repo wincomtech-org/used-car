@@ -85,6 +85,7 @@ class UsualCarModel extends UsualModel
     public function getListsOrgin($filter='', $field='', $order='', $limit=12)
     {
         $field = (empty($field)) ? 'a.*,b.name AS bname,c.name AS cname,d.name AS dname' : $field ;
+        
         // 售卖条件
         $where = 'WHERE a.status=1 AND a.sell_status>0';
         if (!empty($filter)) {
@@ -198,7 +199,7 @@ class UsualCarModel extends UsualModel
     // 用户车子列表
     public function getPostRelate($id,$filter=[])
     {
-        $field = 'a.*,b.name AS brandname,c.name AS seriename,d.name AS modelname,e.name cityname,f.user_nickname,f.user_login,f.user_email,f.mobile';
+        $field = 'a.*,b.name AS bname,c.name AS cname,d.name AS dname,e.name cityname,f.user_nickname,f.user_login,f.user_email,f.mobile';
 
         $join = [
             ['usual_brand b','a.brand_id=b.id','LEFT'],

@@ -14,7 +14,7 @@ class AdminSeriesController extends AdminBaseController
     {
         parent::_initialize();
         // $data = $this->request->param();
-        $this->UsualModel = new UsualSeriesModel();
+        $this->cateModel = new UsualSeriesModel();
     }
 
     /**
@@ -33,37 +33,22 @@ class AdminSeriesController extends AdminBaseController
     public function index()
     {
         $param = $this->request->param();//接收筛选条件
+        $brandId = $this->request->param('brandId',0,'intval');
         $parent = $this->request->param('parent',0,'intval');
 
-        $categoryTree = $this->UsualModel->getLists($param);
-        // dump($categoryTree);die;
-        $cates = model('UsualItemCate')->getFirstCate($parent);
-
-        $this->assign('keyword', isset($param['keyword'])?$param['keyword']:'');
-        // $this->assign('jumpext','keyword='.$keyword.'&parent='.$parent);
-        $this->assign('categorys', $cates);
-        $this->assign('category_tree', $categoryTree);
-        return $this->fetch();
-
-
-
-
-        $param = $this->request->param();
-        $brandId = $this->request->param('brandId',0,'intval');
-
-        $list = model('UsualSeries')->getLists($param,'',30);
+        $list = $this->cateModel->getLists($param,'',30);
         $brands = model('UsualBrand')->getBrands($brandId);
-
+        $cates = $this->cateModel->getFirstCate($parent);
 
         $this->assign('start_time', isset($param['start_time']) ? $param['start_time'] : '');
         $this->assign('end_time', isset($param['end_time']) ? $param['end_time'] : '');
         $this->assign('keyword', isset($param['keyword']) ? $param['keyword'] : '');
-
         $this->assign('brands', $brands);
         $this->assign('categorys', $cates);
-        $this->assign('list', $list->items());
-        $list->appends($param);
-        $this->assign('pager', $list->render());
+        $this->assign('list', $list);
+        // $this->assign('list', $list->items());
+        // $list->appends($param);
+        // $this->assign('pager', $list->render());
         return $this->fetch();
     }
 
@@ -82,11 +67,11 @@ class AdminSeriesController extends AdminBaseController
      */
     public function add()
     {
-        $parentId           = $this->request->param('parent', 0, 'intval');
-        $categoriesTree     = $this->UsualModel->adminCategoryTree($parentId);
-        $brand_id = $this->UsualModel->where('id',$parentId)->value('brand_id');
-        $brandId            = !empty($brand_id) ? $brand_id : $this->request->param('brand', 0, 'intval');
-        $BrandTree          = model('UsualBrand')->adminCategoryTree($brandId);
+        $parentId       = $this->request->param('parent', 0, 'intval');
+        $categoriesTree = $this->cateModel->adminCategoryTree($parentId);
+        $brand_id       = $this->cateModel->where('id',$parentId)->value('brand_id');
+        $brandId        = !empty($brand_id) ? $brand_id : $this->request->param('brand', 0, 'intval');
+        $BrandTree      = model('UsualBrand')->adminCategoryTree($brandId);
 
         $this->assign('categories_tree', $categoriesTree);
         $this->assign('BrandTree', $BrandTree);
@@ -115,7 +100,7 @@ class AdminSeriesController extends AdminBaseController
             $this->error($result);
         }
         $data['create_time'] = $data['update_time'] = time();
-        $result = $this->UsualModel->addCategory($data);
+        $result = $this->cateModel->addCategory($data);
         if ($result === false) {
             $this->error('添加失败!');
         }
@@ -143,7 +128,7 @@ class AdminSeriesController extends AdminBaseController
         if ($id > 0) {
             $category = UsualSeriesModel::get($id)->toArray();
 
-            $categoriesTree = $this->UsualModel->adminCategoryTree($category['parent_id'], $id);
+            $categoriesTree = $this->cateModel->adminCategoryTree($category['parent_id'], $id);
             $BrandTree = model('UsualBrand')->adminCategoryTree($category['brand_id']);
 
             $this->assign($category);
@@ -178,7 +163,7 @@ class AdminSeriesController extends AdminBaseController
             $this->error($result);
         }
         $data['update_time'] = time();
-        $result = $this->UsualModel->editCategory($data);
+        $result = $this->cateModel->editCategory($data);
         if ($result === false) {
             $this->error('保存失败!');
         }
@@ -214,10 +199,10 @@ class AdminSeriesController extends AdminBaseController
 </tr>
 tpl;
 
-        $categoryTree = $this->UsualModel->adminCategoryTableTree($selectedIds, $tpl);
+        $categoryTree = $this->cateModel->adminCategoryTableTree($selectedIds, $tpl);
 
         $where      = ['delete_time' => 0];
-        $categories = $this->UsualModel->where($where)->select();
+        $categories = $this->cateModel->where($where)->select();
 
         $this->assign('categories', $categories);
         $this->assign('selectedIds', $selectedIds);
@@ -261,12 +246,12 @@ tpl;
     {
         $id = $this->request->param('id');
         //获取删除的内容
-        $findCategory = $this->UsualModel->where('id', $id)->find();
+        $findCategory = $this->cateModel->where('id', $id)->find();
         if (empty($findCategory)) {
             $this->error('分类不存在!');
         }
 
-        $categoryChildrenCount = $this->UsualModel->where('parent_id', $id)->count();
+        $categoryChildrenCount = $this->cateModel->where('parent_id', $id)->count();
         if ($categoryChildrenCount > 0) {
             $this->error('此车系有子类无法删除，请改名!');
         }
@@ -282,7 +267,7 @@ tpl;
         //     'table_name'  => 'usual_brand',
         //     'name'        => $findCategory['name']
         // ];
-        $result = $this->UsualModel
+        $result = $this->cateModel
             ->where('id', $id)
             ->delete();
             // ->update(['delete_time' => time()]);

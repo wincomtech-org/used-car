@@ -12,7 +12,7 @@
                 {$brands|default=''}
             </select> &nbsp;&nbsp;
 	        分类:
-	        <select class="form-control" name="brandId" style="width:140px;">
+	        <select class="form-control" name="parent" style="width:140px;">
 	            {$categorys|default=''}
 	        </select> &nbsp;&nbsp;
 	        更新时间:
@@ -36,27 +36,59 @@
                 <thead>
                     <include file="admin_series/table-th" />
                 </thead>
+                <foreach name="list" item="vo">
                 <tbody>
-                    <foreach name="list" item="vo">
+                <tr>
+                    <td><input name="list_orders[{$vo.id}]" type="text" size="3" value="{$vo.list_order}" class="input-order"></td>
+                    <td>{$vo.id}</td>
+                    <td><a>{$vo.name}</a></td>
+                    <td>{$vo.bname}</td>
+                    <td>{$vo.description}</td>
+                    <td>
+                        <empty name="vo.is_rec">
+                            <a style="color:#CCC" data-toggle="tooltip" title="未推荐"><i class="fa fa-thumbs-down"></i></a>
+                         <else/>
+                            <a data-toggle="tooltip" title="已推荐"><i class="fa fa-thumbs-up"></i></a>
+                        </empty>
+                    </td>
+                    <td>
+                    	<empty name="vo.parent_id">
+                            <a href="{:url('AdminSeries/add', ['parent'=>$vo.id])}">添加子集</a>&nbsp;&nbsp;
+                        </empty>
+                        <a href="{:url('AdminSeries/edit', ['id'=>$vo.id])}">{:lang('EDIT')}</a>&nbsp;&nbsp;
+                        <a class="js-ajax-delete" href="{:url('AdminSeries/delete', ['id'=>$vo.id])}">{:lang('DELETE')}</a>
+                    </td>
+                </tr>
+                <notempty name="vo.children">
+                    <php>$count = count($vo['children']);$i=0;</php>
+                    <foreach name="vo.children" item="child">
+                    <php>$i++;</php>
                     <tr>
-                        <td><input name="list_orders[{$vo.id}]" type="text" size="3" value="{$vo.list_order}" class="input-order"></td>
-                        <td>{$vo.id}</td>
-                        <td><a>{$vo.name}</a></td>
-                        <td>{$vo.bname}</td>
-                        <td>{$vo.description}</td>
-                        <td>{$vo.is_rec?'<font color="#F00">是</font>':'否'}</td>
+                        <td><input name="list_orders[{$child.id}]" type="text" size="3" value="{$child.list_order}" class="input-order"></td>
+                        <td>{$child.id}</td>
                         <td>
-                        	<empty name="vo.parent_id">
-                            <a href="{:url('AdminSeries/add', ['parent'=>$vo['id']])}">添加子分类</a>&nbsp;&nbsp;
-                            <else/>
-                            {:str_repeat('&nbsp;',24)}
+                            {$i==$count?'&nbsp;&nbsp;└─':'&nbsp;&nbsp;├─'}
+                            {$child.name}
+                        </td>
+                        <td>{$child.bname}</td>
+                        <td>{$child.description}</td>
+                        <td>
+                            <empty name="child.is_rec">
+                                <a style="color:#CCC" data-toggle="tooltip" title="未推荐"><i class="fa fa-thumbs-down"></i></a>
+                             <else/>
+                                <a data-toggle="tooltip" title="已推荐"><i class="fa fa-thumbs-up"></i></a>
                             </empty>
-                            <a href="{:url('AdminSeries/edit', ['id'=>$vo['id']])}">{:lang('EDIT')}</a>&nbsp;&nbsp;
-                            <a class="js-ajax-delete" href="{:url('AdminSeries/delete', ['id'=>$vo['id']])}">{:lang('DELETE')}</a>
+                        </td>
+                        <td>
+                            {:str_repeat('&nbsp;',20)}
+                            <a href="{:url('AdminSeries/edit', ['id'=>$child.id])}">{:lang('EDIT')}</a>&nbsp;&nbsp;
+                            <a class="js-ajax-delete" href="{:url('AdminSeries/delete', ['id'=>$child.id])}">{:lang('DELETE')}</a>
                         </td>
                     </tr>
                     </foreach>
+                </notempty>
                 </tbody>
+                </foreach>
                 <tfoot>
                     <include file="admin_series/table-th" />
                 </tfoot>

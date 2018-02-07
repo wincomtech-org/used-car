@@ -31,7 +31,7 @@
                         <notempty name="vo.form_element">
                             <foreach name="vo.form_element" item="it">
                                 <label>
-                                    <input type="radio" {$biz_compare==$it.id?'checked':''} name="post[more][{$vo.code}]" value="{$it.id}"> 
+                                    <input type="radio" {$biz_compare==$it.id?'checked':''}{$biz_compare?'':'checked'} name="post[more][{$vo.code}]" value="{$it.id}"> 
                                     {$it.description?$it.description:$it.name.$vo.unit} &nbsp; &nbsp;
                                 </label>
                             </foreach>

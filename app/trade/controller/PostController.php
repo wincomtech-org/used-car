@@ -98,27 +98,28 @@ class PostController extends HomeBaseController
             $allItemsThead = $allItems = $tbody2 = [];
             if (!empty($skuList)) {
                 foreach ($skuList as $v1) {
-                    $tbody0 = [[
-                        'child' => [
-                            'name' => $v1['name'],
-                            'price'=> $v1['shop_price'],
-                        ],
-                    ]];
-                    $tbody1 = [[
-                        'child' => [
-                            ['is_rec'=>1,'sketch'=>$v1['shop_price']],
-                            ['is_rec'=>0,'sketch'=>$v1['market_price']],
-                            ['is_rec'=>1,'sketch'=>$v1['bname'].$v1['cname']],
-                            ['is_rec'=>0,'sketch'=>$v1['dname']],
-                            ['is_rec'=>0,'sketch'=>date('Y-m-d',$v1['issue_time'])],
-                            ['is_rec'=>0,'sketch'=>$v1['car_displacement']],
-                            ['is_rec'=>0,'sketch'=>$v1['car_seating']],
-                        ],
-                    ]];
-                    $carMore = json_decode($v1['more'],true);
-                    $tbody2 = $itModel->getItemShow($carMore,config('usual_car_filter_var02'));
-                    $allItems[$v1['id']] = array_merge($tbody0,$tbody1,$tbody2);
+                    // $omg = $this->omg($v1,&$tbody2);
+                    $omg = $this->omg($v1);
+                    $tbody2 = $omg['tbody2'];
+                    $allItems[$v1['id']] = $omg['allItems'];
                 }
+                $allItemsThead = array_merge([[
+                    'name' => '基本信息',
+                    'child' => [
+                        ['name'=>'售价'],
+                        ['name'=>'市场价'],
+                        ['name'=>'厂商'],
+                        ['name'=>'级别'],
+                        ['name'=>'上市时间'],
+                        ['name'=>'排量'],
+                        ['name'=>'座位数'],
+                    ],
+                ]],$tbody2);
+            }
+            if (empty($allItems)) {
+                $omg = $this->omg($car);
+                $tbody2 = $omg['tbody2'];
+                $allItems[$car['id']] = $omg['allItems'];
                 $allItemsThead = array_merge([[
                     'name' => '基本信息',
                     'child' => [
@@ -134,12 +135,6 @@ class PostController extends HomeBaseController
             }
 
             /*模板赋值*/
-            // item 处理
-            // $this->assign('car_seating',$car_seating);
-            // $this->assign('car_gearbox',$car_gearbox);
-            // $this->assign('car_fuel',$car_fuel);
-            // $this->assign('car_color',$car_color);
-            // $this->assign('car_structure',$car_structure);
             // 筛选数据集
             $this->assign('issueTime',$issueTime);
             $this->assign('moreTree',$moreTree);
@@ -172,6 +167,34 @@ class PostController extends HomeBaseController
 
         return $this->fetch('details'.$plat);
     }
+
+    public function omg($omg)
+    {
+        $itModel = new UsualItemModel();
+        $tbody0 = [[
+            'child' => [
+                'name' => $omg['name'],
+                'price'=> $omg['shop_price'],
+            ],
+        ]];
+        $tbody1 = [[
+            'child' => [
+                ['is_rec'=>1,'sketch'=>$omg['shop_price']],
+                ['is_rec'=>0,'sketch'=>$omg['market_price']],
+                ['is_rec'=>1,'sketch'=>$omg['bname'].$omg['cname']],
+                ['is_rec'=>0,'sketch'=>$omg['dname']],
+                ['is_rec'=>0,'sketch'=>date('Y-m-d',$omg['issue_time'])],
+                ['is_rec'=>0,'sketch'=>$omg['car_displacement']],
+                ['is_rec'=>0,'sketch'=>$omg['car_seating']],
+            ],
+        ]];
+        $carMore = is_string($omg['more']) ? json_decode($omg['more'],true) : $omg['more'] ;
+        $tbody2 = $itModel->getItemShow($carMore,config('usual_car_filter_var02'));
+        $allItems = array_merge($tbody0,$tbody1,$tbody2);
+
+        return ['tbody2'=>$tbody2,'allItems'=>$allItems];
+    }
+
     // 新车款式对比
     public function ajaxPlat1()
     {
@@ -255,6 +278,8 @@ class PostController extends HomeBaseController
         echo json_encode($sk);exit;
         return 'return ajaxPlat1';
     }
+
+
 
     /*
     * 预约看车

@@ -71,21 +71,21 @@
 </div> -->
 
 <php>
-    $is_rec = isset($is_rec)?$is_rec:null;
-    $status = isset($status)?$status:null;
+    $is_rec = isset($is_rec)?$is_rec:0;
+    $status = isset($status)?$status:1;
 </php>
 <div class="form-group">
     <label for="input-code_type">是否放到推荐处</label>
     <div>
         <label><input type="radio" name="is_rec" value="1" {$is_rec==1?='checked'}> 是 &nbsp; &nbsp;</label>
-        <label><input type="radio" name="is_rec" value="0" {$is_rec===0?='checked'}> 否</label>
+        <label><input type="radio" name="is_rec" value="0" {$is_rec==0?='checked'}> 否</label>
     </div>
 </div>
 <div class="form-group">
     <label for="input-code_type">状态</label>
     <div>
         <label><input type="radio" name="status" value="1" {$status==1?='checked'}> 显示 &nbsp; &nbsp;</label>
-        <label><input type="radio" name="status" value="0" {$status===0?='checked'}> 隐藏</label>
+        <label><input type="radio" name="status" value="0" {$status==0?='checked'}> 隐藏</label>
     </div>
 </div>
 

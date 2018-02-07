@@ -8,7 +8,7 @@ class UsualItemCateModel extends UsualCategoryModel
 {
     public function getLists($filter=[], $order='', $limit='',$extra=[])
     {
-        $field = 'id,parent_id,path,name,unit,code,code_type,description,is_rec,list_order';
+        $field = 'id,parent_id,path,name,unit,code,code_type,description,is_rec,status,list_order';
 
         // 筛选条件
         $where = [];
@@ -17,10 +17,10 @@ class UsualItemCateModel extends UsualCategoryModel
         if (!empty($keyword)) {
             $where['a.name'] = ['like', "%$keyword%"];
         }
+        // 更多
         if (!empty($extra)) {
             $where = array_merge($where,$extra);
         }
-        // 更多
         $myId = isset($filter['parent']) ? intval($filter['parent']) : 0;
 
         // 排序

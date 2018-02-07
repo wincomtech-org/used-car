@@ -108,7 +108,7 @@ class AjaxController extends BaseController
             $option = $this->request->param('option',false);
 
             $serieModel = new UsualSeriesModel();
-            $series = $serieModel->SeriesTree($brandId,false);
+            $series = $serieModel->SeriesTree($brandId,'top');
 
             if ($option=='false' || $option===false) {
                 echo json_encode($series);exit();

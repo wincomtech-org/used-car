@@ -13,11 +13,17 @@ class UsualSeriesModel extends UsualCategoryModel
         $join = [['usual_brand b','a.brand_id=b.id','LEFT']];
 
         // 筛选条件
-        $where = ['a.delete_time' => 0];
-        if (!empty($extra)) {
-            $where = array_merge($where,$extra);
+        $where = [];
+        // $where = ['a.delete_time' => 0];
+
+        // 品牌
+        if (!empty($filter['brandId'])) {
+            $where['a.brand_id'] = $filter['brandId'];
         }
-        // 更多
+        // 上级车系
+        // if (!empty($filter['parent'])) {
+        //     $where['a.parent_id'] = $filter['parent'];
+        // }
 
         // 后台
         $startTime = empty($filter['start_time']) ? 0 : strtotime($filter['start_time']);
@@ -42,9 +48,11 @@ class UsualSeriesModel extends UsualCategoryModel
                 $where['a.name'] = ['like', "%$keyword%"];
             }
         }
-        if (!empty($filter['brandId'])) {
-            $where['a.brand_id'] = $filter['brandId'];
+        // 更多
+        if (!empty($extra)) {
+            $where = array_merge($where,$extra);
         }
+        $myId = isset($filter['parent']) ? intval($filter['parent']) : 0;
 
         // 排序
         $order = empty($order) ? 'a.list_order,a.brand_id' : $order;
@@ -66,17 +74,16 @@ class UsualSeriesModel extends UsualCategoryModel
         // model('admin/NavMenu')->parseNavMenu4Home($series);
         $tree->init($series);
         $cateTree = $tree->getTreeArray($myId);
-dump($cateTree);die;
+
         return $cateTree;
     }
 
     public function getFirstCate($selectId=0, $parentId=0, $option='全部', $condition=[])
     {
-        $where = [];
         $where = [
             // 'delete_time' => 0,
             'parent_id' => $parentId,
-            'status' => 1,
+            // 'status' => 1,
         ];
         if (!empty($condition)) {
             $where = array_merge($where,$condition);
@@ -167,9 +174,11 @@ dump($cateTree);die;
         if (!empty($brandId)) {
             $where = ['brand_id'=>$brandId];
         }
-        if (empty($recursive)) {
+        if ($recursive===false) {
             $where = array_merge($where,['parent_id'=>['neq',0]]);
             // $where = array_merge($where,['parent_id'=>['gt',0]]);
+        } elseif ($recursive=='top') {
+            $where = array_merge($where,['parent_id'=>['eq',0]]);
         }
         $data = $this->field('id,parent_id,name')
                 ->where($where)
@@ -177,13 +186,12 @@ dump($cateTree);die;
                 ->select()
                 ->toArray();
 
-        if ($recursive) {
+        if ($recursive===true) {
             $ufoTree = [];
             $tree = new Tree();
             // model('admin/NavMenu')->parseNavMenu4Home($data);
             $tree->init($data);
             $ufoTree = $tree->getTreeArray(0);
-
             return $ufoTree;
         }
 

@@ -146,7 +146,7 @@ $('.page_turning .next').click(function(){
 <script type="text/javascript" src="__STATIC__/js/ueditor/ueditor.all.min.js"></script>
 <script type="text/javascript">
     $(function () {
-        editorcontent = new baidu.editor.ui.Editor();
+        editorcontent = new baidu.editor.ui.Editor({toolbars: [['source','undo','redo','bold','italic','strikethrough','superscript','subscript','|','fontfamily','fontsize','pasteplain','forecolor','backcolor','date','time'],['simpleupload','insertimage','music','insertvideo','attachment','emotion','spechars','snapscreen','scrawl','|','wordimage','map','inserttable','charts']]});
         editorcontent.render('content');
         try {
             editorcontent.sync();
