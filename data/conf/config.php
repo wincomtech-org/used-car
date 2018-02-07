@@ -70,7 +70,7 @@ return [
     3 => '分期购',
   ],
   'usual_car_filter_var01' => 'car_displacement,car_seating',
-  'usual_car_filter_var02' => 'car_age,car_mileage,car_displacement,car_seating',
+  'usual_car_filter_var02' => 'car_mileage,car_displacement,car_seating',
   'usual_car_filter_var' => 'car_gearbox,car_effluent,car_fuel,car_color',
   'usual_car_filter_var2' => 'car_structure',
   'usual_car_sell_status' => 

@@ -88,6 +88,13 @@ class AdminItemCateController extends AdminBaseController
         if ($result !== true) {
             $this->error($result);
         }
+        $id = $data['id'];
+        $code_type = Db::name('usual_item_cate')->where('id',$id)->value('code_type');
+        $findItem = Db::name('usual_item')->where('cate_id',$id)->count();
+        if (($code_type!=$data['code_type']) && ($findItem>0)) {
+            $this->error('若您改成文本类型，发现现有的下面有属性值设置，请前往删除 >>',url('AdminItem/index',['cateId'=>$id]),'',6);
+        }
+
         // 提交结果
         // unset($data['code']);
         $result = $this->cateModel->editCategory($data);

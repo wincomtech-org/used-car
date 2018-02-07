@@ -11,13 +11,13 @@
 <div class="form-group">
     <label for="input-name"><span class="form-required">*</span>分类名称</label>
     <div>
-        <input type="text" class="form-control" id="input-name" name="name" value="{$name|default=''}">
+        <input class="form-control" id="input-name" {$is_reserve?='disabled'} type="text" name="name" value="{$name|default=''}">
     </div>
 </div>
 <div class="form-group">
     <label for="input-unit">计量单位</label>
     <div>
-        <input type="text" class="form-control" id="input-unit" name="unit" value="{$unit|default=''}">
+        <input class="form-control" id="input-unit" type="text" name="unit" value="{$unit|default=''}">
         <p class="help-block">示范：升</p>
     </div>
 </div>
@@ -25,7 +25,7 @@
 <div class="form-group">
     <label for="input-code"><span class="form-required">*</span>字段码</label>
     <div>
-        <input type="text" class="form-control" id="input-code" {$code?='readonly'} name="code" value="{$code|default=''}">
+        <input class="form-control" id="input-code" {$code?='readonly'}{$is_reserve?=' disabled'} type="text" name="code" value="{$code|default=''}">
         <p class="help-block">不可修改；遵循数据库设计字段码。二级字段码 建议 以 <span class="form-required">car_</span> 开头。</p>
     </div>
 </div>
@@ -41,7 +41,7 @@
 <div class="form-group">
     <label for="input-description">描述</label>
     <div>
-        <textarea class="form-control" name="description" id="input-description">{$description|default=''}</textarea>
+        <textarea class="form-control" id="input-description" name="description">{$description|default=''}</textarea>
     </div>
 </div>
 

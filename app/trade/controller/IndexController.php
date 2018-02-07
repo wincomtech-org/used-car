@@ -96,7 +96,6 @@ class IndexController extends HomeBaseController
         $modelId = $this->request->param('modelId');
         $priceId = $this->request->param('priceId');
         // 普通级 optimize => name
-        $car_age = $this->request->param('car_age/s','','strval');
         $car_mileage = $this->request->param('car_mileage/s','','strval');
         $car_displacement = $this->request->param('car_displacement/s','','strval');
         $car_seating = $this->request->param('car_seating/d',0,'intval');
@@ -105,6 +104,8 @@ class IndexController extends HomeBaseController
         $car_effluent = $this->request->param('car_effluent/d',0,'intval');
         $car_fuel = $this->request->param('car_fuel/d',0,'intval');
         $car_color = $this->request->param('car_color/d',0,'intval');
+        // 以下二手车
+        $ageId = $this->request->param('ageId/s','','strval');
         // $car_structure = $this->request->param('car_structure/d',0,'intval');
 
         // 处理全站搜索 关键词
@@ -154,6 +155,10 @@ class IndexController extends HomeBaseController
         // 价格
         if (!empty($priceId)) {
             $extra['a.shop_price'] = $this->operatorSwitch($priceId,true);
+        }
+        // 车龄
+        if (!empty($ageId)) {
+            $extra['a.car_age'] = $this->operatorSwitch($ageId,true);
         }
         // 处理格式参
         $oxnum = empty($oxnum) ? $placeholder : $oxnum;
@@ -242,6 +247,7 @@ class IndexController extends HomeBaseController
         // $Provinces = model('admin/District')->getDistricts(0,1);
         // $Prices = model('usual/UsualItem')->getItems(0,21,false);
         $Prices = ['0~3'=>'3万以下','3~5'=>'3-5万','5~8'=>'5-8万','8~10'=>'8-10万','10~15'=>'10-15万','15~20'=>'15-20万','20~30'=>'20-30万','30~50'=>'30-50万','>50'=>'50万以上'];
+        $ages = ['0~1'=>'1年以内','0~3'=>'3年以内','0~5'=>'5年以内','>5'=>'5年以上'];
 
 
         /*URL 参数*/
@@ -288,7 +294,6 @@ class IndexController extends HomeBaseController
         $this->assign('priceId',$priceId);
         $this->assign('Prices',$Prices);
         // 以下为 item 处理
-        $this->assign('car_age',$car_age);
         $this->assign('car_mileage',$car_mileage);
         $this->assign('car_displacement',$car_displacement);
         $this->assign('car_seating',$car_seating);
@@ -298,6 +303,10 @@ class IndexController extends HomeBaseController
         $this->assign('car_color',$car_color);
         // $this->assign('car_structure',$car_structure);
         $this->assign('moreTree',$moreTree);
+        // 二手车
+        // $this->assign('car_age',$car_age);
+        $this->assign('ageId',$ageId);
+        $this->assign('ages',$ages);
 
         // 数据分页
         $this->assign('carlist', $carlist->items());// 获取查询数据并赋到模板

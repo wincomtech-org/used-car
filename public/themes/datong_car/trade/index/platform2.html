@@ -75,7 +75,6 @@
                                 <a href="{:url('trade/Index/platform', $jumpext.'&priceId='.$key)}#AAA">{$vo}</a>
                             </li>
                             </foreach>
-                                <!-- <a href="">{//$vo.description ?? $vo.name}</a> -->
                         </ul>
                         <div class="more">
                             全部<span class="icon"> < </span>
@@ -97,6 +96,16 @@
                             </ul>
                         </div>
                         <!-- 普通级 optimize -->
+                        <div class="vehiTrad_tit_item_other_list">
+                            <p>车龄</p>
+                            <ul style="display:none;">
+                                <foreach name="ages" item="vo" key="key">
+                                <li {$ageId===$key?='class="active"'}>
+                                    <a href="{:url('trade/Index/platform', $jumpext.'&ageId='.$key)}#AAA">{$vo}</a>
+                                </li>
+                                </foreach>
+                            </ul>
+                        </div>
 
                         <!-- 以下针对item -->
                         <foreach name="moreTree" item="vo">
