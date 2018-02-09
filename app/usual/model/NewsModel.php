@@ -91,6 +91,7 @@ class NewsModel extends Model
         return $data;
     }
 
+    // 统计
     public function newsCounts($status='')
     {
         if (empty($status)) {
@@ -111,7 +112,116 @@ class NewsModel extends Model
         return $count;
     }
 
-    // 选择框
+    /**
+     * [newsObject 获取消息数组、组装] [参看 PayModel.php]
+     * @param  string $obj [对象类型] 
+     * [seecar:seeCar,openshop:deposit,recharge:recharge,insurance:insurStep6,] 
+     * [insurance:insurStep2,regCar:regCar,service:service,withdraw:withdraw] 
+     * [register:doRegister]
+     * @param  string $oid [订单ID] 
+     * @return [array]      [返回数据集] 
+     * $status = lothar_put_news($log);
+     * config('news_adminurl');
+     */
+    public function newsObject($obj='', $oid='', $uid='',$extra=[])
+    {
+        //动态数据应该尽量都是从外部传进来
+        $uid = empty($uid) ? cmf_get_current_user_id() : $uid;
+
+        $log = [];
+        // 下面是用于支付的
+        switch ($obj) {
+            case 'seeCar': 
+                $log = [
+                    'title'     => '预约看车',
+                    'object'    => 'trade_order:'. $oid,
+                    'content'   => '用户ID：'.$uid,
+                    'adminurl'  => 1,
+                    'app'       => 'trade',
+                ];
+                break;
+            case 'deposit': 
+                $log = [
+                    'title'     => '开店申请',
+                    'object'    => 'funds_apply:'. $oid,
+                    'content'   => '用户ID：'.$uid,
+                    // 'content'   => '客户ID：'.$userId .'，支付方式：'.config('payment')[$paytype],
+                    'adminurl'  => 8,
+                    'app'       => 'trade',
+                ];
+                break;
+            case 'recharge':  //user_funds_log
+                $log = [
+                    'title'     => '用户充值',
+                    'object'    => 'funds_apply:'. $oid,
+                    'content'   => '用户ID：'.$uid,
+                    'adminurl'  => 9,
+                    'app'       => 'funds',
+                ];
+                break;
+            case 'insurStep6': // v2中已弃用
+                $log = [
+                    'title'     => '预约保险',
+                    'object'    => 'insurance_order:'. $oid,
+                    'content'   => '保单ID：'.$oid.'，客户ID：'.$uid,
+                    'adminurl'  => 2,
+                    'app'       => 'insurance',
+                ];
+                break;
+            case 'insurStep2': 
+                $log = [
+                    'title'     => '保险订单',
+                    'object'    => 'insurance_order:'. $oid,
+                    'content'   => '保单ID：'.$oid.'，客户ID：'.$uid,
+                    'adminurl'  => 2,
+                    'app'       => 'insurance',
+                ];
+                break;
+            // 下面是不用付钱的
+            case 'regCar': 
+                $log = [
+                    'title'     => '免费登记卖车信息',
+                    'object'    => 'usual_car:'. $oid,
+                    'content'   => '车子ID：'.$oid.'，客户ID：'.$uid,
+                    'adminurl'  => 1,
+                    'app'       => 'trade',
+                ];
+                break;
+            case 'service': 
+                $log = [
+                    'title'     => '预约车辆服务：'. $extra['name'],
+                    'object'    => 'service:'. $oid,
+                    'content'   => '服务点ID：'.$extra['service_point'].'，客户ID：'.$uid,
+                    'adminurl'  => 3,
+                    'app'       => 'service',
+                ];
+                break;
+            case 'withdraw':
+                $log = [
+                    'title'     => '提现申请',
+                    'object'    => 'funds_apply:'.$oid,
+                    'adminurl'  => 5,
+                    'app'       => 'funds',
+                ];
+                break;
+            case 'register':
+                $log = [
+                    'title'     => '用户注册：'. $extra['username'],
+                    'object'    => 'user:'. $uid,
+                    'content'   => '用户ID：'. $uid,
+                    'adminurl'  => 4,
+                    'app'       => 'register',
+                ];
+                break;
+        }
+
+        $log['user_id'] = $uid;
+        $log['action'] = $obj;
+
+        return $log;
+    }
+
+    // 获取筛选下拉框
     public function cateOptions($selectId=null, $option='请选择')
     {
         $data = $this->distinct(true)->field('app')->select()->toArray();
@@ -120,8 +230,8 @@ class NewsModel extends Model
             'insurance' => '保险模块',
             'service'   => '车辆业务',
             'register'  => '注册',
-            'user'  => '用户中心',
-            'funds'  => '资金管理',
+            'user'      => '用户中心',
+            'funds'     => '资金管理',
         ];
 
         if ($option===false) {

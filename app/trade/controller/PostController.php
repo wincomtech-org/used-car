@@ -221,7 +221,7 @@ class PostController extends HomeBaseController
 
         /*筛选机制*/
         // 初始化
-        $filter = 'a.parent_id='.$parent_id;
+        $filter = '(a.parent_id='.$parent_id .' OR a.id='.$parent_id.')';
         $jumpext = '';
         $carModel = new UsualCarModel();
 
@@ -312,7 +312,7 @@ class PostController extends HomeBaseController
             // 获取车辆表数据
             $where['a.id'] = $id;
             $carInfo = Db::name('usual_car')->alias('a')
-                     ->join('user b','a.user_id=b.id')
+                     ->join('user b','a.user_id=b.id','LEFT')
                      ->field('a.user_id,a.name,a.bargain_money,a.price,a.car_license_time,a.car_mileage,a.car_displacement,b.user_nickname,b.user_login,b.user_email,b.mobile')
                      ->where($where)->find();
             if (empty($carInfo)) {
@@ -335,6 +335,7 @@ class PostController extends HomeBaseController
                 // 'ip'                => '',
             ];
             $orderId = Db::name('trade_order')->insertGetId($post);
+            // lothar_put_news();
         }
 
         // 判断是否为手机端、微信端
@@ -348,7 +349,8 @@ class PostController extends HomeBaseController
 
         $this->assign('carInfo',$carInfo);
         $this->assign('orderId',$orderId);
-        $this->assign('formurl',url('Post/seeCarPost'));
+        // $this->assign('formurl',url('Post/seeCarPost'));
+        $this->assign('paysign','seeCar');
         return $this->fetch();
     }
     // 提交预约看车 paytype,action,order_sn,coin
@@ -418,6 +420,7 @@ class PostController extends HomeBaseController
                 // 'ip'        => '',
             ];
             $orderId = Db::name('funds_apply')->insertGetId($post);
+            // lothar_put_news();
         }
 
         // 判断是否为手机端、微信端
@@ -431,7 +434,8 @@ class PostController extends HomeBaseController
 
         $this->assign('deposit',$coin);
         $this->assign('orderId',$orderId);
-        $this->assign('formurl',url('Post/depositPost'));
+        // $this->assign('formurl',url('Post/depositPost'));
+        $this->assign('paysign','deposit');
         return $this->fetch();
     }
     // 提交开店押金 paytype,action,coin
@@ -522,31 +526,26 @@ class PostController extends HomeBaseController
         }
 
         // 提交
+        $transStatus = true;
         Db::startTrans();
-        $sta = false;
         try{
             // $id = Db::name('usual_car')->insertGetId($post);
             // identi 需要被序列化，用模型处理
             $result = model('usual/UsualCar')->adminAddArticle($post);
             $id = $result->id;
-            $data = [
-                'title'     => '免费登记卖车信息',
-                'user_id'   => $userInfo['id'],
-                'object'    => 'usual_car:'.$id,
-                'content'   => '客户ID：'.$userInfo['id'].'，车子ID：'.$id,
-                'adminurl'  => 1,
-            ];
-            lothar_put_news($data);
+
+            $log = model('usual/News')->newsObject('regCar',$id,$userInfo['id']);
+            lothar_put_news($log);
             // session('deposit_'.$userInfo['id'], null);
-            $sta = true;
             // 提交事务
             Db::commit();
         } catch (\Exception $e) {
             // 回滚事务
             Db::rollback();
+            $transStatus = false;
         }
 
-        if ($sta===true) {
+        if ($transStatus===true) {
             $result = lothar_toJson(1, '提交成功', url('user/Seller/car'), ['id'=>$id]);
         } else {
             $result = lothar_toJson(0,'提交失败');

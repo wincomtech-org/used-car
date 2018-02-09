@@ -109,15 +109,9 @@ class RegisterController extends HomeBaseController
             switch ($log) {
                 case 0:
                     $userId = cmf_get_current_user_id();
-                    $data = [
-                        'title'     => '用户注册：'. $data['username'],
-                        'user_id'   => $userId,
-                        'object'    => 'user:'. $userId,
-                        'app'       => 'register',
-                        'content'   => '客户ID：'. $userId,
-                        'adminurl'  => 6,
-                    ];
-                    $result = lothar_put_news($data);
+                    $extra['username'] = $data['username'];
+                    $log = model('usual/News')->newsObject('register',$id,$userId,$extra);
+                    $result = lothar_put_news($log);
                     if ($result) {
                         $this->success('注册成功', $redirect);
                     } else {

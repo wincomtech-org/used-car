@@ -109,13 +109,14 @@ class FundsApplyModel extends UsualModel
             // identi 需要被序列化，用模型处理
             // $result = model('usual/UsualCar')->adminAddArticle($post);
             // $id = $result->id;
-            // $data = [
+            // $log = [
             //     'title' => '预约保险',
             //     'object'=> 'insurance_order:'.$id,
             //     'content'=>'客户ID：'.$userInfo['id'].'，保单ID：'.$id,
             //     'adminurl'=>5,
             // ];
-            // lothar_put_news($data);
+            // $log = model('usual/News')->newsObject('wdCancel', $id, $userInfo['id']);
+            // lothar_put_news($log);
             // 提交事务
             Db::commit();
         } catch (\Exception $e) {

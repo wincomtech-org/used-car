@@ -197,6 +197,7 @@ return [
     6 => 'funds/AdminRecharge/addTicket',
     7 => 'usual/AdminVerify/index',
     8 => 'funds/AdminOpenshop/index',
+    9 => 'funds/AdminRecharge/add',
   ],
   'trade_report_status' => 
   [

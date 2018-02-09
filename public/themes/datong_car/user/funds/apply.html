@@ -71,7 +71,7 @@
                                                     </eq>
                                                     <eq name="vo.type" value="withdraw">
                                                         <eq name="vo.status" value="0,-1">
-                                                            <a href="{:url('user/Funds/withdrawCancel',['id'=>$vo.id])}" class="js-ajax-dialog-btn" data-msg="确定取消吗？">取消</a>
+                                                            <a style="display : none;" href="{:url('user/Funds/withdrawCancel',['id'=>$vo.id])}" class="js-ajax-dialog-btn" data-msg="确定取消吗？">取消</a>
                                                         </eq>
                                                         <a href="{:url('user/Funds/withdrawView',['id'=>$vo.id])}">查看</a>
                                                     </eq>

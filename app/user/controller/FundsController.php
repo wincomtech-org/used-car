@@ -88,15 +88,33 @@ class FundsController extends UserBaseController
     */
     public function recharge()
     {
+        // 微信扫码支付
         // echo urlencode('weixin://wxpay/bizpayurl?pr=CtSJGVk');die;
-        $amount = $this->request->param('amount');
-        if (!empty($amount)) {
-            $id = Db::name('funds_apply')->max('id');
-            import('payment/wxpaynative/WorkPlugin',EXTEND_PATH);
-            $work = new \WorkPlugin(cmf_get_order_sn('recharge_'), $amount, $id+1, 'recharge');
-            $qrcode = $work->work();
-            echo $qrcode;exit;
-        }
+        // $amount = $this->request->param('amount',null);
+        // if (!empty($amount)) {
+        //     $id = Db::name('funds_apply')->max('id');
+        //     import('payment/wxpaynative/WorkPlugin',EXTEND_PATH);
+        //     $work = new \WorkPlugin(cmf_get_order_sn('recharge_'), $amount, $id+1, 'recharge');
+        //     $qrcode = $work->work();
+        //     echo $qrcode;exit;
+        // }
+
+        /*v2 S*/
+        // 查询充值单？直接后台管理员给用户充值
+        // $post = [
+        //     'type'      => 'recharge',
+        //     'user_id'   => $user['id'],
+        //     'order_sn'  => $data['out_trade_no'],
+        //     'coin'      => $total_fee,
+        //     'payment'   => $paytype,
+        //     'create_time' => time(),
+        //     'status'    => $status,
+        // ];
+        // $orderId = Db::name('funds_apply')->insertGetId($post);
+
+        $this->assign('paysign','recharge');
+        $this->assign('orderId','null');
+        /*v2 E*/
 
         return $this->fetch();
     }
@@ -196,13 +214,9 @@ class FundsController extends UserBaseController
             // Db::name('funds_apply')->insert($post);
             $result = Db::name('funds_apply')->insertGetId($post);
             // lothar_put_funds_log($this->user['id'], 9, -$post['coin'], $remain);
-            $data = [
-                'title'     => '提现申请',
-                'user_id'   => $this->user['id'],
-                'object'    => 'funds_apply:'.$result,
-                'adminurl'  => 5,
-            ];
-            lothar_put_news($data);
+
+            $log = model('usual/News')->newsObject('withdraw', $result, $this->user['id']);
+            lothar_put_news($log);
             // 提交事务
             Db::commit();
         } catch (\Exception $e) {
