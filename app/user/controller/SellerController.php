@@ -332,6 +332,7 @@ dump($carModel->id);die;
             //     'content'   => '客户ID：'.$userId,
             //     'adminurl'  => 7,
             // ];
+            // $log = model('usual/News')->newsObject('audit', $vid, $userId);
             // lothar_put_news($log);
             Db::commit();
         } catch (\Exception $e) {

@@ -31,7 +31,7 @@ class BuyerController extends TradeController
         return $this->fetch();
     }
 
-    // 支付 剩余金额 product_amount ，总价order_amount，预约价bargain_money
+    // 二次支付 剩余金额 product_amount ，总价order_amount，预约价bargain_money
     public function pay()
     {
         $this->error('暂未开放……');

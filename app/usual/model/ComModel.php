@@ -58,7 +58,7 @@ class ComModel extends Model
     // 处理用户名 user_nickname|user_login|user_email|mobile
     public function getUsername($data=[])
     {
-        $username = empty($data['user_nickname']) ? (empty($data['user_login']) ? (empty($data['mobile']) ? $data['user_email'] : $data['mobile']) : $data['user_login']) : $data['user_nickname'];
+        $username = empty($data['user_nickname']) ? (empty($data['user_login']) ? (empty($data['mobile']) ? (empty($data['user_email'])?'未知':$data['user_email']) : $data['mobile']) : $data['user_login']) : $data['user_nickname'];
         return $username;
     }
     // 获取用户ID

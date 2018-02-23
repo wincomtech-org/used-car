@@ -6,6 +6,7 @@ use cmf\controller\HomeBaseController;
 use app\funds\model\PayModel;
 use think\Db;
 // use payment\alipay\WorkPlugin;
+use think\helper\Time;
 
 /**
 * 支付中心
@@ -32,6 +33,49 @@ class PayController extends HomeBaseController
         $action = $this->request->param('action');
         return "支付中心 - 支付类型：".$type.'，应用模块：'.$action.'。（接口预留）';
         return $this->fetch();
+    }
+
+    /**
+     * [temp description]
+     * @param paysign 支付模块标识
+     * @param paytype 支付方式
+     * @param orderId 订单ID
+     * @param status 状态
+     * @return [type] [description]
+     * config('news_adminurl');
+     */
+    public function temp()
+    {
+        // $data = $_REQUEST;
+        $data = $this->request->param();
+        $paysign = $this->request->param('paysign');
+        $orderId = $this->request->param('orderId');
+        $userId = cmf_get_current_user_id();
+
+        if (empty($paysign) || empty($orderId)) {
+            echo "illegal";exit();
+        }
+
+        // 查重？
+        if ($paysign=='recharge') {
+            $time = Time::today();
+            $where['create_time'] = [['>= time', $time[0]], ['<= time', $time[1]]];
+            $where2['user_id'] = $userId;
+            $where2['action'] = $paysign;
+            $find = Db::name('news')->where($where)->where($where2)->count();
+            if ($find>0) {
+                echo "exist";exit();
+            }
+        }
+
+        $log = model('usual/News')->newsObject($paysign,$orderId);
+        $status = lothar_put_news($log);
+
+        if (empty($status)) {
+            echo 'error';exit();
+        }
+        echo $status;exit();
+        // return $status;
     }
 
     /*

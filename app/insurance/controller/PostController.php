@@ -9,7 +9,7 @@ use think\Db;
 
 class PostController extends HomeBaseController
 {
-    // 选保险
+    // 选保险 v2中已弃用
     public function index()
     {
         $id = $this->request->param('id', 0, 'intval');
@@ -22,7 +22,7 @@ class PostController extends HomeBaseController
         return $this->fetch();
     }
 
-    // 选择险种
+    // 选择险种 v2中已弃用
     public function step1()
     {
         $id = $this->request->param('id', 0, 'intval');
@@ -45,7 +45,7 @@ class PostController extends HomeBaseController
         return $this->fetch();
     }
 
-    // 个人资料
+    // 个人资料 v2中已弃用
     public function step2()
     {
         if (!cmf_is_user_login()) {
@@ -89,7 +89,7 @@ class PostController extends HomeBaseController
         $this->assign('verifyinfo', $verifyinfo);
         return $this->fetch();
     }
-
+    // 提交到后台 v2中已弃用
     public function step2Post()
     {
         if (!cmf_is_user_login()) {
@@ -105,11 +105,9 @@ class PostController extends HomeBaseController
                 $this->error('请填写车牌号码');
             }
 
-
             /*处理审核资料数据 verify[id]*/
             // 不做车牌号唯一性检测，会省去很多不必要的麻烦。 cmf_verify,cmf_usual_car
             // $this->more();
-
 
             /*处理保单数据*/
             // $post_pre = json_decode(session('insuranceStep1'));
@@ -136,22 +134,17 @@ class PostController extends HomeBaseController
             }
 
             Db::startTrans();
-            $sta = false;
+            $transStatus = false;
             try{
                 // 不用session时
                 // $res = Db::name('insurance_order')->where('id',$post['id'])->update($post);
                 // 使用session
                 Db::name('insurance_order')->insert($post);
                 $id = Db::getLastInsID();
-                $data = [
-                    'title'     => '预约保险',
-                    'user_id'   => $userId,
-                    'object'    => 'insurance_order:'.$id,
-                    'content'   => '客户ID：'.$userId.'，保单ID：'.$id,
-                    'adminurl'  => 2,
-                ];
-                lothar_put_news($data);
-                $sta = true;
+
+                $log = model('usual/News')->newsObject('insurStep6',$id,$userId);
+                lothar_put_news($log);
+                $transStatus = true;
                 // 提交事务
                 Db::commit();
             } catch (\Exception $e) {
@@ -159,7 +152,7 @@ class PostController extends HomeBaseController
                 Db::rollback();
             }
 
-            if ($sta===true) {
+            if ($transStatus===true) {
                 $this->success('提交成功，请等待工作人员回复',url('user/Insurance/index'));
             }
             $this->error('提交失败');
@@ -246,7 +239,8 @@ class PostController extends HomeBaseController
 
         $this->assign($findOrder);
         $this->assign('orderId',$orderId);
-        $this->assign('formurl',url('step6Post'));
+        // $this->assign('formurl',url('step6Post'));
+        $this->assign('paysign','insurStep6');
         return $this->fetch();
     }
 

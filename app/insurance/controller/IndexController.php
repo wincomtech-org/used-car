@@ -120,13 +120,8 @@ class IndexController extends HomeBaseController
         Db::startTrans();
         try {
             $result = $orderModel->adminAddArticle($data);
-            $log = [
-                'title'     => '保险订单',
-                'user_id'   => $userId,
-                'object'    => 'insurance_order:'.$result->id,
-                'content'   => '客户ID：'.$userId.'，保单ID：'.$result->id,
-                'adminurl'  => 2,
-            ];
+
+            $log = model('usual/News')->newsObject('insurStep2',$result->id,$userId);
             lothar_put_news($log);
             Db::commit();
         }catch(\Exception $e){

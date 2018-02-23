@@ -118,7 +118,7 @@ class PayModel extends Model
                 } else {
                     Db::name('insurance_order')->where('id',$id)->update($newData);
                 }
-                // lothar_put_news($log);
+                // lothar_put_news();
                 Db::commit();
             } catch (\Exception $e) {
                 Db::rollback();
@@ -149,7 +149,7 @@ class PayModel extends Model
             try{
                 Db::name('trade_order')->where('id',$info['id'])->update($newData);
                 Db::name('usual_car')->where('id',$info['car_id'])->setDec('inventory',1);//减库存
-                // lothar_put_news($log);
+                // lothar_put_news();
                 Db::commit();
             } catch (\Exception $e) {
                 Db::rollback();
@@ -169,12 +169,8 @@ class PayModel extends Model
             'status'    => $status,
             'payment'   => $paytype,
         ];
-        $log = [
-            'title'     => '开店申请',
-            'object'    => 'funds_apply:'.$id,
-            'content'   => '客户ID：'.$userId .'，支付方式：'.config('payment')[$paytype],
-            'adminurl'  => 8,
-        ];
+
+        $log = model('usual/News')->newsObject('deposit',$id,$userId);
 
         if ($paytype=='cash') {
             Db::name('funds_apply')->where('id',$id)->update($newData);
@@ -240,7 +236,7 @@ class PayModel extends Model
                 'create_time' => time(),
                 'ip' => get_client_ip(),
             ]);
-            // lothar_put_news($log);
+            // lothar_put_news();
             $user['coin'] = $remain;
             // 提交事务
             Db::commit();

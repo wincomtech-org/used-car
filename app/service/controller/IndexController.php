@@ -183,14 +183,12 @@ class IndexController extends HomeBaseController
         $transStatus = true;
         try{
             $id = model('Service')->addAppoint($post);
-            $data = [
-                'title'     => '预约车辆服务：'.$servCates['name'],
-                'user_id'   => $userId,
-                'object'    => 'service:'.$id,
-                'content'   => '客户ID：'.$userId.'，服务点ID：'.$post['service_point'],
-                'adminurl'  => 3,
+            $extra = [
+                'service_point' => $post['service_point'],
+                'name'          => $servCates['name']
             ];
-            lothar_put_news($data);
+            $log = model('usual/News')->newsObject('service',$id,$userId,$extra);
+            lothar_put_news($log);
             Db::commit();
         } catch (\Exception $e) {
             Db::rollback();
