@@ -20,7 +20,6 @@ class AdminCoverageController extends AdminBaseController
         $compId = $this->request->param('compId',0,'intval');
 
         $data = model('InsuranceCoverage')->getLists($param);
-        $data->appends($param);
         $insurances = model('InsuranceCoverage')->getInsurance($insuranceId,$compId);
         $where = [
             'identi_status' => 1,
@@ -33,12 +32,13 @@ class AdminCoverageController extends AdminBaseController
         $this->assign('start_time', isset($param['start_time']) ? $param['start_time'] : '');
         $this->assign('end_time', isset($param['end_time']) ? $param['end_time'] : '');
         $this->assign('keyword', isset($param['keyword']) ? $param['keyword'] : '');
-        $this->assign('articles', $data->items());
         $this->assign('insurances', $insurances);
         $this->assign('companys', $companys);
         $this->assign('insuranceId', $insuranceId);
         $this->assign('compId', $compId);
-        $this->assign('page', $data->render());
+        $this->assign('articles', $data->items());
+        $data->appends($param);
+        $this->assign('pager', $data->render());
 
         return $this->fetch();
     }

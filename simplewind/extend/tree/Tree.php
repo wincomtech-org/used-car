@@ -333,7 +333,7 @@ class Tree
             if ($showlevel > 0 && is_array($this->getChild($a['id']))) {
                 $floder_status = " class='$dropdown $li_class'";
             } else {
-                $floder_status = " class='$li_class'";;
+                $floder_status = " class='$li_class'";
             }
             $this->str .= $recursion ? "<ul class='$ul_class'><li  $floder_status id= 'menu-item-$id'>" : "<li  $floder_status   id= 'menu-item-$id'>";
             $recursion = FALSE;

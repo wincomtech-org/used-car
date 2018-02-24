@@ -47,9 +47,9 @@ class AdminBrandController extends AdminBaseController
         $categories = $this->UsualModel->getLists($param);
         // $categories = model('UsualBrand')->getLists($param);
 
-        $categories->appends($param);//添加URL参数
         $this->assign('categories', $categories->items());// 获取查询数据并赋到模板
-        $this->assign('page', $categories->render());// 获取分页代码并赋到模板
+        $categories->appends($param);//添加URL参数
+        $this->assign('pager', $categories->render());// 获取分页代码并赋到模板
         // $this->assign('category_tree', $categoryTree);
         return $this->fetch();
     }
@@ -201,15 +201,7 @@ class AdminBrandController extends AdminBaseController
     <td>\$spacer <a style='text-decoration:none;cursor:pointer;'>\$name</a></td>
 </tr>
 tpl;
-        $config = [
-            'm'=>'AdminBrand',
-            'url'=>'',
-            'add'=>true,
-            'add_title'=>'',
-            'edit'=>true,
-            'delete'=>true,
-            'table2'=>''
-        ];
+        $config = ['url'=>'usual/AdminBrand/edit'];
         $categoryTree = $this->UsualModel->adminCategoryTableTree($selectedIds, $tpl, $config);
 
         $where      = ['delete_time' => 0];

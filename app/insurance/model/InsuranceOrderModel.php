@@ -55,7 +55,7 @@ class InsuranceOrderModel extends InsuranceModel
         if (!empty($uid)) {
             $where['a.user_id'] = $uid;
         }
-        
+
         // 车牌号 plateNo
         // 保单号
         $sn = empty($filter['sn']) ? '' : $filter['sn'];

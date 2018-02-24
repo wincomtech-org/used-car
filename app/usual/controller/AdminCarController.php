@@ -44,6 +44,7 @@ class AdminCarController extends AdminBaseController
             $param['uid'] = cmf_get_current_admin_id();
         }
 
+
         $data = $this->Model->getLists($param);
 
         $cateModel = new UsualBrandModel();
@@ -52,6 +53,7 @@ class AdminCarController extends AdminBaseController
         $this->assign('start_time', isset($param['start_time']) ? $param['start_time'] : '');
         $this->assign('end_time', isset($param['end_time']) ? $param['end_time'] : '');
         $this->assign('keyword', isset($param['keyword']) ? $param['keyword'] : '');
+
         $this->assign('brand_tree', $brandTree);
         $this->assign('articles', $data->items());
         $data->appends($param);

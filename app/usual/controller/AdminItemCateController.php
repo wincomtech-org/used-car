@@ -118,7 +118,11 @@ class AdminItemCateController extends AdminBaseController
     <td>\$spacer <a href='\$url' target='_blank'>\$name</a></td>
 </tr>
 tpl;
+
         $categoryTree = $this->cateModel->adminCategoryTableTree($selectedIds, $tpl);
+        // 带链接的
+        // $config = ['url'=>'usual/AdminItemCate/edit'];
+        // $categoryTree = $this->cateModel->adminCategoryTableTree($selectedIds, $tpl, $config);
 
         $where      = ['delete_time' => 0];
         $categories = $this->cateModel->where($where)->select();

@@ -1,0 +1,41 @@
+/*
+Error: Invalid GBK character "\xE5"
+        on line 2 of D:\phpStudy\WWW\GitHub\wincomtech-org\used_car\public\static\js\admin.js
+
+1: ;(function () {
+2:     //全局ajax处理
+3:     $.ajaxSetup({
+4:         complete: function (jqXHR) {
+5:         },
+6:         data: {},
+7:         error: function (jqXHR, textStatus, errorThrown) {
+
+Backtrace:
+D:\phpStudy\WWW\GitHub\wincomtech-org\used_car\public\static\js\admin.js:2
+C:/Ruby24-x64/lib/ruby/gems/2.4.0/gems/sass-4.0.0.alpha.1/lib/sass/util.rb:1297:in `rescue in block in find_encoding_error'
+C:/Ruby24-x64/lib/ruby/gems/2.4.0/gems/sass-4.0.0.alpha.1/lib/sass/util.rb:1294:in `block in find_encoding_error'
+C:/Ruby24-x64/lib/ruby/gems/2.4.0/gems/sass-4.0.0.alpha.1/lib/sass/util.rb:1293:in `each'
+C:/Ruby24-x64/lib/ruby/gems/2.4.0/gems/sass-4.0.0.alpha.1/lib/sass/util.rb:1293:in `each_with_index'
+C:/Ruby24-x64/lib/ruby/gems/2.4.0/gems/sass-4.0.0.alpha.1/lib/sass/util.rb:1293:in `find_encoding_error'
+C:/Ruby24-x64/lib/ruby/gems/2.4.0/gems/sass-4.0.0.alpha.1/lib/sass/util.rb:902:in `check_sass_encoding'
+C:/Ruby24-x64/lib/ruby/gems/2.4.0/gems/sass-4.0.0.alpha.1/lib/sass/engine.rb:433:in `check_encoding!'
+C:/Ruby24-x64/lib/ruby/gems/2.4.0/gems/sass-4.0.0.alpha.1/lib/sass/engine.rb:389:in `_to_tree'
+C:/Ruby24-x64/lib/ruby/gems/2.4.0/gems/sass-4.0.0.alpha.1/lib/sass/engine.rb:378:in `_render_with_sourcemap'
+C:/Ruby24-x64/lib/ruby/gems/2.4.0/gems/sass-4.0.0.alpha.1/lib/sass/engine.rb:295:in `render_with_sourcemap'
+C:/Ruby24-x64/lib/ruby/gems/2.4.0/gems/sass-4.0.0.alpha.1/lib/sass/plugin/compiler.rb:490:in `update_stylesheet'
+C:/Ruby24-x64/lib/ruby/gems/2.4.0/gems/sass-4.0.0.alpha.1/lib/sass/plugin/compiler.rb:215:in `block in update_stylesheets'
+C:/Ruby24-x64/lib/ruby/gems/2.4.0/gems/sass-4.0.0.alpha.1/lib/sass/plugin/compiler.rb:209:in `each'
+C:/Ruby24-x64/lib/ruby/gems/2.4.0/gems/sass-4.0.0.alpha.1/lib/sass/plugin/compiler.rb:209:in `update_stylesheets'
+C:/Ruby24-x64/lib/ruby/gems/2.4.0/gems/sass-4.0.0.alpha.1/lib/sass/plugin.rb:82:in `update_stylesheets'
+C:/Ruby24-x64/lib/ruby/gems/2.4.0/gems/sass-4.0.0.alpha.1/lib/sass/exec/sass_scss.rb:361:in `watch_or_update'
+C:/Ruby24-x64/lib/ruby/gems/2.4.0/gems/sass-4.0.0.alpha.1/lib/sass/exec/sass_scss.rb:51:in `process_result'
+C:/Ruby24-x64/lib/ruby/gems/2.4.0/gems/sass-4.0.0.alpha.1/lib/sass/exec/base.rb:52:in `parse'
+C:/Ruby24-x64/lib/ruby/gems/2.4.0/gems/sass-4.0.0.alpha.1/lib/sass/exec/base.rb:19:in `parse!'
+C:/Ruby24-x64/lib/ruby/gems/2.4.0/gems/sass-4.0.0.alpha.1/bin/sass:13:in `<top (required)>'
+C:/Ruby24-x64/bin/sass:23:in `load'
+C:/Ruby24-x64/bin/sass:23:in `<main>'
+*/
+body:before {
+  white-space: pre;
+  font-family: monospace;
+  content: "Error: Invalid GBK character \"\xE5\"\A         on line 2 of D:\phpStudy\WWW\GitHub\wincomtech-org\used_car\public\static\js\admin.js\A \A 1: ;(function () {\A 2:     //全局ajax处理\A 3:     $.ajaxSetup({\A 4:         complete: function (jqXHR) {\A 5:         },\A 6:         data: {},\A 7:         error: function (jqXHR, textStatus, errorThrown) {"; }

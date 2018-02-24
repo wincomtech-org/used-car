@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>资金管理 - {$site_info.site_name|default=''}</title>
+    <meta name="keywords" content="{$site_info.site_seo_keywords|default=''}"/>
+    <meta name="description" content="{$site_info.site_seo_description|default=''}">
+
+    <include file="public@head"/>
+</head>
+<body>
+    <!-- 头部 -->
+    <include file="public@header" />
+    <!-- 导航 -->
+    <include file="public@nav" />
+
+    <!-- 资金管理 -->
+    <section class="person">
+        <div class="main">
+            <include file="public@usernav" />
+
+            <div class="person_right">
+                <div class="person_right_tit">
+                    <include file="funds/nav" />
+                </div>
+                <div class="person_right_con">
+                    <div class="fund_management">
+                        <div class="fund_management_detail">
+                            <p class="fund_managemen_title">我的积分</p>
+                            <include file="funds/comm"/>
+                            <div class="stream">
+                                <p class="scroll_tip">以下内容可滚动</p>
+                                <div class="table_div">
+                                    <div class="stream_tit">
+                                        <dl>
+                                            <dd>
+                                                历史累计：<span>{$score|default='0'}</span>
+                                            </dd>
+                                            <dd>
+                                                剩余积分：<span>{$remain|default='0'}</span>
+                                            </dd>
+                                        </dl>
+                                    </div>
+                                    <div class="stream_con">
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <th width="50">#</th>
+                                                    <th>操作</th>
+                                                    <th>收支（+收、-支）</th>
+                                                    <th>时间</th>
+                                                    <!-- <th width="90">操作</th> -->
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <foreach name="list" item="vo">
+                                                <tr>
+                                                    <td>{$vo.id}</td>
+                                                    <td>{$vo.action}</td>
+                                                    <td>{$vo.score>0?'+'.$vo.score:$vo.score}</td>
+                                                    <td>{:date('Y-m-d H:i:s',$vo.create_time)}</td>
+                                                    <!-- <td><a href="#">删除</a></td> -->
+                                                </tr>
+                                                </foreach>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                                <div class="page_tip">
+                                    <div class="page2_con">
+                                        <ul class="page2_list">
+                                            {$pager|default=''}
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 底部 -->
+    <include file="public@footer" />
+    <include file="public@scripts" />
+</body>
+<include file="public@morejs" />
+</html>

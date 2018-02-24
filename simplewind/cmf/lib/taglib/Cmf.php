@@ -196,7 +196,7 @@ parse;
         $root                       = isset($tag['root']) ? $tag['root'] : 'ul';
         $class                      = isset($tag['class']) ? $tag['class'] : 'nav navbar-nav';
         $maxLevel                   = isset($tag['max-level']) ? intval($tag['max-level']) : 0;
-        $parseSubNavigationFuncName = '__parse_sub_navigation' . md5(uniqid('_nav' . $parent . $id . __LINE__, true));;
+        $parseSubNavigationFuncName = '__parse_sub_navigation' . md5(uniqid('_nav' . $parent . $id . __LINE__, true));
 
         if (strpos($parent, '$') === 0) {
             $this->autoBuildVar($name);

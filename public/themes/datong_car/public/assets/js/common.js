@@ -132,19 +132,7 @@ function check_pwd(obj){
 	$('.js-ajax-form').submit();
 }
 
-// $('.password_ul input').blur(function(){
-// 	var password = $('.password').val();
-// 	var password2= $('.password2').val();
-// 	var pwd = $.trim($(this).val());
-// 	if(pwd == "" || isPassword(pwd) == false){
-// 		$(this).parent().siblings('b').show();
-// 	}else if( $(this).attr('name') == "password2" &&  password != password2 ){
-// 		$('input[name="password"]').parent().siblings('b').hide();
-// 		$('input[name="password2"]').parent().siblings('b').show();
-// 	}else{
-// 		$(this).parent().siblings('b').hide();
-// 	}
-// })
+
 
 function isPassword(password) {
   var pattern=/^[a-zA-z]{1}[0-9A-Za-z]{7,19}$/;
@@ -152,9 +140,6 @@ function isPassword(password) {
 }
 
 //结束	 重置密码找回密码
-
-
-
 
 
 /*个人中心*/
@@ -176,18 +161,6 @@ $(document).delegate('.detail_see', 'click', function() {
 	// msgDialog(data);
 });
 
-// 个人中心卖家中心取消 效果
-// $(document).delegate('.order_cancel_btn', 'click', function() {
-// 	$(this).parent().parent().prev().find('a').text('已取消')
-// })
-
-// 个人中心卖家中心删除 效果
-// $(document).delegate('.order_err_btn', 'click', function() {
-// 	$(this).parent().parent().parent().parent().parent().remove()
-// })
-
-
-
 
 /**车辆买卖  免费登记信息*/
 $('.analogy').delegate('.analogy_tit', 'click', function(e) {
@@ -205,7 +178,6 @@ $('.analogy').delegate('.analogy_tit', 'click', function(e) {
 		_this_siblings.hide();
 	})
 
-
 	_this_siblings_li.on('click', function() {
 		var txt = $(this).children('input').val();
 		var liID=$(this).attr('data-val');
@@ -214,32 +186,29 @@ $('.analogy').delegate('.analogy_tit', 'click', function(e) {
 		_this_siblings.hide();
 
 	})
-
 	e.stopPropagation();
 
 })
 
 // 个人中心在线充值
 // 支付方式切换
-
-
-  function toDecimal2(money) {
-        var f = parseFloat(money);
-        if (isNaN(f)) {
-            return "100.00";
-        }
-        var f = Math.round(money*100)/100;
-        var s = f.toString();
-        var rs = s.indexOf('.');
-        if (rs < 0) {
-            rs = s.length;
-            s += '.';
-        }
-        while (s.length <= rs + 2) {
-            s += '0';
-        }
-        return s;
+function toDecimal2(money) {
+    var f = parseFloat(money);
+    if (isNaN(f)) {
+        return "100.00";
     }
+    var f = Math.round(money*100)/100;
+    var s = f.toString();
+    var rs = s.indexOf('.');
+    if (rs < 0) {
+        rs = s.length;
+        s += '.';
+    }
+    while (s.length <= rs + 2) {
+        s += '0';
+    }
+    return s;
+}
 
 
 //结束 个人中心在线充值

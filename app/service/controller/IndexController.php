@@ -69,6 +69,7 @@ class IndexController extends HomeBaseController
         }
 
         $this->assign('page',$page);
+
         return $this->fetch('step1_'. $page['platform']);
     }
 

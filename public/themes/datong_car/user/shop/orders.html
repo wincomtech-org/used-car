@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>个人中心 - 服务商城 - {$site_info.site_name|default=''}</title>
+    <meta name="keywords" content="{$site_info.site_seo_keywords|default=''}"/>
+    <meta name="description" content="{$site_info.site_seo_description|default=''}">
+
+    <include file="public@head"/>
+</head>
+<body>
+    <!-- 头部 -->
+    <include file="public@header" />
+   
+
+    <!-- 热门资讯 -->
+    <section class="person">
+        <div class="main">
+
+            <ul class="brash">
+                <li>当前位置：</li>
+                <li class=""><a href="">服务商城</a></li>
+                <li class=""><a href="">配件服务</a></li>
+                <li class="active"><a href="#">订单详情</a></li>
+            </ul>
+            <div class="order-details">
+                <div class="order-details-mess">
+                    <!-- 拍下未付款 -->
+                    <div class="order-details-top">
+                        <p class='orders-state'>当前订单状态：宝贝已拍下，请在3天内付款；若未及时付款，系统讲自动取消订单</p>
+                        <ul class='orders-supply'>
+                            <li>点击这里<a class="btn-small backg-red border-r">付款</a></li>
+                            <li>如果不想购买，可以<a href="" class='blue-color'>取消订单</a></li>
+                        </ul>
+                    </div>
+                    <!-- 结束拍下未付款 -->
+
+                    <!-- 未发货 -->
+                    <div class="order-details-top">
+                        <p class='orders-state'>当前订单状态：您已付款到支付宝，等待卖家发货；</p>
+                        <ul class='orders-supply'>
+                            <li>付款24小时后如果一直不发货，您可以联系我们</li>
+                            <li>付款24小时后如果一直不发货，您可以联系我们</li>
+                            <li>付款24小时后如果一直不发货，您可以联系我们</li>
+                        </ul>
+                    </div>
+                    <!-- 结束未发货 -->
+
+                    <!-- 已发货 -->
+                    <div class="order-details-top">
+                        <p class='orders-state'>当前订单状态：商家已发货，等待买家确认；</p>
+                        <ul class='orders-supply'>
+                            <li>您还有<span class='orage-color'></span> 8天1小时22分34秒;来确认收货,超时订单自动确认收货</li>
+                            <li>物流：圆通速递运单号:888020761053666753
+                                <br>
+                                2018-01-11 10:27:58 安徽省合肥市政务区国际花都公司 派件中
+                            </li>
+                            <li>你可以<a href="" class='btn-small backg-orange'>确认收货</a><a href="" class='blue-color'>申请退款</a></li>
+                        </ul>
+                    </div>
+                    <!-- 结束未发货 -->
+                    
+                    <!-- 交易成功 -->
+                    <div class="order-details-top">
+                        <p class='orders-state'>当前订单状态：交易已成功；</p>
+                        <ul class='orders-supply'>
+                            <li>交易成功,请给卖家<a class='blue-color'>评价</a></li>
+                            <li>如果没有收到货，或收到货后出现问题，您可以联系卖家协商解决</li>
+                        </ul>
+                    </div>
+                    <!-- 结束未发货 -->
+
+                    <!--   物流信息   -->
+
+                    <!-- 付款未发货 -->
+                    <div class='logistics'>
+                        <p class="logistics-p">物流信息</p>
+                        <ul class="logistics-ul">
+                            <li class='logistics-li'>
+                                <span class="logistics-span-tit">发货方式：</span>
+                                <span class='logistics-span-con'>-</span>
+                            </li>
+                            <li class='logistics-li'>
+                                <span class="logistics-span-tit">物流公司</span>
+                                <span class='logistics-span-con'>-</span>
+                            </li>
+                            <li class='logistics-li'>
+                                <span class="logistics-span-tit">运单号码</span>
+                                <span class='logistics-span-con'>-</span>
+                            </li>
+                        </ul>    
+                    </div>  
+                    <!--结束--> 
+                    <!-- 已发货 -->
+                    <div class='logistics'>
+                        <p class="logistics-p">物流信息</p>
+                        <ul class="logistics-ul">
+                            <li class='logistics-li'>
+                                <span class="logistics-span-tit">发货方式：</span>
+                                <span class='logistics-span-con'>快递</span>
+                            </li>
+                            <li class='logistics-li'>
+                                <span class="logistics-span-tit">物流公司：</span>
+                                <span class='logistics-span-con'>中通快递</span>
+                            </li>
+                            <li class='logistics-li'>
+                                <span class="logistics-span-tit">运单号码：</span>
+                                <span class='logistics-span-con'>470022359417</span>
+                            </li>
+                            <li class='logistics-li'>
+                                <span class="logistics-span-tit">物流信息：</span>
+                                <span class='logistics-span-con'>
+                                    <i>2017-12-14 10:42:32卖家发货</i><br>
+                                    <i>2017-12-14 10:42:32卖家发货</i><br>
+                                    <i>2017-12-14 10:42:32卖家发货</i><br>
+                                    <i>2017-12-14 10:42:32卖家发货</i><br>
+                                    <i>2017-12-14 10:42:32卖家发货</i><br>
+                                    <i>2017-12-14 10:42:32卖家发货</i><br>
+                                    <i>2017-12-14 10:42:32卖家发货</i><br>
+                                    <i>2017-12-14 10:42:32卖家发货</i><br>
+                                    <i>2017-12-14 10:42:32卖家发货</i><br>
+                                    <!-- 如果交易已完成的 -->
+                                    <i class='orage-color'>2017-12-19 12:58:29已签收，签收人凭取货码签收。感谢使用AH蓝海国际大厦B座丰巢【自提柜】，期待再次为您服务。</i><br>
+                                    
+                                </span>
+                            </li>
+                        </ul>    
+                    </div>  
+                    <!-- 结束已发货 -->
+                    <!-- 结束物流信息 -->
+
+                    <div class="shop_orders">
+                        <ul class='order-ul'>
+                            <li class='order-li'>订单信息</li>
+                        </ul>
+        
+                        <dl class='order-dl'>
+                            <dt>订单地址：</dt>
+                            <dd>张三，13121212121212，安徽省 合肥市 蜀山区 荷叶地街道 绿地蓝海大厦b座605 ，230061</dd>
+                        </dl>
+                        <!-- 运送方式 -->
+                        <dl class='order-dl'>
+                            <dt>运送方式：</dt>
+                            <dd>快递</dd>
+                        </dl>
+                        <!-- 订单信息 -->
+                        <dl class='order-dl'>
+                            <dt>订单信息</dt>
+                            <dd class='order-dd-list'>
+                                <ul class="order-ul-mess">
+                                    <li class='order-li-mess'>
+                                        订单编号：
+                                        <span>100825015955328090</span>
+                                    </li>
+                                    <li class='order-li-mess'>
+                                        支付宝交易号：
+                                        <span>100825015955328090</span>
+                                    </li>
+                                    <li class='order-li-mess'>
+                                        创建时间：
+                                        <span>100825015955328090</span>
+                                    </li>
+                                    <li class='order-li-mess'>
+                                        发货时间：
+                                        <span>100825015955328090</span>
+                                    </li>
+                                    <li class='order-li-mess'>
+                                        付款时间：
+                                        <span>100825015955328090</span>
+                                    </li>
+                                    <li class='order-li-mess'>
+                                        成交时间：
+                                        <span>100825015955328090</span>
+                                    </li>
+                                </ul>
+                            </dd>
+                        </dl>
+                       
+                        <include file="shop/order_table" />  
+                        <div class="total-div">
+                            <p >
+                                <span >订单金额：</span>
+                                <span><b class='orage-color'>1500.00</b>元</span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 底部 -->
+    <include file="public@footer" />
+    <include file="public@scripts" />
+       
+</body>
+<include file="public@morejs" />
+
+</html>

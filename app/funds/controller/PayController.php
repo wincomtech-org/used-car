@@ -211,7 +211,7 @@ class PayController extends HomeBaseController
             if($trade_status=='TRADE_FINISHED') {
                 $statusCode = 10;//支付完成
             } elseif ($trade_status=='TRADE_SUCCESS') {
-                $statusCode = 1;;//支付成功
+                $statusCode = 1;//支付成功
             } else {
                 $statusCode = 0;//支付失败
             }

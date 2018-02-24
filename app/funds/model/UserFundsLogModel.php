@@ -56,14 +56,16 @@ class UserFundsLogModel extends UsualModel
         return $options;
     }
 
-    public function addCoin($data)
+    // 新增资金记录
+    public function inFundsLog($log=[])
     {
-        # code...
+        lothar_put_funds_log($log,'','','--','--','',true);
     }
 
-    public function addTicket($data)
+    // 获取资金记录
+    public function outFundsLog($type='')
     {
-        # code...
+        return lothar_get_funds_log($type);
     }
 
     // 统计 余额
@@ -91,16 +93,19 @@ class UserFundsLogModel extends UsualModel
         return $sum;
     }
 
-    // 新增资金记录
-    public function inFundsLog($log=[])
+    public function addCoin($data)
     {
-        lothar_put_funds_log($log,'','','--','--','',true);
+        # code...
     }
 
-    // 获取资金记录
-    public function outFundsLog($type='')
+    public function addScore($data)
     {
-        return lothar_get_funds_log($type);
+        # code...
+    }
+
+    public function addCoupon($data)
+    {
+        # code...
     }
 
 }

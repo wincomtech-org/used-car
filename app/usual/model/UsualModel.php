@@ -39,7 +39,7 @@ class UsualModel extends ComModel
         return $this->belongsToMany('PortalCategoryModel', 'portal_category_post', 'category_id', 'post_id');
     }
 
-    /**
+    /** 富文本自动转化
      * content 自动转化
      * @param $value
      * @return string
@@ -107,10 +107,10 @@ class UsualModel extends ComModel
         }
 
         if (!empty($data['buyer_username'])) {
-            $data['buyer_uid'] = Db::name('user')->whereOr(['user_login|user_nickname|user_email'=>['eq', $data['buyer_username']]])->value('id');
+            $data['buyer_uid'] = $this->getUid($data['buyer_username']);
         }
         if (!empty($data['seller_username'])) {
-            $data['seller_uid'] = Db::name('user')->whereOr(['user_login|user_nickname|user_email'=>['eq', $data['seller_username']]])->value('id');
+            $data['seller_uid'] = $this->getUid($data['seller_username']);
         }
 
         $data['create_time'] = time();

@@ -1,0 +1,41 @@
+/*
+Error: Invalid GBK character "\xE7"
+        on line 2 of D:\phpStudy\WWW\GitHub\wincomtech-org\used_car\public\themes\datong_car\public\assets\js\jquery.qrcode.min.js
+
+1: 	var simpleAlert = function (opts) {
+2:     //璁剧疆榛樿鍙傛暟
+3:     var opt = {
+4:         "closeAll": false,
+5:         "imgshow":0,
+6:         "content": "",
+7:         "tit": "",
+
+Backtrace:
+D:\phpStudy\WWW\GitHub\wincomtech-org\used_car\public\themes\datong_car\public\assets\js\jquery.qrcode.min.js:2
+C:/Ruby24-x64/lib/ruby/gems/2.4.0/gems/sass-4.0.0.alpha.1/lib/sass/util.rb:1297:in `rescue in block in find_encoding_error'
+C:/Ruby24-x64/lib/ruby/gems/2.4.0/gems/sass-4.0.0.alpha.1/lib/sass/util.rb:1294:in `block in find_encoding_error'
+C:/Ruby24-x64/lib/ruby/gems/2.4.0/gems/sass-4.0.0.alpha.1/lib/sass/util.rb:1293:in `each'
+C:/Ruby24-x64/lib/ruby/gems/2.4.0/gems/sass-4.0.0.alpha.1/lib/sass/util.rb:1293:in `each_with_index'
+C:/Ruby24-x64/lib/ruby/gems/2.4.0/gems/sass-4.0.0.alpha.1/lib/sass/util.rb:1293:in `find_encoding_error'
+C:/Ruby24-x64/lib/ruby/gems/2.4.0/gems/sass-4.0.0.alpha.1/lib/sass/util.rb:902:in `check_sass_encoding'
+C:/Ruby24-x64/lib/ruby/gems/2.4.0/gems/sass-4.0.0.alpha.1/lib/sass/engine.rb:433:in `check_encoding!'
+C:/Ruby24-x64/lib/ruby/gems/2.4.0/gems/sass-4.0.0.alpha.1/lib/sass/engine.rb:389:in `_to_tree'
+C:/Ruby24-x64/lib/ruby/gems/2.4.0/gems/sass-4.0.0.alpha.1/lib/sass/engine.rb:378:in `_render_with_sourcemap'
+C:/Ruby24-x64/lib/ruby/gems/2.4.0/gems/sass-4.0.0.alpha.1/lib/sass/engine.rb:295:in `render_with_sourcemap'
+C:/Ruby24-x64/lib/ruby/gems/2.4.0/gems/sass-4.0.0.alpha.1/lib/sass/plugin/compiler.rb:490:in `update_stylesheet'
+C:/Ruby24-x64/lib/ruby/gems/2.4.0/gems/sass-4.0.0.alpha.1/lib/sass/plugin/compiler.rb:215:in `block in update_stylesheets'
+C:/Ruby24-x64/lib/ruby/gems/2.4.0/gems/sass-4.0.0.alpha.1/lib/sass/plugin/compiler.rb:209:in `each'
+C:/Ruby24-x64/lib/ruby/gems/2.4.0/gems/sass-4.0.0.alpha.1/lib/sass/plugin/compiler.rb:209:in `update_stylesheets'
+C:/Ruby24-x64/lib/ruby/gems/2.4.0/gems/sass-4.0.0.alpha.1/lib/sass/plugin.rb:82:in `update_stylesheets'
+C:/Ruby24-x64/lib/ruby/gems/2.4.0/gems/sass-4.0.0.alpha.1/lib/sass/exec/sass_scss.rb:361:in `watch_or_update'
+C:/Ruby24-x64/lib/ruby/gems/2.4.0/gems/sass-4.0.0.alpha.1/lib/sass/exec/sass_scss.rb:51:in `process_result'
+C:/Ruby24-x64/lib/ruby/gems/2.4.0/gems/sass-4.0.0.alpha.1/lib/sass/exec/base.rb:52:in `parse'
+C:/Ruby24-x64/lib/ruby/gems/2.4.0/gems/sass-4.0.0.alpha.1/lib/sass/exec/base.rb:19:in `parse!'
+C:/Ruby24-x64/lib/ruby/gems/2.4.0/gems/sass-4.0.0.alpha.1/bin/sass:13:in `<top (required)>'
+C:/Ruby24-x64/bin/sass:23:in `load'
+C:/Ruby24-x64/bin/sass:23:in `<main>'
+*/
+body:before {
+  white-space: pre;
+  font-family: monospace;
+  content: "Error: Invalid GBK character \"\xE7\"\A         on line 2 of D:\phpStudy\WWW\GitHub\wincomtech-org\used_car\public\themes\datong_car\public\assets\js\jquery.qrcode.min.js\A \A 1: 	var simpleAlert = function (opts) {\A 2:     //璁剧疆榛樿鍙傛暟\A 3:     var opt = {\A 4:         \"closeAll\": false,\A 5:         \"imgshow\":0,\A 6:         \"content\": \"\",\A 7:         \"tit\": \"\","; }

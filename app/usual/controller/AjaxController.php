@@ -166,6 +166,7 @@ class AjaxController extends BaseController
             return '请输入用户信息';
         }
 
+        // $uid = model('usual/Usual')->getUid($uname);
         $uid = intval($uname);
         if (empty($uid)) {
             $uid = Db::name('user')->whereOr(['user_nickname|user_login|user_email|mobile'=>$uname])->value('id');

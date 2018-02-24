@@ -39,7 +39,6 @@ class AdminArticleController extends AdminBaseController
 
         $postService = new PostService();
         $data        = $postService->adminArticleList($param);
-        $data->appends($param);
 
         $portalCategoryModel = new PortalCategoryModel();
         $categoryTree        = $portalCategoryModel->adminCategoryTree($categoryId);
@@ -47,10 +46,11 @@ class AdminArticleController extends AdminBaseController
         $this->assign('start_time', isset($param['start_time']) ? $param['start_time'] : '');
         $this->assign('end_time', isset($param['end_time']) ? $param['end_time'] : '');
         $this->assign('keyword', isset($param['keyword']) ? $param['keyword'] : '');
-        $this->assign('articles', $data->items());
         $this->assign('category_tree', $categoryTree);
         $this->assign('category', $categoryId);
-        $this->assign('page', $data->render());
+        $this->assign('articles', $data->items());
+        $data->appends($param);
+        $this->assign('pager', $data->render());
 
         return $this->fetch();
     }

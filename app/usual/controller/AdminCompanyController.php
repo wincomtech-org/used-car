@@ -56,7 +56,7 @@ class AdminCompanyController extends AdminBaseController
         $this->assign('compType',$compType);
         $this->assign('articles', $data->items());
         $data->appends($param);
-        $this->assign('page', $data->render());
+        $this->assign('pager', $data->render());
 
         return $this->fetch();
     }

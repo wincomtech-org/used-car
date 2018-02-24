@@ -27,9 +27,10 @@ class CommentController extends UserBaseController
         $commentModel = new CommentModel();
         $comments     = $commentModel->where(['user_id' => cmf_get_current_user_id(), 'delete_time' => 0])
             ->order('create_time DESC')->paginate();
+
         $this->assign($user);
-        $this->assign("page", $comments->render());
-        $this->assign("comments", $comments);
+        $this->assign('comments', $comments);
+        $this->assign('pager', $comments->render());
         return $this->fetch();
     }
 

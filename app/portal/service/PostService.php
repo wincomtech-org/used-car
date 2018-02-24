@@ -253,7 +253,7 @@ class PostService
         $peers = $portalCategoryModel->field('id,name')->where('parent_id',$pid)->select();
         $visList = [];
         foreach ($peers as $vo) {
-            $vo['list'] = $this->fromCateList($vo['id'], $limit);;
+            $vo['list'] = $this->fromCateList($vo['id'], $limit);
             $visList[] = $vo;
         }
 

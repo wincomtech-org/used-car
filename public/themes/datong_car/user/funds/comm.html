@@ -2,8 +2,8 @@
     <ul class="detail_list">
         <li class="tit">我的余额：</li>
         <li class="money">￥{$user.coin|default='0.00'}</li>
-        <li class="tit"><font color="{$u_f_nav=='ticket'?='red'}">我的点券：</font></li>
-        <li class="money"><a style="color:#d00000" href="{:url('user/Funds/ticket')}" class="js-ajax-dialog-btn" data-msg="查看点券记录？">￥{//$user.ticket|default='0.00'}?.??</a></li>
+        <li class="tit"><font color="{$u_f_nav=='score'?='red'}">我的积分：</font></li>
+        <li class="money"><a style="color:#d00000" href="{:url('user/Funds/score')}" class="js-ajax-dialog-btn" data-msg="查看积分记录？">{$user.score|default='0.00'}</a></li>
     </ul>
     <ul class="detail_list">
         <li class="tit">提现冻结：</li>

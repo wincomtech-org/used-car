@@ -83,16 +83,17 @@ class UsualCategoryModel extends ComModel
      */
     public function adminCategoryTableTree($currentIds=0, $tpl='', $config=null,$extra=null, $filter=[])
     {
-        if (!isset($config)) {
-            $request = Request::instance();
-            $config = [
-                'm'         => $request->controller(),
-                'url'       => '',
-                'add'       => true,
-                'edit'      => true,
-                'delete'    => true,
-                'table2'    => ''
-            ];
+        $request = Request::instance();
+        $config0 = [
+            'm'         => $request->controller(),
+            'url'       => '',
+            'add'       => true,
+            'edit'      => true,
+            'delete'    => true,
+            'table2'    => ''
+        ];
+        if (!empty($config)) {
+            $config = array_merge($config0,$config);
         }
         $where = [];
 
@@ -129,7 +130,8 @@ class UsualCategoryModel extends ComModel
         $newCategories = [];
         foreach ($categories as $item) {
             $item['checked'] = in_array($item['id'], $currentIds) ? "checked" : "";
-            $item['url']     = $config['url'] ? '<a href="'. cmf_url($config['url'], ['id' => $item['id']]) .'">'. $item['name'] .'</a>' : $item['name'];
+            $item['url']     = empty($tpl) ? (empty($config['url']) ? $item['name'] : '<a href="'. cmf_url($config['url'],['id'=>$item['id']]) .'">'. $item['name'] .'</a>') : url($config['url'], ['id'=>$item['id']]) ;
+
             if (isset($extra['is_top'])) {
                 $item['is_top'] = !empty($item['is_top'])?'<font color="#F00">是</font>':'否';
             }
@@ -142,14 +144,15 @@ class UsualCategoryModel extends ComModel
             if (isset($extra['code_type'])) {
                 $item['code_type'] = ($item['code_type']=='all') ? '<font color="#FCA005">默认</font>' : config('usual_item_cate_codetype')[$item['code_type']] ;
             }
+
             $item['str_action'] = '';
-            if ($config['add']) {
+            if (!empty($config['add'])) {
                 $item['str_action'] .= '<a href="'. url($config['m'].'/add', ["parent" => $item['id']]) .'">'.$config['add_title'].'</a> &nbsp; &nbsp;';
             }
-            if ($config['edit']) {
+            if (!empty($config['edit'])) {
                 $item['str_action'] .= '<a href="'. url($config['m'].'/edit', ["id" => $item['id']]) .'">'. lang('EDIT') .'</a>&nbsp;&nbsp;';
             }
-            if ($config['delete']) {
+            if (!empty($config['delete'])) {
                 $item['str_action'] .= '<a class="js-ajax-delete" href="' . url($config['m'].'/delete', ["id" => $item['id']]) . '">' . lang('DELETE') . '</a>';
             }
             array_push($newCategories, $item);

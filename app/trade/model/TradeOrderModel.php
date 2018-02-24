@@ -48,14 +48,11 @@ class TradeOrderModel extends UsualModel
                 $where['a.create_time'] = ['<= time', $endTime];
             }
         }
+
         // 买家
         $uname = empty($filter['uname']) ? '' : $filter['uname'];
-        if (!empty($uname)) {
-            $uid = intval($uname);
-            if (empty($uid)) {
-                $uid = Db::name('user')->where('user_nickname',$uname)->whereOr('user_login',$uname)->value('id');
-                $uid = intval($uid);
-            }
+        $uid = $this->getUid($uname);
+        if (!empty($uid)) {
             $where['a.buyer_uid'] = $uid;
         }
         // 订单号

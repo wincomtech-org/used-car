@@ -21,9 +21,9 @@ class AdminVerifymController extends AdminBaseController
         $param = $this->request->param();//接收筛选条件
         $categories = model('VerifyModel')->getLists($param);
 
-        $categories->appends($param);//添加URL参数
         $this->assign('categories', $categories->items());// 获取查询数据并赋到模板
-        $this->assign('page', $categories->render());// 获取分页代码并赋到模板
+        $categories->appends($param);//添加URL参数
+        $this->assign('pager', $categories->render());// 获取分页代码并赋到模板
 
         return $this->fetch();
     }

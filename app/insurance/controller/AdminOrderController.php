@@ -34,7 +34,7 @@ class AdminOrderController extends AdminBaseController
         $this->assign('compId', $compId);
         $this->assign('lists', $data->items());
         $data->appends($param);
-        $this->assign('page', $data->render());
+        $this->assign('pager', $data->render());
 
         return $this->fetch();
     }

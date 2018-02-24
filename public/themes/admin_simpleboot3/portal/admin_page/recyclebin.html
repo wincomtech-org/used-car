@@ -58,7 +58,7 @@
 			<div class="table-actions">
 				<button class="btn btn-danger btn-sm js-ajax-submit" type="submit" data-action="{:U('AdminPage/clean')}" data-subcheck="true" data-msg="你确定删除吗？">{:L('DELETE')}</button>
 			</div>
-			<div class="pagination">{$page}</div>
+			<div class="pagination">{$pager|default=''}</div>
 		</form>
 	</div>
 	<script src="__PUBLIC__/js/common.js"></script>

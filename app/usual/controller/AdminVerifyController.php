@@ -37,7 +37,7 @@ class AdminVerifyController extends AdminBaseController
         $this->assign('status_tree', $statusTree);
         $this->assign('lists', $data->items());
         $data->appends($param);
-        $this->assign('page', $data->render());
+        $this->assign('pager', $data->render());
 
         return $this->fetch();
     }
@@ -72,12 +72,12 @@ class AdminVerifyController extends AdminBaseController
                 $this->error('系统未检测到该用户');
             }
             if ($postUid!=$userId) {
-                $this->error('用户ID 和 用户名 不一致！');
+                $this->error('用户ID 和 用户名 不对应！');
             }
             if (empty($postUid)) {
                 $this->error('请填写用户ID 或者用户名');
             }
-            $postUid = $userId;
+            $post['user_id'] = $userId;
 
             // 验证
             $result = $this->validate($post,'Verify.add');

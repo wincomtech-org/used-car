@@ -18,8 +18,7 @@ class FundsController extends UserBaseController
     {
         parent::_initialize();
         $u_f_nav = $this->request->action();
-
-// dump($u_f_nav);
+        $this->user = cmf_get_current_user();
 
         $this->assign('u_f_nav',$u_f_nav);
     }
@@ -61,15 +60,57 @@ class FundsController extends UserBaseController
         return $this->fetch();
     }
 
-    // 点券
-    public function ticket()
+    // 积分
+    public function score()
     {
         // $param = $this->request->param();
         $where['user_id'] = $this->user['id'];
 
-        $list = Db::name('user_ticket_log')->where($where)->paginate();
+        $list = Db::name('user_score_log')->where($where)->paginate();
+        // 历史累计积分
+        $where['score'] = ['lt',0];
+        $score = Db::name('user_score_log')->where($where)->sum('score');
+        $score += $this->user['score'];
+        // 剩余积分
+        $remain = $this->user['score'];
 
+        $this->assign('score', $score);
+        $this->assign('remain', $remain);
         $this->assign('list', $list);
+        // $list->appends($param);
+        $this->assign('pager', $list->render());
+
+        return $this->fetch();
+    }
+    // 优惠券
+    public function coupon()
+    {
+        // $param = $this->request->param();
+        $where['user_id'] = $this->user['id'];
+
+        $list = Db::name('user_coupons_log')->where($where)->paginate();
+
+        // 历史累计
+        // $this->user['coupon'];
+
+        // 可使用
+        $where['status'] = 0;
+        // 有BUG：AND (`due_time`=1515396639 OR `due_time`>=1515396639)
+        // $coupon = Db::name('user_coupons_log')->where($where)->where(function($query){
+        //     $query->where('due_time',0)->whereOr('due_time','>= time',time());
+        // })->fetchSql(true)->count();
+        // 使用原生的写
+        $coupon = Db::query('SELECT COUNT(*) AS tp_count FROM `cmf_user_coupons_log` WHERE `user_id`=? AND `status`=0 AND (`due_time`=0 OR `due_time`>=?) LIMIT 1',[$this->user['id'],time()]);
+
+        // 已过期
+        $where['due_time'] = [['gt',0],['< time', time()]];
+        // $remain = Db::name('user_coupons_log')->where($where)->fetchSql(true)->count();
+        $remain = Db::name('user_coupons_log')->where($where)->count();
+
+        $this->assign('coupon', $coupon[0]['tp_count']);
+        $this->assign('remain', $remain);
+        $this->assign('list', $list);
+        // $list->appends($param);
         $this->assign('pager', $list->render());
 
         return $this->fetch();
@@ -122,7 +163,6 @@ class FundsController extends UserBaseController
     public function rechargePost()
     {
         $data = $this->request->param();
-
         $valid = [
             'user_id'   => $this->user['id'],
             'coin'      => empty($data['r_money'])?null:$data['r_money'],
@@ -197,7 +237,7 @@ class FundsController extends UserBaseController
         if (cmf_compare_password($data['w_pwd'],$this->user['paypwd'])===false) {
             $this->error('您的密码不对');
         }
-        // 点券是无法提现的 $this->user['ticket']
+        // 积分是无法提现的 $this->user['score']
         if ($post['coin']>$this->user['coin']) {
             $this->error('余额不足');
         }

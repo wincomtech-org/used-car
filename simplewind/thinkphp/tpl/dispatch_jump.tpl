@@ -9,7 +9,7 @@
     <include file="public@head"/>
     <style type="text/css" media="screen">
         .alert_tip{margin:4rem 0;}
-        .alert_content{width:auto;max-width:600px;margin:0 auto;padding:2rem 1.6rem;;color:rgb(123, 82, 29);border-radius:6px;-webkit-border-radius:6px;-moz-border-radius:6px;-o-border-radius:6px;-webkit-border-radius:6px;border-radius:6px;}
+        .alert_content{width:auto;max-width:600px;margin:0 auto;padding:2rem 1.6rem;color:rgb(123, 82, 29);border-radius:6px;-webkit-border-radius:6px;-moz-border-radius:6px;-o-border-radius:6px;-webkit-border-radius:6px;border-radius:6px;}
         .alert_content img{display:block;margin:1rem auto;max-width:100%;}
         .alert_content .tip{font-size:18px;font-weight:600;text-align:center;margin:1rem 0;}
         .alert_content .time{font-size:16px;text-align:center;color:#666;margin:1rem 0;}

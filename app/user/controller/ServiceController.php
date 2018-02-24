@@ -72,7 +72,7 @@ class ServiceController extends UserBaseController
         $this->assign('servicePoint',$servicePoint);
         $this->assign('servicePointJson',json_encode($servicePoints));
         $this->assign('mid',$mid);
-        $this->assign('page',$page);
+        $this->assign("page",$page);
         return $this->fetch();
     }
 

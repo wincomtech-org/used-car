@@ -71,12 +71,15 @@ class BaseController extends Controller
         $pk  = $model->getPk(); //获取主键名称
         $ids = $this->request->post("list_orders/a");
 
+        // 循环更新 感觉这样效率好低
         if (!empty($ids)) {
             foreach ($ids as $key => $r) {
                 $data['list_order'] = $r;
                 $model->where([$pk => $key])->update($data);
             }
         }
+        // 拼接成一次性操作
+        // $query = 'UPDATE ';
 
         return true;
     }

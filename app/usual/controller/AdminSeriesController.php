@@ -200,6 +200,9 @@ class AdminSeriesController extends AdminBaseController
 tpl;
 
         $categoryTree = $this->cateModel->adminCategoryTableTree($selectedIds, $tpl);
+        // 带链接的
+        // $config = ['url'=>'usual/AdminSeries/edit'];
+        // $categoryTree = $this->cateModel->adminCategoryTableTree($selectedIds, $tpl, $config);
 
         $where      = ['delete_time' => 0];
         $categories = $this->cateModel->where($where)->select();

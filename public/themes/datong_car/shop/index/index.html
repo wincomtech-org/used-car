@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>服务商城 - {$site_info.site_name|default=''}</title>
+    <meta name="keywords" content="{$site_info.site_seo_keywords|default=''}"/>
+    <meta name="description" content="{$site_info.site_seo_description|default=''}">
+
+    <include file="public@head"/>
+    <!-- 服务商城css -->
+    <link href='__TMPL__/public/assets/css/shop.css' type="text/css" rel="stylesheet">
+    <link rel="stylesheet" href="__TMPL__/public/assets/css/slick.css">
+    <script src="__TMPL__/public/assets/js/slick.min.js"></script>
+    <script>
+        $(function(){
+           $('.slick').slick({
+               dots: true,
+               slidesToShow: 1,
+               slidesToScroll: 1,
+               autoplay: true,
+               autoplaySpeed: 4000
+           });
+         });
+       </script>
+    <hook name="before_head_end"/>
+</head>
+<body>
+    <!-- 头部 -->
+    <include file="public@header" />
+    <!-- 导航 -->
+    <include file="public@nav" />
+    <!-- banner -->
+    <include file="public@banner" />
+    <section class="vehiTrad" id="AAA">
+        <div class="main">
+            <div class="shop-group">
+                <aside class=''>
+                    <!-- <div class="banner_lunbo ">
+                        <div class="our_service_show">
+                            <div class="slick">
+                                <div>
+                                    <div class="banner_img">
+                                        <img src="__TMPL__/public/assets/images/example/banner.jpg" alt="">
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="banner_img">
+                                        <img src="__TMPL__/public/assets/images/example/banner.jpg" alt="">
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="banner_img">
+                                        <img src="__TMPL__/public/assets/images/example/banner.jpg" alt="">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div> -->
+                </aside>
+                <div class="shop-group-tit clearfix">
+                    <h3>维修保养</h3>
+                    <div class="shop-group-tit-list clearfix">
+                        <ul class='shop-group-tit-ul clearfix' >
+                            <li class='backg-red'><a href="">润滑油</a></li>
+                            <li><a href="">润滑油</a></li>
+                            <li><a href="">润滑油</a></li>
+                        </ul>
+                        <div class="more-style">
+                            <a href="">更多</a>
+                        </div>
+                    </div>   
+                </div> 
+                <div class="shop-group-con">
+                    <div class="shop-group-con-shops clearfix">
+                        <div class="group-con-shop-left clearfix">
+                            <div class="group-list ">
+                                <div class="group-list-img">
+                                    <a href=""><img src="__TMPL__/public/assets/images/default-thumbnail.png" alt=""></a>
+                                </div>
+                                <div class="group-list-txt">
+                                    <p><a>汽油发动机小车面包车矿物质机油SG15W40汽车四季保养通用</a></p>
+                                </div>
+                            </div>
+                            <div class="group-list-show">
+                                <div class="slick">
+                                    <div>
+                                        <div class="group-shop-banner">
+                                            <img src="__TMPL__/public/assets/images/default-thumbnail.png" alt="">
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="group-shop-banner">
+                                            <img src="__TMPL__/public/assets/images/default-thumbnail.png" alt="">
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="group-shop-banner">
+                                            <img src="__TMPL__/public/assets/images/default-thumbnail.png" alt="">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> 
+                        <div class="group-con-shop-right clearfix">
+                            <div class="group-list">
+                                <div class="group-list-img">
+                                    <a href=""><img src="__TMPL__/public/assets/images/default-thumbnail.png" alt=""></a>
+                                </div>
+                                <div class="group-list-txt">
+                                    <p><a>汽油发动机小车面包车矿物质机油SG15W40汽车四季保养通用</a></p>
+                                </div>
+                            </div>
+                            <div class="group-list">
+                                <div class="group-list-img">
+                                    <a href=""><img src="__TMPL__/public/assets/images/default-thumbnail.png" alt=""></a>
+                                </div>
+                                <div class="group-list-txt">
+                                    <p><a>汽油发动机小车面包车矿物质机油SG15W40汽车四季保养通用</a></p>
+                                </div>
+                            </div>
+                            <div class="group-list">
+                                <div class="group-list-img">
+                                    <a href=""><img src="__TMPL__/public/assets/images/default-thumbnail.png" alt=""></a>
+                                </div>
+                                <div class="group-list-txt">
+                                    <p><a>汽油发动机小车面包车矿物质机油SG15W40汽车四季保养通用</a></p>
+                                </div>
+                            </div>
+                            <div class="group-list">
+                                <div class="group-list-img">
+                                    <a href=""><img src="__TMPL__/public/assets/images/default-thumbnail.png" alt=""></a>
+                                </div>
+                                <div class="group-list-txt">
+                                    <p><a>汽油发动机小车面包车矿物质机油SG15W40汽车四季保养通用</a></p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+       
+        </div>
+    </section>
+
+    <!-- 底部 -->
+    <include file="public@footer" />
+    <include file="public@scripts" />
+    <hook name="before_body_end" />
+</body>
+</html>

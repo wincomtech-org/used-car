@@ -1,5 +1,5 @@
 # used-car
-二手车交易
+二手车交易 
 
 流程图：
     https://www.processon.com/view/link/59cc6eb9e4b06e9fd2f745d4
@@ -8,6 +8,8 @@ GIT源码：
     https://github.com/wincomtech-org/used_car
 DOAMIN：
     http://usedcar.wincomtech.cn/
+测试账号：super  111111
+          lothar  111111
 模板路径：
     \public\themes\datong_car\  主目录
     \public\themes\datong_car\public\  共用文件 head、header、footer、nav、banner、morejs
@@ -35,28 +37,69 @@ DOMEvent DOMDocumentWrapper phpQueryEvents phpQuery Callback JSONP
 
 【设计种种】
 预设变量：
-    username 用户名
-    plateNo 车牌号
-    auerbach 认证资料
-    contract 合同
+    父级ID(parent_id)、
+    用户名(username)、车牌号(plateNo)、认证资料(auerbach)、合同(contract)、
+    金币(coin)、冻结金币(freeze)、积分(score)、优惠券(coupons)、经验值(exp)、
+    创建时间(create_time)、更新时间(update_time)、到期时间(due_time)
+    库存(inventory)、
+
+属性设计：
+    属性及属性值表尽快做出来，用于服务商城也可用于车辆，尽快解决SKU。新车有多个组合属性，二手车只有一个组合属性。
+
+    由属性生成的筛选不支持区间。
+
+    既然属性值不为区间，这有别于车辆的属性表设计。属性是否为查询、类型、长度、code码，用来设计筛选。属性值可用文本框实现。
+
+    二手车的检测报告同样拥有相当多的属性。这个属性仍然是二级，但属性值属于单一值或图集。属性为图集的放一起。
+
+
 
 车险服务流程
     已存在的车险查重
     险种的 保险责任、赔偿项目、赔偿额度？
-
 车险流程修改：
     车险流程：填资料，选意向公司，选险种，提交到后台提醒，核算，电话联系，审核通过，个人中心显示核算价格和选择领取保单方式（在线付费邮寄或现场收费领取）
-    原版：
+原版：
     先是录入车辆信息，然后进行意向投保公司选择，下一步选取投保项目，然后点击核算保险，后台提醒工作人员查看信息，人工核算后进行电话联系，个人中心里面给予显示核算价格和选择领取保单方式，还是在线付费邮寄和现场收费领取
 
 车辆服务流程修改：
     服务点可与公司挂钩？
 
+
+【新增服务商城】
+修改内容：
+    点券改成优惠券
+商品属性设计：
+    核心：属性类别表 + 属性值表
+    产品表(cmf_shop_goods)：
+        (PK)产品ID、(FK1)类别ID、(FK2)品牌ID、产品名称(name)、价格(shop_price)、积分(score)、优惠券(conpon)、、添加时间(create_time)、库存(inventory)、状态(status)
+    类目表(cmf_shop_goods_category)：
+        (PK)类别ID、(FK1)类别父ID(parent_id)、深度(path)、类别名称(name)、状态(status)、排序(listorder)
+    属性表(cmf_shop_goods_attr)：
+        (PK)属性ID、(FK1)类别ID(cateId)、属性名称(name)、显示类型(input_type,单选、多选、下拉)、状态、排序、是否查询(is_query)、值类型(vtype)、值长度(vlength)
+    属性值表(cmf_shop_goods_av)：
+        (PK)属性值ID、(FK1)属性ID(attrId)、属性值名称(name)、状态、排序
+    产品属性关系表(cmf_shop_gav)：
+        (PK)属性关系ID、(FK1)产品ID(proId)、(FK2)属性ID(attrId)、(FK3)属性值ID(avId)
+    说明：属性值可以是在一个 textarea 框中用 | 隔开 获取。
+其它表设计：
+    分类属性关系表(cmf_shop_category_attr)：
+    品牌表(cmf_shop_goods_brand)：可以直接使用已有的
+        (PK)品牌ID、品牌名称、logo、推荐(is_rec)、状态
+    订单表(cmf_shop_order)：
+    订单详情表(cmf_shop_order_detail)：
+    收货地址表(cmf_shop_shipping_address)：
+    快递公司表(cmf_express)：
+
+
+
+
 涉及支付的地方：
-    trade/Post/seeCarPost
-    trade/Post/depositPost
-    insurance/Post/step5Post
-    user/Funds/rechargePost
+    预约看车    trade/Post/seeCarPost
+    开店申请    trade/Post/depositPost
+    保险业务    insurance/Post/step5Post
+    充值        user/Funds/rechargePost
+    服务商城    shop/
 
 充值：
     <!-- 充值成功，新增funds_apply，user_funds_log。 -->
@@ -99,7 +142,7 @@ DOMEvent DOMDocumentWrapper phpQueryEvents phpQuery Callback JSONP
 2、车辆保险
 3、车辆业务
 4、个人中心
-    优先使用点券，我的点券怎么扣除退还？
+    我的优惠券怎么扣除退还？
     在已有手机、邮箱登录的基础上可以加入用户名登录。昵称作为网站通用，优先级：昵称<=用户名<=手机号<=邮箱
 5、车辆买卖
     <!-- 买家需要实名认证，卖家需要实名认证资质认证缴纳开店保证金才能卖车。 -->
@@ -273,7 +316,7 @@ lothar_verify()
 ●资金管理
 cmf_user_funds_log
 cmf_funds_apply 申请
-●点券管理
+●积分管理
 cmf_user_ticket_log
 
 
