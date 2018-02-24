@@ -82,7 +82,7 @@ class AdminRechargeController extends AdminBaseController
         // dump($list);die;
         $this->assign('list', $list);
         $this->assign('pager', $list->render());
-        return $this->fetch();
+        return $this->fetch('listScore');
     }
     public function addScore()
     {
@@ -135,11 +135,11 @@ class AdminRechargeController extends AdminBaseController
         $list = Db::name('user_coupons_log')->paginate();
         $this->assign('list', $list);
         $this->assign('pager', $list->render());
-        return $this->fetch();
+        return $this->fetch('listCoupon');
     }
     public function addCoupon()
     {
-        return $this->fetch();
+        return $this->fetch('addCoupon');
     }
     public function addCouponPost()
     {
