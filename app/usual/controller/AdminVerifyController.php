@@ -3,7 +3,8 @@ namespace app\usual\controller;
 
 use cmf\controller\AdminBaseController;
 use think\Db;
-// use app\usual\model\VerifyModel;
+use app\usual\model\VerifyModel;
+use app\usual\model\VerifyModelModel;
 // use think\Config;
 
 /**
@@ -24,10 +25,10 @@ class AdminVerifyController extends AdminBaseController
         $auth_code = $this->request->param('auth_code');
         $auth_status = $this->request->param('auth_status',0,'intval');
 
-        $data = model('Verify')->getLists($param);
-        $data->appends($param);
+        $scModel = new VerifyModel();
+        $data    = $scModel->getLists($param);
         $categoryTree = model('VerifyModel')->getOptions($auth_code);
-        $statusTree = model('Verify')->getVerifyStatus($auth_status);
+        $statusTree = $scModel->getVerifyStatus($auth_status);
 
         $this->assign('start_time', isset($param['start_time']) ? $param['start_time'] : '');
         $this->assign('end_time', isset($param['end_time']) ? $param['end_time'] : '');
@@ -35,6 +36,7 @@ class AdminVerifyController extends AdminBaseController
         $this->assign('category_tree', $categoryTree);
         $this->assign('status_tree', $statusTree);
         $this->assign('lists', $data->items());
+        $data->appends($param);
         $this->assign('page', $data->render());
 
         return $this->fetch();
@@ -42,9 +44,11 @@ class AdminVerifyController extends AdminBaseController
 
     public function add()
     {
-        $this->assign('category_tree', model('VerifyModel')->getOptions(0,0,0,true));
-        $this->assign('define_data',model('VerifyModel')->getDefineData('',''));
-        $this->assign('status_tree', model('Verify')->getVerifyStatus());
+        $scModel = new VerifyModel();
+        $sc2Model = new VerifyModelModel();
+        $this->assign('category_tree', $sc2Model->getOptions(0,0,0,true));
+        $this->assign('define_data', $sc2Model->getDefineData('',''));
+        $this->assign('status_tree', $scModel->getVerifyStatus());
         return $this->fetch();
     }
     public function addPost()
@@ -52,45 +56,50 @@ class AdminVerifyController extends AdminBaseController
         if ($this->request->isPost()) {
             $data   = $this->request->param();
             $post   = $data['post'];
+            $postUid = $post['user_id'];
 
+            $scModel = new VerifyModel();
             // 获取用户
-            if (!empty($post['user_id'])) {
-                $count = Db::name('user')->where('id',$post['user_id'])->count();
+            if (!empty($postUid)) {
+                $count = Db::name('user')->where('id',$postUid)->count();
                 if ($count<1) {
                     $this->error('对不起，该用户已不存在！');
                 }
             }
             $username = $this->request->param('username/s');
-            $user_id = Db::name('user')->whereOr(['user_nickname|user_login|user_email|mobile'=>['eq', $username]])->value('id');
-            if (empty($user_id)) {
+            $userId = $scModel->getUid($username);
+            if (empty($userId)) {
                 $this->error('系统未检测到该用户');
             }
-            if ($post['user_id']!=$user_id) {
+            if ($postUid!=$userId) {
                 $this->error('用户ID 和 用户名 不一致！');
             }
-            if (empty($post['user_id'])) {
+            if (empty($postUid)) {
                 $this->error('请填写用户ID 或者用户名');
             }
-            $post['user_id'] = intval($user_id);
+            $postUid = $userId;
 
             // 验证
             $result = $this->validate($post,'Verify.add');
             if ($result !== true) {
                 $this->error($result);
             }
-            model('Verify')->adminAddArticle($post);
+            $scModel->adminAddArticle($post);
 
-            $this->success('添加成功!', url('AdminVerify/edit', ['id'=>model('Verify')->id]));
+            $this->success('添加成功!', url('AdminVerify/edit', ['id'=>$scModel->id]));
         }
     }
 
     public function edit()
     {
         $id = $this->request->param('id', 0, 'intval');
-        $post = model('Verify')->getPost($id);
-        $vm = model('VerifyModel')->getOptions($post['auth_code'],0,0,true);
-        $define_data = model('VerifyModel')->getDefineData('','');
-        $statusTree = model('Verify')->getVerifyStatus($post['auth_status']);
+
+        $scModel = new VerifyModel();
+        $sc2Model = new VerifyModelModel();
+        $post = $scModel->getPost($id);
+        $vm = $sc2Model->getOptions($post['auth_code'],0,0,true);
+        $define_data = $sc2Model->getDefineData('','');
+        $statusTree = $scModel->getVerifyStatus($post['auth_status']);
 
         $this->assign('category_tree', $vm);
         $this->assign('define_data', $define_data);
@@ -104,6 +113,7 @@ class AdminVerifyController extends AdminBaseController
             $data   = $this->request->param();
             $post   = $data['post'];
 
+            $scModel = new VerifyModel();
             // 验证
             // $result = $this->validate($post, 'Verify.edit');
             // if ($result !== true) {
@@ -111,13 +121,13 @@ class AdminVerifyController extends AdminBaseController
             // }
 
             if (!empty($data['photo_names'])) {
-                 $post['more']['photos'] = model('Verify')->dealFiles(['names'=>$data['photo_names'],'urls'=>$data['photo_urls']]);
+                 $post['more']['photos'] = $scModel->dealFiles(['names'=>$data['photo_names'],'urls'=>$data['photo_urls']]);
             }
             if (!empty($data['file_names'])) {
-                $post['more']['files'] = model('Verify')->dealFiles(['names'=>$data['file_names'],'urls'=>$data['file_urls']]);
+                $post['more']['files'] = $scModel->dealFiles(['names'=>$data['file_names'],'urls'=>$data['file_urls']]);
             }
 
-            model('Verify')->adminEditArticle($post);
+            $scModel->adminEditArticle($post);
 
             $this->success('保存成功!');
         }
@@ -128,13 +138,14 @@ class AdminVerifyController extends AdminBaseController
     {
         $param = $this->request->param();
 
+        $scModel = new VerifyModel();
         if (isset($param['id'])) {
             $id           = $this->request->param('id', 0, 'intval');
-            $resultPortal = model('Verify')
+            $resultPortal = $scModel
                 ->where(['id' => $id])
                 ->update(['delete_time' => time()]);
             if ($resultPortal) {
-                $result       = model('Verify')->where(['id' => $id])->find();
+                $result       = $scModel->where(['id' => $id])->find();
                 $data         = [
                     'object_id'   => $result['id'],
                     'create_time' => time(),
@@ -148,8 +159,8 @@ class AdminVerifyController extends AdminBaseController
 
         if (isset($param['ids'])) {
             $ids     = $this->request->param('ids/a');
-            $recycle = model('Verify')->where(['id' => ['in', $ids]])->select();
-            $result  = model('Verify')->where(['id' => ['in', $ids]])->update(['delete_time' => time()]);
+            $recycle = $scModel->where(['id' => ['in', $ids]])->select();
+            $result  = $scModel->where(['id' => ['in', $ids]])->update(['delete_time' => time()]);
             if ($result) {
                 foreach ($recycle as $value) {
                     $data = [

@@ -171,6 +171,7 @@ class UsualCarModel extends UsualModel
             // });
 
             $where['a.delete_time'] = 0;
+            $where['a.parent_id'] = 0;
             $where['a.status'] = 1;
             $where['a.sell_status'] = ['gt',0];
             if (!empty($filter)) {

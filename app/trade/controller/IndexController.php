@@ -135,8 +135,8 @@ class IndexController extends HomeBaseController
         $jumpurl = $jumpext = '';
         $filter = $extra = $where = $order = $carlist = [];
         // 售卖条件
-        $extra['a.status'] = 1;
         $extra['a.parent_id'] = 0;
+        $extra['a.status'] = 1;
         $extra['a.sell_status'] = ['gt',0];
 
         // 处理请求的数据

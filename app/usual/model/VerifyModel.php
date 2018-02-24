@@ -39,12 +39,8 @@ class VerifyModel extends UsualModel
         }
         // 用户
         $uname = empty($filter['uname']) ? '' : $filter['uname'];
-        if (!empty($uname)) {
-            $uid = intval($uname);
-            if (empty($uid)) {
-                $uid = Db::name('user')->whereOr(['user_nickname|user_login|user_email|mobile'=>$uname])->value('id');
-                $uid = intval($uid);
-            }
+        $uid = $this->getUid($uname);
+        if (!empty($uid)) {
             $where['a.user_id'] = $uid;
         }
 

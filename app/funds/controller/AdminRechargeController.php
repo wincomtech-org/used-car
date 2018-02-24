@@ -41,15 +41,12 @@ class AdminRechargeController extends AdminBaseController
         if ($result===false) {
             $this->error($result);
         }
+
         // 获取uid
-        $uid = intval($data['uname']);
-        if (empty($uid)) {
-            $uid = Db::name('user')->whereOr(['user_nickname|user_login|user_email|mobile'=>$data['uname']])->value('id');
-            $uid = intval($uid);
-        }
+        $fundsModel = new FundsApplyModel();
+        $uid = $fundsModel->getUid($data['uname']);
 
         // 保存数据
-        // $res = model('');
         $transStatus = true;
         Db::startTrans();
         try{
@@ -81,7 +78,7 @@ class AdminRechargeController extends AdminBaseController
     // 给用户充点券
     public function addTicket()
     {
-        return $this->fetch();
+        return $this->fetch('addTicket');
     }
     public function addTicketPost()
     {
@@ -93,11 +90,8 @@ class AdminRechargeController extends AdminBaseController
             $this->error($result);
         }
         // 获取uid
-        $uid = intval($data['uname']);
-        if (empty($uid)) {
-            $uid = Db::name('user')->whereOr(['user_nickname|user_login|user_email|mobile'=>$data['uname']])->value('id');
-            $uid = intval($uid);
-        }
+        $fundsModel = new FundsApplyModel();
+        $uid = $fundsModel->getUid($data['uname']);
 
         // 保存数据
         $transStatus = true;

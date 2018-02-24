@@ -45,10 +45,12 @@ class AdminOrderController extends AdminBaseController
     {
         if ($this->request->isPost()) {
             $data   = $this->request->param();
+
+            $scModel = new TradeOrderModel();
             // 获取买家
             $username = $this->request->param('buyer_username/s');
-            $user_id = Db::name('user')->whereOr(['user_nickname|user_login|user_email|mobile'=>['eq', $username]])->value('id');
-            if (empty($user_id)) {
+            $userId = $scModel->getUid($username);
+            if (empty($userId)) {
                 $this->error('系统未检测到该用户');
             }
             // 获取车子
@@ -59,33 +61,34 @@ class AdminOrderController extends AdminBaseController
             }
 
             $post   = $data['post'];
-            $post['user_id'] = intval($user_id);
+            $post['user_id'] = $userId;
             $post['car_id'] = intval($car_id);
             $result = $this->validate($post,'Order.add');
             if ($result !== true) {
                 $this->error($result);
             }
-            model('TradeOrder')->adminAddArticle($post);
+            $scModel->adminAddArticle($post);
 
             // 钩子
-            // $post['id'] = model('TradeOrder')->id;
+            // $post['id'] = $scModel->id;
             // $hookParam          = [
             //     'is_add'  => true,
             //     'article' => $post
             // ];
             // hook('portal_admin_after_save_article', $hookParam);
 
-            $this->success('添加成功!', url('AdminOrder/edit', ['id' => model('TradeOrder')->id]));
+            $this->success('添加成功!', url('AdminOrder/edit', ['id' => $scModel->id]));
         }
     }
 
     public function edit()
     {
         $id = $this->request->param('id', 0, 'intval');
-        $post = model('TradeOrder')->getPost($id);
+        $scModel = new TradeOrderModel();
+        $post = $scModel->getPost($id);
 
         // 订单状态
-        $order_status = model('TradeOrder')->getOrderStatus($post['status']);
+        $order_status = $scModel->getOrderStatus($post['status']);
         // 预约资料
         $verify = lothar_verify($post['buyer_uid'],'certification','more');
 
@@ -105,21 +108,21 @@ class AdminOrderController extends AdminBaseController
                 $this->error($result);
             }
 
-            $orderModel = new TradeOrderModel();
+            $scModel = new TradeOrderModel();
 
             if (!empty($data['photo'])) {
-                $post['more']['photo'] = $orderModel->dealFiles($data['photo']);
+                $post['more']['photo'] = $scModel->dealFiles($data['photo']);
             }
             if (!empty($data['file'])) {
-                $post['more']['files'] = $orderModel->dealFiles($data['file']);
+                $post['more']['files'] = $scModel->dealFiles($data['file']);
             }
 
-            $orderModel->adminEditArticle($post);
+            $scModel->adminEditArticle($post);
 
             // 预约资料修改？
             // $verify = $data['verify'];
             // if (!empty($data['identity_card'])) {
-            //     $verify['more']['identity_card'] = $orderModel->dealFiles($data['identity_card']);
+            //     $verify['more']['identity_card'] = $scModel->dealFiles($data['identity_card']);
             // }
             // model('usual/Verify')->inVerify($verify,$post['buyer_uid']);
 
@@ -132,13 +135,12 @@ class AdminOrderController extends AdminBaseController
     {
         $param = $this->request->param();
 
+        $scModel = new TradeOrderModel();
         if (isset($param['id'])) {
             $id           = $this->request->param('id', 0, 'intval');
-            $resultPortal = model('TradeOrder')
-                ->where(['id' => $id])
-                ->update(['delete_time' => time()]);
+            $resultPortal = $scModel->where(['id' => $id])->update(['delete_time' => time()]);
             if ($resultPortal) {
-                $result       = model('TradeOrder')->where(['id' => $id])->find();
+                $result       = $scModel->where(['id' => $id])->find();
                 $data         = [
                     'object_id'   => $result['id'],
                     'create_time' => time(),
@@ -152,8 +154,8 @@ class AdminOrderController extends AdminBaseController
 
         if (isset($param['ids'])) {
             $ids     = $this->request->param('ids/a');
-            $recycle = model('TradeOrder')->where(['id' => ['in', $ids]])->select();
-            $result  = model('TradeOrder')->where(['id' => ['in', $ids]])->update(['delete_time' => time()]);
+            $recycle = $scModel->where(['id' => ['in', $ids]])->select();
+            $result  = $scModel->where(['id' => ['in', $ids]])->update(['delete_time' => time()]);
             if ($result) {
                 foreach ($recycle as $value) {
                     $data = [
@@ -173,30 +175,33 @@ class AdminOrderController extends AdminBaseController
     {
         $param           = $this->request->param();
 
+        $scModel = new TradeOrderModel();
         if (isset($param['ids']) && isset($param["yes"])) {
             $ids = $this->request->param('ids/a');
-            model('TradeOrder')->where(['id' => ['in', $ids]])->update(['status' => 1, 'published_time' => time()]);
+            $scModel->where(['id' => ['in', $ids]])->update(['status' => 1, 'published_time' => time()]);
             $this->success("启用成功！", '');
         }
 
         if (isset($param['ids']) && isset($param["no"])) {
             $ids = $this->request->param('ids/a');
-            model('TradeOrder')->where(['id' => ['in', $ids]])->update(['status' => 0]);
+            $scModel->where(['id' => ['in', $ids]])->update(['status' => 0]);
             $this->success("禁用成功！", '');
         }
     }
     public function top()
     {
         $param           = $this->request->param();
+        
+        $scModel = new TradeOrderModel();
         if (isset($param['ids']) && isset($param["yes"])) {
             $ids = $this->request->param('ids/a');
-            model('TradeOrder')->where(['id' => ['in', $ids]])->update(['is_top' => 1]);
+            $scModel->where(['id' => ['in', $ids]])->update(['is_top' => 1]);
             $this->success("置顶成功！", '');
 
         }
         if (isset($_POST['ids']) && isset($param["no"])) {
             $ids = $this->request->param('ids/a');
-            model('TradeOrder')->where(['id' => ['in', $ids]])->update(['is_top' => 0]);
+            $scModel->where(['id' => ['in', $ids]])->update(['is_top' => 0]);
             $this->success("取消置顶成功！", '');
         }
     }
@@ -204,15 +209,16 @@ class AdminOrderController extends AdminBaseController
     {
         $param           = $this->request->param();
 
+        $scModel = new TradeOrderModel();
         if (isset($param['ids']) && isset($param["yes"])) {
             $ids = $this->request->param('ids/a');
-            model('TradeOrder')->where(['id' => ['in', $ids]])->update(['is_rec' => 1]);
+            $scModel->where(['id' => ['in', $ids]])->update(['is_rec' => 1]);
             $this->success("推荐成功！", '');
 
         }
         if (isset($param['ids']) && isset($param["no"])) {
             $ids = $this->request->param('ids/a');
-            model('TradeOrder')->where(['id' => ['in', $ids]])->update(['is_rec' => 0]);
+            $scModel->where(['id' => ['in', $ids]])->update(['is_rec' => 0]);
             $this->success("取消推荐成功！", '');
 
         }

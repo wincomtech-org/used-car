@@ -67,11 +67,12 @@ class AdminServiceController extends AdminBaseController
             $post = $data['post'];
             $username = $this->request->param('username/s');
 
+            $serviceModel = new ServiceModel();
             // 判断用户
             if (empty($username)) {
                 $this->error('客户名不能为空');
             }
-            $userId = Db::name('user')->whereOr(['user_nickname|user_login|user_email|mobile'=>['eq', $username]])->value('id');
+            $userId = $serviceModel->getUid($username);
             if (empty($userId)) {
                 $this->error('系统未检测到该用户');
             }
@@ -81,7 +82,7 @@ class AdminServiceController extends AdminBaseController
             }
 
             // 预处理数据
-            $post['user_id'] = intval($userId);
+            $post['user_id'] = $userId;
             $post['create_time'] = time();
             // 验证
             $result = $this->validate($post,'Service.add');
@@ -89,7 +90,6 @@ class AdminServiceController extends AdminBaseController
                 $this->error($result);
             }
 
-            $serviceModel = new ServiceModel();
             $serviceModel->adminAddArticle($post);
 
             $this->success('添加成功!', url('AdminService/edit', ['id'=>$serviceModel->id]));
@@ -137,19 +137,21 @@ class AdminServiceController extends AdminBaseController
         if ($this->request->isPost()) {
             $data   = $this->request->param();
             $username = $this->request->param('username/s');
-            $user_id = Db::name('user')->whereOr(['user_nickname|user_login|user_email|mobile'=>['eq', $username]])->value('id');
-            if (empty($user_id)) {
+
+            // 验证
+            $serviceModel = new ServiceModel();
+            $userId = $serviceModel->getUid($username);
+            if (empty($userId)) {
                 $this->error('系统未检测到该用户');
             }
 
             $post = $data['post'];
-            $post['user_id'] = intval($user_id);
+            $post['user_id'] = $userId;
             $result = $this->validate($post, 'Service.edit');
             if ($result !== true) {
                 $this->error($result);
             }
 
-            $serviceModel = new ServiceModel();
             if (!empty($data['photo'])) {
                 $post['more']['photos'] = $serviceModel->dealFiles($data['photo']);
             }
