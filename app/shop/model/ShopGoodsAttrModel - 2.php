@@ -26,38 +26,52 @@ class ShopGoodsAttrModel extends Model
     }
 
     /*添加属性*/
-    public function addAttr($data)
+    public function addAttr($data,$categories)
     {
         if (!empty($data['more']['thumbnail'])) {
             $data['more']['thumbnail'] = cmf_asset_relative_url($data['more']['thumbnail']);
         }
 
         $this->allowField(true)->data($data, true)->isUpdate(false)->save();
- 
+
+        if (isset($categories)) {
+            if (is_string($categories)) {
+                $categories = explode(',', $categories);
+            }
+            $this->attrCates()->save($categories);
+        }
+
         return $this;
     }
 
     /*编辑属性*/
-    public function editAttr($data)
+    public function editAttr($data, $categories)
     {
         if (!empty($data['more']['thumbnail'])) {
             $data['more']['thumbnail'] = cmf_asset_relative_url($data['more']['thumbnail']);
         }
 
         $this->allowField(true)->isUpdate(true)->data($data, true)->save();
- 
+
+        if (isset($categories)) {
+            if (is_string($categories)) {
+                $categories = explode(',', $categories);
+            }
+            // 去重
+            $oldCategoryIds        = $this->categories()->column('category_id');
+            $sameCategoryIds       = array_intersect($categories, $oldCategoryIds);
+            $needDeleteCategoryIds = array_diff($oldCategoryIds, $sameCategoryIds);
+            $newCategoryIds        = array_diff($categories, $sameCategoryIds);
+            // 更新
+            if (!empty($needDeleteCategoryIds)) {
+                $this->categories()->detach($needDeleteCategoryIds);
+            }
+            if (!empty($newCategoryIds)) {
+                $this->categories()->attach(array_values($newCategoryIds));
+            }
+        }
+
         return $this;
-    }
-    /*得到所有显示属性*/
-    public function getAttrs($status=1)
-    {
-        $where=[];
-        if($status==1){
-            $where=['status'=>1];
-        } 
-        $list=$this->field('id,name')->where($where)->order('list_order asc,id asc')->select();
-        
-        return $list;
     }
 
     /*删除属性*/
@@ -65,5 +79,4 @@ class ShopGoodsAttrModel extends Model
     {
         # code...
     }
-     
 }

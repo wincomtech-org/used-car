@@ -1,0 +1,82 @@
+<include file="public@header"/>
+</head>
+<body>
+<div class="wrap js-check-wrap">
+    <ul class="nav nav-tabs">
+        <li><a href="{:url('AdminCategory/index')}">类别管理</a></li>
+        <li><a href="{:url('AdminCategory/add')}">添加类别</a></li>
+        <li class="active"><a>编辑类别</a></li>
+    </ul>
+    <div class="row margin-top-20">
+        <div class="col-md-2">
+            <div class="list-group">
+                <a class="list-group-item" href="#A" data-toggle="tab">基本属性</a>
+                <!-- <a class="list-group-item" href="#B" data-toggle="tab">SEO设置</a> -->
+            </div>
+        </div>
+        <form class="js-ajax-form" action="{:url('AdminCategory/editPost')}" method="post">
+        <div class="col-md-6">
+            <div class="tab-content">
+                <div class="tab-pane active" id="A">
+                    <div class="form-group">
+                        <label for="input-parent"><span class="form-required">*</span>上级</label>
+                        <div>
+                            <select class="form-control" name="parent_id" id="input-parent">
+                                <option value="0">作为一级类别</option>
+                                {$categories_tree}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="input-name"><span class="form-required">*</span>类别名称</label>
+                        <div>
+                            <input type="text" class="form-control" id="input-name" name="name" value="{$name|default=''}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="input-description">描述</label>
+                        <div>
+                            <textarea class="form-control" name="description"
+                                      id="input-description">{$description|default=''}</textarea>
+                        </div>
+                    </div>
+                      
+                     <div class="form-group">
+                        <label >已添加属性</label>
+                        <div>
+                        <foreach name="attrs" item="vo">
+                         <div class="zzboard">
+                         	<input type="checkbox" value="{$vo.id}" name="aids[]"/>
+                         	<input type="text" value="{$vo.name}"/>
+                         </div>
+                        </foreach>
+                           
+                        </div>
+                    </div>
+                </div>
+               
+            </div>
+            <div class="form-group">
+                <input type="hidden" name="id" value="{$id}">
+                <button type="submit" class="btn btn-primary js-ajax-submit" data-refresh="0">{:lang('SAVE')}
+                </button>
+                <a class="btn btn-default" href="{:url('AdminCategory/index')}">{:lang('BACK')}</a>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label for="input-seo_title">状态</label>
+                <div>
+                    <select class="form-control" name="status">
+                        <option {$status==1?='selected'} value="1">显示</option>
+                        <option {$status==0?='selected'} value="0">隐藏</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        </form>
+    </div>
+</div>
+<script type="text/javascript" src="__STATIC__/js/admin.js"></script>
+</body>
+</html>

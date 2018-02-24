@@ -86,7 +86,7 @@ class AdminRechargeController extends AdminBaseController
     }
     public function addScore()
     {
-        return $this->fetch('addTicket');
+        return $this->fetch('addScore');
     }
     public function addScorePost()
     {

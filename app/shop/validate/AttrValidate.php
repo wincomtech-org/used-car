@@ -8,12 +8,18 @@ use think\Validate;
 */
 class AttrValidate extends Validate
 {
-    protected $rule = [];
-    protected $message = [];
-    protected $scene = [];
+    protected $rule = [
+        'name'  => 'require',
+    ];
+    protected $message = [
+        'name.require' => '名称不能为空',
+    ];
+    protected $scene = [
+        // 'add' => ['name'],
+    ];
 
-    protected function FunctionName($value,$rule,$data)
-    {
-        return true;
-    }
+    // protected function FunctionName($value,$rule,$data)
+    // {
+    //     return true;
+    // }
 }

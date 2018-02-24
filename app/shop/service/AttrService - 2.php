@@ -12,7 +12,14 @@ class AttrService
         $field = 'a.*';
         $join = [];
         $where = [];
-        
+        // 查找分类
+        $category = empty($filter['category']) ? 0 : intval($filter['category']);
+        if (!empty($category)) {
+            $where['b.category_id'] = ['eq', $category];
+            array_push($join, ['__SHOP_CATEGORY_ATTR__ b', 'a.id = b.attr_id']);
+            $field .= 'b.id AS attr_category_id,b.list_order,b.category_id';
+        }
+
         $keyword = empty($filter['keyword']) ? '' : $filter['keyword'];
         if (!empty($keyword)) {
             $where['a.name'] = ['like', "%$keyword%"];

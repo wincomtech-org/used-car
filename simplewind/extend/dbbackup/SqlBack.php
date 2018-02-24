@@ -78,15 +78,17 @@ EOT;
 
         // 生成备份内容
         foreach ($tables as $table) {
-            $sqldump .= 'DROP TABLE IF EXISTS `'. $table .'`'. $end_flag;
+            $sqldump .= 'DROP TABLE IF EXISTS `'.$table.'`'. $end_flag;
             $sqldump .= $this->getTableStructure($table)['Create Table'] . $end_flag;
             $datas = $this->getTableData($table);
             if (!empty($datas)) {
+                // $sqldump .= 'LOCK TABLES `'.$table.'` WRITE'. $end_flag;
                 // $keys = $this->getIntoFields($datas);
                 $vals = $this->getIntoFieldsVal($datas,'long');
                 // $sqldump .= "INSERT INTO `{$table}` ({$keys}) VALUES {$vals}". $end_flag;
                 // 缺省模式
                 $sqldump .= "INSERT `{$table}` VALUES {$vals}". $end_flag;
+                // $sqldump .= 'UNLOCK TABLES'. $end_flag;
             }
         }
 // return $sqldump;

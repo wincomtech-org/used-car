@@ -5,6 +5,8 @@
         <ul class="nav nav-tabs">
             <li class="active"><a href="{:url('AdminCategory/index')}">类目管理</a></li>
             <li><a href="{:url('AdminCategory/add')}">添加类目</a></li>
+            <li><a href="{:url('AdminCategory/attrs')}">类目属性</a></li>
+             <li><a href="{:url('AdminCategory/attrs_add')}">添加类目属性</a></li>
         </ul>
         <form method="post" class="js-ajax-form" action="{:url('AdminCategory/listOrder')}">
             <div class="table-actions">
@@ -17,7 +19,7 @@
                         <th width="50">ID</th>
                         <th>分类名称</th>
                         <th>描述</th>
-                        <th>操作</th>
+                        <th width="380">操作</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -25,11 +27,11 @@
                 </tbody>
                 <tfoot>
                     <tr>
-                        <th>排序</th>
-                        <th>ID</th>
+                        <th width="50">排序</th>
+                        <th width="50">ID</th>
                         <th>分类名称</th>
                         <th>描述</th>
-                        <th>操作</th>
+                        <th width="180">操作</th>
                     </tr>
                 </tfoot>
             </table>
