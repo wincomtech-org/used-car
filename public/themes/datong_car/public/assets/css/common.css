@@ -78,11 +78,13 @@ a{text-decoration:none;cursor:pointer;}
 }
 
 /* 公共用盒模型 */
-.group-list{
+/* 公共用盒模型 */
+.group-list,.border-box,.group-product a{
     -webkit-box-sizing:border-box;
     -moz-box-sizing:border-box;
     -ms-box-sizing:border-box;
     -o-box-sizing:border-box;
+    box-sizing:border-box;
 }
 
 /* 圆角 */
