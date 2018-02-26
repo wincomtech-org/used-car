@@ -4,34 +4,13 @@
     .banner_lunbo  .slick-dots{bottom:7px;}
 </style>
 <link rel="stylesheet" href="__TMPL__/public/assets/css/slick.css">
-<section>
-    <div class="banner_lunbo">
-        <div class="our_service_show">
-            <div class="slick">
-                <foreach name="slides" item="vo">
-                <div>
-                    <div class="banner_img">
-                        <a href="{$vo.url|default='#'}"></a>
-                        <empty name="vo.image">
-                            <img src="__TMPL__/public/assets/images/example/banner.jpg" alt="{$vo.title|default=''}">
-                        <else/>
-                            <img src="{:cmf_get_image_url($vo.image)}" alt="{$vo.title|default=''}">
-                        </empty>
-                    </div>
-                </div>
-                </foreach>
-           </div>
-        </div>
-    </div>
-</section>
-
 <!-- 滑动轮播图 -->
 <script src="__TMPL__/public/assets/js/slick.min.js"></script>
 <!--end-->
 <script type="text/javascript">
     // 滑动轮播图
     $(function(){
-        $('.slick').slick({
+        $('.slick_1').slick({
             dots: true,
             slidesToShow: 1,
             slidesToScroll: 1,
@@ -40,7 +19,24 @@
         });
     });
 
-    $(document).ready(function(){
-        $('.flicker-example').flicker();
-    });
+   
 </script>
+<section>
+    <div class="banner_lunbo slick-no-arrow">
+        <div class="slick slick_1">
+            <foreach name="slides" item="vo">
+            <div>
+                <div class="banner_img">
+                    <a href="{$vo.url|default='#'}"></a>
+                    <empty name="vo.image">
+                        <img src="__TMPL__/public/assets/images/example/banner.jpg" alt="{$vo.title|default=''}">
+                    <else/>
+                        <img src="{:cmf_get_image_url($vo.image)}" alt="{$vo.title|default=''}">
+                    </empty>
+                </div>
+            </div>
+            </foreach>
+        </div>
+    </div>
+</section>
+

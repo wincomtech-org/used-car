@@ -12,15 +12,96 @@
     <script src="__TMPL__/public/assets/js/slick.min.js"></script>
     <script>
         $(function(){
-           $('.slick').slick({
+           $('.hotSale').slick({
+               dots: true,
+               slidesToShow: 5,
+               slidesToScroll: 5,
+               autoplay: false,
+               autoplaySpeed: 4000,
+               responsive: [
+                    {   breakpoint: 1024,
+                        settings: {
+                            slidesToShow: 4,
+                            slidesToScroll: 4,
+                            infinite: true,
+                            dots: true
+                            }
+                        },
+                    {   breakpoint: 768,
+                        settings: {
+                            slidesToShow: 3,
+                            slidesToScroll: 3,
+                            infinite: true,
+                            dots: true
+                            }
+                        },
+                    {
+                        breakpoint: 600,
+                        settings: {
+                            slidesToShow: 2,
+                            slidesToScroll: 2,
+                            dots: true
+                            }
+                        },
+                    {
+                        breakpoint: 321,
+                        settings: {
+                            slidesToShow: 1,
+                            slidesToScroll: 1,
+                            dots: true
+                            }
+                        }
+                  
+                ],
+                appendDots:1
+           });
+           $('.group-slick').slick({
                dots: true,
                slidesToShow: 1,
                slidesToScroll: 1,
+               arrows:false,
                autoplay: true,
-               autoplaySpeed: 4000
-           });
+               autoplaySpeed: 4000,
+           })
+           $('.slick-sroll').slick({
+               slidesToShow: 5,
+               slidesToScroll: 5,
+               autoplay: false,
+               autoplaySpeed: 4000,
+               responsive: [
+                    {   breakpoint: 1025,
+                        settings: {
+                            slidesToShow: 4,
+                            slidesToScroll: 4,
+                            infinite: true
+                            }
+                        },
+                    {
+                        breakpoint: 900,
+                        settings: {
+                            slidesToShow: 3,
+                            slidesToScroll: 3
+                            }
+                        },
+                    {
+                        breakpoint: 600,
+                        settings: {
+                            slidesToShow: 2,
+                            slidesToScroll: 2
+                        }
+                    },
+                    {
+                        breakpoint: 500,
+                        settings: {
+                            slidesToShow: 1,
+                            slidesToScroll: 1
+                        }
+                    }
+                ],
+           })
+           
          });
-       </script>
+    </script>
     <hook name="before_head_end"/>
 </head>
 <body>
@@ -32,40 +113,158 @@
     <include file="public@banner" />
     <section class="vehiTrad" id="AAA">
         <div class="main">
-            <div class="shop-group">
-                <aside class=''>
-                    <!-- <div class="banner_lunbo ">
-                        <div class="our_service_show">
-                            <div class="slick">
-                                <div>
-                                    <div class="banner_img">
-                                        <img src="__TMPL__/public/assets/images/example/banner.jpg" alt="">
-                                    </div>
+            <div class='shop-group'>
+                <div class="shop-group-tit ">
+                    <h3>本周热卖</h3>
+                </div> 
+                <div class="hotSale_div ">
+                    <div class="slick hotSale">
+                        <div>
+                            <div class="remai_div  border-box">
+                                <div class="div_img">
+                                    <a href="">
+                                        <img src="__TMPL__/public/assets/images/product.png" alt="">
+                                    </a>
                                 </div>
-                                <div>
-                                    <div class="banner_img">
-                                        <img src="__TMPL__/public/assets/images/example/banner.jpg" alt="">
-                                    </div>
+                                <div class="remai_txt"><a href="">盯盯拍M6智能WiFi行车记录仪</a> </div>
+                                <div class='remai_pri'>
+                                    <span class='red-color'>￥52.00</span>
+                                    <a href="">加入购物车</a>
                                 </div>
-                                <div>
-                                    <div class="banner_img">
-                                        <img src="__TMPL__/public/assets/images/example/banner.jpg" alt="">
-                                    </div>
-                                </div>
+                                <img src="" alt="">
                             </div>
                         </div>
-                    </div> -->
-                </aside>
-                <div class="shop-group-tit clearfix">
+                        <div>
+                            <div class="remai_div  border-box">
+                                <div class="div_img">
+                                    <a href="">
+                                        <img src="__TMPL__/public/assets/images/product.png" alt="">
+                                    </a>
+                                </div>
+                                <div class="remai_txt"><a href="">壳牌（Shell）喜力 汽车机油 润滑油 
+                                        4L装 5W-40全合成灰壳超凡喜力SN级</a> </div>
+                                <div class='remai_pri'>
+                                    <span class='red-color'>￥52.00</span>
+                                    <a href="">加入购物车</a>
+                                </div>
+                                <img src="" alt="">
+                            </div>
+                        </div>
+                        <div>
+                            <div class="remai_div  border-box">
+                                <div class="div_img">
+                                    <a href="">
+                                        <img src="__TMPL__/public/assets/images/product.png" alt="">
+                                    </a>
+                                </div>
+                                <div class="remai_txt"><a href="">盯盯拍M6智能WiFi行车记录仪</a> </div>
+                                <div class='remai_pri'>
+                                    <span class='red-color'>￥52.00</span>
+                                    <a href="">加入购物车</a>
+                                </div>
+                                <img src="" alt="">
+                            </div>
+                        </div>
+                        <div>
+                            <div class="remai_div  border-box">
+                                <div class="div_img">
+                                    <a href="">
+                                        <img src="__TMPL__/public/assets/images/product.png" alt="">
+                                    </a>
+                                </div>
+                                <div class="remai_txt"><a href="">盯盯拍M6智能WiFi行车记录仪</a> </div>
+                                <div class='remai_pri'>
+                                    <span class='red-color'>￥52.00</span>
+                                    <a href="">加入购物车</a>
+                                </div>
+                                <img src="" alt="">
+                            </div>
+                        </div>
+                        <div>
+                            <div class="remai_div  border-box">
+                                <div class="div_img">
+                                    <a href="">
+                                        <img src="__TMPL__/public/assets/images/product.png" alt="">
+                                    </a>
+                                </div>
+                                <div class="remai_txt"><a href="">盯盯拍M6智能WiFi行车记录仪</a> </div>
+                                <div class='remai_pri'>
+                                    <span class='red-color'>￥52.00</span>
+                                    <a href="">加入购物车</a>
+                                </div>
+                                <img src="" alt="">
+                            </div>
+                        </div>
+                        <div>
+                            <div class="remai_div  border-box">
+                                <div class="div_img">
+                                    <a href="">
+                                        <img src="__TMPL__/public/assets/images/product.png" alt="">
+                                    </a>
+                                </div>
+                                <div class="remai_txt"><a href="">盯盯拍M6智能WiFi行车记录仪</a> </div>
+                                <div class='remai_pri'>
+                                    <span class='red-color'>￥52.00</span>
+                                    <a href="">加入购物车</a>
+                                </div>
+                                <img src="" alt="">
+                            </div>
+                        </div>
+                        <div>
+                            <div class="remai_div  border-box">
+                                <div class="div_img">
+                                    <a href="">
+                                        <img src="__TMPL__/public/assets/images/product.png" alt="">
+                                    </a>
+                                </div>
+                                <div class="remai_txt"><a href="">盯盯拍M6智能WiFi行车记录仪</a> </div>
+                                <div class='remai_pri'>
+                                    <span class='red-color'>￥52.00</span>
+                                    <a href="">加入购物车</a>
+                                </div>
+                                <img src="" alt="">
+                            </div>
+                        </div>
+                        <div>
+                            <div class="remai_div  border-box">
+                                <div class="div_img">
+                                    <a href="">
+                                        <img src="__TMPL__/public/assets/images/product.png" alt="">
+                                    </a>
+                                </div>
+                                <div class="remai_txt"><a href="">盯盯拍M6智能WiFi行车记录仪</a> </div>
+                                <div class='remai_pri'>
+                                    <span class='red-color'>￥52.00</span>
+                                    <a href="">加入购物车</a>
+                                </div>
+                                <img src="" alt="">
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+                <script>
+                     setTimeout(function(){ 
+                         var titLength=$('.hotSale_div .slick-dots li:last-child').html();
+                         $('.hotSale_div .slick-dots').append('<li><button>/</button></li><li>'+ titLength +'</li>')
+                         
+                     },300);
+                   
+                </script>
+            </div>
+            <div class="shop-group">
+                <div class="shop-group-tit ">
                     <h3>维修保养</h3>
                     <div class="shop-group-tit-list clearfix">
                         <ul class='shop-group-tit-ul clearfix' >
                             <li class='backg-red'><a href="">润滑油</a></li>
-                            <li><a href="">润滑油</a></li>
-                            <li><a href="">润滑油</a></li>
+                            <li><a href="">润滑油1</a></li>
+                            <li><a href="">润滑油2</a></li>
+                            <li><a href="">润滑油3</a></li>
+                            <li><a href="">润滑油4</a></li>
                         </ul>
                         <div class="more-style">
-                            <a href="">更多</a>
+                            <a href="">更多&nbsp;&gt;</a>
                         </div>
                     </div>   
                 </div> 
@@ -74,27 +273,27 @@
                         <div class="group-con-shop-left clearfix">
                             <div class="group-list ">
                                 <div class="group-list-img">
-                                    <a href=""><img src="__TMPL__/public/assets/images/default-thumbnail.png" alt=""></a>
+                                    <a href=""><img src="__TMPL__/public/assets/images/product_02.png" alt=""></a>
                                 </div>
                                 <div class="group-list-txt">
                                     <p><a>汽油发动机小车面包车矿物质机油SG15W40汽车四季保养通用</a></p>
                                 </div>
                             </div>
                             <div class="group-list-show">
-                                <div class="slick">
+                                <div class="slick group-slick">
                                     <div>
                                         <div class="group-shop-banner">
-                                            <img src="__TMPL__/public/assets/images/default-thumbnail.png" alt="">
+                                            <img src="__TMPL__/public/assets/images/product_03.png" alt="">
                                         </div>
                                     </div>
                                     <div>
                                         <div class="group-shop-banner">
-                                            <img src="__TMPL__/public/assets/images/default-thumbnail.png" alt="">
+                                            <img src="__TMPL__/public/assets/images/product_03.png" alt="">
                                         </div>
                                     </div>
                                     <div>
                                         <div class="group-shop-banner">
-                                            <img src="__TMPL__/public/assets/images/default-thumbnail.png" alt="">
+                                            <img src="__TMPL__/public/assets/images/product_03.png" alt="">
                                         </div>
                                     </div>
                                 </div>
@@ -103,7 +302,7 @@
                         <div class="group-con-shop-right clearfix">
                             <div class="group-list">
                                 <div class="group-list-img">
-                                    <a href=""><img src="__TMPL__/public/assets/images/default-thumbnail.png" alt=""></a>
+                                    <a href=""><img src="__TMPL__/public/assets/images/product_04.png" alt=""></a>
                                 </div>
                                 <div class="group-list-txt">
                                     <p><a>汽油发动机小车面包车矿物质机油SG15W40汽车四季保养通用</a></p>
@@ -111,7 +310,7 @@
                             </div>
                             <div class="group-list">
                                 <div class="group-list-img">
-                                    <a href=""><img src="__TMPL__/public/assets/images/default-thumbnail.png" alt=""></a>
+                                    <a href=""><img src="__TMPL__/public/assets/images/product_04.png" alt=""></a>
                                 </div>
                                 <div class="group-list-txt">
                                     <p><a>汽油发动机小车面包车矿物质机油SG15W40汽车四季保养通用</a></p>
@@ -119,7 +318,7 @@
                             </div>
                             <div class="group-list">
                                 <div class="group-list-img">
-                                    <a href=""><img src="__TMPL__/public/assets/images/default-thumbnail.png" alt=""></a>
+                                    <a href=""><img src="__TMPL__/public/assets/images/product_04.png" alt=""></a>
                                 </div>
                                 <div class="group-list-txt">
                                     <p><a>汽油发动机小车面包车矿物质机油SG15W40汽车四季保养通用</a></p>
@@ -127,7 +326,7 @@
                             </div>
                             <div class="group-list">
                                 <div class="group-list-img">
-                                    <a href=""><img src="__TMPL__/public/assets/images/default-thumbnail.png" alt=""></a>
+                                    <a href=""><img src="__TMPL__/public/assets/images/product_04.png" alt=""></a>
                                 </div>
                                 <div class="group-list-txt">
                                     <p><a>汽油发动机小车面包车矿物质机油SG15W40汽车四季保养通用</a></p>
@@ -136,15 +335,380 @@
                         </div>
                         
                     </div>
+                    <div class="shop-group-sroll">
+                        <div class="slick slick-sroll">
+                            <div>
+                                <div class="group-product">
+                                    <a href="" class='clearfix'>
+                                        <img src="__TMPL__/public/assets/images/product_01.png" alt="">
+                                        <div class="txt">
+                                            <p>力魔（LIQUI MOLY）超级新星合成润滑油</p> 
+                                            <span class='red-color'>￥198.00</span>
+                                            <span class='blue-color'>已有1351人评价</span>  
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="group-product">
+                                    <a href="" class='clearfix'>
+                                        <img src="__TMPL__/public/assets/images/product_01.png" alt="">
+                                        <div class="txt">
+                                            <p>力魔（LIQUI MOLY）超级新星合成润滑油</p> 
+                                            <span class='red-color'>￥198.00</span>
+                                            <span class='blue-color'>已有1351人评价</span>  
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="group-product">
+                                    <a href="" class='clearfix'>
+                                        <img src="__TMPL__/public/assets/images/product_01.png" alt="">
+                                        <div class="txt">
+                                            <p>力魔（LIQUI MOLY）超级新星合成润滑油</p> 
+                                            <span class='red-color'>￥198.00</span>
+                                            <span class='blue-color'>已有1351人评价</span>  
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="group-product">
+                                    <a href="" class='clearfix'>
+                                        <img src="__TMPL__/public/assets/images/product_01.png" alt="">
+                                        <div class="txt">
+                                            <p>力魔（LIQUI MOLY）超级新星合成润滑油</p> 
+                                            <span class='red-color'>￥198.00</span>
+                                            <span class='blue-color'>已有1351人评价</span>  
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="group-product">
+                                    <a href="" class='clearfix'>
+                                        <img src="__TMPL__/public/assets/images/product_01.png" alt="">
+                                        <div class="txt">
+                                            <p>力魔（LIQUI MOLY）超级新星合成润滑油</p> 
+                                            <span class='red-color'>￥198.00</span>
+                                            <span class='blue-color'>已有1351人评价</span>  
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="group-product">
+                                    <a href="" class='clearfix'>
+                                        <img src="__TMPL__/public/assets/images/product_01.png" alt="">
+                                        <div class="txt">
+                                            <p>力魔（LIQUI MOLY）超级新星合成润滑油</p> 
+                                            <span class='red-color'>￥198.00</span>
+                                            <span class='blue-color'>已有1351人评价</span>  
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="group-product">
+                                    <a href="" class='clearfix'>
+                                        <img src="__TMPL__/public/assets/images/product_01.png" alt="">
+                                        <div class="txt">
+                                            <p>力魔（LIQUI MOLY）超级新星合成润滑油</p> 
+                                            <span class='red-color'>￥198.00</span>
+                                            <span class='blue-color'>已有1351人评价</span>  
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="group-product">
+                                    <a href="" class='clearfix'>
+                                        <img src="__TMPL__/public/assets/images/product_01.png" alt="">
+                                        <div class="txt">
+                                            <p>力魔（LIQUI MOLY）超级新星合成润滑油</p> 
+                                            <span class='red-color'>￥198.00</span>
+                                            <span class='blue-color'>已有1351人评价</span>  
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-       
+            <div class="shop-group">
+                <div class="shop-group-tit ">
+                    <h3>车载电器</h3>
+                    <div class="shop-group-tit-list clearfix">
+                        <ul class='shop-group-tit-ul clearfix' >
+                            <li class='backg-red'><a href="">润滑油</a></li>
+                            <li><a href="">润滑油1</a></li>
+                            <li><a href="">润滑油2</a></li>
+                            <li><a href="">润滑油3</a></li>
+                            <li><a href="">润滑油4</a></li>
+                        </ul>
+                        <div class="more-style">
+                            <a href="">更多&nbsp;&gt;</a>
+                        </div>
+                    </div>   
+                </div> 
+                <div class="shop-group-con">
+                    <div class="shop-group-con-shops clearfix">
+                        <div class="group-con-shop-left clearfix">
+                            <div class="group-list ">
+                                <div class="group-list-img">
+                                    <a href=""><img src="__TMPL__/public/assets/images/product_02.png" alt=""></a>
+                                </div>
+                                <div class="group-list-txt">
+                                    <p><a>汽油发动机小车面包车矿物质机油SG15W40汽车四季保养通用</a></p>
+                                </div>
+                            </div>
+                            <div class="group-list-show">
+                                <div class="slick group-slick">
+                                    <div>
+                                        <div class="group-shop-banner">
+                                            <img src="__TMPL__/public/assets/images/product_03.png" alt="">
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="group-shop-banner">
+                                            <img src="__TMPL__/public/assets/images/product_03.png" alt="">
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="group-shop-banner">
+                                            <img src="__TMPL__/public/assets/images/product_03.png" alt="">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> 
+                        <div class="group-con-shop-right clearfix">
+                            <div class="group-list">
+                                <div class="group-list-img">
+                                    <a href=""><img src="__TMPL__/public/assets/images/product_04.png" alt=""></a>
+                                </div>
+                                <div class="group-list-txt">
+                                    <p><a>汽油发动机小车面包车矿物质机油SG15W40汽车四季保养通用</a></p>
+                                </div>
+                            </div>
+                            <div class="group-list">
+                                <div class="group-list-img">
+                                    <a href=""><img src="__TMPL__/public/assets/images/product_04.png" alt=""></a>
+                                </div>
+                                <div class="group-list-txt">
+                                    <p><a>汽油发动机小车面包车矿物质机油SG15W40汽车四季保养通用</a></p>
+                                </div>
+                            </div>
+                            <div class="group-list">
+                                <div class="group-list-img">
+                                    <a href=""><img src="__TMPL__/public/assets/images/product_04.png" alt=""></a>
+                                </div>
+                                <div class="group-list-txt">
+                                    <p><a>汽油发动机小车面包车矿物质机油SG15W40汽车四季保养通用</a></p>
+                                </div>
+                            </div>
+                            <div class="group-list">
+                                <div class="group-list-img">
+                                    <a href=""><img src="__TMPL__/public/assets/images/product_04.png" alt=""></a>
+                                </div>
+                                <div class="group-list-txt">
+                                    <p><a>汽油发动机小车面包车矿物质机油SG15W40汽车四季保养通用</a></p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    <div class="shop-group-sroll">
+                        <div class="slick slick-sroll">
+                            <div>
+                                <div class="group-product">
+                                    <a href="" class='clearfix'>
+                                        <img src="__TMPL__/public/assets/images/product_01.png" alt="">
+                                        <div class="txt">
+                                            <p>力魔（LIQUI MOLY）超级新星合成润滑油</p> 
+                                            <span class='red-color'>￥198.00</span>
+                                            <span class='blue-color'>已有1351人评价</span>  
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="group-product">
+                                    <a href="" class='clearfix'>
+                                        <img src="__TMPL__/public/assets/images/product_01.png" alt="">
+                                        <div class="txt">
+                                            <p>力魔（LIQUI MOLY）超级新星合成润滑油</p> 
+                                            <span class='red-color'>￥198.00</span>
+                                            <span class='blue-color'>已有1351人评价</span>  
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="group-product">
+                                    <a href="" class='clearfix'>
+                                        <img src="__TMPL__/public/assets/images/product_01.png" alt="">
+                                        <div class="txt">
+                                            <p>力魔（LIQUI MOLY）超级新星合成润滑油</p> 
+                                            <span class='red-color'>￥198.00</span>
+                                            <span class='blue-color'>已有1351人评价</span>  
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="group-product">
+                                    <a href="" class='clearfix'>
+                                        <img src="__TMPL__/public/assets/images/product_01.png" alt="">
+                                        <div class="txt">
+                                            <p>力魔（LIQUI MOLY）超级新星合成润滑油</p> 
+                                            <span class='red-color'>￥198.00</span>
+                                            <span class='blue-color'>已有1351人评价</span>  
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="group-product">
+                                    <a href="" class='clearfix'>
+                                        <img src="__TMPL__/public/assets/images/product_01.png" alt="">
+                                        <div class="txt">
+                                            <p>力魔（LIQUI MOLY）超级新星合成润滑油</p> 
+                                            <span class='red-color'>￥198.00</span>
+                                            <span class='blue-color'>已有1351人评价</span>  
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="group-product">
+                                    <a href="" class='clearfix'>
+                                        <img src="__TMPL__/public/assets/images/product_01.png" alt="">
+                                        <div class="txt">
+                                            <p>力魔（LIQUI MOLY）超级新星合成润滑油</p> 
+                                            <span class='red-color'>￥198.00</span>
+                                            <span class='blue-color'>已有1351人评价</span>  
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="group-product">
+                                    <a href="" class='clearfix'>
+                                        <img src="__TMPL__/public/assets/images/product_01.png" alt="">
+                                        <div class="txt">
+                                            <p>力魔（LIQUI MOLY）超级新星合成润滑油</p> 
+                                            <span class='red-color'>￥198.00</span>
+                                            <span class='blue-color'>已有1351人评价</span>  
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="group-product">
+                                    <a href="" class='clearfix'>
+                                        <img src="__TMPL__/public/assets/images/product_01.png" alt="">
+                                        <div class="txt">
+                                            <p>力魔（LIQUI MOLY）超级新星合成润滑油</p> 
+                                            <span class='red-color'>￥198.00</span>
+                                            <span class='blue-color'>已有1351人评价</span>  
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="advantage clearfix">
+                <ul>
+                    <li class='advantage_li'>
+                        <div class="adv_img adv1"></div>
+                        <div class="adv_txt">
+                            <p class='bold'>品质保障</p>
+                            <p class='normal'>品质护航&nbsp;购物无忧</p>
+                        </div>
+                    </li>
+                    <li class='advantage_li'>
+                        <div class="adv_img adv2"></div>
+                        <div class="adv_txt">
+                            <p class='bold'>七天无理由退货</p>
+                            <p class='normal'>为您提供售后无忧保障</p>
+                        </div>
+                    </li>
+                    <li class='advantage_li'>
+                        <div class="adv_img adv3"></div>
+                        <div class="adv_txt">
+                            <p class='bold'>特色服务体验</p>
+                            <p class='normal'>为您呈现不一样的服务</p>
+                        </div>
+                    </li>
+                    <li class='advantage_li'>
+                        <div class="adv_img adv4"></div>
+                        <div class="adv_txt">
+                            <p class='bold'>帮助中心</p>
+                            <p class='normal'>您的购物指南</p>
+                        </div>
+                    </li>
+                </ul>
+               
+            </div>
         </div>
-    </section>
 
+       
+    </section>
+    <div class="shop_footer">
+        <div class="main clearfix">
+           <div class="shop_foot_list clearfix">
+               <dl class='border-box'>
+                   <dt>购物指南</dt>
+                   <dd><a href="">购物流程</a></dd>
+                   <dd><a href="">会员介绍</a></dd>
+                   <dd><a href="">生活旅行/团购</a></dd>
+                   <dd><a href="">常见问题</a></dd>
+                   <dd><a href="">联系客服</a></dd>
+               </dl>
+               <dl class='border-box'>
+                    <dt>配送方式</dt>
+                    <dd><a href="">上门自提</a></dd>
+                    <dd><a href="">211限时达</a></dd>
+                    <dd><a href="">配送服务查询</a></dd>
+                    <dd><a href="">配送费收取标准</a></dd>
+                    <dd><a href="">海外配送</a></dd>
+                </dl>
+                <dl class='border-box'>
+                    <dt>支付方式 </dt>
+                    <dd><a href="">货到付款</a></dd>
+                    <dd><a href="">在线支付</a></dd>
+                    <dd><a href="">分期付款</a></dd>
+                    <dd><a href="">邮局汇款</a></dd>
+                    <dd><a href="">公司转账</a></dd>
+                </dl>
+                <dl class='border-box'>
+                    <dt>售后服务</dt>
+                    <dd><a href="">售后政策
+                        </a></dd>
+                    <dd><a href="">价格保护</a></dd>
+                    <dd><a href="">退款说明</a></dd>
+                    <dd><a href=""> 返修/退换货</a></dd>
+                    <dd><a href="">取消订单</a></dd>
+                </dl>
+           </div>
+           <div class="shop_foot_img">
+               <img src="__TMPL__/public/assets/images/logo.png" alt="">
+           </div>
+        </div>
+    </div>
     <!-- 底部 -->
     <include file="public@footer" />
     <include file="public@scripts" />
     <hook name="before_body_end" />
+    <script>
+        $('.icon_more1').click(function(){
+            $(this).siblings('.shop-group-tit-ul').toggle();
+        })
+    </script>
 </body>
 </html>
