@@ -242,6 +242,8 @@ footer p span{font-size:16px;color:#fff;line-height:30px;}
 .friendly-link a{color:#666;font-size:12px;line-height:28px;margin-right:20px;display:inline-block;}
 
 /*导航*/
+.navPc .main{position:relative;padding:0;}
+#main-menu{padding-left:180px;}
 nav{background-color:#000;}
 .nav_list>.nav_item{float:left;width:14%;height:55px;text-align:center;position:relative;}
 .nav_list .nav_item.active{background-color:#d00000;}
@@ -254,6 +256,26 @@ nav{background-color:#000;}
 .nav_second_item li{height:46px;line-height:46px;border-top:1px solid #fff;}
 .nav_second_item li a{color:#fff;font-size:14px;}
 .nav_second_item li:hover{background-color:#d00000;}
+
+/* 服务商城的头部 */
+.shop_menu{position:absolute;}
+.shop_menu_tit{height:55px;line-height:55px;color:#fff;font-size:16px;width:180px;text-align:center;cursor:pointer;}
+.shop_menu_tit b{display: inline-block;vertical-align: middle;}
+.shop_menu_tit b:after{content:"";display:inline-block;border-top:12px solid #fff;border-left:12px solid transparent;border-right:12px solid transparent;}
+.shop_menu_con{position:absolute;top:55px;background-color:#000;z-index:2}
+.shop_classify_li{position:relative;width:180px;}
+.shop_classify_li.active{background-color:#d00000;}
+.shop_classify_div{width:100%;padding:20px 10px;position:relative}
+.shop_classify_div:after{content:"";background:url(../images/shop_icon.png) -2px -99px;width:30px;height:30px;display:inline-block;color:#fff;position:absolute;top:50%;transform:translateY(-50%);right:-3px;font-size:16px;}
+.shop_classify_div p{font-size:14px;margin:5px 0;}
+.shop_classify_div p a{color:#fff;}
+.shop_classify_div p span:not(:first-child){margin-left:5px;}
+.shop_classify_div p span{font-size:12px;font-family:'宋体'}
+.shop_classify_con{position:absolute;left:180px;top:0;width:200px;background-color:rgba(255,255,255,.8);padding:20px;min-height:200px;}
+.shop_classify_con li{width:50%;float:left;margin:5px 0;}
+.shop_classify_con a{font-size:12px;font-family:'宋体';color:#333;cursor:pointer;}
+.shop_classify_li.active .shop_classify_div:after{position:absolute;right:-7px;top:20px;content:"";width:0;height:0;display:inline-block;border-left:8px solid #d00000;border-top:8px solid transparent;border-bottom:8px solid transparent;z-index:2;}
+
 
 /**banner**/
 .banner{width:100%;position:relative;}
@@ -286,10 +308,6 @@ nav{background-color:#000;}
 .analogy.no  .analogy_change{font-size:16px;line-height:35px;vertical-align:text-bottom;}
 .analogy.no  .kuang,.analogy.no  .analogy_change{display:inline-block;vertical-align:middle;}
 .analogy .btn_submi{background-color:#d00000;color:#fff;font-size:16px;width:100%;height:100%;display:block;text-align:center;}
-
-
-
-
 
 
 
@@ -415,11 +433,19 @@ nav{background-color:#000;}
     .header_top{display:-webkit-box;display:-ms-flexbox;display:flex;-ms-flex-wrap:wrap;flex-wrap:wrap;-webkit-box-pack:justify;-ms-flex-pack:justify;justify-content:space-between;padding:1%;align-items:center;}
     .header_top .logo{width:20%;}
     .header_top .logo img{width:100%;}
-    .header_top .menu{display:inline-block;display:-webkit-box;display:-ms-flexbox;display:flex;width:10%;height:1rem;}
+    .header_top .menu{display:inline-block;width:30px;height:1rem;}
     .header_top .menu .icon{display:block;width:100%;max-width:40px;height:1rem;border-bottom:2px solid #bbb;position:relative;}
     .header_top .menu .icon:after,.header_top .menu .icon:before{content:"";display:block;width:100%;border-bottom:2px solid #bbb;position:absolute;left:0;}
     .header_top .menu .icon:after{top:50%;-webkit-transform:translateY(-50%);transform:translateY(-50%);}
     .header_top .menu .icon:before{top:-3px;}
+
+    /* 导航服务商城 */
+    .shop-menu{display: inline-block; vertical-align: sub;margin-right: 5px;}
+    .shop-menus{position:fixed;top:0;left:0;width:100%;height:100%;z-index:3;}
+    .shop-menus-con{padding:1rem;background-color:#fff;}
+    .shop-menus-con dl{margin-bottom:1rem;}
+    .shop-menus-con dt{display:block;font-size:16px;padding:10px 0;border-bottom:1px solid #ddd;}
+    .shop-menus-con dd{font-size:12px;display:inline-block;line-height:1.6;margin:5px ;}
 
     /**搜索框*/
     .search{width:80%;max-width:450px;}
