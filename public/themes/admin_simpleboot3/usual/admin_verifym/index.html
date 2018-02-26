@@ -24,8 +24,8 @@
                         <td>{$vo.code|default=''}</td>
                         <td>{$vo.status?'开启':'关闭'}</td>
                         <td>
-                            <a href="{:url('AdminVerifym/edit', ['id'=>$vo['id']])}">编辑</a> &nbsp; &nbsp;
-                            <!-- <a class="js-ajax-delete" href="{:url('AdminVerifym/delete', ['id'=>$vo['id']])}">删除</a> -->
+                            <a href="{:url('AdminVerifym/edit', ['id'=>$vo.id])}">编辑</a> &nbsp; &nbsp;
+                            <!-- <a class="js-ajax-delete" href="{:url('AdminVerifym/delete', ['id'=>$vo.id])}">删除</a> -->
                         </td>
                     </tr>
                     </foreach>

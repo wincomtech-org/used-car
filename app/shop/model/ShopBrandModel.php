@@ -1,13 +1,13 @@
 <?php
-namespace app\usual\model;
+namespace app\shop\model;
 
 use app\usual\model\UsualCategoryModel;
 
-class UsualBrandModel extends UsualCategoryModel
+class ShopBrandModel extends UsualCategoryModel
 {
     public function getLists($filter=[], $order='', $limit='',$extra=[])
     {
-        $field = 'id,name,description,list_order';
+        $field = 'id,name,thumbnail,is_rec,status,list_order';
         $where = ['delete_time' => 0];
 
         $keyword = empty($filter['keyword']) ? '' : $filter['keyword'] ;
@@ -21,7 +21,7 @@ class UsualBrandModel extends UsualCategoryModel
         // $categories = $this->field('id,name,description,list_order')->order("list_order ASC")->where($where)->select()->toArray();
 
         $categories = $this->field($field)
-            ->order("list_order ASC,id DESC")
+            ->order('list_order ASC,id DESC')
             ->where($where)
             ->paginate($limit);
 
@@ -36,5 +36,28 @@ class UsualBrandModel extends UsualCategoryModel
         $options = $this->createOptions($selectId, $option, $data);
 
         return $options;
+    }
+
+    public function addBrand($data)
+    {
+        if (!empty($data['thumbnail'])) {
+            $data['thumbnail'] = cmf_asset_relative_url($data['thumbnail']);
+        }
+
+        $this->allowField(true)->save($data);
+        $id = $this->id;
+        dump($id);die;
+        return $this->id;
+    }
+
+    public function editBrand($data)
+    {
+        $id = intval($data['id']);
+        if (!empty($data['thumbnail'])) {
+            $data['thumbnail'] = cmf_asset_relative_url($data['thumbnail']);
+        }
+        $this->isUpdate(true)->allowField(true)->save($data, ['id' => $id]);
+        dump($this);die;
+        return $this;
     }
 }
