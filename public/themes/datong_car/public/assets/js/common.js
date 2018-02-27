@@ -132,8 +132,6 @@ function check_pwd(obj){
 	$('.js-ajax-form').submit();
 }
 
-
-
 function isPassword(password) {
   var pattern=/^[a-zA-z]{1}[0-9A-Za-z]{7,19}$/;
   return  pattern.test(password);

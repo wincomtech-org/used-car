@@ -2,10 +2,10 @@
     <div class="main collapse navbar-collapse active" id="bs-example-navbar-collapse-1">
         <div class="shop_menu">
             <div class="shop_menu_tit">
-                    汽车用品分类
-                    <b></b>
+                汽车用品分类
+                <b></b>
             </div>
-            <div class="shop_menu_con">
+            <div class="shop_menu_con" style='display:none;'>
                 <ul class="shop_classify">
                     <li class='shop_classify_li border-box active'>
                         <div class="shop_classify_div border-box">
@@ -29,7 +29,7 @@
                     </li>
                 </ul>
                 <div class="classifys">
-                    <ol class="shop_classify_con border-box" id='shop_item0'  style="">
+                    <ol class="shop_classify_con border-box" id='shop_item0'  >
                         <li><a href="">润滑油</a></li>
                         <li><a href="">润滑油</a></li>
                         <li><a href="">润滑油</a></li>
@@ -82,10 +82,10 @@
 <script>
     $("#main-menu a").each(function() {
         
-        // if ($(this)[0].href == String(window.location) || $(this)[0].href.split('/')[3] == String(window.location).split('/')[3] ) {
+
         if ($(this)[0].href == String(window.location)) {
             $(this).parentsUntil("#main-menu>ul>li").addClass("active");
-           // $('.menu-item-level-2').removeClass('active')
+        
         }
     });
 

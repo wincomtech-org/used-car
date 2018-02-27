@@ -4,7 +4,8 @@
     <title>个人中心 - 服务商城 - {$site_info.site_name|default=''}</title>
     <meta name="keywords" content="{$site_info.site_seo_keywords|default=''}"/>
     <meta name="description" content="{$site_info.site_seo_description|default=''}">
-
+    <!-- 服务商城css -->
+    <link href='__TMPL__/public/assets/css/shop.css' type="text/css" rel="stylesheet">
     <include file="public@head"/>
 </head>
 <body>
@@ -29,70 +30,70 @@
                             <ul class='order-ul'>
                                 <li class='order-li'>商品评价</li>
                             </ul>
-                              <div class="evaluate-img">
-                                <a href="">
-                                    <img src="//img.alicdn.com/bao/uploaded/i2/400363072/TB2c4ZUdFXXXXX2XpXXXXXXXXXX_!!400363072.jpg_130x130.jpg" alt="" class='eval-img'>
-                                </a>
-                                <div class="eval-item">
-                                    <a href="" class='blue-color'>无敌大音响车载音响</a>
-                                    <p class="eval-item-prop">
-                                            颜色分类：倍量加强版【苹果6电池】-送整套拆机工具+视频教程+质保3年
-                                    </p>  
-                                </div>
-                                       
-                              </div>
-                               <div class="evaluate-con">
-                                   <ul class="evaluate-star">
-                                       <li class='orage-color'>评价：</li>
-                                      <li class='good-eval active tab-sel'>
-                                          <label>
-                                              <span class=''>好评</span>
-                                              <input type="radio" class='' name='eval-star'>
-                                          </label>
-                                      </li>
-                                      <li  class='middle-eval tab-sel'>
+                            <div class="evaluate-img">
+                            <a href="">
+                                <img src="//img.alicdn.com/bao/uploaded/i2/400363072/TB2c4ZUdFXXXXX2XpXXXXXXXXXX_!!400363072.jpg_130x130.jpg" alt="" class='eval-img'>
+                            </a>
+                            <div class="eval-item">
+                                <a href="" class='blue-color'>无敌大音响车载音响</a>
+                                <p class="eval-item-prop">
+                                        颜色分类：倍量加强版【苹果6电池】-送整套拆机工具+视频教程+质保3年
+                                </p>  
+                            </div>
+                                    
+                            </div>
+                            <div class="evaluate-con">
+                                <ul class="evaluate-star">
+                                    <li class='orage-color'>评价：</li>
+                                    <li class='good-eval active tab-sel'>
                                         <label>
-                                            <span class=''>中评</span>
+                                            <span class=''>好评</span>
                                             <input type="radio" class='' name='eval-star'>
                                         </label>
                                     </li>
-                                    <li class='bad-eval tab-sel'>
-                                        <label >
-                                            <span class=''>差评</span>
-                                            <input type="radio" class='' name='eval-star'>
-                                        </label>
-                                    </li>
-                                   </ul>
-                                   <div class="evaluation">
-                                       <textarea name="" id="" cols="15" rows="5"></textarea>
-                                       <div class="show-eval-img">
-                                           <a href="javascript:uploadMultiImage('图片上传','#identity_card','identity_card-item-tpl');"
-							               class="btn btn-default btn-sm demonstrate_pre upload-img-btn">
-							               	    <img src="__TMPL__/public/assets/images/add.png" style="cursor: pointer;"/>
-                                            </a>
-                                            <ul id="identity_card" class="pic-list list-unstyled form-inline upload-img-div">
-                                                <notempty name="verify.more.identity_card">
-                                                    <foreach name="verify.more.identity_card" item="vo">
-                                                        <li id="saved-identity_card{$key}">
-                                                            <input id="identity_card-{$key}" type="hidden"
-                                                                name="identity_card[urls][]" value="{$vo.url}" />
-                                                            <input id="identity_card-{$key}-name" type="text"
-                                                                name="identity_card[names][]" value="{$vo.name|default=''}"
-                                                                class="form-control" title="图片名称" />
-                                                            <img id="identity_card-{$key}-preview"
-                                                                src="{:cmf_get_image_preview_url($vo['url'])}"
-                                                                style="height:120px;width: 200px;"
-                                                                onclick="parent.imagePreviewDialog(this.src);">
-                                                            <a href="javascript:uploadOneImage('图片上传','#identity_card-{$key}');">替换</a>
-                                                            <a href="javascript:(function(){$('#saved-identity_card{$key}').remove();})();">移除</a>
-                                                        </li>
-                                                    </foreach>
-                                                </notempty>
-                                            </ul>
-                                       </div>
-                                   </div>
-                                   <input type="submit" class='btn-style backg-blue '>
-                               </div>
+                                    <li  class='middle-eval tab-sel'>
+                                    <label>
+                                        <span class=''>中评</span>
+                                        <input type="radio" class='' name='eval-star'>
+                                    </label>
+                                </li>
+                                <li class='bad-eval tab-sel'>
+                                    <label >
+                                        <span class=''>差评</span>
+                                        <input type="radio" class='' name='eval-star'>
+                                    </label>
+                                </li>
+                                </ul>
+                                <div class="evaluation">
+                                    <textarea name="" id="" cols="15" rows="5"></textarea>
+                                    <div class="show-eval-img">
+                                        <a href="javascript:uploadMultiImage('图片上传','#identity_card','identity_card-item-tpl');"
+                                        class="btn btn-default btn-sm demonstrate_pre upload-img-btn">
+                                            <img src="__TMPL__/public/assets/images/add.png" style="cursor: pointer;"/>
+                                        </a>
+                                        <ul id="identity_card" class="pic-list list-unstyled form-inline upload-img-div">
+                                            <notempty name="verify.more.identity_card">
+                                                <foreach name="verify.more.identity_card" item="vo">
+                                                    <li id="saved-identity_card{$key}">
+                                                        <input id="identity_card-{$key}" type="hidden"
+                                                            name="identity_card[urls][]" value="{$vo.url}" />
+                                                        <input id="identity_card-{$key}-name" type="text"
+                                                            name="identity_card[names][]" value="{$vo.name|default=''}"
+                                                            class="form-control" title="图片名称" />
+                                                        <img id="identity_card-{$key}-preview"
+                                                            src="{:cmf_get_image_preview_url($vo['url'])}"
+                                                            style="height:120px;width: 200px;"
+                                                            onclick="parent.imagePreviewDialog(this.src);">
+                                                        <a href="javascript:uploadOneImage('图片上传','#identity_card-{$key}');">替换</a>
+                                                        <a href="javascript:(function(){$('#saved-identity_card{$key}').remove();})();">移除</a>
+                                                    </li>
+                                                </foreach>
+                                            </notempty>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <input type="submit" class='btn-style backg-blue '>
+                            </div>
                         </div>
                     </form>
                 </div>

@@ -41,4 +41,12 @@ class ShopController extends UserBaseController
     {
         return $this->fetch();
     }
+    public function returns()
+    {
+        return $this->fetch();
+    }
+    public function returns_detail()
+    {
+        return $this->fetch();
+    }
 }

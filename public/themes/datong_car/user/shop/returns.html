@@ -40,28 +40,87 @@
                     </li>
                     </ul>
                 </div>
-                <div class="person_right_con">
+                <div class="shops-div border-box">
                     <div class="shops">
-                        <div class="wddd-li">
-                            <ul>
-                                <li class="wddd-red red" ><a href="/index.php/Home/User/order_list.html">全部</a></li>
-                                <li id="WAITPAY"><a href="/index.php/Home/User/order_list/type/WAITPAY.html">待付款<em></em></a></li>
-                                <li id="WAITSEND"><a href="/index.php/Home/User/order_list/type/WAITSEND.html">待发货<em></em></a></li>
-                                <li id="WAITRECEIVE"><a href="/index.php/Home/User/order_list/type/WAITRECEIVE.html">待收货<em></em></a></li>
-                                <li id="WAITCCOMMENT"><a href="/index.php/Home/User/order_list/type/WAITCCOMMENT.html">待评价<em></em></a></li>
-                            </ul>
-                        </div>
+                            <p class="info_tit">退换货筛选</p>
+                            <div class="returns_screen">
+                                <form action="">
+                                    <ul class='clearfix'>
+                                        <li class='screens'>
+                                            <span class='s_tit'>退换货类型：</span>
+                                            <div class="analogy">
+                                                <p class="analogy_tit"><input name='returns_style' type="text" placeholder="请选择退款类型" class="placeholder" readonly=""></p>
+                                                <ul class="analogy_con" style="display: none;">
+                                                    <li onclick="" data-val="1"><input value="全部" readonly=""></li>
+                                                    <li onclick="" data-val="2"><input value="退款" readonly=""></li>
+                                                    <li onclick="" data-val="3"><input value="退货" readonly=""></li>
+                                                </ul>
+                                            </div>
+                                        </li>
+                                        <li class='screens'>
+                                            <span class='s_tit'>退换时间：</span>
+                                            <div class="analogy">
+                                                <p class="analogy_tit"><input name='returns_time' type="text" placeholder="请选择退换时间" class="placeholder" readonly="" ></p>
+                                                <ul class="analogy_con" style="display: none;">
+                                                    <li onclick="" data-val="1"><input value="最近申请" readonly=""></li>
+                                                    <li onclick="" data-val="2"><input value="最近七天申请" readonly=""></li>
+                                                    <li onclick="" data-val="3"><input value="最近一个月申请" readonly=""></li>
+                                                    <li onclick="" data-val="3"><input value="最近半年申请" readonly=""></li>
+                                                    <li onclick="" data-val="3"><input value="最近一年申请" readonly=""></li>
+                                                </ul>
+                                            </div>
+                                        </li>
+                                        <li class='screens long'>
+                                            <span class='s_tit'>从：</span>
+                                            <div class="analogy">
+                                                <p class="analogy_tit"><input name='returns_start' type="text" value="2017-01-01 01:01:01 " class="placeholder" readonly="" id='returns_start' ></p>
+                                
+                                            </div>
+                                            <span class='s_tit'>到：</span>
+                                            <div class="analogy">
+                                                <p class="analogy_tit"><input name='returns_edd' type="text" value="2017-01-02 01:01:01 " class="placeholder" readonly="" id='returns_edd'></p>
+                                            </div>
+                                            
+                                        </li>
+                                        <li class='screens'>
+                                            <span class='s_tit'>退换状态：</span>
+                                            <div class="analogy">
+                                                <p class="analogy_tit"><input  name='returns_states' type="text" placeholder="请选择退换状态" class="placeholder" readonly="" ></p>
+                                                <ul class="analogy_con" style="display: none;">
+                                                    <li onclick="" data-val="1"><input value="已退货" readonly=""></li>
+                                                    <li onclick="" data-val="2"><input value="已换货" readonly=""></li>
+                                                </ul>
+                                            </div>
+                                        </li>
+                                        <li class='screens'>
+                                            <span class='s_tit'>垫付状态：</span>
+                                            <div class="analogy">
+                                                <p class="analogy_tit"><input  name='prepaid_states' type="text" placeholder="请选择退换状态" class="placeholder" readonly="" ></p>
+                                                <ul class="analogy_con" style="display: none;">
+                                                    <li onclick="" data-val="1"><input value="全部" readonly=""></li>
+                                                    <li onclick="" data-val="2"><input value="已垫付" readonly=""></li>
+                                                    <li onclick="" data-val="3"><input value="未垫付" readonly=""></li>
+                                                </ul>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                    <div class='screen_btn'>
+                                        <button class=' backg-red border-r' type='submit'>提交</button>
+                                    </div>
+                                </form>
+                              
+                            </div>
                         <div class="shops_order">
                             <table class='shops-order-tab'>
                                 <thead>
                                     <tr>
                                         <th class='col-pro-img ma-0'></th>
-                                        <th class='col-pro ma-1'>商品</th>
-                                        <th class='col-pro ma-2'>价格</th>
-                                        <th class='col-pro ma-3'>数量</th>
-                                        <th class='col-pro ma-4'>实付款</th>
-                                        <th class='col-pro ma-5'>交易状态</th>
-                                        <th class='col-pro ma-6'>订单状态及操作</th>
+                                        <th class='col-pro ma-1'>宝贝</th>
+                                        <th class='col-pro ma-2'>退款金额</th>
+                                        <th class='col-pro ma-3'>申请时间</th>
+                                        <th class='col-pro ma-4'>服务类型</th>
+                                        <th class='col-pro ma-5'>退款状态</th>
+                                        <th class='col-pro ma-6'>交易状态</th>
                                     </tr>
                                 </thead>
                             </table>
@@ -75,7 +134,7 @@
                                                 订单号：<a href="">201801100940222779</a>
                                             </span>
                                         </td>
-                                        <td class=' ma-6'>待支付</td>
+                                        <td class=' ma-6'></td>
                                     </tr>
                                     <tr class='order-list-con'>
                                         <td class='ma-0'></td>
@@ -96,18 +155,18 @@
                                             
                                         </td>
                                         <td class='ma-2'>￥1999.00</td>
-                                        <td class='ma-3'>1</td>
-                                        <td class='ma-4'>￥1500.00<br/><i class='small'>(含运费:0.00)</i></td>
+                                        <td class='ma-3'>2018-01-29</td>
+                                        <td class='ma-4'>退货</td>
                                         <td class='ma-5'>
                                             <div class="trading-status group-a">
-                                               <sapn>等待买家付款</sapn>
+                                               <sapn>退货中</sapn>
                                                <a href="">订单详情</a>
+                                               <a href="" class='orage-color'>查看物流</a>
                                             </div>  
                                         </td>
                                         <td class='ma-6'>
                                             <div class="order-state group-a">
-                                                <a class='btn-style backg-red'>立即支付</a>
-                                                <a class='backg-orange btn-style'>取消</a>
+                                                <a class='backg-orange btn-style'>删除订单</a>
                                             </div>
                                         </td>
                                     </tr>
@@ -123,7 +182,7 @@
                                                 订单号：<a href="">201801100940222779</a>
                                             </span>
                                         </td>
-                                        <td class=' ma-6'>待发货</td>
+                                        <td class=' ma-6'></td>
                                     </tr>
                                     <tr class='order-list-con'>
                                         <td class='ma-0'></td>
@@ -143,121 +202,23 @@
                                             </div>
                                         </td>
                                         <td class='ma-2'>￥1999.00</td>
-                                        <td class='ma-3'>1</td>
-                                        <td class='ma-4'>￥1500.00<br/><i class='small'>(含运费:0.00)</i></td>
+                                        <td class='ma-3'>2018-01-29</td>
+                                        <td class='ma-4'>换货</td>
                                         <td class='ma-5'>
                                             <div class="trading-status group-a">
-                                                <sapn>未发货</sapn>
+                                                <sapn>换货中</sapn>
                                                 <a href="">订单详情</a>
                                                 <a href="" class='orage-color'>查看物流</a>
                                             </div>  
                                         </td>
                                         <td class='ma-6'>
-                                            <div class="order-state group-a">
-                                                <a href="" class=''>退货/退款</a>
-                                            </div>
+                                                <div class="order-state group-a">
+                                                    <a class='backg-orange btn-style'>删除订单</a>
+                                                </div>
                                         </td>
                                     </tr>
                                 </tbody>
                              </table>
-                             <table class='shops-order-tab'>
-                                <tbody class='order-list'>
-                                    <tr class='order-list-tit'>
-                                        <td class=' ma-0'><input type="checkbox"></td>
-                                        <td class=' ma-1' colspan='5'>
-                                            <span class="time">2018-01-10 09:40:22</span>
-                                            <span class="order-goods">
-                                                订单号：<a href="">201801100940222779</a>
-                                            </span>
-                                        </td>
-                                        <td class=' ma-6'>待收货</td>
-                                    </tr>
-                                    <tr class='order-list-con'>
-                                        <td class='ma-0'></td>
-                                        <td class='ma-1'>
-                                            <div class="order-img">
-                                                <a href="">
-                                                    <img src="http://hcsinglyshop.wincomtech.cn/Public/upload/goods/thumb/45/goods_thumb_45_78_78.jpeg" alt="">
-                                                </a>
-                                            </div>
-                                            <div class="order-intro">
-                                                <div class='order-trade-name'>
-                                                    <a href="">华为 HUAWEI C199S 麦芒3S 电信4G智能手机FDD-LTE /TD-LTE/CDMA2000/GSM（麦芒）</a>
-                                                </div>
-                                                <div class='order-attributes'>
-                                                    <span>颜色分类：倍量加强版【苹果6电池】-送整套拆机工具+视频教程+质保3年</span>
-                                                </div>
-                                            </div>
-                                            
-                                        </td>
-                                        <td class='ma-2'>￥1999.00</td>
-                                        <td class='ma-3'>1</td>
-                                        <td class='ma-4'>￥1500.00<br/><i class='small'>(含运费:0.00)</i></td>
-                                        <td class='ma-5'>
-                                            <div class="trading-status group-a">
-                                                <sapn>物流运输中</sapn>
-                                                <a href="">订单详情</a>
-                                                <a href="" class='orage-color'>查看物流</a>
-                                            </div>  
-                                        </td>
-                                        <td class='ma-6'>
-                                            <div class="order-state group-a">
-                                                <a class='btn-style backg-blue'>确认收货</a>
-                                                <a href="">退货/退款</a>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <table class='shops-order-tab'>
-                                <tbody class='order-list'>
-                                    <tr class='order-list-tit'>
-                                        <td class=' ma-0'><input type="checkbox"></td>
-                                        <td class=' ma-1' colspan='5'>
-                                            <span class="time">2018-01-10 09:40:22</span>
-                                            <span class="order-goods">
-                                                订单号：<a href="">201801100940222779</a>
-                                            </span>
-                                        </td>
-                                        <td class=' ma-6'>待评价</td>
-                                    </tr>
-                                    <tr class='order-list-con'>
-                                        <td class='ma-0'></td>
-                                        <td class='ma-1'>
-                                            <div class="order-img">
-                                                <a href="">
-                                                    <img src="http://hcsinglyshop.wincomtech.cn/Public/upload/goods/thumb/45/goods_thumb_45_78_78.jpeg" alt="">
-                                                </a>
-                                            </div>
-                                            <div class="order-intro">
-                                                <div class='order-trade-name'>
-                                                    <a href="">华为 HUAWEI C199S 麦芒3S 电信4G智能手机FDD-LTE /TD-LTE/CDMA2000/GSM（麦芒）</a>
-                                                </div>
-                                                <div class='order-attributes'>
-                                                    <span>颜色分类：倍量加强版【苹果6电池】-送整套拆机工具+视频教程+质保3年</span>
-                                                </div>
-                                            </div>
-                                            
-                                        </td>
-                                        <td class='ma-2'>￥1999.00</td>
-                                        <td class='ma-3'>1</td>
-                                        <td class='ma-4'>￥1500.00<br/><i class='small'>(含运费:0.00)</i></td>
-                                        <td class='ma-5'>
-                                            <div class="trading-status group-a">
-                                                <sapn>交易完成</sapn>
-                                                <a href="">订单详情</a>
-                                                <a href="" class='orage-color'>查看物流</a>
-                                            </div>  
-                                        </td>
-                                        <td class='ma-6'>
-                                            <div class="order-state group-a">
-                                                <a class='btn-style backg-border'>评价</a>
-                                                <a href="">再次购买</a>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
                         </div>
                         <!-- 屏幕1024一下的样式 -->
                         <div class="shops_order_m">
@@ -270,7 +231,7 @@
                                                     订单号：<a href="">201801100940222779</a>
                                                 </span>
                                             </dd>
-                                            <dd class='states'>待支付</dd>
+                                            <dd class='states'>退货</dd>
                                         </dl>
                                     </div>
                                     <div class='order-list-con'>
@@ -289,23 +250,21 @@
                                                 </div>
                                             </div>
                                             <div class="item-pay">
+                                                <p class='price'>退货中</p>
                                                 <p class='price'>1500.00</p>
-                                                <p class='price'><del>1000000.00</del></p>
-                                                <p class='amount small'>1</p>
+                                                <p class='amount '>1 件</p>
                                             </div>
                                         </div>
                                         
                                         <dl class='o-total-price'>
-                                            <span>总计共<b>1</b>件商品</span>
-                                            <span>合计:<b>￥688.00</b>元</span>
-                                            <span>含运费（<b>0.00</b>）</span>
+                                            <span>退款金额:<b>￥688.00</b>元</span>
+                                            <span>申请时间：2018-01-29</span>
                                         </dl>
                                         
                                         <div class='o-tab-btn'>
                                             <a class='backg-border '>查看物流</a>
-                                            <a class='backg-border '>取消订单</a>
-                                            <a class='backg-border '>取消订单</a>
-                                            <a class='backg-border '>取消订单</a>
+                                            <a class='backg-border '>订单详情</a>
+                                            <a class='backg-border '>删除订单</a>
                                         </div>
                                     </div>
                                 </div>
@@ -320,21 +279,27 @@
     <!-- 底部 -->
     <include file="public@footer" />
     <include file="public@scripts" />
-    <div class='look-logistics'>
-        <!--有物流信息  -->
-        <div class="logistics-show">
-            <p class='logistics-company-p'><span>圆通速递：</span><span class=' tracking number'>12345678942115511144</span> </p>
-        </div>
-    </div>    
+    <script type="text/javascript" src="__TMPL__/public/assets/js/laydate/laydate.js"></script>
+     
 </body>
 <include file="public@morejs" />
 <script>
-
-    /**个人中心车辆业务**/
-
-    $('.del').on('click',function(){
-        $(this).parent().parent().parent().parent().remove();
-    })
+    laydate.render({
+        elem: '#returns_start',
+        istime: true,
+        format: 'yyyy-MM-dd HH:mm:ss',
+        showBottom: false,
+        done: function(value, date, endDate){
+            // 实例化还款日期
+            laydate.render({
+            elem: '#returns_edd',
+            istime: true,
+            format: 'yyyy-MM-dd HH:mm:ss',
+            showBottom: false
+            })
+        }
+        })
+  
 
 </script>
 </html>

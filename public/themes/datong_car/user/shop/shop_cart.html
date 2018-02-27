@@ -4,6 +4,8 @@
     <title>个人中心 - 购物车</title>
     <meta name="keywords" content="{$site_info.site_seo_keywords|default=''}"/>
     <meta name="description" content="{$site_info.site_seo_description|default=''}">
+     <!-- 服务商城css -->
+     <link href='__TMPL__/public/assets/css/shop.css' type="text/css" rel="stylesheet">
 
     <include file="public@head"/>
 </head>
@@ -24,17 +26,17 @@
             </ul>
             <div class="shops_order">
                 <table class='shops-order-tab'>
-                        <thead>
-                            <tr>
-                                <th class='col-pro-img ma-0'><label class='all-sel'><input type="checkbox" class='all-sel-inp'>全选</label></th>
-                                <th class='col-pro ma-1'>商品</th>
-                                <th class='col-pro ma-2'>市场价</th>
-                                <th class='col-pro ma-3'>数量</th>
-                                <th class='col-pro ma-4'>单价</th>
-                                <th class='col-pro ma-5'>总计</th>
-                                <th class='col-pro ma-6'>操作</th>
-                            </tr>
-                        </thead>
+                    <thead>
+                        <tr>
+                            <th class='col-pro-img ma-0'><label class='all-sel'><input type="checkbox" class='all-sel-inp'>全选</label></th>
+                            <th class='col-pro ma-1'>商品信息</th>
+                            <th class='col-pro ma-2'>市场价</th>
+                            <th class='col-pro ma-3'>数量</th>
+                            <th class='col-pro ma-4'>单价</th>
+                            <th class='col-pro ma-5'>总计</th>
+                            <th class='col-pro ma-6'>操作</th>
+                        </tr>
+                    </thead>
                 </table>
                 <table class='shops-order-tab'>
                     <tbody class='order-list'>
