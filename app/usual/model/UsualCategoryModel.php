@@ -103,7 +103,14 @@ class UsualCategoryModel extends ComModel
         if (!empty($filter)) {
             $where = array_merge($where,$filter);
         }
+
+        // 联表查询
         if (isset($config['table2']) && $config['table2']=='usual_brand') {
+            $table2 = 'usual_brand';
+        } else {
+            $table2 = null;
+        }
+        if ($table2=='usual_brand') {
             $where['a.delete_time'] = 0;
             $categories = $this->alias('a')
                 ->field('a.id,a.parent_id,a.brand_id,a.name,a.description,a.is_rec,a.list_order,b.name bname')
@@ -169,7 +176,7 @@ class UsualCategoryModel extends ComModel
             $tpl .= isset($extra['code']) ? "<td>\$code</td>" : '';
             $tpl .= isset($extra['code_type']) ? "<td>\$code_type</td>" : '';
             $tpl .= isset($extra['unit']) ? "<td><font color='#041DFA'>\$unit</font></td>" : '';
-            if (isset($config['table2'])) $tpl .= "<td>\$bname</td>";
+            if ($table2=='usual_brand') $tpl .= "<td>\$bname</td>";
             $tpl .= "<td>\$description</td>";
             $tpl .= isset($extra['is_top']) ? "<td>\$is_top</td>" : '';
             $tpl .= isset($extra['is_rec']) ? "<td>\$is_rec</td>" : '';

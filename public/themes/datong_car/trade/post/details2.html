@@ -125,19 +125,19 @@
                             </li>
                         </ul>
                     </div>
-                    <div class="yuyue">
-                        <div class="yuyue_guang">
+                    <div class="yuyue btn-line">
+                        <div class="yuyue_guang  ">
                             <empty name="findOrder">
-                                <a class="btn" href="{:url('seeCar',['id'=>$car.id])}"><span></span>预约看车</a>
+                                <a class="btn car yellow" href="{:url('seeCar',['id'=>$car.id])}"><span></span>预约看车</a>
                             <else/>
                                 <if condition="$userId eq $findOrder">
-                                    <a class="btn" href="{:url('user/Buyer/index',['carId'=>$car.id])}">查看订单</a>
+                                    <a class="btn yellow" href="{:url('user/Buyer/index',['carId'=>$car.id])}">查看订单</a>
                                 <else/>
                                     <span class="btn" >已被锁单</span>
                                 </if>
                             </empty>
                         </div>
-                        <div class="yuyue_guang">
+                        <div class="yuyue_guang ">
                             <if condition="cmf_is_mobile()===true">
                                 <a class="btn iphone" href="tel:{$car.shop_tel}">点我联系</a>
                                 <else/>

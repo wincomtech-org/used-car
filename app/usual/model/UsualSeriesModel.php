@@ -58,7 +58,7 @@ class UsualSeriesModel extends UsualCategoryModel
         $order = empty($order) ? 'a.list_order,a.brand_id' : $order;
 
         // 数据量
-        $limit = model('usual/Usual')->limitCom($limit);
+        $limit = $this->limitCom($limit);
 
         // 查数据
         $series = $this->alias('a')->field($field)

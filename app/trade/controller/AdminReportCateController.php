@@ -38,7 +38,6 @@ class AdminReportCateController extends AdminBaseController
         // dump($firstTree);die;
 
         $this->assign('firstTree', $firstTree);
-        $this->assign('firstTree', $firstTree);
         $this->assign('category_tree', $categoryTree);
         return $this->fetch();
     }

@@ -19,13 +19,7 @@
             </div>
             <table class="table table-hover table-bordered table-list">
                 <thead>
-                    <tr>
-                        <th width="50">排序</th>
-                        <th width="50">ID</th>
-                        <th>品牌名称</th>
-                        <th>描述</th>
-                        <th width="180">操作</th>
-                    </tr>
+                    <include file="admin_brand/table-th" />
                 </thead>
                 <tbody>
                     <foreach name="categories" item="vo">
@@ -33,7 +27,27 @@
                         <td><input name="list_orders[{$vo.id}]" type="text" size="3" value="{$vo.list_order}" class="input-order"></td>
                         <td>{$vo.id}</td>
                         <td><a>{$vo.name}</a></td>
-                        <td>{$vo.description}</td>
+                        <td>
+                            <notempty name="vo.thumbnail">
+                                <a href="javascript:parent.imagePreviewDialog('{:cmf_get_image_preview_url($vo.thumbnail)}');">
+                                    <i class="fa fa-photo fa-fw"></i>
+                                </a>
+                            </notempty>
+                        </td>
+                        <td>
+                            <notempty name="vo.is_rec">
+                                <a data-toggle="tooltip" title="已推荐"><i class="fa fa-thumbs-up"></i></a>
+                            <else/>
+                                <a style="color:#F00" data-toggle="tooltip" title="未推荐"><i class="fa fa-thumbs-down"></i></a>
+                            </notempty>
+                        </td>
+                        <td>
+                            <empty name="vo.status">
+                                <a style="color:#F00" data-toggle="tooltip" title="未发布"><i class="fa fa-close"></i></a>
+                            <else/>
+                                <a data-toggle="tooltip" title="已发布"><i class="fa fa-check"></i></a>
+                            </empty>
+                        </td>
                         <td>
                             <a href="{:url('AdminBrand/edit', ['id'=>$vo.id])}">编辑</a>&nbsp;&nbsp;
                             <a class="js-ajax-delete" href="{:url('AdminBrand/delete', ['id'=>$vo.id])}">删除</a>
@@ -42,13 +56,7 @@
                     </foreach>
                 </tbody>
                 <tfoot>
-                    <tr>
-                        <th>排序</th>
-                        <th>ID</th>
-                        <th>品牌名称</th>
-                        <th>描述</th>
-                        <th>操作</th>
-                    </tr>
+                    <include file="admin_brand/table-th" />
                 </tfoot>
             </table>
             <div class="table-actions">

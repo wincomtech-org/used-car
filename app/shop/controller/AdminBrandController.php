@@ -1,11 +1,9 @@
 <?php
-namespace app\usual\controller;
+namespace app\shop\controller;
 
-// use app\admin\model\RouteModel;
 use cmf\controller\AdminBaseController;
-use app\usual\model\UsualBrandModel;
+use app\shop\model\ShopBrandModel;
 use think\Db;
-// use app\admin\model\ThemeModel;
 
 
 class AdminBrandController extends AdminBaseController
@@ -14,7 +12,7 @@ class AdminBrandController extends AdminBaseController
      * 品牌分类列表
      * @adminMenu(
      *     'name'   => '分类管理',
-     *     'parent' => 'usual/AdminBrand/default',
+     *     'parent' => 'shop/AdminBrand/default',
      *     'display'=> true,
      *     'hasView'=> true,
      *     'order'  => 10000,
@@ -25,29 +23,16 @@ class AdminBrandController extends AdminBaseController
      */
     public function index()
     {
-        // dump(CMF_ROOT);die;
-
-        $scModel = new UsualBrandModel();
-        // $config = [
-        //     'm'=>'AdminBrand',
-        //     'url'=>'portal/List/index',
-        //     'add'=>false,
-        //     'add_title'=>'',
-        //     'edit'=>true,
-        //     'delete'=>true,
-        //     'table2'=>''
-        // ];
-        // $categoryTree    = $scModel->adminCategoryTableTree(0,'',$config);
+        $scModel = new ShopBrandModel();
 
         $param = $this->request->param();//接收筛选条件
         $categories = $scModel->getLists($param);
-        // $categories = model('UsualBrand')->getLists($param);
 
         $this->assign('keyword', isset($param['keyword']) ? $param['keyword'] : '');
         $this->assign('categories', $categories->items());// 获取查询数据并赋到模板
         $categories->appends($param);//添加URL参数
         $this->assign('pager', $categories->render());// 获取分页代码并赋到模板
-        // $this->assign('category_tree', $categoryTree);
+
         return $this->fetch();
     }
 
@@ -66,12 +51,7 @@ class AdminBrandController extends AdminBaseController
      */
     public function add()
     {
-        $parentId           = $this->request->param('parent', 0, 'intval');
-        $scModel = new UsualBrandModel();
-        $categoriesTree     = $scModel->adminCategoryTree($parentId);
 
-        $this->assign('categories_tree', $categoriesTree);
-        $this->assign('parentId', $parentId);
         return $this->fetch();
     }
 
@@ -91,14 +71,14 @@ class AdminBrandController extends AdminBaseController
     public function addPost()
     {
         $data = $this->request->param();
-
-        $result = $this->validate($data, 'UsualBrand.add');
+        // dump($data);die;
+        $result = $this->validate($data, 'Brand.add');
         if ($result !== true) {
             $this->error($result);
         }
 
-        $scModel = new UsualBrandModel();
-        $result = $scModel->addCategory($data);
+        $scModel = new ShopBrandModel();
+        $result = $scModel->addBrand($data);
         if ($result === false) {
             $this->error('添加失败!');
         }
@@ -123,19 +103,14 @@ class AdminBrandController extends AdminBaseController
     {
         $id = $this->request->param('id', 0, 'intval');
         if ($id > 0) {
-            $category = UsualBrandModel::get($id)->toArray();
+            $category = ShopBrandModel::get($id)->toArray();
 
-            $scModel = new UsualBrandModel();
-            $categoriesTree      = $scModel->adminCategoryTree($category['parent_id'], $id);
-
-            // 路由定义 别名alias
-            // $routeModel = new RouteModel();
-            // $alias      = $routeModel->getUrl('portal/List/index', ['id' => $id]);
-            // $category['alias'] = $alias;
+            $scModel = new ShopBrandModel();
+            // $categoriesTree      = $scModel->adminCategoryTree($category['parent_id'], $id);
 
             $this->assign($category);
-            $this->assign('categories_tree', $categoriesTree);
-            $this->assign('parentId', $category['parent_id']);
+            // $this->assign('categories_tree', $categoriesTree);
+            // $this->assign('cateId', $category['category_id']);
             return $this->fetch();
         } else {
             $this->error('操作错误!');
@@ -160,13 +135,13 @@ class AdminBrandController extends AdminBaseController
     {
         $data = $this->request->param();
 
-        $result = $this->validate($data, 'UsualBrand.edit');
+        $result = $this->validate($data, 'Brand.edit');
         if ($result !== true) {
             $this->error($result);
         }
 
-        $scModel = new UsualBrandModel();
-        $result = $scModel->editCategory($data);
+        $scModel = new ShopBrandModel();
+        $result = $scModel->editBrand($data);
         if ($result === false) {
             $this->error('保存失败!');
         }
@@ -202,8 +177,8 @@ class AdminBrandController extends AdminBaseController
     <td>\$spacer <a style='text-decoration:none;cursor:pointer;'>\$name</a></td>
 </tr>
 tpl;
-        $scModel = new UsualBrandModel();
-        $config = ['url'=>'usual/AdminBrand/edit'];
+        $scModel = new ShopBrandModel();
+        $config = ['url'=>'shop/AdminBrand/edit'];
         $categoryTree = $scModel->adminCategoryTableTree($selectedIds, $tpl, $config);
 
         $where      = ['delete_time' => 0];
@@ -230,7 +205,7 @@ tpl;
      */
     public function listOrder()
     {
-        parent::listOrders(Db::name('usual_brand'));
+        parent::listOrders(Db::name('shop_brand'));
         $this->success("排序更新成功！", '');
     }
 
@@ -250,7 +225,7 @@ tpl;
     public function delete()
     {
         $id = $this->request->param('id');
-        $scModel = new UsualBrandModel();
+        $scModel = new ShopBrandModel();
         
         //获取删除的内容
         $findCategory = $scModel->where('id', $id)->find();
@@ -272,7 +247,7 @@ tpl;
         // $data   = [
         //     'object_id'   => $findCategory['id'],
         //     'create_time' => time(),
-        //     'table_name'  => 'usual_brand',
+        //     'table_name'  => 'shop_brand',
         //     'name'        => $findCategory['name']
         // ];
         $result = $scModel->where('id', $id)->delete();// ->update(['delete_time' => time()]);
