@@ -8,22 +8,6 @@ use think\Model;
 */
 class ShopGoodsAttrModel extends Model
 {
-    protected $type = [
-        'more' => 'array',
-    ];
-    // 开启自动写入时间戳字段
-    protected $autoWriteTimestamp = true;
-    // protected $hidden = ['delete_time', 'update_time'];
-    // 关联商品表 cmf_shop_goods
-    public function attrGoods()
-    {
-        return $this->belongsToMany('ShopGoodsModel', 'shop_gav', 'goods_id', 'attr_id');
-    }
-    // 关联分类表 cmf_shop_category_attr
-    public function attrCates()
-    {
-        return $this->belongsToMany('ShopGoodsCategoryModel', 'shop_category_attr', 'category_id', 'attr_id');
-    }
 
     /*添加属性*/
     public function addAttr($data)
@@ -48,15 +32,16 @@ class ShopGoodsAttrModel extends Model
  
         return $this;
     }
+
     /*得到所有显示属性*/
-    public function getAttrs($status=1)
+    public function getAttrs($status=null)
     {
-        $where=[];
-        if($status==1){
-            $where=['status'=>1];
+        $where = [];
+        if(!empty($status)){
+            $where = ['status'=>$status];
         } 
-        $list=$this->field('id,name')->where($where)->order('list_order asc,id asc')->select();
-        
+        $list = $this->field('id,name')->where($where)->order('list_order asc,id asc')->select();
+
         return $list;
     }
 

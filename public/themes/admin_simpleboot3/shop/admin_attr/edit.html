@@ -1,9 +1,4 @@
 <include file="public@header" />
-<style type="text/css">
-.pic-list li {
-    margin-bottom: 5px;
-}
-</style>
 </head>
 
 <body>
@@ -11,18 +6,25 @@
         <ul class="nav nav-tabs">
             <li><a href="{:url('index')}">所有属性</a></li>
             <li class=""><a href="{:url('add')}">添加属性</a></li>
+            <li class="active"><a href="{:url('edit',['id'=>$post.id])}">编辑属性</a></li>
             <li><a href="{:url('listav')}">所有属性值</a></li>
             <li><a href="{:url('addav')}">添加属性值</a></li>
-            <li class="active"><a href="{:url('edit',['id'=>$post.id])}">编辑属性</a></li>
         </ul>
         <form action="{:url('editPost')}" method="post" class="form-horizontal js-ajax-form margin-top-20">
             <div class="row">
                 <div class="col-md-9">
                     <table class="table table-bordered">
                         <tr>
-                            <th>属性名<span class="form-required">*</span></th>
+                            <th width="100">属性名<span class="form-required">*</span></th>
                             <td>
                                 <input class="form-control" type="text" name="post[name]" required value="{$post.name}" placeholder="请输入名称" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>当前属性值</th>
+                            <td>
+                                <p class="form-control">{$attrs|default=''}</p>
+                                <p class="help-lock"><a href="{:url('listav',['aid'=>$post.id])}">编辑属性值</a></p>
                             </td>
                         </tr>
                     </table>
@@ -35,8 +37,10 @@
                         <tr>
                             <td>
                                 <div class="checkbox">
-                                    <label><input type="radio" name="post[status]" value="1" {$post.status==1?='checked'}>显示</label>
-                                    <label><input type="radio" name="post[status]" value="0" {$post.status==0?='checked'}>隐藏</label>
+                                    <label>
+                                        <input type="radio" name="post[status]" value="1" {$post.status==1?='checked' }>显示</label>
+                                    <label>
+                                        <input type="radio" name="post[status]" value="0" {$post.status==0?='checked' }>隐藏</label>
                                 </div>
                             </td>
                         </tr>

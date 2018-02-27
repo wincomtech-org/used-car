@@ -32,11 +32,12 @@ class ShopGoodsCategoryModel extends UsualCategoryModel
             $item['checked'] = in_array($item['id'], $currentIds) ? 'checked' : '';
             $item['url']     = cmf_url('shop/Index/index', ['cateId'=>$item['id']]);
             $item['str_action'] = '<a href="'. url("AdminCategory/add", ["parent" => $item['id']]) . '">添加子分类</a> &nbsp; '
-                                 .'<a href="'. url("AdminCategory/attrs", ["cid" => $item['id']]) . '">查看类别属性</a> &nbsp; '
-                                 .'<a href="'. url("AdminCategory/attrs_add", ["cid" => $item['id']]) . '">添加类别属性</a> &nbsp; '
-                                 .'<a href="' . url("AdminCategory/edit", ["id" => $item['id']]) . '">' . lang('EDIT') .'</a> &nbsp; '
-                                  .'<a class="js-ajax-delete" href="'. url("AdminCategory/delete",['id'=>$item['id']]) .'">'. lang('DELETE') .'</a>'
-                                 ;
+                . '<a href="'. url("AdminCategory/attrs", ["cid" => $item['id']]) . '">查看分类属性</a> &nbsp; '
+                . '<a href="'. url("AdminCategory/attrs_add", ["cid" => $item['id']]) . '">添加分类属性</a> &nbsp; '
+                . '<a href="'. url("AdminSpec/index") . '">分类规格</a> &nbsp; '
+                . '<a href="' . url("AdminCategory/edit", ["id" => $item['id']]) . '">' . lang('EDIT') .'</a> &nbsp; '
+                . '<a class="js-ajax-delete" href="'. url("AdminCategory/delete",['id'=>$item['id']]) .'">'. lang('DELETE') .'</a>'
+                ;
             array_push($newCategories, $item);
         }
 

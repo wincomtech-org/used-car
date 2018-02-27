@@ -106,16 +106,15 @@ class AdminBrandController extends AdminBaseController
             $category = ShopBrandModel::get($id)->toArray();
 
             $scModel = new ShopBrandModel();
-            // $categoriesTree      = $scModel->adminCategoryTree($category['parent_id'], $id);
+            $categoriesTree = model('ShopGoodsCategory')->adminCategoryTree($category['category_id']);
 
             $this->assign($category);
-            // $this->assign('categories_tree', $categoriesTree);
+            $this->assign('categories_tree', $categoriesTree);
             // $this->assign('cateId', $category['category_id']);
             return $this->fetch();
         } else {
             $this->error('操作错误!');
         }
-
     }
 
     /**
@@ -142,8 +141,8 @@ class AdminBrandController extends AdminBaseController
 
         $scModel = new ShopBrandModel();
         $result = $scModel->editBrand($data);
-        if ($result === false) {
-            $this->error('保存失败!');
+        if (empty($result)) {
+            $this->error('保存失败或无变化');
         }
 
         $this->success('保存成功!');
@@ -228,31 +227,17 @@ tpl;
         $scModel = new ShopBrandModel();
         
         //获取删除的内容
-        $findCategory = $scModel->where('id', $id)->find();
-        if (empty($findCategory)) {
+        $find = $scModel->where('id', $id)->find();
+        if (empty($find)) {
             $this->error('品牌不存在!');
         }
 
-        // $categoryChildrenCount = $scModel->where('parent_id', $id)->count();
-        // if ($categoryChildrenCount > 0) {
-        //     $this->error('此品牌有子类无法删除!');
-        // }
-
-        // $categoryPostCount = Db::name('usual_car')->where('brand_id',$id)->whereOr('serie_id',$id)->count();
-        $categoryPostCount = Db::name('usual_car')->where('brand_id',$id)->count();
-        if ($categoryPostCount > 0) {
-            $this->error('此品牌有车子无法删除!');
+        if ($find['category_id'] > 0) {
+            $this->error('此品牌有关联的商品分类，无法删除!');
         }
 
-        // $data   = [
-        //     'object_id'   => $findCategory['id'],
-        //     'create_time' => time(),
-        //     'table_name'  => 'shop_brand',
-        //     'name'        => $findCategory['name']
-        // ];
-        $result = $scModel->where('id', $id)->delete();// ->update(['delete_time' => time()]);
+        $result = $scModel->where('id', $id)->delete();
         if ($result) {
-            // Db::name('recycleBin')->insert($data);
             $this->success('删除成功!');
         } else {
             $this->error('删除失败');

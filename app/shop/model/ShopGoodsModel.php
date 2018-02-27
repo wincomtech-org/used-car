@@ -43,7 +43,7 @@ class ShopGoodsModel extends UsualModel
         $field = '*';
         $join = [];
         $order = empty($order) ? 'a.id DESC' : $order;
-        $limit = empty($limit) ? config('pagerset.size') : $limit;
+        $limit = $this->limitCom($limit);
 
         $series = $this->alias('a')->field($field)
             ->join($join)

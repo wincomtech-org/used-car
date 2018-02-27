@@ -176,18 +176,5 @@
     <include file="public@scripts" />
     <hook name="before_body_end" />
 </body>
-<script>
-    function changeBrand(o){
-        var brandId = $(o).attr('data-val');
 
-        $.post('{:url("usual/Ajax/serieByBrand")}', {brandId: brandId}, function(data) {
-            $('#input-series').html(data);
-        });
-    }
-
-    if(screen.width<1024){
-        $('.veh_trading_pc .main .registration_information').remove();
-        $('.veh_trading_m').show()
-    }
-</script>
 </html>

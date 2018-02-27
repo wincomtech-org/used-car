@@ -7,7 +7,7 @@ use think\Db;
 
 /**
 * 服务商城 独立模块
-* 类别（类目）
+* 分类（类目、类别）
 */
 class AdminCategoryController extends AdminBaseController
 {
@@ -72,15 +72,16 @@ class AdminCategoryController extends AdminBaseController
             // $category = $goodsCate->get($id)->toArray();
             $categoriesTree      = $goodsCate->adminCategoryTree($category['parent_id'], $id);
             //显示分类对应的属性
-            $list=Db::name('shop_category_attr')
-            ->field('ta.*,a.name as aname')
-            ->alias('ta')
-            ->join('cmf_shop_goods_attr a','a.id=ta.attr_id')
-            ->where('cate_id',$id)->select();
-            $attrs=Db::name('shop_goods_attr') 
-            ->where('status',1)
-            ->order('list_order asc')
-            ->select();
+            $list = Db::name('shop_category_attr')
+                ->field('ta.*,a.name as aname')
+                ->alias('ta')
+                ->join('cmf_shop_goods_attr a','a.id=ta.attr_id')
+                ->where('cate_id',$id)->select();
+
+            $attrs = Db::name('shop_goods_attr') 
+                ->where('status',1)
+                ->order('list_order asc')
+                ->select();
              dump($list);dump($attrs);exit;
             $this->assign($category);
             $this->assign('list',$list);
@@ -213,11 +214,11 @@ tpl;
             $where['a.name']=['like','%'.$data['aname'].'%'];
         }
         $list=Db::name('shop_category_attr')
-        ->alias('ca')
-        ->field('ca.*,a.name as aname,c.name as cname')
-        ->join('cmf_shop_goods_attr a','a.id=ca.attr_id')
-        ->join('cmf_shop_goods_category c','c.id=ca.cate_id')
-        ->where($where)->order('c.path asc,ca.list_order asc')->paginate(10);
+            ->alias('ca')
+            ->field('ca.*,a.name as aname,c.name as cname')
+            ->join('cmf_shop_goods_attr a','a.id=ca.attr_id')
+            ->join('cmf_shop_goods_category c','c.id=ca.cate_id')
+            ->where($where)->order('c.path asc,ca.list_order asc')->paginate(10);
         $goodsCate = new ShopGoodsCategoryModel();
         $categoriesTree = $goodsCate->adminCategoryTree($data['cid']);
         
@@ -252,9 +253,9 @@ tpl;
         $categoriesTree = $goodsCate->adminCategoryTree($data['cid']);
         //获取属性
         $attrs=Db::name('shop_goods_attr')
-        ->where('status',1)
-        ->order('name asc')
-        ->select();
+            ->where('status',1)
+            ->order('name asc')
+            ->select();
         $this->assign('categories_tree', $categoriesTree);
         $this->assign('attrs', $attrs);
         return $this->fetch();
@@ -280,56 +281,52 @@ tpl;
         if(!empty($find)){
             $this->error('该属性已存在');
         }
-       try {
-           $m->insert($data);
-       }catch (\Exception $e) { 
-           $this->error('添加失败,请刷新重试');
-       } 
+        try {
+            $m->insert($data);
+        }catch (\Exception $e) { 
+            $this->error('添加失败,请刷新重试');
+        } 
          $this->success('添加成功'); 
     }
     
     /**
-     * 类别属性状态修改
+     * 分类属性状态修改
      * @adminMenu(
-     *     'name'   => '类别属性状态修改',
+     *     'name'   => '分类属性状态修改',
      *     'parent' => 'index',
      *     'display'=> false,
      *     'hasView'=> false,
      *     'order'  => 10,
      *     'icon'   => '',
-     *     'remark' => '类别属性状态修改',
+     *     'remark' => '分类属性状态修改',
      *     'param'  => ''
      * )
      */
     public function changeStatus1()
     {
-        
         $data = $this->request->param();
         
         $m = Db::name('shop_category_attr');
         
         if (isset($data['ids'])) {
             $ids = $this->request->param('ids/a');
-            
             $m->where(['id' => ['in', $ids]])->update([$data["type"]=> $data["value"]]);
-            
             $this->success("更新成功！");
-            
         }
         $this->success("更新失败！");
     }
     
     // 排序
     /**
-     * 类别属性排序
+     * 分类属性排序
      * @adminMenu(
-     *     'name'   => '类别属性排序',
+     *     'name'   => '分类属性排序',
      *     'parent' => 'index',
      *     'display'=> false,
      *     'hasView'=> false,
      *     'order'  => 10,
      *     'icon'   => '',
-     *     'remark' => '类别属性排序',
+     *     'remark' => '分类属性排序',
      *     'param'  => ''
      * )
      */
@@ -339,15 +336,15 @@ tpl;
         $this->success("排序更新成功！", '');
     }
     /**
-     * 类别属性删除
+     * 分类属性删除
      * @adminMenu(
-     *     'name'   => '类别属性删除',
+     *     'name'   => '分类属性删除',
      *     'parent' => 'index',
      *     'display'=> false,
      *     'hasView'=> false,
      *     'order'  => 10,
      *     'icon'   => '',
-     *     'remark' => '类别属性删除',
+     *     'remark' => '分类属性删除',
      *     'param'  => ''
      * )
      */

@@ -17,6 +17,50 @@ class ComModel extends Model
 
 
 // 以下是后加的
+
+
+    /**
+     * 新增数据
+     * pk='id'
+     * @param [array] $data [要保存的数据]
+     * @param [bool] $return_id [是否返回ID]
+     * @return [number]       [description]
+     */
+    public function addDataCom($data,$return_id=false)
+    {
+        if (!empty($data['more.thumbnail'])) {
+            $data['more.thumbnail'] = cmf_asset_relative_url($data['more.thumbnail']);
+        }
+
+        $result = $this->allowField(true)->save($data);
+        // $this->allowField(true)->isUpdate(false)->data($data, true)->save();
+
+        if ($return_id===true) {
+            $result = $this->id;
+        }
+        return $result;
+    }
+
+    /**
+     * 修改数据
+     * pk='id'
+     * @param  [array] $data [要更新的数据]
+     * @param  [object] [是否返回$this]
+     * @return []       [description]
+     */
+    public function editDataCom($data,$obj=false)
+    {
+        $id = intval($data['id']);
+        if (!empty($data['more.thumbnail'])) {
+            $data['more.thumbnail'] = cmf_asset_relative_url($data['more.thumbnail']);
+        }
+
+        $result = $this->isUpdate(true)->allowField(true)->save($data, ['id' => $id]);
+        // $this->allowField(true)->isUpdate(true)->data($data, true)->save();
+
+        return $result;
+    }
+
     /**
      * 后台管理编辑显示页面
      * @param int $id 唯一ID

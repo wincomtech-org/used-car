@@ -15,7 +15,7 @@
                 	<tr>
                         <th>属性<span class="form-required">*</span></th>
                         <td>
-                            <select name="attr_id" id="" required>
+                            <select class="form-control" style="width: 150px" name="attr_id" id="" required>
    
 						 	<foreach name="attrs" item="vo">
 						     	<option value="{$vo.id}" <if condition="$vo.id eq $aid">selected</if>>{$vo.name}</option>

@@ -169,7 +169,7 @@
     function changeBrand(o){
         var brandId = $(o).attr('data-val');
 
-        $.post('{:url("usual/Ajax/serieByBrand")}', {brandId: brandId}, function(data) {
+        $.post('{:url("usual/Ajax/serieByBrand")}', {brandId:brandId,option:true}, function(data) {
             $('#input-series').html(data);
         });
     }

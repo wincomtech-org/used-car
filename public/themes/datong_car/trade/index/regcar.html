@@ -14,7 +14,7 @@
                             <p class="analogy_tit"><input name='brand' placeholder="请选择品牌" class="placeholder" readonly id="brandget1"></p>
                             <ul class="analogy_con" style="display:none;" >
                                 <foreach name="regCarInfo.brand" item="vo">
-                                <li onclick="changeBrand(this)" data-val="{$vo.id}"><input value="{$vo.name}" readonly></li>
+                                <li onclick="changeBrand(this,1)" data-val="{$vo.id}"><input value="{$vo.name}" readonly></li>
                                 </foreach>
                             </ul>
                         </div>
@@ -86,34 +86,6 @@
     </div>
 </section>
 
-<script type="text/javascript">
-function RegCarSubmit(i){
-    var brandId = $('#brandget'+i).attr('data-id');
-    if (brandId=='undefined') { brandId = ''; }
-    var serieId = $('#serieget'+i).attr('data-id');
-    if (serieId=='undefined') { serieId = ''; }
-    var modelId = $('#modelget'+i).attr('data-id');
-    if (modelId=='undefined') { modelId = ''; }
-    var province= $('#input-province'+i+' option:selected').val();
-    var city    = $('#input-city'+i+' option:selected').val();
-    if (city=='undefined') { city = ''; }
-    var tel     = $('input[name="telephone'+i+'"]').val();
-    var code    = $('input[name="vericode'+i+'"]').val();
-
-    // console.log(brandId,serieId,modelId,province,city,tel,code);
-
-    $.post("{:url('trade/Post/regCar')}", {brandId:brandId, serieId:serieId, modelId:modelId, province:province, city:city, tel:tel, code: code}, function(data) {
-        alert(data.msg);//可以换个像样的弹窗
-        if (data.url) {
-            window.location.href = data.url;
-        } else {
-            // history.back(-1);
-            window.location.reload();
-        }
-    },'json');
-}
-</script>
-
 <!-- 移动端 -->
 <section class="veh_trading_m" style="display:none">
     <div class="banner">
@@ -130,7 +102,7 @@ function RegCarSubmit(i){
                             <p class="analogy_tit"><input name='brand' placeholder="请选择品牌" class="placeholder" readonly id="brandget2"></p>
                             <ul class="analogy_con" style="display:none;">
                                 <foreach name="regCarInfo.brand" item="vo">
-                                    <li onclick="changeBrand(this)" data-val="{$vo.id}"><input value="{$vo.name}" readonly></li>
+                                    <li onclick="changeBrand(this,2)" data-val="{$vo.id}"><input value="{$vo.name}" readonly></li>
                                 </foreach>
                             </ul>
                         </div>
@@ -141,7 +113,7 @@ function RegCarSubmit(i){
                         <span class="info_tit">车&nbsp;&nbsp;&nbsp;&nbsp;系</span>
                         <div class="analogy">
                             <p class="analogy_tit"><input name="serie" placeholder="请选择车系" class="placeholder" readonly id="serieget2"></p>
-                            <ul class="analogy_con" style="display:none;" id="input-series">
+                            <ul class="analogy_con" style="display:none;" id="input-series2">
                                 <foreach name="Series" item="vo">
                                     <li data-val="{$vo.id}"><input value="{$vo.name}" readonly></li>
                                 </foreach>
@@ -207,4 +179,45 @@ function RegCarSubmit(i){
 </section>
 
 
+
+<script type="text/javascript">
+    if(screen.width<1024){
+        $('.veh_trading_pc .main .registration_information').remove();
+        $('.veh_trading_m').show()
+    }
+
+    function changeBrand(o,sel){
+        var brandId = $(o).attr('data-val');
+
+        $.post('{:url("usual/Ajax/serieByBrand")}', {brandId:brandId,option:true}, function(data) {
+            $('#input-series'+sel).html(data);
+        });
+    }
+
+    function RegCarSubmit(i){
+        var brandId = $('#brandget'+i).attr('data-id');
+        if (brandId=='undefined') { brandId = ''; }
+        var serieId = $('#serieget'+i).attr('data-id');
+        if (serieId=='undefined') { serieId = ''; }
+        var modelId = $('#modelget'+i).attr('data-id');
+        if (modelId=='undefined') { modelId = ''; }
+        var province= $('#input-province'+i+' option:selected').val();
+        var city    = $('#input-city'+i+' option:selected').val();
+        if (city=='undefined') { city = ''; }
+        var tel     = $('input[name="telephone'+i+'"]').val();
+        var code    = $('input[name="vericode'+i+'"]').val();
+
+        // console.log(brandId,serieId,modelId,province,city,tel,code);
+
+        $.post("{:url('trade/Post/regCar')}", {brandId:brandId, serieId:serieId, modelId:modelId, province:province, city:city, tel:tel, code: code}, function(data) {
+            alert(data.msg);//可以换个像样的弹窗
+            if (data.url) {
+                window.location.href = data.url;
+            } else {
+                // history.back(-1);
+                window.location.reload();
+            }
+        },'json');
+    }
+</script>
 

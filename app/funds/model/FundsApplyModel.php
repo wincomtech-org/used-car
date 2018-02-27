@@ -11,9 +11,6 @@ class FundsApplyModel extends UsualModel
         $field = 'a.*,b.user_nickname,b.user_login,b.user_email,b.mobile';
         $join = [['user b','a.user_id=b.id']];
         $where = [];
-        if (!empty($extra)) {
-            $where = array_merge($where,$extra);
-        }
 
         // 更多
         if (!empty($filter['userId'])) {
@@ -45,6 +42,9 @@ class FundsApplyModel extends UsualModel
         $uid = $this->getUid($uname);
         if (!empty($uid)) {
             $where['a.user_id'] = $uid;
+        }
+        if (!empty($extra)) {
+            $where = array_merge($where,$extra);
         }
 
         // 排序

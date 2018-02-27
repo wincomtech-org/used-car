@@ -1,19 +1,16 @@
 <?php
 namespace app\shop\controller;
 
-use cmf\controller\AdminBaseController;
-use app\shop\model\ShopGoodsCategoryModel;
 use app\shop\model\ShopGoodsAttrModel;
-use app\shop\model\ShopGoodsAvModel;
-use app\shop\service\AttrService;
+use cmf\controller\AdminBaseController;
 use think\Db;
 
 /**
-* 服务商城 独立模块
-* 属性
-* 属性值
-* 产品属性关系
-*/
+ * 服务商城 独立模块
+ * 属性
+ * 属性值
+ * 产品属性关系
+ */
 class AdminAttrController extends AdminBaseController
 {
     private $order;
@@ -22,10 +19,10 @@ class AdminAttrController extends AdminBaseController
     public function _initialize()
     {
         parent::_initialize();
-        $this->m = Db::name('shop_goods_attr');
-        $this->m1 = Db::name('shop_goods_av');
+        $this->m     = Db::name('shop_goods_attr');
+        $this->m1    = Db::name('shop_goods_av');
         $this->order = 'list_order asc,id asc';
-         
+
     }
     /**
      * 属性管理
@@ -42,21 +39,20 @@ class AdminAttrController extends AdminBaseController
      */
     public function index()
     {
-        $m=$this->m;
-        $data= $this->request->param();
-        $where=[];
-        if(empty($data['name'])){
-            $data['name']='';
-        }else{
-            $where['name']=['like','%'.$data['name'].'%'];
+        $m     = $this->m;
+        $data  = $this->request->param();
+        $where = [];
+        if (empty($data['name'])) {
+            $data['name'] = '';
+        } else {
+            $where['name'] = ['like', '%' . $data['name'] . '%'];
         }
         $list = $m->where($where)->order($this->order)->paginate(10);
 
-        
         $this->assign('data', $data);
-       
+
         $this->assign('list', $list->items());
-      
+        $list->appends($data);
         $this->assign('pager', $list->render());
 
         return $this->fetch();
@@ -94,15 +90,15 @@ class AdminAttrController extends AdminBaseController
     public function addPost()
     {
         if ($this->request->isPost()) {
-            $data   = $this->request->param();
-            $post   = $data['post'];
-          
+            $data = $this->request->param();
+            $post = $data['post'];
+
             // 验证
             $result = $this->validate($post, 'Attr');
             if ($result !== true) {
                 $this->error($result);
             }
- 
+
             $attrModel = new ShopGoodsAttrModel();
             $attrModel->addAttr($post);
 
@@ -128,11 +124,14 @@ class AdminAttrController extends AdminBaseController
         $id = $this->request->param('id', 0, 'intval');
 
         $attrModel = new ShopGoodsAttrModel();
-        $post = $attrModel->where('id', $id)->find();
-        // ???
-        
+        $post      = $attrModel->where('id', $id)->find();
+        // 已有属性值
+        $attrs = $this->m1->where('attr_id',$id)->column('name');
+        $attrs = implode(',',$attrs);
+
+        $this->assign('attrs', $attrs);
         $this->assign('post', $post);
-        
+
         return $this->fetch();
     }
     /**
@@ -151,9 +150,9 @@ class AdminAttrController extends AdminBaseController
     public function editPost()
     {
         if ($this->request->isPost()) {
-            $data   = $this->request->param();
-            $post   = $data['post'];
-         
+            $data = $this->request->param();
+            $post = $data['post'];
+
             // 验证
             $result = $this->validate($post, 'Attr');
             if ($result !== true) {
@@ -163,7 +162,7 @@ class AdminAttrController extends AdminBaseController
             $attrModel = new ShopGoodsAttrModel();
             $attrModel->editAttr($post);
 
-            $this->success('保存成功!',url('index'));
+            $this->success('保存成功!', url('index'));
         }
     }
     /**
@@ -183,14 +182,14 @@ class AdminAttrController extends AdminBaseController
     {
         //删除属性要看属性有没有在分类下引用,没有才能删除
         $this->error("删除功能暂不开放");
-        $m=$this->m;
-        $m1=$this->m1;
-        $param = $this->request->param();
+        $m         = $this->m;
+        $m1        = $this->m1;
+        $param     = $this->request->param();
         $attrModel = new ShopGoodsAttrModel();
         if (isset($param['id'])) {
-            $id           = $this->request->param('id', 0, 'intval');
-            $rows=$m1->where('attr_id',$id)->count();
-            
+            $id   = $this->request->param('id', 0, 'intval');
+            $rows = $m1->where('attr_id', $id)->count();
+
             $this->success("删除成功！", '');
 
         }
@@ -205,7 +204,7 @@ class AdminAttrController extends AdminBaseController
                         'object_id'   => $value['id'],
                         'create_time' => time(),
                         'table_name'  => 'portal_post',
-                        'name'        => $value['post_title']
+                        'name'        => $value['post_title'],
                     ];
                     Db::name('recycleBin')->insert($data);
                 }
@@ -214,7 +213,6 @@ class AdminAttrController extends AdminBaseController
         }
     }
 
-    
     /**
      * 属性状态修改
      * @adminMenu(
@@ -230,15 +228,15 @@ class AdminAttrController extends AdminBaseController
      */
     public function changeStatus()
     {
-       
+
         $data = $this->request->param();
-       
+
         $attrModel = new ShopGoodsAttrModel();
- 
+
         if (isset($data['ids'])) {
             $ids = $this->request->param('ids/a');
 
-            $attrModel->where(['id' => ['in', $ids]])->update([$data["type"]=> $data["value"]]);
+            $attrModel->where(['id' => ['in', $ids]])->update([$data["type"] => $data["value"]]);
 
             $this->success("更新成功！");
 
@@ -262,11 +260,11 @@ class AdminAttrController extends AdminBaseController
      */
     public function listOrder()
     {
-        parent::listOrders(Db::name('shop_goods_attr'));
+        parent::listOrders($this->m);
         $this->success("排序更新成功！", '');
     }
 
-    
+
 
 /*属性值*/
     /**
@@ -284,29 +282,31 @@ class AdminAttrController extends AdminBaseController
      */
     public function listav()
     {
-        $data = $this->request->param();
-        $where=[];
-        if(empty($data['aid'])){
-            $data['aid']=0;
-        }else{
-            $where['a.id']=['eq',$data['aid']];
+        $data  = $this->request->param();
+        $where = [];
+        if (empty($data['aid'])) {
+            $data['aid'] = 0;
+        } else {
+            $where['a.id'] = ['eq', $data['aid']];
         }
-        if(empty($data['name'])){
-            $data['name']='';
-        }else{
-            $where['av.name']=['like','%'.$data['name'].'%'];
+        if (empty($data['name'])) {
+            $data['name'] = '';
+        } else {
+            $where['av.name'] = ['like', '%' . $data['name'] . '%'];
         }
-        $list=Db::name('shop_goods_av')
-        ->alias('av')
-        ->field('av.*,a.name as aname')
-        ->join('cmf_shop_goods_attr a','a.id=av.attr_id')
-        ->where($where)->order('av.list_order')->paginate(10);
+
+        $list = $this->m1->alias('av')
+            ->field('av.*,a.name as aname')
+            ->join('shop_goods_attr a', 'a.id=av.attr_id')
+            ->where($where)->order('av.list_order')->paginate(10);
+
         $attrModel = new ShopGoodsAttrModel();
-        $attrs=$attrModel->getAttrs(0);
-        $this->assign('attrs',$attrs);
-        $this->assign('list',$list); 
-        $this->assign('data',$data);
-        $this->assign('pager',$list->render());
+        $attrs     = $attrModel->getAttrs();
+
+        $this->assign('attrs', $attrs);
+        $this->assign('list', $list);
+        $this->assign('data', $data);
+        $this->assign('pager', $list->render());
         return $this->fetch();
     }
     /**
@@ -324,12 +324,12 @@ class AdminAttrController extends AdminBaseController
      */
     public function addav()
     {
-        $aid= $this->request->param('aid');
-        
+        $aid = $this->request->param('aid');
+
         $attrModel = new ShopGoodsAttrModel();
-        $attrs=$attrModel->getAttrs(1);
-        $this->assign('attrs',$attrs);
-        $this->assign('aid',$aid);
+        $attrs     = $attrModel->getAttrs(1);
+        $this->assign('attrs', $attrs);
+        $this->assign('aid', $aid);
         return $this->fetch();
     }
     /**
@@ -347,15 +347,14 @@ class AdminAttrController extends AdminBaseController
      */
     public function addavPost()
     {
-        $data = $this->request->param();
-        $m=$this->m1;
-        $insert=$m->insertGetId($data);
-        if($insert>0){
+        $data   = $this->request->param();
+        $m      = $this->m1;
+        $insert = $m->insertGetId($data);
+        if ($insert > 0) {
             $this->success('添加成功');
-        }else{
+        } else {
             $this->error('添加失败');
         }
-       
     }
     /**
      * 属性值编辑
@@ -391,8 +390,8 @@ class AdminAttrController extends AdminBaseController
     {
         $data = $this->request->param();
 
-        // Db::name('shop_goods_attr')->insertGetId($data);
+        // $this->m->insertGetId($data);
         $this->success('保存成功');
     }
-    
+
 }

@@ -38,26 +38,39 @@ class ShopBrandModel extends UsualCategoryModel
         return $options;
     }
 
-    public function addBrand($data)
+    /**
+     * 新增品牌
+     * @param [array] $data [要保存的数据]
+     * @param [bool] $return_id [是否返回ID]
+     * @return [number]       [description]
+     */
+    public function addBrand($data,$return_id=false)
     {
         if (!empty($data['thumbnail'])) {
             $data['thumbnail'] = cmf_asset_relative_url($data['thumbnail']);
         }
 
-        $this->allowField(true)->save($data);
-        $id = $this->id;
-        dump($id);die;
-        return $this->id;
+        $result = $this->allowField(true)->save($data);
+
+        if ($return_id===true) {
+            $result = $this->id;
+        }
+        return $result;
     }
 
-    public function editBrand($data)
+    /**
+     * 修改品牌
+     * @param  [array] $data [要更新的数据]
+     * @param  [object] [是否返回$this]
+     * @return []       [description]
+     */
+    public function editBrand($data,$obj=false)
     {
         $id = intval($data['id']);
         if (!empty($data['thumbnail'])) {
             $data['thumbnail'] = cmf_asset_relative_url($data['thumbnail']);
         }
-        $this->isUpdate(true)->allowField(true)->save($data, ['id' => $id]);
-        dump($this);die;
-        return $this;
+        $result = $this->isUpdate(true)->allowField(true)->save($data, ['id' => $id]);
+        return $result;
     }
 }
