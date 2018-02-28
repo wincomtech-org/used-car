@@ -1,36 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <title>资料填写 - {$site_info.site_name|default=''}</title>
-    <meta name="keywords" content="{$site_info.site_seo_keywords|default=''}"/>
+    <meta name="keywords" content="{$site_info.site_seo_keywords|default=''}" />
     <meta name="description" content="{$site_info.site_seo_description|default=''}">
-
-    <include file="public@head"/>
-    <hook name="before_head_end"/>
-
+    <include file="public@head" />
+    <hook name="before_head_end" />
     <style type="text/css">
-        .pic-list li {
-            margin-bottom: 5px;
-        }
+    .pic-list li {
+        margin-bottom: 5px;
+    }
     </style>
     <script type="text/html" id="identity_card-item-tpl">
         <li id="saved-identity_card{id}">
             <input id="identity_card-{id}" type="hidden" name="identity_card[urls][]" value="{filepath}">
-            <img id="identity_card-{id}-preview" src="{url}" style="height:108px;width:180px;"
-                 onclick="imagePreviewDialog(this.src);">
+            <img id="identity_card-{id}-preview" src="{url}" style="height:108px;width:180px;" onclick="imagePreviewDialog(this.src);">
             <a href="javascript:uploadOneImage('图片上传','#identity_card-{id}');">替换</a>
             <a href="javascript:(function(){$('#saved-identity_card{id}').remove();})();">移除</a>
-            <input class="form-control" id="identity_card-{id}-name" type="text" name="identity_card[names][]" value="{name}"
-                 title="图片名称">
+            <input class="form-control" id="identity_card-{id}-name" type="text" name="identity_card[names][]" value="{name}" title="图片名称">
         </li>
     </script>
 </head>
+
 <body>
     <!-- 头部 -->
     <include file="public@header" />
     <!-- 导航 -->
     <include file="public@nav" />
-
     <!-- 独立页面 -->
     <section class="rookie_inspection">
         <div class="main">
@@ -56,22 +53,20 @@
                     <h4>{$page.desc2?$page.desc2:$page.name}</h4>
                     <form action="{:url('Index/appointPost')}" method="post" class="inspection_form js-ajax-form">
                         <p class="red">{$page.notice}</p>
-
                         <foreach name="new_data" item="vo">
-                        <div class="inspection_list">
-                            <span>{$vo.title}</span>
-                            <include file="index/service_data_switch1"/>
-                        </div>
+                            <div class="inspection_list">
+                                <span>{$vo.title}</span>
+                                <include file="index/service_data_switch1" />
+                            </div>
                         </foreach>
-
                         <div class="inspection_list">
-                        <if condition="count($new_data) eq 1 and $new_data[0]['name'] eq 'service_point'">
-                            <!-- 只是服务点 -->
-                        <else/>
-                            <input type="hidden" name="post[model_id]" value="{$page.id}">
-                            <input type="hidden" name="compId" value="1">
-                            <button type="submit" class="btn_submit js-ajax-submit">立即预约</button>
-                        </if>
+                            <if condition="count($new_data) eq 1 and $new_data[0]['name'] eq 'service_point'">
+                                <!-- 只是服务点 -->
+                            <else/>
+                                <input type="hidden" name="post[model_id]" value="{$page.id}">
+                                <input type="hidden" name="compId" value="1">
+                                <button type="submit" class="btn_submit js-ajax-submit1">立即预约</button>
+                            </if>
                         </div>
                     </form>
                 </div>
@@ -79,13 +74,11 @@
             <include file="index/map_container" />
         </div>
     </section>
-
     <!-- 底部 -->
     <include file="public@footer" />
     <include file="public@scripts" />
     <hook name="before_body_end" />
 </body>
-
 <script type="text/javascript" src="__TMPL__/public/assets/js/laydate/laydate.js"></script>
 <include file="index/step_js" />
 

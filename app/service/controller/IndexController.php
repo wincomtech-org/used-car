@@ -184,8 +184,9 @@ class IndexController extends HomeBaseController
         $transStatus = true;
         try{
             $id = model('Service')->addAppoint($post);
+            // 服务点ID service_point
             $extra = [
-                'service_point' => $post['service_point'],
+                'service_point' => empty($post['service_point'])?'':$post['service_point'],
                 'name'          => $servCates['name']
             ];
             $log = model('usual/News')->newsObject('service',$id,$userId,$extra);

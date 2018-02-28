@@ -469,7 +469,11 @@ class PostController extends HomeBaseController
         $this->success('前往支付中心……',cmf_url('funds/Pay/pay',$map));
     }
 
-    // 登记卖车信息
+    /**
+     * 登记卖车信息
+     * 是否加入车牌号码？
+     * @return [type] [description]
+     */
     public function regCar()
     {
         // 是否登录
