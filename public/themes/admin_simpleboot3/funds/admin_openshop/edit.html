@@ -56,7 +56,13 @@
                     <php>$statusV = config('funds_apply_status');</php>
                     <tr>
                         <td>
-                            <span class="form-control">{$statusV[$post.status]}</span>
+                            <!-- <span class="form-control">{//$statusV[$post.status]}</span> -->
+                            <!-- status = -1|-2|10  <span class="form-control">{$statusV[$post.status]}</span>  -->
+                            <select name="status" class="form-control">
+                                <foreach name="statusV" item="vo" key="k">
+                                <option {$post.status==$k?='selected'} value="{$k}">{$vo}</option>
+                                </foreach>
+                            </select>
                         </td>
                     </tr>
                 </table>

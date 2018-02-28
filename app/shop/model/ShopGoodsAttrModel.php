@@ -33,14 +33,17 @@ class ShopGoodsAttrModel extends Model
         return $this;
     }
 
-    /*得到所有显示属性*/
-    public function getAttrs($status=null)
+    /*得到所有属性*/
+    public function getAttrs($status=null, $order='list_order,id desc', $extra=[])
     {
         $where = [];
         if(!empty($status)){
             $where = ['status'=>$status];
-        } 
-        $list = $this->field('id,name')->where($where)->order('list_order asc,id asc')->select();
+        }
+        if (!empty($extra)) {
+            $where = array_merge($where,$extra);
+        }
+        $list = $this->field('id,name')->where($where)->order($order)->select();
 
         return $list;
     }

@@ -3,12 +3,13 @@ namespace app\shop\controller;
 
 use cmf\controller\AdminBaseController;
 use app\shop\model\ShopGoodsCategoryModel;
+use app\shop\model\ShopGoodsAttrModel;
 use think\Db;
 
 /**
-* 服务商城 独立模块
-* 分类（类目、类别）
-*/
+ * 服务商城 独立模块
+ * 分类（类目、类别）
+ */
 class AdminCategoryController extends AdminBaseController
 {
     /**
@@ -26,8 +27,8 @@ class AdminCategoryController extends AdminBaseController
      */
     public function index()
     {
-        $goodsCate = new ShopGoodsCategoryModel();
-        $categoryTree = $goodsCate->shopGoodsCategoryTableTree();
+        $cateModel    = new ShopGoodsCategoryModel();
+        $categoryTree = $cateModel->shopGoodsCategoryTableTree();
 
         $this->assign('category_tree', $categoryTree);
         return $this->fetch();
@@ -36,24 +37,24 @@ class AdminCategoryController extends AdminBaseController
     // 新增
     public function add()
     {
-        $parentId = $this->request->param('parent', 0, 'intval');
-        $goodsCate = new ShopGoodsCategoryModel();
-        $categoriesTree = $goodsCate->adminCategoryTree($parentId);
+        $parentId       = $this->request->param('parent', 0, 'intval');
+        $cateModel      = new ShopGoodsCategoryModel();
+        $categoriesTree = $cateModel->adminCategoryTree($parentId);
 
         $this->assign('categories_tree', $categoriesTree);
         return $this->fetch();
     }
     public function addPost()
     {
-        $goodsCate = new ShopGoodsCategoryModel();
-        $data = $this->request->param();
+        $cateModel = new ShopGoodsCategoryModel();
+        $data      = $this->request->param();
 
         $result = $this->validate($data, 'GoodsCategory');
         if ($result !== true) {
             $this->error($result);
         }
 
-        $result = $goodsCate->addCategory($data);
+        $result = $cateModel->addCategory($data);
 
         if ($result === false) {
             $this->error('添加失败!');
@@ -68,24 +69,32 @@ class AdminCategoryController extends AdminBaseController
         if ($id > 0) {
             $category = ShopGoodsCategoryModel::get($id)->toArray();
 
-            $goodsCate = new ShopGoodsCategoryModel();
-            // $category = $goodsCate->get($id)->toArray();
-            $categoriesTree      = $goodsCate->adminCategoryTree($category['parent_id'], $id);
-            //显示分类对应的属性
-            $list = Db::name('shop_category_attr')
-                ->field('ta.*,a.name as aname')
+            $cateModel = new ShopGoodsCategoryModel();
+            // $category = $cateModel->get($id)->toArray();
+            // 分类树
+            $categoriesTree = $cateModel->adminCategoryTree($category['parent_id'], $id);
+            //分类对应的属性
+            $cate_attr = '';
+            // $cate_attr = Db::name('shop_category_attr')
+            //     ->alias('ta')
+            //     ->field('a.name as aname')
+            //     ->join('shop_goods_attr a', 'a.id=ta.attr_id')
+            //     ->where('cate_id', $id)->select()->toArray();
+            // 
+            $cate_attr = Db::name('shop_category_attr')
                 ->alias('ta')
-                ->join('cmf_shop_goods_attr a','a.id=ta.attr_id')
-                ->where('cate_id',$id)->select();
+                ->join('shop_goods_attr a', 'a.id=ta.attr_id')
+                ->where('cate_id', $id)->column('a.name');
+            $cate_attr = implode(',',$cate_attr);
+            // 所有属性
+            $attrs = model('ShopGoodsAttr')->getAttrs()->toArray();
 
-            $attrs = Db::name('shop_goods_attr') 
-                ->where('status',1)
-                ->order('list_order asc')
-                ->select();
-             dump($list);dump($attrs);exit;
+            // dump($cate_attr);
+            // dump($attrs);exit;
+
             $this->assign($category);
-            $this->assign('list',$list);
-            $this->assign('attrs',$attrs);
+            $this->assign('cate_attr', $cate_attr);
+            $this->assign('attrs', $attrs);
             $this->assign('categories_tree', $categoriesTree);
             return $this->fetch();
         } else {
@@ -101,15 +110,15 @@ class AdminCategoryController extends AdminBaseController
             $this->error($result);
         }
 
-        $goodsCate = new ShopGoodsCategoryModel();
-        $result = $goodsCate->editCategory($data);
+        $cateModel = new ShopGoodsCategoryModel();
+        $result    = $cateModel->editCategory($data);
 
         if ($result === false) {
             $this->error('保存失败!');
         }
         $this->success('保存成功!');
     }
-    
+
     public function listOrder()
     {
         parent::listOrders(Db::name('shop_goods_category'));
@@ -119,9 +128,9 @@ class AdminCategoryController extends AdminBaseController
     // 分类选择对话框
     public function select()
     {
-        $ids = $this->request->param('ids');
+        $ids         = $this->request->param('ids');
         $selectedIds = explode(',', $ids);
-        $goodsCate = new ShopGoodsCategoryModel();
+        $cateModel   = new ShopGoodsCategoryModel();
 
         $tpl = <<<tpl
 <tr class='data-item-tr'>
@@ -133,11 +142,11 @@ class AdminCategoryController extends AdminBaseController
     <td>\$spacer <a href='\$url' target='_blank'>\$name</a></td>
 </tr>
 tpl;
-        $config = ['url'=>'shop/AdminCategory/edit'];
-        $categoryTree = $goodsCate->adminCategoryTableTree($selectedIds, $tpl, $config);
+        $config       = ['url' => 'shop/AdminCategory/edit'];
+        $categoryTree = $cateModel->adminCategoryTableTree($selectedIds, $tpl, $config);
 // dump($categoryTree);die;
         $where      = ['delete_time' => 0];
-        $categories = $goodsCate->where($where)->select();
+        $categories = $cateModel->where($where)->select();
 
         $this->assign('categories', $categories);
         $this->assign('selectedIds', $selectedIds);
@@ -147,43 +156,43 @@ tpl;
 
     public function delete()
     {
-        $goodsCate = new ShopGoodsCategoryModel();
-        $id = $this->request->param('id');
+        $cateModel = new ShopGoodsCategoryModel();
+        $id        = $this->request->param('id');
 
         //获取删除的内容
-        $findCategory = $goodsCate->where('id', $id)->find();
+        $findCategory = $cateModel->where('id', $id)->find();
         if (empty($findCategory)) {
             $this->error('分类不存在!');
         }
 
-        $categoryChildrenCount = $goodsCate->where('parent_id', $id)->count();
+        $categoryChildrenCount = $cateModel->where('parent_id', $id)->count();
         if ($categoryChildrenCount > 0) {
             $this->error('此分类有子类无法删除!');
         }
-            //分类下有产品不能删除
+        //分类下有产品不能删除
         $categoryPostCount = Db::name('shop_goods')->where('cate_id', $id)->count();
         if ($categoryPostCount > 0) {
             $this->error('此分类下有产品无法删除!');
         }
- 
+
         // 删除操作，删除之后删除类与属性的对应
-       
+
         Db::startTrans();
-        try{
-            $row=$goodsCate->where('id', $id)->delete();
-            if($row===1){
-                Db::name('shop_category_attr')->where('cate_id',$id)->delete();
+        try {
+            $row = $cateModel->where('id', $id)->delete();
+            if ($row === 1) {
+                Db::name('shop_category_attr')->where('cate_id', $id)->delete();
                 Db::commit();
-            }else{
+            } else {
                 throw \Exception('删除失败');
             }
-            
-        }catch(\Exception $e){
+
+        } catch (\Exception $e) {
             Db::rollback();
-            $this->error('删除失败!'.$e->getMessage());
+            $this->error('删除失败!' . $e->getMessage());
         }
         $this->success('删除成功!');
-        
+
     }
 
     /**
@@ -201,31 +210,31 @@ tpl;
      */
     public function attrs()
     {
-        $data = $this->request->param();
-        $where=[];
-        if(empty($data['cid'])){
-            $data['cid']=0;
-        }else{
-            $where['c.id']=['eq',$data['cid']];
+        $data  = $this->request->param();
+        $where = [];
+        if (empty($data['cid'])) {
+            $data['cid'] = 0;
+        } else {
+            $where['c.id'] = ['eq', $data['cid']];
         }
-        if(empty($data['aname'])){
-            $data['aname']='';
-        }else{
-            $where['a.name']=['like','%'.$data['aname'].'%'];
+        if (empty($data['aname'])) {
+            $data['aname'] = '';
+        } else {
+            $where['a.name'] = ['like', '%' . $data['aname'] . '%'];
         }
-        $list=Db::name('shop_category_attr')
+        $list = Db::name('shop_category_attr')
             ->alias('ca')
             ->field('ca.*,a.name as aname,c.name as cname')
-            ->join('cmf_shop_goods_attr a','a.id=ca.attr_id')
-            ->join('cmf_shop_goods_category c','c.id=ca.cate_id')
+            ->join('shop_goods_attr a', 'a.id=ca.attr_id')
+            ->join('shop_goods_category c', 'c.id=ca.cate_id')
             ->where($where)->order('c.path asc,ca.list_order asc')->paginate(10);
-        $goodsCate = new ShopGoodsCategoryModel();
-        $categoriesTree = $goodsCate->adminCategoryTree($data['cid']);
-        
+        $cateModel      = new ShopGoodsCategoryModel();
+        $categoriesTree = $cateModel->adminCategoryTree($data['cid']);
+
         $this->assign('categories_tree', $categoriesTree);
-        $this->assign('list',$list);
-        $this->assign('data',$data);
-        $this->assign('pager',$list->render());
+        $this->assign('list', $list);
+        $this->assign('data', $data);
+        $this->assign('pager', $list->render());
         return $this->fetch();
     }
     /**
@@ -244,20 +253,23 @@ tpl;
     public function attrs_add()
     {
         $data = $this->request->param();
-         
-        if(empty($data['cid'])){
-            $data['cid']=0;
-        } 
-        
-        $goodsCate = new ShopGoodsCategoryModel();
-        $categoriesTree = $goodsCate->adminCategoryTree($data['cid']);
-        //获取属性
-        $attrs=Db::name('shop_goods_attr')
-            ->where('status',1)
-            ->order('name asc')
-            ->select();
+
+        if (empty($data['cid'])) {
+            $data['cid'] = 0;
+        }
+        // 分类树
+        $cateModel      = new ShopGoodsCategoryModel();
+        $categoriesTree = $cateModel->adminCategoryTree($data['cid']);
+        //属性树
+        $attrModel = new ShopGoodsAttrModel;
+        // 排除已有的属性
+        $diff = Db::name('shop_category_attr')->where('cate_id',$data['cid'])->column('attr_id');
+        $extra = ['id'=>['not in',$diff]];
+        $attrs = $attrModel->getAttrs(1,'name asc',$extra);
+
         $this->assign('categories_tree', $categoriesTree);
         $this->assign('attrs', $attrs);
+        $this->assign('data', $data);
         return $this->fetch();
     }
     /**
@@ -276,19 +288,28 @@ tpl;
     public function attrs_addPost()
     {
         $data = $this->request->param();
-        $m=Db::name('shop_category_attr');
-        $find=$m->where(['cate_id'=>$data['cate_id'],'attr_id'=>$data['attr_id']])->find();
-        if(!empty($find)){
-            $this->error('该属性已存在');
+        $m    = Db::name('shop_category_attr');
+
+        $result = 0;
+        if (empty($data['attr_id'])) {
+            $this->error('没有选择属性');
+        } elseif (count($data['attr_id']) == 1) {
+            $post = ['cate_id'=>$data['cate_id'],'is_query'=>$data['is_query'],'list_order'=>$data['list_order'],'attr_id'=>$data['attr_id'][0]];
+            $result = $m->insert($post);
+        } else {
+            foreach ($data['attr_id'] as $row) {
+                $post[] = ['cate_id'=>$data['cate_id'],'is_query'=>$data['is_query'],'list_order'=>$data['list_order'],'attr_id'=>$row];
+            }
+            $result = $m->insertAll($post);
         }
-        try {
-            $m->insert($data);
-        }catch (\Exception $e) { 
+
+        if (empty($result)) {
             $this->error('添加失败,请刷新重试');
-        } 
-         $this->success('添加成功'); 
+        }
+
+        $this->success('添加成功',url('attrs',['cid'=>$data['cate_id']]));
     }
-    
+
     /**
      * 分类属性状态修改
      * @adminMenu(
@@ -305,17 +326,17 @@ tpl;
     public function changeStatus1()
     {
         $data = $this->request->param();
-        
+
         $m = Db::name('shop_category_attr');
-        
+
         if (isset($data['ids'])) {
             $ids = $this->request->param('ids/a');
-            $m->where(['id' => ['in', $ids]])->update([$data["type"]=> $data["value"]]);
+            $m->where(['id' => ['in', $ids]])->update([$data["type"] => $data["value"]]);
             $this->success("更新成功！");
         }
         $this->success("更新失败！");
     }
-    
+
     // 排序
     /**
      * 分类属性排序
@@ -350,31 +371,30 @@ tpl;
      */
     public function delete1()
     {
-         
-        $m=Db::name('shop_category_attr');
-       
+
+        $m = Db::name('shop_category_attr');
+
         $param = $this->request->param();
-      
+
         if (isset($param['id'])) {
-            $id           = $this->request->param('id', 0, 'intval');
-            $row=$m->where('id',$id)->delete();
-            if($row==1){
+            $id  = $this->request->param('id', 0, 'intval');
+            $row = $m->where('id', $id)->delete();
+            if ($row == 1) {
                 $this->success("删除成功！");
-            }else{
+            } else {
                 $this->success("删除失败！");
             }
-           
-            
+
         }
-        
+
         if (isset($param['ids'])) {
-            $ids     = $this->request->param('ids/a');
-            
-            $result  = $m->where(['id' => ['in', $ids]])->delete();
-            if ($result>0) {
-                
+            $ids = $this->request->param('ids/a');
+
+            $result = $m->where(['id' => ['in', $ids]])->delete();
+            if ($result > 0) {
+
                 $this->success("删除成功！", '');
-            } else{
+            } else {
                 $this->success("删除失败！");
             }
         }

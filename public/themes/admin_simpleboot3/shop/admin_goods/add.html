@@ -1,0 +1,233 @@
+<include file="public@header"/>
+<include file="admin_car1/pic-list" />
+
+</head>
+<body>
+<div class="wrap js-check-wrap">
+    <ul class="nav nav-tabs">
+        <li><a href="{:url('AdminCar1/index')}">新车管理</a></li>
+        <li class="active"><a href="#">添加新车</a></li>
+    </ul>
+    <div class="row margin-top-20">
+        <div class="col-md-1">
+            <include file="admin_car1/tab" />
+        </div>
+        <form class="js-ajax-form" action="{:url('AdminCar1/addPost')}" method="post">
+        <div class="col-md-8">
+            <div class="tab-content">
+                <!-- 基本属性S -->
+                <div class="tab-pane active" id="BASE_">
+                    <include file="admin_car1/BASE_" />
+                </div>
+                <!-- 基本属性E -->
+
+                <!-- 所有属性S -->
+                <div class="tab-pane " id="EXT_">
+                    <table class="table table-bordered">
+                        <include file="admin_car1/allItems" />
+                    </table>
+                </div>
+                <!-- 所有属性E -->
+
+                <!-- 优化属性S -->
+                <div class="tab-pane" id="REC_">
+                    <table class="table table-bordered">
+                        <include file="admin_car1/REC_" />
+                        <tr>
+                            <th></th>
+                            <td align="center"><big><b>以下仍作为前台筛选项</b></big></td>
+                        </tr>
+                        <foreach name="searchCode" item="vo">
+                            <php>
+                                $biz_compare = empty($post[$vo['code']]) ?  '': $post[$vo['code']];
+                                $biz = 'post['.$vo['code'].']';
+                            </php>
+                            <include file="admin_car1/recItems" />
+                        </foreach>
+
+                        <tr>
+                            <th></th>
+                            <td align="center"><big><b>以下是属性分类推荐项</b></big></td>
+                        </tr>
+                        <foreach name="recItems" item="vo">
+                            <php>
+                                $biz_compare = empty($post['more'][$vo['code']]) ?  '': $post['more'][$vo['code']];
+                                $biz = 'post[more]['.$vo['code'].']';
+                            </php>
+                            <include file="admin_car1/recItems" />
+                        </foreach>
+                    </table>
+                </div>
+                <!-- 优化属性E -->
+                
+                <!-- 店铺相关S -->
+                <div class="tab-pane" id="SHOP_">
+                    <include file="admin_car1/SHOP_" />
+                </div>
+                <!-- 店铺相关E -->
+                <div class="tab-pane" id="SEO_">
+                    <include file="admin_car1/SEO_" />
+                </div>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary js-ajax-submit">{:lang('ADD')}</button>
+                <a class="btn btn-default" href="{:url('AdminCar1/index')}">{:lang('BACK')}</a>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <table class="table table-bordered">
+                <tr>
+                    <th><b>主图</b></th>
+                </tr>
+                <tr>
+                    <td>
+                        <div style="text-align: center;">
+                            <input type="hidden" name="post[more][thumbnail]" id="thumbnail" value="">
+                            <a href="javascript:uploadOneImage('图片上传','#thumbnail');">
+                                <img src="__TMPL__/public/assets/images/default-thumbnail.png"
+                                     id="thumbnail-preview"
+                                     width="286" height="195" style="cursor:pointer" />
+                            </a>
+                            <input type="button" class="btn btn-sm btn-cancel-thumbnail" value="取消图片">
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <th><b>认证状态</b></th>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="checkbox">
+                            <label><input type="checkbox" name="post[identi_status]" value="1" checked>审核通过</label>
+                        </div>
+                    </td>
+                </tr>
+
+                <tr>
+                    <th><b>状态</b></th>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="checkbox">
+                            <label><input type="checkbox" name="post[status]" value="1" checked>启用</label>&nbsp;&nbsp;&nbsp;&nbsp;
+                            <label><input type="checkbox" name="post[is_top]" value="1">置顶</label>&nbsp;&nbsp;&nbsp;&nbsp;
+                            <label><input type="checkbox" name="post[is_rec]" value="1">推荐</label>
+                        </div>
+                    </td>
+                </tr>
+
+                <tr>
+                    <th><b>售卖状态</b></th>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="checkbox">
+                            <select class="form-control" style="width:140px;" name="post[sell_status]">
+                                {$sell_status}
+                            </select>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <th><b>上架时间</b></th>
+                </tr>
+                <tr>
+                    <td>
+                        <input class="form-control js-bootstrap-datetime" type="text" name="post[published_time]" value="{:date('Y-m-d H:i:s',time())}">
+                    </td>
+                </tr>
+            </table>
+        </div>
+        </form>
+    </div>
+</div>
+<script type="text/javascript" src="__STATIC__/js/admin.js"></script>
+<script type="text/javascript">
+    //编辑器路径定义
+    var editorURL = GV.WEB_ROOT;
+</script>
+<script type="text/javascript" src="__STATIC__/js/ueditor/ueditor.config.js"></script>
+<script type="text/javascript" src="__STATIC__/js/ueditor/ueditor.all.min.js"></script>
+<script type="text/javascript">
+    $(function () {
+        editorcontent = new baidu.editor.ui.Editor();
+        editorcontent.render('content');
+        try {
+            editorcontent.sync();
+        } catch (err) {
+        }
+
+        $('.btn-cancel-driving_license').click(function () {
+            $('#driving_license-preview').attr('src', '__TMPL__/public/assets/images/default-thumbnail.png');
+            $('#driving_license').val('');
+        });
+
+        $('.btn-cancel-thumbnail').click(function () {
+            $('#thumbnail-preview').attr('src', '__TMPL__/public/assets/images/default-thumbnail.png');
+            $('#thumbnail').val('');
+        });
+
+        $('#input-brand').change(function() {
+            var bid = $(this).val();
+            $.post("{:url('Ajax/serieByBrand')}", {brandId:bid,option:false}, function(data) {
+                var key;
+                var tpl = '<option value="">--请选择--</option>';
+                for(key in data){
+                    tpl += '<option value="'+data[key].id+'">'+data[key].name+'</option>';
+                }
+                $('#input-series').html(tpl);
+                $('#input-serie').hide().html();
+            },'json');
+        });
+
+        $('#input-province').change(function() {
+            var pid = $(this).val();
+            $.ajax({
+                url: '{:url("Ajax/getCitys")}',
+                type: 'POST',
+                // dataType: 'json',
+                data: {parentId: pid},
+            })
+            .done(function(data) {
+                // console.log("success");
+                if (data) {$('#input-city').show().html(data);}
+            })
+            .fail(function() {
+                // console.log("error");
+            })
+            .always(function() {
+                // console.log("complete");
+            });
+        });
+
+        $('#input-series').change(function() {
+            var pid = $(this).val();
+            $.post('{:url("Ajax/getSecondSeries")}', {parentId: pid}, function(data) {
+                if (data) {$('#input-serie').show().html(data);}
+            });
+        });
+
+    });
+
+    function doSelectCategory() {
+        var selectedCategoriesId = $('#js-categories-id-input').val();
+        openIframeLayer("{:url('AdminBrand/select')}?ids=" + selectedCategoriesId, '请选择分类', {
+            area: ['700px', '400px'],
+            btn: ['确定', '取消'],
+            yes: function (index, layero) {
+                var iframeWin          = window[layero.find('iframe')[0]['name']];
+                var selectedCategories = iframeWin.confirm();
+                if (selectedCategories.selectedCategoriesId.length == 0) {
+                    layer.msg('请选择分类');
+                    return;
+                }
+                $('#js-categories-id-input').val(selectedCategories.selectedCategoriesId.join(','));
+                $('#js-categories-name-input').val(selectedCategories.selectedCategoriesName.join(' '));
+                //console.log(layer.getFrameIndex(index));
+                layer.close(index); //如果设定了yes回调，需进行手工关闭
+            }
+        });
+    }
+</script>
+</body>
+</html>

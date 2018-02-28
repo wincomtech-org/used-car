@@ -1,65 +1,68 @@
-<include file="public@header"/>
+<include file="public@header" />
 </head>
-<body>
-<div class="wrap js-check-wrap">
-    <ul class="nav nav-tabs">
-        <li><a href="{:url('AdminCategory/index')}">分类管理</a></li>
-            <li><a href="{:url('AdminCategory/add')}">添加分类</a></li>
-            <li ><a href="{:url('AdminCategory/attrs')}">分类属性</a></li>
-             <li  class="active"><a href="{:url('AdminCategory/attrs_add')}">添加分类属性</a></li>
-    </ul>
-    <div class="row margin-top-20">
-         
-        <div class="col-md-6">
-            <form class="js-ajax-form" action="{:url('AdminCategory/attrs_addPost')}" method="post">
-                <div class="tab-content">
-                    <div class="tab-pane active" id="A">
-                        <div class="form-group">
-                            <label ><span class="form-required">*</span>类别名称</label>
-                            <div>
-                                <select class="form-control" name="cate_id" >
-                                    
-                                    {$categories_tree}
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="input-name"><span class="form-required">*</span>属性名称</label>
-                            <div>
-                               <select class="form-control" name="attr_id" >
-                               <foreach name="attrs" item="vo">
-                               		<option value="{$vo.id}">{$vo.name}</option>
-                               </foreach>
-                                    
-                                </select>
-                            </div>
-                        </div>
 
-                        <div class="form-group">
-                            <label  >是否为前台查询条件</label>
-                            <div>
-                                <label><input type="radio" name="is_query" value="1">是</label> &nbsp;
-                            	<label><input type="radio" name="is_query" value="0" checked>否</label>
+<body>
+    <div class="wrap js-check-wrap">
+        <ul class="nav nav-tabs">
+            <li><a href="{:url('AdminCategory/index')}">分类管理</a></li>
+            <li><a href="{:url('AdminCategory/add')}">添加分类</a></li>
+            <li><a href="{:url('AdminCategory/attrs',['cid'=>$data.cid])}">分类属性</a></li>
+            <li class="active"><a href="{:url('AdminCategory/attrs_add')}">添加分类属性</a></li>
+        </ul>
+        <div class="row margin-top-20">
+            <div class="col-md-6">
+                <form class="js-ajax-form" action="{:url('AdminCategory/attrs_addPost')}" method="post">
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="A">
+                            <div class="form-group">
+                                <label><span class="form-required">*</span>分类名称</label>
+                                <div>
+                                    <select class="form-control" name="cate_id">
+                                        {$categories_tree}
+                                    </select>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label><span class="form-required">*</span>选取属性</label>
+                                <div>
+                                    <select class="form-control" name="attr_id[]" multiple>
+                                        <foreach name="attrs" item="vo">
+                                            <option value="{$vo.id}">{$vo.name}</option>
+                                        </foreach>
+                                    </select>
+                                    <p class="help-block">按住Ctrl/Shift键 + 鼠标右键点选 可以进行多选</p>
+                                </div>
+                            </div>
+
+                            
+                            <div class="form-group">
+                                <label>是否为前台查询条件</label>
+                                <div>
+                                    <label>
+                                        <input type="radio" name="is_query" value="1">是</label> &nbsp;
+                                    <label>
+                                        <input type="radio" name="is_query" value="0" checked>否</label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>排序</label>
+                                <div>
+                                    <input type="text" name="list_order" value="10000" />
+                                </div>
                             </div>
                         </div>
-                         <div class="form-group">
-                            <label>排序</label>
-                            <div>
-                               <input type="text" name="list_order" value="10000"/>
-                            </div>
-                        </div>
-                        
                     </div>
-                    
-                </div>
-                <div class="form-group">
-                    <button type="submit" class="btn btn-primary js-ajax-submit">{:lang('ADD')}</button>
-                    <a class="btn btn-default" href="javascript:history.back(-1);">{:lang('BACK')}</a>
-                </div>
-            </form>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary js-ajax-submit1">{:lang('ADD')}</button>
+                        <a class="btn btn-default" href="javascript:history.back(-1);">{:lang('BACK')}</a>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
-</div>
-<script type="text/javascript" src="__STATIC__/js/admin.js"></script>
+    <script type="text/javascript" src="__STATIC__/js/admin.js"></script>
 </body>
+
 </html>

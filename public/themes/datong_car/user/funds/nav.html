@@ -8,6 +8,12 @@
     <li class="person_right_item <in name='u_f_nav' value='withdraw,withdrawview'>active</in>">
         <a href="{:url('user/Funds/withdraw')}">提现</a>
     </li>
+    <li class="person_right_item {$u_f_nav=='apply'?='active'}">
+        <a href="{:url('user/Funds/apply')}">申请列表</a>
+    </li>
+
+
+
     <li class="person_right_item {$u_f_nav=='score'?='active'}">
         <a href="{:url('user/Funds/score')}">积分</a>
     </li>
@@ -15,9 +21,7 @@
         <a href="{:url('user/Funds/coupon')}">优惠券</a>
     </li>
 
-    <li class="person_right_item {$u_f_nav=='apply'?='active'}">
-        <a href="{:url('user/Funds/apply')}">申请列表</a>
-    </li>
+
     <!-- <li class="person_right_item active">
         <a href="#"></a>
     </li> -->

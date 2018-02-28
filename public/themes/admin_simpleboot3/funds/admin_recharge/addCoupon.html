@@ -19,19 +19,24 @@
                         </td>
                     </tr>
                     <tr>
-                        <th>优惠券数额</th>
-                        <td><input class="form-control" type="text" name="coupon" value="" required></td>
+                        <th>面值</th>
+                        <td>
+                            <input class="form-control" type="text" name="coupon" value="" required>
+                            <p class="help-block">单位：元</p>
+                         </td>
                     </tr>
                     <tr>
-                        <th>满减</th>
+                        <th>满减额</th>
                         <td>
                             <input class="form-control" type="text" name="reduce" value="" required>
+                            <p class="help-block">单位：元</p>
                         </td>
                     </tr>
                     <tr>
                         <th>到期时间</th>
                         <td>
                             <input class="form-control js-bootstrap-datetime" type="text" name="due_time" value="0">
+                            <p class="help-block">0 表示无限期</p>
                         </td>
                     </tr>
                 </table>

@@ -33,6 +33,16 @@
                             <input type="text" class="form-control" id="input-name" name="name" value="{$name|default=''}">
                         </div>
                     </div>
+
+
+                    <div class="form-group">
+                        <label for="input-name">应用的属性</label>
+                        <div>
+                            <span class="form-control">{$cate_attr|default=''}</span>
+                            <p class="help-block"><a href="{:url('attrs',['cid'=>$id])}">管理属性</a></p>
+                        </div>
+                    </div>
+
                     <div class="form-group">
                         <label for="input-description">描述</label>
                         <div>

@@ -32,4 +32,12 @@ class GoodsCategoryValidate extends Validate
         }
         return true;
     }
+    protected function checkName($value,$rule,$data)
+    {
+        return true;
+    }
+    protected function checkNameEdit($value,$rule,$data)
+    {
+        return true;
+    }
 }
