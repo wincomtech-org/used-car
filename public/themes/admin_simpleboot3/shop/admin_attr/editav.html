@@ -7,10 +7,11 @@
             <li><a href="{:url('index')}">所有属性</a></li>
             <li><a href="{:url('add')}">添加属性</a></li>
             <li><a href="#"> | </a></li>
-            <li><a href="{:url('listav',['aid'=>$aid])}">所有属性值</a></li>
-            <li class="active"><a href="javascript:void(0);">添加属性值</a></li>
+            <li><a href="{:url('listav',['aid'=>$attr_id])}">所有属性值</a></li>
+            <li><a href="{:url('addav',['aid'=>$attr_id])}">添加属性值</a></li>
+            <li class="active"><a href="javascript:void(0);">编辑属性值</a></li>
         </ul>
-        <form action="{:url('AdminAttr/addavPost')}" method="post" class="form-horizontal js-ajax-form margin-top-20">
+        <form action="{:url('AdminAttr/editavPost')}" method="post" class="form-horizontal js-ajax-form margin-top-20">
             <div class="row">
                 <div class="col-md-9">
                     <table class="table table-bordered">
@@ -19,7 +20,7 @@
                             <td>
                                 <select class="form-control" style="width: 150px" name="attr_id" required>
                                     <foreach name="attrs" item="vo">
-                                        <option value="{$vo.id}" {$vo.id==$aid?='selected'}>{$vo.name}</option>
+                                        <option value="{$vo.id}" {$vo.id==$attr_id?='selected'}>{$vo.name}</option>
                                     </foreach>
                                 </select>
                             </td>
@@ -27,14 +28,15 @@
                         <tr>
                             <th>属性值<span class="form-required">*</span></th>
                             <td>
-                                <input class="form-control" type="text" name="name" id="name" required value="" placeholder="属性值" />
+                                <input class="form-control" type="text" name="name" value="{$name|default=''}" required placeholder="属性值" />
                             </td>
                         </tr>
                     </table>
                     <div class="form-group">
                         <div class="col-sm-offset-2 col-sm-10">
-                            <button type="submit" class="btn btn-primary js-ajax-submit">{:lang('ADD')}</button>
-                            <a class="btn btn-default" href="{:url('AdminAttr/index')}">{:lang('BACK')}</a>
+                            <input type="hidden" name="id" value="{$id}">
+                            <button type="submit" class="btn btn-primary js-ajax-submit">{:lang('SAVE')}</button>
+                            <a class="btn btn-default" href="javascript:history.back(-1);">{:lang('BACK')}</a>
                         </div>
                     </div>
                 </div>

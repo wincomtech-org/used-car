@@ -56,7 +56,11 @@
                         ">{$vo.coin}</font>
                     </td>
 
-                    <td>{$types[$vo.payment]}</td>
+                    <td>
+                        <notempty name="vo.payment">
+                            {$types[$vo.payment]|default='unknow'}
+                        </notempty>
+                    </td>
                     <td>{$vo.order_sn}</td>
 
                     <td>

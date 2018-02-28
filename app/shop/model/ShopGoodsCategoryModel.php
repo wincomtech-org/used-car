@@ -136,4 +136,5 @@ class ShopGoodsCategoryModel extends UsualCategoryModel
 
 
 
+
 }

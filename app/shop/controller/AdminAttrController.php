@@ -126,8 +126,8 @@ class AdminAttrController extends AdminBaseController
         $attrModel = new ShopGoodsAttrModel();
         $post      = $attrModel->where('id', $id)->find();
         // 已有属性值
-        $attrs = $this->m1->where('attr_id',$id)->column('name');
-        $attrs = implode(',',$attrs);
+        $attrs = $this->m1->where('attr_id', $id)->column('name');
+        $attrs = implode(',', $attrs);
 
         $this->assign('attrs', $attrs);
         $this->assign('post', $post);
@@ -264,8 +264,6 @@ class AdminAttrController extends AdminBaseController
         $this->success("排序更新成功！", '');
     }
 
-
-
 /*属性值*/
     /**
      * 属性值列表
@@ -298,7 +296,7 @@ class AdminAttrController extends AdminBaseController
         $list = $this->m1->alias('av')
             ->field('av.*,a.name as aname')
             ->join('shop_goods_attr a', 'a.id=av.attr_id')
-            ->where($where)->order('av.list_order')->paginate(10);
+            ->where($where)->order('av.attr_id,av.list_order')->paginate(10);
 
         $attrModel = new ShopGoodsAttrModel();
         $attrs     = $attrModel->getAttrs();
@@ -328,6 +326,7 @@ class AdminAttrController extends AdminBaseController
 
         $attrModel = new ShopGoodsAttrModel();
         $attrs     = $attrModel->getAttrs(1);
+
         $this->assign('attrs', $attrs);
         $this->assign('aid', $aid);
         return $this->fetch();
@@ -347,11 +346,21 @@ class AdminAttrController extends AdminBaseController
      */
     public function addavPost()
     {
-        $data   = $this->request->param();
-        $m      = $this->m1;
+        $data = $this->request->param();
+        $m    = $this->m1;
+
+        $where = [
+            'attr_id' => $data['attr_id'],
+            'name'    => $data['name'],
+        ];
+        $find = $m->where($where)->count();
+        if ($find>0) {
+            $this->error('该属性值已存在！');
+        }
+
         $insert = $m->insertGetId($data);
         if ($insert > 0) {
-            $this->success('添加成功');
+            $this->success('添加成功',url('editav',['id'=>$insert]));
         } else {
             $this->error('添加失败');
         }
@@ -371,6 +380,13 @@ class AdminAttrController extends AdminBaseController
      */
     public function editav()
     {
+        $id = $this->request->param('id/d',0,'intval');
+        $post = $this->m1->where('id',$id)->find();
+        $attrModel = new ShopGoodsAttrModel();
+        $attrs     = $attrModel->getAttrs(1);
+
+        $this->assign('attrs', $attrs);
+        $this->assign($post);
         return $this->fetch();
     }
     /**
@@ -390,8 +406,22 @@ class AdminAttrController extends AdminBaseController
     {
         $data = $this->request->param();
 
-        // $this->m->insertGetId($data);
-        $this->success('保存成功');
+        // 检测同一属性下其它属性值重名情况
+        $where = [
+            'attr_id' => $data['attr_id'],
+            'id'      => ['neq',$data['id']],
+            'name'    => $data['name'],
+        ];
+        $find = $this->m1->where($where)->count();
+        if ($find>0) {
+            $this->error('该属性值已存在！');
+        }
+
+        $result = $this->m1->update($data);
+        if ($result>0) {
+            $this->success('保存成功');
+        }
+        $this->error('更新失败或数据无变化');
     }
 
 }

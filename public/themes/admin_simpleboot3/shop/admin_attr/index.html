@@ -6,6 +6,7 @@
         <ul class="nav nav-tabs">
             <li class="active"><a href="{:url('index')}">所有属性</a></li>
             <li><a href="{:url('add')}">添加属性</a></li>
+            <li><a href="#"> | </a></li>
             <li><a href="{:url('listav')}">所有属性值</a></li>
             <li><a href="{:url('addav')}">添加属性值</a></li>
         </ul>
@@ -42,9 +43,9 @@
                             </eq>
                         </td>
                         <td>
-                            <a href="{:url('addav',['aid'=>$vo.id])}">添加属性值</a> &nbsp; | &nbsp; 
-                            <a href="{:url('listav',['aid'=>$vo.id])}">查看属性值</a> &nbsp; | &nbsp; 
-                            <a href="{:url('AdminAttr/edit',['id'=>$vo.id])}">{:lang('EDIT')}</a> &nbsp; | &nbsp; 
+                            <a href="{:url('addav',['aid'=>$vo.id])}">添加属性值</a> &nbsp; | &nbsp;
+                            <a href="{:url('listav',['aid'=>$vo.id])}">查看属性值</a> &nbsp; | &nbsp;
+                            <a href="{:url('AdminAttr/edit',['id'=>$vo.id])}">{:lang('EDIT')}</a> &nbsp; | &nbsp;
                             <a href="{:url('AdminAttr/delete',['id'=>$vo.id])}" class="js-ajax-delete">{:lang('DELETE')}</a>
                         </td>
                     </tr>

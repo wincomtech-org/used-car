@@ -339,13 +339,16 @@ class PostController extends HomeBaseController
         }
 
         // 判断是否为手机端、微信端
-        $map = [
-            'action'    => 'seecar',
-            'order_sn'  => $findOrder['order_sn']?$findOrder['order_sn']:$post['order_sn'],
-            'coin'      => $carInfo['bargain_money'],
-            'id'        => $orderId,
-        ];
-        $this->showPay($map);
+        // 新车中报错：[8] ErrorException in WorkPlugin.php line 63
+        // 未定义数组索引: code_url 。$pay_url   = $result["code_url"];
+        // $map = [
+        //     'action'    => 'seecar',
+        //     'order_sn'  => $findOrder['order_sn']?$findOrder['order_sn']:$post['order_sn'],
+        //     'coin'      => $carInfo['bargain_money'],
+        //     'id'        => $orderId,
+        // ];
+        // dump($map);die;
+        // $this->showPay($map);
 
         $this->assign('carInfo',$carInfo);
         $this->assign('orderId',$orderId);

@@ -34,6 +34,8 @@ class AdminSpecController extends AdminBaseController
 
     public function add()
     {
+        $categoryTree = model('ShopGoodsCategory')->adminCategoryTree();
+        $this->assign('category_tree',$categoryTree);
         return $this->fetch();
     }
     public function addPost()
@@ -50,6 +52,13 @@ class AdminSpecController extends AdminBaseController
 
     public function edit()
     {
+        $id = $this->request->param('id/d',0,'intval');
+        
+        $post = $this->scModel->get($id)->toArray();
+        $categoryTree = model('ShopGoodsCategory')->adminCategoryTree($post['category_id']);
+
+        $this->assign('category_tree',$categoryTree);
+        $this->assign($post);
         return $this->fetch();
     }
     public function editPost()
