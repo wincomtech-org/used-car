@@ -408,7 +408,7 @@ class PostController extends HomeBaseController
         if (!empty($findOrder)) {
             $orderId = intval($findOrder['id']);
             if (empty($findOrder['status'])) {
-                # code...
+                $coin = $findOrder['coin'];
             } else {
                 $this->error('开店申请记录已存在',url('user/Funds/apply',['type'=>$action]));
             }
