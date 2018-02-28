@@ -11,10 +11,10 @@
         </ul>
         <form class="well form-inline margin-top-20" method="post" action="{:url('attrs')}">
             分类
-            <select name="cid" id="">
+            <select name="cid" class="form-control" style="width:180px">
                 <option value="0">所有</option>
                 {$categories_tree}
-            </select>
+            </select> &nbsp; &nbsp;
             属性名称:
             <input type="text" class="form-control" name="aname" value="{$data.aname}" style="width:200px;" placeholder="请输入属性名称" autocomplete="off">
             <input type="submit" class="btn btn-primary" value="搜索" />
