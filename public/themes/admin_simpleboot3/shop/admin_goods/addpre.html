@@ -1,0 +1,62 @@
+<include file="public@header"/>
+<include file="admin_goods/pic-list" />
+
+</head>
+<body>
+<div class="wrap js-check-wrap">
+    <ul class="nav nav-tabs">
+        <li><a href="{:url('AdminGoods/index')}">商品管理</a></li>
+        <li class="active"><a href="javascript:void(0);">选择商品分类</a></li>
+    </ul>
+    <div class="row margin-top-20">
+        <form class="js-ajax-form" action="{$jumpUrl}" method="post">
+        <div class="col-md-9">
+            <table class="table table-bordered">
+                <tr>
+                    <th width="100">选分类</th>
+                    <td>
+                        <select class="form-control" style="width:230px;" name="cate_id">
+                            <option value="">-- 请选择 --</option>
+                            {$categorys_tree|default=''}
+                        </select>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-primary js-ajax-submit1">下一步</button>
+                <a class="btn btn-default" href="{:url('AdminGoods/index')}">{:lang('BACK')}</a>
+            </div>
+        </div>
+        </form>
+    </div>
+</div>
+<script type="text/javascript" src="__STATIC__/js/admin.js"></script>
+<script type="text/javascript">
+    $(function () {
+
+    });
+
+    function doSelectCategory() {
+        var selectedCategoriesId = $('#js-categories-id-input').val();
+        openIframeLayer("{:url('AdminBrand/select')}?ids=" + selectedCategoriesId, '请选择分类', {
+            area: ['700px', '400px'],
+            btn: ['确定', '取消'],
+            yes: function (index, layero) {
+                var iframeWin          = window[layero.find('iframe')[0]['name']];
+                var selectedCategories = iframeWin.confirm();
+                if (selectedCategories.selectedCategoriesId.length == 0) {
+                    layer.msg('请选择分类');
+                    return;
+                }
+                $('#js-categories-id-input').val(selectedCategories.selectedCategoriesId.join(','));
+                $('#js-categories-name-input').val(selectedCategories.selectedCategoriesName.join(' '));
+                //console.log(layer.getFrameIndex(index));
+                layer.close(index); //如果设定了yes回调，需进行手工关闭
+            }
+        });
+    }
+</script>
+</body>
+</html>

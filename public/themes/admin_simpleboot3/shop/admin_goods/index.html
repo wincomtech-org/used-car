@@ -3,15 +3,15 @@
 <body>
 <div class="wrap js-check-wrap">
     <ul class="nav nav-tabs">
-        <li class="active"><a href="javascript:;">所有新车</a></li>
-        <li><a href="{:url('AdminCar1/add')}">添加新车</a></li>
+        <li class="active"><a href="javascript:;">所有商品</a></li>
+        <li><a href="{:url('AdminGoods/addpre')}">添加商品</a></li>
     </ul>
-    <form class="well form-inline margin-top-20" method="post" action="{:url('AdminCar1/index')}">
+    <form class="well form-inline margin-top-20" method="post" action="{:url('AdminGoods/index')}">
         所属品牌:
         <select class="form-control" name="brandId">
             <option value='0'>全部</option>
             {$brand_tree|default=''}
-        </select> &nbsp;&nbsp;
+        </select> &nbsp; &nbsp;
         创建时间:
         <input type="text" class="form-control js-bootstrap-datetime" name="start_time"
                value="{$start_time|default=''}"
@@ -23,15 +23,15 @@
         <input type="text" class="form-control" name="keyword" style="width:200px;"
                value="{$keyword|default=''}" placeholder="请输入关键字...">
         <input type="submit" class="btn btn-primary" value="搜索"/>
-        <a class="btn btn-danger" href="{:url('AdminCar1/index')}">清空</a>
+        <a class="btn btn-danger" href="{:url('AdminGoods/index')}">清空</a>
     </form>
     <form class="js-ajax-form" action="" method="post">
-        <include file="admin_car1/table-actions" />
+        <include file="admin_goods/table-actions" />
         <table class="table table-hover table-bordered table-list">
             <thead>
-                <include file="admin_car1/table-th" />
+                <include file="admin_goods/table-th" />
             </thead>
-            <foreach name="articles" item="vo">
+            <foreach name="list" item="vo">
                 <tr>
                     <td>
                         <input name="ids[]" type="checkbox" class="js-check" data-yid="js-check-y" data-xid="js-check-x"
@@ -39,23 +39,20 @@
                     </td>
                     <td><b>{$vo.id}</b></td>
                     <td>
-                        <a href="{//:cmf_url('portal/Article/index',array('id'=>$vo['id']))}" target="_blank">{$vo.name}</a>
+                        <a href="#" target="_blank">{$vo.name}</a>
                     </td>
 
-                    <td><a href="{:url('AdminBrand/edit',['id'=>$vo['brand_id']])}">{$vo.bname}</a></td>
-                    <td><a href="{:url('AdminSeries/edit',['id'=>$vo['serie_id']])}">{$vo.cname}</a></td>
-                    <td><a href="{:url('AdminModels/edit',['id'=>$vo['model_id']])}">{$vo.dname}</a></td>
-                    <td><a href="{:url('user/AdminIndex/index',['uid'=>$vo['user_id']])}"><empty name="vo.user_nickname">{$vo.user_nickname}<else />{$vo.user_login}</empty></a></td>
+                    <td>{$vo.brand_id}</td>
                     <td>
-                        <notempty name="vo.more.thumbnail">
-                            <a href="javascript:parent.imagePreviewDialog('{:cmf_get_image_preview_url($vo.more.thumbnail)}');">
+                        <notempty name="vo.thumbnail">
+                            <a href="javascript:parent.imagePreviewDialog('{:cmf_get_image_preview_url($vo.thumbnail)}');">
                                 <i class="fa fa-photo fa-fw"></i>
                             </a>
                         </notempty>
                     </td>
                     <td>
-                        <notempty name="vo.published_time">
-                            {:date('Y-m-d H:i',$vo['published_time'])}
+                        <notempty name="vo.create_time">
+                            {:date('Y-m-d H:i',$vo['create_time'])}
                         </notempty>
                     </td>
                     <td>
@@ -63,25 +60,31 @@
                             {:date('Y-m-d H:i',$vo['update_time'])}
                         </notempty>
                     </td>
+
                     <td>
-                        <empty name="vo.status">
-                            <a style="color:#F00" data-toggle="tooltip" title="未发布"><i class="fa fa-close"></i></a>
-                        <else/>
+                        <notempty name="vo.status">
                             <a data-toggle="tooltip" title="已发布"><i class="fa fa-check"></i></a>
-                        </empty>
+                            <else/>
+                            <a style="color:#F00" data-toggle="tooltip" title="未发布"><i class="fa fa-close"></i></a>
+                        </notempty>
+                        <notempty name="vo.is_rec">
+                            <a data-toggle="tooltip" title="已推荐"><i class="fa fa-thumbs-up"></i></a>
+                            <else/>
+                            <a style="color:#F00" data-toggle="tooltip" title="未推荐"><i class="fa fa-thumbs-down"></i></a>
+                        </notempty>
                     </td>
+
                     <td>
-                        <a href="{:url('AdminCar1/design',['parent'=>$vo.id])}">款式</a> &nbsp;
-                        <a href="{:url('AdminCar1/edit',['id'=>$vo.id])}">{:lang('EDIT')}</a> &nbsp;
-                        <a href="{:url('AdminCar1/delete',['id'=>$vo.id])}" class="js-ajax-delete">{:lang('DELETE')}</a>
+                        <a href="{:url('AdminGoods/edit',['id'=>$vo.id])}">{:lang('EDIT')}</a> &nbsp;
+                        <a href="{:url('AdminGoods/delete',['id'=>$vo.id])}" class="js-ajax-delete">{:lang('DELETE')}</a>
                     </td>
                 </tr>
             </foreach>
             <tfoot>
-                <include file="admin_car1/table-th" />
+                <include file="admin_goods/table-th" />
             </tfoot>
         </table>
-        <include file="admin_car1/table-actions" />
+        <include file="admin_goods/table-actions" />
         <ul class="pagination">{$pager|default=''}</ul>
     </form>
 </div>
@@ -115,7 +118,7 @@
                 }
 
                 ids = ids.join(',');
-                art.dialog.open("__ROOT__/index.php?g=usual&m=AdminCar1&a=copy&ids=" + ids, {
+                art.dialog.open("__ROOT__/index.php?g=usual&m=AdminGoods&a=copy&ids=" + ids, {
                     title: "批量复制",
                     width: "300px"
                 });
@@ -141,7 +144,7 @@
                 }
 
                 ids = ids.join(',');
-                art.dialog.open("__ROOT__/index.php?g=usual&m=AdminCar1&a=move&old_term_id={$term.term_id|default=0}&ids=" + ids, {
+                art.dialog.open("__ROOT__/index.php?g=usual&m=AdminGoods&a=move&old_term_id={$term.term_id|default=0}&ids=" + ids, {
                     title: "批量移动",
                     width: "300px"
                 });

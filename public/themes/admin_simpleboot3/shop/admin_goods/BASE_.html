@@ -1,15 +1,36 @@
 <table class="table table-bordered">
     <tr>
+        <th>所属分类</th>
+        <td>
+            <div class="form-control">{$cateCrumbs|default=''}</div>
+            <p class="help-block"><a href="{:url('addpre',['id'=>$post.id,'cate_id'=>$cateId])}">编辑</a></p>
+        </td>
+    </tr>
+    <tr>
         <th width="100">标题<span class="form-required">*</span></th>
         <td>
             <input class="form-control" type="text" name="post[name]" required value="{$post.name|default=''}" placeholder="起个合适的标题吧"/>
         </td>
     </tr>
     <tr>
-        <th>上市时间</th>
+        <th>售价</th>
         <td>
-            <input class="form-control js-bootstrap-date" type="text" name="post[issue_time]" value="{$post.issue_time?=date('Y-m-d',$post.issue_time)}" />
-            <p class="help-block">年代款：对应年份</p>
+            <input class="form-control second-tree" type="text" name="post[price]" value="{$post.price|default=''}" />
+            <p class="help-block">单位：元</p>
+        </td>
+    </tr>
+    <tr>
+        <th>市场价</th>
+        <td>
+            <input class="form-control second-tree" type="text" name="post[cost_price]" value="{$post.cost_price|default=''}" />
+            <p class="help-block">单位：元</p>
+        </td>
+    </tr>
+    <tr>
+        <th>成本价</th>
+        <td>
+            <input class="form-control second-tree" type="text" name="post[market_price]" value="{$post.market_price|default=''}" />
+            <p class="help-block">单位：元</p>
         </td>
     </tr>
 
@@ -17,53 +38,16 @@
         <th>所属品牌</th>
         <td>
             <select class="form-control second-tree" name="post[brand_id]" id="input-brand">
-                {$Brands|default=''}
+                {$brands|default=''}
             </select>
             <a style="line-height:34px;" target="_blank" href="{:url('AdminBrand/index')}">管理品牌 >></a>
-        </td>
-    </tr>
-    <tr>
-        <th>所属车系</th>
-        <td>
-            <select class="form-control second-tree" name="post[serie_pid]" id="input-series">
-                <option value="">--请选择--</option>
-                {$Series|default=''}
-            </select>
-            <select class="form-control second-tree" name="post[serie_id]" id="input-serie">
-                <option value="">--请选择--</option>
-                {$Series2|default=''}
-            </select>
-            <a style="line-height:34px;" target="_blank" href="{:url('AdminSeries/index')}">管理车系 >></a>
-        </td>
-    </tr>
-    <tr>
-        <th>车型</th>
-        <td>
-            <select class="form-control second-tree" name="post[model_id]" id="input-model">
-                <option value="">--请选择--</option>
-                {$Models|default=''}
-            </select>
-            <a style="line-height:34px;" target="_blank" href="{:url('AdminModels/index')}">管理车型 >></a>
-        </td>
-    </tr>
-    <tr>
-        <th>所在城市</th>
-        <td>
-            <select class="form-control second-tree" name="post[province_id]" id="input-province">
-                <option value="">--请选择--</option>
-                {$Provinces|default=''}
-            </select>
-            <select class="form-control" style="width:150px;" name="post[city_id]" id="input-city">
-                <option value="">--请选择--</option>
-                {$Citys|default=''}
-            </select>
         </td>
     </tr>
 
     <tr>
         <th>简介</th>
         <td>
-            <textarea class="form-control" style="height:50px;" placeholder="请填写描述" name="post[description]" value="{$post.description|default=''}"></textarea>
+            <textarea class="form-control" style="height:50px;" placeholder="请填写描述" name="post[desc]" value="{$post.desc|default=''}"></textarea>
         </td>
     </tr>
     <tr>

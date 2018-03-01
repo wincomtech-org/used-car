@@ -1,26 +1,15 @@
 <div class="table-actions">
-    <notempty name="categoryId_off">
-        <button class="btn btn-primary btn-sm js-ajax-submit" type="submit"
-                data-action="{:url('AdminCar1/listOrder')}">{:lang('SORT')}
-        </button>
-    </notempty>
     <button class="btn btn-primary btn-sm js-ajax-submit" type="submit"
-            data-action="{:url('AdminCar1/publish',array('yes'=>1))}" data-subcheck="true">发布
+            data-action="{:url('AdminGoods/change',['status'=>1])}" data-subcheck="true">发布
     </button>
     <button class="btn btn-primary btn-sm js-ajax-submit" type="submit"
-            data-action="{:url('AdminCar1/publish',array('no'=>1))}" data-subcheck="true">取消发布
+            data-action="{:url('AdminGoods/change',['status'=>0])}" data-subcheck="true">取消发布
     </button>
     <button class="btn btn-primary btn-sm js-ajax-submit" type="submit"
-            data-action="{:url('AdminCar1/top',array('yes'=>1))}" data-subcheck="true">置顶
+            data-action="{:url('AdminGoods/change',['is_rec'=>1])}" data-subcheck="true">推荐
     </button>
     <button class="btn btn-primary btn-sm js-ajax-submit" type="submit"
-            data-action="{:url('AdminCar1/top',array('no'=>1))}" data-subcheck="true">取消置顶
-    </button>
-    <button class="btn btn-primary btn-sm js-ajax-submit" type="submit"
-            data-action="{:url('AdminCar1/recommend',array('yes'=>1))}" data-subcheck="true">推荐
-    </button>
-    <button class="btn btn-primary btn-sm js-ajax-submit" type="submit"
-            data-action="{:url('AdminCar1/recommend',array('no'=>1))}" data-subcheck="true">取消推荐
+            data-action="{:url('AdminGoods/change',['is_rec'=>0])}" data-subcheck="true">取消推荐
     </button>
     <!--
     <notempty name="categoryId">
@@ -29,7 +18,7 @@
     <button class="btn btn-primary btn-sm js-articles-copy" type="button">批量复制</button>
     -->
     <button class="btn btn-danger btn-sm js-ajax-submit" type="submit"
-            data-action="{:url('AdminCar1/delete')}" data-subcheck="true" data-msg="您确定删除吗？">
+            data-action="{:url('AdminGoods/delete')}" data-subcheck="true" data-msg="您确定删除吗？">
         {:lang('DELETE')}
     </button>
 </div>

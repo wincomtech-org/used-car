@@ -24,7 +24,7 @@ class AdminArticleValidate extends Validate
     ];
 
     protected $scene = [
-//        'add'  => ['user_login,user_pass,user_email'],
-//        'edit' => ['user_login,user_email'],
+       // 'add'  => ['user_login','user_pass','user_email'],
+       // 'edit' => ['user_login','user_email'],
     ];
 }

@@ -14,14 +14,13 @@ class ShopGoodsModel extends UsualModel
     {
         // 筛选条件
         $where = [];
-        $where = ['a.delete_time' => 0];
         // 分类ID
         if (!empty($filter['cateId'])) {
-            $where['a.cateId'] = $filter['cateId'];
+            $where['a.cate_id'] = $filter['cateId'];
         }
         // 品牌ID
         if (!empty($filter['brandId'])) {
-            $where['a.brandId'] = $filter['brandId'];
+            $where['a.brand_id'] = $filter['brandId'];
         }
         // 创建时间
         $startTime = empty($filter['start_time']) ? 0 : strtotime($filter['start_time']);
@@ -40,13 +39,12 @@ class ShopGoodsModel extends UsualModel
             $where = array_merge($where,$extra);
         }
         // 其它项
-        $field = '*';
-        $join = [];
+        // $join = [];
         $order = empty($order) ? 'a.id DESC' : $order;
         $limit = $this->limitCom($limit);
 
         $series = $this->alias('a')->field($field)
-            ->join($join)
+            // ->join($join)
             ->where($where)
             ->order($order)
             ->paginate($limit);

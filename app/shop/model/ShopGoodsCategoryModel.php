@@ -2,8 +2,8 @@
 namespace app\shop\model;
 
 use think\Model;
-use tree\Tree;
 use app\usual\model\UsualCategoryModel;
+use tree\Tree;
 
 /**
 * 商品属性模型 cmf_shop_goods_category
@@ -136,5 +136,22 @@ class ShopGoodsCategoryModel extends UsualCategoryModel
 
 
 
+    /**
+     * [cateCrumbs 分类面包屑，递归获取]
+     * @param  integer $cateId [description]
+     * @param  integer $level  [description]
+     * @return [type]          [description]
+     */
+    public function cateCrumbs($cateId=0, $level=5, $crumb='')
+    {
+        $find = $this->field('name,parent_id')->where('id',$cateId)->find();
+
+        $crumb = $find['name'] . ($crumb?$crumb:'');
+        if ($find['parent_id']==0) {
+            return $crumb;
+        } else {
+            $this->cateCrumbs($find['parent_id'],$level,$crumb);
+        }
+    }
 
 }
