@@ -97,7 +97,7 @@ class AdminGoodsController extends AdminBaseController
      * )
      */
     public function add()
-    {echo lothar_num_format(2.032);
+    {
         $cateId = $this->request->param('cate_id/d');
         if (empty($cateId)) {
             $this->error('请选择分类！');
