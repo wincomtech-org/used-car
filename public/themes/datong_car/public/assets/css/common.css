@@ -10,6 +10,16 @@ input[type=button],input[type=submit],input[type=file],input[type=text],input[ty
 .clearfix:after {content: " ";display: block;clear: both;height: 0;visibility: hidden;}
 a{text-decoration:none;cursor:pointer;}
 
+/* 除去number自带的样式我问题 */
+input[type=number] {  
+    -moz-appearance:textfield;  
+}  
+input[type=number]::-webkit-inner-spin-button,  
+input[type=number]::-webkit-outer-spin-button {  
+    -webkit-appearance: none;  
+    margin: 0;  
+}  
+
 /*公共颜色*/
 .success_color{color:#009241!important;}
 .error_color{color:#F00!important;}

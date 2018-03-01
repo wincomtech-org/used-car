@@ -237,6 +237,16 @@
 .vehiTrad_tit_item_other_list ul li:hover{background-color:#f3f3f3;}
 .vehiTrad_tit_item_other_list p:after{content:">";display:block;position:absolute;top:0;right:10px;transform:rotate(90deg);transform:rotate(90deg);-ms-transform:rotate(90deg); /* Internet Explorer 9*/-moz-transform:rotate(90deg); /* Firefox */-webkit-transform:rotate(90deg); /* Safari 和 Chrome */-o-transform:rotate(90deg); /* Opera */filter:progid:DXImageTransform.Microsoft.BasicImage(rotation=1);}
 
+/* 价格筛选 */
+.price_filtet{height:28px;margin-top:9px;}
+.price_filtet li{float:left;font-size:14px;}
+.input-wraper{border:1px solid #ddd;width:54px;height:28px;line-height:28px;}
+.input-wraper span,.input-wraper input{float:left;}
+.input-wraper span{width:14px;}
+.input-wraper input{width:40px;height:28px;line-height:28px;}
+.dash{width:14px;line-height:28px;text-align:center;}
+.price-btn{vertical-align:top;margin-left:10px;}
+
 /**车辆内容*/
 .vehiTrad_con{margin:50px 0;}
 .vehiTrad_con_tit_list{background-color:#f3f3f3;}

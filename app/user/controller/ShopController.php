@@ -49,4 +49,8 @@ class ShopController extends UserBaseController
     {
         return $this->fetch();
     }
+    public function deliveryadd()
+    {
+        return $this->fetch();
+    }
 }
