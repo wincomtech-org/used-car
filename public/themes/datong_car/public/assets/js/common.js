@@ -366,6 +366,22 @@ $('.vehiTrad_tit_item_other_list').hover(function(e){
 })
 
 
+// maxlength兼容性问题
+$(function () {
+    $('textarea[maxlength]').on('keyup blur', function(event) {
+        var maxlength = $(this).attr('maxlength');
+        var val = $(this).val();
+
+        if (val.length > maxlength) {
+            /*这里是为了兼容win10自带输入法在字数到达极限值之后再输入中文会清空输入框的内容*/
+            $(this).hide().show();
+            
+            $(this).val(val.substr(0, maxlength));
+        }
+        event.stopImmediatePropagation();
+    });
+})
+// 结束maxlength兼容性问题
 
 // 车辆买卖筛选条件跳转之后
 $(function(){
