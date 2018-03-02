@@ -106,9 +106,12 @@ class AdminGoodsController extends AdminBaseController
         $cateCrumbs = model('ShopGoodsCategory')->cateCrumbs($cateId);
         // 品牌
         $brands = model('ShopBrand')->getBrands();
+        // 状态
+        $statusOptions = $this->scModel->getGoodsStatus();
 
-        $this->assign('brands', $brands);
         $this->assign('cateCrumbs', $cateCrumbs);
+        $this->assign('brands', $brands);
+        $this->assign('statusOptions', $statusOptions);
         $this->assign('cateId', $cateId);
         $this->assign('post', ['id'=>0]);
         return $this->fetch();
@@ -191,9 +194,20 @@ class AdminGoodsController extends AdminBaseController
         $cateCrumbs = model('ShopGoodsCategory')->cateCrumbs($cateId);
         // 品牌
         $brands = model('ShopBrand')->getBrands($post['brand_id']);
+        // 状态
+        $statusOptions = $this->scModel->getGoodsStatus($post['status']);
 
-        $this->assign('brands', $brands);
+        // 规格
+        // $spec = model('ShopSpec')->
+
+        // 属性
+
+
+
+
         $this->assign('cateCrumbs', $cateCrumbs);
+        $this->assign('brands', $brands);
+        $this->assign('statusOptions', $statusOptions);
         $this->assign('cateId', $cateId);
         $this->assign('post', $post);
         return $this->fetch();

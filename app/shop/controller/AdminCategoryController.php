@@ -4,6 +4,7 @@ namespace app\shop\controller;
 use cmf\controller\AdminBaseController;
 use app\shop\model\ShopGoodsCategoryModel;
 use app\shop\model\ShopGoodsAttrModel;
+// use app\shop\model\ShopSpecModel;
 use think\Db;
 
 /**
@@ -73,6 +74,10 @@ class AdminCategoryController extends AdminBaseController
             // $category = $cateModel->get($id)->toArray();
             // 分类树
             $categoriesTree = $cateModel->adminCategoryTree($category['parent_id'], $id);
+
+            // 规格列表
+            $cate_spec = Db::name('shop_spec')->field('id,name')->where('status',1)->order('list_order')->select();
+
             //分类对应的属性
             $cate_attr = '';
             // $cate_attr = Db::name('shop_category_attr')
@@ -93,6 +98,7 @@ class AdminCategoryController extends AdminBaseController
             // dump($attrs);exit;
 
             $this->assign($category);
+            $this->assign('cate_spec', $cate_spec);
             $this->assign('cate_attr', $cate_attr);
             $this->assign('attrs', $attrs);
             $this->assign('categories_tree', $categoriesTree);
@@ -104,16 +110,46 @@ class AdminCategoryController extends AdminBaseController
     public function editPost()
     {
         $data = $this->request->param();
+        $post = $data['post'];
 
-        $result = $this->validate($data, 'GoodsCategory');
+        $result = $this->validate($post, 'GoodsCategory');
         if ($result !== true) {
             $this->error($result);
         }
 
-        $cateModel = new ShopGoodsCategoryModel();
-        $result    = $cateModel->editCategory($data);
+        // 规格数据处理
+        $spec = isset($data['spec'])?$data['spec']:'';
+        if (empty($spec)) {
+            $post['spec_subset'] = 0;
+        } elseif (count($spec) == 1) {
+            $map = [['cate_id'=>$post['id'],'spec_id'=>$spec[0]]];
+            // $map = ['cate_id'=>$data['cate_id'],'spec_id'=>$spec[0]];
+            // $result = $m->insert($map);
+        } else {
+            foreach ($spec as $row) {
+                $map[] = ['cate_id'=>$post['id'],'spec_id'=>$row];
+            }
+            // $result = $m->insertAll($map);
+        }
 
-        if ($result === false) {
+        $cateModel = new ShopGoodsCategoryModel();
+
+        // 事务处理
+        $transStatus = true;
+        Db::startTrans();
+        try{
+            $cateModel->editCategory($post);
+            if (!empty($map)) {
+                Db::name('shop_category_spec')->where('cate_id',$post['id'])->delete();
+                Db::name('shop_category_spec')->insertAll($map);
+            }
+            Db::commit();
+        }catch(\Exception $e){
+            Db::rollback();
+            $transStatus = false;
+        }
+
+        if ($transStatus === false) {
             $this->error('保存失败!');
         }
         $this->success('保存成功!');

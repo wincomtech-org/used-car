@@ -6,7 +6,7 @@ use tree\Tree;
 
 class TradeReportCateModel extends UsualCategoryModel
 {
-    public function getCategoryTree($selectId=0, $currentCid=0, $parentId=0, $codeType=false, $default_option=true, $tpl='')
+    public function getCategoryTree($selectId=0, $currentCid=0, $parentId=0, $codeType=false, $option=true, $tpl='')
     {
         $where = [
             'delete_time'=>0,
@@ -39,15 +39,15 @@ class TradeReportCateModel extends UsualCategoryModel
 
         $treeStr = $tree->getTree(0, $tpl, $selectId);
         // $treeStr = $tree->getTree(0, $tpl);
-        $treeStr = ($default_option ?'<option value="0">--请选择--</option>':'') . $treeStr;
+        $treeStr = ($option ?'<option value="0">--请选择--</option>':'') . $treeStr;
 
         return $treeStr;
     }
 
-    public function getCodeType($selectId=null, $parentId=0, $default_option=true, $tpl='')
+    public function getCodeType($selectId=null, $parentId=0, $option=true, $tpl='')
     {
         $type = config('usual_item_cate_codetype');
-        $tpl = $default_option ? '<option value="all">默认</option>':'';
+        $tpl = $option ? '<option value="all">默认</option>':'';
         foreach ($type as $key => $v) {
             $tpl .= '<option value="'.$key.'" '.(empty($selectId)&&$key=='text'?'selected':($selectId==$key?'selected':'')).'>'.$v.'</option>';
         }

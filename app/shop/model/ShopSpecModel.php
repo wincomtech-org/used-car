@@ -31,4 +31,6 @@ class ShopSpecModel extends Model
 
         return $list;
     }
+
+
 }

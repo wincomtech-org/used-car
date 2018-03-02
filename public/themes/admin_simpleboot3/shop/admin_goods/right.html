@@ -37,7 +37,6 @@
 <!-- 各种状态 -->
                 <php>
                     $is_rec = isset($post['is_rec'])?$post['is_rec']:'0';
-                    $status = isset($post['status'])?$post['status']:'0';
                 </php>
                 <tr>
                     <th><b>推荐</b></th>
@@ -58,7 +57,7 @@
                     <td>
                         <div class="checkbox">
                             <select class="form-control" style="width:140px;" name="post[status]">
-                                {$status|default=''}
+                                {$statusOptions|default=''}
                             </select>
                         </div>
                     </td>

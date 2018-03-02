@@ -32,9 +32,9 @@ class ShopGoodsCategoryModel extends UsualCategoryModel
             $item['checked'] = in_array($item['id'], $currentIds) ? 'checked' : '';
             $item['url']     = cmf_url('shop/Index/index', ['cateId'=>$item['id']]);
             $item['str_action'] = '<a href="'. url("AdminCategory/add", ["parent" => $item['id']]) . '">添加子分类</a> &nbsp; '
-                . '<a href="'. url("AdminCategory/attrs", ["cid" => $item['id']]) . '">查看分类属性</a> &nbsp; '
-                . '<a href="'. url("AdminCategory/attrs_add", ["cid" => $item['id']]) . '">添加分类属性</a> &nbsp; '
-                . '<a href="'. url("AdminSpec/index") . '">分类规格</a> &nbsp; '
+                . '<a href="'. url("AdminCategory/attrs", ["cid" => $item['id']]) . '">查看关联属性</a> &nbsp; '
+                . '<a href="'. url("AdminCategory/attrs_add", ["cid" => $item['id']]) . '">添加关联属性</a> &nbsp; '
+                . '<a href="'. url("AdminSpec/index") . '">关联规格</a> &nbsp; '
                 . '<a href="' . url("AdminCategory/edit", ["id" => $item['id']]) . '">' . lang('EDIT') .'</a> &nbsp; '
                 . '<a class="js-ajax-delete" href="'. url("AdminCategory/delete",['id'=>$item['id']]) .'">'. lang('DELETE') .'</a>'
                 ;
@@ -126,13 +126,14 @@ class ShopGoodsCategoryModel extends UsualCategoryModel
             if (!empty($children)) {
                 foreach ($children as $child) {
                     $childPath = str_replace($oldCategory['path'].'-', $newPath.'-', $child['path']);
-                    $this->isUpdate(true)->save(['path'=>$childPath], ['id'=>$child['id']]);
+                    $this->isUpdate(true)->allowField(true)->save(['path'=>$childPath], ['id'=>$child['id']]);
                 }
             }
         }
 
         return $result;
     }
+
 
 
 
@@ -152,6 +153,14 @@ class ShopGoodsCategoryModel extends UsualCategoryModel
         } else {
             return $this->cateCrumbs($find['parent_id'],$level,$crumb);
         }
+    }
+
+    public function getSpecByCate($cateId='1')
+    {
+        // 判断当前分类规格是否为空，若为空则继承上级，若上级没有关联下级或者没有上级则返回空。
+        $spec = '';
+
+        return $spec;
     }
 
 }

@@ -59,4 +59,13 @@ class ShopGoodsModel extends UsualModel
 
         return $post;
     }
+
+    /**
+     * [FunctionName description]
+     * @param string $value [description]
+     */
+    public function getGoodsStatus($status='')
+    {
+        return $this->getStatus($status,'shop_goods_status');
+    }
 }

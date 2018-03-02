@@ -86,7 +86,7 @@ return [
         -2  => '禁止出售',
         -1  => '下架',
         0   => '初始态',
-        1   => '上架(售卖中]',
+        1   => '上架(售卖中)',
         2   => '已下单',
         3   => '已付款',
         10  => '完成',
@@ -206,6 +206,11 @@ return [
         7 => 'usual/AdminVerify/index',
         8 => 'funds/AdminOpenshop/index',
         9 => 'funds/AdminRecharge/add',
+    ],
+    'shop_goods_status'        =>
+    [
+        -1  => '下架',
+        1   => '上架(售卖中)',
     ],
     'pagerset'                 =>
     [
