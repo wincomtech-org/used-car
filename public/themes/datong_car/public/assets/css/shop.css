@@ -3,23 +3,6 @@
 
 /* 面包靴 */
 .brash{margin-bottom:10px;}
-/* 头部购物车图标 */
-.shop_car_icon{
-    width: 30px;
-    height:40px;
-    display:inline-block;
-    background: url(../images/shop_icon.png) 4px -142px no-repeat;
-    position:relative;
-}
-.shop_car_icon i{
-    position:absolute;
-    top:-11px;
-    right:5px;
-    font-family:'黑体';
-    color:#d00000;
-    font-size:12px;
-    font-weight:800;
-}
 
 
 /* label选中 */
