@@ -63,6 +63,13 @@ return [
         8   => '全部支付',
         10  => '完成',
     ],
+    'trade_report_status'      =>
+    [
+        '1' => '正常',
+        '2' => '未检测',
+        '3' => '轻微受损',
+        '4' => '严重受损',
+    ],
     'usual_car_type'           =>
     [
         1 => '准新车',
@@ -199,13 +206,6 @@ return [
         7 => 'usual/AdminVerify/index',
         8 => 'funds/AdminOpenshop/index',
         9 => 'funds/AdminRecharge/add',
-    ],
-    'trade_report_status'      =>
-    [
-        '1' => '正常',
-        '2' => '未检测',
-        '3' => '轻微受损',
-        '4' => '严重受损',
     ],
     'pagerset'                 =>
     [

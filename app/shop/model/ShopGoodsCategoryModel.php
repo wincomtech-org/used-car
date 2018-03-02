@@ -146,11 +146,11 @@ class ShopGoodsCategoryModel extends UsualCategoryModel
     {
         $find = $this->field('name,parent_id')->where('id',$cateId)->find();
 
-        $crumb = $find['name'] . ($crumb?$crumb:'');
+        $crumb = $find['name'] . ($crumb?' > '.$crumb:'');
         if ($find['parent_id']==0) {
             return $crumb;
         } else {
-            $this->cateCrumbs($find['parent_id'],$level,$crumb);
+            return $this->cateCrumbs($find['parent_id'],$level,$crumb);
         }
     }
 

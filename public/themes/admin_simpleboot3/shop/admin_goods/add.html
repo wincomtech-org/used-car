@@ -14,26 +14,30 @@
                 <a class="list-group-item" href="#BASE_" data-toggle="tab">基本属性</a>
                 <!-- 与下面的扩展属性  -->
                 <a class="list-group-item" href="#EXT_" data-toggle="tab">扩展属性</a>
-                <a class="list-group-item" href="#SEO_" data-toggle="tab">SEO设置</a>
+                <!-- <a class="list-group-item" href="#PIC_" data-toggle="tab">编辑图片</a> -->
             </div>
         </div>
         <form class="js-ajax-form" action="{:url('AdminGoods/addPost')}" method="post">
         <div class="col-md-8">
             <div class="tab-content">
-                <!-- 基本属性S -->
+                <!-- 基本属性 -->
                 <div class="tab-pane active" id="BASE_">
                     <include file="admin_goods/BASE_" />
                 </div>
-                <!-- 基本属性E -->
 
-                <!-- 所有属性S -->
+                <!-- 规格设置 -->
+                <div class="tab-pane " id="SPEC_">
+                    <include file="admin_goods/SPEC_" />
+                </div>
+
+                <!-- 所有属性 -->
                 <div class="tab-pane " id="EXT_">
                     <include file="admin_goods/EXT_" />
                 </div>
-                <!-- 所有属性E -->
 
-                <div class="tab-pane" id="SEO_">
-                    <include file="admin_goods/SEO_" />
+                <!-- 编辑图片 -->
+                <div class="tab-pane" id="PIC_">
+                    <include file="admin_goods/PIC_" />
                 </div>
             </div>
         </div>
@@ -42,7 +46,7 @@
         </div>
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
-                <button type="submit" class="btn btn-primary js-ajax-submit">{:lang('ADD')}</button>
+                <button type="submit" class="btn btn-primary js-ajax-submit1">{:lang('ADD')}</button>
                 <a class="btn btn-default" href="javascript:history.back(-1);">{:lang('BACK')}</a>
             </div>
         </div>
@@ -65,54 +69,9 @@
         } catch (err) {
         }
 
-        $('.btn-cancel-driving_license').click(function () {
-            $('#driving_license-preview').attr('src', '__TMPL__/public/assets/images/default-thumbnail.png');
-            $('#driving_license').val('');
-        });
-
         $('.btn-cancel-thumbnail').click(function () {
             $('#thumbnail-preview').attr('src', '__TMPL__/public/assets/images/default-thumbnail.png');
             $('#thumbnail').val('');
-        });
-
-        $('#input-brand').change(function() {
-            var bid = $(this).val();
-            $.post("{:url('Ajax/serieByBrand')}", {brandId:bid,option:false}, function(data) {
-                var key;
-                var tpl = '<option value="">--请选择--</option>';
-                for(key in data){
-                    tpl += '<option value="'+data[key].id+'">'+data[key].name+'</option>';
-                }
-                $('#input-series').html(tpl);
-                $('#input-serie').hide().html();
-            },'json');
-        });
-
-        $('#input-province').change(function() {
-            var pid = $(this).val();
-            $.ajax({
-                url: '{:url("Ajax/getCitys")}',
-                type: 'POST',
-                // dataType: 'json',
-                data: {parentId: pid},
-            })
-            .done(function(data) {
-                // console.log("success");
-                if (data) {$('#input-city').show().html(data);}
-            })
-            .fail(function() {
-                // console.log("error");
-            })
-            .always(function() {
-                // console.log("complete");
-            });
-        });
-
-        $('#input-series').change(function() {
-            var pid = $(this).val();
-            $.post('{:url("Ajax/getSecondSeries")}', {parentId: pid}, function(data) {
-                if (data) {$('#input-serie').show().html(data);}
-            });
         });
 
     });

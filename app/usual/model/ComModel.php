@@ -15,15 +15,13 @@ class ComModel extends Model
 {
 
 
-
 // 以下是后加的
-
-
     /**
      * 新增数据
      * pk='id'
      * @param [array] $data [要保存的数据]
      * @param [bool] $return_id [是否返回ID]
+     * $result = $this->id;
      * @return [number]       [description]
      */
     public function addDataCom($data,$return_id=false)
@@ -35,10 +33,7 @@ class ComModel extends Model
         $result = $this->allowField(true)->save($data);
         // $this->allowField(true)->isUpdate(false)->data($data, true)->save();
 
-        if ($return_id===true) {
-            $result = $this->id;
-        }
-        return $result;
+        return ($return_id===true) ? $result : $this ;
     }
 
     /**

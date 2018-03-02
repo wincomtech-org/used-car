@@ -50,11 +50,11 @@ class IndexController extends HomeBaseController
 
         // 买车流程
         $pModel = new PortalPostModel();
-        $article_flows = $pModel->getIndexPortalList(4,'ASC',7);
+        $article_flows = $pModel->getIndexPortalList(4);
         // 车辆服务文章
-        // $article_services = $pModel->getIndexPortalList(3,'ASC',7);
+        // $article_services = $pModel->getIndexPortalList(3);
         // 新闻资讯
-        $article_news = $pModel->getIndexPortalList();
+        $article_news = $pModel->getIndexPortalList(1,'',9);
 
 
         // $this->assign('ourcore',$ourcore);

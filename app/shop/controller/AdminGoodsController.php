@@ -110,7 +110,7 @@ class AdminGoodsController extends AdminBaseController
         $this->assign('brands', $brands);
         $this->assign('cateCrumbs', $cateCrumbs);
         $this->assign('cateId', $cateId);
-        $this->assign('post', ['id' => 0]);
+        $this->assign('post', ['id'=>0]);
         return $this->fetch();
     }
     /**
@@ -129,8 +129,33 @@ class AdminGoodsController extends AdminBaseController
     public function addPost()
     {
         $data = $this->request->param();
+        $post = $data['post'];
 
         // 验证
+        $result = $this->validate($post, 'Goods.add');
+        if ($result !== true) {
+            $this->error($result);
+        }
+        // 处理文件图片
+        if (!empty($data['photo'])) {
+            $post['more']['photos'] = $this->scModel->dealFiles($data['photo']);
+        }
+        if (!empty($data['file'])) {
+            $post['more']['files'] = $this->scModel->dealFiles($data['file']);
+        }
+        if (!empty($post['thumbnail'])) {
+            $post['thumbnail'] = cmf_asset_relative_url($post['thumbnail']);
+        }
+        $post['create_time'] = time();
+// dump($post);die;
+        $result = $this->scModel->allowField(true)->save($post);
+
+        if ($result === 1) {
+            lothar_admin_log('添加商品-id:' . $result . '-name:' . $post['name']);
+            $this->success('添加成功', url('index'));
+        } else {
+            $this->error('添加失败');
+        }
 
     }
 
@@ -171,7 +196,7 @@ class AdminGoodsController extends AdminBaseController
         $this->assign('cateCrumbs', $cateCrumbs);
         $this->assign('cateId', $cateId);
         $this->assign('post', $post);
-        $this->fetch();
+        return $this->fetch();
     }
     /**
      * 商品编辑_执行
@@ -188,13 +213,13 @@ class AdminGoodsController extends AdminBaseController
      */
     public function editPost()
     {
-        $m    = $this->m;
         $data = $this->request->param();
-        $id   = intval($data['id']);
+
+        $post = $data['post'];
+        $id   = intval($post['id']);
         if (empty($id)) {
             $this->error('数据错误');
         }
-        $post = $data['post'];
 
         // 验证
         $result = $this->validate($post, 'Goods.edit');
@@ -208,16 +233,16 @@ class AdminGoodsController extends AdminBaseController
         if (!empty($data['file'])) {
             $post['more']['files'] = $this->scModel->dealFiles($data['file']);
         }
-        if (!empty($data['thumbnail'])) {
-            $data['thumbnail'] = cmf_asset_relative_url($data['thumbnail']);
+        if (!empty($post['thumbnail'])) {
+            $post['thumbnail'] = cmf_asset_relative_url($post['thumbnail']);
         }
-        $data['update_time'] = time();
+        $post['update_time'] = time();
 
-        $result = $this->scModel->isUpdate(true)->allowField(true)->save($data, ['id' => $id]);
-        // $row = $this->scModel->where('id', $id)->update($data);
+        $result = $this->scModel->isUpdate(true)->allowField(true)->save($post, ['id'=>$id]);
+        // $row = $this->scModel->where('id', $id)->update($post);
 
         if ($result === 1) {
-            lothar_admin_log('编辑商品-id:' . $id . '-name:' . $data['name']);
+            lothar_admin_log('编辑商品-id:' . $id . '-name:' . $post['name']);
             $this->success('修改成功', url('index'));
         } else {
             $this->error('修改失败');
@@ -241,10 +266,11 @@ class AdminGoodsController extends AdminBaseController
     {
         $id = $this->request->param('id');
 
-        $info = $m->where('id', $id)->find();
+        $m = Db::name('shop_goods');
+        $name = $m->where('id', $id)->value('name');
         $row  = $m->where('id', $id)->delete();
         if ($row === 1) {
-            lothar_admin_log('删除商品-id:' . $id . '-name:' . $info['name']);
+            lothar_admin_log('删除商品-id:' . $id . '-name:' . $name);
             $this->success('删除成功');
         } else {
             $this->error('删除失败');

@@ -99,10 +99,10 @@ class Excel
 
         // 设置单元格宽度
         // $objActSheet->getColumnDimension()->setAutoSize(true);
-        $prepare = [24,12,12,12,15,15,20];
-        foreach ($prepare as $key => $var) {
-            $objActSheet->getColumnDimension($this->n_to_l($key))->setWidth($var);
-        }
+        // $prepare = [24,12,12,12,15,15,20];
+        // foreach ($prepare as $key => $var) {
+        //     $objActSheet->getColumnDimension($this->n_to_l($key))->setWidth($var);
+        // }
         $objActSheet->getColumnDimension('A')->setWidth(24);
         $objActSheet->getColumnDimension('B')->setWidth(12);
         $objActSheet->getColumnDimension('C')->setWidth(12);
@@ -163,6 +163,7 @@ class Excel
             $objWriter->save($this->dir .'/'. $fileName);
             // @unlink($this->dir . $fileName);
         } else {
+            ob_clean();//防止导出异常
             // 文件直接输出到浏览器
             header ( 'Pragma:public');
             header ( 'Expires:0');

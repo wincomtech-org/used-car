@@ -42,6 +42,9 @@ class ShopBrandModel extends UsualCategoryModel
      * 新增品牌
      * @param [array] $data [要保存的数据]
      * @param [bool] $return_id [是否返回ID]
+     * if ($return_id===true) {
+            $result = $this->id;
+        }
      * @return [number]       [description]
      */
     public function addBrand($data,$return_id=false)
@@ -51,11 +54,8 @@ class ShopBrandModel extends UsualCategoryModel
         }
 
         $result = $this->allowField(true)->save($data);
-
-        if ($return_id===true) {
-            $result = $this->id;
-        }
-        return $result;
+        
+        return ($return_id===true) ? $result : $this ;
     }
 
     /**

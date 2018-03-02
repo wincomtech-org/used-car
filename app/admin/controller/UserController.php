@@ -28,7 +28,6 @@ use think\Db;
  */
 class UserController extends AdminBaseController
 {
-
     /**
      * 管理员列表
      * @adminMenu(
@@ -46,7 +45,7 @@ class UserController extends AdminBaseController
     {
         $where = ["user_type" => 1];
         /**搜索条件**/
-        $uid = $this->request->param('uid',null);
+        $uid        = $this->request->param('uid', null);
         $user_login = $this->request->param('user_login');
         $user_email = trim($this->request->param('user_email'));
 
@@ -121,8 +120,9 @@ class UserController extends AdminBaseController
                 if ($result !== true) {
                     $this->error($result);
                 } else {
-                    $_POST['user_pass'] = cmf_password($_POST['user_pass']);
-                    $result             = DB::name('user')->insertGetId($_POST);
+                    $_POST['user_pass']   = cmf_password($_POST['user_pass']);
+                    $_POST['create_time'] = time();
+                    $result               = DB::name('user')->insertGetId($_POST);
                     if ($result !== false) {
                         //$role_user_model=M("RoleUser");
                         foreach ($role_ids as $role_id) {

@@ -15,8 +15,8 @@ function lothar_admin_log($action='',$type='goods')
     $adminLog = [
         'user_id'     => cmf_get_current_admin_id(),
         'create_time' => time(),
-        'type'        => $type,
         'ip'          => get_client_ip(),
+        'type'        => $type,
         'action'      => $action,
     ];
     Db::name('admin_log')->insert($adminLog);

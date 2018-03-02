@@ -4,6 +4,7 @@ namespace app\portal\model;
 use app\admin\model\RouteModel;
 use think\Model;
 use think\Db;
+// use app\portal\service\PostService;
 
 class PortalPostModel extends Model
 {
@@ -302,8 +303,46 @@ class PortalPostModel extends Model
 
 
 // 前台
-    /*首页*/
-    public function getIndexPortalList($cateId=1, $order='DESC', $limit=9, $field='')
+    /**
+     * [getIndexPortalList 前台]
+     * 参考 adminArticleList()
+     * @param  integer $cateId [description]
+     * @param  string  $order  [description]
+     * @param  integer $limit  [description]
+     * @param  string  $field  [description]
+     * @return [type]          [description]
+     */
+    public function getIndexPortalList($cateId=1, $order='', $limit=7, $field='')
+    {
+        $ckey = 'giportall'.$cateId.$order.$limit;
+
+        $lists = cache($ckey);
+        if (empty($lists)) {
+            $field = empty($field)?'a.id,a.post_title,a.post_excerpt,a.more':$field;
+            $where = [
+                'a.delete_time' => 0,
+                'a.post_status' => 1,
+                'a.post_type' => 1,
+                'a.recommended' => 1,
+            ];
+            $order = empty($order) ? 'post_like DESC': $order;
+
+            $lists = $this->alias('a')
+                    ->field($field)
+                    ->where($where)
+                    ->order($order)
+                    ->limit($limit)
+                    ->select()->toArray();
+            // $listM = new PostService();
+            // $lists = $listM->adminArticleList($where);
+
+            // cache($ckey, $lists, 3600);
+        }
+
+        return $lists;
+    }
+    // 多分类处理？需要去重
+    public function getIndexPortalList2($cateId=1, $order='DESC', $limit=9, $field='')
     {
         $ckey = 'giportall'.$cateId.$order.$limit;
 
