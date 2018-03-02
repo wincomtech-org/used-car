@@ -524,6 +524,7 @@
 .s_tit{font-size:14px;float:left;line-height:30px;}
 .screens .analogy{width:135px;float:left;}
 .screens .analogy .analogy_con li input{font-size:12px;}
+.logn_div{float:left;}
 .screens .analogy .analogy_con{top:31px}
 .screens .analogy p{padding:0 20px 0 5px;}
 .screens .analogy p input{font-size:14px;}
@@ -570,7 +571,7 @@
 .returns-gr.w50{width:50%;display:inline-block;margin-left:-4px;vertical-align: text-top;}
 
 .returns-gr-con .analogy{
-    max-width:180px;
+    max-width:201px;
 }
 .returns-gr-con .analogy .analogy_con{
     top:29px;
@@ -581,7 +582,7 @@
 .returns_input{
     width:180px;
     border:1px solid #ddd;
-    height:28px;
+    height:32px;
 }
 .returns_input input{
     height:100%;
@@ -599,7 +600,8 @@
 .hasMoney.returns_input:before{
     content:"￥";
     position:absolute;
-    top:6px;
+    top:50%;
+    transform: translateY(-50%);
     left:5px;
     font-size:16px;
     color:#d00000;
@@ -1114,6 +1116,12 @@
         width:48%;
     }
     .sel_shop .remai_div:nth-child(2n+2){margin-left:4%;}
+    .screens .analogy .analogy_con{min-width:140px;}
+}
+@media screen and (max-width:375px){
+    .logn_div:first-child{
+        margin-bottom:10px;
+    }
 }
 @media screen and (max-width:374px){
     .remai_pri span{
@@ -1542,6 +1550,8 @@
 }
 .order-img img{
     max-width:90px;
+    min-width:60px;
+    width:92%;
 }
 .order-intro{
     margin-left:90px;
@@ -1575,7 +1585,7 @@
     border:1px solid #daf3ff;
 }
 .shops-order-m-div{
-    margin-bottom:10px;
+    padding-bottom:10px;
 }
 
 /* 手机端信息 */
@@ -2099,7 +2109,14 @@ evaluation{
         font-size:13px;
         line-height:1.5;
     }
-    
+    .order-list-con{
+        width:-webkit-calc(100% - 20px);
+        width:-moz-calc(100% - 20px);
+        width:-ms-calc(100% - 20px);
+        width:-o-calc(100% - 20px);
+        width:calc(100% - 20px);
+        margin:0 auto;
+    }
     .order-mess{
         display:flex;
         display: -webkit-box;
@@ -2215,6 +2232,7 @@ evaluation{
     }
     .shops_order_m_total{
         background-color:#f5f5f5;
+        height:40px;
     } 
     .shops_order_m_total li{
         float:left;
@@ -2242,6 +2260,7 @@ evaluation{
     .shops_order_m_total li.rt a i{
         color:#fff;
     }
+    /* .ti{position:relative;height:40px;} */
     /* 订单详情页 */
     .order-dd-list{
         padding-left:0;
