@@ -16,10 +16,13 @@
                 <ul id="main-head-user">
                     <!-- 登陆后 -->
                     <li class="logining">
+                        <!-- 购物车 -->
+                        <a href="" class='shop_car_icon'><i>1</i></a>
                         <a href="{:cmf_url('user/Profile/center')}">
                             <span class="user-nickname"></span>
                         </a>
-                        <a href="{:cmf_url('user/Profile/center')}" class="">个人中心</a>
+                        <!-- <a href="{:cmf_url('user/Profile/center')}" class="">个人中心</a> -->
+
                         <a href="{:cmf_url('user/Index/logout')}" class="">退出</a>
                     </li>
                     <!-- 登录/注册 -->
@@ -69,6 +72,8 @@
             <!-- 搜索 -->
             <include file="public@search" />
             <div class="user_m">
+                 <!-- 购物车 -->
+                 <a href="" class='shop_car_icon'><i>1</i></a>
                 <a href="{:cmf_url('user/Profile/center')}" class="icon"></a>
             </div>
         </div>

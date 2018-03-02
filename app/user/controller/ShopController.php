@@ -53,4 +53,8 @@ class ShopController extends UserBaseController
     {
         return $this->fetch();
     }
+    public function news()
+    {
+        return $this->fetch();
+    }
 }
