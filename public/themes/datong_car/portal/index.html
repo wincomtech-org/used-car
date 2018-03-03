@@ -94,7 +94,7 @@
                             <foreach name="vo.children" item="child">
                             <li class="vehicle_con_detail_items">
                                 <div class="img"><a href="{:cmf_url('trade/Post/details',['id'=>$child.id])}">
-                                    <img src="{:cmf_get_image_preview_url($child.more.thumbnail)}" alt="">
+                                    <img src="{:cmf_url('portal/Index/thumbUrl',['img'=>urlencode($child.more.thumbnail),'w'=>283,'h'=>195])}" alt="">
                                 </a></div>
                                 <div class="txt">
                                     <h6><a href="{:cmf_url('trade/Post/details',['id'=>$child.id])}">{$child.name}</a></h6>
@@ -138,6 +138,7 @@
     </section>
 
     <!-- 车辆买卖 M -->
+    <!-- :cmf_get_image_preview_url($child.more.thumbnail) -->
     <section class="vehicle_trading vehicle_trading_m">
         <div class="main">
             <div class="vehicle_trading_detail">
@@ -152,7 +153,7 @@
                                 <foreach name="vo.children" item="child">
                                 <li class="vehicle_con_detail_items">
                                     <div class="img"><a href="{:url('trade/Post/details',['id'=>$child.id])}">
-                                        <img src="{:cmf_get_image_preview_url($child.more.thumbnail)}" alt="">
+                                        <img src="{:cmf_url('portal/Index/thumbUrl',['img'=>urlencode($child.more.thumbnail),'w'=>283,'h'=>195])}" alt="">
                                     </a></div>
                                     <div class="txt">
                                         <h6><a href="{:url('trade/Post/details',['id'=>$child.id])}">{$child.name}</a></h6>

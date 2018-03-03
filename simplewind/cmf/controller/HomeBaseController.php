@@ -25,6 +25,11 @@ class HomeBaseController extends BaseController
         // 显示除了E_NOTICE(提示)和E_WARNING(警告)外的所有错误
         // error_reporting(E_ALL ^ (E_NOTICE | E_WARNING));
 
+        $feeds = cmf_get_site_info();
+        if ($feeds['web_switch']=='0') {
+            echo $feeds['web_switch_desc'];exit();
+        }
+
         // 监听home_init
         hook('home_init');
         parent::_initialize();

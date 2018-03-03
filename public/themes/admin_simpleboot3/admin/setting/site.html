@@ -70,6 +70,15 @@
 							</div>
 
 							<div class="form-group">
+								<label class="col-sm-2 control-label">网站总开关</label>
+								<php>$web_switch = isset($web_switch)?$web_switch:1;</php>
+								<div class="col-md-6 col-sm-10">
+									<label><input type="radio" name="options[web_switch]" value="1" {$web_switch==1?='checked'}> 开启</label> &nbsp; &nbsp;
+									<label><input type="radio" name="options[web_switch]" value="0" {$web_switch==0?='checked'}> 关闭</label>
+									<textarea class="form-control" style="height:60px;" name="options[web_switch_desc]" placeholder="关闭网站时的描述">{$web_switch_desc|default=''}</textarea>
+								</div>
+							</div>
+							<div class="form-group">
 								<label for="input-admin_url_password" class="col-sm-2 control-label">后台加密码</label>
 								<div class="col-md-6 col-sm-10">
 									<input type="text" class="form-control" id="input-admin_url_password" name="admin_settings[admin_password]" value="{$admin_settings.admin_password|default=''}" id="js-site-admin-url-password">

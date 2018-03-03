@@ -58,8 +58,7 @@ class ApiService
             'post.delete_time'    => 0
         ];
 
-        $paramWhere = empty($param['where']) ? '' : $param['where'];
-
+        $paramWhere  = empty($param['where']) ? '' : $param['where'];
         $limit       = empty($param['limit']) ? 10 : $param['limit'];
         $order       = empty($param['order']) ? '' : $param['order'];
         $page        = isset($param['page']) ? $param['page'] : false;
@@ -71,7 +70,6 @@ class ApiService
         ];
 
         if (!empty($categoryIds)) {
-
             $field = !empty($param['field']) ? $param['field'] : 'post.*,user.user_login,user.user_nickname,user.user_email,category_post.category_id';
             array_push($join, ['__PORTAL_CATEGORY_POST__ category_post', 'post.id = category_post.post_id']);
 
@@ -89,29 +87,26 @@ class ApiService
             array_push($join, ['__PORTAL_CATEGORY_POST__ category_post', 'post.id = category_post.post_id']);
         }
 
+        // ->distinct('id')做唯一查询，去重
         $articles = $portalPostModel->alias('post')->field($field)
             ->join($join)
             ->where($where)
             ->where($paramWhere)
-            ->order($order);
+            ->order($order)->distinct('id');
 
         $return = [];
 
         if (empty($page)) {
             $articles = $articles->limit($limit)->select();
-
             if (!empty($relation) && !empty($articles['items'])) {
                 $articles->load($relation);
             }
-
             $return['articles'] = $articles;
         } else {
-
             if (is_array($page)) {
                 if (empty($page['list_rows'])) {
                     $page['list_rows'] = 10;
                 }
-
                 $articles = $articles->paginate($page);
             } else {
                 $articles = $articles->paginate(intval($page));
@@ -130,6 +125,37 @@ class ApiService
         }
 
         return $return;
+    }
+
+    /**
+     * 获取指定分类以及子类的所有文章
+     * 多分类需要去重
+     * @param  integer $categoryId [description]
+     * @param  string  $where      [description]
+     * @param  integer $limit      [description]
+     * @param  string  $order      [description]
+     * @param  string  $field      [description]
+     * @return [type]              [description]
+     */
+    public function articlesBySubs($categoryId=0, $limit=7, $order='post.recommended desc', $where='', $field='post.id,post.post_title,post.post_excerpt,post.more')
+    {
+        $categoryIds = $this->allSubCategories($categoryId,'key');
+
+        $articleIds = '';
+
+        $param = [
+            'where' => $where,
+            'limit' => $limit,
+            'order' => $order,
+            'page' => false,
+            'relation' => '',
+            'category_ids' => array_merge([$categoryId],$categoryIds),
+            'field' => $field
+        ];
+
+        $list = $this->articles($param);
+
+        return $list['articles']->toArray();
     }
 
     /**
@@ -203,6 +229,9 @@ class ApiService
         return $portalPostModel->where($where)->find();
     }
 
+
+
+
     /**
      * 返回指定分类
      * @param int $id 分类id
@@ -242,9 +271,10 @@ class ApiService
     /**
      * 返回指定分类下的所有子分类
      * @param int $categoryId 分类id
+     * @param int $type 返回类型：key主键
      * @return array 返回指定分类下的所有子分类
      */
-    public static function allSubCategories($categoryId)
+    public static function allSubCategories($categoryId=0, $type='all')
     {
         $portalCategoryModel = new PortalCategoryModel();
 
@@ -252,11 +282,7 @@ class ApiService
 
         if ($categoryId !== 0) {
             $category = $portalCategoryModel->field('path')->where('id', $categoryId)->find();
-
-            if (empty($category)) {
-                return [];
-            }
-
+            if (empty($category)) { return []; }
             $categoryPath = $category['path'];
         } else {
             $categoryPath = 0;
@@ -268,7 +294,13 @@ class ApiService
             'path'        => ['like', "$categoryPath-%"]
         ];
 
-        return $portalCategoryModel->where($where)->select();
+        if ($type=='key') {
+            $result = $portalCategoryModel->where($where)->column('id');
+        } else {
+            $result = $portalCategoryModel->where($where)->select();
+        }
+
+        return $result;
     }
 
     /**

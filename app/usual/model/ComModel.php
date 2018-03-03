@@ -6,6 +6,7 @@ use think\Model;
 use think\Request;
 // use app\admin\model\RouteModel;
 // use tree\Tree;
+use think\Image;
 use excel\Excel;
 
 /**
@@ -172,7 +173,9 @@ class ComModel extends Model
         $excel->exportExcel($title, $head, $data);
     }
 
-    // 后台 JS 插件获取文件
+
+
+    // 后台 JS 插件 处理上传图片、文件
     public function dealFiles($files=['names'=>[],'urls'=>[]], $pk='')
     {
         $post = [];
@@ -185,6 +188,18 @@ class ComModel extends Model
         }
 
         return $post;
+    }
+
+    /**
+     * 缩略图生成
+     * @param  [type]  $img    [description]
+     * @param  integer $width  [description]
+     * @param  integer $height [description]
+     * @return [type]          [description]
+     */
+    public function thumb_url($img, $width = 350, $height = 350)
+    {
+        return lothar_thumb_url($img);
     }
 
     /*

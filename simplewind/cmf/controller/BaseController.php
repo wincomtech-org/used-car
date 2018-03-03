@@ -109,5 +109,25 @@ class BaseController extends Controller
         }
     }
 
+    /**
+     * 缩略图生成
+     * 模板中：{:cmf_url('portal/Index/thumbUrl',['img'=>urlencode('default/20171225/logo_lucency.png')])}
+     * @param  string  $image  [description]
+     * @param  integer $width  [description]
+     * @param  integer $height [description]
+     * @return [type]          [description]
+     */
+    public function thumbUrl($image='default/20171225/logo_lucency.png', $width=135, $height=135)
+    {
+        $data = $this->request->param();
+        $image = empty($data['img']) ? '' : urldecode($data['img']);
+        $width = empty($data['w']) ? 135 : $data['w'];
+        $height = empty($data['h']) ? 135 : $data['h'];
+
+        $url = lothar_thumb_url($image,$width,$height);
+
+        // redirect($url);
+        return redirect($url);
+    }
 
 }

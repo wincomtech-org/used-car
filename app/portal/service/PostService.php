@@ -217,7 +217,23 @@ class PostService
 
 
 /*自定义的*/
-    // 指定分类下的文章
+    /**
+     * [获取指定分类以及子类的所有文章]
+     * 多分类需要去重
+     * @param  integer $categoryId [指定ID]
+     * @param  string  $filter     [过滤ID]
+     * @return [type]              [description]
+     */
+    public function allFromCateList($categoryId=0, $filterIds='')
+    {
+        // $postM = new PortalPostModel;
+        // $cateM = new PortalCategoryModel;
+        $apiM = new ApiService;
+        // 获取所有子类ID
+        $cateSubIds = $api->allSubCategories($categoryId,'key');
+    }
+
+    // 获取指定分类下的所有文章
     public function fromCateList($categoryId=0, $limit=20)
     {
         $portalPostModel = new PortalPostModel();

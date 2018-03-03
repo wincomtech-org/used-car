@@ -2,15 +2,13 @@
 // \simplewind\cmf\common.php
 use think\Config;
 use think\Db;
-use think\Url;
-use dir\Dir;
 // use think\Route;
-use think\Loader;
+use think\Image;
 use think\Request;
-use cmf\lib\Storage;
+use think\Url;
 use think\View;
 
-function lothar_admin_log($action='',$type='goods')
+function lothar_admin_log($action = '', $type = 'goods')
 {
     $adminLog = [
         'user_id'     => cmf_get_current_admin_id(),
@@ -25,11 +23,11 @@ function lothar_admin_log($action='',$type='goods')
 /**
  * 存放消息记录
  * @param $data 要写入的数据
-    $data = [
-        'title' => '预约保险',
-        'object'=> 'insurance_order'.$id,
-        'content'=>'客户ID：'.$userId.'保单ID：'.$id,
-    ];
+$data = [
+'title' => '预约保险',
+'object'=> 'insurance_order'.$id,
+'content'=>'客户ID：'.$userId.'保单ID：'.$id,
+];
  * @param string $file 消息文件,在 web 入口目录
  * @return int
  */
@@ -43,11 +41,11 @@ function lothar_put_news($data, $file = null)
     }
 
     if (empty($data['action'])) {
-        $request    = request();
-        $module     = $request->module();
-        $controller = $request->controller();
-        $action     = $request->action();
-        $data['action'] = strtolower($module .'/'. $controller .'/'. $action);
+        $request        = request();
+        $module         = $request->module();
+        $controller     = $request->controller();
+        $action         = $request->action();
+        $data['action'] = strtolower($module . '/' . $controller . '/' . $action);
     }
     if (empty($data['app'])) {
         $data['app'] = request()->module();
@@ -62,11 +60,11 @@ function lothar_put_news($data, $file = null)
     // return Db::name('news')->getLastInsID();
 }
 /*
-* 取出未处理消息 提醒
-* 二手车配置 $usualSettings = cmf_get_option('usual_settings');
-* __STATIC__ 可换成 /static
-*/
-function lothar_get_news($type='', $dialog=false)
+ * 取出未处理消息 提醒
+ * 二手车配置 $usualSettings = cmf_get_option('usual_settings');
+ * __STATIC__ 可换成 /static
+ */
+function lothar_get_news($type = '', $dialog = false)
 {
     $where['status'] = 0;
     if (!empty($type)) {
@@ -75,16 +73,16 @@ function lothar_get_news($type='', $dialog=false)
     $news = Db::name('news')->where($where)->select();
 
     // 执行JS弹窗
-    if ($dialog===true) {
+    if ($dialog === true) {
         $usualSettings = cmf_get_option('usual_settings');
-        if ($usualSettings['news_switch']==1) {
+        if ($usualSettings['news_switch'] == 1) {
             $count = count($news);
-            if ($count>0) {
-                $msg = '您有 '.$count.' 条未处理消息！';
-                $jumpurl = url('usual/AdminNews/index',['status'=>0]);
-                $audio = '/static/audio/4182.mp3';
-                $audio = '';
-                $html = <<<EOT
+            if ($count > 0) {
+                $msg     = '您有 ' . $count . ' 条未处理消息！';
+                $jumpurl = url('usual/AdminNews/index', ['status' => 0]);
+                $audio   = '/static/audio/4182.mp3';
+                $audio   = '';
+                $html    = <<<EOT
                     <style type="text/css">
                         /*提示信息消息*/
                         .alert_msg{position:absolute;width:320px;right:0;bottom:0;background-color:#FCEFCF;color:#6A5128;font-size:16px;font-weight:bold;padding:25px 15px;box-sizing:border-box;box-sizing:-webkit-border-box;box-sizing:-moz-border-box;box-sizing:-ms-border-box;box-sizing:-o-border-box;}
@@ -108,18 +106,18 @@ EOT;
 }
 
 /*用户资金流动 - 增加*/
-function lothar_put_funds_log($data, $type='', $coin='',$remain='--', $app='--', $objId='', $return=false)
+function lothar_put_funds_log($data, $type = '', $coin = '', $remain = '--', $app = '--', $objId = '', $return = false)
 {
     if (is_array($data)) {
         $count = count($data);
-        if ($count!=8) {
+        if ($count != 8) {
             $data = [
-                'user_id'     => (empty($data['user_id'])?0:$data['user_id']),
-                'type'        => (empty($data['type'])?0:$data['type']),
-                'coin'        => (empty($data['coin'])?0:$data['coin']),
-                'remain'      => (empty($data['remain'])?0.00:$data['remain']),
-                'app'         => (empty($data['app'])?'user':$data['app']),
-                'obj_id'      => (empty($data['obj_id'])?0:$data['obj_id']),
+                'user_id'     => (empty($data['user_id']) ? 0 : $data['user_id']),
+                'type'        => (empty($data['type']) ? 0 : $data['type']),
+                'coin'        => (empty($data['coin']) ? 0 : $data['coin']),
+                'remain'      => (empty($data['remain']) ? 0.00 : $data['remain']),
+                'app'         => (empty($data['app']) ? 'user' : $data['app']),
+                'obj_id'      => (empty($data['obj_id']) ? 0 : $data['obj_id']),
                 'create_time' => time(),
                 'ip'          => get_client_ip(),
             ];
@@ -137,14 +135,14 @@ function lothar_put_funds_log($data, $type='', $coin='',$remain='--', $app='--',
         ];
     }
 
-    if ($return===true) {
+    if ($return === true) {
         return Db::name('user_funds_log')->insertGetId($data);
     } else {
         Db::name('user_funds_log')->insert($data);
     }
 }
 /*用户资金流动 - 获取*/
-function lothar_get_funds_log($type='', $dialog=false)
+function lothar_get_funds_log($type = '', $dialog = false)
 {
     $where['status'] = 0;
     if (!empty($type)) {
@@ -154,13 +152,13 @@ function lothar_get_funds_log($type='', $dialog=false)
 }
 
 /*
-* 用户认证状态信息
-* @param $uid 默认是当前用户
-* @param $code 默认是实名认证
-* @param $data 是否返回数据集、统计
-* @return boolean or array
-*/
-function lothar_verify($uid=null, $code='certification', $data='status')
+ * 用户认证状态信息
+ * @param $uid 默认是当前用户
+ * @param $code 默认是实名认证
+ * @param $data 是否返回数据集、统计
+ * @return boolean or array
+ */
+function lothar_verify($uid = null, $code = 'certification', $data = 'status')
 {
     if (is_null($uid)) {
         $uid = cmf_get_current_user_id();
@@ -174,20 +172,20 @@ function lothar_verify($uid=null, $code='certification', $data='status')
     }
 
     $result = null;
-    $obj = Db::name('verify');
-    if ($data=='status') {
+    $obj    = Db::name('verify');
+    if ($data == 'status') {
         $result = $obj->where($where)->value('auth_status');
-    } elseif ($data=='count') {
+    } elseif ($data == 'count') {
         $result = $obj->where($where)->count();
-    } elseif ($data=='more') {
+    } elseif ($data == 'more') {
         $more = $obj->where($where)->value('more');
         if (!empty($more)) {
-            $result = json_decode($more,true);
+            $result = json_decode($more, true);
         }
-    } elseif ($data=='all') {
+    } elseif ($data == 'all') {
         $result = $obj->where($where)->find();
         if (!empty($result)) {
-            $result['more'] = json_decode($result['more'],true);
+            $result['more'] = json_decode($result['more'], true);
         }
     }
 
@@ -195,10 +193,10 @@ function lothar_verify($uid=null, $code='certification', $data='status')
 }
 
 /*
-* JSON
-* json_decode(json,true) 为true时返回array而非object
-*/
-function lothar_toJson($code=0, $msg='', $url=null, $data='', $wait=3)
+ * JSON
+ * json_decode(json,true) 为true时返回array而非object
+ */
+function lothar_toJson($code = 0, $msg = '', $url = null, $data = '', $wait = 3)
 {
     if (is_array($code)) {
         $result = json_encode($code);
@@ -216,7 +214,7 @@ function lothar_toJson($code=0, $msg='', $url=null, $data='', $wait=3)
 }
 
 /*弹窗*/
-function lothar_popup($msg='', $code=1, $url=null, $data='', $wait=3)
+function lothar_popup($msg = '', $code = 1, $url = null, $data = '', $wait = 3)
 {
     $result = [
         'code' => $code,
@@ -228,8 +226,32 @@ function lothar_popup($msg='', $code=1, $url=null, $data='', $wait=3)
 
     $ViewTemplate = View::instance(Config::get('template'), Config::get('view_replace_str'));
 
-    return $ViewTemplate->fetch('public@/popup',$result);
+    return $ViewTemplate->fetch('public@/popup', $result);
     // return $ViewTemplate->fetch(Config::get('dispatch_success_tmpl'), $result);
+}
+
+/*缩略图生成*/
+function lothar_thumb_url($imgpath, $width = 350, $height = 350)
+{
+    if (strpos($imgpath, "http") === 0) {
+        return $imgpath;
+    } else if (strpos($imgpath, "/") === 0) {
+        return cmf_get_domain() . $imgpath;
+    }
+
+    $avatarPath = "./upload/" . $imgpath;
+    $fileArr    = pathinfo($avatarPath);
+    $filename   = $fileArr['dirname'] . $fileArr['filename'] . "-" . $width . "-" . $height . ".jpg";
+    if (file_exists($filename)) {
+        $url = $filename;
+    } else {
+        $avatarImg = Image::open($avatarPath);
+        $avatarImg->thumb($width, $height)->save($filename);
+        $url = $filename;
+    }
+    $url = request()->domain() . $url;
+
+    return $url;
 }
 
 /**
@@ -238,10 +260,10 @@ function lothar_popup($msg='', $code=1, $url=null, $data='', $wait=3)
  * @param  string $value [description]
  * @return [type]        [description]
  */
-function lothar_num_format($value='')
+function lothar_num_format($value = '')
 {
     if (is_numeric($value)) {
-        return round($value,2);
+        return round($value, 2);
         // return sprintf("%.2f", $value);// 0.01;
     } else {
         return $value;

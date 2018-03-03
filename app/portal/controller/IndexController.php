@@ -3,11 +3,16 @@ namespace app\portal\controller;
 
 use cmf\controller\HomeBaseController;
 // use app\admin\model\SlideItemModel;
+// 
 use app\service\model\ServiceCategoryModel;
 // use app\insurance\model\InsuranceModel;
 use app\usual\model\UsualCarModel;
 use app\portal\model\PortalPostModel;
+// use app\portal\service\PostService;
+use app\portal\service\ApiService;
+
 // use think\Db;
+
 
 class IndexController extends HomeBaseController
 {
@@ -49,12 +54,13 @@ class IndexController extends HomeBaseController
         $services = $scModel->getIndexServiceList();
 
         // 买车流程
-        $pModel = new PortalPostModel();
-        $article_flows = $pModel->getIndexPortalList(4);
+        $apiModel = new ApiService;
+        $article_flows = $apiModel->articlesBySubs(4);
+
         // 车辆服务文章
-        // $article_services = $pModel->getIndexPortalList(3);
+        // $article_services = $apiModel->articlesBySubs(3);
         // 新闻资讯
-        $article_news = $pModel->getIndexPortalList(1,'',9);
+        $article_news = $apiModel->articlesBySubs(1,9);
 
 
         // $this->assign('ourcore',$ourcore);

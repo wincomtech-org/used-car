@@ -123,14 +123,13 @@ class AdminCategoryController extends AdminBaseController
             $post['spec_subset'] = 0;
         } elseif (count($spec) == 1) {
             $map = [['cate_id'=>$post['id'],'spec_id'=>$spec[0]]];
-            // $map = ['cate_id'=>$data['cate_id'],'spec_id'=>$spec[0]];
-            // $result = $m->insert($map);
         } else {
             foreach ($spec as $row) {
                 $map[] = ['cate_id'=>$post['id'],'spec_id'=>$row];
             }
-            // $result = $m->insertAll($map);
         }
+
+        // 属性单独处理 attrs()
 
         $cateModel = new ShopGoodsCategoryModel();
 
@@ -139,7 +138,7 @@ class AdminCategoryController extends AdminBaseController
         Db::startTrans();
         try{
             $cateModel->editCategory($post);
-            if (!empty($map)) {
+            if (isset($map)) {
                 Db::name('shop_category_spec')->where('cate_id',$post['id'])->delete();
                 Db::name('shop_category_spec')->insertAll($map);
             }
