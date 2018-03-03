@@ -1,8 +1,11 @@
 <div class="search">
-    <form action="{:cmf_url('trade/Index/platform')}" method="post">
+    <form action="" method="post" class="js-ajax-form">
     <label>
         <input class="ser_input placeholder" type="text" name="keyword" value="{:input('param.keyword','')}" placeholder="请输入车辆标题、品牌、车系">
-        <input class="ser_button" type="submit" value="立刻搜索">
+
+        <!-- <input class="ser_button" type="submit" value="立刻搜索"> -->
+        <button type="submit" class="ser_button js-ajax-submit" data-action="{:cmf_url('trade/Index/platform',['plat'=>1])}">搜新车</button>
+        <button type="submit" class="ser_button js-ajax-submit" data-action="{:cmf_url('trade/Index/platform',['plat'=>2])}">搜二手</button>
     </label>
     </form>
 </div>

@@ -26,9 +26,10 @@ class HomeBaseController extends BaseController
         // error_reporting(E_ALL ^ (E_NOTICE | E_WARNING));
 
         $feeds = cmf_get_site_info();
-        if ($feeds['web_switch']=='0') {
+        if (isset($feeds['web_switch']) && $feeds['web_switch']=='0') {
             echo $feeds['web_switch_desc'];exit();
         }
+        unset($feeds);
 
         // 监听home_init
         hook('home_init');
