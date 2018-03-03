@@ -1960,6 +1960,10 @@ evaluation{
         display:block;
         clear:both;
     }
+    /* 确认收货 */
+    .cofimReceipt-buc{
+        width:100%;
+    }
 }
 
 /* 物流页 */

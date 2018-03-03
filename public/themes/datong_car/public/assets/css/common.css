@@ -296,7 +296,7 @@ nav{background-color:#000;}
 .shop_classify_li{position:relative;width:180px;}
 .shop_classify_li.active{background-color:#d00000;}
 .shop_classify_div{width:100%;padding:20px 10px;position:relative}
-.shop_classify_div:after{content:"";background:url(../images/shop_icon.png) -2px -99px;width:30px;height:30px;display:inline-block;color:#fff;position:absolute;top:50%;transform:translateY(-50%);right:-3px;font-size:16px;}
+.shop_classify_div:after{content:"";background:url(../images/shop_icon.png) -2px -99px;width:30px;height:26px;display:inline-block;color:#fff;position:absolute;top:50%;transform:translateY(-50%);right:-3px;font-size:16px;}
 .shop_classify_div p{font-size:14px;margin:5px 0;}
 .shop_classify_div p a{color:#fff;}
 .shop_classify_div p span:not(:first-child){margin-left:5px;}
