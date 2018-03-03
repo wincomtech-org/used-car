@@ -467,20 +467,6 @@
 .btn-line{display:block;margin-top:7px;}
 
 
-/* .btn-line .btn-style{float:left;height:50px;position:relative;}
-.btn-line .btn-style:not(:first-child){margin-left:20px;}
-.yuyueguang{position:absolute;top:0;z-index:1;}
-.btn-line .btn-style .yuyue_guang_mess{width:413px;position:relative;margin-top:70px;border:1px solid #ee981d;background-color:#fff;padding:30px 37px;box-sizing:border-box;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;-ms-box-sizing:border-box;-o-box-sizing:border-box;}
-.btn-line .btn-style .yuyue_guang_mess b{position:absolute;top:-10px;left:66px;display:block;border-bottom:9px solid #ee981d;border-left:9px solid transparent;border-right:9px solid transparent;}
-.btn-line .btn-style .yuyue_guang_mess s{position:absolute;display:block;top:2px;left:-8px;border-bottom:8px solid #fff;border-left:8px solid transparent;border-right:8px solid transparent;}
-.btn-line .btn-style .yuyue_guang_mess p{font-size:16px;}
-.btn-line .btn-style .yuyue_guang_mess .yuyue_guang_mess_list{margin:20px 0;position:relative;}
-.btn-line .btn-style .yuyue_guang_mess .yuyue_guang_mess_list input{width:100%;height:40px;line-height:41px;font-size:16px;border:1px solid #ddd;padding-left:9px;box-sizing:border-box;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;-ms-box-sizing:border-box;-o-box-sizing:border-box;}
-.btn-line .btn-style .yuyue_guang_mess .yuyue_guang_mess_list input[name="yanzhengma"]{padding-right:100px;position:relative;}
-.btn-line .btn-style .yuyue_guang_mess .yuyue_guang_mess_list span.yanzhengma{width:100px;border-left:1px solid #ddd;height:30px;line-height:30px;position:absolute;top:7px;right:0;}
-.btn-line .btn-style .yuyue_guang_mess i.red{color:#d00000;display:inline-block;margin-top:8px;}
-.btn-line .btn-style .btn{width:100%;background-color:#ee981d;} */
-
 .yuyue_guang {display:inline-block}
 .btn-line .btn{display:inline-block;padding:0 20px;font-size:16px;height:50px;line-height:50px;color:#fff;text-align:center;font-family:myFirstFont;box-sizing:border-box;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;-ms-box-sizing:border-box;-o-box-sizing:border-box;}
 .btn-line .btn:not(:first-child){margin-left:20px;}
@@ -1649,7 +1635,7 @@
 .img_weiixn{text-align:center;}
 
 /*预约详情*/
-.form_details{font-size:16px;}
+.form_details{font-size:16px;margin-bottom:20px;}
 .form_details  li{margin:26px 0px 0px 0px;}
 .form_details  li a.file{color:#d00000;}
 .form_details  li a.file_down{margin-left:20px;}
@@ -1673,6 +1659,10 @@
     .index_tit:after{content:"";display:block;clear:both;}
     .index_tit_supply{font-size:0.875rem}
     .our_service_txt a{font-size:0.875rem;}
+
+    /* 预约详情 */
+    .form_details{font-size:14px;}
+    .form_details li{margin: 10px 0px 0px 0px;}
 }
 @media only screen and (max-width:767px){
     .index_tit_supply{display:block;margin-top:.625rem;font-size:14px;margin-left:0;}
@@ -2200,7 +2190,7 @@
     .person_right_con{padding:.4rem 0rem;}
 
     /*个人中心资料详情*/
-    .form_details .txt{display:inline-block;line-height:1.3;vertical-align:middle;font-size:15px;width:calc(100% - 139px);width:-webkit-calc(100% - 139px);width:-moz-calc(100% - 139px);width:-ms-calc(100% - 139px);width:-o-calc(100% - 139px);}
+    .form_details .txt{display:inline-block;line-height:1.3;vertical-align:middle;font-size:14px;width:calc(100% - 139px);width:-webkit-calc(100% - 139px);width:-moz-calc(100% - 139px);width:-ms-calc(100% - 139px);width:-o-calc(100% - 139px);}
     /* .person_right_tit>ul{
         display:flex;
         display: -webkit-box;

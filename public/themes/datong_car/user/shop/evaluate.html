@@ -43,6 +43,7 @@
                                     
                             </div>
                             <div class="evaluate-con">
+                               
                                 <ul class="evaluate-star">
                                     <li class='orage-color'>评价：</li>
                                     <li class='good-eval active tab-sel'>
@@ -52,20 +53,20 @@
                                         </label>
                                     </li>
                                     <li  class='middle-eval tab-sel'>
-                                    <label>
-                                        <span class=''>中评</span>
-                                        <input type="radio" class='' name='eval-star'>
-                                    </label>
-                                </li>
-                                <li class='bad-eval tab-sel'>
-                                    <label >
-                                        <span class=''>差评</span>
-                                        <input type="radio" class='' name='eval-star'>
-                                    </label>
-                                </li>
+                                        <label>
+                                            <span class=''>中评</span>
+                                            <input type="radio"  checked  name='eval-star'>
+                                        </label>
+                                    </li>
+                                    <li class='bad-eval tab-sel'>
+                                        <label >
+                                            <span class=''>差评</span>
+                                            <input type="radio" class='' name='eval-star'>
+                                        </label>
+                                    </li>
                                 </ul>
                                 <div class="evaluation">
-                                    <textarea name="" id="" cols="15" rows="5"></textarea>
+                                    <textarea name="" id="" cols="15" rows="5" class='placehoder' placehoder='请填写评价内容' required ></textarea>
                                     <div class="show-eval-img">
                                         <a href="javascript:uploadMultiImage('图片上传','#identity_card','identity_card-item-tpl');"
                                         class="btn btn-default btn-sm demonstrate_pre upload-img-btn">
@@ -92,7 +93,7 @@
                                         </ul>
                                     </div>
                                 </div>
-                                <input type="submit" class='btn-style backg-blue '>
+                                <button type="submit" class='btn-style backg-blue '>提交</button>
                             </div>
                         </div>
                     </form>
@@ -106,7 +107,7 @@
     <include file="public@scripts" />
        
 </body>
-<include file="public@morejs" />
+
 <script type="text/html" id="identity_card-item-tpl">
     <li id="saved-identity_card{id}">
         <input id="identity_card-{id}" type="hidden" name="identity_card[urls][]" value="{filepath}">

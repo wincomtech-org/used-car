@@ -81,8 +81,6 @@
 
 <script>
     $("#main-menu a").each(function() {
-        
-
         if ($(this)[0].href == String(window.location)) {
             $(this).parentsUntil("#main-menu>ul>li").addClass("active");
         
