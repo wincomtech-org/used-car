@@ -3,13 +3,16 @@ namespace app\user\controller;
 
 use app\admin\model\DistrictModel;
 // use app\user\model\UserModel;
-use app\portal\model\PortalPostModel;
+
 use app\user\controller\TradeController;
 use app\usual\model\UsualBrandModel;
 use app\usual\model\UsualCarModel;
 use app\usual\model\UsualItemModel;
 use app\usual\model\UsualModelsModel;
 use app\usual\model\UsualSeriesModel;
+
+use app\portal\service\ApiService;
+
 // use think\Validate;
 use think\Db;
 
@@ -172,9 +175,9 @@ class SellerController extends TradeController
         $allItems      = $itemModel->getItemTable($where, '', true);
 
         // 新手帮助
-        $portalM   = new PortalPostModel();
+        $apiModel = new ApiService;
         $noobCate  = Db::name('portal_category')->field('name,description')->where(['id' => 9, 'status' => 1])->find();
-        $noobHelps = $portalM->getIndexPortalList(9, 'ASC', 7, 'a.id,a.post_title');
+        $noobHelps = $apiModel->articlesBySubs(9);
 
         // 模板赋值
         $this->assign('Brands', $Brands);

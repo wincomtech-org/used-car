@@ -25,32 +25,38 @@ class HomeBaseController extends BaseController
         // 显示除了E_NOTICE(提示)和E_WARNING(警告)外的所有错误
         // error_reporting(E_ALL ^ (E_NOTICE | E_WARNING));
 
-        $feeds = cmf_get_site_info();
-        if (isset($feeds['web_switch']) && $feeds['web_switch']=='0') {
-            echo $feeds['web_switch_desc'];exit();
-        }
-        unset($feeds);
-
         // 监听home_init
         hook('home_init');
         parent::_initialize();
         $siteInfo = cmf_get_site_info();
-        // 导航（手机端）
-        $navMenuModel = new NavMenuModel();
-        $navMenus = $navMenuModel->navMenusTreeArray(null,2);
-        // 友链
-        $apiModel = new ApiService();
-        $friendLink = $apiModel->links('url,name,target,description');
-        // 幻灯片
-        $slideModel = new SlideItemModel();
-        $slides = $slideModel->getLists(['cid'=>1]);
-        // 用户数据
-        // $this->user = cmf_get_current_user();
+        if (isset($siteInfo['web_switch']) && $siteInfo['web_switch']=='0') {
+            echo $siteInfo['web_switch_desc'];exit();
+        }
+
+        // 缓存
+        $sbs = cache(md5('sbs'),[
+            'navMenus'=>$navMenus,
+            'friendLink'=>$friendLink,
+            'slides'=>$slides,
+        ]);
+        if (empty($sbs)) {
+            // 导航（手机端）
+            $navMenuModel = new NavMenuModel();
+            $navMenus = $navMenuModel->navMenusTreeArray(null,2);
+            // 友链
+            $apiModel = new ApiService();
+            $friendLink = $apiModel->links('url,name,target,description');
+            // 幻灯片
+            $slideModel = new SlideItemModel();
+            $slides = $slideModel->getLists(['cid'=>1]);
+            // 用户数据
+            // $this->user = cmf_get_current_user();
+        }
 
         View::share('site_info', $siteInfo);
-        View::share('navMenus', $navMenus);
-        View::share('friendLink', $friendLink);
-        View::share('slides', $slides);
+        View::share('navMenus', $sbs['navMenus']);
+        View::share('friendLink', $sbs['friendLink']);
+        View::share('slides', $sbs['slides']);
         // $this->assign('user',$this->user);
     }
 
