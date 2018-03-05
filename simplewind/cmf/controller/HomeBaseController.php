@@ -34,12 +34,8 @@ class HomeBaseController extends BaseController
         }
 
         // 缓存
-        $sbs = cache(md5('sbs'),[
-            'navMenus'=>$navMenus,
-            'friendLink'=>$friendLink,
-            'slides'=>$slides,
-        ]);
-        if (empty($sbs)) {
+        $cbc = cache('cbc');
+        if (empty($cbc)) {
             // 导航（手机端）
             $navMenuModel = new NavMenuModel();
             $navMenus = $navMenuModel->navMenusTreeArray(null,2);
@@ -51,12 +47,18 @@ class HomeBaseController extends BaseController
             $slides = $slideModel->getLists(['cid'=>1]);
             // 用户数据
             // $this->user = cmf_get_current_user();
+
+            $cbc = cache('cbc',[
+                'navMenus'  => $navMenus,
+                'friendLink'=> $friendLink,
+                'slides'    => $slides,
+            ],3600);
         }
 
         View::share('site_info', $siteInfo);
-        View::share('navMenus', $sbs['navMenus']);
-        View::share('friendLink', $sbs['friendLink']);
-        View::share('slides', $sbs['slides']);
+        View::share('navMenus', $cbc['navMenus']);
+        View::share('friendLink', $cbc['friendLink']);
+        View::share('slides', $cbc['slides']);
         // $this->assign('user',$this->user);
     }
 
