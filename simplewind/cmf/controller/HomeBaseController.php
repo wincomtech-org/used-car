@@ -47,18 +47,25 @@ class HomeBaseController extends BaseController
             $slides = $slideModel->getLists(['cid'=>1]);
             // 用户数据
             // $this->user = cmf_get_current_user();
+            // 服务商城分类树
+            $goodscate = model('shop/ShopGoodsCategory')->getGoodsTreeArray();
 
             $cbc = cache('cbc',[
                 'navMenus'  => $navMenus,
                 'friendLink'=> $friendLink,
                 'slides'    => $slides,
+                'goodscate' => $goodscate,
             ],3600);
         }
 
+        // 服务商城分类树
+        $goodscate = model('shop/ShopGoodsCategory')->getGoodsTreeArray();
+// dump($goodscate);die;
         View::share('site_info', $siteInfo);
         View::share('navMenus', $cbc['navMenus']);
-        View::share('friendLink', $cbc['friendLink']);
+        View::share('share_friendLink', $cbc['friendLink']);
         View::share('slides', $cbc['slides']);
+        View::share('share_goodscate', $goodscate);
         // $this->assign('user',$this->user);
     }
 

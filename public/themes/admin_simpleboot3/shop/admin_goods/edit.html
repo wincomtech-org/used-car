@@ -6,14 +6,13 @@
 <div class="wrap js-check-wrap">
     <ul class="nav nav-tabs">
         <li><a href="{:url('AdminGoods/index')}">商品管理</a></li>
-        <li><a href="{:url('AdminGoods/add')}">添加商品</a></li>
+        <li><a href="{:url('AdminGoods/addpre')}">添加商品</a></li>
         <li class="active"><a href="javascript:void(0);">编辑商品</a></li>
     </ul>
     <div class="row margin-top-20">
         <div class="col-md-1">
-            <div class="list-group" style="width:90px;">
+            <div class="list-group">
                 <a class="list-group-item" href="#BASE_" data-toggle="tab">基本属性</a>
-                <!-- 与下面的扩展属性  -->
                 <a class="list-group-item" href="#SPEC_" data-toggle="tab">规格管理</a>
                 <a class="list-group-item" href="#ATTR_" data-toggle="tab">扩展属性</a>
                 <!-- <a class="list-group-item" href="#PIC_" data-toggle="tab">编辑图片</a> -->
@@ -28,12 +27,12 @@
                 </div>
 
                 <!-- 规格设置 -->
-                <div class="tab-pane active" id="SPEC_">
+                <div class="tab-pane " id="SPEC_">
                     <include file="admin_goods/SPEC_" />
                 </div>
 
                 <!-- 所有属性 -->
-                <div class="tab-pane " id="ATTR_">
+                <div class="tab-pane active" id="ATTR_">
                     <include file="admin_goods/ATTR_" />
                 </div>
 

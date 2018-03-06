@@ -1,8 +1,19 @@
 <table class="table table-bordered">
+    <foreach name="attrs" item="vo">
     <tr>
-        <th width="100">扩展</th>
+        <th width="100">{$vo.name}</th>
         <td>
-            <input class="form-control" type="text" name="post[ext]" value="{$post.ext|default=''}" placeholder=""/>
+            <select class="form-control" style="width: 140px;" name="attr[{$vo.id}]">
+                <notempty name="vo.value">
+                    <!-- <option value="">-- 请选择 --</option> -->
+                    <foreach name="vo.value" item="v">
+                    <option value="{$v.id}">{$v.id.$v.name}</option>
+                    </foreach>
+                <else/>
+                    <!-- <option value="">-- 暂无 --</option> -->
+                </notempty>
+            </select>
         </td>
     </tr>
+    </foreach>
 </table>

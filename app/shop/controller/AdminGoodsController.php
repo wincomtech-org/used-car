@@ -102,16 +102,26 @@ class AdminGoodsController extends AdminBaseController
         if (empty($cateId)) {
             $this->error('请选择分类！');
         }
+
+        $cateModel = new ShopGoodsCategoryModel;
         // 获取分类面包屑
         $cateCrumbs = model('ShopGoodsCategory')->cateCrumbs($cateId);
         // 品牌
         $brands = model('ShopBrand')->getBrands();
         // 状态
         $statusOptions = $this->scModel->getGoodsStatus();
+        // 规格 递归？
+        $specs = $cateModel->getSpecByCate($cateId);
+        // 属性
+        $attrs = $cateModel->getAttrByCate($cateId);
+
 
         $this->assign('cateCrumbs', $cateCrumbs);
         $this->assign('brands', $brands);
         $this->assign('statusOptions', $statusOptions);
+        $this->assign('specs', $specs);
+        $this->assign('attrs', $attrs);
+
         $this->assign('cateId', $cateId);
         $this->assign('post', ['id'=>0]);
         return $this->fetch();
@@ -133,6 +143,7 @@ class AdminGoodsController extends AdminBaseController
     {
         $data = $this->request->param();
         $post = $data['post'];
+        $cateId = intval($post['cate_id']);
 
         // 验证
         $result = $this->validate($post, 'Goods.add');
@@ -148,6 +159,15 @@ class AdminGoodsController extends AdminBaseController
         }
         if (!empty($post['thumbnail'])) {
             $post['thumbnail'] = cmf_asset_relative_url($post['thumbnail']);
+        }
+        if (!empty($cateId)) {
+            $parent_id = Db::name('shop_goods_category')->where('id',$cateId)->value('parent_id');
+            if ($parent_id>0) {
+                $post['cate_id_1'] = $parent_id;
+                $post['cate_id_2'] = $cateId;
+            } else {
+                $post['cate_id_1'] = $cateId;
+            }
         }
         $post['create_time'] = time();
 // dump($post);die;
@@ -203,7 +223,7 @@ class AdminGoodsController extends AdminBaseController
 
         // 属性
         $attrs = $cateModel->getAttrByCate($cateId);
-// dump($specs);die;
+// dump($attrs);die;
 
 
         $this->assign('cateCrumbs', $cateCrumbs);
@@ -232,9 +252,10 @@ class AdminGoodsController extends AdminBaseController
     public function editPost()
     {
         $data = $this->request->param();
-
+// dump($data);die;
         $post = $data['post'];
         $id   = intval($post['id']);
+        $cateId = intval($post['cate_id']);
         if (empty($id)) {
             $this->error('数据错误');
         }
@@ -253,6 +274,19 @@ class AdminGoodsController extends AdminBaseController
         }
         if (!empty($post['thumbnail'])) {
             $post['thumbnail'] = cmf_asset_relative_url($post['thumbnail']);
+        }
+        if (!empty($post['cate_id'])) {
+            $post['cate_id_1'] = Db::name('shop_goods_category')->where('id',$post['cate_id'])->value('parent_id');
+            $post['cate_id_2'] = $post['cate_id'];
+        }
+        if (!empty($cateId)) {
+            $parent_id = Db::name('shop_goods_category')->where('id',$cateId)->value('parent_id');
+            if ($parent_id>0) {
+                $post['cate_id_1'] = $parent_id;
+                $post['cate_id_2'] = $cateId;
+            } else {
+                $post['cate_id_1'] = $cateId;
+            }
         }
         $post['update_time'] = time();
 

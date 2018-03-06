@@ -68,4 +68,47 @@ class ShopGoodsModel extends UsualModel
     {
         return $this->getStatus($status,'shop_goods_status');
     }
+
+
+
+    /*获取分类商品 - 用于商城首页*/
+    public function getGoodsByCate($value='')
+    {
+        $cates = model('ShopGoodsCategory')->getGoodsTreeArray();
+        // return $cates;
+        $cateIds = array_keys($cates);
+        // return $cateIds;
+        $where = [
+            'status' => 1,
+            'cate_id_1' => ['in',$cateIds]
+        ];
+        $goodslist = $this->field('id,name,thumbnail,price,comments,cate_id_1')->where($where)->select()->toArray();
+        // return $goodslist;
+        $glist = [];
+        foreach ($goodslist as $row) {
+            $glist[$row['cate_id_1']][] = $row;
+        }
+        foreach ($cateIds as $key) {
+            $list[$key] = [
+                'cate' => $cates[$key],
+                'goods'=> (isset($glist[$key]) ? $glist[$key] : [])
+            ];
+        }
+        return $list;
+
+        return $glist;
+    }
+
+    // 热卖
+    public function getGoodsHot($limit=10)
+    {
+        $where = [
+            'status' => 1,
+            'is_hot' => 1,
+        ];
+        $goods = $this->field('id,name,thumbnail,price')->where($where)->limit($limit)->select()->toArray();
+
+        return $goods;
+    }
+
 }

@@ -51,4 +51,14 @@ class ShopGoodsAvModel extends UsualModel
 
         return $post;
     }
+
+    public function getAttrOptions($selectId=0, $parentId=0, $option='请选择')
+    {
+        // $data = $this->all()->toArray();
+        $data = $this->field('id,name')->where('attr_id',$parentId)->select()->toArray();
+
+        $options = $this->createOptions($selectId, $option, $data);
+
+        return $options;
+    }
 }

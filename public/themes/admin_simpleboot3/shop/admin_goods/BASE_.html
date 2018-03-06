@@ -4,7 +4,7 @@
         <td>
             <div class="form-control">{$cateCrumbs|default=''}</div>
             <p class="help-block"><a href="{:url('addpre',['id'=>$post.id,'cate_id'=>$cateId])}">编辑</a></p>
-            <input type="hidden" name="post[cate_id]" value="{$cateId|default=''}">
+            <input type="hidden" name="post[cate_id]" value="{$cateId|default='0'}">
         </td>
     </tr>
     <tr>

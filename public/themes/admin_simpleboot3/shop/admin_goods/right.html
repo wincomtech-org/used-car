@@ -37,6 +37,7 @@
 <!-- 各种状态 -->
                 <php>
                     $is_rec = isset($post['is_rec'])?$post['is_rec']:'0';
+                    $is_hot = isset($post['is_hot'])?$post['is_hot']:'0';
                 </php>
                 <tr>
                     <th><b>推荐</b></th>
@@ -46,6 +47,17 @@
                         <div class="checkbox">
                             <label><input type="radio" name="post[is_rec]" value="1" {$is_rec==1?='checked'}> 是</label>
                             <label><input type="radio" name="post[is_rec]" value="0" {$is_rec==0?='checked'}> 否</label>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <th><b>热卖</b></th>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="checkbox">
+                            <label><input type="radio" name="post[is_hot]" value="1" {$is_hot==1?='checked'}> 是</label>
+                            <label><input type="radio" name="post[is_hot]" value="0" {$is_hot==0?='checked'}> 否</label>
                         </div>
                     </td>
                 </tr>

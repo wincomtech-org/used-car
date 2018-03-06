@@ -56,6 +56,20 @@ class ShopGoodsCategoryModel extends UsualCategoryModel
         return $treeStr;
     }
 
+    public function getGoodsTreeArray($cateId=0)
+    {
+        $tree = new Tree();
+        $where = ['delete_time' => 0];
+        $field = 'id,name,parent_id,path';
+
+        $categories = $this->order("list_order ASC")->field($field)->where($where)->select()->toArray();
+        // model('admin/NavMenu')->parseNavMenu4Home($categories);
+        $tree->init($categories);
+        $cateTree = $tree->getTreeArray($cateId);
+
+        return $cateTree;
+    }
+
     // 获取单条数据
     public function getPost($id)
     {
@@ -198,12 +212,13 @@ class ShopGoodsCategoryModel extends UsualCategoryModel
      * @param  integer $cateId [description]
      * @return [type]          [description]
      */
-    public function getAttrByCate($cateId=1)
+    public function getAttrByCate($cateId=1, $attr_value=true)
     {
         $attrs = [];
         $mq1 = Db::name('shop_category_attr');
         $mq2 = Db::name('shop_goods_category');
         $mq3 = Db::name('shop_goods_attr');
+        $mq4 = Db::name('shop_goods_av');
 
         $category_attrIds = $mq1->where('cate_id',$cateId)->column('attr_id');
         if (!empty($category_attrIds)) {
@@ -215,6 +230,16 @@ class ShopGoodsCategoryModel extends UsualCategoryModel
                 $category_attrIds = $mq1->where('cate_id',$pid)->column('attr_id');
                 $attrs = $mq3->field('id,name')->where(['id'=>['in',$category_attrIds]])->select();
             }
+        }
+
+        if ($attr_value===true) {
+            $attrs2 = [];
+            // $attr_ids = array_column($attrs->toArray(), 'id');
+            foreach ($attrs as $key => $row) {
+                $row['value'] = $mq4->field('id,name')->where('attr_id',$row['id'])->select();
+                $attrs2[] = $row;
+            }
+            return $attrs2;
         }
         return $attrs;
     }
