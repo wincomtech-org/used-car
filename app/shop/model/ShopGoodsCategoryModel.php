@@ -1,6 +1,7 @@
 <?php
 namespace app\shop\model;
 
+use think\Db;
 use think\Model;
 use app\usual\model\UsualCategoryModel;
 use tree\Tree;
@@ -32,9 +33,7 @@ class ShopGoodsCategoryModel extends UsualCategoryModel
             $item['checked'] = in_array($item['id'], $currentIds) ? 'checked' : '';
             $item['url']     = cmf_url('shop/Index/index', ['cateId'=>$item['id']]);
             $item['str_action'] = '<a href="'. url("AdminCategory/add", ["parent" => $item['id']]) . '">添加子分类</a> &nbsp; '
-                . '<a href="'. url("AdminCategory/attrs", ["cid" => $item['id']]) . '">查看关联属性</a> &nbsp; '
-                . '<a href="'. url("AdminCategory/attrs_add", ["cid" => $item['id']]) . '">添加关联属性</a> &nbsp; '
-                . '<a href="'. url("AdminSpec/index") . '">关联规格</a> &nbsp; '
+                . '<a href="'. url("AdminCategory/attrs", ["cid" => $item['id']]) . '">关联属性</a> &nbsp; '
                 . '<a href="' . url("AdminCategory/edit", ["id" => $item['id']]) . '">' . lang('EDIT') .'</a> &nbsp; '
                 . '<a class="js-ajax-delete" href="'. url("AdminCategory/delete",['id'=>$item['id']]) .'">'. lang('DELETE') .'</a>'
                 ;
@@ -155,12 +154,69 @@ class ShopGoodsCategoryModel extends UsualCategoryModel
         }
     }
 
-    public function getSpecByCate($cateId='1')
+    // 获取指定级别的上级ID
+    public function getTopid($cateId=0,$level=99)
+    {
+        $find = $this->where('id',$cateId)->value('parent_id');
+        if ($level==0) {
+            return $cateId;
+        } else {
+            if ($find==0) {
+                return $cateId;
+            } else {
+                return $this->getTopid($find,$level-1);
+            }
+        }
+    }
+
+    /**
+     * 获取当前分类下的规格
+     * @param  integer $cateId [description]
+     * @return [type]          [description]
+     */
+    public function getSpecByCate($cateId=1)
     {
         // 判断当前分类规格是否为空，若为空则继承上级，若上级没有关联下级或者没有上级则返回空。
-        $spec = '';
+        $specs = [];
+        $category_specIds = Db::name('shop_category_spec')->where('cate_id',$cateId)->column('spec_id');
+        if (!empty($category_specIds)) {
+            $specs = Db::name('shop_spec')->field('id,name')->where('id','in',$category_specIds)->select();
+        } else {
+            $pid = Db::name('shop_goods_category')->where('id',$cateId)->value('parent_id');
+            $father = Db::name('shop_goods_category')->where('id',$pid)->value('spec_subset');
+            if ($pid>0 && $father==1) {
+                $category_specIds = Db::name('shop_category_spec')->where('cate_id',$pid)->column('spec_id');
+                $specs = Db::name('shop_spec')->field('id,name')->where(['id'=>['in',$category_specIds]])->select();
+            } 
+        }
 
-        return $spec;
+        return $specs;
+    }
+
+    /**
+     * 获取当前分类下的属性
+     * @param  integer $cateId [description]
+     * @return [type]          [description]
+     */
+    public function getAttrByCate($cateId=1)
+    {
+        $attrs = [];
+        $mq1 = Db::name('shop_category_attr');
+        $mq2 = Db::name('shop_goods_category');
+        $mq3 = Db::name('shop_goods_attr');
+
+        $category_attrIds = $mq1->where('cate_id',$cateId)->column('attr_id');
+        if (!empty($category_attrIds)) {
+            $attrs = $mq3->field('id,name')->where(['id'=>['in',$category_attrIds]])->select();
+        } else {
+            $pid = $mq2->where('id',$cateId)->value('parent_id');
+            $father = $mq2->where('id',$pid)->value('attr_subset');
+            if ($pid>0 && $father==1) {
+                $category_attrIds = $mq1->where('cate_id',$pid)->column('attr_id');
+                $attrs = $mq3->field('id,name')->where(['id'=>['in',$category_attrIds]])->select();
+            }
+        }
+        return $attrs;
     }
 
 }

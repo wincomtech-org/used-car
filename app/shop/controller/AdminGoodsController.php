@@ -186,28 +186,32 @@ class AdminGoodsController extends AdminBaseController
 
         $post = $this->scModel->getPost($id);
 
+        $cateModel = new ShopGoodsCategoryModel;
         // 获取分类面包屑
         $cateId = empty($cateId) ? $post['cate_id'] : $cateId;
         if (empty($cateId)) {
             $this->error('请选择分类！');
         }
-        $cateCrumbs = model('ShopGoodsCategory')->cateCrumbs($cateId);
+        $cateCrumbs = $cateModel->cateCrumbs($cateId);
         // 品牌
         $brands = model('ShopBrand')->getBrands($post['brand_id']);
         // 状态
         $statusOptions = $this->scModel->getGoodsStatus($post['status']);
 
-        // 规格
-        // $spec = model('ShopSpec')->
+        // 规格 递归？
+        $specs = $cateModel->getSpecByCate($cateId);
 
         // 属性
-
-
+        $attrs = $cateModel->getAttrByCate($cateId);
+// dump($specs);die;
 
 
         $this->assign('cateCrumbs', $cateCrumbs);
         $this->assign('brands', $brands);
         $this->assign('statusOptions', $statusOptions);
+        $this->assign('specs', $specs);
+        $this->assign('attrs', $attrs);
+
         $this->assign('cateId', $cateId);
         $this->assign('post', $post);
         return $this->fetch();

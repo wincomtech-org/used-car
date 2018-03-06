@@ -43,13 +43,14 @@
                         <div>
                             <div class="form-control">
                                 <foreach name="cate_spec" item="vo">
-                                    <label><input type="checkbox" name="spec[]" value="{$vo.id}"> {$vo.name}</label> &nbsp; &nbsp;
+                                    <label><input type="checkbox" name="spec[]" value="{$vo.id}" {$vo.check}> {$vo.name}</label> &nbsp; &nbsp;
                                 </foreach>
                             </div>
                             <p class="help-block">
-                                <label><input type="checkbox" name="post[spec_subset]" value="1"> 关联到子类</label> &nbsp; &nbsp;
-                                <a target="_blank" href="{:url('AdminSpec/index')}">管理规格</a>
+                                <label><input type="checkbox" name="post[spec_subset]" value="1" {$spec_subset?='checked'}> 应用到子类</label> &nbsp; &nbsp;
+                                <a target="_blank" href="{:url('AdminSpec/index')}">规格管理</a>
                             </p>
+                            <input type="hidden" name="cate_spec_old" value="{$cate_spec_old}">
                         </div>
                     </div>
 
@@ -58,8 +59,8 @@
                         <div>
                             <div class="form-control">{$cate_attr|default=''}</div>
                             <p class="help-block">
-                                <label><input type="checkbox" name="post[attr_subset]" value="1"> 关联到子类</label> &nbsp; &nbsp;
-                                <a target="_blank" href="{:url('attrs',['cid'=>$id])}">管理属性</a>
+                                <label><input type="checkbox" name="post[attr_subset]" value="1" {$attr_subset?='checked'}> 应用到子类</label> &nbsp; &nbsp;
+                                <a target="_blank" href="{:url('attrs',['cid'=>$id])}">属性管理</a>
                             </p>
                         </div>
                     </div>

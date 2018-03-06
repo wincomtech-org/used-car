@@ -72,11 +72,18 @@ class AdminCategoryController extends AdminBaseController
 
             $cateModel = new ShopGoodsCategoryModel();
             // $category = $cateModel->get($id)->toArray();
+
             // 分类树
             $categoriesTree = $cateModel->adminCategoryTree($category['parent_id'], $id);
 
             // 规格列表
-            $cate_spec = Db::name('shop_spec')->field('id,name')->where('status',1)->order('list_order')->select();
+            $specs = Db::name('shop_spec')->field('id,name')->where('status',1)->order('list_order')->select();//规格ID
+            $cate_specIds = Db::name('shop_category_spec')->where('cate_id',$id)->column('spec_id');//原有规格ID
+            foreach ($specs as $rol) {
+                $rol['check'] = (in_array($rol['id'],$cate_specIds)) ? 'checked' : '';
+                $cate_spec[] = $rol;
+            }
+            $cate_spec_old = empty($cate_specIds)?'':implode(',', $cate_specIds);
 
             //分类对应的属性
             $cate_attr = '';
@@ -91,16 +98,18 @@ class AdminCategoryController extends AdminBaseController
                 ->join('shop_goods_attr a', 'a.id=ta.attr_id')
                 ->where('cate_id', $id)->column('a.name');
             $cate_attr = implode(',',$cate_attr);
+
             // 所有属性
-            $attrs = model('ShopGoodsAttr')->getAttrs()->toArray();
+            // $attrs = model('ShopGoodsAttr')->getAttrs()->toArray();
 
             // dump($cate_attr);
             // dump($attrs);exit;
 
             $this->assign($category);
             $this->assign('cate_spec', $cate_spec);
+            $this->assign('cate_spec_old', $cate_spec_old);
             $this->assign('cate_attr', $cate_attr);
-            $this->assign('attrs', $attrs);
+            // $this->assign('attrs', $attrs);
             $this->assign('categories_tree', $categoriesTree);
             return $this->fetch();
         } else {
@@ -118,18 +127,33 @@ class AdminCategoryController extends AdminBaseController
         }
 
         // 规格数据处理
-        $spec = isset($data['spec'])?$data['spec']:'';
-        if (empty($spec)) {
-            $post['spec_subset'] = 0;
-        } elseif (count($spec) == 1) {
-            $map = [['cate_id'=>$post['id'],'spec_id'=>$spec[0]]];
-        } else {
-            foreach ($spec as $row) {
+        $cate_spec_old = empty($data['cate_spec_old']) ? [] : explode(',', $data['cate_spec_old']);//原有规格ID
+        $spec = isset($data['spec']) ? $data['spec'] : [];//规格ID
+
+        // 比较两个数组差集
+        $diff1 = array_diff($cate_spec_old,$spec);
+        $diff2 = array_diff($spec,$cate_spec_old);
+        // 减少的
+        // if (!empty($diff1)) {
+        //     echo "diff1";
+        // } else {
+        //     echo "err1";
+        // }
+        // 增加的
+        if (!empty($diff2)) {
+            // echo "diff2";
+            foreach ($diff2 as $row) {
                 $map[] = ['cate_id'=>$post['id'],'spec_id'=>$row];
             }
+        } else {
+            // echo "err2";
+            $map = [];
         }
 
+        $post['spec_subset'] = isset($post['spec_subset']) ? $post['spec_subset'] : 0;
+
         // 属性单独处理 attrs()
+        $post['attr_subset'] = isset($post['attr_subset']) ? $post['attr_subset'] : 0;
 
         $cateModel = new ShopGoodsCategoryModel();
 
@@ -139,7 +163,8 @@ class AdminCategoryController extends AdminBaseController
         try{
             $cateModel->editCategory($post);
             if (isset($map)) {
-                Db::name('shop_category_spec')->where('cate_id',$post['id'])->delete();
+                // Db::name('shop_category_spec')->where('cate_id',$post['id'])->delete();
+                Db::name('shop_category_spec')->where(['cate_id'=>$post['id'],'spec_id'=>['in',$diff1]])->delete();
                 Db::name('shop_category_spec')->insertAll($map);
             }
             Db::commit();
