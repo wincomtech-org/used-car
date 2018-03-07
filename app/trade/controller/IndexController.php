@@ -83,12 +83,12 @@ class IndexController extends HomeBaseController
         */
         $carModel = new UsualCarModel();
 
-        /*获取请求数据*/
+        /*获取请求数据 typeCast()$type=a/d/f/b/s/gettype()*/
         // $param = $this->request->param();
         // dump($param);die;
-        $keyword = $this->request->param('keyword/s');
-        $oxnum = $this->request->param('oxnum/s');
-        // $jumpext = $this->request->param('jumpext/s','','strval');
+        $keyword = $this->request->param('keyword');
+        $oxnum = $this->request->param('oxnum');
+        // $jumpext = $this->request->param('jumpext','','strval');
         // ID
         $typeId = $this->request->param('typeId','new');
         $brandId = $this->request->param('brandId');// 2大众 4福特
@@ -96,8 +96,8 @@ class IndexController extends HomeBaseController
         $modelId = $this->request->param('modelId');
         $priceId = $this->request->param('priceId');
         // 普通级 optimize => name
-        $car_mileage = $this->request->param('car_mileage/s','','strval');
-        $car_displacement = $this->request->param('car_displacement/s','','strval');
+        $car_mileage = $this->request->param('car_mileage','','strval');
+        $car_displacement = $this->request->param('car_displacement','','strval');
         $car_seating = $this->request->param('car_seating/d',0,'intval');
         // 以下针对item处理 moreTree => ID
         $car_gearbox = $this->request->param('car_gearbox/d',0,'intval');
@@ -105,7 +105,7 @@ class IndexController extends HomeBaseController
         $car_fuel = $this->request->param('car_fuel/d',0,'intval');
         $car_color = $this->request->param('car_color/d',0,'intval');
         // 以下二手车
-        $ageId = $this->request->param('ageId/s','','strval');
+        $ageId = $this->request->param('ageId','','strval');
         // $car_structure = $this->request->param('car_structure/d',0,'intval');
 
         // 处理全站搜索 关键词
@@ -221,7 +221,6 @@ class IndexController extends HomeBaseController
         $string4 = empty($newString4) ? $remain : $newString4;
 
 
-
         /*获取其它筛选相关数据*/
         // 车源类别
         // $Types = model('usual/UsualCar')->getCarType();// option
@@ -249,6 +248,21 @@ class IndexController extends HomeBaseController
         $Prices = ['0~3'=>'3万以下','3~5'=>'3-5万','5~8'=>'5-8万','8~10'=>'8-10万','10~15'=>'10-15万','15~20'=>'15-20万','20~30'=>'20-30万','30~50'=>'30-50万','>50'=>'50万以上'];
         $ages = ['0~1'=>'1年以内','0~3'=>'3年以内','0~5'=>'5年以内','>5'=>'5年以上'];
 
+        // 数据总缓存
+        // $obcache = cache('obcache');
+        // if (empty($obcache)) {
+        //     $obcache = [
+        //         'brands'    => $Brands,
+        //         'series'    => $Series,
+        //         'models'    => $Models,
+        //         'prices'    => $Prices,
+        //         'moreTree'  => $moreTree,
+        //         'types'     => $Types,
+        //         // 'ages'    => $ages,
+        //     ];
+        //     cache('obcache',$obcache);
+        // }
+
 
         /*URL 参数*/
         $string = $string1 . $string4;
@@ -257,23 +271,10 @@ class IndexController extends HomeBaseController
                  . ($typeId ? '&typeId='.$typeId : '')
                  . (empty($priceId) ? '' : '&priceId='.$priceId);
 
-// dump($brandId);
-// dump($priceId);
-// dump($car_gearbox);
-// dump($filter_var_0);
-// dump($filter_var_1);
-// dump($moreTree);
-// dump($extra);
-// dump($arr);
-// dump($string);
-// dump($jumpext);
-// die;
 
         /*车辆买卖 车辆数据*/
         // 列表 数据库查询
         $carlist = $carModel->getLists($filter, $order, $limit, $extra);
-// print_r($carlist);
-// echo Db::getLastSql();
 
 
         /*模板赋值*/
@@ -315,8 +316,6 @@ class IndexController extends HomeBaseController
         $this->assign('pager', $carlist->render());// 获取分页代码并赋到模板
 
         return $this->fetch('platform'.$plat);
-        // return $this->fetch();
-        // return $this->fetch('platform2');
     }
 
 

@@ -294,7 +294,7 @@ class AdminGoodsController extends AdminBaseController
         // $row = $this->scModel->where('id', $id)->update($post);
 
         if ($result === 1) {
-            lothar_admin_log('编辑商品-id:' . $id . '-name:' . $post['name']);
+            // lothar_admin_log('编辑商品-id:' . $id . '-name:' . $post['name']);
             $this->success('修改成功', url('index'));
         } else {
             $this->error('修改失败');

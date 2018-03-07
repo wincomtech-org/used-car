@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>车辆买卖 - {$site_info.site_name|default=''}</title>
+    <title>服务商城 - {$site_info.site_name|default=''}</title>
     <meta name="keywords" content="{$site_info.site_seo_keywords|default=''}"/>
     <meta name="description" content="{$site_info.site_seo_description|default=''}">
 
     <include file="public@head"/>
-      <!-- 服务商城css -->
-      <link href='__TMPL__/public/assets/css/shop.css' type="text/css" rel="stylesheet">
+    <!-- 服务商城css -->
+    <link href='__TMPL__/public/assets/css/shop.css' type="text/css" rel="stylesheet">
     <hook name="before_head_end"/>
 </head>
 <body>
@@ -21,41 +21,46 @@
     <section class="vehiTrad" id="AAA">
 
         <div class="main">
-             <h3 class="index_tit">二手车商城<span class="index_tit_supply">一体化的服务流程，为您带来便捷生活 </span></h3>
+             <h3 class="index_tit">服务商城<span class="index_tit_supply">一体化的服务流程，为您带来便捷生活 </span></h3>
             <!-- 车辆买卖条件筛选 -->
             <div class="vehiTrad_tit">
-                <!-- 品牌 -->
+                <!-- 热搜 -->
+                <!-- 分类 -->
                 <div class="vehiTrad_tit_list">
-                    <span class="vehiTrad_tit_condition">品牌</span>
+                    <span class="vehiTrad_tit_condition">分类</span>
                     <div class="vehiTrad_tit_item">
                         <ul class="vehiTrad_tit_item_con">
-                            <li <empty name="brandId">class="active"</empty>>
-                                <a href="{:url('trade/Index/platform', $jumpext.'&brandId=null')}#AAA">不限</a>
+                            <li <empty name="cate">class="active"</empty>>
+                                <a href="{:url('shop/Index/lists', $jumpext.'&cate=')}#AAA">不限</a>
                             </li>
-                            <foreach name="Brands" item="vo">
-                            <li {$brandId==$vo.id?='class="active"'}>
-                                <a href="{:url('trade/Index/platform', $jumpext.'&brandId='.$vo.id)}#AAA">{$vo.name}</a>
+                            <notempty name="categories">
+                            <foreach name="categories" item="vo">
+                            <li {$cate==$vo.id?='class="active"'}>
+                                <a href="{:url('shop/Index/lists', $jumpext.'&cate='.$vo.id)}#AAA">{$vo.name}</a>
                             </li>
                             </foreach>
+                            </notempty>
                         </ul>
                         <div class="more">
                             全部<span class="icon"> < </span>
                         </div>
                     </div>
                 </div>
-                <!-- 车系 -->
+                <!-- 品牌 -->
                 <div class="vehiTrad_tit_list">
-                    <span class="vehiTrad_tit_condition">类型</span>
+                    <span class="vehiTrad_tit_condition">品牌</span>
                     <div class="vehiTrad_tit_item">
                         <ul class="vehiTrad_tit_item_con">
-                            <li <empty name="serieId">class="active"</empty>>
-                                <a href="{:url('trade/Index/platform', $jumpext.'&serieId=null')}#AAA">不限</a>
+                            <li <empty name="brand">class="active"</empty>>
+                                <a href="{:url('shop/Index/lists', $jumpext.'&brand=null')}#AAA">不限</a>
                             </li>
-                            <foreach name="Series" item="vo">
-                            <li {$serieId==$vo.id?='class="active"'}>
-                                <a href="{:url('trade/Index/platform', $jumpext.'&serieId='.$vo.id)}#AAA">{$vo.name}</a>
+                            <notempty name="brands">
+                            <foreach name="brands" item="vo">
+                            <li {$brand==$vo.id?='class="active"'}>
+                                <a href="{:url('shop/Index/lists', $jumpext.'&brand='.$vo.id)}#AAA">{$vo.name}</a>
                             </li>
                             </foreach>
+                            </notempty>
                         </ul>
                         <div class="more">
                             全部<span class="icon"> < </span>
@@ -68,18 +73,19 @@
                     <div class="vehiTrad_tit_item">
                      
                         <div class="price_filtet">
-                            <form action="">
+                            <form action="" method="POST">
                                 <ul class='price_filtet clearfix'>
                                     <li class='input-wraper'>
                                         <span class='rmb'>￥</span>
-                                        <input type="number" value=''class='price-input' min='0' required>
+                                        <input type="number" name="priceMin" value="{$priceMin|default=''}" class='price-input' min='0' required>
                                     </li>
                                     <li class='dash'>-</li>
                                     <li class='input-wraper'>
                                         <span class='rmb'>￥</span>
-                                        <input type="number" value=''class='price-input' min='0' required>
+                                        <input type="number" name="priceMax" value="{$priceMax|default=''}" class='price-input' min='0' required>
                                     </li>
                                     <li class='input-submit'>
+                                        <input type="hidden" name="jumpext" value="{$jumpext}">
                                         <button class='price-btn btn-small backg-red' type='submit'>确定</button>
                                     </li>
                                 </ul>
@@ -92,51 +98,24 @@
                 <div class="vehiTrad_tit_list">
                     <span class="vehiTrad_tit_condition">其它</span>
                     <div class="vehiTrad_tit_item_other">
-                        <!-- model -->
-                        <div class="vehiTrad_tit_item_other_list">
-                            <p>颜色</p>
-                            <ul style="display:none;">
-                                <foreach name="Models" item="vo">
-                                <li {$modelId==$vo.id?='class="active"'}><a href="{:url('trade/Index/platform', $jumpext.'&modelId='.$vo.id)}#AAA">{$vo.name}</a></li>
-                                </foreach>
-                            </ul>
-                        </div>
-                        <div class="vehiTrad_tit_item_other_list">
-                            <p>发货地</p>
-                            <ul style="display:none;">
-                                <foreach name="Models" item="vo">
-                                <li {$modelId==$vo.id?='class="active"'}><a href="{:url('trade/Index/platform', $jumpext.'&modelId='.$vo.id)}#AAA">{$vo.name}</a></li>
-                                </foreach>
-                            </ul>
-                        </div>
-                        <div class="vehiTrad_tit_item_other_list">
-                            <p>包邮</p>
-                            <ul style="display:none;">
-                                <foreach name="Models" item="vo">
-                                <li {$modelId==$vo.id?='class="active"'}><a href="{:url('trade/Index/platform', $jumpext.'&modelId='.$vo.id)}#AAA">{$vo.name}</a></li>
-                                </foreach>
-                            </ul>
-                        </div>
                         <!-- 普通级 optimize -->
                         <div class="vehiTrad_tit_item_other_list">
-                            <p>发货地</p>
+                            <p>属性</p>
                             <ul style="display:none;">
-                                <foreach name="ages" item="vo" key="key">
-                                <li {$ageId===$key?='class="active"'}>
-                                    <a href="{:url('trade/Index/platform', $jumpext.'&ageId='.$key)}#AAA">{$vo}</a>
-                                </li>
-                                </foreach>
+                                <!-- <li class="active"><a href="#AAA">属性值</a></li> -->
+                                <li><a href="#AAA">属性值2</a></li>
+                                <li><a href="#AAA">属性值3</a></li>
                             </ul>
                         </div>
 
                         <!-- 以下针对item -->
                         <foreach name="moreTree" item="vo">
                         <div class="vehiTrad_tit_item_other_list">
-                            <p>{$vo.name}</p>
-                            <notempty name="vo.form_element">
+                            <p>{$vo.name|default=''}</p>
+                            <notempty name="vo.value">
                             <ul style="display:none;">
-                                <foreach name="vo.form_element" item="v">
-                                <li {$$vo.code==$v.id?='class="active"'}><a href="{:url('trade/Index/platform', $jumpext.'&'.$vo.code.'='.$v.id)}#AAA">{$v.description?$v.description:$v.name.$vo.unit}</a></li>
+                                <foreach name="vo.value" item="v">
+                                <li><a href="{:url('shop/Index/lists', $jumpext.'&curVal='.$v['id'])}#AAA">{$v.name}</a></li>
                                 </foreach>
                             </ul>
                             </notempty>
@@ -147,7 +126,6 @@
             </div>
 
             <!-- 筛选出来的内容 -->
-    
             <div class="sel_shop clearfix">
                 <div class="remai_div  border-box">
                     <div class="div_img">
@@ -238,15 +216,7 @@
     <include file="public@scripts" />
     <hook name="before_body_end" />
 </body>
-<script>
-    function changeBrand(o){
-        var brandId = $(o).attr('data-val');
-
-        $.post('{:url("usual/Ajax/serieByBrand")}', {brandId: brandId}, function(data) {
-            $('#input-series').html(data);
-        });
-    }
-
-  
+<script type="text/javascript">
+    
 </script>
 </html>

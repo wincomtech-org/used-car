@@ -89,14 +89,9 @@ class ShopGoodsModel extends UsualModel
             $glist[$row['cate_id_1']][] = $row;
         }
         foreach ($cateIds as $key) {
-            $list[$key] = [
-                'cate' => $cates[$key],
-                'goods'=> (isset($glist[$key]) ? $glist[$key] : [])
-            ];
+            $cates[$key]['goods'] = isset($glist[$key]) ? $glist[$key] : [];
         }
-        return $list;
-
-        return $glist;
+        return $cates;
     }
 
     // 热卖

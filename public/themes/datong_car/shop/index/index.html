@@ -159,19 +159,18 @@
             <foreach name="goodslist" item="vo">
             <div class="shop-group">
                 <div class="shop-group-tit ">
-                    <php>$cate = $vo['cate'];</php>
-                    <h3>{$cate.name}</h3>
+                    <h3>{$vo.name}</h3>
                     <div class="shop-group-tit-list clearfix">
-                        <notempty name="cate.children">
+                        <notempty name="vo.children">
                         <ul class='shop-group-tit-ul clearfix'>
-                            <foreach name="cate.children" item="child">
-                                <li><a href="{:url('Index/list',['cid'=>$child.id])}">{$child.name}</a></li>
+                            <foreach name="vo.children" item="child">
+                                <li><a href="{:url('Index/lists',['cid'=>$child.id])}">{$child.name}</a></li>
                             </foreach>
                             <!-- <li class='backg-red'><a href="">润滑油</a></li> -->
                         </ul>
                         </notempty>
                         <div class="more-style">
-                            <a href="{:url('Index/list',['cid'=>$cate.id])}">更多&nbsp;&gt;</a>
+                            <a href="{:url('Index/lists',['cid'=>$vo.id])}">更多&nbsp;&gt;</a>
                         </div>
                     </div>
 
