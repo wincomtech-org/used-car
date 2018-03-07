@@ -68,7 +68,7 @@
                     <div class="vehiTrad_tit_item">
                         <ul class="vehiTrad_tit_item_con">
                             <li <empty name="priceId">class="active"</empty>>
-                                <a href="{:url('trade/Index/platform', $jumpext.'&priceId=null')}#AAA">不限</a>
+                                <a href="{:url('trade/Index/platform', $jumpext.'&priceId=')}#AAA">不限</a>
                             </li>
                             <foreach name="Prices" item="vo" key="key">
                             <li <if condition="$priceId===$key">class="active"</if>>

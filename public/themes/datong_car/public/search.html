@@ -1,11 +1,22 @@
 <div class="search">
-    <form action="" method="post" class="js-ajax-form">
-    <label>
-        <input class="ser_input placeholder" type="text" name="keyword" value="{:input('param.keyword','')}" placeholder="车辆标题、品牌、车系">
+    <form action="" method="post" id="globalSearch">
+        <label>
+            <input class="ser_input placeholder" type="text" name="keyword" value="{:input('param.keyword','')}" placeholder="车辆标题、品牌、车系">
 
-        <!-- <input class="ser_button" type="submit" value="立刻搜索"> -->
-        <button type="submit" class="ser_button js-ajax-submit" data-action="{:cmf_url('trade/Index/platform',['plat'=>1])}">搜新车</button>
-        <button type="submit" class="ser_button js-ajax-submit" data-action="{:cmf_url('trade/Index/platform',['plat'=>2])}">搜二手</button>
-    </label>
+            <button class="ser_button" onclick="newCarAction()"/>搜新车</button>
+            <button class="ser_button" onclick="oldCarAction()"/>搜二手</button>
+        </label>
     </form>
 </div>
+
+<script type="text/javascript">
+    function newCarAction(){
+        $('#globalSearch').attr('action',"{:cmf_url('trade/Index/platform',['plat'=>1])}");
+        $('#globalSearch').submit();
+    }
+
+    function oldCarAction(){
+        $('#globalSearch').attr('action',"{:cmf_url('trade/Index/platform',['plat'=>2])}");
+        $('#globalSearch').submit();
+    }
+</script>

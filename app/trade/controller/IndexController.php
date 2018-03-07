@@ -36,21 +36,11 @@ class IndexController extends HomeBaseController
     public function platform()
     {
         // 写在前面
-        $data = $this->request->param();
-        $plat = $this->request->param('plat',1,'intval');
-        if ($plat==3) {
-            $this->success('进入服务商城……',url('shop/Index/index',$data));
-        }
-        if (!in_array($plat,[1,2,3])) $data['plat'] = 1;
-
-        $this->success('进入'.($plat==1?'新车':'二手车').'商城……',url('trade/Index/platform2',$data));
-        // $this->redirect('trade/Index/platform2',$data);
-    }
-
-    public function platform2()
-    {
-        // 写在前面
         $plat = $this->request->param('plat',2,'intval');
+        if ($plat==3) {
+            $this->redirect('shop/Index/index');
+        }
+        if (!in_array($plat,[1,2,3])) $plat = 2;
 
         // 实例化
         $serieModel = new UsualSeriesModel();

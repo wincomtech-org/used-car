@@ -1,0 +1,36 @@
+<div class="search">
+<!-- <form action="" method="post" class="js-ajax-form"> -->
+<form method="post" name="usercartform" id="globalSearch">
+    <label>
+        <input class="ser_input placeholder" type="text" name="keyword" value="{:input('param.keyword','')}" placeholder="车辆标题、品牌、车系">
+
+        <!-- <input type="hidden" name="js" value="true"> -->
+        <!-- <input class="ser_button" type="button" value="搜新车" onclick="newCarAction()" />
+        <input class="ser_button" type="button" value="搜二手" onclick="oldCarAction()" /> -->
+
+        <!-- <button type="button" class="ser_button" onclick="newCarAction()"/>搜新车</button>
+        <button class="ser_button" onclick="oldCarAction()"/>搜二手</button> -->
+
+        <input type="button" value="导出Excel" type="submit" onclick="usercartform.action='http://www.baidu.com';usercartform.submit();"/>
+        <input type="button" value="删除" type="submit" onclick="usercartform.action='http://www.wowlothar.cn';usercartform.submit();" />
+
+        <!-- <button type="submit" class="ser_button js-ajax-submit1" data-action="{:cmf_url('trade/Index/platform',['plat'=>1])}">搜新车</button>
+        <button type="submit" class="ser_button js-ajax-submit" data-action="{:cmf_url('trade/Index/platform',['plat'=>2])}">搜二手</button> -->
+    </label>
+</form>
+</div>
+
+<script type="text/javascript">
+    function newCarAction(){
+        alert("{:cmf_url('trade/Index/platform',['plat'=>1])}")
+        // document.globalSearch.action="{:cmf_url('trade/Index/platform',['plat'=>1])}";
+        $('#globalSearch').action="{:cmf_url('trade/Index/platform',['plat'=>1])}";
+        // document.globalSearch.submit();
+        $('#globalSearch').submit();
+    }
+
+    function oldCarAction(){
+        document.globalSearch.action="{:cmf_url('trade/Index/platform',['plat'=>2])}";
+        document.globalSearch.submit();
+    }
+</script>
