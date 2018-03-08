@@ -115,22 +115,31 @@
                     </div>
                 </div>
             </div>
-            <div class="form-group">
-                <input type="hidden" name="post[id]" value="{$id}">
-                <button type="submit" class="btn btn-primary js-ajax-submit1" data-refresh="0">{:lang('SAVE')}
-                </button>
-                <a class="btn btn-default" href="{:url('AdminCategory/index')}">{:lang('BACK')}</a>
-            </div>
         </div>
         <div class="col-md-3">
             <div class="form-group">
-                <label for="input-seo_title">状态</label>
+                <label>推荐</label>
+                <div class="checkbox">
+                    <label><input type="radio" name="post[is_rec]" value="1" {$is_rec?='checked'}> 是</label>
+                    <label><input type="radio" name="post[is_rec]" value="0" {$is_rec==0?='checked'}> 否</label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>状态</label>
                 <div>
                     <select class="form-control" name="post[status]">
                         <option {$status==1?='selected'} value="1">显示</option>
                         <option {$status==0?='selected'} value="0">隐藏</option>
                     </select>
                 </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <input type="hidden" name="post[id]" value="{$id}">
+                <button type="submit" class="btn btn-primary js-ajax-submit1" data-refresh="0">{:lang('SAVE')}
+                </button>
+                <a class="btn btn-default" href="javascript:history.back(-1);">{:lang('BACK')}</a>
             </div>
         </div>
         </form>

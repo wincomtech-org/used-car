@@ -1,0 +1,58 @@
+<include file="public@header"/>
+</head>
+<body>
+<div class="wrap js-check-wrap">
+    <ul class="nav nav-tabs">
+        <li><a href="{:url('AdminCategory/index')}">分类管理</a></li>
+        <li><a href="{:url('AdminCategory/add')}">添加分类</a></li>
+        <li><a>|</a></li>
+        <li><a href="javascript:void(0);">分类属性</a></li>
+        <li><a href="{:url('AdminCategory/attrs_add')}">添加分类属性</a></li>
+        <li class="active"><a href="javascript:void(0);">编辑分类属性</a></li>
+    </ul>
+    <div class="row margin-top-20">
+        <div class="col-md-1">
+            <div class="list-group">
+                <a class="list-group-item" href="#A" data-toggle="tab">基本属性</a>
+                <!-- <a class="list-group-item" href="#B" data-toggle="tab">SEO设置</a> -->
+            </div>
+        </div>
+        <form class="js-ajax-form" action="{:url('AdminCategory/attrs_editPost')}" method="post">
+        <div class="col-md-8">
+            <!-- <div class="form-group">
+                <label>分类名称</label>
+                <div>
+                    <input type="text" class="form-control" value="{$name|default=''}">
+                </div>
+            </div> -->
+
+            <div class="form-group">
+                <label>属性名称</label>
+                <div>
+                    <p class="form-control">{$name|default=''}</p>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>是否查询</label>
+                <div class="checkbox">
+                    <label><input type="radio" name="is_query" value="1" {$is_query==1?='checked'}> 是</label>
+                    <label><input type="radio" name="is_query" value="0" {$is_query==0?='checked'}> 否</label>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-1 col-sm-10">
+                <input type="hidden" name="id" value="{$id}">
+                <input type="hidden" name="cate_id" value="{$cate_id}">
+                <button type="submit" class="btn btn-primary js-ajax-submit1" data-refresh="0">{:lang('SAVE')}
+                </button>
+                <a class="btn btn-default" href="javascript:history.back(-1);">{:lang('BACK')}</a>
+            </div>
+        </div>
+        </form>
+    </div>
+</div>
+<script type="text/javascript" src="__STATIC__/js/admin.js"></script>
+</body>
+</html>

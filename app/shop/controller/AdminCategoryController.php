@@ -371,6 +371,58 @@ tpl;
     }
 
     /**
+     * 分类属性编辑
+     * @adminMenu(
+     *     'name'   => '分类属性编辑',
+     *     'parent' => 'index',
+     *     'display'=> false,
+     *     'hasView'=> true,
+     *     'order'  => 10,
+     *     'icon'   => '',
+     *     'remark' => '分类属性编辑',
+     *     'param'  => ''
+     * )
+     */
+    public function attrs_edit()
+    {
+        $id = $this->request->param('id/d',0);
+
+        $post = Db::name('shop_category_attr')
+            ->alias('a')
+            ->field('a.id,a.cate_id,a.is_query,a.list_order,b.name')
+            ->join('shop_goods_attr b','a.attr_id=b.id')
+            ->where('a.id',$id)->find();
+
+        $this->assign($post);
+        return $this->fetch();
+    }
+    /**
+     * 分类属性编辑执行
+     * @adminMenu(
+     *     'name'   => '分类属性编辑执行',
+     *     'parent' => 'index',
+     *     'display'=> false,
+     *     'hasView'=> false,
+     *     'order'  => 10,
+     *     'icon'   => '',
+     *     'remark' => '分类属性编辑执行',
+     *     'param'  => ''
+     * )
+     */
+    public function attrs_editPost()
+    {
+        $data = $this->request->param();
+
+        $result = Db::name('shop_category_attr')->update($data);
+
+        if (empty($result)) {
+            $this->error('修改失败');
+        }
+
+        $this->success('修改成功',url('attrs',['cid'=>$data['cate_id']]));
+    }
+
+    /**
      * 分类属性状态修改
      * @adminMenu(
      *     'name'   => '分类属性状态修改',

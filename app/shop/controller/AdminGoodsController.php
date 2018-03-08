@@ -113,7 +113,7 @@ class AdminGoodsController extends AdminBaseController
         // 规格 递归？
         $specs = $cateModel->getSpecByCate($cateId);
         // 属性
-        $attrs = $cateModel->getAttrByCate($cateId);
+        $attrs = $cateModel->getAttrByCate($cateId,[]);
 
 
         $this->assign('cateCrumbs', $cateCrumbs);
@@ -222,7 +222,7 @@ class AdminGoodsController extends AdminBaseController
         $specs = $cateModel->getSpecByCate($cateId);
 
         // 属性
-        $attrs = $cateModel->getAttrByCate($cateId);
+        $attrs = $cateModel->getAttrByCate($cateId,[]);
 // dump($attrs);die;
 
 

@@ -48,19 +48,20 @@ class HomeBaseController extends BaseController
             // 用户数据
             // $this->user = cmf_get_current_user();
             // 服务商城分类树
-            $goodscate = model('shop/ShopGoodsCategory')->getGoodsTreeArray();
+            // $goodscate = model('shop/ShopGoodsCategory')->getGoodsTreeArray();
 
             $cbc = cache('cbc',[
                 'navMenus'  => $navMenus,
                 'friendLink'=> $friendLink,
                 'slides'    => $slides,
-                'goodscate' => $goodscate,
+                // 'goodscate' => $goodscate,
             ],3600);
         }
 
         // 服务商城分类树
         $goodscate = model('shop/ShopGoodsCategory')->getGoodsTreeArray();
 // dump($goodscate);die;
+
         View::share('site_info', $siteInfo);
         View::share('navMenus', $cbc['navMenus']);
         View::share('share_friendLink', $cbc['friendLink']);

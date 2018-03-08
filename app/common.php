@@ -233,7 +233,7 @@ function lothar_popup($msg = '', $code = 1, $url = null, $data = '', $wait = 3)
 /*缩略图生成*/
 function lothar_thumb_url($imgpath, $width = 350, $height = 350)
 {
-    if (strpos($imgpath, "http") === 0) {
+    if (strpos($imgpath,'http')===0) {
         return $imgpath;
     } else if (strpos($imgpath, "/") === 0) {
         return cmf_get_domain() . $imgpath;

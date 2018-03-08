@@ -112,6 +112,7 @@ class BaseController extends Controller
     /**
      * 缩略图生成
      * 模板中：{:cmf_url('portal/Index/thumbUrl',['img'=>urlencode('default/20171225/logo_lucency.png')])}
+     * urlencode() 、 urldecode()解决特殊字符转义问题
      * @param  string  $image  [description]
      * @param  integer $width  [description]
      * @param  integer $height [description]

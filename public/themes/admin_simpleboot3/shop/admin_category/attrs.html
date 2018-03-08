@@ -6,6 +6,7 @@
         <ul class="nav nav-tabs">
             <li><a href="{:url('AdminCategory/index')}">分类管理</a></li>
             <li><a href="{:url('AdminCategory/add')}">添加分类</a></li>
+            <li><a>|</a></li>
             <li class="active"><a href="javascript:void(0);">分类属性</a></li>
             <li><a href="{:url('AdminCategory/attrs_add',['cid'=>$data.cid])}">添加分类属性</a></li>
         </ul>
@@ -41,10 +42,10 @@
                         </th>
                         <th width="50">排序</th>
                         <th width="50">ID</th>
-                        <th>分类名</th>
-                        <th>属性名称</th>
-                        <th>是否前台查询</th>
-                        <th width="90">操作</th>
+                        <th width="160">分类名</th>
+                        <th width="230">属性名称</th>
+                        <th width="130">是否前台查询</th>
+                        <th>操作</th>
                     </tr>
                 </thead>
                 <foreach name="list" item="vo">
@@ -70,6 +71,7 @@
                             </eq>
                         </td>
                         <td>
+                            <a href="{:url('attrs_edit',['id'=>$vo.id])}">{:lang('EDIT')}</a> &nbsp; &nbsp;
                             <a href="{:url('delete1',['id'=>$vo.id])}" class="js-ajax-delete">{:lang('DELETE')}</a>
                         </td>
                     </tr>

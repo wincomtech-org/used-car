@@ -32,6 +32,8 @@ class ShopGoodsCategoryModel extends UsualCategoryModel
         foreach ($categories as $item) {
             $item['checked']    = in_array($item['id'], $currentIds) ? 'checked' : '';
             $item['url']        = cmf_url('shop/Index/index', ['cateId' => $item['id']]);
+            $item['is_rec']     = $item['is_rec']==1 ? '<a data-toggle="tooltip" title="已推荐"><i class="fa fa-thumbs-up"></i></a>' : '<a style="color:#F00" data-toggle="tooltip" title="未推荐"><i class="fa fa-thumbs-down"></i></a>' ;
+            $item['status']     = $item['status']==1 ? '<a data-toggle="tooltip" title="显示"><i class="fa fa-check"></i></a>' : '<a style="color:#F00" data-toggle="tooltip" title="隐藏"><i class="fa fa-close"></i></a>';
             $item['str_action'] = '<a href="' . url("AdminCategory/add", ["parent" => $item['id']]) . '">添加子分类</a> &nbsp; '
             . '<a href="' . url("AdminCategory/attrs", ["cid" => $item['id']]) . '">关联属性</a> &nbsp; '
             . '<a href="' . url("AdminCategory/edit", ["id" => $item['id']]) . '">' . lang('EDIT') . '</a> &nbsp; '
@@ -48,6 +50,8 @@ class ShopGoodsCategoryModel extends UsualCategoryModel
                         <td>\$id</td>
                         <td>\$spacer <a href='\$url' target='_blank'>\$name</a></td>
                         <td>\$description</td>
+                        <td>\$is_rec</td>
+                        <td>\$status</td>
                         <td>\$str_action</td>
                     </tr>";
         }
@@ -174,7 +178,7 @@ class ShopGoodsCategoryModel extends UsualCategoryModel
      * 获取子集分类
      * 无子集返回同级（分类数据不要查数据库了）
      */
-    public function getChildren($cateId=0)
+    public function getCateChildren($cateId=0)
     {
         $where = [
             'status' => 1,
@@ -183,44 +187,60 @@ class ShopGoodsCategoryModel extends UsualCategoryModel
 
         $child = $this->where(['parent_id'=>$cateId])->count();
         if ($child>0) {
-            $categories = $this->field($field)->order('list_order')->where($where)->where(['parent_id'=>$cateId])->select();
+            $categories = $this->field($field)->order('list_order')->where($where)->where(['parent_id'=>$cateId])->select()->toArray();
         } else {
-            $father = $this->where('id',$cateId)->value('parent_id');
-            $categories = $this->field($field)->order('list_order')->where($where)->where(['parent_id'=>$father])->select();
+            $table = Db::getTable('shop_goods_category');
+            // $father = $this->where('id',$cateId)->value('parent_id');
+            // $categories = $this->field($field)->order('list_order')->where($where)->where(['parent_id'=>$father])->select();
+            $categories = Db::query(sprintf('SELECT `id`,`name` FROM `%s` WHERE `status`=1 AND `parent_id`=(SELECT `parent_id` FROM `%s` WHERE `id`=%s) ORDER BY list_order',$table,$table,$cateId));
         }
         
-
         return $categories;
     }
     /*
      * 获取所有子集
      * 不需要递归
+     * 带自定义条件、排序、数据条数
     */
-    public function getChildrens($cateId=0)
+    public function getCateChildrens($cateId=0, $condition=['is_rec'=>1], $order='is_rec desc', $limit=25)
     {
         $where = [
             'status' => 1,
         ];
         $field = 'id,name';
+        $sort = 'list_order';
+        
         if ($cateId==0) {
-            $categories = $this->field($field)->order('list_order')->where($where)->limit(20)->select();
+            $categories = $this->field($field)
+                ->where($where)->where($condition)
+                ->order($order)->order($sort)
+                ->limit($limit)->select()->toArray();
         } else {
             $child = $this->where(['parent_id'=>$cateId])->count();
             if ($child>0) {
-                $path = $this->where(['id'=>$cateId])->value('path');
-                // dump($path);die;
-                $categories = $this->field($field)->order('list_order')->where($where)->where(['path'=>['like',$path.'-%']])->select();
+                // $path = $this->where(['id'=>$cateId])->value('path');
+                // $categories = $this->field($field)->order($sort)->where($where)->where(['path'=>['like',$path.'-%']])->select();
+                $subSql = Db::name('shop_goods_category')->field('path')->where('id',$cateId)->buildSql();
+                $categories = Db::name('shop_goods_category')->field($field)
+                    ->where($where)->where("path LIKE concat($subSql,'-%') ")
+                    ->order($order)->order($sort)
+                    ->limit($limit)
+                    ->select()->toArray();
             } else {
                 $path = $this->where(['id'=>$cateId])->value('path');
                 $path = substr($path,0,-strlen($cateId));
-                $categories = $this->field($field)->order('list_order')->where($where)->where(['path'=>['like',$path.'%']])->select();
+                $categories = $this->field($field)
+                    ->where($where)->where(['path'=>['like',$path.'%']])
+                    ->order($order)->order($sort)
+                    ->limit($limit)
+                    ->select()->toArray();
             }
         }
 
-        return $categories->toArray();
+        return $categories;
     }
     // 获取同级分类
-    public function getSibling($cateId=0)
+    public function getCateSibling($cateId=0)
     {
         # code...
     }
@@ -275,7 +295,7 @@ class ShopGoodsCategoryModel extends UsualCategoryModel
      * @param  boolean $attr_value [description]
      * @return [type]              [description]
      */
-    public function getAttrByCate($cateId = 1, $condition = [], $attr_value = true)
+    public function getAttrByCate($cateId=1, $condition=['is_query'=>1], $attr_value=true)
     {
         $attrs = $attrs2 = [];
         $mq1   = Db::name('shop_category_attr');
@@ -285,33 +305,35 @@ class ShopGoodsCategoryModel extends UsualCategoryModel
         $atk   = (is_null($cateId)) ? true : false; //为空时使用推荐属性？
 
         if ($atk === true) {
-            $attrs = $mq3->field('id,name')->where('status',1)->limit(9)->select();
+            // $attrs = $mq3->field('id,name')->where('status',1)->limit(9)->select();
         } else {
-            $category_attrIds = $mq1->where('cate_id', $cateId)->column('attr_id');
+            $category_attrIds = $mq1->where('cate_id', $cateId)->where($condition)->column('attr_id');
             if (!empty($category_attrIds)) {
                 $attrs = $mq3->field('id,name')->where(['id' => ['in', $category_attrIds]])->select();
             } else {
                 $pid    = $mq2->where('id', $cateId)->value('parent_id');
                 $father = $mq2->where('id', $pid)->value('attr_subset');
                 if ($pid > 0 && $father == 1) {
-                    $category_attrIds = $mq1->where('cate_id', $pid)->column('attr_id');
+                    $category_attrIds = $mq1->where('cate_id', $pid)->where($condition)->column('attr_id');
                     $attrs            = $mq3->field('id,name')->where(['id' => ['in', $category_attrIds]])->select();
                 }
             }
         }
-        foreach ($attrs as $row) {
-            $attrs2[$row['id']] = $row;
-        }
 
-        // 属性值处理
-        if ($attr_value === true) {
-            $attr_ids = array_column($attrs2, 'id');
-            $values = $mq4->field('id,name,attr_id')->where(['attr_id'=>['in',$attr_ids]])->select();
-            foreach ($values as $row) {
-                $values2[$row['attr_id']][] = $row;
+        if (!empty($attrs)) {
+            foreach ($attrs as $row) {
+                $attrs2[$row['id']] = $row;
             }
-            foreach ($attr_ids as $key) {
-                $attrs2[$key]['value'] = isset($values2[$key]) ? $values2[$key] : [];
+            // 属性值处理
+            if ($attr_value === true) {
+                $attr_ids = array_column($attrs2, 'id');
+                $values = $mq4->field('id,name,attr_id')->where(['attr_id'=>['in',$attr_ids]])->select();
+                foreach ($values as $row) {
+                    $values2[$row['attr_id']][] = $row;
+                }
+                foreach ($attr_ids as $key) {
+                    $attrs2[$key]['value'] = isset($values2[$key]) ? $values2[$key] : [];
+                }
             }
         }
 

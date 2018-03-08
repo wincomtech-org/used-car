@@ -21,7 +21,7 @@
     <section class="vehiTrad" id="AAA">
 
         <div class="main">
-             <h3 class="index_tit">服务商城<span class="index_tit_supply">一体化的服务流程，为您带来便捷生活 </span></h3>
+            <h3 class="index_tit">服务商城<span class="index_tit_supply">一体化的服务流程，为您带来便捷生活 </span></h3>
             <!-- 车辆买卖条件筛选 -->
             <div class="vehiTrad_tit">
                 <!-- 热搜 -->
@@ -96,118 +96,60 @@
 
                 <!-- 其它 -->
                 <div class="vehiTrad_tit_list">
+                <notempty name="attrTree">
                     <span class="vehiTrad_tit_condition">其它</span>
                     <div class="vehiTrad_tit_item_other">
                         <!-- 普通级 optimize -->
-                        <div class="vehiTrad_tit_item_other_list">
+                        <!-- <div class="vehiTrad_tit_item_other_list">
                             <p>属性</p>
                             <ul style="display:none;">
-                                <!-- <li class="active"><a href="#AAA">属性值</a></li> -->
+                                <li class="active"><a href="#AAA">属性值</a></li>
                                 <li><a href="#AAA">属性值2</a></li>
                                 <li><a href="#AAA">属性值3</a></li>
                             </ul>
-                        </div>
+                        </div> -->
 
                         <!-- 以下针对item -->
-                        <foreach name="moreTree" item="vo">
+                        <foreach name="attrTree" item="vo">
                         <div class="vehiTrad_tit_item_other_list">
                             <p>{$vo.name|default=''}</p>
                             <notempty name="vo.value">
                             <ul style="display:none;">
                                 <foreach name="vo.value" item="v">
-                                <li><a href="{:url('shop/Index/lists', $jumpext.'&curVal='.$v['id'])}#AAA">{$v.name}</a></li>
+                                <li><a href="{:url('shop/Index/lists', $jumpext.'&oxnum='.$oxnum.'_'.$v['id'])}#AAA">{$v.name}</a></li>
                                 </foreach>
                             </ul>
                             </notempty>
                         </div>
                         </foreach>
                     </div>
+                </notempty>
                 </div>
             </div>
 
-            <!-- 筛选出来的内容 -->
+            <!-- 筛选出来的商品数据内容 -->
             <div class="sel_shop clearfix">
-                <div class="remai_div  border-box">
-                    <div class="div_img">
-                        <a href="">
-                            <img src="__TMPL__/public/assets/images/product.png" alt="">
-                        </a>
+                <notempty name="goodslist">
+                    <foreach name="goodslist" item="vo">
+                    <div class="remai_div border-box">
+                        <div class="div_img">
+                            <a href="{:url('Post/details',['id'=>$vo.id])}">
+                                <empty name="vo.thumbnail">
+                                    <img src="__TMPL__/public/assets/images/default-thumbnail.png" width="160" alt="">
+                                <else/>
+                                    <img src="{:url('thumbUrl',['img'=>urlencode($vo.thumbnail),'w'=>160,'h'=>160])}" width="160" height="160" alt="">
+                                </empty>
+                            </a>
+                        </div>
+                        <div class="remai_txt"><a href="{:url('Post/details',['id'=>$vo.id])}">{$vo.name}</a></div>
+                        <div class='remai_pri'>
+                            <span class='red-color'>￥{$vo.price}</span>
+                            <a href="{:url('Order/cart',['id'=>$vo.id])}">加入购物车</a>
+                        </div>
                     </div>
-                    <div class="remai_txt"><a href="">盯盯拍M6智能WiFi行车记录仪</a> </div>
-                    <div class='remai_pri'>
-                        <span class='red-color'>￥52.00</span>
-                        <a href="">加入购物车</a>
-                    </div>
-                
-                </div>  
-                <div class="remai_div  border-box">
-                    <div class="div_img">
-                        <a href="">
-                            <img src="__TMPL__/public/assets/images/product.png" alt="">
-                        </a>
-                    </div>
-                    <div class="remai_txt"><a href="">盯盯拍M6智能WiFi行车记录仪</a> </div>
-                    <div class='remai_pri'>
-                        <span class='red-color'>￥52.00</span>
-                        <a href="">加入购物车</a>
-                    </div>
-                
-                </div>     
-                <div class="remai_div  border-box">
-                    <div class="div_img">
-                        <a href="">
-                            <img src="__TMPL__/public/assets/images/product.png" alt="">
-                        </a>
-                    </div>
-                    <div class="remai_txt"><a href="">盯盯拍M6智能WiFi行车记录仪</a> </div>
-                    <div class='remai_pri'>
-                        <span class='red-color'>￥52.00</span>
-                        <a href="">加入购物车</a>
-                    </div>
-                
-                </div>
-                <div class="remai_div  border-box">
-                    <div class="div_img">
-                        <a href="">
-                            <img src="__TMPL__/public/assets/images/product.png" alt="">
-                        </a>
-                    </div>
-                    <div class="remai_txt"><a href="">盯盯拍M6智能WiFi行车记录仪</a> </div>
-                    <div class='remai_pri'>
-                        <span class='red-color'>￥52.00</span>
-                        <a href="">加入购物车</a>
-                    </div>
-                
-                </div>  
-                <div class="remai_div  border-box">
-                    <div class="div_img">
-                        <a href="">
-                            <img src="__TMPL__/public/assets/images/product.png" alt="">
-                        </a>
-                    </div>
-                    <div class="remai_txt"><a href="">盯盯拍M6智能WiFi行车记录仪</a> </div>
-                    <div class='remai_pri'>
-                        <span class='red-color'>￥52.00</span>
-                        <a href="">加入购物车</a>
-                    </div>
-                
-                </div>     
-                <div class="remai_div  border-box">
-                    <div class="div_img">
-                        <a href="">
-                            <img src="__TMPL__/public/assets/images/product.png" alt="">
-                        </a>
-                    </div>
-                    <div class="remai_txt"><a href="">盯盯拍M6智能WiFi行车记录仪</a> </div>
-                    <div class='remai_pri'>
-                        <span class='red-color'>￥52.00</span>
-                        <a href="">加入购物车</a>
-                    </div>
-                
-                </div>                
+                    </foreach>
+                </notempty>           
             </div>
-         
-           
         </div>
     </section>
 
