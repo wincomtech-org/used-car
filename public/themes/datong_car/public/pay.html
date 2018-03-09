@@ -58,11 +58,11 @@
             $('.qr_after').show();
             // $('.qr_msg').show();
 
-            var paysign = '{$paysign}';
+            var paysign = '{$paysign|default=''}';
             var orderId = "{$orderId|default='null'}";
 
             // $formurl 需要转化， 所以采用一个新变量 $paysign 标识
-            // location.href = "{:url('funds/Pay/temp',['paysign'=>$paysign,'orderId'=>$orderId])}";
+            // location.href = "{url('funds/Pay/temp',['paysign'=>$paysign,'orderId'=>$orderId])}";
 
             $.ajax({
                 url: "{:url('funds/Pay/temp')}",
@@ -70,7 +70,7 @@
                 type: "POST",
                 // dataType:'json',
                 success:function(msg) {
-                    console.log(msg);
+                    // console.log(msg);
                     if (msg=='error') {
                         $('.qr_msg').show().html('提交失败！');
                     } else if(msg=='illegal') {

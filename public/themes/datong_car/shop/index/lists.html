@@ -52,7 +52,7 @@
                     <div class="vehiTrad_tit_item">
                         <ul class="vehiTrad_tit_item_con">
                             <li <empty name="brand">class="active"</empty>>
-                                <a href="{:url('shop/Index/lists', $jumpext.'&brand=null')}#AAA">不限</a>
+                                <a href="{:url('shop/Index/lists', $jumpext.'&brand=')}#AAA">不限</a>
                             </li>
                             <notempty name="brands">
                             <foreach name="brands" item="vo">
@@ -141,7 +141,7 @@
                                 </empty>
                             </a>
                         </div>
-                        <div class="remai_txt"><a href="{:url('Post/details',['id'=>$vo.id])}">{$vo.name}</a></div>
+                        <div class="remai_txt"><a href="{:url('Post/details',['id'=>$vo.id])}">{$vo.name|mb_substr=0,20,'utf-8'}</a></div>
                         <div class='remai_pri'>
                             <span class='red-color'>￥{$vo.price}</span>
                             <a href="{:url('Order/cart',['id'=>$vo.id])}">加入购物车</a>

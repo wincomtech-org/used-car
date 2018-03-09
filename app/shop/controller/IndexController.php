@@ -134,7 +134,7 @@ class IndexController extends HomeBaseController
             . (empty($param_brand)?'':'&brand='.$param_brand)
             . (empty($param_price1)?'':'&priceMin='.$param_price1)
             . (empty($param_price2)?'':'&priceMax='.$param_price2);
-
+// dump($jumpext);die;
         /*商品数据集*/
         // $goodslist = $scModel->getLists($filter,$order,$limit,$extra,$field);
         $goodslist = $scModel->getLists([],$order,$limit,$extra,$field);

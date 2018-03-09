@@ -52,14 +52,6 @@ class ShopGoodsModel extends UsualModel
         return $series;
     }
 
-    // 获取单条数据
-    public function getPost($id)
-    {
-        $post = $this->get($id)->toArray();
-
-        return $post;
-    }
-
     /**
      * [FunctionName description]
      * @param string $value [description]

@@ -164,13 +164,13 @@
                         <notempty name="vo.children">
                         <ul class='shop-group-tit-ul clearfix'>
                             <foreach name="vo.children" item="child">
-                                <li><a href="{:url('Index/lists',['cid'=>$child.id])}">{$child.name}</a></li>
+                                <li><a href="{:url('Index/lists',['cate'=>$child.id])}">{$child.name}</a></li>
                             </foreach>
                             <!-- <li class='backg-red'><a href="">润滑油</a></li> -->
                         </ul>
                         </notempty>
                         <div class="more-style">
-                            <a href="{:url('Index/lists',['cid'=>$vo.id])}">更多&nbsp;&gt;</a>
+                            <a href="{:url('Index/lists',['cate'=>$vo.id])}">更多&nbsp;&gt;</a>
                         </div>
                     </div>
 

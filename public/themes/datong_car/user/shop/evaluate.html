@@ -1,21 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <title>个人中心 - 服务商城 - {$site_info.site_name|default=''}</title>
-    <meta name="keywords" content="{$site_info.site_seo_keywords|default=''}"/>
+    <meta name="keywords" content="{$site_info.site_seo_keywords|default=''}" />
     <meta name="description" content="{$site_info.site_seo_description|default=''}">
     <!-- 服务商城css -->
     <link href='__TMPL__/public/assets/css/shop.css' type="text/css" rel="stylesheet">
-    <include file="public@head"/>
+    <include file="public@head" />
+    <script type="text/html" id="lothar_photos-item-tpl">
+        <li id="saved-lothar_photos{id}">
+            <input id="lothar_photos-{id}" type="hidden" name="evaluate_image[urls][]" value="{filepath}">
+            <img id="lothar_photos-{id}-preview" src="{url}" style="height:35px;width:35px;display:block;margin:0 auto;" onclick="imagePreviewDialog(this.src);">
+            <a href="javascript:uploadOneImage('图片上传','#lothar_photos-{id}');">替换</a>
+            <a href="javascript:(function(){$('#saved-lothar_photos{id}').remove();})();">移除</a>
+            <input class="form-control" id="lothar_photos-{id}-name" type="text" name="evaluate_image[names][]" value="{name}" style="" title="图片名称">
+        </li>
+    </script>
 </head>
+
 <body>
     <!-- 头部 -->
     <include file="public@header" />
-   
-
     <section class="person">
         <div class="main">
-
             <ul class="brash">
                 <li>当前位置：</li>
                 <li class=""><a href="">服务商城</a></li>
@@ -24,75 +32,73 @@
             </ul>
             <div class="order-details">
                 <div class="evaluate-div">
-                    <form action="" method='post'>
+                    <form action="{:url('evaluatePost')}" method='post'>
                         <input type="hidden" name='' value='用户名等'>
                         <div class="shop_orders evaluate-box">
                             <ul class='order-ul'>
                                 <li class='order-li'>商品评价</li>
                             </ul>
                             <div class="evaluate-img">
-                            <a href="">
-                                <img src="//img.alicdn.com/bao/uploaded/i2/400363072/TB2c4ZUdFXXXXX2XpXXXXXXXXXX_!!400363072.jpg_130x130.jpg" alt="" class='eval-img'>
-                            </a>
-                            <div class="eval-item">
-                                <a href="" class='blue-color'>无敌大音响车载音响</a>
-                                <p class="eval-item-prop">
-                                    颜色分类：倍量加强版【苹果6电池】-送整套拆机工具+视频教程+质保3年
-                                </p>  
-                            </div>
-                                    
+                                <a href="">
+                                    <empty name="goods.thumbnail">
+                                        <img src="__TMPL__/public/assets/images/default-thumbnail.png" alt="" class='eval-img'>
+                                    <else/>
+                                        <img src="{:cmf_get_image_preview_url($goods.thumbnail)}" alt="" class='eval-img'>
+                                    </empty>
+                                </a>
+                                <div class="eval-item">
+                                    <a href="" class='blue-color'>{$goods.name|mb_substr=0,20,'utf-8'}</a>
+                                    <p class="eval-item-prop">
+                                        颜色分类：倍量加强版【苹果6电池】-送整套拆机工具+视频教程+质保3年
+                                    </p>
+                                </div>
                             </div>
                             <div class="evaluate-con">
-                               
                                 <ul class="evaluate-star">
                                     <li class='orage-color'>评价：</li>
                                     <li class='good-eval active tab-sel'>
                                         <label>
                                             <span class=''>好评</span>
-                                            <input type="radio" class='' name='eval-star'>
+                                            <input type="radio" name='eval[star]' value="1">
                                         </label>
                                     </li>
-                                    <li  class='middle-eval tab-sel'>
+                                    <li class='middle-eval tab-sel'>
                                         <label>
                                             <span class=''>中评</span>
-                                            <input type="radio"  checked  name='eval-star'>
+                                            <input type="radio" checked name='eval[star]' value="0">
                                         </label>
                                     </li>
                                     <li class='bad-eval tab-sel'>
-                                        <label >
+                                        <label>
                                             <span class=''>差评</span>
-                                            <input type="radio" class='' name='eval-star'>
+                                            <input type="radio" name='eval[star]' value="-1">
                                         </label>
                                     </li>
                                 </ul>
+
+                                <!-- 有图评价 -->
                                 <div class="evaluation">
-                                    <textarea name="" id="" cols="15" rows="5" class='placehoder' placehoder='请填写评价内容' required ></textarea>
+                                    <textarea cols="15" rows="5" class='placehoder' placehoder='请填写评价内容' name="eval[description]" required></textarea>
                                     <div class="show-eval-img">
-                                        <a href="javascript:uploadMultiImage('图片上传','#identity_card','identity_card-item-tpl');"
-                                        class="btn btn-default btn-sm demonstrate_pre upload-img-btn">
-                                            <img src="__TMPL__/public/assets/images/add.png" style="cursor: pointer;"/>
+                                        <a href="javascript:uploadMultiImage('图片上传','#lothar_photos','lothar_photos-item-tpl');" class="btn btn-default btn-sm demonstrate_pre upload-img-btn">
+                                            <img src="__TMPL__/public/assets/images/add.png" style="cursor:pointer;background-color:#999"/>
                                         </a>
-                                        <ul id="identity_card" class="pic-list list-unstyled form-inline upload-img-div">
-                                            <notempty name="verify.more.identity_card">
-                                                <foreach name="verify.more.identity_card" item="vo">
-                                                    <li id="saved-identity_card{$key}">
-                                                        <input id="identity_card-{$key}" type="hidden"
-                                                            name="identity_card[urls][]" value="{$vo.url}" />
-                                                        <input id="identity_card-{$key}-name" type="text"
-                                                            name="identity_card[names][]" value="{$vo.name|default=''}"
-                                                            class="form-control" title="图片名称" />
-                                                        <img id="identity_card-{$key}-preview"
-                                                            src="{:cmf_get_image_preview_url($vo['url'])}"
-                                                            style="height:120px;width: 200px;"
-                                                            onclick="parent.imagePreviewDialog(this.src);">
-                                                        <a href="javascript:uploadOneImage('图片上传','#identity_card-{$key}');">替换</a>
-                                                        <a href="javascript:(function(){$('#saved-identity_card{$key}').remove();})();">移除</a>
-                                                    </li>
-                                                </foreach>
+                                        <ul id="lothar_photos" class="pic-list list-unstyled form-inline upload-img-div">
+                                            <notempty name="evaluate.evaluate_image">
+                                            <foreach name="evaluate.evaluate_image" item="vo">
+                                                <li id="saved-lothar_photos{$key}">
+                                                    <input id="lothar_photos-{$key}" type="hidden" name="evaluate_image[urls][]" value="{$vo.url}" />
+                                                    <input id="lothar_photos-{$key}-name" type="text" name="evaluate_image[names][]" value="{$vo.name|default=''}" class="form-control" title="图片名称" />
+                                                    <img id="lothar_photos-{$key}-preview" src="{:cmf_get_image_preview_url($vo['url'])}" style="height:120px;width: 200px;" onclick="parent.imagePreviewDialog(this.src);">
+                                                    <a href="javascript:uploadOneImage('图片上传','#lothar_photos-{$key}');">替换</a>
+                                                    <a href="javascript:(function(){$('#saved-lothar_photos{$key}').remove();})();">移除</a>
+                                                </li>
+                                            </foreach>
                                             </notempty>
                                         </ul>
                                     </div>
                                 </div>
+                                <input type="hidden" name="eval[goods_id]" value="{$goods.id}">
                                 <button type="submit" class='btn-style backg-blue '>提交</button>
                             </div>
                         </div>
@@ -101,29 +107,14 @@
             </div>
         </div>
     </section>
-
     <!-- 底部 -->
     <include file="public@footer" />
     <include file="public@scripts" />
-       
 </body>
-
-<script type="text/html" id="identity_card-item-tpl">
-    <li id="saved-identity_card{id}">
-        <input id="identity_card-{id}" type="hidden" name="identity_card[urls][]" value="{filepath}">
-
-        <img id="identity_card-{id}-preview" src="{url}" style="height:35px;width:35px;display:block;margin:0 auto;"
-             onclick="imagePreviewDialog(this.src);">
-
-        <a href="javascript:uploadOneImage('图片上传','#identity_card-{id}');">替换</a>
-        <a href="javascript:(function(){$('#saved-identity_card{id}').remove();})();">移除</a>
-        <!-- <input class="form-control" id="identity_card-{id}-name" type="text" name="identity_card[names][]" value="{name}"
-               style="" title="图片名称"> -->
-    </li>
+<script type="text/javascript">
+$('.tab-sel').click(function() {
+    $(this).addClass('active').siblings().removeClass('active');
+})
 </script>
-<script>
-    $('.tab-sel').click(function(){
-        $(this).addClass('active').siblings().removeClass('active');
-    })
-</script>
+
 </html>
