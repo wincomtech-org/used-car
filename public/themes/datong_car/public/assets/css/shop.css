@@ -119,6 +119,7 @@
 .remai_txt{
     height:36px;
     overflow:hidden;
+    margin-top:6px;
 }
 .remai_txt a{
     display:block;
@@ -866,7 +867,11 @@
         padding-left:7px;
     }
 
-  
+    /* 服务商城产品详情页 */
+    .show-proInfo{
+        margin:.2rem auto;
+        padding: .3rem 0 .5rem .2rem;
+    }
 }
 
 @media screen and (max-width:767px){
@@ -1024,16 +1029,12 @@
     display:block;
     padding:1rem .5rem;
 }
-.group-product .img{
+.group-product a img{
     display:inline-block;
     width:48%;
-    max-height:110px;
+    height:auto;
     overflow:hidden;
     vertical-align:middle;
-    
-}
-.group-product img{
-    max-width:100%;
     
 }
 .group-product .txt{
@@ -1178,7 +1179,7 @@
     height:94px;
 }
 .group-con-shop-left .group-list-txt a{
-    font-size:16px;
+    font-size:14px;
     height:71px;
     overflow:hidden;
 }
