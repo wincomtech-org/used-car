@@ -1,45 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <title>个人中心 - 服务商城 - {$site_info.site_name|default=''}</title>
-    <meta name="keywords" content="{$site_info.site_seo_keywords|default=''}"/>
+    <meta name="keywords" content="{$site_info.site_seo_keywords|default=''}" />
     <meta name="description" content="{$site_info.site_seo_description|default=''}">
-     <!-- 服务商城css -->
-     <link href='__TMPL__/public/assets/css/shop.css' type="text/css" rel="stylesheet">
-
-    <include file="public@head"/>
+    <!-- 服务商城css -->
+    <link href='__TMPL__/public/assets/css/shop.css' type="text/css" rel="stylesheet">
+    <include file="public@head" />
 </head>
+
 <body>
     <!-- 头部 -->
     <include file="public@header" />
-   
-
     <!-- 热门资讯 -->
     <section class="person">
         <div class="main">
-
             <ul class="brash">
                 <li>当前位置：</li>
-                <li class=""><a href="">服务商城</a></li>
-                <li class=""><a href="">配件服务</a></li>
+                <li class=""><a href="{:url('index')}">服务商城</a></li>
+                <li class=""><a href="{:url('index')}">订单管理</a></li>
                 <li class="active"><a href="#">物流信息</a></li>
             </ul>
             <div class='logis'>
-                
                 <div class="shop_orders ">
                     <ul class='order-ul'>
                         <li class='order-li'>物流信息</li>
                     </ul>
-                  
                     <div class="logis-detail">
                         <p class="logistics-p">物流信息</p>
                         <div class='logis-detail-con'>
                             <ul class="logis-detail-ul">
                                 <li class="logis-detail-li">
-                                   <span class="logis-date">2018-01-09</span>
-                                   <span class="logis-week">周二</span>
-                                   <span class="logis-time">12:35:18</span>
-                                   <span class="logis-text">你的订单已处理</span>
+                                    <span class="logis-date">2018-01-09</span>
+                                    <span class="logis-week">周二</span>
+                                    <span class="logis-time">12:35:18</span>
+                                    <span class="logis-text">你的订单已处理</span>
                                 </li>
                                 <li class="logis-detail-li">
                                     <span class="logis-date">2018-01-09</span>
@@ -108,16 +104,13 @@
                             <dd>安徽省合肥市蜀山区绿地蓝海大B座605</dd>
                         </dl>
                     </div>
-                </div>    
-            </div>   
+                </div>
+            </div>
         </div>
     </section>
-
     <!-- 底部 -->
     <include file="public@footer" />
     <include file="public@scripts" />
-       
 </body>
-
 
 </html>

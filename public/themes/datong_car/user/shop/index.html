@@ -28,11 +28,11 @@
                     <div class="shops">
                         <div class="wddd-li">
                             <ul>
-                                <li class="wddd-red red" ><a href="/index.php/Home/User/order_list.html">全部</a></li>
-                                <li id="WAITPAY"><a href="/index.php/Home/User/order_list/type/WAITPAY.html">待付款<em></em></a></li>
-                                <li id="WAITSEND"><a href="/index.php/Home/User/order_list/type/WAITSEND.html">待发货<em></em></a></li>
-                                <li id="WAITRECEIVE"><a href="/index.php/Home/User/order_list/type/WAITRECEIVE.html">待收货<em></em></a></li>
-                                <li id="WAITCCOMMENT"><a href="/index.php/Home/User/order_list/type/WAITCCOMMENT.html">待评价<em></em></a></li>
+                                <li class="wddd-red red" ><a href="{:url('index','status=')}">全部</a></li>
+                                <li id="WAITPAY"><a href="{:url('index','status=0')}">待付款<em></em></a></li>
+                                <li id="WAITSEND"><a href="{:url('index','status=1')}">待发货<em></em></a></li>
+                                <li id="WAITRECEIVE"><a href="{:url('index','status=2')}">待收货<em></em></a></li>
+                                <li id="WAITCCOMMENT"><a href="{:url('index','status=3')}">待评价<em></em></a></li>
                             </ul>
                         </div>
                         <div class="shops_order">

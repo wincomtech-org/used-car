@@ -1,146 +1,125 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <title>个人中心 - 服务商城 - {$site_info.site_name|default=''}</title>
-    <meta name="keywords" content="{$site_info.site_seo_keywords|default=''}"/>
+    <meta name="keywords" content="{$site_info.site_seo_keywords|default=''}" />
     <meta name="description" content="{$site_info.site_seo_description|default=''}">
-     <!-- 服务商城css -->
-     <link href='__TMPL__/public/assets/css/shop.css' type="text/css" rel="stylesheet">
-
-    <include file="public@head"/>
+    <!-- 服务商城css -->
+    <link href='__TMPL__/public/assets/css/shop.css' type="text/css" rel="stylesheet">
+    <include file="public@head" />
 </head>
+
 <body>
     <!-- 头部 -->
     <include file="public@header" />
     <!-- 导航 -->
     <include file="public@nav" />
-
     <!--  -->
     <section class="person">
         <div class="main">
             <include file="public@usernav" />
-
             <div class="person_right">
                 <div class="person_right_tit business_person">
-                    <ul>
-                        <li class="person_right_item ">
-                        <a href="">我的订单</a>
-                    </li>
-                        <li class="person_right_item ">
-                        <a href="">评价</a>
-                    </li>
-                        <li class="person_right_item ">
-                        <a href="">退换货</a>
-                    </li>
-                        <li class="person_right_item ">
-                        <a href="">消息</a>
-                    </li>
-                        <li class="person_right_item active">
-                        <a href="">收货地址管理</a>
-                    </li>
-                    </ul>
+                    <include file="shop/shop_nav" />
                 </div>
                 <div class="person_right_con">
                     <div class="shops">
-                    
                         <div class="delivery">
-                           <form action="">
-
-                         
-                            <dl>
-                                <dt>所在地区<b class='red-color font12'>*</b></dt>
-                                <dd>
-                                    <div class="analogy">
-                                        <li class="right required">
-                                            <select name="province" id="input-province1" onchange="select_province(1);">
-                                                <option value="">--请选择省份--</option>
-                                              
-                                            </select>&nbsp;&nbsp;
-                                            <select name="city" id="input-city1">
-                                                <option value="">--请选择城市--</option>
-                                            </select>
-                                            <select name="city" id="input-city1">
-                                                <option value="">--请选择地区--</option>
-                                            </select>
-                                        </li>
-                                    </div>
-                                </dd>
-                            </dl>
-                            <dl>
-                                <dt>详细地址<b class='red-color font12'>*</b></dt>
-                                <dd>
-                                    <div class="details_add">
-                                        <textarea name="" placeholder='建议你入如实填写详细收货地址，如街道名称，门牌号码，楼层和房间号等信息' required class='placeholder'></textarea>
-                                    </div>
-                                </dd>
-                            </dl>
-                            <dl>
-                                <dt>邮政编码<b class='red-color font12'>*</b></dt>
-                                <dd>
-                                    <div class="delivery_input">
-                                        <input type="number" placeholder='如你不清楚邮递区号，请填写000000' name='postalcode' class='border-box placeholder' maxlength="6" minlength="6"  required>
-                                    </div>
-                                </dd>
-                            </dl>
-                            <dl>
-                                <dt>收货人姓名<b class='red-color font12'>*</b></dt>
-                                <dd>
-                                    <div class="delivery_input">
-                                        <input type="text" placeholder='长度不超过25个字符' name='consignee' class='border-box placeholder' required>
-                                    </div>
-                                </dd>
-                            </dl>
-                            <dl>
-                                <dt>手机号码<b class='red-color font12'>*</b></dt>
-                                <dd>
-                                    <div class="delivery_input">
-                                        <input type="text" placeholder='请输入手机号码 ' name='tel' class='border-box placeholder' required>
-                                    </div>
-                                </dd>
-                            </dl>
-                            <dl>
-                                <dt></dt>
-                                <dd>
-                                    <label class='hasLabel'>
-                                        <p class='hasLabelP'><input type="checkbox" checked name='' value='0'><span class='spc'></span></p>
-                                        <p class='hasLabel_span'>设置为默认收货地址</p>
-                                    </label>
-                                </dd>
-                            </dl>
-                            <dl>
-                                <dt></dt>
-                                <dd>
-                                    <button type='submit' class='backg-red btn-style font16'>保存</button>
-                                </dd>
-                            </dl>
+                            <form action="">
+                                <dl>
+                                    <dt>所在地区<b class='red-color font12'>*</b></dt>
+                                    <dd>
+                                        <div class="analogy">
+                                            <li class="right required">
+                                                <select name="province" id="input-province1" onchange="select_province(1);">
+                                                    <option value="">--请选择省份--</option>
+                                                </select>&nbsp;&nbsp;
+                                                <select name="city" id="input-city1">
+                                                    <option value="">--请选择城市--</option>
+                                                </select>
+                                                <select name="city" id="input-city1">
+                                                    <option value="">--请选择地区--</option>
+                                                </select>
+                                            </li>
+                                        </div>
+                                    </dd>
+                                </dl>
+                                <dl>
+                                    <dt>详细地址<b class='red-color font12'>*</b></dt>
+                                    <dd>
+                                        <div class="details_add">
+                                            <textarea name="" placeholder='建议你入如实填写详细收货地址，如街道名称，门牌号码，楼层和房间号等信息' required class='placeholder'></textarea>
+                                        </div>
+                                    </dd>
+                                </dl>
+                                <dl>
+                                    <dt>邮政编码<b class='red-color font12'>*</b></dt>
+                                    <dd>
+                                        <div class="delivery_input">
+                                            <input type="number" placeholder='如你不清楚邮递区号，请填写000000' name='postalcode' class='border-box placeholder' maxlength="6" minlength="6" required>
+                                        </div>
+                                    </dd>
+                                </dl>
+                                <dl>
+                                    <dt>收货人姓名<b class='red-color font12'>*</b></dt>
+                                    <dd>
+                                        <div class="delivery_input">
+                                            <input type="text" placeholder='长度不超过25个字符' name='consignee' class='border-box placeholder' required>
+                                        </div>
+                                    </dd>
+                                </dl>
+                                <dl>
+                                    <dt>手机号码<b class='red-color font12'>*</b></dt>
+                                    <dd>
+                                        <div class="delivery_input">
+                                            <input type="text" placeholder='请输入手机号码 ' name='tel' class='border-box placeholder' required>
+                                        </div>
+                                    </dd>
+                                </dl>
+                                <dl>
+                                    <dt></dt>
+                                    <dd>
+                                        <label class='hasLabel'>
+                                            <p class='hasLabelP'>
+                                                <input type="checkbox" checked name='' value='0'><span class='spc'></span></p>
+                                            <p class='hasLabel_span'>设置为默认收货地址</p>
+                                        </label>
+                                    </dd>
+                                </dl>
+                                <dl>
+                                    <dt></dt>
+                                    <dd>
+                                        <button type='submit' class='backg-red btn-style font16'>保存</button>
+                                    </dd>
+                                </dl>
                             </form>
                         </div>
-
                         <div class="deliver_address  deliver_address_pc">
                             <table>
-                                 <thead>
-                                     <tr>
-                                         <th class='d1'>收货人</th>
-                                         <th>所在地区</th>
-                                         <th>详细地址</th>
-                                         <th>邮编</th>
-                                         <th>电话</th>
-                                         <th class='d6'>操作</th>
-                                         <th class='d7'></th>
-                                     </tr>
-                                 </thead>
-                                 <tbody>
-                                     <tr>
-                                         <td>张三</td>
-                                         <td>安徽省合肥市蜀山区荷叶地街道</td>
-                                         <td>绿地蓝海大厦B座605</td>
-                                         <td>2300300</td>
-                                         <td>12345678932</td>
-                                         <td class='red-color'><a href="" class='red-color'>修改</a>| <a href="" class='red-color'>删除</a></td>
-                                         <td><span class='default_addr border-r'>默认地址</span></td>
-                                     </tr>
-                                 </tbody>
-                                 <tbody>
+                                <thead>
+                                    <tr>
+                                        <th class='d1'>收货人</th>
+                                        <th>所在地区</th>
+                                        <th>详细地址</th>
+                                        <th>邮编</th>
+                                        <th>电话</th>
+                                        <th class='d6'>操作</th>
+                                        <th class='d7'></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>张三</td>
+                                        <td>安徽省合肥市蜀山区荷叶地街道</td>
+                                        <td>绿地蓝海大厦B座605</td>
+                                        <td>2300300</td>
+                                        <td>12345678932</td>
+                                        <td class='red-color'><a href="" class='red-color'>修改</a>| <a href="" class='red-color'>删除</a></td>
+                                        <td><span class='default_addr border-r'>默认地址</span></td>
+                                    </tr>
+                                </tbody>
+                                <tbody>
                                     <tr>
                                         <td>王二麻子</td>
                                         <td>安徽省合肥市蜀山区荷叶地街道合肥市蜀山区荷叶地街道</td>
@@ -152,19 +131,19 @@
                                     </tr>
                                 </tbody>
                                 <tbody>
-                                        <tr>
-                                            <td>张三</td>
-                                            <td>安徽省合肥市蜀山区荷叶地街道</td>
-                                            <td>绿地蓝海大厦B座605</td>
-                                            <td>2300300</td>
-                                            <td>12345678932</td>
-                                            <td class='red-color'><a href="" class='red-color'>修改</a>| <a href="" class='red-color'>删除</a></td>
-                                            <td></td>
-                                        </tr>
+                                    <tr>
+                                        <td>张三</td>
+                                        <td>安徽省合肥市蜀山区荷叶地街道</td>
+                                        <td>绿地蓝海大厦B座605</td>
+                                        <td>2300300</td>
+                                        <td>12345678932</td>
+                                        <td class='red-color'><a href="" class='red-color'>修改</a>| <a href="" class='red-color'>删除</a></td>
+                                        <td></td>
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>
-                        <div class="deliver_address  deliver_address_m" >
+                        <div class="deliver_address  deliver_address_m">
                             <ul>
                                 <li>
                                     <div class='clearfix'>
@@ -177,7 +156,8 @@
                                     <div class='clearfix deliver-op'>
                                         <div class="lf">
                                             <label class='hasLabel'>
-                                                <p class='hasLabelP'><input type="radio" name='default_addr' checked  value='0'><span class='spc'></span></p>
+                                                <p class='hasLabelP'>
+                                                    <input type="radio" name='default_addr' checked value='0'><span class='spc'></span></p>
                                                 <p class='hasLabel_span'>默认地址</p>
                                             </label>
                                         </div>
@@ -198,7 +178,8 @@
                                     <div class='clearfix deliver-op'>
                                         <div class="lf">
                                             <label class='hasLabel'>
-                                                <p class='hasLabelP'><input type="radio" name='default_addr' value='0'><span class='spc'></span></p>
+                                                <p class='hasLabelP'>
+                                                    <input type="radio" name='default_addr' value='0'><span class='spc'></span></p>
                                                 <p class='hasLabel_span'>默认地址</p>
                                             </label>
                                         </div>
@@ -209,48 +190,49 @@
                                     </div>
                                 </li>
                                 <li>
-                                        <div class='clearfix'>
-                                            <span class='lf'>王二麻子</span>
-                                            <span class="rt">13205512201</span>
+                                    <div class='clearfix'>
+                                        <span class='lf'>王二麻子</span>
+                                        <span class="rt">13205512201</span>
+                                    </div>
+                                    <div class='clearfix'>
+                                        安徽省合肥市蜀山区绿地蓝海大厦B座605
+                                    </div>
+                                    <div class='clearfix deliver-op'>
+                                        <div class="lf">
+                                            <label class='hasLabel'>
+                                                <p class='hasLabelP'>
+                                                    <input type="radio" name='default_addr' value='0'><span class='spc'></span></p>
+                                                <p class='hasLabel_span'>默认地址</p>
+                                            </label>
                                         </div>
-                                        <div class='clearfix'>
-                                            安徽省合肥市蜀山区绿地蓝海大厦B座605
+                                        <div class="deliver_operate rt o-tab-btn">
+                                            <a href="" class='backg-border'>修改</a>
+                                            <a href="" class='backg-border'>删除</a>
                                         </div>
-                                        <div class='clearfix deliver-op'>
-                                            <div class="lf">
-                                                <label class='hasLabel'>
-                                                    <p class='hasLabelP'><input type="radio" name='default_addr' value='0'><span class='spc'></span></p>
-                                                    <p class='hasLabel_span'>默认地址</p>
-                                                </label>
-                                            </div>
-                                            <div class="deliver_operate rt o-tab-btn">
-                                                <a href="" class='backg-border'>修改</a>
-                                                <a href="" class='backg-border'>删除</a>
-                                            </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class='clearfix'>
+                                        <span class='lf'>王二麻子</span>
+                                        <span class="rt">13205512201</span>
+                                    </div>
+                                    <div class='clearfix'>
+                                        安徽省合肥市蜀山区绿地蓝海大厦B座605
+                                    </div>
+                                    <div class='clearfix deliver-op'>
+                                        <div class="lf">
+                                            <label class='hasLabel'>
+                                                <p class='hasLabelP'>
+                                                    <input type="radio" name='default_addr' value='0'><span class='spc'></span></p>
+                                                <p class='hasLabel_span'>默认地址</p>
+                                            </label>
                                         </div>
-                                    </li>
-                                    <li>
-                                        <div class='clearfix'>
-                                            <span class='lf'>王二麻子</span>
-                                            <span class="rt">13205512201</span>
+                                        <div class="deliver_operate rt o-tab-btn">
+                                            <a href="" class='backg-border'>修改</a>
+                                            <a href="" class='backg-border'>删除</a>
                                         </div>
-                                        <div class='clearfix'>
-                                            安徽省合肥市蜀山区绿地蓝海大厦B座605
-                                        </div>
-                                        <div class='clearfix deliver-op'>
-                                            <div class="lf">
-                                                <label class='hasLabel'>
-                                                    <p class='hasLabelP'><input type="radio"  name='default_addr' value='0'><span class='spc'></span></p>
-                                                    <p class='hasLabel_span'>默认地址</p>
-                                                </label>
-                                            </div>
-                                            <div class="deliver_operate rt o-tab-btn">
-                                                <a href="" class='backg-border'>修改</a>
-                                                <a href="" class='backg-border'>删除</a>
-                                            </div>
-                                        </div>
-                                    </li>
-                                   
+                                    </div>
+                                </li>
                             </ul>
                         </div>
                     </div>
@@ -258,12 +240,9 @@
             </div>
         </div>
     </section>
-
     <!-- 底部 -->
     <include file="public@footer" />
     <include file="public@scripts" />
-       
 </body>
-
 
 </html>

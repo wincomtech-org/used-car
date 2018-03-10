@@ -1,17 +1,17 @@
 <ul>
-    <li class="person_right_item active">
+    <li class="person_right_item {$u_f_nav=='index'?='active'}">
         <a href="{:url('index')}">我的订单</a>
     </li>
-    <li class="person_right_item ">
+    <!-- <li class="person_right_item {$u_f_nav=='evaluate'?='active'}">
         <a href="{:url('evaluate')}">评价</a>
-    </li>
-    <li class="person_right_item ">
+    </li> -->
+    <li class="person_right_item <in name='u_f_nav' value='returns,returns_detail'>active</in>">
         <a href="{:url('returns')}">退换货</a>
     </li>
-    <li class="person_right_item ">
+    <li class="person_right_item {$u_f_nav=='news'?='active'}">
         <a href="{:url('news')}">消息</a>
     </li>
-    <li class="person_right_item ">
-        <a href="{:url('shipping_address')}">收货地址管理</a>
+    <li class="person_right_item {$u_f_nav=='shipping_address'?='active'}">
+        <a href="{:url('shipping_address')}">收货地址</a>
     </li>
 </ul>

@@ -3,14 +3,24 @@ namespace app\user\controller;
 
 use cmf\controller\UserBaseController;
 // use app\user\model\UserModel;
-// use think\Validate;
+use app\shop\model\ShopGoodsModel;
 use think\Db;
+// use think\Validate;
 
 /**
 * 个人中心 服务商城
 */
 class ShopController extends UserBaseController
 {
+    function _initialize()
+    {
+        parent::_initialize();
+        $u_f_nav = $this->request->action();
+        // $this->user = cmf_get_current_user();
+
+        $this->assign('u_f_nav',$u_f_nav);
+    }
+
     // 我的订单
     public function index()
     {
@@ -22,6 +32,7 @@ class ShopController extends UserBaseController
         return $this->fetch();
     }
 
+    // 立即购买
     public function buy()
     {
         $data = $this->request->param();
@@ -30,14 +41,13 @@ class ShopController extends UserBaseController
         $this->assign('orderId','null');
         return $this->fetch();
     }
+    // 购物车结算
     public function buyCart()
     {
         $this->assign('paysign','shop');
         $this->assign('orderId','null');
         return $this->fetch('buy');
     }
-
-
 
     // 确认收货
     public function receipt()
@@ -86,14 +96,24 @@ class ShopController extends UserBaseController
         return $this->fetch();
     }
 
+
+
     // 退换货
     public function returns()
     {
+        $list = Db::name('shop_order')->where('refund_status',1)->select();
+
+        $this->assign('list',$list);
         return $this->fetch();
     }
     // 退换货详情
     public function returns_detail()
     {
+        $id = $this->request->param('id',0,'intval');
+
+        $post = Db::name('shop_order')->where('id',$id)->find();
+
+        $this->assign('post',$post);
         return $this->fetch();
     }
 
