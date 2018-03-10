@@ -130,25 +130,25 @@
             <!-- 筛选出来的商品数据内容 -->
             <div class="sel_shop clearfix">
                 <notempty name="goodslist">
-                    <foreach name="goodslist" item="vo">
-                    <div class="remai_div border-box">
-                        <div class="div_img">
-                            <a href="{:url('Post/details',['id'=>$vo.id])}">
-                                <empty name="vo.thumbnail">
-                                    <img src="__TMPL__/public/assets/images/default-thumbnail.png" width="160" alt="">
-                                <else/>
-                                    <img src="{:url('thumbUrl',['img'=>urlencode($vo.thumbnail),'w'=>160,'h'=>160])}" width="160" height="160" alt="">
-                                </empty>
-                            </a>
-                        </div>
-                        <div class="remai_txt"><a href="{:url('Post/details',['id'=>$vo.id])}">{$vo.name|mb_substr=0,20,'utf-8'}</a></div>
-                        <div class='remai_pri'>
-                            <span class='red-color'>￥{$vo.price}</span>
-                            <a href="{:url('Order/cart',['id'=>$vo.id])}">加入购物车</a>
-                        </div>
+                <foreach name="goodslist" item="vo">
+                <div class="remai_div border-box">
+                    <div class="div_img">
+                        <a href="{:url('Post/details',['id'=>$vo.id])}">
+                            <empty name="vo.thumbnail">
+                                <img src="__TMPL__/public/assets/images/default-thumbnail_160x109.png" alt="">
+                            <else/>
+                                <img src="{:url('thumbUrl',['img'=>urlencode($vo.thumbnail),'w'=>160,'h'=>109])}" alt="">
+                            </empty>
+                        </a>
                     </div>
-                    </foreach>
-                </notempty>           
+                    <div class="remai_txt"><a href="{:url('Post/details',['id'=>$vo.id])}">{$vo.name|mb_substr=0,20,'utf-8'}</a></div>
+                    <div class='remai_pri'>
+                        <span class='red-color'>￥{$vo.price}</span>
+                        <a href="{:url('Order/cart',['id'=>$vo.id])}">加入购物车</a>
+                    </div>
+                </div>
+                </foreach>
+                </notempty>
             </div>
         </div>
     </section>

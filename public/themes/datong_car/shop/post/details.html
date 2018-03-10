@@ -32,9 +32,9 @@
                         <div id="preview" class="spec-preview">
                             <div class="jqzoom">
 								<empty name="goods.thumbnail">
-                                    <img width="565" height="385" jqimg="__TMPL__/public/assets/images/default-thumbnail.png" src="__TMPL__/public/assets/images/default-thumbnail.png" />
+                                    <img jqimg="__TMPL__/public/assets/images/default_picture.png" src="__TMPL__/public/assets/images/default_picture_565x385.png" />
 								<else/>
-                                    <img width="565" height="385" jqimg="{:cmf_get_image_preview_url($goods.thumbnail)}" src="{:cmf_get_image_preview_url($goods.thumbnail)}" />
+                                    <img jqimg="{:cmf_get_image_preview_url($goods.thumbnail)}" src="{:url('thumbUrl',['img'=>urlencode($goods.thumbnail),'w'=>565,'h'=>385])}" height="385" />
 								</empty>
                             </div>
                         </div>
@@ -46,7 +46,7 @@
                                 <ul>
                                     <notempty name="goods.more.photos">
                                     <foreach name="goods.more.photos" item="img">
-                                        <li><img bimg="{:cmf_get_image_preview_url($img.url)}" src="{:cmf_get_image_preview_url($img.url)}" onmousemove="preview(this);"></li>
+                                        <li><img bimg="{:cmf_get_image_preview_url($img.url)}" src="{:url('thumbUrl',['img'=>urlencode($img.url),'w'=>160,'h'=>109])}" onmousemove="preview(this);"></li>
                                     </foreach>
                                     </notempty>
                                 </ul>

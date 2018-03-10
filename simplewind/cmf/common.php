@@ -170,16 +170,6 @@ function cmf_compare_password($password, $passwordInDb)
 }
 
 /**
- * 文件日志
- * @param $content 要写入的内容
- * @param string $file 日志文件,在 web 入口目录
- */
-function cmf_log($content, $file = "log.txt")
-{
-    file_put_contents($file, $content, FILE_APPEND);
-}
-
-/**
  * 判断是否为手机访问
  * @return  boolean
  */
@@ -323,6 +313,16 @@ function cmf_set_dynamic_config($data)
 
     cmf_clear_cache();
     return $result;
+}
+
+/**
+ * 文件日志
+ * @param $content 要写入的内容
+ * @param string $file 日志文件,在 web 入口目录
+ */
+function cmf_log($content, $file = "log.txt")
+{
+    file_put_contents($file, $content, FILE_APPEND);
 }
 
 /**
@@ -1755,6 +1755,5 @@ function cmf_api_request($url, $params = [])
 function cmf_is_open_registration()
 {
     $cmfSettings = cmf_get_option('cmf_settings');
-
     return empty($cmfSettings['open_registration']) ? false : true;
 }

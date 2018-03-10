@@ -128,11 +128,10 @@
                                 <div class="div_img">
                                     <a href="{:url('shop/Post/details',['id'=>$vo.id])}">
                                         <empty name="vo.thumbnail">
-                                            <img src="__TMPL__/public/assets/images/default-thumbnail.png" alt="">
+                                            <img src="__TMPL__/public/assets/images/default-thumbnail_160x109.png" alt="">
                                         <else/>
-                                            <img src="{:cmf_get_image_preview_url($vo.thumbnail)}" alt="">
+                                            <img src="{:url('thumbUrl',['img'=>urlencode($vo.thumbnail),'w'=>160,'h'=>109])}" height="109" alt="">
                                         </empty>
-                                        
                                     </a>
                                 </div>
                                 <div class="remai_txt"><a href="{:url('shop/Post/details',['id'=>$vo.id])}">{$vo.name}</a></div>
@@ -173,7 +172,6 @@
                             <a href="{:url('Index/lists',['cate'=>$vo.id])}">更多&nbsp;&gt;</a>
                         </div>
                     </div>
-
                 </div>
                 <div class="shop-group-con">
                     <notempaty name="vo.goods">
@@ -182,7 +180,9 @@
                             <div class="group-list ">
                                 <volist name="vo.goods" id="goods" key="key" length="1">
                                 <div class="group-list-img">
-                                    <a href="{:url('Post/details',['id'=>$goods.id])}"><img src="{:cmf_get_image_preview_url($goods.thumbnail)}" alt=""></a>
+                                    <a href="{:url('Post/details',['id'=>$goods.id])}">
+                                        <img src="{:cmf_get_image_preview_url($goods.thumbnail)}" style="max-height:282px" alt="">
+                                    </a>
                                 </div>
                                 <div class="group-list-txt">
                                     <p><a>{$goods.name|mb_substr=0,20,'utf-8'}</a></p>
@@ -213,7 +213,9 @@
                             <volist name="vo.goods" id="goods" key="key" offset="1" length="4">
                             <div class="group-list">
                                 <div class="group-list-img">
-                                    <a href="{:url('Post/details',['id'=>$goods.id])}"><img src="{:cmf_get_image_preview_url($goods.thumbnail)}" alt=""></a>
+                                    <a href="{:url('Post/details',['id'=>$goods.id])}">
+                                        <img src="{:url('thumbUrl',['img'=>urlencode($goods.thumbnail),'w'=>160,'h'=>109])}" height="109" alt="">
+                                    </a>
                                 </div>
                                 <div class="group-list-txt">
                                     <p><a>{$goods.name|mb_substr=0,20,'utf-8'}</a></p>
@@ -229,9 +231,9 @@
                                 <div class="group-product">
                                     <a href="{:url('Post/details',['id'=>$goods.id])}" class='clearfix'>
                                         <empty name="goods.thumbnail">
-                                        <img src="__TMPL__/public/assets/images/default-thumbnail.png" alt="">
+                                            <img src="__TMPL__/public/assets/images/default-thumbnail_160x109.png" alt="">
                                         <else/>
-                                        <img src="{:cmf_get_image_preview_url($goods.thumbnail)}" alt="">
+                                            <img src="{:url('thumbUrl',['img'=>urlencode($goods.thumbnail),'w'=>160,'h'=>109])}" height="109" alt="">
                                         </empty>
                                         <div class="txt">
                                             <p>{$goods.name|mb_substr=0,20,'utf-8'}</p>
@@ -248,9 +250,6 @@
                 </div>
             </div>
             </foreach>
-
-
-            
 
             <div class="advantage clearfix">
                 <ul>
