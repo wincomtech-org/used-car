@@ -166,7 +166,11 @@
                             <li>
                                 <div class="lf img-comm">
                                     <a href="{:url('details',['id'=>$rec.id])}">
-										<img src="__TMPL__/public/assets/images/example/goods_thumb_143_60_60.jpeg" alt="">
+                                        <empty name="rec.thumbnail">
+										  <img src="__TMPL__/public/assets/images/default-thumbnail_160x109.png" alt="">
+                                        <else/>
+                                            <img src="{:url('thumbUrl',['img'=>urlencode($rec.thumbnail),'w'=>160,'h'=>109])}" alt="">
+                                        </empty>
 									</a>
                                 </div>
                                 <div class="tx-info">
