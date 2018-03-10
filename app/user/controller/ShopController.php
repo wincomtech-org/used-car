@@ -24,6 +24,9 @@ class ShopController extends UserBaseController
     // 我的订单
     public function index()
     {
+        $os = $this->request->param('status');
+
+        $this->assign('os',$os);
         return $this->fetch();
     }
     // 订单详情
