@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <title>车辆买卖</title>
     <!-- 服务商城css -->
-    <link href='__TMPL__/public/assets/css/shop.css' type="text/css" rel="stylesheet">
+    <!-- <link href='__TMPL__/public/assets/css/shop.css' type="text/css" rel="stylesheet"> -->
     <include file="public@head" />
     <link rel="stylesheet" href="__TMPL__/public/assets/css/shop.css">
     <hook name="before_head_end" />
@@ -285,12 +285,10 @@
                                             <div class="comm-t1">
                                                 <div class="pro-user-score lf">
                                                     <p>
-                                                        <em>发货速度</em>
-                                                        <span class='starRating-area'>
-															<s style='width:100%;'></s>
-														</span>
+                                                        <em>好评</em>
+                                                       
                                                     </p>
-                                                    <p>
+                                                    <!-- <p>
                                                         <em>客服态度</em>
                                                         <span class='starRating-area'>
 															<s style='width:100%;'></s>
@@ -301,7 +299,7 @@
                                                         <span class='starRating-area'>
 															<s style='width:100%;'></s>
 														</span>
-                                                    </p>
+                                                    </p> -->
                                                 </div>
                                                 <div class="pro-user-time">2016-03-12</div>
                                             </div>
@@ -435,7 +433,7 @@ $('.reduce').click(function() {
 $('.commodity-xq li').click(function(){
     var indx=$(this).index();
     var div=$('.commodity-num');
-    console.log(div)
+
     $(this).addClass('current').siblings('').removeClass('current');
 
     div.hide();

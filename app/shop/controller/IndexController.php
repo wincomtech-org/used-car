@@ -31,6 +31,10 @@ class IndexController extends HomeBaseController
         return $this->fetch();
     }
 
+    function shop_map(){
+        return $this->fetch();
+    }
+
     /*
      * 列表页
      * 分类必选，默认

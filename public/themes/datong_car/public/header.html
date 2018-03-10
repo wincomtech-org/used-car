@@ -61,7 +61,7 @@
         <div class="header_top">
             <div class="logo "><h1><a href="__ROOT__/"><img src="{$site_info.site_logo_preview}" alt="{$site_info.site_name}" title="{$site_info.site_name}"></a></h1></div>
             <div class="menu-btn">
-                <div class="shop-menu"><span><img src="__TMPL__/public/assets/images/shops.png" alt=""></span></div>
+                <div class="shop-menu"><a href="{:url('shop/Index/shop_map')}"><img src="__TMPL__/public/assets/images/shops.png" alt=""></a></div>
                 <div class="menu"><span class="icon link open-panel"></span></div>
             </div>
            
@@ -72,7 +72,7 @@
             <div class="user_m">
                  <!-- 购物车 -->
                  <a href="" class='shop_car_icon'><i>1</i></a>
-                <a href="{:cmf_url('user/Profile/center')}" class="icon"></a>
+                <a href="{:url('user/Profile/center')}" class="icon"></a>
             </div>
         </div>
     </div>
