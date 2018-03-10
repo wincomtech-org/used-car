@@ -185,14 +185,14 @@
                 <div class="comm-param">
                     <div class="par-tit co-grey hi47 ">
                         <ul class="commodity-xq ">
-							<li class='cliks current'><a>商品详情</a></li>
-							<li class='cliks'><a>用户评价</a></li>
-							<li class='cliks'><a>规格参数</a></li>
+							<li class='cliks current border-box'><span>商品详情</span></li>
+							<li class='cliks  border-box'><span>用户评价</span></li>
+							<li class='cliks  border-box'><span>规格参数</span></li>
                         </ul>
                     </div>
                     <div class="parame-bott">
                         <!-- 商品详情 -->
-                        <div class="commodity-num pro-feature-area" style="display:none;">
+                        <div class="commodity-num pro-feature-area" style="display:block;">
                             <div class="commodity-detail">
                             	<img style='display:block;margin:0 auto;' src="http://hcsinglyshop.wincomtech.cn/Public/upload/goods/2016/03-09/56e01a6586cd0.jpg" alt="">
                             </div>
@@ -205,7 +205,7 @@
                             </div>
                         </div>
                         <!-- 用户评价 -->
-                        <div classs="commodity-num pro-feature-area" style="display:block;">
+                        <div class="commodity-num pro-feature-area" style="display:none;">
                             <div class="evaluation-top">
                                 <div class="eval-le1">
                                     <div class="percent">
@@ -256,13 +256,13 @@
                                         <a href="{:url('details',['id'=>$goods.id])}">全部评论（3）</a>
                                     </li>
                                     <li class=" cliks">
-                                        <a href="">好评（2）</a>
+                                        <a href='javascript:void(0);'>好评（2）</a>
                                     </li>
                                     <li class=" cliks">
-                                        <a href="">中评（1）</a>
+                                        <a href='javascript:void(0);'>中评（1）</a>
                                     </li>
                                     <li class=" cliks">
-                                        <a href="">差评（0）</a>
+                                        <a href='javascript:void(0);'>差评（0）</a>
                                     </li>
                                 </ul>
                             </div>
@@ -318,7 +318,7 @@
                             </div>
                         </div>
                         <!-- 规格参数 -->
-                        <div class="commodity-num">
+                        <div class="commodity-num"  style="display:none;">
                             <div class='commodity-num-spec'>
                                 <div class="brand-name">规格参数</div>
                                 <ul class='Specifications'>
@@ -394,10 +394,12 @@
     <include file="public@footer" />
     <include file="public@scripts" />
     <hook name="before_body_end" />
+
     <!-- 放大镜效果 -->
     <script src="__TMPL__/public/assets/js/jquery.jqzoom.js"></script>
     <script src="__TMPL__/public/assets/js/lanrenzhijia.js"></script>
     <!-- end -->
+    
 </body>
 <script>
 // 属性选择
@@ -405,10 +407,11 @@ $('.genre-col').click(function() {
     $(this).addClass('selColor').siblings().removeClass('selColor')
 })
 
-// 购物车
+// 详情页购物车
 $('.add').click(function() {
     var inventory = $('.inventory').html();
     var price = $('.amount_input').val();
+    console.log('addd')
     if (inventory > price) {
         $('.amount_input').removeClass('error')
         price++;
@@ -419,12 +422,24 @@ $('.add').click(function() {
     }
 })
 $('.reduce').click(function() {
+      console.log('addd')
     var price = $('.amount_input').val();
     if (price > 0) {
         $('.amount_input').removeClass('error')
         price--;
         $('.amount_input').val(price)
     }
+})
+
+// 商品详情页tab切换
+$('.commodity-xq li').click(function(){
+    var indx=$(this).index();
+    var div=$('.commodity-num');
+    console.log(div)
+    $(this).addClass('current').siblings('').removeClass('current');
+
+    div.hide();
+    div.eq(indx).show();
 })
 </script>
 

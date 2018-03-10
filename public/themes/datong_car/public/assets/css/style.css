@@ -420,7 +420,7 @@
 /*车辆信息*/
 .lanrenzhijia{width:100%;height:auto;margin:0 auto;overflow:hidden;}
 .jqzoom{float:left;border:none;position:relative;padding:0px;cursor:pointer;margin:0px;display:block;width:100%;}
-.jqzoom img{width:100%;background:url(http://www.lanrenzhijia.com/demo/images/loading.gif) no-repeat center center;margin:0 auto;}
+.jqzoom img{width:100%;height:auto;max-height:382px;background:url(http://www.lanrenzhijia.com/demo/images/loading.gif) no-repeat center center;margin:0 auto;}
 .jqzoom a{text-align:center;display:inline-block;position:absolute;right:0;bottom:3px;width:101px;height:34px;line-height:34px;z-index:101;background-color:rgba(255,255,255,.5);font-size:18px;}
 .jqzoom a i{display:inline-block;width:29px;height:20px;background:url(../images/example/car_icon.png) no-repeat -11px -138px;vertical-align:middle;}
 .zoomdiv{z-index:100;position:absolute;top:0px;left:0px;width:20px;height:20px;background:#ffffff;border:1px solid #CCCCCC;display:none;text-align:center;overflow:hidden;}
@@ -444,7 +444,7 @@
 .car_message_tit_con{padding:40px 0;}
 .car_message_tit_con .img{width:565px;}
 .car_message_tit_con .txt{width:600px;}
-.car_message_tit_con .txt h5{font-size:24px;font-weight:normal;color:#000033;}
+.car_message_tit_con .txt h5{font-size:22px;line-height: 1.6;font-weight:normal;color:#000033;}
 .car_message_tit_con .txt .detail1{padding:18px 0;}
 .car_message_tit_con .txt .detail1:after{content:"";display:block;clear:both;}
 .car_message_tit_con .txt .detail1 li{display:inline-block;font-size:16px;color:#666;max-width:160px;white-space:nowrap;}
@@ -2065,7 +2065,7 @@
     .car_message_tit_con .img{width:100%;}
     .spec-preview{width:100%;height:auto;}
     .jqzoom{width:100%;}
-    .jqzoom img{width:100%;}
+    .jqzoom img{width:100%;height:auto;}
     .car_message_tit_con{padding:1rem 0;}
     .car_message_tit_con .txt{margin-top:1.5rem;}
     .car_message_tit_con .txt .detail1 li{display:block;margin-top:10px;}
@@ -2081,7 +2081,7 @@
     .base_mess_item dd{width:100%;}
 }
 @media only screen and (max-width:500px){
-    .car_message_tit_con .txt h5{font-size:18px;line-height:1.36;}
+    .car_message_tit_con .txt h5{font-size: 16px;line-height: 1.6;}
     .car_message_tit_con .txt .detail1 li span.big{font-size:22px;}
     .car_message_tit_con .txt .detail1 li{font-size:14px;}
     .car_message_tit_con .txt .icon_img img{width:99px;}

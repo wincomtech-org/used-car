@@ -228,11 +228,14 @@
                             <div>
                                 <div class="group-product">
                                     <a href="{:url('Post/details',['id'=>$goods.id])}" class='clearfix'>
-                                        <empty name="goods.thumbnail">
-                                        <img src="__TMPL__/public/assets/images/default-thumbnail.png" alt="">
-                                        <else/>
-                                        <img src="{:cmf_get_image_preview_url($goods.thumbnail)}" alt="">
-                                        </empty>
+                                        <div class='img'>
+                                            <empty name="goods.thumbnail">
+                                                <img src="__TMPL__/public/assets/images/default-thumbnail.png" alt="">
+                                            <else/>
+                                                <img src="{:cmf_get_image_preview_url($goods.thumbnail)}" alt="">
+                                            </empty>
+                                        </div>
+                                   
                                         <div class="txt">
                                             <p>{$goods.name|mb_substr=0,20,'utf-8'}</p>
                                             <span class='red-color'>￥{$goods.price}</span>
@@ -248,8 +251,6 @@
                 </div>
             </div>
             </foreach>
-
-
             
 
             <div class="advantage clearfix">
