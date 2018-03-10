@@ -26,6 +26,14 @@ class ShopController extends UserBaseController
     {
         $os = $this->request->param('status');
 
+        $where = [];
+        if ($os!==NULL) {
+            $where['status'] = $os;
+        }
+        // config('shop_order_status');
+        $orders = '';
+
+        $this->assign('orders',$orders);
         $this->assign('os',$os);
         return $this->fetch();
     }

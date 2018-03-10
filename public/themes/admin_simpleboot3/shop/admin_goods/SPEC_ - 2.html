@@ -1,7 +1,7 @@
 <style type="text/css">
-.pic-list li {
-    margin-bottom: 5px;
-}
+    .pic-list li {
+        margin-bottom: 5px;
+    }
 </style>
 <div class="form-group">
     <div>
@@ -10,58 +10,60 @@
                 <dt>{$vo.name}</dt>
                 <dd>
                     <ul class="pic-list list-unstyled form-inline">
-                        <li>
+                        <li >
                             <span nctype="input_checkbox">
                                 <input type="checkbox" value="白色" nc_type="438" name="sp_val[15][438]">
                             </span>
                             <span nctype="pv_name"><input type="text" maxlength="20" class="text" value="白色"></span>
                         </li>
-                        <li>
+                        <li >
                             <span nctype="input_checkbox">
                                 <input type="checkbox" value="黑色" nc_type="438" name="sp_val[15][438]">
                             </span>
                             <span nctype="pv_name"><input type="text" maxlength="20" class="text" value="黑色"></span>
                         </li>
-                        <li><a href="#">+添加规格值</a></li>
+                        <li ><a href="#">+添加规格值</a></li>
                     </ul>
                 </dd>
             </dl>
         </foreach>
     </div>
 </div>
+
 <div class="form-group">
     <label>配置</label>
     <table class="table table-bordered">
         <thead>
             <tr>
-                <th>颜色</th>
-                <th>市场价</th>
-                <th>价格</th>
-                <th>库存</th>
-                <th>主图</th>
+                <th nctype="spec_name_15">颜色</th>
+                <th nctype="spec_name_16">规格</th>
+                <th >市场价</th>
+                <th >价格</th>
+                <th >库存</th>
+                <th >商家货号</th>
             </tr>
         </thead>
         <tbody>
             <tr>
+                <input type="hidden" name="spec[i_438471][goods_id]" nc_type="i_438471|id" value="">
                 <td>
-                    <input type="hidden" name="spec[i_438471][sp_value][438]" value="白色">白色
-                </td>
+                    <input type="hidden" name="spec[i_438471][sp_value][438]" value="白色">白色</td>
                 <td>
-                    <input type="text" name="spec[i_438471][marketprice]" data_type="marketprice" nc_type="i_438471|marketprice" value=""><em class="add-on"><i class="icon-renminbi"></i></em>
-                </td>
+                    <input type="hidden" name="spec[i_438471][sp_value][471]" value="100g">100g</td>
                 <td>
-                    <input class="text price" type="text" name="spec[i_438471][price]" data_type="price" nc_type="i_438471|price" value=""><em class="add-on"><i class="icon-renminbi"></i></em>
-                </td>
+                    <input class="text price" type="text" name="spec[i_438471][marketprice]" data_type="marketprice" nc_type="i_438471|marketprice" value=""><em class="add-on"><i class="icon-renminbi"></i></em></td>
+                <td>
+                    <input class="text price" type="text" name="spec[i_438471][price]" data_type="price" nc_type="i_438471|price" value=""><em class="add-on"><i class="icon-renminbi"></i></em></td>
                 <td>
                     <input class="text stock" type="text" name="spec[i_438471][stock]" data_type="stock" nc_type="i_438471|stock" value="">
                 </td>
                 <td>
                     <input class="text sku" type="text" name="spec[i_438471][sku]" nc_type="i_438471|sku" value="">
                 </td>
-                <input type="hidden" name="spec[i_438471][goods_id]" nc_type="i_438471|id" value="">
             </tr>
             <tr>
                 <td>spec-1-2</td>
+                <td>spec-2-2</td>
                 <td>11</td>
                 <td>9</td>
                 <td>856</td>
@@ -70,3 +72,4 @@
         </tbody>
     </table>
 </div>
+
