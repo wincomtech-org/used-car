@@ -137,7 +137,7 @@
                         <foreach name="carlist" item="vo">
                         <li class="vehicle_con_detail_items">
                             <div class="img"><a href="{:url('Post/details',['id'=>$vo.id])}">
-                                <img src="{:url('trade/Index/thumbUrl',['img'=>urlencode($vo.more.thumbnail),'w'=>283,'h'=>195])}" alt="">
+                                <img src="{:url('thumbUrl',['img'=>urlencode($vo.more.thumbnail),'w'=>283,'h'=>195])}" alt="">
                             </a></div>
                             <div class="txt">
                                 <h6><a href="{:url('Post/details',['id'=>$vo.id])}">{$vo.name}</a></h6>

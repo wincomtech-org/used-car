@@ -80,7 +80,8 @@ class AdminCategoryController extends AdminBaseController
             $specs = Db::name('shop_spec')->field('id,name')->where('status',1)->order('list_order')->select();//规格ID
             $cate_specIds = Db::name('shop_category_spec')->where('cate_id',$id)->column('spec_id');//原有规格ID
             foreach ($specs as $rol) {
-                $rol['check'] = (in_array($rol['id'],$cate_specIds)) ? 'checked' : '';
+                // $rol['check'] = (in_array($rol['id'],$cate_specIds)) ? 'checked' : '';
+                $rol['check'] = 'checked';
                 $cate_spec[] = $rol;
             }
             $cate_spec_old = empty($cate_specIds)?'':implode(',', $cate_specIds);

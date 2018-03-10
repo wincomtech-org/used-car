@@ -8,6 +8,7 @@ use think\Request;
 use think\Url;
 use think\View;
 
+// 管理员操作日志
 function lothar_admin_log($action = '', $type = 'goods')
 {
     $adminLog = [
@@ -18,6 +19,12 @@ function lothar_admin_log($action = '', $type = 'goods')
         'action'      => $action,
     ];
     Db::name('admin_log')->insert($adminLog);
+}
+
+/* 系统日志 */
+// cmf_log()
+function lothar_log($str,$filename='test.log'){
+    error_log(date('Y-m-d H:i:s').$str."\r\n",3,'log/'.$filename);
 }
 
 /**
@@ -192,6 +199,68 @@ function lothar_verify($uid = null, $code = 'certification', $data = 'status')
     return $result;
 }
 
+/*弹窗*/
+function lothar_popup($msg = '', $code = 1, $url = null, $data = '', $wait = 3)
+{
+    $result = [
+        'code' => $code,
+        "msg"  => $msg,
+        "data" => $data,
+        "url"  => $url,
+        'wait' => $wait,
+    ];
+
+    $ViewTemplate = View::instance(Config::get('template'), Config::get('view_replace_str'));
+
+    return $ViewTemplate->fetch('public@/popup', $result);
+    // return $ViewTemplate->fetch(Config::get('dispatch_success_tmpl'), $result);
+}
+
+
+
+/*
+ * 缩略图生成
+ * getcwd()
+ */
+function lothar_thumb_url($imgpath, $width = 135, $height = 135, $type=6)
+{
+    if (strpos($imgpath,'http')===0) {
+        return $imgpath;
+    } else if (strpos($imgpath, "/") === 0) {
+        return cmf_get_domain() . $imgpath;
+    }
+
+    $avatarPath = "./upload/" . $imgpath;
+    $fileArr    = pathinfo($avatarPath);
+    $filename   = $fileArr['dirname'] .'/'. $fileArr['filename'] .'_'. $width .'x'. $height .'.'. $fileArr['extension'];
+    if (is_file($filename)) {
+        $url = $filename;
+    } else {
+        $avatarImg = Image::open($avatarPath);
+        $avatarImg->thumb($width, $height, $type)->save($filename);
+        $url = $filename;
+    }
+    $url = request()->domain() . $url;
+
+    return $url;
+}
+
+/* 过滤HTML得到纯文本 */
+function lothar_get_content($list,$len=100){
+    //过滤富文本
+    $tmp=[];
+    foreach ($list as $k=>$v){
+        $content_01 = $v["content"];//从数据库获取富文本content
+        $content_02 = htmlspecialchars_decode($content_01); //把一些预定义的 HTML 实体转换为字符
+        $content_03 = str_replace("&nbsp;","",$content_02);//将空格替换成空
+        $contents = strip_tags($content_03);//函数剥去字符串中的 HTML、XML 以及 PHP 的标签,获取纯文本内容
+        $con = mb_substr($contents, 0, $len,"utf-8");//返回字符串中的前100字符串长度的字符
+        $v['content']=$con.'...';
+        $tmp[]=$v;
+    }
+    return $tmp;
+}
+
 /*
  * JSON
  * json_decode(json,true) 为true时返回array而非object
@@ -213,47 +282,6 @@ function lothar_toJson($code = 0, $msg = '', $url = null, $data = '', $wait = 3)
     return $result;
 }
 
-/*弹窗*/
-function lothar_popup($msg = '', $code = 1, $url = null, $data = '', $wait = 3)
-{
-    $result = [
-        'code' => $code,
-        "msg"  => $msg,
-        "data" => $data,
-        "url"  => $url,
-        'wait' => $wait,
-    ];
-
-    $ViewTemplate = View::instance(Config::get('template'), Config::get('view_replace_str'));
-
-    return $ViewTemplate->fetch('public@/popup', $result);
-    // return $ViewTemplate->fetch(Config::get('dispatch_success_tmpl'), $result);
-}
-
-/*缩略图生成*/
-function lothar_thumb_url($imgpath, $width = 350, $height = 350)
-{
-    if (strpos($imgpath,'http')===0) {
-        return $imgpath;
-    } else if (strpos($imgpath, "/") === 0) {
-        return cmf_get_domain() . $imgpath;
-    }
-
-    $avatarPath = "./upload/" . $imgpath;
-    $fileArr    = pathinfo($avatarPath);
-    $filename   = $fileArr['dirname'] . $fileArr['filename'] . "-" . $width . "-" . $height . ".jpg";
-    if (file_exists($filename)) {
-        $url = $filename;
-    } else {
-        $avatarImg = Image::open($avatarPath);
-        $avatarImg->thumb($width, $height)->save($filename);
-        $url = $filename;
-    }
-    $url = request()->domain() . $url;
-
-    return $url;
-}
-
 /**
  * 格式化数字
  * number_format()
@@ -268,4 +296,14 @@ function lothar_num_format($value = '')
     } else {
         return $value;
     }
+}
+
+/* 为网址补加 http:// */
+function lothar_link($link){
+    //处理网址，补加http://
+    $exp='/^(http|ftp|https):\/\/([\w.]+\/?)\S*/';
+    if(preg_match($exp, $link)==0){
+        $link='http://'.$link;
+    }
+    return $link;
 }

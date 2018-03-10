@@ -10,10 +10,10 @@
 // +----------------------------------------------------------------------
 namespace cmf\controller;
 
+use think\Config;
 use think\Controller;
 use think\Request;
 use think\View;
-use think\Config;
 
 class BaseController extends Controller
 {
@@ -38,7 +38,6 @@ class BaseController extends Controller
         $this->_initializeView();
         $this->view = View::instance(Config::get('template'), Config::get('view_replace_str'));
 
-
         // 控制器初始化
         $this->_initialize();
 
@@ -46,12 +45,11 @@ class BaseController extends Controller
         if ($this->beforeActionList) {
             foreach ($this->beforeActionList as $method => $options) {
                 is_numeric($method) ?
-                    $this->beforeAction($options) :
-                    $this->beforeAction($method, $options);
+                $this->beforeAction($options) :
+                $this->beforeAction($method, $options);
             }
         }
     }
-
 
     // 初始化视图配置
     protected function _initializeView()
@@ -60,8 +58,8 @@ class BaseController extends Controller
 
     /**
      * 排序 排序字段为list_orders数组 POST 排序字段为：list_order
-     * @param $model object 
-    */
+     * @param $model object
+     */
     protected function listOrders($model)
     {
         if (!is_object($model)) {
@@ -88,13 +86,13 @@ class BaseController extends Controller
      *  刪除 回收机制
      *  通用的
      */
-    protected function dels($model, $obj='')
+    protected function dels($model, $obj = '')
     {
         if (is_array($model)) {
             $result = $obj->where($model)->delete();
         } elseif (is_object($model)) {
-            $pk = $model->getPk(); //获取主键名称
-            $id = $this->request->param($pk.'/d');
+            $pk     = $model->getPk(); //获取主键名称
+            $id     = $this->request->param($pk . '/d');
             $result = $model->where($pk, $id)->delete();
         } else {
             return false;
@@ -111,21 +109,22 @@ class BaseController extends Controller
 
     /**
      * 缩略图生成
-     * 模板中：{:cmf_url('portal/Index/thumbUrl',['img'=>urlencode('default/20171225/logo_lucency.png')])}
+     * 模板中：{:url('thumbUrl',['img'=>urlencode('default/20171225/logo_lucency.png')])}
      * urlencode() 、 urldecode()解决特殊字符转义问题
      * @param  string  $image  [description]
      * @param  integer $width  [description]
      * @param  integer $height [description]
      * @return [type]          [description]
      */
-    public function thumbUrl($image='default/20171225/logo_lucency.png', $width=135, $height=135)
+    public function thumbUrl($image = 'default/20171225/logo_lucency.png', $width = 135, $height = 135)
     {
-        $data = $this->request->param();
-        $image = empty($data['img']) ? '' : urldecode($data['img']);
-        $width = empty($data['w']) ? 135 : $data['w'];
+        $data   = $this->request->param();
+        $image  = empty($data['img']) ? '' : urldecode($data['img']);
+        $width  = empty($data['w']) ? 135 : $data['w'];
         $height = empty($data['h']) ? 135 : $data['h'];
+        $type   = empty($data['t']) ? 6 : $data['t'];
 
-        $url = lothar_thumb_url($image,$width,$height);
+        $url = lothar_thumb_url($image, $width, $height, $type);
 
         // redirect($url);
         return redirect($url);

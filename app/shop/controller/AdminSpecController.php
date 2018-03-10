@@ -34,6 +34,7 @@ class AdminSpecController extends AdminBaseController
 
     public function add()
     {
+        $this->error('暂未开放');
         $categoryTree = model('ShopGoodsCategory')->adminCategoryTree();
         $this->assign('category_tree',$categoryTree);
         return $this->fetch();
