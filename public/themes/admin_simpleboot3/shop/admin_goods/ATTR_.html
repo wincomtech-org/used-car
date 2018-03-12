@@ -5,12 +5,12 @@
         <td>
             <select class="form-control" style="width: 140px;" name="attr[{$vo.id}]">
                 <notempty name="vo.value">
-                    <!-- <option value="">-- 请选择 --</option> -->
+                    <option value="">-- 请选择 --</option>
                     <foreach name="vo.value" item="v">
                     <option value="{$v.id}">{$v.id.$v.name}</option>
                     </foreach>
                 <else/>
-                    <!-- <option value="">-- 暂无 --</option> -->
+                    <option value="">-- 暂无 --</option>
                 </notempty>
             </select>
         </td>

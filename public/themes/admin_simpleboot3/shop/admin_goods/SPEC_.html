@@ -6,32 +6,7 @@
 <div class="form-group">
     <a target="_blank" href="{:url('AdminSpec/index')}">规格管理</a>
 </div>
-<div class="form-group">
-    <div>
-        <foreach name="specs" item="vo">
-            <dl>
-                <dt>{$vo.name}</dt>
-                <dd>
-                    <ul class="pic-list list-unstyled form-inline">
-                        <li>
-                            <span nctype="input_checkbox">
-                                <input type="checkbox" value="白色" nc_type="438" name="sp_val[15][438]">
-                            </span>
-                            <span nctype="pv_name"><input type="text" maxlength="20" class="text" value="白色"></span>
-                        </li>
-                        <li>
-                            <span nctype="input_checkbox">
-                                <input type="checkbox" value="黑色" nc_type="438" name="sp_val[15][438]">
-                            </span>
-                            <span nctype="pv_name"><input type="text" maxlength="20" class="text" value="黑色"></span>
-                        </li>
-                        <li><a href="#">+添加规格值</a></li>
-                    </ul>
-                </dd>
-            </dl>
-        </foreach>
-    </div>
-</div>
+
 
 <script type="text/javascript">
     
@@ -39,10 +14,11 @@
 
 <div class="form-group">
     <label>配置</label>
+    
     <table class="table table-bordered">
         <thead>
             <tr>
-                <th>颜色</th>
+                <th>规格</th>
                 <th>市场价</th>
                 <th>价格</th>
                 <th>库存</th>
@@ -52,7 +28,7 @@
         <tbody>
             <tr>
                 <td>
-                    <input type="hidden" name="spec[i_438471][sp_value][438]" value="白色">白色
+                    <input type="hidden" name="spec[i_438471][sp_value][438]" value="">白色32寸高端
                 </td>
                 <td>
                     <input type="text" name="spec[i_438471][marketprice]" data_type="marketprice" nc_type="i_438471|marketprice" value=""><em class="add-on"><i class="icon-renminbi"></i></em>
@@ -69,11 +45,7 @@
                 <input type="hidden" name="spec[i_438471][goods_id]" nc_type="i_438471|id" value="">
             </tr>
             <tr>
-                <td>spec-1-2</td>
-                <td>11</td>
-                <td>9</td>
-                <td>856</td>
-                <td>sku</td>
+                <th><a href="#">+添加规格值</a></th>
             </tr>
         </tbody>
     </table>
