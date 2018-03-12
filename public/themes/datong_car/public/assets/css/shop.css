@@ -97,15 +97,15 @@
 
 /* 本周热卖 */
 .remai_div{
-    border:1px solid #ddd;
-    border-left:none;
+    border-right:1px solid #ddd;
+    /* border-left:none; */
     padding:.5rem;
 }
 .hotSale .slick-slide{
     min-height:auto;
 }
 .slick-slide:first-child .remai_div{
-    border-left:1px solid #ddd;
+    border-left:none;
 }
 .div_img{
     text-align:center;
@@ -142,8 +142,7 @@
     border:1px solid #ddd;
 }
 .hotSale_div{
-    border-left:1px solid #ddd;
-    border-right:1px solid #ddd;
+    border:1px solid #ddd;
 }
 
 /* 产品详情 */
@@ -1303,7 +1302,7 @@
 .adv_img{
     display:inline-block;
     vertical-align:middle;
-    width:61px;
+    width:60px;
     height:61px;
     background-image:url(../images/tit.png);
 }

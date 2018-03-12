@@ -473,6 +473,9 @@ nav{background-color:#000;}
     .navPc,.headerPc,.login_pc{display:none;}
     .headerM{overflow:hidden;}
 
+    /* 导航 */
+    .brash li{font-size:14px;}
+
     /**手机端顶部和导航*/
     .header_top{display:-webkit-box;display:-ms-flexbox;display:flex;-ms-flex-wrap:wrap;flex-wrap:wrap;-webkit-box-pack:justify;-ms-flex-pack:justify;justify-content:space-between;padding:1%;align-items:center;}
     .header_top .logo{width:20%;}
@@ -485,8 +488,8 @@ nav{background-color:#000;}
 
     /* 导航服务商城 */
     .shop-menu{display: inline-block; vertical-align: sub;margin-right: 5px;}
-    .shop-menus{border-top:1px solid #ddd;width:100%;height:100%;}
-    .shop-menus-con{padding:1rem;background-color:#fff;}
+    .shop-menus{border-top:1px solid #ddd;width:100%;height:100%;padding:1rem;}
+    .shop-menus-con{background-color:#fff;}
     .shop-menus-con dl{margin-bottom:1rem;}
     .shop-menus-con dt{display:block;font-size:16px;padding:10px 0;border-bottom:1px solid #ddd;}
     .shop-menus-con dd{font-size:12px;display:inline-block;line-height:1.6;margin:5px ;}
