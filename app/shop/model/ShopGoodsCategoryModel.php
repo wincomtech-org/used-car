@@ -139,7 +139,7 @@ class ShopGoodsCategoryModel extends UsualCategoryModel
 
 
 
-
+/*以下为具体方法*/
     // 获取指定级别的上级ID
     public function getTopid($cateId = 0, $level = 99)
     {
@@ -263,6 +263,9 @@ class ShopGoodsCategoryModel extends UsualCategoryModel
         }
     }
 
+
+
+/*以下是与分类相关的*/
     /**
      * 获取当前分类下的规格
      * @param  integer $cateId [description]
@@ -274,13 +277,17 @@ class ShopGoodsCategoryModel extends UsualCategoryModel
         $specs            = [];
         $category_specIds = Db::name('shop_category_spec')->where('cate_id', $cateId)->column('spec_id');
         if (!empty($category_specIds)) {
-            $specs = Db::name('shop_spec')->field('id,name')->where('id', 'in', $category_specIds)->select();
+            $specs  = Db::name('shop_spec')->field('id,name')->where('id', 'in', $category_specIds)->select();
         } else {
             $pid    = Db::name('shop_goods_category')->where('id', $cateId)->value('parent_id');
-            $father = Db::name('shop_goods_category')->where('id', $pid)->value('spec_subset');
-            if ($pid > 0 && $father == 1) {
-                $category_specIds = Db::name('shop_category_spec')->where('cate_id', $pid)->column('spec_id');
-                $specs            = Db::name('shop_spec')->field('id,name')->where(['id' => ['in', $category_specIds]])->select();
+            if ($pid>0) {
+                $father = Db::name('shop_goods_category')->where('id', $pid)->value('spec_subset');
+                if ($father == 1) {
+                    $category_specIds = Db::name('shop_category_spec')->where('cate_id', $pid)->column('spec_id');
+                    $specs            = Db::name('shop_spec')->field('id,name')->where(['id' => ['in', $category_specIds]])->select();
+                    // $subSql = Db::name('shop_category_spec')->field('spec_id')->where('cate_id',$pid)->buildSql();
+                    // $specs  = Db::name('shop_spec')->field('id,name')->where('id','in',$subSql)->select();
+                }
             }
         }
 
@@ -304,6 +311,7 @@ class ShopGoodsCategoryModel extends UsualCategoryModel
         $mq4   = Db::name('shop_goods_av');
         $atk   = (is_null($cateId)) ? true : false; //为空时使用推荐属性？
 
+        // 属性处理
         if ($atk === true) {
             // $attrs = $mq3->field('id,name')->where('status',1)->limit(9)->select();
         } else {
@@ -320,11 +328,11 @@ class ShopGoodsCategoryModel extends UsualCategoryModel
             }
         }
 
+        // 属性值处理
         if (!empty($attrs)) {
             foreach ($attrs as $row) {
                 $attrs2[$row['id']] = $row;
             }
-            // 属性值处理
             if ($attr_value === true) {
                 $attr_ids = array_column($attrs2, 'id');
                 $values = $mq4->field('id,name,attr_id')->where(['attr_id'=>['in',$attr_ids]])->select();
