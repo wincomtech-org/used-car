@@ -13,12 +13,41 @@ class PostController extends HomeBaseController
 {
     public function details()
     {
-        $id = $this->request->param('id',0,'intval');
-        $star = $this->request->param('star');
+        $id = $this->request->param('id',0,'intval');//用于获取商品数据
+        $star = $this->request->param('star');//用于评论
 
+        // 获取商品数据
         // $goods = Db::name('shop_goods')->where('id',$id)->find();
         // $more = json_decode($goods['more'],true);
-        $goods = model('ShopGoods')->getPost($id);
+        // $goods = model('ShopGoods')->getPost($id);
+        $goods = model('ShopGoods')->alias('a')
+            ->field('a.*,b.name as catename,c.name as brandname')
+            ->join([
+                ['shop_goods_category b','a.cate_id=b.id'],
+                ['shop_brand c','a.brand_id=c.id'],
+            ])
+            ->where('a.id',$id)
+            ->find();
+// dump($goods->toArray());die;
+
+// $subSql = Db::name('shop_category_spec')->field('spec_id')->where('cate_id',0)->buildSql();
+
+        // 商品分类
+        $category = Db::name('shop_goods_category')->where('id',$goods['cate_id'])->value('name');
+
+        // 商品规格
+        $cate_specs = model('ShopGoodsCategory')->getSpecByCate($goods['cate_id']);
+        $specs = '';
+
+
+// dump($category);
+// // dump($spec_ids);
+// dump($specs);
+// // dump($subSql);
+// die;
+        // 商品属性
+        $attrs = '';
+
 
         // 评价专区
         // 统计
@@ -42,11 +71,6 @@ class PostController extends HomeBaseController
             ->where($where)
             // ->fetchSql(true)->select();
             ->paginate(2);
-// dump($star);
-// dump($evaluate);
-// die;
-        // 商品属性
-        $attrs = '';
 
         // 推荐商品
         $goodsRec = Db::name('shop_goods')->where('')->select();
@@ -58,6 +82,7 @@ class PostController extends HomeBaseController
 // die;
         $evaluate->appends('id='.$id.'&star='.$star);
         $this->assign('goods',$goods);
+        $this->assign('star',$star);
         $this->assign('evals',[$amount,$good,$normal,$bad]);
         $this->assign('eval',$eval);
         $this->assign('evaluate',$evaluate);

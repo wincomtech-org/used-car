@@ -96,10 +96,10 @@ class ShopController extends UserBaseController
         $post['create_time'] = time();
 // dump($post);die;
         $result = Db::name('shop_evaluate')->insertGetId($post);
-        if ($result==1) {
-            $this->success('评价成功',url('index',['status'=>11]));
+        if ($result>0) {
+            $this->success('评价成功',url('index',['status'=>null]));
         }
-        $this->error('评价失败',url('index',['status'=>10]));
+        $this->error('评价失败',url('index',['status'=>3]));
     }
 
     // 物流信息
