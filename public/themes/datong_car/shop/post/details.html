@@ -251,14 +251,14 @@
                                     <li class="current cliks">
                                         <a href="{:url('details',['id'=>$goods.id])}">全部评论（{$evals['0']}）</a>
                                     </li>
-                                    <li class=" cliks">
-                                        <a href='javascript:void(0);'>好评（{$evals[1]}）</a>
+                                    <li class="cliks">
+                                        <a href="{:url('details',['id'=>$goods.id,'star'=>1])}">好评（{$evals[1]}）</a>
                                     </li>
-                                    <li class=" cliks">
-                                        <a href='javascript:void(0);'>中评（{$evals.2}）</a>
+                                    <li class="cliks">
+                                        <a href="{:url('details',['id'=>$goods.id,'star'=>0])}">中评（{$evals.2}）</a>
                                     </li>
-                                    <li class=" cliks">
-                                        <a href='javascript:void(0);'>差评（{$evals.3}）</a>
+                                    <li class="cliks">
+                                        <a href="{:url('details',['id'=>$goods.id,'star'=>-1])}">差评（{$evals.3}）</a>
                                     </li>
                                 </ul>
                             </div>
