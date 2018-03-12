@@ -14,7 +14,7 @@ class PostController extends HomeBaseController
     public function details()
     {
         $id = $this->request->param('id',0,'intval');
-        $star = $this->request->param('star',0,'intval');
+        $star = $this->request->param('star');
 
         // $goods = Db::name('shop_goods')->where('id',$id)->find();
         // $more = json_decode($goods['more'],true);
@@ -22,19 +22,29 @@ class PostController extends HomeBaseController
 
         // 评价专区
         // 统计
-        $eval['amount'] = Db::name('shop_evaluate')->count();
-        $eval['good'] = Db::name('shop_evaluate')->where('star',1)->count();
+        $amount = Db::name('shop_evaluate')->count();
+        $good = Db::name('shop_evaluate')->where('star',1)->count();
+        $normal = Db::name('shop_evaluate')->where('star',0)->count();
+        $bad = Db::name('shop_evaluate')->where('star',-1)->count();
+        $eval['good'] = ceil(($good/$amount)*10000)/100;
+        // $eval['normal'] = round(($normal/$amount)*100,2);
+        $eval['normal'] = floor(($normal/$amount)*10000)/100;
+        $eval['bad'] = floor(($bad/$amount)*10000)/100;
         // 用户评价
-        $where = [
-            'goods_id' => $id,
-            'star'     => $star
-        ];
+        $where['status'] = 1;
+        $where['goods_id'] = $id;
+        if ($star!==NULL) {
+            $where['star'] = $star;
+        }
         $evaluate = DB::name('shop_evaluate')->alias('a')
-            ->field('a.id,a.user_id,a.goods_id,a.description,b.user_nickname,b.user_login,b.mobile')
+            ->field('a.id,a.user_id,a.goods_id,a.description,a.star,a.create_time,b.avatar,b.user_nickname,b.user_login,b.mobile')
             ->join('user b','a.user_id=b.id')
             ->where($where)
-            ->paginate(1);
-
+            // ->fetchSql(true)->select();
+            ->paginate(2);
+// dump($star);
+// dump($evaluate);
+// die;
         // 商品属性
         $attrs = '';
 
@@ -48,6 +58,7 @@ class PostController extends HomeBaseController
 // die;
         $evaluate->appends('id='.$id.'&star='.$star);
         $this->assign('goods',$goods);
+        $this->assign('evals',[$amount,$good,$normal,$bad]);
         $this->assign('eval',$eval);
         $this->assign('evaluate',$evaluate);
         $this->assign('pager',$evaluate->render());

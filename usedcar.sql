@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50540
 File Encoding         : 65001
 
-Date: 2018-03-10 17:20:45
+Date: 2018-03-12 10:09:52
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -5223,15 +5223,18 @@ CREATE TABLE `cmf_shop_evaluate` (
   `star` tinyint(1) NOT NULL DEFAULT '0' COMMENT '评级：-1差评 0 中评 1好评',
   `description` tinytext COMMENT '评价内容',
   `evaluate_image` text COMMENT '有图评价',
+  `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '发表时间',
+  `status` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT '状态：1显示 0隐藏',
   PRIMARY KEY (`id`),
   KEY `star` (`star`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Records of cmf_shop_evaluate
 -- ----------------------------
-INSERT INTO `cmf_shop_evaluate` VALUES ('1', '5', '3', '0', '飒飒', null);
-INSERT INTO `cmf_shop_evaluate` VALUES ('2', '5', '1', '0', 'reg', null);
+INSERT INTO `cmf_shop_evaluate` VALUES ('1', '6', '3', '1', '非常不错，用的很好，心情美美哒', null, '1520819881', '1');
+INSERT INTO `cmf_shop_evaluate` VALUES ('2', '6', '1', '-1', '一般般', null, '1520819081', '1');
+INSERT INTO `cmf_shop_evaluate` VALUES ('3', '6', '3', '-1', '道具卡发到你看', null, '1520819952', '1');
 
 -- ----------------------------
 -- Table structure for cmf_shop_gav

@@ -93,6 +93,7 @@ class ShopController extends UserBaseController
             $post['evaluate_image'] = model('usual/Com')->dealFiles($data['evaluate_image']);
         }
         $post['user_id'] = cmf_get_current_user_id();
+        $post['create_time'] = time();
 // dump($post);die;
         $result = Db::name('shop_evaluate')->insertGetId($post);
         if ($result==1) {

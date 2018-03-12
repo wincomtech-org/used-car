@@ -4,11 +4,10 @@
 <head>
     <meta charset="UTF-8">
     <title>车辆买卖</title>
+    <include file="public@head" />
     <!-- 服务商城css -->
     <!-- <link href='__TMPL__/public/assets/css/shop.css' type="text/css" rel="stylesheet"> -->
-    <include file="public@head" />
     <link rel="stylesheet" href="__TMPL__/public/assets/css/shop.css">
-    <hook name="before_head_end" />
 </head>
 
 <body>
@@ -207,33 +206,33 @@
                                 <div class="eval-le1">
                                     <div class="percent">
                                         <span>
-											<b class='red'>67</b>%
+											<b class='red'>{$eval.good}</b>%
 										</span>
                                         <em>好评度</em>
                                     </div>
                                     <div class="common-num">
                                         <dl>
                                             <dt>
-                                                好评<em>(67%)</em>
+                                                好评<em>({$eval.good}%)</em>
                                             </dt>
                                             <dd>
-                                                <s style="width:67%;"></s>
+                                                <s style="width:{$eval.good}%;"></s>
                                             </dd>
                                         </dl>
                                         <dl>
                                             <dt>
-                                                中评<em>(30%)</em>
+                                                中评<em>({$eval.normal}%)</em>
                                             </dt>
                                             <dd>
-                                                <s style="width:30%;"></s>
+                                                <s style="width:{$eval.normal}%;"></s>
                                             </dd>
                                         </dl>
                                         <dl>
                                             <dt>
-                                                差评<em>(3%)</em>
+                                                差评<em>({$eval.bad}%)</em>
                                             </dt>
                                             <dd>
-                                                <s style="width:3%;"></s>
+                                                <s style="width:{$eval.bad}%;"></s>
                                             </dd>
                                         </dl>
                                     </div>
@@ -250,16 +249,16 @@
                             <div class="evaluation-cen">
                                 <ul class='evaluation-ul'>
                                     <li class="current cliks">
-                                        <a href="{:url('details',['id'=>$goods.id])}">全部评论（3）</a>
+                                        <a href="{:url('details',['id'=>$goods.id])}">全部评论（{$evals['0']}）</a>
                                     </li>
                                     <li class=" cliks">
-                                        <a href='javascript:void(0);'>好评（2）</a>
+                                        <a href='javascript:void(0);'>好评（{$evals[1]}）</a>
                                     </li>
                                     <li class=" cliks">
-                                        <a href='javascript:void(0);'>中评（1）</a>
+                                        <a href='javascript:void(0);'>中评（{$evals.2}）</a>
                                     </li>
                                     <li class=" cliks">
-                                        <a href='javascript:void(0);'>差评（0）</a>
+                                        <a href='javascript:void(0);'>差评（{$evals.3}）</a>
                                     </li>
                                 </ul>
                             </div>
@@ -282,8 +281,13 @@
                                             <div class="comm-t1">
                                                 <div class="pro-user-score lf">
                                                     <p>
-                                                        <em>好评</em>
-                                                       
+                                                        <em>
+                                                            <switch name="vo.star">
+                                                                <case value="1">好评</case>
+                                                                <case value="0">中评</case>
+                                                                <case value="-1">差评</case>
+                                                            </switch>
+                                                        </em>
                                                     </p>
                                                     <!-- <p>
                                                         <em>客服态度</em>
@@ -298,20 +302,24 @@
 														</span>
                                                     </p> -->
                                                 </div>
-                                                <div class="pro-user-time">2016-03-12</div>
+                                                <div class="pro-user-time">{:date('Y-m-d H:i:s',$vo.create_time)}</div>
                                             </div>
                                             <div class="comm-t2">
-                                                <p>非常不错，用的很好，心情美美哒</p>
+                                                <p>{$vo.description}</p>
                                             </div>
                                             <div class="arrow"></div>
                                         </div>
                                     </div>
-                                    <div class="pagination">{$pager|default=''}</div>
                                     <div class="clear"></div>
                                 </div>
                             	</foreach>
                             </div>
+                            <style type="text/css">
+                                .pagination{display:inline-block;padding-left:0;margin:20px 0;border-radius:0}
+                            </style>
+                            <div class="pagination">{$pager|default=''}</div>
                         </div>
+
                         <!-- 规格参数 -->
                         <div class="commodity-num"  style="display:none;">
                             <div class='commodity-num-spec'>
@@ -388,7 +396,6 @@
     <!-- 底部 -->
     <include file="public@footer" />
     <include file="public@scripts" />
-    <hook name="before_body_end" />
 
     <!-- 放大镜效果 -->
     <script src="__TMPL__/public/assets/js/jquery.jqzoom.js"></script>
