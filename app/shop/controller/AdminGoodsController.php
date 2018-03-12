@@ -219,18 +219,28 @@ class AdminGoodsController extends AdminBaseController
         $statusOptions = $this->scModel->getGoodsStatus($post['status']);
 
         // 规格 递归？
-        $specs = $cateModel->getSpecByCate($cateId);
+        // $specs = $cateModel->getSpecByCate($cateId);//所有规格
+        // 采用单一规格处理
+        // 获取所有已经入库的规格
+        $goods_spec = Db::name('shop_goods_spec')->field('id,spec_vars,market_price,price,stock,more')->where('goods_id',$id)->find();
 
         // 属性
-        $attrs = $cateModel->getAttrByCate($cateId,[]);
-// dump($attrs);die;
+        $attrs = $cateModel->getAttrByCate($cateId,[]);// 所有属性以及值
+        $goods_attrs = Db::name('shop_goods_item')->field('attr_id,av_id')->where('goods_id',$id)->select();
+        $goods_attrs2 = [];
+        foreach ($goods_attrs as $row) {
+            $goods_attrs2[$row['attr_id']] = $row['av_id'];
+        }
+
 
 
         $this->assign('cateCrumbs', $cateCrumbs);
         $this->assign('brands', $brands);
         $this->assign('statusOptions', $statusOptions);
-        $this->assign('specs', $specs);
+        // $this->assign('specs', $specs);
+        $this->assign('goods_spec', $goods_spec);
         $this->assign('attrs', $attrs);
+        $this->assign('goods_attrs', $goods_attrs2);
 
         $this->assign('cateId', $cateId);
         $this->assign('post', $post);
@@ -275,9 +285,10 @@ class AdminGoodsController extends AdminBaseController
         if (!empty($post['thumbnail'])) {
             $post['thumbnail'] = cmf_asset_relative_url($post['thumbnail']);
         }
-        if (!empty($post['cate_id'])) {
-            $post['cate_id_1'] = Db::name('shop_goods_category')->where('id',$post['cate_id'])->value('parent_id');
-            $post['cate_id_2'] = $post['cate_id'];
+        // 处理分类
+        if (!empty($cateId)) {
+            $post['cate_id_1'] = Db::name('shop_goods_category')->where('id',$cateId)->value('parent_id');
+            $post['cate_id_2'] = $cateId;
         }
         if (!empty($cateId)) {
             $parent_id = Db::name('shop_goods_category')->where('id',$cateId)->value('parent_id');
@@ -288,12 +299,67 @@ class AdminGoodsController extends AdminBaseController
                 $post['cate_id_1'] = $cateId;
             }
         }
+        // 处理规格 shop_goods_spec
+        // $post['more']['spec'] = '';
+
+        // 处理属性 shop_goods_item 
+        // 事实上无论是 goods_id,attr_id 还是 goods_id,av_id 都已经组成了唯一条件
+        // $post['more']['attr'] = $data['attr'];
+        $attrs_old =  $data['goods_attrs'];
+        // $attrs_old = json_decode($attrs_old,true);
+        $attrs_old = unserialize($attrs_old);
+        $attrs = $data['attr'];
+        $gav = [];
+
+        if (!is_array($attrs_old)) {
+            $this->error('属性数据非法');
+        }
+        if (empty($attrs_old)) {
+            foreach ($attrs as $key => $row) {
+                $gav[] = ['goods_id'=>$id,'attr_id'=>$key,'av_id'=>$row];
+            // dump($gav);die;
+            }
+        } else {
+            // $old_ids = array_keys($attrs_old);
+            // $attr_ids = array_keys($attrs);
+            $old_ids = array_values($attrs_old);
+            $attr_ids = array_values($attrs);
+            // 比较两个数组差集
+            $diff1 = array_diff($old_ids,$attr_ids);
+            $diff2 = array_diff($attr_ids,$old_ids);
+            // 增加的 
+            if (!empty($diff2)) {
+                foreach ($diff2 as $row) {
+                    $gav[] = ['goods_id'=>$id,'attr_id'=>array_search($row, $attrs),'av_id'=>$row];
+                }
+            } else {
+                $gav = [];
+            }
+            // 减少的 用 delete() 解决
+        }
+        // 其它项
         $post['update_time'] = time();
 
-        $result = $this->scModel->isUpdate(true)->allowField(true)->save($post, ['id'=>$id]);
-        // $row = $this->scModel->where('id', $id)->update($post);
 
-        if ($result === 1) {
+        // 事务处理
+        $result = true;
+        Db::startTrans();
+        try {
+            // $result = $this->scModel->where('id', $id)->update($post);
+            $this->scModel->isUpdate(true)->allowField(true)->save($post, ['id'=>$id]);
+            if (!empty($gav)) {
+                if (isset($diff1)) {
+                    Db::name('shop_goods_item')->where(['goods_id'=>$id,'av_id'=>['in',$diff1]])->delete();
+                }
+                Db::name('shop_goods_item')->insertAll($gav);
+            }
+            Db::commit();
+        } catch (\Exception $e) {
+            Db::rollback();
+            $result = false;
+        }
+
+        if ($result === true) {
             // lothar_admin_log('编辑商品-id:' . $id . '-name:' . $post['name']);
             $this->success('修改成功', url('index'));
         } else {

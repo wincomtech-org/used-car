@@ -94,11 +94,11 @@ EOT;
 // return $sqldump;
         $file = '';
         if ($tablesCount==1) {
-            $file = $dir . $table . date('YmdHis') .'.sql';
+            $file = $dir . $table . date('_Y-m-d_His') .'.sql';
         } elseif ($tablesCount < $tableAllCount) {
-            $file = $dir . $dbName .'（'.$tablesCount.'）'. date('YmdHis') .'.sql';
+            $file = $dir . $dbName .'（'.$tablesCount.'）'. date('_Y-m-d_His') .'.sql';
         } else {
-            $file = $dir . $dbName . date('YmdHis') .'.sql';
+            $file = $dir . $dbName . date('_Y-m-d_His') .'.sql';
         }
 // return $file;
         // file_put_contents($file, '123');

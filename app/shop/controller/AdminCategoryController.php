@@ -133,12 +133,6 @@ class AdminCategoryController extends AdminBaseController
         // 比较两个数组差集
         $diff1 = array_diff($cate_spec_old,$spec);
         $diff2 = array_diff($spec,$cate_spec_old);
-        // 减少的
-        // if (!empty($diff1)) {
-        //     echo "diff1";
-        // } else {
-        //     echo "err1";
-        // }
         // 增加的
         if (!empty($diff2)) {
             // echo "diff2";
@@ -149,6 +143,12 @@ class AdminCategoryController extends AdminBaseController
             // echo "err2";
             $map = [];
         }
+        // 减少的
+        // if (!empty($diff1)) {
+        //     echo "diff1";
+        // } else {
+        //     echo "err1";
+        // }
 
         $post['spec_subset'] = isset($post['spec_subset']) ? $post['spec_subset'] : 0;
 
@@ -413,6 +413,9 @@ tpl;
     {
         $data = $this->request->param();
 
+        // 过滤已提交过的
+        // $filter = '';
+        
         $result = Db::name('shop_category_attr')->update($data);
 
         if (empty($result)) {

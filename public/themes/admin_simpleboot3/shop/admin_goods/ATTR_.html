@@ -1,13 +1,19 @@
 <table class="table table-bordered">
+    <!-- <tr>
+        <th></th>
+        <td><a target="_blank" href="{:url('AdminCategory/edit',['id'=>$post.cate_id])}">属性管理</a></td>
+    </tr> -->
+    
     <foreach name="attrs" item="vo">
     <tr>
         <th width="100">{$vo.name}</th>
+        <php>$avid = isset($goods_attrs[$vo['id']])?$goods_attrs[$vo['id']]:'';</php>
         <td>
             <select class="form-control" style="width: 140px;" name="attr[{$vo.id}]">
                 <notempty name="vo.value">
                     <option value="">-- 请选择 --</option>
                     <foreach name="vo.value" item="v">
-                    <option value="{$v.id}">{$v.id.$v.name}</option>
+                    <option {$avid==$v.id?='selected'} value="{$v.id}">{$v.name}</option>
                     </foreach>
                 <else/>
                     <option value="">-- 暂无 --</option>
@@ -16,4 +22,5 @@
         </td>
     </tr>
     </foreach>
+    <input type="hidden" name="goods_attrs" value='{:serialize($goods_attrs)}'>
 </table>
