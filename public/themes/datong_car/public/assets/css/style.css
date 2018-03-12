@@ -237,6 +237,9 @@
 .vehiTrad_tit_item_other_list ul li:hover{background-color:#f3f3f3;}
 .vehiTrad_tit_item_other_list p:after{content:">";display:block;position:absolute;top:0;right:10px;transform:rotate(90deg);transform:rotate(90deg);-ms-transform:rotate(90deg); /* Internet Explorer 9*/-moz-transform:rotate(90deg); /* Firefox */-webkit-transform:rotate(90deg); /* Safari 和 Chrome */-o-transform:rotate(90deg); /* Opera */filter:progid:DXImageTransform.Microsoft.BasicImage(rotation=1);}
 
+.hasPrice.vehiTrad_tit_item{
+    padding-right:0;
+}
 /* 价格筛选 */
 .price_filtet{height:28px;margin-top:9px;}
 .price_filtet li{float:left;font-size:14px;}
@@ -491,7 +494,17 @@
 @media only screen and (min-width:1200px){
     .car_message_nav.fixed_nav{left:50%;transform:translateX(-50%);}
 }
-
+@media only screen and (max-width:414px){
+    .btn-line .btn{
+        font-size:14px;
+        height:40px;
+        line-height:40px;
+        padding:0 10px;
+    }
+    .btn-line .btn:not(:first-child){
+        margin-left:7px;
+    }
+}
 
 /* 样式 */
 .big-red{font-size:1rem !important;color:#d00000;}

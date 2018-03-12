@@ -188,6 +188,10 @@ $('.analogy').delegate('.analogy_tit', 'click', function(e) {
 
 })
 
+// 筛选页筛选分类
+$('.fitter_ul li i').click(function(){
+	$(this).parent('li').remove();
+})
 // 个人中心在线充值
 // 支付方式切换
 function toDecimal2(money) {

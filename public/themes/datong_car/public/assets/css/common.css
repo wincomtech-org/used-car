@@ -221,12 +221,15 @@ footer p span{font-size:16px;color:#fff;line-height:30px;}
 
 /*页码**/
 .page{width:100%;text-align:center;margin-top:30px;}
-.page_con{display:inline-block;}
+.page_con,.pagination{display:inline-block;}
 .page_con:after{content:"";display:block;clear:both;}
-.page_con  li{float:left;margin-right:10px;}
+.page_con  li,.pagination li{float:left;margin-right:10px;}
 .page_con  li:last-child{margin-right:0;}
-.page_con a{display:block;padding:8px 10px;background-color:#dcdcdc;font-size:16px;}
-.page_con li.active a{background-color:#d00000;color:#fff;}
+.page_con a,.pagination li a,.pagination li span{display:block;padding:8px 10px;background-color:#dcdcdc;font-size:16px;}
+.pagination li span{background-color:#dedede;}
+.pagination li a,.pagination li span{font-size:12px;padding:5px 6px;}
+.page_con li.active a,.pagination li.active span{background-color:#d00000;color:#fff;}
+
 
 /*弹窗1*/
 .simpleAlert{position:fixed;z-index:1000;}
@@ -304,6 +307,14 @@ nav{background-color:#000;}
 .shop_classify_con li{width:50%;float:left;margin:5px 0;}
 .shop_classify_con a{font-size:12px;font-family:'宋体';color:#333;cursor:pointer;}
 .shop_classify_li.active .shop_classify_div:after{position:absolute;right:-7px;top:20px;content:"";width:0;height:0;display:inline-block;border-left:8px solid #d00000;border-top:8px solid transparent;border-bottom:8px solid transparent;z-index:2;}
+
+/* 服务商城筛选 */
+.fitte_div{display:block;margin:5px auto;font-size:12px;}
+.fitte_div span{float:left;width:75px;height:22px;line-height:22px;}
+.fitter_ul{float:right;width:calc(100% - 75px);width:-webkit-calc(100% - 75px);width:-moz-calc(100% - 75px);width:-ms-calc(100% - 75px);}
+.fitter_ul li{float: left;padding: 5px; padding-right:22px;background-color: #eeee;border-radius: 2px; margin-right: 9px;position:relative;margin-bottom:7px;color:#666;border:1px solid #d8d8d8;}
+.fitter_ul li i{position:absolute;top:50%;right:0px;transform:translateY(-50%);font-size:14px;color:#999;padding:5px 6px;}
+.fitter_ul li:hover{cursor:pointer;}
 
 
 /**banner**/

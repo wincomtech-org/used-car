@@ -436,6 +436,13 @@
 .procoment-img{
     text-align:center;
     border:1px solid #ddd;
+    padding:5px 0;
+}
+.procoment-img img{
+    width:72px;
+    height:72px;
+    margin:0;
+    padding:0;
 }
 .procomment-name{
     text-align:center;
@@ -506,7 +513,19 @@
     -ms-box-sizing:border-box;
     -o-box-sizing:border-box;
 }
-.comm-t2 p{font-size:14px;}
+.comm-t2 .comm-des{
+    font-size:14px !important;  
+    word-break: break-all;
+    line-height: 1.4;}
+.comm_img{
+    margin-top:.5rem;
+}
+.comm_img img{
+    display:inline-block;
+    width:85px;
+    height:64px;
+    margin:2px;
+}
 .pro-user-comment{
     position:relative;
 }
@@ -963,6 +982,8 @@
     .common-tip{
         margin-left:0;
     }
+
+
 }
 @media screen and (max-width:374px){
     .tab-line .tab-tit{
@@ -972,9 +993,7 @@
     .tab-line .tab-tit, .tab-line .tab-con{
         margin-top:5px;
     }
-    .btn-line .btn{
-        font-size:16px;
-    }
+  
 
     /* 收货地址管理 */
     .delivery dl dt{
@@ -1097,6 +1116,9 @@
 }
 
 /* 服务商城筛选页 */
+.sel_shop{
+    margin-top:.5rem;
+}
 .sel_shop .remai_div{
 
     float:left;

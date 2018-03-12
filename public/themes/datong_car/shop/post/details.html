@@ -195,13 +195,13 @@
                     </div>
                     <div class="parame-bott">
                         <!-- 商品详情 -->
-                        <div class="commodity-num pro-feature-area" style="display:block;">
+                        <div class="commodity-num pro-feature-area" style="display:{$star?'none':'block'}">
                             <div class="commodity-detail">
                             	<div style="margin-left:20px;">{$goods.content}</div>
                             </div>
                         </div>
                         <!-- 用户评价 -->
-                        <div class="commodity-num pro-feature-area" style="display:none;">
+                        <div class="commodity-num pro-feature-area" style="display:{$star?'block':'none'}" id="AAA">
                             <div class="evaluation-top">
                                 <div class="eval-le1">
                                     <div class="percent">
@@ -305,7 +305,18 @@
                                                 <div class="pro-user-time">{:date('Y-m-d H:i:s',$vo.create_time)}</div>
                                             </div>
                                             <div class="comm-t2">
-                                                <p>{$vo.description}</p>
+                                                <p class='comm-des'>
+                                                    {$vo.description}
+                                                    
+                                                </p>
+                                                <div class="comm_img">
+                        
+                                                    <img src="__TMPL__/public/assets/images/default-thumbnail_160x109.png" alt="">
+                                                    <img src="__TMPL__/public/assets/images/default-thumbnail_160x109.png" alt="">
+                                                    <img src="__TMPL__/public/assets/images/default-thumbnail_160x109.png" alt="">
+                                                    <img src="__TMPL__/public/assets/images/default-thumbnail_160x109.png" alt="">
+                                                    <img src="__TMPL__/public/assets/images/default-thumbnail_160x109.png" alt="">
+                                                </div>
                                             </div>
                                             <div class="arrow"></div>
                                         </div>
@@ -315,9 +326,14 @@
                             	</foreach>
                             </div>
                             <style type="text/css">
-                                .pagination{display:inline-block;padding-left:0;margin:20px 0;border-radius:0}
+                                /* .pagination{display:block;padding-left:0;margin:20px 0;border-radius:0}
+                                .pagination ul{}
+                                .pagination  li{float:Left;} */
                             </style>
-                            <div class="pagination">{$pager|default=''}</div>
+                            <div class='pro-comment'>
+                                <div class="pagination clearfix">{$pager|default=''}</div>
+                            </div>
+                            
                         </div>
 
                         <!-- 规格参数 -->
