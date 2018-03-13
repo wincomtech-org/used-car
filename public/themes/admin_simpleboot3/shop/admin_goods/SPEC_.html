@@ -25,16 +25,16 @@
             <foreach name="goods_spec" item="vo" key="gsKey">
                 <tr>
                     <td>
-                        <input type="text" name="spec[old][{$gsKey}][spec_vars]" value="{$vo.spec_vars}">
+                        <input type="text" name="spec[old][{$gsKey}][spec_vars]" value="{$vo.spec_vars}" required>
                     </td>
                     <td>
-                        <input type="text" name="spec[old][{$gsKey}][market_price]" value="{$vo.market_price}">
+                        <input type="text" name="spec[old][{$gsKey}][market_price]" value="{$vo.market_price}" pattern="^[0-9]+(.[0-9]{1,2})?$">
                     </td>
                     <td>
-                        <input type="text" name="spec[old][{$gsKey}][price]" value="{$vo.price}">
+                        <input type="text" name="spec[old][{$gsKey}][price]" value="{$vo.price}" pattern="^[0-9]+(.[0-9]{1,2})?$">
                     </td>
                     <td>
-                        <input required type="text" name="spec[old][{$gsKey}][stock]" value="{$vo.stock}">
+                        <input required type="text" name="spec[old][{$gsKey}][stock]" value="{$vo.stock}" required>
                     </td>
                     <!-- <td>
                         <input type="text" name="spec[old][{$gsKey}][more][thumbnail]" value="{$vo.more.thumbnail|default=''}">
@@ -58,7 +58,7 @@ $('.addTab').click(function() {
 
     var x = '<tr>'
         + '<td>'
-        +       '<input type="text" name="spec[new]['+lastkey+'][spec_vars]" value="">'
+        +       '<input type="text" name="spec[new]['+lastkey+'][spec_vars]" value="" required>'
         + '</td>'
         + '<td>'
         +       '<input type="text" name="spec[new]['+lastkey+'][market_price]" value="" pattern="^[0-9]+(.[0-9]{1,2})?$">'
