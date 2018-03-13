@@ -1971,22 +1971,27 @@ evaluation{
     margin:10px 0;
 }
 /* 上传图片 */
-.upload-img-btn{
+.show-eval-img .upload-img-btn{
     width:35px;
     display:inline-block;
 }
-.upload-img-btn img{
+.show-eval-img .upload-img-btn img{
     width:35px;
     height:35px;
 }
-#identity_card.upload-img-div li{
+.show-eval-img .upload-img-div li{
     display:inline-block;
     width:70px;
+    overflow:hidden;
 } 
-#identity_card.upload-img-div{
+.show-eval-img .upload-img-div li a,.show-eval-img .upload-img-div li input{
+    font-size:12px;
+}
+.show-eval-img .upload-img-div{
     display:inline-block;
     vertical-align: top;
     width:auto;
+    margin-right:8px;
 }
 
 @media screen and (max-width:1199px){
