@@ -222,7 +222,7 @@ class AdminGoodsController extends AdminBaseController
         // $specs = $cateModel->getSpecByCate($cateId);//所有规格
         // 采用单一规格处理
         // 获取所有已经入库的规格
-        $goods_spec = Db::name('shop_goods_spec')->field('id,spec_vars,market_price,price,stock,more')->where('goods_id',$id)->select();
+        $goods_spec = Db::name('shop_goods_spec')->field('id,spec_vars,market_price,price,stock,more')->where('goods_id',$id)->find();
 
         // 属性
         $attrs = $cateModel->getAttrByCate($cateId,[]);// 所有属性以及值
@@ -232,15 +232,16 @@ class AdminGoodsController extends AdminBaseController
             $goods_attrs2[$row['attr_id']] = $row['av_id'];
         }
 
-// dump($goods_spec);die;
 
 
         $this->assign('cateCrumbs', $cateCrumbs);
         $this->assign('brands', $brands);
         $this->assign('statusOptions', $statusOptions);
-
         // $this->assign('specs', $specs);
         $this->assign('goods_spec', $goods_spec);
+        if (!empty($goods_spec)) {
+            $this->assign('goods_spec_key', implode(',', array_keys($goods_spec)));
+        }
         $this->assign('attrs', $attrs);
         $this->assign('goods_attrs', $goods_attrs2);
 
@@ -277,8 +278,6 @@ class AdminGoodsController extends AdminBaseController
         if ($result !== true) {
             $this->error($result);
         }
-
-/*数据处理*/
         // 处理文件图片
         if (!empty($data['photo'])) {
             $post['more']['photos'] = $this->scModel->dealFiles($data['photo']);
@@ -289,7 +288,6 @@ class AdminGoodsController extends AdminBaseController
         if (!empty($post['thumbnail'])) {
             $post['thumbnail'] = cmf_asset_relative_url($post['thumbnail']);
         }
-
         // 处理分类
         if (!empty($cateId)) {
             $post['cate_id_1'] = Db::name('shop_goods_category')->where('id',$cateId)->value('parent_id');
@@ -308,21 +306,26 @@ class AdminGoodsController extends AdminBaseController
         // 处理规格 shop_goods_spec
         // $post['more']['spec'] = '';
         $goods_spec = isset($data['spec'])?$data['spec']:'';//所有数据
+        $spec_old_key = explode(',', $data['goods_spec_key']);//旧的
 
         // 提取新增的 插入
-        if (!empty($goods_spec['new'])) {
-            $specNew = $goods_spec['new'];
+        if (!empty($goods_spec)) {
+            $spec_key = array_keys($goods_spec);
+            $diff = array_diff($spec_key, $spec_old_key);
+            foreach ($diff as $dv) {
+                $specNew[] = $goods_spec[$dv];
+            }
         }
         // 已有的更新
-        if (!empty($goods_spec['old'])) {
-            $specOld = $goods_spec['old'];
+        if (!empty($spec_old_key)) {
+            foreach ($spec_old_key as $value) {
+                $specOld[] = $goods_spec[$value];
+            }
         }
-        // 要删除的
 
 
-// dump($goods_spec);
-// die;
-
+        dump($spec_old_key);
+        dump($goods_spec);die;
 
         // 处理属性 shop_goods_item 
         // 事实上无论是 goods_id,attr_id 还是 goods_id,av_id 都已经组成了唯一条件
@@ -330,8 +333,9 @@ class AdminGoodsController extends AdminBaseController
         $attrs_old =  $data['goods_attrs'];
         // $attrs_old = json_decode($attrs_old,true);
         $attrs_old = unserialize($attrs_old);
-        $attrs = $data['attr'];//所有属性
+        $attrs = $data['attr'];
         $gav = [];
+
         if (!is_array($attrs_old)) {
             $this->error('属性数据非法');
         }
@@ -356,12 +360,10 @@ class AdminGoodsController extends AdminBaseController
             } else {
                 $gav = [];
             }
-            // 减少的用 delete() 解决，不更新
+            // 减少的 用 delete() 解决
         }
-
         // 其它项
         $post['update_time'] = time();
-
 
 
         // 事务处理
@@ -378,10 +380,10 @@ class AdminGoodsController extends AdminBaseController
             }
             if (isset($specNew)) {
                 Db::name('shop_goods_spec')->insertAll($specNew);
-                // model('ShopGoodsSpec')->saveAll($specNew);
             }
             if (isset($specOld)) {
-                model('ShopGoodsSpec')->saveAll($specOld);
+                // Db::name('shop_goods_spec')->where('id','in',$spec_old_key)->update($specOld);
+                // 更新多条？
             }
             Db::commit();
         } catch (\Exception $e) {

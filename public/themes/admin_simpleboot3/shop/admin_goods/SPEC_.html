@@ -6,10 +6,11 @@
 <div class="form-group">
     <a target="_blank" href="{:url('AdminSpec/index')}">规格管理</a>
 </div>
+
 <script type="text/javascript">
 </script>
 <div class="form-group">
-    <label>配置</label>
+    <label>规格配置</label>
     <table class="table table-bordered">
         <thead>
             <tr>
@@ -21,57 +22,60 @@
             </tr>
         </thead>
         <tbody>
-            <foreach name="goods_spec" item="vo">
+            <foreach name="goods_spec" item="vo" key="gsKey">
                 <tr>
                     <td>
-                        <input type="hidden" name="spec[{$vo.id}][spec_vars]" value="">{$vo.spec_vars}
+                        <input type="text" name="spec[old][{$gsKey}][spec_vars]" value="{$vo.spec_vars}">
                     </td>
                     <td>
-                        <input type="text" name="spec[{$vo.id}][market_price]" value="{$vo.market_price}">
-                        <em class="add-on"><i class="icon-renminbi"></i></em>
+                        <input type="text" name="spec[old][{$gsKey}][market_price]" value="{$vo.market_price}">
                     </td>
                     <td>
-                        <input class="text price" type="text" name="spec[{$vo.id}][price]" value="{$vo.price}">
-                        <em class="add-on"><i class="icon-renminbi"></i></em>
+                        <input type="text" name="spec[old][{$gsKey}][price]" value="{$vo.price}">
                     </td>
                     <td>
-                        <input class="text stock" type="text" name="spec[{$vo.id}][stock]" data_type="stock" nc_type="{$vo.id}|stock" value="{vo.stock}">
+                        <input required type="text" name="spec[old][{$gsKey}][stock]" value="{$vo.stock}">
                     </td>
                     <!-- <td>
-                        <input class="text sku" type="text" name="spec[{$vo.id}][more]" value="{$vo.more.thumbnail|default=''}">
+                        <input type="text" name="spec[old][{$gsKey}][more][thumbnail]" value="{$vo.more.thumbnail|default=''}">
                     </td> -->
+                    <td>
+                        <input type="hidden" name="spec[old][{$gsKey}][goods_id]" value="{$post.id}">
+                        <input type="hidden" name="spec[old][{$gsKey}][id]" value="{$vo.id}">
+                    </td>
                 </tr>
             </foreach>
-                    <td><span id="last_gs_key" data_id="{$key|default='0'}"></span></td>
         </tbody>
     </table>
+
+    <span id="last_gs_key" data_id="0"></span>
     <a href="javascript:void(0);" class='addTab'>+添加规格值</a>
 </div>
 
 <script type="text/javascript">
 $('.addTab').click(function() {
     var lastkey = $('#last_gs_key').attr('data_id');
-    alert(lastkey);
 
-    var x = '<tr>' +
-        '<td>' +
-        '<input type="text" name="spec[i_438471][sp_value][438]" value="">' +
-        '</td>' +
-        '<td>' +
-        '<input type="text" name="spec[i_438471][marketprice]" data_type="marketprice" nc_type="i_438471|marketprice" value=""><em class="add-on"><i class="icon-renminbi"></i></em>' +
-        '</td>' +
-        '<td>' +
-        '<input class="text price" type="text" name="spec[i_438471][price]" data_type="price" nc_type="i_438471|price" value=""><em class="add-on"><i class="icon-renminbi"></i></em>' +
-        '</td>' +
-        '<td>' +
-        '<input class="text stock" type="text" name="spec[i_438471][stock]" data_type="stock" nc_type="i_438471|stock" value="">' +
-        '</td>' +
-        '<td>' +
-        '<input class="text sku" type="text" name="spec[i_438471][sku]" nc_type="i_438471|sku" value="">' +
-        '</td>' +
-        '<input type="hidden" name="spec[i_438471][goods_id]" nc_type="i_438471|id" value="">' +
-        '</tr>';
+    var x = '<tr>'
+        + '<td>'
+        +       '<input type="text" name="spec[new]['+lastkey+'][spec_vars]" value="">'
+        + '</td>'
+        + '<td>'
+        +       '<input type="text" name="spec[new]['+lastkey+'][market_price]" value="" pattern="^[0-9]+(.[0-9]{1,2})?$">'
+        + '</td>'
+        + '<td>'
+        +       '<input type="text" name="spec[new]['+lastkey+'][price]" value="" pattern="^[0-9]+(.[0-9]{1,2})?$">'
+        + '</td>'
+        + '<td>'
+        +       '<input type="number" name="spec[new]['+lastkey+'][stock]" value="" required>'
+        + '</td>'
+        // + '<td>'
+        // +       '<input type="text" name="spec[new]['+lastkey+'][more][thumbnail]" value="">'
+        // + '</td>'
+        + '<td><input type="hidden" name="spec[new]['+lastkey+'][goods_id]" value="{$post.id}"></td>'
+        + '</tr>';
 
-    $(this).siblings('table').find('tbody ').append(x)
+    $(this).siblings('table').find('tbody ').append(x);
+    $('#last_gs_key').attr('data_id',parseInt(lastkey)+1);
 })
 </script>
