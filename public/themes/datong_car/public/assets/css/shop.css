@@ -1984,8 +1984,11 @@ evaluation{
     width:70px;
     overflow:hidden;
 } 
-.show-eval-img .upload-img-div li a,.show-eval-img .upload-img-div li input{
+.show-eval-img .upload-img-div li a{
     font-size:12px;
+}
+.show-eval-img .upload-img-div li input{
+    display:none;
 }
 .show-eval-img .upload-img-div{
     display:inline-block;
