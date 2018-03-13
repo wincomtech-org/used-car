@@ -18,7 +18,8 @@
                 <th>市场价</th>
                 <th>价格</th>
                 <th>库存</th>
-                <!-- <th>主图</th> -->
+                <th>操作</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -36,9 +37,9 @@
                     <td>
                         <input required type="text" name="spec[old][{$gsKey}][stock]" value="{$vo.stock}" required>
                     </td>
-                    <!-- <td>
-                        <input type="text" name="spec[old][{$gsKey}][more][thumbnail]" value="{$vo.more.thumbnail|default=''}">
-                    </td> -->
+                    <td>
+                        <input type="button" name="" value="删除" class="btn btn-success btn-reduce" >
+                    </td>
                     <td>
                         <input type="hidden" name="spec[old][{$gsKey}][goods_id]" value="{$post.id}">
                         <input type="hidden" name="spec[old][{$gsKey}][id]" value="{$vo.id}">
@@ -69,13 +70,18 @@ $('.addTab').click(function() {
         + '<td>'
         +       '<input type="number" name="spec[new]['+lastkey+'][stock]" value="" required>'
         + '</td>'
-        // + '<td>'
-        // +       '<input type="text" name="spec[new]['+lastkey+'][more][thumbnail]" value="">'
-        // + '</td>'
+        + '<td>'
+        +       ' <input type="button" name="" value="删除" class="btn btn-success btn-reduce" >'
+        + '</td>'
         + '<td><input type="hidden" name="spec[new]['+lastkey+'][goods_id]" value="{$post.id}"></td>'
         + '</tr>';
 
     $(this).siblings('table').find('tbody ').append(x);
     $('#last_gs_key').attr('data_id',parseInt(lastkey)+1);
+
 })
+    // 删除按钮
+    $('tbody').on('click','.btn-reduce',function(){
+        $(this).parents('tr').remove();
+    })
 </script>
