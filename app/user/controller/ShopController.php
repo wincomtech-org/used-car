@@ -140,4 +140,9 @@ class ShopController extends UserBaseController
     {
         return $this->fetch();
     }
+
+    // 下单页
+    public function  buy_detail(){
+        return $this->fetch();
+    }
 }

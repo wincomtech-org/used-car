@@ -1,9 +1,11 @@
 /* 服务商城 */
 .font12{font-size:12px}
-
+.f14{font-size:14px;}
 /* 面包靴 */
 .brash{margin-bottom:10px;}
-
+.tx-r{
+    text-align:right
+}
 
 /* label选中 */
 .hasLabelP{
@@ -655,7 +657,7 @@
     display:inline-block;
     vertical-align:top;
     width:86px;
-    font-size:16px;
+    font-size:14px;
     height:34px;
     line-height:34px;
 }
@@ -1664,6 +1666,10 @@
 .shops-order-m-div{
     padding-bottom:10px;
 }
+.order-list input{
+    background-color:transparent;
+
+}
 
 /* 手机端信息 */
 .shops_order_m{display:none;}
@@ -1757,9 +1763,10 @@
 .total-div {
     text-align:right;
 }
-.total-div p{
+.total-div p,.total-div .youhui{
     margin:1rem 0;
 }
+
 .total-div span{
     display:inline-block;
     vertical-align:center;
@@ -1769,6 +1776,49 @@
     font-size:16px;
     display:inline-block;
     margin:0 5px;
+}
+/* 选取地址 */
+.addr.analogy{
+    border:none;
+    height:28px;
+}
+.addr.analogy p:after{
+    display:none;
+}
+.addr.analogy p input{
+    font-size:14px;
+    color:#333;
+}
+.addr.analogy .analogy_con li input{
+    font-size:14px;
+}
+/* 下单页面优惠券选取 */
+.youhui .analogy {
+    display: inline-block;
+    vertical-align: middle;
+    width: 130px;
+    height:28px;
+}
+.youhui .analogy p {
+    margin:0;
+    padding:0 4px;
+}
+.youhui .analogy p:after{
+    right:5px;
+}
+.youhui .analogy p input{
+    font-size:12px;
+}
+.youhui  .analogy .analogy_con{
+    padding:5px 0;
+}
+.youhui  .analogy .analogy_con li{
+    padding:0 5px;
+    height:20px;
+    line-height:20px;
+}
+.youhui .analogy .analogy_con li input{
+    font-size:12px;
 }
 /* 订单详情页物流信息 */
 .logistics{
