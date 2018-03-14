@@ -156,4 +156,14 @@ dump($data);
     {
         return $this->fetch();
     }
+
+    // 下单页
+    public function  buy_detail(){
+        return $this->fetch();
+    }
+
+    //手机端选择地址页
+    public function  address(){
+        return $this->fetch();
+    }
 }
