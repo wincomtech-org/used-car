@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>发起支付 - {$site_info.site_name|default=''}</title>
+    <meta name="keywords" content="{$site_info.site_seo_keywords|default=''}" />
+    <meta name="description" content="{$site_info.site_seo_description|default=''}">
+    <include file="public@head" />
+</head>
+
+<body>
+    <!-- 头部 -->
+    <include file="public@header" />
+    <!-- 导航 -->
+    <include file="public@nav" />
+    <section class="booking_see_car">
+        <div class="main">
+            <div class="booking_see_car_con">
+                <h3>商品支付</h3>
+                <ul class="see_car_list">
+                    <li class="see_car_items">
+                        <span class="icon">订单编号</span>
+                        <div class="item_con">
+                            <p class='text'>{$order.order_sn|default='未知'}</p>
+                        </div>
+                    </li>
+                    <li class="see_car_items">
+                        <span class="icon">支付金额</span>
+                        <div class="item_con">
+                            <p class='text'>￥{$order.money|default='0.00'}元</p>
+                        </div>
+                    </li>
+                    <!-- public@pay -->
+                    <include file="public@pay" />
+                </ul>
+            </div>
+        </div>
+    </section>
+    <!-- 底部 -->
+    <include file="public@footer" />
+    <include file="public@scripts" />
+</body>
+
+</html>

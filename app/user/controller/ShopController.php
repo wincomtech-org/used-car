@@ -43,23 +43,63 @@ class ShopController extends UserBaseController
         return $this->fetch();
     }
 
-    // 立即购买
+    // 下单页 立即购买
     public function buy()
     {
         $data = $this->request->param();
-        dump($data);
-        $this->assign('paysign','shop');
-        $this->assign('orderId','null');
+
+        // 附加项
+        $this->buyop();
+
+        $this->assign('data',[$data]);
         return $this->fetch();
     }
-    // 购物车结算
+    // 下单页 购物车结算
     public function buyCart()
     {
-        $data = $this->request->param();
-dump($data);
-        $this->assign('paysign','shop');
-        $this->assign('orderId','null');
+        if ($this->request->isPost()) {
+            $data = $this->request->param('cartol/a');
+        } else {
+            $this->redirect('shop/Order/cartList');
+        }
+
+        // 做判断 购物车数据有变化
+        // $carts = session('user_cart');
+        // $a1 = array_column($data,'id');
+        // $a2 = array_column($carts,'id');
+        // $diff = array_diff($a2,$a1);
+
+        $ids = array_column($data,'id');
+        $carts = model('shop/ShopCart')->getCartList(['a.id'=>['in',$ids]]);
+
+        // 附加项
+        $this->buyop();
+
+        $this->assign('data',$carts);
         return $this->fetch('buy');
+    }
+
+    public function buyop()
+    {
+        $userId = cmf_get_current_user_id();
+        // 收货地址
+        $address = Db::name('shop_shipping_address')->where('user_id',$userId)->order('is_main DESC')->select()->toArray();
+
+        // 默认地址 省市区？
+        $addrFirst = [];
+        if (!empty($address)) {
+            $addr = $address[0];
+            $addrFirst = [
+                'id'    => $addr['id'],
+                'addr'  => $addr['address'] .' '. $addr['username'] .'收 '. $addr['telephone'],
+            ];
+        }
+        // 优惠券
+        $coupon = Db::name('user_coupons_log')->where(['status'=>1,'user_id'=>$userId])->select();
+
+        $this->assign('addrFirst',$addrFirst);
+        $this->assign('address',$address);
+        $this->assign('coupon',$coupon);
     }
 
     // 积分兑换
@@ -70,6 +110,28 @@ dump($data);
         dump($data);
         
         // return $this->fetch();
+    }
+
+    // PC端选地址
+    public function pc_address()
+    {
+        return '暂无';
+    }
+    //手机端选择地址页
+    public function wap_address(){
+        return $this->fetch();
+    }
+
+    // 支付页
+    public function pay()
+    {
+        $data = $this->request->param();
+dump($data);
+
+        $this->assign('paysign','shop');
+        $this->assign('orderId','null');
+
+        return $this->fetch('pay');
     }
 
 
@@ -154,16 +216,6 @@ dump($data);
     // 收货地址管理
     public function shipping_address()
     {
-        return $this->fetch();
-    }
-
-    // 下单页
-    public function  buy_detail(){
-        return $this->fetch();
-    }
-
-    //手机端选择地址页
-    public function  address(){
         return $this->fetch();
     }
 }

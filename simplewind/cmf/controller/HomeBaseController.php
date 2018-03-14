@@ -15,6 +15,7 @@ use app\admin\model\ThemeModel;
 use app\admin\model\NavMenuModel;
 use app\admin\service\ApiService;
 use app\admin\model\SlideItemModel;
+use app\shop\model\ShopCartModel;
 use think\View;
 use think\Request;
 
@@ -37,13 +38,13 @@ class HomeBaseController extends BaseController
         $cbc = cache('cbc');
         if (empty($cbc)) {
             // 导航（手机端）
-            $navMenuModel = new NavMenuModel();
+            $navMenuModel = new NavMenuModel;
             $navMenus = $navMenuModel->navMenusTreeArray(null,2);
             // 幻灯片
-            $slideModel = new SlideItemModel();
+            $slideModel = new SlideItemModel;
             $slides = $slideModel->getLists(['cid'=>1]);
             // 友链
-            $apiModel = new ApiService();
+            $apiModel = new ApiService;
             $friendLink = $apiModel->links('url,name,target,description');
             // 用户数据
             // $this->user = cmf_get_current_user();
@@ -63,8 +64,8 @@ class HomeBaseController extends BaseController
         session('user_cart',null);
         if (session('?user_cart')===false) {
             // cmf_get_current_user_id() = session('user.id')
-            session('user_cart', Db::name('shop_cart')->where('user_id',session('user.id'))->select()->toArray());
-            // session('user_cart', model('ShopCart')->getCartList(['user_id'=>session('user.id')]));
+            $cartModel = new ShopCartModel;
+            session('user_cart', $cartModel->getCartList(['user_id'=>session('user.id')]));
         }
 
         // 服务商城分类树

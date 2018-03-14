@@ -8,6 +8,8 @@
 </div> -->
 <!-- End Preloader -->
 
+<php>$user_cart_count = count(session('user_cart'));</php>
+
 <header class="headerPc">
     <div class="header_top">
         <div class="main ">
@@ -17,7 +19,7 @@
                     <!-- 登陆后 -->
                     <li class="logining">
                         <!-- 购物车 -->
-                        <a href="{:url('shop/Order/cartList')}" class='shop_car_icon'><i>{:count(session('user_cart'))}</i></a>
+                        <a href="{:url('shop/Order/cartList')}" class='shop_car_icon'><i>{$user_cart_count}</i></a>
                         <a href="{:cmf_url('user/Profile/center')}">
                             <span class="user-nickname"></span>
                         </a>
@@ -71,7 +73,7 @@
             <include file="public@search" />
             <div class="user_m">
                  <!-- 购物车 -->
-                 <a href="" class='shop_car_icon'><i>1</i></a>
+                 <a href="{:url('shop/Order/cartList')}" class='shop_car_icon'><i>{$user_cart_count}</i></a>
                 <a href="{:url('user/Profile/center')}" class="icon"></a>
             </div>
         </div>

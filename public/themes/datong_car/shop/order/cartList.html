@@ -8,6 +8,9 @@
     <!-- 服务商城css -->
     <link href='__TMPL__/public/assets/css/shop.css' type="text/css" rel="stylesheet">
     <include file="public@head" />
+    <style type="text/css">
+        .btn_cart{display:block;padding: 15px 5px;width: 100%}
+    </style>
 </head>
 
 <body>
@@ -23,7 +26,7 @@
             </ul>
 
             <!-- 电脑端 -->
-            <form action="{:url('user/Shop/buyCart')}" method="post">
+            <form action="{:url('user/Shop/buyCart')}" method="post" id="cartForm-pc">
             <div class="shops_order carts main">
                 <div class='fixedD'>
                     <table class='shops-order-tab'>
@@ -48,7 +51,7 @@
                         <tbody class='order-list'>
                             <tr class='order-list-tit'>
                                 <td class='ma-0'>
-                                    <input type="checkbox" name="cartIds[]" value="{$vo.id}" class='sel-checkbox'>
+                                    <input type="checkbox" name="cartol[{$vo.id}][id]" value="{$vo.id}" class='sel-checkbox'>
                                 </td>
                                 <td class='ma-1' colspan='5'>
 
@@ -63,13 +66,13 @@
                                             <empty name="vo.thumbnail">
                                             <img src="__TMPL__/public/assets/images/default-thumbnail_160x109.png" alt="">
                                             <else/>
-                                            <img src="{:url('thumbUrl',['img'=>urlencode($vo.thumbnail),'w'=>160,'h'=>109])}">
+                                            <img src="{:url('thumbUrl',['img'=>urlencode($vo.thumbnail),'w'=>160,'h'=>109])}" alt="">
                                             </empty>
                                         </a>
                                     </div>
                                     <div class="order-intro">
                                         <div class='order-trade-name'>
-                                            <a href="{:url('Post/details','id='.$vo.goods_id)}">{$vo.name}</a>
+                                            <a href="{:url('Post/details','id='.$vo.goods_id)}">{$vo.goods_name}</a>
                                         </div>
                                         <div class='order-attributes'>
                                             <span>规格：{$vo.spec_vars}</span>
@@ -80,7 +83,7 @@
                                 <td class='ma-3'>
                                     <div class="amout-num">
                                         <span class='btn-reduce'>-</span>
-                                        <span class='amoutNum'><input type="text" name="number" value="{$vo.number}" class='amoutNum-inp' readonly></span>
+                                        <span class='amoutNum'><input type="text" name="cartol[{$vo.id}][number]" value="{$vo.number}" class='amoutNum-inp' readonly></span>
                                         <span class='btn-add'>+</span>
                                     </div>
                                 </td>
@@ -103,7 +106,7 @@
                     </foreach>
                 </div>
 
-                <table class='shops-order-tab shops-order-op ' style='background-color:#f5f5f5;'>
+                <table class='shops-order-tab shops-order-op' style='background-color:#f5f5f5;'>
                     <thead>
                         <tr>
                             <th class='col-pro-img ma-0'>
@@ -116,7 +119,7 @@
                             <th class='col-pro'>合计（不含运费）<b class='orage-color totalPri'>1500.00</b>元</th>
                             <th class='col-pro ma-6 gray-btn'>
                                 <!-- <a style="display:block;" href="{:url('user/Shop/buyCart')}">结算</a> -->
-                                <button style="display:block;padding: 15px 5px;width: 100%" type="submit">结算</button>
+                                <button onclick="btnHandle('pc');" class="btn_cart" type="button">结算</button>
                             </th>
                         </tr>
                     </thead>
@@ -126,7 +129,7 @@
 
 
             <!-- 手机端 -->
-            <form action="{:url('user/Shop/buyCart')}" method="post">
+            <form action="{:url('user/Shop/buyCart')}" method="post" id="cartForm-wap">
             <div class="shops_order_m carts">
                 <div class='fixedD1'>
                     <foreach name="carts" item="vo">
@@ -135,7 +138,7 @@
                             <dl class='order-list-tit'>
                                 <dd class='mess'>
                                     <label class='all-sel'>
-                                        <input type="checkbox" name="cartIds[]" value="{$vo.id}" class='sel-checkbox'>
+                                        <input type="checkbox" name="cartol[{$vo.id}][id]" value="{$vo.id}" class='sel-checkbox'>
                                     </label>
                                     <span class="order-goods"></span>
                                 </dd>
@@ -145,17 +148,17 @@
                         <div class='order-list-con'>
                             <div class='order-mess'>
                                 <div class="order-img">
-                                    <a href="{:url('details','id='.$vo.goods_id)}">
+                                    <a href="{:url('Post/details','id='.$vo.goods_id)}">
                                         <empty name="vo.thumbnail">
                                         <img src="__TMPL__/public/assets/images/default-thumbnail_160x109.png" alt="">
                                         <else/>
-                                        <img src="{:url('thumbUrl',['img'=>urlencode($vo.thumbnail),'w'=>160,'h'=>109])}">
+                                        <img src="{:url('thumbUrl',['img'=>urlencode($vo.thumbnail),'w'=>160,'h'=>109])}" alt="">
                                         </empty>
                                     </a>
                                 </div>
                                 <div class="order-intro">
                                     <div class='order-trade-name'>
-                                        <a href="{:url('details','id='.$vo.goods_id)}">{$vo.name}</a>
+                                        <a href="{:url('Post/details','id='.$vo.goods_id)}">{$vo.goods_name}</a>
                                     </div>
                                     <div class='order-attributes'>
                                         <span>规格：{$vo.spec_vars}</span>
@@ -170,7 +173,7 @@
                                 <div class="item-editor" style='display:none;'>
                                     <div class="amout-num">
                                         <span class='btn-reduce'>-</span>
-                                        <span class='amoutNum'><input type="text" name="number" value='{$vo.number}' class='amoutNum-inp' readonly></span>
+                                        <span class='amoutNum'><input type="text" name="cartol[{$vo.id}][number]" value='{$vo.number}' class='amoutNum-inp' readonly></span>
                                         <span class='btn-add'>+</span>
                                     </div>
                                     <div class="opeat-btn backg-red">
@@ -195,7 +198,7 @@
                         <!-- <a style="display:block;width: 100%" href="{//:url('user/Shop/buyCart')}">
                             <span>结算</span>
                         </a> -->
-                        <button style="display:block;padding: 15px 5px;width: 100%" type="submit">结算</button>
+                        <button onclick="btnHandle('wap');" class="btn_cart" type="button">结算</button>
                     </li>
                 </ul>
             </div>
@@ -208,21 +211,38 @@
 </body>
 <include file="public@morejs" />
 <script type="text/javascript">
+// 提交数据到 user/Shop/buyCart
+function btnHandle(o) {
+    // 判断是否checkbox
+    var check = $(".sel-checkbox").is(":checked");
+    console.log(check)
+    if (check) {
+        $('#cartForm-'+o).submit();
+    } else {
+        alert('请点击选择要购买的商品');
+    }
+}
+
+
+
 // 购物车
 // 删除
 $('.remove-order').click(function() {
-    $(this).parents('.tableSel').remove();
-    totalNum();
-    totalPri();
-    scrollFix(x, y)
+    if (confirm('确认删除？')) {
+        $(this).parents('.tableSel').remove();
+        totalNum();
+        totalPri();
+        scrollFix(x, y);
+    }
 });
-
 // 全部删除
 $('.all-del').click(function() {
-    $(this).parents('.carts').find('.tableSel').remove();
-    totalNum();
-    totalPri();
-    scrollFix(x, y)
+    if (confirm('确认删除？')) {
+        $(this).parents('.carts').find('.tableSel').remove();
+        totalNum();
+        totalPri();
+        scrollFix(x, y);
+    }
 });
 
 // 增加数量
@@ -315,8 +335,7 @@ function totalNum(obj) {
     }
 }
 
-
-//   总价
+// 总价
 function totalPri() {
     if ($('.tableSel').hasClass('sel')) {
         var tab_span = $('.sel .tot-pri').map(function() {
@@ -329,6 +348,7 @@ function totalPri() {
         $('.totalPri').html(parseInt(0))
     }
 }
+
 
 // 手机端购物车
 $('.editor').click(function() {
@@ -371,5 +391,4 @@ function scrollFix(obj, b) {
     }
 }
 </script>
-
 </html>

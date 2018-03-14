@@ -185,7 +185,6 @@ $('.analogy').delegate('.analogy_tit', 'click', function(e) {
 
 	})
 	e.stopPropagation();
-
 })
 
 // 筛选页筛选分类

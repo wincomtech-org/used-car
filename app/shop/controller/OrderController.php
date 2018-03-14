@@ -13,17 +13,18 @@ class OrderController extends HomeBaseController
     // 购物车元素 - 查看购物车
     public function cartList()
     {
-        $userId = cmf_get_current_user_id();
+        // $userId = cmf_get_current_user_id();
 
-        $cartModel = new ShopCartModel;
-
-        $filter['a.user_id'] = $userId;
-        $carts               = $cartModel->getCartList($filter);
-        // $carts               = session('user_cart');
-
-        $this->assign('carts', $carts->items());
-        // $carts->appends();
-        $this->assign('pager', $carts->render());
+        // $cartModel = new ShopCartModel;
+        // $filter['a.user_id'] = $userId;
+        // $carts               = $cartModel->getCartList($filter);
+        $carts               = session('user_cart');
+// dump($carts);
+        // 购物车列表不分页
+        $this->assign('carts',$carts);
+        // $this->assign('carts', $carts->items());
+        // $carts->appends('');
+        // $this->assign('pager', $carts->render());
         return $this->fetch();
     }
 
@@ -40,7 +41,7 @@ class OrderController extends HomeBaseController
         if ($data['timestamp'] == session('timestamp')) {
             session('timestamp', null);
         } else {
-            $this->redirect('Post/details', ['id' => $data['id']]);
+            $this->redirect('Post/details', ['id' => $data['goods_id']]);
         }
 
         // 数据验证
@@ -58,7 +59,7 @@ class OrderController extends HomeBaseController
             $post = [
                 'user_id'      => cmf_get_current_user_id(),
                 'spec_id'      => $data['spec_id'],
-                'goods_id'     => $data['id'],
+                'goods_id'     => $data['goods_id'],
                 'spec_vars'    => $data['spec_vars'],
                 'number'       => $data['number'],
                 'price'        => $data['price'],
@@ -68,7 +69,7 @@ class OrderController extends HomeBaseController
         }
 
         if ($result > 0) {
-            session('user_cart',null);
+            session('user_cart', null);
             $this->success('增加成功', url('cartList'));
         }
         $this->error('增加失败');
