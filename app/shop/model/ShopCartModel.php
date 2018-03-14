@@ -16,7 +16,7 @@ class ShopCartModel extends Model
             ->join('shop_goods b','a.goods_id=b.id')
             ->where($filter)
             ->order('id DESC')
-            ->paginate(1);
+            ->paginate(2);
 
         return $list;
     }
