@@ -1,8 +1,8 @@
 <?php
 namespace app\shop\controller;
 
-use app\shop\model\ShopCartModel;
 use cmf\controller\HomeBaseController;
+use app\shop\model\ShopCartModel;
 
 /**
  * 商品订单类
@@ -73,6 +73,21 @@ class OrderController extends HomeBaseController
             $this->success('增加成功', url('cartList'));
         }
         $this->error('增加失败');
+    }
+
+    // 删除购物车
+    public function cartDel()
+    {
+        $id = $this->request->param('id/d');
+        if (empty($id)) {
+            $this->error('数据非法！');
+        }
+
+        $result = ShopCartModel::destroy($id);
+        if ($result==1) {
+            $this->success('删除成功');
+        }
+        $this->error('删除失败');
     }
 
 }
