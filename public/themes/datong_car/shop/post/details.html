@@ -54,14 +54,15 @@
                     </div>
                 </div>
                 <div class="txt rt">
-                    <form action="" method="POST" class="js-ajax-form">
+                    <!-- <form action="" method="POST" class="js-ajax-form"> -->
+                    <form action="{:url('user/Shop/buy')}" method="POST" id="shopForm">
                         <h5>{$goods.name}</h5>
                         <div class="show-proInfo">
                             <dl class="tab-line">
                                 <dt class='tab-tit'>价 &nbsp; &nbsp;格</dt>
                                 <dd class='tab-con big-red'>
                                 	<!-- ￥<span>{$goods.price}</span> -->
-                                	￥<input type="text" value='{$goods.price|default="联系商家"}' readonly>
+                                	￥<input id="s-price" type="text" name="price" value='{$goods.price|default="联系商家"}' readonly>
                                 </dd>
                             </dl>
                             <dl class="tab-line">
@@ -74,7 +75,7 @@
                             <dl class="tab-line">
                                 <dt class='tab-tit'>运 &nbsp; &nbsp;费</dt>
                                 <dd class='tab-con'>
-                                    <input type="text" value="{$goods.shipping|default=''}">
+                                    <input type="text" value="{$goods.shipping|default='待定'}">
                                 </dd>
                             </dl>
                         </div>
@@ -82,30 +83,18 @@
                         <!-- 规格 -->
                         <div class="show-proInfo">
                             <dl class="tab-line">
-                                <dt class='tab-tit'>颜色</dt>
+                                <dt class='tab-tit'>规格</dt>
                                 <dd class='tab-con'>
                                     <ul class='genre'>
-                                        <li class='genre-col selColor'>
+                                        <foreach name="specs" item="vo">
+                                        <!-- <li class="genre-col selColor"> -->
+                                        <li class="genre-col " spec_id="{$vo.id}">
                                             <label>
-                                                <b>红色</b>
-                                                <input type="radio" name="goods_spec[color]" value=''>
+                                                <b>{$vo.spec_vars}</b>
                                             </label>
                                             <s></s>
                                         </li>
-                                        <li class='genre-col '>
-                                            <label>
-                                                <b>绿色</b>
-                                                <input type="radio" name="goods_spec[color]" value=''>
-                                            </label>
-                                            <s></s>
-                                        </li>
-                                        <li class='genre-col '>
-                                            <label>
-                                                <b>蓝色</b>
-                                                <input type="radio" name="goods_spec[color]" value=''>
-                                            </label>
-                                            <s></s>
-                                        </li>
+                                        </foreach>
                                     </ul>
                                 </dd>
                             </dl>
@@ -118,11 +107,11 @@
                                     <ul class="tab-con-row">
                                         <li class='tab-con-td amount'>
                                             <a class="reduce operate-btn">-</a>
-                                            <input readonly type="text" class='amount_input' value='0'>
+                                            <input readonly type="text" name="number" value='1' class='amount_input'>
                                             <a class="add operate-btn">+</a>
                                         </li>
                                         <li class="tab-con-td">
-                                            库存数量：<span class='num inventory'>{$goods.stock}</span>件
+                                            库存数量：<span id="s-stock" class='num inventory'>{$goods.stock}</span> 件
                                         </li>
                                     </ul>
                                 </dd>
@@ -130,27 +119,54 @@
                         </div>
 
 	                    <div class="btn-line">
-	                    	<notempty name="goods.score">
-	                    		<button type="submit" class="btn-style-auto btn yellow js-ajax-submit" data-action="{:url('score')}">积分兑换</button>
-	                    	</notempty>
-	                    	<button type="submit" class="btn-style-auto btn yellow js-ajax-submit" data-action="{:url('buy',['id'=>$goods.id])}">立即购买</button>
-	                    	<button type="submit" class="btn-style-auto btn buycar js-ajax-submit" data-action="{:url('cart')}">加入购物车</button>
+                            <input type="hidden" name="id" value="{$goods.id}">
+                            <!-- 规格选定 -->
+                            <input type="hidden" name="spec_id" value="">
+                            <input type="hidden" name="spec_vars" value="">
+                            <!-- <input type="hidden" name="price" value=""> -->
+                            <input type="hidden" name="market_price" value="">
 
-							<!-- <div class="btn-style-auto">
-								<a href="booking_see_car.html" class="btn yellow">立即购买</a>
-							</div>
-							<div class="btn-style-auto">
-								<a href="booking_see_car.html" class="btn yellow">积分兑换</a>
-							</div>
-							<div class="btn-style-auto">
-								<a class="btn buycar" href="tel:15188888888"><span></span>加入购物车</a>
-							</div> -->
+                            <!-- 防止表单重复提交 -->
+                            <input type="hidden" name="timestamp" value="{:session('timestamp')}">
+
+	                    	<notempty name="goods.score">
+	                    		<button type="submit" class="btn-style-auto btn yellow js-ajax-submit" data-action="{:url('user/Shop/score')}">积分兑换</button>
+	                    	</notempty>
+
+	                    	<!-- <button type="submit" class="btn-style-auto btn yellow js-ajax-submit" data-action="{:url('user/Shop/buy')}">立即购买</button> -->
+                            <a href="javascript:void(0);" class="btn-style-auto btn yellow" id="s_buy" >立即购买</a>
+
+	                    	<!-- <button type="submit" class="btn-style-auto btn buycar js-ajax-submit" data-action="{:url('Order/cartAdd')}">加入购物车</button> -->
+                            <a href="javascript:void(0);" class="btn-style-auto btn buycar" id="s_cart">加入购物车</a>
 	                    </div>
                     </form>
                 </div>
             </div>
         </div>
     </section>
+<script type="text/javascript">
+    $('#s_buy').click(function () {
+        var res = select_spec();
+        if (res) {
+            $('#shopForm').submit();
+        }
+    });
+    $('#s_cart').click(function () {
+        var res = select_spec();
+        if (res) {
+            var data = $('#shopForm').serialize();
+            var u = "{:url('Order/cartAdd')}?"+data;
+            window.location.href = u;
+        }
+    });
+
+    function select_spec() {
+        var vars = $("input[name='spec_vars']:hidden").val();
+        if (!vars) {alert('请选规格');return false;}
+        return true;
+    }
+</script>
+
     <section class="product-details">
         <div class="main">
             <!-- 推荐商品 -->
@@ -188,51 +204,51 @@
                 <div class="comm-param">
                     <div class="par-tit co-grey hi47 ">
                         <ul class="commodity-xq ">
-							<li class='cliks current border-box'><span>商品详情</span></li>
-							<li class='cliks  border-box'><span>用户评价</span></li>
-							<li class='cliks  border-box'><span>规格参数</span></li>
+							<li class="cliks border-box"><span>商品详情</span></li>
+							<li class="cliks border-box current"><span>用户评价</span></li>
+							<li class='cliks border-box'><span>规格参数</span></li>
                         </ul>
                     </div>
                     <div class="parame-bott">
                         <!-- 商品详情 -->
-                        <div class="commodity-num pro-feature-area" style="display:{$star?'none':'block'}">
+                        <div class="commodity-num pro-feature-area" style="display:none">
                             <div class="commodity-detail">
                             	<div style="margin-left:20px;">{$goods.content}</div>
                             </div>
                         </div>
                         <!-- 用户评价 -->
-                        <div class="commodity-num pro-feature-area" style="display:{$star?'block':'none'}" id="AAA">
+                        <div class="commodity-num pro-feature-area" style="display:block" id="AAA">
                             <div class="evaluation-top">
                                 <div class="eval-le1">
                                     <div class="percent">
                                         <span>
-											<b class='red'>{$eval.good}</b>%
+											<b class='red'>{$eval_per.good}</b>%
 										</span>
                                         <em>好评度</em>
                                     </div>
                                     <div class="common-num">
                                         <dl>
                                             <dt>
-                                                好评<em>({$eval.good}%)</em>
+                                                好评<em>({$eval_per.good}%)</em>
                                             </dt>
                                             <dd>
-                                                <s style="width:{$eval.good}%;"></s>
+                                                <s style="width:{$eval_per.good}%;"></s>
                                             </dd>
                                         </dl>
                                         <dl>
                                             <dt>
-                                                中评<em>({$eval.normal}%)</em>
+                                                中评<em>({$eval_per.normal}%)</em>
                                             </dt>
                                             <dd>
-                                                <s style="width:{$eval.normal}%;"></s>
+                                                <s style="width:{$eval_per.normal}%;"></s>
                                             </dd>
                                         </dl>
                                         <dl>
                                             <dt>
-                                                差评<em>({$eval.bad}%)</em>
+                                                差评<em>({$eval_per.bad}%)</em>
                                             </dt>
                                             <dd>
-                                                <s style="width:{$eval.bad}%;"></s>
+                                                <s style="width:{$eval_per.bad}%;"></s>
                                             </dd>
                                         </dl>
                                     </div>
@@ -249,22 +265,22 @@
                             <div class="evaluation-cen">
                                 <ul class='evaluation-ul'>
                                     <li class="current cliks">
-                                        <a href="{:url('details',['id'=>$goods.id])}">全部评论（{$evals['0']}）</a>
+                                        <a href="{:url('details',['id'=>$goods.id])}#AAA">全部评论（{$eval_counts['0']}）</a>
                                     </li>
                                     <li class="cliks">
-                                        <a href="{:url('details',['id'=>$goods.id,'star'=>1])}">好评（{$evals[1]}）</a>
+                                        <a href="{:url('details',['id'=>$goods.id,'star'=>1])}#AAA">好评（{$eval_counts[1]}）</a>
                                     </li>
                                     <li class="cliks">
-                                        <a href="{:url('details',['id'=>$goods.id,'star'=>0])}">中评（{$evals.2}）</a>
+                                        <a href="{:url('details',['id'=>$goods.id,'star'=>0])}#AAA">中评（{$eval_counts.2}）</a>
                                     </li>
                                     <li class="cliks">
-                                        <a href="{:url('details',['id'=>$goods.id,'star'=>-1])}">差评（{$evals.3}）</a>
+                                        <a href="{:url('details',['id'=>$goods.id,'star'=>-1])}#AAA">差评（{$eval_counts.3}）</a>
                                     </li>
                                 </ul>
                             </div>
                             <div class="clear"></div>
                             <div class='evaluation-bott pa-to-25 '>
-                            	<foreach name="evaluate" item="vo">
+                            	<foreach name="evaluateList" item="vo">
                                 <div class="pro-comment">
                                     <div class="pro-comment-user">
                                         <p class='procoment-img'>
@@ -307,16 +323,14 @@
                                             <div class="comm-t2">
                                                 <p class='comm-des'>
                                                     {$vo.description}
-                                                    
                                                 </p>
+                                                <notempty name="vo.evaluate_image">
                                                 <div class="comm_img">
-                        
-                                                    <img src="__TMPL__/public/assets/images/default-thumbnail_160x109.png" alt="">
-                                                    <img src="__TMPL__/public/assets/images/default-thumbnail_160x109.png" alt="">
-                                                    <img src="__TMPL__/public/assets/images/default-thumbnail_160x109.png" alt="">
-                                                    <img src="__TMPL__/public/assets/images/default-thumbnail_160x109.png" alt="">
-                                                    <img src="__TMPL__/public/assets/images/default-thumbnail_160x109.png" alt="">
+                                                    <foreach name="vo.evaluate_image" item="img">
+                                                    <img onclick="parent.imagePreviewDialog('{:cmf_get_image_preview_url($img.url)}');" src="{:url('thumbUrl',['img'=>urlencode($img.url),'w'=>64,'h'=>42])}" alt="{$img.name}">
+                                                    </foreach>
                                                 </div>
+                                                </notempty>
                                             </div>
                                             <div class="arrow"></div>
                                         </div>
@@ -337,7 +351,7 @@
                         </div>
 
                         <!-- 规格参数 -->
-                        <div class="commodity-num"  style="display:none;">
+                        <div class="commodity-num" style="display:none;">
                             <div class='commodity-num-spec'>
                                 <div class="brand-name">规格参数</div>
                                 <ul class='Specifications'>
@@ -345,18 +359,12 @@
                                         <span class="tit">商品品牌：</span>
                                         <span class="con">{$goods.brandname}</span>
                                     </li>
+                                    <foreach name="attrs" item="vo">
                                     <li>
-                                        <span class="tit">证书编号：</span>
-                                        <span class="con">2013011009594115</span>
+                                        <span class="tit">{$vo.attr}：</span>
+                                        <span class="con">{$vo.av}</span>
                                     </li>
-                                    <li>
-                                        <span class="tit">证书状态：</span>
-                                        <span class="con">有效</span>
-                                    </li>
-                                    <li>
-                                        <span class="tit">制造商名称：</span>
-                                        <span class="con">浙江龙鼎车业有限公司</span>
-                                    </li>
+                                    </foreach>
                                 </ul>
                             </div>
                         </div>
@@ -373,13 +381,29 @@
     <script src="__TMPL__/public/assets/js/jquery.jqzoom.js"></script>
     <script src="__TMPL__/public/assets/js/lanrenzhijia.js"></script>
     <!-- end -->
-    
 </body>
-<script>
+
+<script type="text/javascript">
 // 属性选择
 $('.genre-col').click(function() {
-    $(this).addClass('selColor').siblings().removeClass('selColor')
-})
+    $(this).addClass('selColor').siblings().removeClass('selColor');
+    var spec_id = $(this).attr('spec_id');
+    var href = '{:url("shop/Post/ajaxSpec")}';
+    $.ajax({
+        url: href,
+        type: 'POST',
+        data: {id:spec_id},
+        success:function(data){
+            console.log(data)
+            $('#s-price').val(data['price']);
+            $('#s-stock').html(data['stock']);
+            $("input[name='spec_id']:hidden").val(spec_id);
+            $("input[name='spec_vars']:hidden").val(data['spec_vars']);
+            // $("input[name='price']:hidden").val(data['price']);
+            $("input[name='market_price']:hidden").val(data['market_price']);
+        }
+    });
+});
 
 // 详情页购物车
 $('.add').click(function() {
@@ -394,16 +418,16 @@ $('.add').click(function() {
     } else {
         $('.amount_input').addClass('error')
     }
-})
+});
 $('.reduce').click(function() {
       console.log('addd')
     var price = $('.amount_input').val();
-    if (price > 0) {
+    if (price > 1) {
         $('.amount_input').removeClass('error')
         price--;
         $('.amount_input').val(price)
     }
-})
+});
 
 // 商品详情页tab切换
 $('.commodity-xq li').click(function(){
@@ -414,7 +438,13 @@ $('.commodity-xq li').click(function(){
 
     div.hide();
     div.eq(indx).show();
-})
+});
+
+
+
+/*表单数据提交*/
+
+
 </script>
 
 </html>

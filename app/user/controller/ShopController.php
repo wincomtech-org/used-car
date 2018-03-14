@@ -55,10 +55,25 @@ class ShopController extends UserBaseController
     // 购物车结算
     public function buyCart()
     {
+        $data = $this->request->param();
+
         $this->assign('paysign','shop');
         $this->assign('orderId','null');
         return $this->fetch('buy');
     }
+
+    // 积分兑换
+    public function score()
+    {
+        $data = $this->request->param();
+
+        dump($data);
+        
+        // return $this->fetch();
+    }
+
+
+
 
     // 确认收货
     public function receipt()
@@ -87,10 +102,11 @@ class ShopController extends UserBaseController
     {
         $data = $this->request->param();
         $post = $data['eval'];
-        // dump($data);die;
+// dump($data);die;
 
         if (!empty($data['evaluate_image'])) {
             $post['evaluate_image'] = model('usual/Com')->dealFiles($data['evaluate_image']);
+            $post['evaluate_image'] = json_encode($post['evaluate_image']);
         }
         $post['user_id'] = cmf_get_current_user_id();
         $post['create_time'] = time();
@@ -143,6 +159,11 @@ class ShopController extends UserBaseController
 
     // 下单页
     public function  buy_detail(){
+        return $this->fetch();
+    }
+
+    //手机端选择地址页
+    public function  address(){
         return $this->fetch();
     }
 }
