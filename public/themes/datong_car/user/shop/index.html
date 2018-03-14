@@ -18,7 +18,14 @@
     <!-- 热门资讯 -->
     <section class="person">
         <div class="main">
-            <include file="public@usernav" />
+            <div class='show_brash'>
+                <include file="public@usernav" />
+                <ul class="brash">
+                    <li>当前位置：</li>
+                    <li class=""><a href="{:url('index')}">服务商城</a></li>
+                    <li class="active"><a href="#">我的订单</a></li>
+                </ul>
+            </div>
 
             <div class="person_right">
                 <div class="person_right_tit business_person">
@@ -246,24 +253,25 @@
                         <!-- 屏幕1024一下的样式 -->
                         <div class="shops_order_m">
                             <div class='shops-order-m-div'>
-                                    <div class='order-list'>
-                                        <dl class='order-list-tit'>
-                                            <dd class='mess'>
-                                                <!-- <span class="time">2018-01-10 09:40:22</span> -->
-                                                <span class="order-goods">
-                                                    订单号：<a href="">201801100940222779</a>
-                                                </span>
-                                            </dd>
-                                            <dd class='states'>待支付</dd>
-                                        </dl>
-                                    </div>
-                                    <div class='order-list-con'>
-                                        <div class='order-mess'>
-                                            <div class="order-img">
-                                                <a href="">
-                                                    <img src="http://hcsinglyshop.wincomtech.cn/Public/upload/goods/thumb/45/goods_thumb_45_78_78.jpeg" alt="">
-                                                </a>
-                                            </div>
+                                <div class='order-list'>
+                                    <dl class='order-list-tit'>
+                                        <dd class='mess'>
+                                            <!-- <span class="time">2018-01-10 09:40:22</span> -->
+                                            <span class="order-goods">
+                                                订单号：<a href="">201801100940222779</a>
+                                            </span>
+                                        </dd>
+                                        <dd class='states'>待支付</dd>
+                                    </dl>
+                                </div>
+                                <div class='order-list-con'>
+                                    <div class='order-mess'>
+                                        <div class="order-img">
+                                            <a href="">
+                                                <img src="http://hcsinglyshop.wincomtech.cn/Public/upload/goods/thumb/45/goods_thumb_45_78_78.jpeg" alt="">
+                                            </a>
+                                        </div>
+                                        <div class="orderHasEdit">
                                             <div class="order-intro">
                                                 <div class='order-trade-name'>
                                                     <a href="">华为 HUAWEI C199S 麦芒3S 电信4G智能手机FDD-LTE /TD-LTE/CDMA2000/GSM（麦芒）</a>
@@ -277,23 +285,161 @@
                                                 <p class='price'><del>1000000.00</del></p>
                                                 <p class='amount small'>1</p>
                                             </div>
-                                        </div>
-                                        
-                                        <dl class='o-total-price'>
-                                            <span>总计共<b>1</b>件商品</span>
-                                            <span>合计:<b>￥688.00</b>元</span>
-                                            <span>含运费（<b>0.00</b>）</span>
-                                        </dl>
-                                        
-                                        <div class='o-tab-btn'>
-                                            <a class='backg-border '>查看物流</a>
-                                            <a class='backg-border '>取消订单</a>
-                                            <a class='backg-border '>取消订单</a>
-                                            <a class='backg-border '>取消订单</a>
-                                        </div>
+                                        </div>    
+                                    </div>
+                                    
+                                    <dl class='o-total-price'>
+                                        <span>总计共<b>1</b>件商品</span>
+                                        <span>合计:<b>￥688.00</b>元</span>
+                                        <span>含运费（<b>0.00</b>）</span>
+                                    </dl>
+                                    
+                                    <div class='o-tab-btn'>
+                                        <a class='backg-border '>立即支付</a>
+                                        <a class='backg-border '>取消订单</a>
+                                        <a class='backg-border '>订单系详情</a>
                                     </div>
                                 </div>
                             </div>
+                        
+                            <div class='shops-order-m-div'>
+                                <div class='order-list'>
+                                    <dl class='order-list-tit'>
+                                        <dd class='mess'>
+                                            <!-- <span class="time">2018-01-10 09:40:22</span> -->
+                                            <span class="order-goods">
+                                                订单号：<a href="">201801100940222779</a>
+                                            </span>
+                                        </dd>
+                                        <dd class='states'>待发货</dd>
+                                    </dl>
+                                </div>
+                                <div class='order-list-con'>
+                                    <div class='order-mess'>
+                                        <div class="order-img">
+                                            <a href="">
+                                                <img src="http://hcsinglyshop.wincomtech.cn/Public/upload/goods/thumb/45/goods_thumb_45_78_78.jpeg" alt="">
+                                            </a>
+                                        </div>
+                                        <div class="orderHasEdit">
+                                            <div class="order-intro">
+                                                <div class='order-trade-name'>
+                                                    <a href="">华为 HUAWEI C199S 麦芒3S 电信4G智能手机FDD-LTE /TD-LTE/CDMA2000/GSM（麦芒）</a>
+                                                </div>
+                                                <div class='order-attributes'>
+                                                    <span>颜色分类：倍量加强版【苹果6电池】-送整套拆机工具+视频教程+质保3年</span>
+                                                </div>
+                                            </div>
+                                            <div class="item-pay">
+                                                <p class='price'>1500.00</p>
+                                                <p class='price'><del>1000000.00</del></p>
+                                                <p class='amount small'>1</p>
+                                            </div>
+                                        </div>    
+                                    </div>
+                                    
+                                    <dl class='o-total-price'>
+                                        <span>总计共<b>1</b>件商品</span>
+                                        <span>合计:<b>￥688.00</b>元</span>
+                                        <span>含运费（<b>0.00</b>）</span>
+                                    </dl>
+                                    
+                                    <div class='o-tab-btn'>
+                                        <a class='backg-border '>退货/退款</a>
+                                        <a class='backg-border '>订单详情</a>
+                                        <a class='backg-border '>查看物流</a>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class='shops-order-m-div'>
+                                <div class='order-list'>
+                                    <dl class='order-list-tit'>
+                                        <dd class='mess'>
+                                            <!-- <span class="time">2018-01-10 09:40:22</span> -->
+                                            <span class="order-goods">
+                                                订单号：<a href="">201801100940222779</a>
+                                            </span>
+                                        </dd>
+                                        <dd class='states'>待评价</dd>
+                                    </dl>
+                                </div>
+                                <div class='order-list-con'>
+                                    <div class='order-mess'>
+                                        <div class="order-img">
+                                            <a href="">
+                                                <img src="http://hcsinglyshop.wincomtech.cn/Public/upload/goods/thumb/45/goods_thumb_45_78_78.jpeg" alt="">
+                                            </a>
+                                        </div>
+                                        <div class="orderHasEdit">
+                                            <div class="order-intro">
+                                                <div class='order-trade-name'>
+                                                    <a href="">华为 HUAWEI C199S 麦芒3S 电信4G智能手机FDD-LTE /TD-LTE/CDMA2000/GSM（麦芒）</a>
+                                                </div>
+                                                <div class='order-attributes'>
+                                                    <span>颜色分类：倍量加强版【苹果6电池】-送整套拆机工具+视频教程+质保3年</span>
+                                                </div>
+                                            </div>
+                                            <div class="item-pay">
+                                                <p class='price'>1500.00</p>
+                                                <p class='price'><del>1000000.00</del></p>
+                                                <p class='amount small'>1</p>
+                                            </div>
+                                        </div>    
+                                    </div>
+                                    
+                                    <dl class='o-total-price'>
+                                        <span>总计共<b>1</b>件商品</span>
+                                        <span>合计:<b>￥688.00</b>元</span>
+                                        <span>含运费（<b>0.00</b>）</span>
+                                    </dl>
+                                    
+                                    <div class='o-tab-btn'>
+                                        <a class='backg-border '>确认收货</a>
+                                        <a class='backg-border '>退货/退款</a>
+                                        <a class='backg-border '>订单详情</a>
+                                        <a class='backg-border '>查看物流</a>
+                                    </div>
+                                </div>
+                                <div class='order-list-con'>
+                                    <div class='order-mess'>
+                                        <div class="order-img">
+                                            <a href="">
+                                                <img src="http://hcsinglyshop.wincomtech.cn/Public/upload/goods/thumb/45/goods_thumb_45_78_78.jpeg" alt="">
+                                            </a>
+                                        </div>
+                                        <div class="orderHasEdit">
+                                            <div class="order-intro">
+                                                <div class='order-trade-name'>
+                                                    <a href="">华为 HUAWEI C199S 麦芒3S 电信4G智能手机FDD-LTE /TD-LTE/CDMA2000/GSM（麦芒）</a>
+                                                </div>
+                                                <div class='order-attributes'>
+                                                    <span>颜色分类：倍量加强版【苹果6电池】-送整套拆机工具+视频教程+质保3年</span>
+                                                </div>
+                                            </div>
+                                            <div class="item-pay">
+                                                <p class='price'>1500.00</p>
+                                                <p class='price'><del>1000000.00</del></p>
+                                                <p class='amount small'>1</p>
+                                            </div>
+                                        </div>    
+                                    </div>
+                                    
+                                    <dl class='o-total-price'>
+                                        <span>总计共<b>1</b>件商品</span>
+                                        <span>合计:<b>￥688.00</b>元</span>
+                                        <span>含运费（<b>0.00</b>）</span>
+                                    </dl>
+                                    
+                                    <div class='o-tab-btn'>
+                                        <a class='backg-border '>评价</a>
+                                        <a class='backg-border '>再次购买</a>
+                                        <a class='backg-border '>订单详情</a>
+                                        <a class='backg-border '>查看物流</a>
+                                    </div>
+                                </div>
+                            </div>
+                            
                         </div>
                     </div>
                 </div>

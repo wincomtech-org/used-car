@@ -937,7 +937,9 @@ evaluation{margin:.5rem 0;}
     .order-intro{margin-left:0;}
 
     /* 手机购物车 */
-    .item-editor{position:absolute;background-color:#fff;width:100%;left:0;height:100%;display:flex;display:-webkit-box;display:-moz-box;display:-ms-box;display:-o-box;display:box;display:-webkit-flex;align-items:center;}
+    .item-editor{position:absolute;background-color:#fff;width:100%;left:0;height:100%;display:flex;display:-webkit-box;display:-moz-box;display:-ms-box;display:-o-box;display:box;display:-webkit-flex;align-items:center;-webkit-transition: All .5s ease;
+    -moz-transition: All .5s ease;
+    -o-transition: All .5s ease;}
     .item-editor .btn-reduce,
     .item-editor .btn-add{font-size:2rem;border:none;color:#666;width:20%;margin:0;}
     .amout-num span input{width:100%;text-align:center;border:none;}
@@ -973,6 +975,9 @@ evaluation{margin:.5rem 0;}
 /* 手机端订单详情 */
 @media screen and (max-width:768px){
     .order-li-mess{width:50%;font-size:12px;}
+    .wddd-li {
+        padding: 0px 3px 24px;
+    }
 
     
 }

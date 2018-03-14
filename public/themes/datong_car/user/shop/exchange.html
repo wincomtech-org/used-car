@@ -18,7 +18,15 @@
     <!-- 热门资讯 -->
     <section class="person">
         <div class="main">
-            <include file="public@usernav" />
+            <div class='show_brash'>
+                <include file="public@usernav" />
+                <ul class="brash">
+                    <li>当前位置：</li>
+                    <li class=""><a href="{:url('index')}">服务商城</a></li>
+                    <li class=""><a href="{:url('index')}">订单管理</a></li>
+                    <li class="active"><a href="#">订单详情</a></li>
+                </ul>
+            </div>
 
             <div class="person_right">
                 <div class="person_right_tit business_person">
@@ -120,19 +128,24 @@
                                                     <img src="http://hcsinglyshop.wincomtech.cn/Public/upload/goods/thumb/45/goods_thumb_45_78_78.jpeg" alt="">
                                                 </a>
                                             </div>
-                                            <div class="order-intro">
-                                                <div class='order-trade-name'>
-                                                    <a href="">华为 HUAWEI C199S 麦芒3S 电信4G智能手机FDD-LTE /TD-LTE/CDMA2000/GSM（麦芒）</a>
+                                            <div class="orderHasEdit">
+
+                                                <div class="order-intro">
+                                                    <div class='order-trade-name'>
+                                                        <a href="">华为 HUAWEI C199S 麦芒3S 电信4G智能手机FDD-LTE /TD-LTE/CDMA2000/GSM（麦芒）</a>
+                                                    </div>
+                                                    <div class='order-attributes'>
+                                                        <span>颜色分类：倍量加强版【苹果6电池】-送整套拆机工具+视频教程+质保3年</span>
+                                                    </div>
                                                 </div>
-                                                <div class='order-attributes'>
-                                                    <span>颜色分类：倍量加强版【苹果6电池】-送整套拆机工具+视频教程+质保3年</span>
+
+                                                <div class="item-pay">
+                                                    <p class='price'>1500.00</p>
+                                                    <p class='price'><del>1000000.00</del></p>
+                                                    <p class='amount small'>1</p>
                                                 </div>
                                             </div>
-                                            <div class="item-pay">
-                                                <p class='price'>1500.00</p>
-                                                <p class='price'><del>1000000.00</del></p>
-                                                <p class='amount small'>1</p>
-                                            </div>
+                                           
                                         </div>
                                         
                                         <dl class='o-total-price'>

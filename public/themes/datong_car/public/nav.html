@@ -9,7 +9,7 @@
                 <ul class="shop_classify">
                     <notempty name="share_goodscate">
                     <foreach name="share_goodscate" item="vo">
-                    <li class='shop_classify_li border-box active' gc_id='{$vo.id}'>
+                    <li class='shop_classify_li border-box ' gc_id='{$vo.id}'>
                         <div class="shop_classify_div border-box">
                             <p><b><a href="{:cmf_url('shop/Index/index')}">{$vo.name}</a></b></p>
                             <!-- <p>
@@ -27,7 +27,7 @@
                 <div class="classifys">
                     <notempty name="share_goodscate">
                     <foreach name="share_goodscate" item="vo">
-                    <ol class="shop_classify_con border-box" id='shop_item{$vo.id}'>
+                    <ol class="shop_classify_con border-box" id='shop_item{$vo.id}' style='display:none;'>
                         <notempty name="vo.children">
                         <foreach name="vo.children" item="child">
                         <li><a href="{:cmf_url('shop/Index/index')}">{$child.name}</a></li>

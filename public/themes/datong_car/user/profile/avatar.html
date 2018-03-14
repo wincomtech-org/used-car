@@ -50,7 +50,14 @@
     <!-- 个人中心 -->
     <section class="person">
         <div class="main">
-            <include file="public@usernav" />
+            <div class='show_brash'>
+                <include file="public@usernav" />
+                <ul class="brash">
+                    <li>当前位置：</li>
+                    <li class=""><a href="{:url('index')}">个人资料</a></li>
+                    <li class="active"><a href="#">修改头像</a></li>
+                </ul>
+            </div>
             <div class="person_right">
                 <div class="person_right_tit">
                     <ul>

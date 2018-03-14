@@ -18,7 +18,16 @@
     <!--  -->
     <section class="person">
         <div class="main">
-            <include file="public@usernav" />
+            <div class='show_brash'>
+                <include file="public@usernav" />
+                <ul class="brash">
+                    <li>当前位置：</li>
+                    <li class=""><a href="{:url('index')}">服务商城</a></li>
+                    <li class=""><a href="{:url('index')}">订单管理</a></li>
+                    <li class="active"><a href="#">订单详情</a></li>
+                </ul>
+            </div>
+            
             <div class="person_right">
                 <div class="person_right_tit business_person">
                     <include file="shop/shop_nav" />

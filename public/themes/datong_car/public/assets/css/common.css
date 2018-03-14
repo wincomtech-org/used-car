@@ -306,7 +306,9 @@ nav{background-color:#000;}
 .shop_classify_con{position:absolute;left:180px;top:0;width:200px;background-color:rgba(255,255,255,.8);padding:20px;min-height:200px;}
 .shop_classify_con li{width:50%;float:left;margin:5px 0;}
 .shop_classify_con a{font-size:12px;font-family:'宋体';color:#333;cursor:pointer;}
+.shop_classify_con a:hover{color:#d00000;;}
 .shop_classify_li.active .shop_classify_div:after{position:absolute;right:-7px;top:20px;content:"";width:0;height:0;display:inline-block;border-left:8px solid #d00000;border-top:8px solid transparent;border-bottom:8px solid transparent;z-index:2;}
+
 
 /* 服务商城筛选 */
 .fitte_div{display:block;margin:5px auto;font-size:12px;}
@@ -537,7 +539,7 @@ nav{background-color:#000;}
         
 
         /* 导航 */
-        .header_search{padding:1rem 0 .5rem;}
+        .header_search{padding:.7rem 0 0;}
         .search input.ser_input,.search input.ser_button{font-size:12px;}
         /* .user_m .shop_car_icon{width:20px;background: url(../images/shop_icon.png) -5px -173px no-repeat;} */
         /* .user_m .icon{width:20px;background: url(../images/shop_icon.png) -4px -201px no-repeat;} */

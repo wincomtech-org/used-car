@@ -18,7 +18,14 @@
     <!-- 热门资讯 -->
     <section class="person">
         <div class="main">
-            <include file="public@usernav" />
+            <div class='show_brash'>
+                <include file="public@usernav" />
+                <ul class="brash">
+                    <li>当前位置：</li>
+                    <li class=""><a href="{:url('index')}">服务商城</a></li>
+                    <li class="active"><a href="#">退换货</a></li>
+                </ul>
+            </div>
             <div class="person_right">
                 <div class="person_right_tit business_person">
                     <include file="shop/shop_nav" />
@@ -253,8 +260,8 @@
                                         <dd class='mess'>
                                             <!-- <span class="time">2018-01-10 09:40:22</span> -->
                                             <span class="order-goods">
-                                                    订单号：<a href="">201801100940222779</a>
-                                                </span>
+                                                订单号：<a href="">201801100940222779</a>
+                                            </span>
                                         </dd>
                                         <dd class='states'>退货</dd>
                                     </dl>
@@ -266,19 +273,22 @@
                                                     <img src="http://hcsinglyshop.wincomtech.cn/Public/upload/goods/thumb/45/goods_thumb_45_78_78.jpeg" alt="">
                                                 </a>
                                         </div>
-                                        <div class="order-intro">
-                                            <div class='order-trade-name'>
-                                                <a href="">华为 HUAWEI C199S 麦芒3S 电信4G智能手机FDD-LTE /TD-LTE/CDMA2000/GSM（麦芒）</a>
+                                        <div class="orderHasEdit">
+                                            <div class="order-intro">
+                                                <div class='order-trade-name'>
+                                                    <a href="">华为 HUAWEI C199S 麦芒3S 电信4G智能手机FDD-LTE /TD-LTE/CDMA2000/GSM（麦芒）</a>
+                                                </div>
+                                                <div class='order-attributes'>
+                                                    <span>颜色分类：倍量加强版【苹果6电池】-送整套拆机工具+视频教程+质保3年</span>
+                                                </div>
                                             </div>
-                                            <div class='order-attributes'>
-                                                <span>颜色分类：倍量加强版【苹果6电池】-送整套拆机工具+视频教程+质保3年</span>
+                                            <div class="item-pay">
+                                                <p class='price'>退货中</p>
+                                                <p class='price'>1500.00</p>
+                                                <p class='amount '>1 件</p>
                                             </div>
                                         </div>
-                                        <div class="item-pay">
-                                            <p class='price'>退货中</p>
-                                            <p class='price'>1500.00</p>
-                                            <p class='amount '>1 件</p>
-                                        </div>
+                                       
                                     </div>
                                     <dl class='o-total-price'>
                                         <span>退款金额:<b>￥688.00</b>元</span>
