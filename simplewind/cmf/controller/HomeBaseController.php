@@ -33,29 +33,37 @@ class HomeBaseController extends BaseController
             echo $siteInfo['web_switch_desc'];exit();
         }
 
-        // 缓存
+        // cache 文件缓存
         $cbc = cache('cbc');
         if (empty($cbc)) {
             // 导航（手机端）
             $navMenuModel = new NavMenuModel();
             $navMenus = $navMenuModel->navMenusTreeArray(null,2);
-            // 友链
-            $apiModel = new ApiService();
-            $friendLink = $apiModel->links('url,name,target,description');
             // 幻灯片
             $slideModel = new SlideItemModel();
             $slides = $slideModel->getLists(['cid'=>1]);
+            // 友链
+            $apiModel = new ApiService();
+            $friendLink = $apiModel->links('url,name,target,description');
             // 用户数据
             // $this->user = cmf_get_current_user();
             // 服务商城分类树
             // $goodscate = model('shop/ShopGoodsCategory')->getGoodsTreeArray();
+            // 购物车数据
 
             $cbc = cache('cbc',[
                 'navMenus'  => $navMenus,
-                'friendLink'=> $friendLink,
                 'slides'    => $slides,
+                'friendLink'=> $friendLink,
                 // 'goodscate' => $goodscate,
             ],3600);
+        }
+
+        // session 服务器内存
+        if (session('?user_cart')===false) {
+            // cmf_get_current_user_id() = session('user.id')
+            $user_cart = model('ShopCart')->where('user_id',session('user.id'))->select()->toArray();
+            session('user_cart',$user_cart);
         }
 
         // 服务商城分类树
@@ -64,8 +72,9 @@ class HomeBaseController extends BaseController
 
         View::share('site_info', $siteInfo);
         View::share('navMenus', $cbc['navMenus']);
-        View::share('share_friendLink', $cbc['friendLink']);
         View::share('slides', $cbc['slides']);
+        View::share('share_friendLink', $cbc['friendLink']);
+        // View::share('share_goodscate', $cbc['goodscate']);
         View::share('share_goodscate', $goodscate);
         // $this->assign('user',$this->user);
     }
