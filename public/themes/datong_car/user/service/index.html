@@ -16,7 +16,14 @@
     <!-- 热门资讯 -->
     <section class="person">
         <div class="main">
-            <include file="public@usernav" />
+            <div class='show_brash'>
+                <include file="public@usernav" />
+                <ul class="brash">
+                    <li>当前位置：</li>
+                    <li class=""><a href="{:url('index')}">车辆业务</a></li>
+                    <li class="active"><a href="#">上门验车</a></li>
+                </ul>
+            </div>
 
             <div class="person_right" id="AAA">
                 <div class="person_right_tit business_person">

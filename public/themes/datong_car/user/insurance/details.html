@@ -22,7 +22,15 @@
     <!-- 热门资讯 -->
     <section class="person">
         <div class="main">
-            <include file="public@usernav" />
+            <div class='show_brash'>
+                <include file="public@usernav" />
+                <ul class="brash">
+                    <li>当前位置：</li>
+                    <li class=""><a href="{:url('index')}">车险管理</a></li>
+                    <li class=""><a href="{:url('index')}">车险订单</a></li>
+                    <li class="active"><a href="#">订单详情</a></li>
+                </ul>
+            </div>
 
             <div class="person_right">
                 <div class="person_right_tit">
