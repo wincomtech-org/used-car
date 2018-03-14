@@ -9,7 +9,7 @@
     <link href='__TMPL__/public/assets/css/shop.css' type="text/css" rel="stylesheet">
     <include file="public@head" />
     <style type="text/css">
-        .btn_cart{display:block;padding: 15px 5px;width: 100%}
+        .btn_cart,.btn-remove-a{display:block;height:100%;width: 100%}
     </style>
 </head>
 
@@ -26,183 +26,11 @@
             </ul>
 
             <!-- 电脑端 -->
-            <form action="{:url('user/Shop/buyCart')}" method="post" id="cartForm-pc">
-            <div class="shops_order carts main">
-                <div class='fixedD'>
-                    <table class='shops-order-tab'>
-                        <thead>
-                            <tr>
-                                <th class='col-pro-img ma-0'>
-                                    <label class='all-sel'>
-                                        <input type="checkbox" class='all-sel-inp'> 全选</label>
-                                </th>
-                                <th class='col-pro ma-1'>商品信息</th>
-                                <th class='col-pro ma-2'>市场价</th>
-                                <th class='col-pro ma-3'>数量</th>
-                                <th class='col-pro ma-4'>单价</th>
-                                <th class='col-pro ma-5'>小计</th>
-                                <th class='col-pro ma-6'>操作</th>
-                            </tr>
-                        </thead>
-                    </table>
-                    
-                    <foreach name="carts" item="vo">
-                    <table class='shops-order-tab tableSel'>
-                        <tbody class='order-list'>
-                            <tr class='order-list-tit'>
-                                <td class='ma-0'>
-                                    <input type="checkbox" name="cartol[{$vo.id}][id]" value="{$vo.id}" class='sel-checkbox'>
-                                </td>
-                                <td class='ma-1' colspan='5'>
-
-                                </td>
-                                <td class='ma-6'>编辑</td>
-                            </tr>
-                            <tr class='order-list-con'>
-                                <td class='ma-0'></td>
-                                <td class='ma-1'>
-                                    <div class="order-img">
-                                        <a href="{:url('Post/details','id='.$vo.goods_id)}">
-                                            <empty name="vo.thumbnail">
-                                            <img src="__TMPL__/public/assets/images/default-thumbnail_160x109.png" alt="">
-                                            <else/>
-                                            <img src="{:url('thumbUrl',['img'=>urlencode($vo.thumbnail),'w'=>160,'h'=>109])}" alt="">
-                                            </empty>
-                                        </a>
-                                    </div>
-                                    <div class="order-intro">
-                                        <div class='order-trade-name'>
-                                            <a href="{:url('Post/details','id='.$vo.goods_id)}">{$vo.goods_name}</a>
-                                        </div>
-                                        <div class='order-attributes'>
-                                            <span>规格：{$vo.spec_vars}</span>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td class='ma-2'>￥ <span class='original'>{$vo.market_price}</span></td>
-                                <td class='ma-3'>
-                                    <div class="amout-num">
-                                        <span class='btn-reduce'>-</span>
-                                        <span class='amoutNum'><input type="text" name="cartol[{$vo.id}][number]" value="{$vo.number}" class='amoutNum-inp' readonly></span>
-                                        <span class='btn-add'>+</span>
-                                    </div>
-                                </td>
-                                <td class='ma-4'>
-                                    <span class='unit-price'>
-                                        {$vo.price}
-                                    </span>
-                                </td>
-                                <td class='ma-5'>
-                                    <span class='tot-pri'>{$vo.number*$vo.price}</span>
-                                </td>
-                                <td class='ma-6'>
-                                    <div class="order-state group-a">
-                                        <a href="javascript:void(0);" class='btn-style backg-red remove-order'>删除</a>
-                                    </div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    </foreach>
-                </div>
-
-                <table class='shops-order-tab shops-order-op' style='background-color:#f5f5f5;'>
-                    <thead>
-                        <tr>
-                            <th class='col-pro-img ma-0'>
-                                <label class='all-sel'>
-                                    <input type="checkbox" class='all-sel-inp'>全选</label>
-                            </th>
-                            <th class='col-pro ma-1' style='text-align:left;'><a class='red-color all-del' href='javascript:void(0);'>删除</a></th>
-                            <th class='col-pro ma-2'></th>
-                            <th class='col-pro ma-3'>已选商品 <span><i class='totalNum'>2</i> 件</span></th>
-                            <th class='col-pro'>合计（不含运费）<b class='orage-color totalPri'>1500.00</b>元</th>
-                            <th class='col-pro ma-6 gray-btn'>
-                                <!-- <a style="display:block;" href="{:url('user/Shop/buyCart')}">结算</a> -->
-                                <button onclick="btnHandle('pc');" class="btn_cart" type="button">结算</button>
-                            </th>
-                        </tr>
-                    </thead>
-                </table>
-            </div>
-            </form>
-
+            <include file="order/cartList_pc" />
 
             <!-- 手机端 -->
-            <form action="{:url('user/Shop/buyCart')}" method="post" id="cartForm-wap">
-            <div class="shops_order_m carts">
-                <div class='fixedD1'>
-                    <foreach name="carts" item="vo">
-                    <div class='shops-order-m-div tableSel'>
-                        <div class='order-list'>
-                            <dl class='order-list-tit'>
-                                <dd class='mess'>
-                                    <label class='all-sel'>
-                                        <input type="checkbox" name="cartol[{$vo.id}][id]" value="{$vo.id}" class='sel-checkbox'>
-                                    </label>
-                                    <span class="order-goods"></span>
-                                </dd>
-                                <dd class='states'><a class='editor'>编辑</a></dd>
-                            </dl>
-                        </div>
-                        <div class='order-list-con'>
-                            <div class='order-mess'>
-                                <div class="order-img">
-                                    <a href="{:url('Post/details','id='.$vo.goods_id)}">
-                                        <empty name="vo.thumbnail">
-                                        <img src="__TMPL__/public/assets/images/default-thumbnail_160x109.png" alt="">
-                                        <else/>
-                                        <img src="{:url('thumbUrl',['img'=>urlencode($vo.thumbnail),'w'=>160,'h'=>109])}" alt="">
-                                        </empty>
-                                    </a>
-                                </div>
-                                <div class="order-intro">
-                                    <div class='order-trade-name'>
-                                        <a href="{:url('Post/details','id='.$vo.goods_id)}">{$vo.goods_name}</a>
-                                    </div>
-                                    <div class='order-attributes'>
-                                        <span>规格：{$vo.spec_vars}</span>
-                                    </div>
-                                </div>
-                                <div class="item-pay">
-                                    <p class='unit-price'>{$vo.price}</p>
-                                    <p class='tot-pri'>{$vo.number*$vo.price}</p>
-                                    <p class='amount_mobel small'>{$vo.number}</p>
-                                </div>
-                                <!-- mobile  -->
-                                <div class="item-editor" style='display:none;'>
-                                    <div class="amout-num">
-                                        <span class='btn-reduce'>-</span>
-                                        <span class='amoutNum'><input type="text" name="cartol[{$vo.id}][number]" value='{$vo.number}' class='amoutNum-inp' readonly></span>
-                                        <span class='btn-add'>+</span>
-                                    </div>
-                                    <div class="opeat-btn backg-red">
-                                        <a href="{:url('shop/Order/cartDel',['id'=>$vo.id])}" class="js-ajax-dialog-btn" data-msg="确定删除吗？">删除</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    </foreach>
-                </div>
-                <div class='ti'></div>
-                <ul class="shops_order_m_total clearfix shops-order-op1">
-                    <li>
-                        <label class='all-sel'>
-                            <input type="checkbox" class='all-sel-inp'>全选</label>
-                    </li>
-                    <li>
-                        合计<b class='orage-color totalPri'>0</b>元
-                    </li>
-                    <li class='rt'>
-                        <!-- <a style="display:block;width: 100%" href="{//:url('user/Shop/buyCart')}">
-                            <span>结算</span>
-                        </a> -->
-                        <button onclick="btnHandle('wap');" class="btn_cart" type="button">结算</button>
-                    </li>
-                </ul>
-            </div>
-            </form>
+            <include file="order/cartList_wap" />
+            
         </div>
     </section>
     <!-- 底部 -->

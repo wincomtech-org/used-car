@@ -1,0 +1,137 @@
+
+<div class="shops_order">
+    <form action="{:url('user/Shop/pay')}" method="POST">
+        <!-- 收货地址 \public\themes\datong_car\public\assets\js\common.js 181 analogy_tit-->
+        <dl class='order-dl'>
+            <dt>收货地址：</dt>
+            <dd class='addr_list'>
+                <div class="analogy addr">
+                    <empty name="address">
+                        <p><a href="{:url('user/Shop/shipping_address')}">添加地址</a></p>
+                    <else/>
+                        <p class="analogy_tit">
+                            <input data-id="{$addrFirst.id|default=''}" name='addr_list' value="{$addrFirst.addr|default=''}" readonly="">
+                        </p>
+                        <ul class="analogy_con" style="display: none;">
+                            <foreach name="address" item="vo">
+                            <li data-val="{$vo.id}">
+                                <input value="{$vo.address .' '. $vo.username .'收 '. $vo.telephone}" readonly="">
+                            </li>
+                            </foreach>
+                        </ul>
+                    </empty>
+                </div>
+            </dd>
+        </dl>
+
+        <!-- 商品集 列表数据 -->
+        <table class='shops-order-tab'>
+            <thead>
+                <tr>
+                    <th class='col-pro-img ma-0'></th>
+                    <th class='col-pro ma-1'>商品</th>
+                    <th class='col-pro ma-2'>价格</th>
+                    <th class='col-pro ma-3'>数量</th>
+                    <th class='col-pro ma-4'>实付款</th>
+                    <th class='col-pro ma-5'>交易状态</th>
+                    <th class='col-pro ma-6'>运费</th>
+                </tr>
+            </thead>
+        </table>
+        <foreach name="data" item="vo">
+        <table class='shops-order-tab'>
+            <tbody class='order-list'>
+                <tr class='order-list-tit'>
+                    <td class='ma-0'></td>
+                    <td class='ma-1' colspan='5'>
+                        <!-- <span class="time">2018-01-10 09:40:22</span> -->
+                    </td>
+                    <td class='ma-6'></td>
+                </tr>
+                <tr class='order-list-con'>
+                    <td class='ma-0'></td>
+                    <td class='ma-1'>
+                        <div class="order-img">
+                            <a href="{:url('shop/Post/details','id='.$vo.goods_id)}">
+                                <empty name="vo.thumbnail">
+                                <img src="__TMPL__/public/assets/images/default-thumbnail_160x109.png" alt="">
+                                <else/>
+                                <img src="{:url('thumbUrl',['img'=>urlencode($vo.thumbnail),'w'=>160,'h'=>109])}" alt="">
+                                </empty>
+                            </a>
+                        </div>
+                        <div class="order-intro">
+                            <div class='order-trade-name'>
+                                <a href="{:url('shop/Post/details','id='.$vo.goods_id)}">
+                                    {$vo.goods_name}
+                                </a>
+                            </div>
+                            <div class='order-attributes'>
+                                <span>规格：{$vo.spec_vars}</span>
+                            </div>
+                        </div>
+                    </td>
+                    <td class='ma-2'>￥{$vo.market_price}</td>
+                    <td class='ma-3'>{$vo.number}</td>
+                    <td class='ma-4'>
+                        ￥{$vo.price}<br/>
+                        <i class='small'>(含运费:0.00)</i>
+                    </td>
+                    <td class='ma-5'>
+                        <div class="trading-status group-a">
+                            <sapn>等待买家付款</sapn>
+                        </div>
+                    </td>
+                    <td class='ma-6'>
+                        <!-- 运费 -->
+                        <div class="order-state group-a">
+                            0
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        </foreach>
+
+        <!-- 统计 操作 -->
+        <div class="total-div">
+            <p>
+                <span>总计：</span>
+                <span><input name='total_quantity' class='orage-color tx-r' value='{:count($data)}' readonly style='width:20px;'>件</span>
+            </p>
+            <div class='youhui'>
+                <span>优惠券：</span>
+                <div class="analogy ">
+                    <p class="analogy_tit">
+                        <input name="coupon" placeholder="请选择优惠券" class="placeholder" readonly="" data-id="2">
+                    </p>
+                    <ul class="analogy_con" style="display: none;">
+                        <li onclick="changeBrand(this,1)" data-val="1">
+                            <input value="满500减100" readonly="">
+                        </li>
+                        <li onclick="changeBrand(this,1)" data-val="2">
+                            <input value="满100减10" readonly="">
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <p>
+                <span>合计金额：</span>
+                <span><input name='total_money' class='orage-color tx-r' value="{$amount|default=''}" readonly style='width:48px;'>元</span>
+            </p>
+            <p>
+                <!-- 这里放一些需要提交的数据 -->
+                <input type="hidden" name="cart_id" value="{$vo.cart_id|default=''}">
+                <!-- 商品本身 -->
+                <input type="hidden" name="goods_id" value="{$vo.goods_id}">
+                <!-- 规格选定 -->
+                <input type="hidden" name="spec_id" value="{$vo.spec_id}">
+
+                <!-- 防止表单重复提交 -->
+                <input type="hidden" name="timestamp" value="">
+
+                <button type='submit' class='btn-style backg-red f14'>立即支付</button>
+            </p>
+        </div>
+    </form>
+</div>
