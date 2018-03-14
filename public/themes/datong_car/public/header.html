@@ -17,7 +17,7 @@
                     <!-- 登陆后 -->
                     <li class="logining">
                         <!-- 购物车 -->
-                        <a href="" class='shop_car_icon'><i>1</i></a>
+                        <a href="{:url('shop/Order/cartList')}" class='shop_car_icon'><i>{:count(session('user_cart'))}</i></a>
                         <a href="{:cmf_url('user/Profile/center')}">
                             <span class="user-nickname"></span>
                         </a>
