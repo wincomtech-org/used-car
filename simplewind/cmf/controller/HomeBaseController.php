@@ -60,10 +60,11 @@ class HomeBaseController extends BaseController
         }
 
         // session 服务器内存
+        session('user_cart',null);
         if (session('?user_cart')===false) {
             // cmf_get_current_user_id() = session('user.id')
-            $user_cart = model('ShopCart')->where('user_id',session('user.id'))->select()->toArray();
-            session('user_cart',$user_cart);
+            session('user_cart', Db::name('shop_cart')->where('user_id',session('user.id'))->select()->toArray());
+            // session('user_cart', model('ShopCart')->getCartList(['user_id'=>session('user.id')]));
         }
 
         // 服务商城分类树

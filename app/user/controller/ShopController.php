@@ -56,7 +56,7 @@ class ShopController extends UserBaseController
     public function buyCart()
     {
         $data = $this->request->param();
-
+dump($data);
         $this->assign('paysign','shop');
         $this->assign('orderId','null');
         return $this->fetch('buy');
