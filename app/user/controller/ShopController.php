@@ -166,4 +166,26 @@ dump($data);
     public function  address(){
         return $this->fetch();
     }
+
+    //积分兑换
+    public function  exchange(){
+        $os = $this->request->param('status');
+        
+                $where = [];
+                if ($os!==NULL) {
+                    $where['status'] = $os;
+                }
+                // config('shop_order_status');
+                $orders = '';
+        
+                $this->assign('orders',$orders);
+                $this->assign('os',$os);
+                return $this->fetch();
+    }
+
+    public function overdue(){
+        return $this->fetch();
+    }
+
+
 }

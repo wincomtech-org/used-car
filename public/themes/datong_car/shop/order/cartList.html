@@ -112,11 +112,11 @@
                             </th>
                             <th class='col-pro ma-1' style='text-align:left;'><a class='red-color all-del' href='javascript:void(0);'>删除</a></th>
                             <th class='col-pro ma-2'></th>
-                            <th class='col-pro ma-3'>已选商品 <span><i class='totalNum'>2</i> 件</span></th>
-                            <th class='col-pro'>合计（不含运费）<b class='orage-color totalPri'>1500.00</b>元</th>
+                            <th class='col-pro ma-3'>已选商品 <span><i class='totalNum'>0</i> 件</span></th>
+                            <th class='col-pro'>合计（不含运费）<b class='orage-color totalPri'>0</b>元</th>
                             <th class='col-pro ma-6 gray-btn'>
                                 <!-- <a style="display:block;" href="{:url('user/Shop/buyCart')}">结算</a> -->
-                                <button style="display:block;padding: 15px 5px;width: 100%" type="submit">结算</button>
+                                <button style="display:block;height:100%;width: 100%" type="submit">结算</button>
                             </th>
                         </tr>
                     </thead>
@@ -153,30 +153,34 @@
                                         </empty>
                                     </a>
                                 </div>
-                                <div class="order-intro">
-                                    <div class='order-trade-name'>
-                                        <a href="{:url('details','id='.$vo.goods_id)}">{$vo.name}</a>
+                                <div class='orderHasEdit'>
+
+                                    <div class="order-intro">
+                                        <div class='order-trade-name'>
+                                            <a href="{:url('details','id='.$vo.goods_id)}">{$vo.name}</a>
+                                        </div>
+                                        <div class='order-attributes'>
+                                            <span>规格：{$vo.spec_vars}</span>
+                                        </div>
                                     </div>
-                                    <div class='order-attributes'>
-                                        <span>规格：{$vo.spec_vars}</span>
+                                    <div class="item-pay">
+                                        <p class='unit-price'>{$vo.price}</p>
+                                        <p class='tot-pri'>{$vo.number*$vo.price}</p>
+                                        <p class='amount_mobel small'>{$vo.number}</p>
+                                    </div>
+                                    <!-- mobile  -->
+                                    <div class="item-editor" style='display:none;'>
+                                        <div class="amout-num">
+                                            <span class='btn-reduce'>-</span>
+                                            <span class='amoutNum'><input type="text" name="number" value='{$vo.number}' class='amoutNum-inp' readonly></span>
+                                            <span class='btn-add'>+</span>
+                                        </div>
+                                        <div class="opeat-btn backg-red">
+                                            <span>删除</span>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="item-pay">
-                                    <p class='unit-price'>{$vo.price}</p>
-                                    <p class='tot-pri'>{$vo.number*$vo.price}</p>
-                                    <p class='amount_mobel small'>{$vo.number}</p>
-                                </div>
-                                <!-- mobile  -->
-                                <div class="item-editor" style='display:none;'>
-                                    <div class="amout-num">
-                                        <span class='btn-reduce'>-</span>
-                                        <span class='amoutNum'><input type="text" name="number" value='{$vo.number}' class='amoutNum-inp' readonly></span>
-                                        <span class='btn-add'>+</span>
-                                    </div>
-                                    <div class="opeat-btn backg-red">
-                                        <span>删除</span>
-                                    </div>
-                                </div>
+                              
                             </div>
                         </div>
                     </div>
@@ -195,7 +199,7 @@
                         <!-- <a style="display:block;width: 100%" href="{//:url('user/Shop/buyCart')}">
                             <span>结算</span>
                         </a> -->
-                        <button style="display:block;padding: 15px 5px;width: 100%" type="submit">结算</button>
+                        <button style="display:block;height:100%;width: 100%" type="submit">结算</button>
                     </li>
                 </ul>
             </div>

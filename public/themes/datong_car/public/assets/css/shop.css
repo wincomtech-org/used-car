@@ -539,7 +539,7 @@
 .wddd-li ul li.red a{color:#d00000;}
 .shops-order-tab{width:100%;font-size:14px;margin-bottom:10px;border-collapse:collapse;}
 .shops-order-tab thead{background-color:#f5f5f5;}
-.shops-order-tab th{height:34px;font-weight:normal;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;-ms-box-sizing:border-box;-o-box-sizing:border-box;box-sizing:border-box;}
+.shops-order-tab th{height:40px;font-weight:normal;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;-ms-box-sizing:border-box;-o-box-sizing:border-box;box-sizing:border-box;}
 .shops-order-tab td{vertical-align:middle;padding:15px 5px;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;-ms-box-sizing:border-box;-o-box-sizing:border-box;box-sizing:border-box;}
 .order-list-tit{background-color:#eaf8ff;}
 
@@ -602,9 +602,8 @@
     width:90px;
 }
 .order-img img{
-    max-width:90px;
-    min-width:60px;
-    width:92%;
+    width: 80px;
+    margin-right: 10px;
 }
 .order-intro{
     margin-left:90px;
@@ -860,11 +859,23 @@ evaluation{margin:.5rem 0;}
 .show-eval-img .upload-img-div li a{font-size:12px;}
 .show-eval-img .upload-img-div li input{display:none;}
 .show-eval-img .upload-img-div{display:inline-block;vertical-align:top;width:auto;margin-right:8px;}
+
+/* 找不到商品页面 */
+.overdue{
+    margin:2rem auto;
+    text-align:center;
+}
+.overdue img{
+    display:inline-block;
+}
+
 @media screen and (max-width:1199px){
     .fixedTab{width:100%;}
 }
 @media screen and (max-width:1199px) and (min-width:768px){
     .evaluate-con{width:-webkit-calc(100% - 167px);width:-moz-calc(100% - 167px);width:-mx-calc(100% - 167px);width:-o-calc(100% - 167px);width:calc(100% - 167px);}
+    /* 过期 */
+    .overdue{margin:1rem auto;}
 }
 @media screen and (max-width:767px) and (min-width:320px){
     .evaluate-img{width:100%;float:none;margin:1rem 0;}
@@ -876,6 +887,8 @@ evaluation{margin:.5rem 0;}
 
     /* 确认收货 */
     .cofimReceipt-buc{width:100%;}
+    /* 过期 */
+    .overdue{margin:0 auto;}
 }
 
 /* 物流页 */
@@ -920,11 +933,11 @@ evaluation{margin:.5rem 0;}
     .order-list-tit{padding:.5rem 10px;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;-ms-box-sizing:border-box;-o-box-sizing:border-box;box-sizing:border-box;}
     .o-total-price span{display:inline-block;margin-left:0.3rem;font-size:13px;line-height:1.5;}
     .order-list-con{width:-webkit-calc(100% - 20px);width:-moz-calc(100% - 20px);width:-ms-calc(100% - 20px);width:-o-calc(100% - 20px);width:calc(100% - 20px);margin:0 auto;}
-    .order-mess{display:flex;display:-webkit-box;display:-moz-box;display:-ms-box;display:-o-box;display:box;display:-webkit-flex;justify-content:space-around;align-items:center;        /* 手机购物车 */position:relative;}
+    .orderHasEdit{display:flex;display:-webkit-box;display:-moz-box;display:-ms-box;display:-o-box;display:box;display:-webkit-flex;justify-content:space-between;align-items:center;        /* 手机购物车 */position:relative;}
     .order-intro{margin-left:0;}
 
     /* 手机购物车 */
-    .item-editor{position:absolute;background-color:#fff;width:-webkit-calc(100% - 103px);width:-moz-calc(100% - 103px);width:-ms-calc(100% - 103px);width:-o-calc(100% - 103px);width:calc(100% - 103px);left:97px;height:100%;display:flex;display:-webkit-box;display:-moz-box;display:-ms-box;display:-o-box;display:box;display:-webkit-flex;align-items:center;}
+    .item-editor{position:absolute;background-color:#fff;width:100%;left:0;height:100%;display:flex;display:-webkit-box;display:-moz-box;display:-ms-box;display:-o-box;display:box;display:-webkit-flex;align-items:center;}
     .item-editor .btn-reduce,
     .item-editor .btn-add{font-size:2rem;border:none;color:#666;width:20%;margin:0;}
     .amout-num span input{width:100%;text-align:center;border:none;}
@@ -961,9 +974,7 @@ evaluation{margin:.5rem 0;}
 @media screen and (max-width:768px){
     .order-li-mess{width:50%;font-size:12px;}
 
-    /* 手机购物车 */
-    .item-editor{width:-webkit-calc(100% - 74px);width:-moz-calc(100% - 74px);width:-ms-calc(100% - 74px);width:-o-calc(100% - 74px);width:calc(100% - 74px);left:74px;height:100%;}
-    .item-editor .amout-num{}
+    
 }
 @media screen and (max-width:414px){
     .order-li-mess{width:100%;font-size:12px;}
