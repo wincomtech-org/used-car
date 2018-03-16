@@ -26,10 +26,10 @@
             </ul>
 
             <!-- 电脑端 -->
-            <include file="order/cartList_pc" />
+            <include file="cart/cartList_pc" />
 
             <!-- 手机端 -->
-            <include file="order/cartList_wap" />
+            <include file="cart/cartList_wap" />
             
         </div>
     </section>
@@ -39,7 +39,7 @@
 </body>
 <include file="public@morejs" />
 <script type="text/javascript">
-// 提交数据到 user/Shop/buyCart
+// 提交数据到 shop/Order/buyCart
 function btnHandle(o) {
     // 判断是否checkbox
     var check = $(".sel-checkbox").is(":checked");
