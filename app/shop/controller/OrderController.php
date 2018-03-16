@@ -2,7 +2,7 @@
 namespace app\shop\controller;
 
 use cmf\controller\UserBaseController;
-
+use think\Db;
 
 /**
  * 商品订单类
@@ -140,11 +140,11 @@ class OrderController extends UserBaseController
         if (empty($data)) {
             $this->redirect('shop/Index/index');
         }
-        if ($data['timestamp'] == session('timestamp')) {
-            session('timestamp', null);
-        } else {
-            $this->redirect('user/Shop/Index', ['status' => 0]);
-        }
+        // if ($data['timestamp'] == session('timestamp')) {
+        //     session('timestamp', null);
+        // } else {
+        //     $this->redirect('user/Shop/Index', ['status' => 0]);
+        // }
         $orderId = $this->request->param('orderId');
         $userId  = cmf_get_current_user_id();
 
@@ -237,6 +237,7 @@ class OrderController extends UserBaseController
                     }
                     Db::name('shop_cart')->where('id', 'in', $cart_ids)->delete();
                 }
+                // dump($details);die;
                 Db::name('shop_order_detail')->insertAll($details);
                 Db::commit();
             } catch (\Exception $e) {
@@ -252,9 +253,9 @@ class OrderController extends UserBaseController
         } else {
             $order      = Db::name('shop_order')->field('*')->where('id', $orderId)->find();
             $order_list = Db::name('shop_order_detail')->field('*')->where('order_id', $orderId)->select();
-            dump($order);
-            dump($order_list);
-            die;
+            // dump($order);
+            // dump($order_list);
+            // die;
         }
 // dump($order);
 // dump($orderId);

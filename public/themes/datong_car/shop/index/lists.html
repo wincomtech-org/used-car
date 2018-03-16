@@ -155,7 +155,7 @@
                     <div class="remai_txt"><a href="{:url('Post/details',['id'=>$vo.id])}">{$vo.name|mb_substr=0,20,'utf-8'}</a></div>
                     <div class='remai_pri'>
                         <span class='red-color'>￥{$vo.price}</span>
-                        <a href="{:url('Order/cart',['id'=>$vo.id])}">加入购物车</a>
+                        <a href="{:url('shop/Cart/cartAdd',['id'=>$vo.id])}">加入购物车</a>
                     </div>
                 </div>
                 </foreach>

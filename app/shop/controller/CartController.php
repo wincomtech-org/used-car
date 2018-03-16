@@ -47,7 +47,7 @@ class CartController extends HomeBaseController
         // 数据验证
         // validate()
 
-        // 检查已添加的
+        // 检查已添加的， 没有规格时 spec_id=0
         $where = [
             'user_id' => $userId,
             'spec_id' => $data['spec_id'],
