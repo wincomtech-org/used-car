@@ -82,7 +82,7 @@
                     <td class='ma-3'>{$vo.number}</td>
                     <td class='ma-4'>
                         ￥{$vo.price}<br/>
-                        <i class='small'>(含运费:0.00)</i>
+                        <!-- <i class='small'>(含运费:0.00)</i> -->
                     </td>
                     <td class='ma-5'>
                         <div class="trading-status group-a">
@@ -104,7 +104,7 @@
         <div class="total-div">
             <div class='youhui'>
                 <span>优惠券：</span>
-                <select name="order[coupId]" class="placeholder form-control">
+                <select name="order[coupId]" class="placeholder form-control youhui_sel">
                     <option value="">--请选择--</option>
                     <foreach name="coupon" item="vo">
                     <option value="{$vo.id}">满{$vo.reduce} 减{$vo.coupon}</option>

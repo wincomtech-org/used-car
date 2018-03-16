@@ -3,23 +3,38 @@
     <form action="{:url('user/Shop/pay')}" method="POST" class="js-ajax-form">
         <dl class='order-dl'>
             <dt>收货地址：</dt>
-            <dd class='addr_list'>
+            <!-- <dd class='addr_list'>
                 <empty name="address">
                     <p><a href="{:url('user/Shop/address')}">添加地址</a></p>
                 <else/>
                     <a class='addr_list_m' href="{:url('user/Shop/wap_address')}">安徽省合肥市佛子岭路绿地蓝海大山B111座605室曹老板收 13204412201</a>
                     <input type='hidden' name='order[address_id]' value="1" readonly />
-                    <!-- <ul>
-                        <foreach name="address" item="vo">
-                        <li><span></span></li>
-                        </foreach>
-                    </ul> -->
+                
                     <select name="order[address_id]">
                         <foreach name="address" item="vo">
                         <option value="{$vo.id}">{$vo.address .' '. $vo.username .'收 '. $vo.telephone}</option>
                         </foreach>
                     </select>
                 </empty>
+            </dd> -->
+            <dd class='addr_list'>
+                <div class="analogy addr">
+                    <empty name="address">
+                        <p><a href="{:url('user/Shop/address')}">添加地址</a></p>
+                    <else/>
+                        <p class="analogy_tit">
+                            <textarea value="{$addrFirst.addr|default=''}" readonly data-id="{$addrFirst.id|default=''}" /></textarea>
+                            <input type='hidden' name="order[address_id]" value="1" readonly />
+                        </p>
+                        <ul class="analogy_con" style="display: none;">
+                            <foreach name="address" item="vo">
+                            <li data-val="{$vo.id}">
+                                <input value="{$vo.address .' '. $vo.username .'收 '. $vo.telephone}" readonly />
+                            </li>
+                            </foreach>
+                        </ul>
+                    </empty>
+                </div>
             </dd>
         </dl>
 
@@ -51,23 +66,26 @@
                                 </empty>
                             </a>
                     </div>
-                    <div class="order-intro">
-                        <div class='order-trade-name'>
-                            <a href="{:url('shop/Post/details','id='.$vo.goods_id)}">
-                                    {$vo.goods_name}
-                            </a>
+                    <div class='orderHasEdit'>
+                        <div class="order-intro">
+                            <div class='order-trade-name'>
+                                <a href="{:url('shop/Post/details','id='.$vo.goods_id)}">
+                                        {$vo.goods_name}
+                                </a>
+                            </div>
+                            <div class='order-attributes'>
+                                <span>规格：{$vo.spec_vars}</span>
+                            </div>
                         </div>
-                        <div class='order-attributes'>
-                            <span>规格：{$vo.spec_vars}</span>
+                        <div class="item-pay">
+                            <p class='price'>￥{$vo.price}</p>
+                            <p class='price'>
+                                <del>￥{$vo.market_price}</del>
+                            </p>
+                            <p class='amount small'>{$vo.number}</p>
                         </div>
                     </div>
-                    <div class="item-pay">
-                        <p class='price'>￥{$vo.price}</p>
-                        <p class='price'>
-                            <del>￥{$vo.market_price}</del>
-                        </p>
-                        <p class='amount small'>{$vo.number}</p>
-                    </div>
+                  
                 </div>
             </div>
         </div>
@@ -98,9 +116,9 @@
         </dl>
 
         <dl class='o-total-price'>
-            <span>总数：<input name='order[nums]' value="{:count($data)}" readonly class='orage-color tx-r fweight' style='width:20px;' /> 件。 </span>
+            <span>总数：<input name='order[nums]' value="{:count($data)}" readonly class='orage-color tx-r fweight' style='width:20px;' /> 件 </span>
             <span>实付款：<b><input name='order[order_amount]' value="{$amount|default='0.00'}" readonly class='orage-color tx-r fweight' style='width:48px;' /></b> 元</span>
-            <span>（含运费：<b>0.00</b>）</span>
+            <!-- <span>（含运费：<b>0.00</b>）</span> -->
         </dl>
         <div class='o-tab-btn'>
             <!-- 这里放一些需要提交的数据 -->
@@ -108,7 +126,7 @@
             <!-- 防止表单重复提交 -->
             <input type="hidden" name="timestamp" value="{:session('timestamp')}" />
 
-            <button type="submit" class='backg-border js-ajax-submit'>提交订单</button>
+            <button type="submit" class='btn-style backg-red f14 js-ajax-submit'>提交订单</button>
         </div>
     </form>
 </div>
