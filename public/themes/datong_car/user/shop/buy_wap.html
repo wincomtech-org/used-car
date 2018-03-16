@@ -1,13 +1,13 @@
 
 <div class="shops_order_m">
-    <form action="{:url('user/Shop/pay')}" method="POST" class="js-ajax-form">
+    <form action="{:url('shop/Order/pay')}" method="POST" class="js-ajax-form">
         <dl class='order-dl'>
             <dt>收货地址：</dt>
             <dd class='addr_list'>
                 <empty name="address">
                     <p><a href="{:url('user/Shop/address')}">添加地址</a></p>
                 <else/>
-                    <a class='addr_list_m' href="{:url('user/Shop/wap_address')}">安徽省合肥市佛子岭路绿地蓝海大山B111座605室曹老板收 13204412201</a>
+                    <a class='addr_list_m' href="{:url('shop/Order/wap_address')}">安徽省合肥市佛子岭路绿地蓝海大山B111座605室曹老板收 13204412201</a>
                     <input type='hidden' name='order[address_id]' value="1" readonly />
                     <!-- <ul>
                         <foreach name="address" item="vo">

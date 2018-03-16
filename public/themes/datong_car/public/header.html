@@ -19,7 +19,7 @@
                     <!-- 登陆后 -->
                     <li class="logining">
                         <!-- 购物车 -->
-                        <a href="{:url('shop/Order/cartList')}" class='shop_car_icon'><i>{$user_cart_count}</i></a>
+                        <a href="{:url('shop/Cart/cartList')}" class='shop_car_icon'><i>{$user_cart_count}</i></a>
                         <a href="{:cmf_url('user/Profile/center')}">
                             <span class="user-nickname"></span>
                         </a>
@@ -73,7 +73,7 @@
             <include file="public@search" />
             <div class="user_m">
                  <!-- 购物车 -->
-                 <a href="{:url('shop/Order/cartList')}" class='shop_car_icon'><i>{$user_cart_count}</i></a>
+                 <a href="{:url('shop/Cart/cartList')}" class='shop_car_icon'><i>{$user_cart_count}</i></a>
                 <a href="{:url('user/Profile/center')}" class="icon"></a>
             </div>
         </div>
