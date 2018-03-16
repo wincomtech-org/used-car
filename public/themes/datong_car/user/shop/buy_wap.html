@@ -1,23 +1,41 @@
 
 <div class="shops_order_m">
-    <form action="{:url('user/Shop/pay')}">
+    <form action="{:url('user/Shop/pay')}" method="POST" class="js-ajax-form">
         <dl class='order-dl'>
             <dt>收货地址：</dt>
             <dd class='addr_list'>
-                <a class='addr_list_m' href="{:url('user/Shop/wap_address')}">安徽省合肥市佛子岭路绿地蓝海大山B111座605室曹老板收 13204412201</a>
-                <input type='hidden' name='addr_list' value="安徽省合肥市佛子岭路绿地蓝海大山B座605室曹老板收 13204412201" readonly="">
+                <empty name="address">
+                    <p><a href="{:url('user/Shop/address')}">添加地址</a></p>
+                <else/>
+                    <a class='addr_list_m' href="{:url('user/Shop/wap_address')}">安徽省合肥市佛子岭路绿地蓝海大山B111座605室曹老板收 13204412201</a>
+                    <input type='hidden' name='order[address_id]' value="1" readonly />
+                    <!-- <ul>
+                        <foreach name="address" item="vo">
+                        <li><span></span></li>
+                        </foreach>
+                    </ul> -->
+                    <select name="order[address_id]">
+                        <foreach name="address" item="vo">
+                        <option value="{$vo.id}">{$vo.address .' '. $vo.username .'收 '. $vo.telephone}</option>
+                        </foreach>
+                    </select>
+                </empty>
             </dd>
         </dl>
+
+        <!-- 商品集 列表数据 -->
+        <foreach name="data" item="vo">
         <div class='shops-order-m-div'>
             <div class='order-list'>
                 <dl class='order-list-tit'>
                     <dd class='mess'>
-                        <span class="time"> 2018-01-10 09:40:22
-                            <input type="hidden" name='time' value=' 2018-01-10 09:40:22'>
-                        </span>
-                        <!-- <span class="order-goods">
-                            订单号：<a href="">201801100940222779</a>
-                        </span> -->
+                        <!-- <span class="time">2018-01-10 09:40:22</span> -->
+                        <input type="hidden" name="ids[{$key}][goods_id]" value="{$vo.goods_id}">
+                        <input type="hidden" name="ids[{$key}][spec_id]" value="{$vo.spec_id}">
+                        <input type="hidden" name="ids[{$key}][number]" value="{$vo.number}">
+                        <notempty name="vo.id">
+                            <input type="hidden" name="ids[{$key}][cart_id]" value="{$vo.id}">
+                        </notempty>
                     </dd>
                     <dd class='states'></dd>
                 </dl>
@@ -25,60 +43,72 @@
             <div class='order-list-con'>
                 <div class='order-mess'>
                     <div class="order-img">
-                        <a href="">
-                            <img src="http://hcsinglyshop.wincomtech.cn/Public/upload/goods/thumb/45/goods_thumb_45_78_78.jpeg" alt="">
-                            <input type="hidden" name='order-img' >
-                        </a>
+                            <a href="{:url('shop/Post/details','id='.$vo.goods_id)}">
+                                <empty name="vo.thumbnail">
+                                <img src="__TMPL__/public/assets/images/default-thumbnail_160x109.png" alt="">
+                                <else/>
+                                <img src="{:url('thumbUrl',['img'=>urlencode($vo.thumbnail),'w'=>160,'h'=>109])}" alt="">
+                                </empty>
+                            </a>
                     </div>
                     <div class="order-intro">
                         <div class='order-trade-name'>
-                            <a href="">
-                                华为 HUAWEI C199S 麦芒3S 电信4G智能手机FDD-LTE /TD-LTE/CDMA2000/GSM（麦芒）
-                                <input type="hidden" name='order-trade-name' value='华为 HUAWEI C199S 麦芒3S 电信4G智能手机FDD-LTE /TD-LTE/CDMA2000/GSM（麦芒）'>
+                            <a href="{:url('shop/Post/details','id='.$vo.goods_id)}">
+                                    {$vo.goods_name}
                             </a>
                         </div>
                         <div class='order-attributes'>
-                            <span>
-                                颜色分类：倍量加强版【苹果6电池】-送整套拆机工具+视频教程+质保3年
-                                <input type="hidden" name='order-trade-name' value=' 颜色分类：倍量加强版【苹果6电池】-送整套拆机工具+视频教程+质保3年'>
-                            </span>
+                            <span>规格：{$vo.spec_vars}</span>
                         </div>
                     </div>
                     <div class="item-pay">
-                        <p class='price'>1500.00</p>
+                        <p class='price'>￥{$vo.price}</p>
                         <p class='price'>
-                            <del>1000000.00</del>
+                            <del>￥{$vo.market_price}</del>
                         </p>
-                        <p class='amount small'>1</p>
+                        <p class='amount small'>{$vo.number}</p>
                     </div>
                 </div>
             </div>
         </div>
+        </foreach>
+
         <dl class='o-total-price'>
             <div class='youhui'>
                 <span>优惠券：</span>
-                <div class="analogy ">
+                <select name="order[coupId]" class="placeholder form-control">
+                    <option value="">--请选择--</option>
+                    <foreach name="coupon" item="vo">
+                    <option value="{$vo.id}">满{$vo.reduce} 减{$vo.coupon}</option>
+                    </foreach>
+                </select>
+                <!-- <div class="analogy ">
                     <p class="analogy_tit">
-                        <input name="coupon" placeholder="请选择优惠券" class="placeholder" readonly="" data-id="2">
+                        <input placeholder="请选择优惠券" class="placeholder" readonly data-id="" />
                     </p>
-                    <ul class="analogy_con" style="display: none;">
-                        <li onclick="changeBrand(this,1)" data-val="1">
-                            <input value="满500减100" readonly="">
-                        </li>
-                        <li onclick="changeBrand(this,1)" data-val="2">
-                            <input value="满100减10" readonly="">
-                        </li>
+                    <ul class="analogy_con" style="display:none;">
+                        <foreach name="coupon" item="vo">
+                            <li data-val="{$vo.id}">
+                                <input value="满{$vo.reduce}减{$vo.coupon}" />
+                            </li>
+                        </foreach>
                     </ul>
-                </div>
+                </div> -->
             </div>
         </dl>
+
         <dl class='o-total-price'>
-            <span>总计共<b><input name='total_quantity' class='orage-color tx-r' value='1' readonly style='width:20px;'></b>件商品</span>
-            <span>合计:<b><input name='total_money' class='orage-color tx-r' value='1500' readonly style='width:48px;'></b>元</span>
-            <span>含运费（<b>0.00</b>）</span>
+            <span>总数：<input name='order[nums]' value="{:count($data)}" readonly class='orage-color tx-r fweight' style='width:20px;' /> 件。 </span>
+            <span>实付款：<b><input name='order[order_amount]' value="{$amount|default='0.00'}" readonly class='orage-color tx-r fweight' style='width:48px;' /></b> 元</span>
+            <span>（含运费：<b>0.00</b>）</span>
         </dl>
         <div class='o-tab-btn'>
-            <a class='backg-border '>去付款</a>
+            <!-- 这里放一些需要提交的数据 -->
+
+            <!-- 防止表单重复提交 -->
+            <input type="hidden" name="timestamp" value="{:session('timestamp')}" />
+
+            <button type="submit" class='backg-border js-ajax-submit'>提交订单</button>
         </div>
     </form>
 </div>

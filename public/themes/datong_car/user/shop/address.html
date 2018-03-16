@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>个人中心 - 服务商城 - {$site_info.site_name|default=''}</title>
+    <meta name="keywords" content="{$site_info.site_seo_keywords|default=''}" />
+    <meta name="description" content="{$site_info.site_seo_description|default=''}">
+    <!-- 服务商城css -->
+    <link href='__TMPL__/public/assets/css/shop.css' type="text/css" rel="stylesheet">
+    <include file="public@head" />
+</head>
+
+<body>
+    <!-- 头部 -->
+    <include file="public@header" />
+    <!-- 导航 -->
+    <include file="public@nav" />
+    <!--  -->
+    <section class="person">
+        <div class="main">
+            <div class='show_brash'>
+                <include file="public@usernav" />
+                <ul class="brash">
+                    <li>当前位置：</li>
+                    <li class=""><a href="{:url('index')}">服务商城</a></li>
+                    <li class="active"><a href="#">s收货地址管理</a></li>
+                </ul>
+            </div>
+            <div class="person_right">
+                <div class="person_right_tit business_person">
+                    <include file="shop/shop_nav" />
+                </div>
+                <div class="person_right_con">
+                    <div class="shops">
+                        <!-- 新增收货地址 -->
+                        <div class="delivery">
+                            <form action="{:url('addressPost')}" method="POST" class="js-ajax-form">
+                                <dl>
+                                    <dt>所在地区<b class='red-color font12'>*</b></dt>
+                                    <dd>
+                                        <div class="analogy">
+                                            <li class="right required">
+                                                <select name="province_id" id="input-province1" onchange="select_province(1);">
+                                                    <option value="0">--请选择省份--</option>
+                                                </select>&nbsp;&nbsp;
+                                                <select name="city_id" id="input-city1">
+                                                    <option value="0">--请选择城市--</option>
+                                                </select>
+                                                <select name="area_id" id="input-area1">
+                                                    <option value="0">--请选择地区--</option>
+                                                </select>
+                                            </li>
+                                        </div>
+                                    </dd>
+                                </dl>
+                                <dl>
+                                    <dt>详细地址<b class='red-color font12'>*</b></dt>
+                                    <dd>
+                                        <div class="details_add">
+                                            <textarea placeholder='建议你入如实填写详细收货地址，如街道名称，门牌号码，楼层和房间号等信息' class='placeholder' required name="address"></textarea>
+                                        </div>
+                                    </dd>
+                                </dl>
+                                <!-- <dl>
+                                    <dt>邮政编码<b class='red-color font12'>*</b></dt>
+                                    <dd>
+                                        <div class="delivery_input">
+                                            <input type="number" placeholder='如你不清楚邮递区号，请填写000000' name='postalcode' class='border-box placeholder' maxlength="6" minlength="6" required>
+                                        </div>
+                                    </dd>
+                                </dl> -->
+                                <dl>
+                                    <dt>收货人姓名<b class='red-color font12'>*</b></dt>
+                                    <dd>
+                                        <div class="delivery_input">
+                                            <input type="text" placeholder='长度不超过25个字符' name='username' value="" class='border-box placeholder' pattern="[A-Za-z0-9_\-\u4e00-\u9fa5]+" required>
+                                        </div>
+                                    </dd>
+                                </dl>
+                                <dl>
+                                    <dt>手机号码<b class='red-color font12'>*</b></dt>
+                                    <dd>
+                                        <div class="delivery_input">
+                                            <input type="text" placeholder='请输入手机号码 ' name='telephone' value="" class='border-box placeholder' pattern="0?(13|14|15|18)[0-9]{9}" required>
+                                        </div>
+                                    </dd>
+                                </dl>
+                                <dl>
+                                    <dt></dt>
+                                    <dd>
+                                        <label class='hasLabel'>
+                                            <p class='hasLabelP'>
+                                                <input type="checkbox" checked name="is_main" value='1'>
+                                                <span class='spc'></span>
+                                            </p>
+                                            <p class='hasLabel_span'>设置为默认收货地址</p>
+                                        </label>
+                                    </dd>
+                                </dl>
+                                <dl>
+                                    <dt></dt>
+                                    <dd>
+                                        <button type='submit' class='backg-red btn-style font16 js-ajax-submit1'>保存</button>
+                                    </dd>
+                                </dl>
+                            </form>
+                        </div>
+
+                        <!-- 列表 -->
+                        <div class="deliver_address  deliver_address_pc">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th class='d1'>收货人</th>
+                                        <th>电话</th>
+                                        <th>所在地区</th>
+                                        <th>详细地址</th>
+                                        <!-- <th>邮编</th> -->
+                                        <th class='d6'>操作</th>
+                                        <th class='d7'>是否默认</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <foreach name="list" item="vo">
+                                    <tr>
+                                        <td>{$vo.username}</td>
+                                        <td>{$vo.telephone}</td>
+                                        <td>安徽省合肥市蜀山区荷叶地街道</td>
+                                        <td>{$vo.address}</td>
+                                        <!-- <td>2300300</td> -->
+                                        <td class='red-color'><a href="{:url('addressEdit',['id'=>$vo.id])}" class='red-color'>修改</a> | <a href="{:url('addressDelete',['id'=>$vo.id])}" class='red-color js-ajax-dialog-btn' data-msg="确定删除吗？">删除</a></td>
+                                        <td><eq name="vo.is_main" value="1"><span class='default_addr border-r'>默认地址</span></eq></td>
+                                    </tr>
+                                    </foreach>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- 手机端 -->
+                        <div class="deliver_address  deliver_address_m">
+                            <ul>
+                                <foreach name="list" item="vo">
+                                <li>
+                                    <div class='clearfix'>
+                                        <span class='lf'>{$vo.username}</span>
+                                        <span class="rt">{$vo.telephone}</span>
+                                    </div>
+                                    <div class='clearfix'>
+                                        {$vo.address}
+                                    </div>
+                                    <div class='clearfix deliver-op'>
+                                        <div class="lf">
+                                            <label class='hasLabel'>
+                                                <p class='hasLabelP'>
+                                                    <input type="radio" {$vo.is_main?='checked'} />
+                                                    <span class='spc'></span>
+                                                </p>
+                                                <p class='hasLabel_span'>默认地址</p>
+                                            </label>
+                                        </div>
+                                        <div class="deliver_operate rt o-tab-btn">
+                                            <a href="{:url('addressEdit',['id'=>$vo.id])}" class='backg-border'>修改</a>
+                                            <a href="{:url('addressDelete',['id'=>$vo.id])}" class='backg-border js-ajax-dialog-btn' data-msg="确定删除吗？">删除</a>
+                                        </div>
+                                    </div>
+                                </li>
+                                </foreach>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- 底部 -->
+    <include file="public@footer" />
+    <include file="public@scripts" />
+</body>
+
+</html>

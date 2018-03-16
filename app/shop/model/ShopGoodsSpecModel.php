@@ -9,6 +9,14 @@ use think\Model;
 */
 class ShopGoodsSpecModel extends Model
 {
-    
+    public function getGoodsBySpec($filter='')
+    {
+        $list = $this->alias('a')
+            ->field('a.*,b.name as goods_name,b.thumbnail')
+            ->join('shop_goods b','a.goods_id=b.id')
+            ->where($filter)
+            ->select()->toArray();
+        return $list;
+    }
 
 }

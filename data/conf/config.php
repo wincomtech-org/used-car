@@ -206,6 +206,7 @@ return [
         7 => 'usual/AdminVerify/index',
         8 => 'funds/AdminOpenshop/index',
         9 => 'funds/AdminRecharge/add',
+        10 => 'shop/AdminOrder/index',
     ],
     'shop_goods_status'        =>
     [

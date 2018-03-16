@@ -91,6 +91,55 @@ class NewsModel extends Model
         return $data;
     }
 
+    // 新增 系统消息
+    public function inNews($data=[])
+    {
+        return lothar_put_news($data);
+    }
+
+    // 获取 系统消息
+    public function outNews($type='')
+    {
+        return lothar_get_news($type);
+    }
+
+    public function getStatus($status='',$config=null)
+    {
+        $ufoconfig = empty($config) ? [0=>'未读',1=>'已读',2=>'已处理'] : config($config);
+        $options = '';
+        foreach ($ufoconfig as $key => $vo) {
+            $options .= '<option value="'.$key.'" '.($status==$key?'selected':'').'>'.$vo.'</option>';
+        }
+
+        return $options;
+    }
+
+    // 获取筛选下拉框
+    public function cateOptions($selectId=null, $option='请选择')
+    {
+        $data = $this->distinct(true)->field('app')->select()->toArray();
+        $setName = [
+            'trade'     => '车辆买卖',
+            'insurance' => '保险模块',
+            'service'   => '车辆业务',
+            'register'  => '注册',
+            'user'      => '用户中心',
+            'funds'     => '资金管理',
+        ];
+
+        if ($option===false) {
+            return $data;
+        } else {
+            $options = (empty($option)) ? '':'<option value="">--'.$option.'--</option>';
+            if (is_array($data)) {
+                foreach ($data as $row) {
+                    $options .= '<option value="'.$row['app'].'" '.($selectId==$row['app']?'selected':'').' >'.$setName[$row['app']].'</option>';
+                }
+            }
+            return $options;
+        }
+    }
+
     // 统计
     public function newsCounts($status='')
     {
@@ -177,6 +226,15 @@ class NewsModel extends Model
                     'app'       => 'insurance',
                 ];
                 break;
+            case 'shop': 
+                $log = [
+                    'title'     => '服务商城订单',
+                    'object'    => 'shop_order:'. $oid,
+                    'content'   => '订单ID：'.$oid.'，客户ID：'.$uid,
+                    'adminurl'  => 10,
+                    'app'       => 'shop',
+                ];
+                break;
             // 下面是不用付钱的
             case 'regCar': 
                 $log = [
@@ -219,55 +277,6 @@ class NewsModel extends Model
         $log['action'] = $obj;
 
         return $log;
-    }
-
-    // 获取筛选下拉框
-    public function cateOptions($selectId=null, $option='请选择')
-    {
-        $data = $this->distinct(true)->field('app')->select()->toArray();
-        $setName = [
-            'trade'     => '车辆买卖',
-            'insurance' => '保险模块',
-            'service'   => '车辆业务',
-            'register'  => '注册',
-            'user'      => '用户中心',
-            'funds'     => '资金管理',
-        ];
-
-        if ($option===false) {
-            return $data;
-        } else {
-            $options = (empty($option)) ? '':'<option value="">--'.$option.'--</option>';
-            if (is_array($data)) {
-                foreach ($data as $row) {
-                    $options .= '<option value="'.$row['app'].'" '.($selectId==$row['app']?'selected':'').' >'.$setName[$row['app']].'</option>';
-                }
-            }
-            return $options;
-        }
-    }
-
-    public function getStatus($status='',$config=null)
-    {
-        $ufoconfig = empty($config) ? [0=>'未读',1=>'已读',2=>'已处理'] : config($config);
-        $options = '';
-        foreach ($ufoconfig as $key => $vo) {
-            $options .= '<option value="'.$key.'" '.($status==$key?'selected':'').'>'.$vo.'</option>';
-        }
-
-        return $options;
-    }
-
-    // 新增 系统消息
-    public function inNews($data=[])
-    {
-        return lothar_put_news($data);
-    }
-
-    // 获取 系统消息
-    public function outNews($type='')
-    {
-        return lothar_get_news($type);
     }
 
 }

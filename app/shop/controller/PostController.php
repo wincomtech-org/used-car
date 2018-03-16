@@ -34,7 +34,7 @@ class PostController extends HomeBaseController
 
         // 商品规格
         // $cate_specs = model('ShopGoodsCategory')->getSpecByCate($goods['cate_id']);//不使用多种规格
-        $specs = Db::name('shop_goods_spec')->field('id,spec_vars')->where('goods_id',$id)->select();
+        $specs = Db::name('shop_goods_spec')->field('id,spec_vars')->where('goods_id',$id)->select()->toArray();
 
         // 商品属性
         $attrs = Db::name('shop_goods_item')->alias('a')

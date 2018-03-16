@@ -222,7 +222,7 @@ class AdminGoodsController extends AdminBaseController
         // $specs = $cateModel->getSpecByCate($cateId);//所有规格
         // 采用单一规格处理
         // 获取所有已经入库的规格
-        $goods_spec = Db::name('shop_goods_spec')->field('id,spec_vars,market_price,price,stock,more')->where('goods_id',$id)->select();
+        $goods_spec = Db::name('shop_goods_spec')->field('id,goods_id,spec_vars,market_price,price,stock,more')->where('goods_id',$id)->select();
 
         // 属性
         $attrs = $cateModel->getAttrByCate($cateId,[]);// 所有属性以及值

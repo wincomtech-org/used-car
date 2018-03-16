@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>个人中心 - 服务商城 - {$site_info.site_name|default=''}</title>
+    <meta name="keywords" content="{$site_info.site_seo_keywords|default=''}" />
+    <meta name="description" content="{$site_info.site_seo_description|default=''}">
+    <!-- 服务商城css -->
+    <link href='__TMPL__/public/assets/css/shop.css' type="text/css" rel="stylesheet">
+    <include file="public@head" />
+</head>
+
+<body>
+    <!-- 头部 -->
+    <include file="public@header" />
+    <!-- 导航 -->
+    <include file="public@nav" />
+    <!--  -->
+    <section class="person">
+        <div class="main">
+            <div class='show_brash'>
+                <include file="public@usernav" />
+                <ul class="brash">
+                    <li>当前位置：</li>
+                    <li class=""><a href="{:url('index')}">服务商城</a></li>
+                    <li class="active"><a href="#">s收货地址管理</a></li>
+                </ul>
+            </div>
+            <div class="person_right">
+                <div class="person_right_tit business_person">
+                    <include file="shop/shop_nav" />
+                </div>
+                <div class="person_right_con">
+                    <div class="shops">
+                        <!-- 新增收货地址 -->
+                        <div class="delivery">
+                            <form action="{:url('addressPost')}" method="POST" class="js-ajax-form">
+                                <dl>
+                                    <dt>所在地区<b class='red-color font12'>*</b></dt>
+                                    <dd>
+                                        <div class="analogy">
+                                            <li class="right required">
+                                                <select name="province_id" id="input-province1" onchange="select_province(1);">
+                                                    <option value="">--请选择省份--</option>
+                                                </select>&nbsp;&nbsp;
+                                                <select name="city_id" id="input-city1">
+                                                    <option value="">--请选择城市--</option>
+                                                </select>
+                                                <select name="area_id" id="input-area1">
+                                                    <option value="">--请选择地区--</option>
+                                                </select>
+                                            </li>
+                                        </div>
+                                    </dd>
+                                </dl>
+                                <dl>
+                                    <dt>详细地址<b class='red-color font12'>*</b></dt>
+                                    <dd>
+                                        <div class="details_add">
+                                            <textarea placeholder='建议你入如实填写详细收货地址，如街道名称，门牌号码，楼层和房间号等信息' class='placeholder' required name="address">{$address|default=''}</textarea>
+                                        </div>
+                                    </dd>
+                                </dl>
+
+                                <dl>
+                                    <dt>收货人姓名<b class='red-color font12'>*</b></dt>
+                                    <dd>
+                                        <div class="delivery_input">
+                                            <input type="text" placeholder='长度不超过25个字符' name='username' value="{$username|default=''}" class='border-box placeholder' pattern="[A-Za-z0-9_\-\u4e00-\u9fa5]+" required>
+                                        </div>
+                                    </dd>
+                                </dl>
+                                <dl>
+                                    <dt>手机号码<b class='red-color font12'>*</b></dt>
+                                    <dd>
+                                        <div class="delivery_input">
+                                            <input type="text" placeholder='请输入手机号码 ' name='telephone' value="{$telephone|default=''}" class='border-box placeholder' pattern="0?(13|14|15|18)[0-9]{9}" required>
+                                        </div>
+                                    </dd>
+                                </dl>
+                                <dl>
+                                    <dt></dt>
+                                    <dd>
+                                        <label class='hasLabel'>
+                                            <p class='hasLabelP'>
+                                                <input type="checkbox" name="is_main" value='1' {$is_main?='checked'}>
+                                                <span class='spc'></span>
+                                            </p>
+                                            <p class='hasLabel_span'>设置为默认收货地址</p>
+                                        </label>
+                                    </dd>
+                                </dl>
+                                <dl>
+                                    <dt></dt>
+                                    <dd>
+                                        <input type="hidden" name="id" value="{$id}">
+                                        <button type='submit' class='backg-red btn-style font16 js-ajax-submit1'>保存</button>
+                                        <a class="btn btn-default" href="javascript:history.back(-1);">{:lang('BACK')}</a>
+                                    </dd>
+                                </dl>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- 底部 -->
+    <include file="public@footer" />
+    <include file="public@scripts" />
+</body>
+
+</html>

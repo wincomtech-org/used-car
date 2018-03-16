@@ -36,7 +36,7 @@ class PayController extends HomeBaseController
     }
 
     /**
-     * [temp description]
+     * [temp 临时测试区]
      * @param paysign 支付模块标识
      * @param paytype 支付方式
      * @param orderId 订单ID

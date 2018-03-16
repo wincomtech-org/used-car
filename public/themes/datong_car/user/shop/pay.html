@@ -21,13 +21,13 @@
                     <li class="see_car_items">
                         <span class="icon">订单编号</span>
                         <div class="item_con">
-                            <p class='text'>{$order.order_sn|default='未知'}</p>
+                            <p class='text'>{$order.order_sn|default='--'}</p>
                         </div>
                     </li>
                     <li class="see_car_items">
-                        <span class="icon">支付金额</span>
+                        <span class="icon">应付金额</span>
                         <div class="item_con">
-                            <p class='text'>￥{$order.money|default='0.00'}元</p>
+                            <p class='text'>￥{$order.order_amount|default='0.00'}元</p>
                         </div>
                     </li>
                     <!-- public@pay -->
