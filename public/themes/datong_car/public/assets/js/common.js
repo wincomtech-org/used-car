@@ -187,6 +187,32 @@ $('.analogy').delegate('.analogy_tit', 'click', function(e) {
 	e.stopPropagation();
 })
 
+$('.haSel').delegate('.haSel_tit', 'click', function(e) {
+	$('.haSel_con').each(function() {
+		$(this).hide();
+	})
+
+	$(this).siblings('.haSel_con').show();
+	var _this = $(this);
+	var _this_siblings = $(this).siblings('.haSel_con');
+	var _parrent = $(this).parent().parent();
+	var _this_siblings_li = $(this).siblings('.haSel_con').children('li');
+
+	$(document).one('click', function() {
+		_this_siblings.hide();
+	})
+
+	_this_siblings_li.on('click', function() {
+		var txt = $(this).children('span').text();
+		var liID=$(this).attr('data-val');
+		_this.children('span').text(txt);
+		_this.children('span').attr('data-id',liID)
+		$('.haSel_con').hide();
+
+	})
+	e.stopPropagation();
+})
+
 // 筛选页筛选分类
 $('.fitter_ul li i').click(function(){
 	$(this).parent('li').remove();

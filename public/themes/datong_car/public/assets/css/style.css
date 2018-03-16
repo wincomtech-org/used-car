@@ -2219,6 +2219,7 @@
 }
 @media only screen and (max-width:1199px) and (min-width:768px){
     .person_right{width:calc(100% - 230px);width:-webkit-calc(100% - 230px);width:-moz-calc(100% - 230px);width:-o-calc(100% - 230px);}
+    .person_right_tit{margin-top:0;}
     .details_item .idetails_con i.tip{display:block;font-size:14px;margin-top:10px;}
     .details_item .idetails_con input{min-width:300px;}
     .favorite_list .vehicle_con_detail_items:nth-child(3n+2){margin:10px 0;}
@@ -2286,8 +2287,8 @@
     .show_brash .brash{display:block;}
     .show_brash .person_left{display:none;}
     .person_left{width:100%;}
-    .person_item{width:33.333%;padding:1.5rem 0;float:left;box-sizing:border-box;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;-ms-box-sizing:border-box;-o-box-sizing:border-box;}
-    .person_right{width:100%;}
+    .person_item{width:33.333%;padding:1.5rem 0;float:left;box-sizing:border-box;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;-ms-box-sizing:border-box;-o-box-sizing:border-box;background-color:#fff;}
+    .person_right{width:100%;float:none;}
     .details_item .idetails_con i.tip{display:block;margin-top:10px;font-size:14px;}
     .details_item .details_tit{font-size:14px;min-width:90px;width:90px;}
     .details_item .idetails_con input{font-size:14px;}

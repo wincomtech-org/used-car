@@ -761,18 +761,21 @@
     margin:0 5px;
 }
 /* 选取地址 */
-.addr.analogy{
+.addr.haSel{
     border:none;
-    height:28px;
+    height:auto;
+    z-index:5;
 }
-.addr.analogy p:after{
-    display:none;
-}
-.addr.analogy p input{
+.haSel_tit span{font-size:14px;}
+.addr.analogy p span{
     font-size:14px;
     color:#333;
 }
-.addr.analogy .analogy_con li input{
+.haSel_con  li{
+    padding:5px;
+    border-bottom:1px solid #ddd;
+}
+.addr.haSel .haSel_con li input{
     font-size:14px;
 }
 /* 下单页面优惠券选取 */
@@ -954,8 +957,8 @@ evaluation{margin:.5rem 0;}
     .item-editor .opeat-btn span{color:#fff;display:inline-block;}
 
     /* 手机购物车 */
-    .item-pay,
-    .o-tab-btn{text-align:right;}
+    .item-pay{flex-basis:80px;}
+    .item-pay,.o-tab-btn{text-align:right;}
     .item-pay p{text-overflow:ellipsis;white-space:nowrap;overflow:hidden;line-height:1.6;}
     .o-tab-btn a{display:inline-block;padding:.5em;}
     .order-list-tit:after{content:"";display:block;clear:both;}
@@ -984,6 +987,7 @@ evaluation{margin:.5rem 0;}
         padding: 0px 3px 24px;
     }
 
+    .shops-div{padding:0;}
     
 }
 @media screen and (max-width:414px){
@@ -991,5 +995,10 @@ evaluation{margin:.5rem 0;}
     .order-li-mess span{display:inline-block;}
     .shop_orders{border:none;border-top:1px solid  #aec7e5;padding:0px;}
 }
-
+@media screen and (max-width:374px){
+    .item-pay p{font-size:12px;}
+    .order-attributes{font-size:12px;}
+    .order-img{width:63px;}
+    .order-img img{width:60px;margin-right:3px;}
+}
 /*手机端*/
