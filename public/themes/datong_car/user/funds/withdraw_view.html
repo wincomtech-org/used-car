@@ -17,8 +17,13 @@
     <section class="person">
         <div class="main">
             <!-- 个人中心 -->
-            <include file="public@usernav" />
-
+            <div class='show_brash'>
+                <include file="public@usernav" />
+                <ul class="brash">
+                    <include file="funds/brash" />
+                    <li class="active"><a href="#">积分</a></li>
+                </ul>
+            </div>
             <div class="person_right">
                 <div class="person_right_tit">
                     <include file="funds/nav" />

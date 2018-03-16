@@ -30,7 +30,17 @@ class IndexController extends HomeBaseController
         }
         $this->assign($user);
         return $this->fetch(":index");
+    }
 
+    public function center()
+    {
+        $this->checkUserLogin();
+
+        $usernav = $this->request->controller();
+        
+        $this->assign('usernav',$usernav);
+        $this->assign('user',cmf_get_current_user());
+        return $this->fetch(":center");
     }
 
     /**

@@ -52,6 +52,7 @@ class CartController extends HomeBaseController
             'user_id' => $userId,
             'spec_id' => $data['spec_id'],
         ];
+        
         $find = $cartModel->where($where)->value('id');
         if ($find > 0) {
             $result = $cartModel->where('id', $find)->setInc('number', $data['number']);

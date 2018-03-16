@@ -155,7 +155,7 @@ class OrderController extends UserBaseController
         if (empty($cart_ids)) {
             $jumpurl = url('shop/Post/details', ['id' => $ids[0]['goods_id']]);
             if (empty($ids[0]['spec_id'])) {
-                $goods = Db::name('shop_goods')->field('id as goods_id,name as goods_name,price')->where(['id' => $ids[0]['goods_id']])->select()->toArray();
+                $goods = Db::name('shop_goods')->field('id as goods_id,name as goods_name,price,thumbnail')->where(['id' => $ids[0]['goods_id']])->select()->toArray();
             } else {
                 $goods = model('shop/ShopGoodsSpec')->getGoodsBySpec(['a.id' => $ids[0]['spec_id']]);
             }
@@ -198,8 +198,9 @@ class OrderController extends UserBaseController
                 // 'seller_username'  => '',
                 'order_sn'     => $order_sn,
                 'nums'         => $post['nums'],
-                // 'product_amount'  => '',
+                'product_amount'  => $post['order_amount'],
                 'order_amount' => $amount,
+                'coupon_id'    => $coupId,
                 // 'shipping_id'  => '',
                 // 'shipping_fee'  => '',
                 // 'description'  => '',//买家留言
@@ -217,10 +218,11 @@ class OrderController extends UserBaseController
                 if (empty($cart_ids)) {
                     $details = [
                         'order_id'   => $orderId,
-                        'spec_id'    => isset($goods['spec_id']) ? $goods['spec_id'] : '0',
+                        'spec_id'    => (isset($goods['spec_id'])?$goods['spec_id']:0),
                         'goods_id'   => $goods['goods_id'],
-                        'goods_name' => $goods['goods_name'],
                         'goods_type' => '1',
+                        'goods_name' => $goods['goods_name'],
+                        'thumbnail'  => $goods['thumbnail'],
                         'number'     => $post['nums'],
                         'price'      => $goods['price'],
                     ];
@@ -228,9 +230,10 @@ class OrderController extends UserBaseController
                     foreach ($goods as $val) {
                         $details[] = [
                             'order_id'   => $orderId,
-                            'spec_id'    => $val['spec_id'],
+                            'spec_id'    => (isset($val['spec_id'])?$val['spec_id']:0),
                             'goods_id'   => $val['goods_id'],
                             'goods_name' => $val['goods_name'],
+                            'thumbnail'  => $val['thumbnail'],
                             'number'     => $val['number'],
                             'price'      => $val['price'],
                         ];
@@ -239,6 +242,7 @@ class OrderController extends UserBaseController
                 }
                 // dump($details);die;
                 Db::name('shop_order_detail')->insertAll($details);
+                Db::name('user_coupons_log')->where('id',$coupId)->setField('status',1);
                 Db::commit();
             } catch (\Exception $e) {
                 Db::rollback();

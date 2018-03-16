@@ -26,22 +26,44 @@ class ShopController extends UserBaseController
     public function index()
     {
         $os = $this->request->param('status');
+        $userId = cmf_get_current_user_id();
 
         $where = [];
         if ($os !== null) {
             $where['status'] = $os;
         }
         // config('shop_order_status');
-        $orders = '';
+        $orders = Db::name('shop_order')->where(['delete_time'=>0,'buyer_uid'=>$userId])->select();
 
         $this->assign('orders', $orders);
         $this->assign('os', $os);
         return $this->fetch();
     }
+
     // 订单详情
     public function detail()
     {
+        $id = $this->request->param('id/d');
+        if (empty($id)) {
+            $this->error('非法');
+        }
+        $order = Db::name('shop_order')->where('id',$id)->find();
+        $order_list = Db::name('shop_order_detail')->where('order_id',$id)->select();
+// dump($order);
+// dump($order_list);
+        $this->assign('order',$order);
+        $this->assign('list',$order_list);
         return $this->fetch();
+    }
+    // 取消订单
+    public function cancel()
+    {
+        $id = $this->request->param('id/d');
+        if (empty($id)) {
+            $this->error('非法');
+        }
+
+        $this->success('取消成功');
     }
 
 

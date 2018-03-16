@@ -1,0 +1,275 @@
+
+<div class="shops_order">
+    <table class='shops-order-tab'>
+        <thead>
+            <tr>
+                <th class='col-pro-img ma-0'></th>
+                <th class='col-pro ma-1'>商品</th>
+                <th class='col-pro ma-2'>数量</th>
+                <th class='col-pro ma-3'>总价</th>
+                <th class='col-pro ma-4'>实付款</th>
+                <th class='col-pro ma-5'>状态</th>
+                <th class='col-pro ma-6'>操作</th>
+            </tr>
+        </thead>
+    </table>
+    <foreach name="orders" item="vo">
+        <table class='shops-order-tab'>
+            <tbody class='order-list'>
+                <tr class='order-list-tit'>
+                    <td class='ma-0'>
+                        <input type="checkbox">
+                    </td>
+                    <td class='ma-1' colspan='5'>
+                        <span class="time">{:date('Y-m-d H:i:s',$vo.create_time)}</span>
+                        <span class="order-goods">
+                        订单号：<a href="javascript:void(0);">{$vo.order_sn}</a>
+                    </span>
+                    </td>
+                    <td class='ma-6'></td>
+                </tr>
+                <tr class='order-list-con'>
+                    <td class='ma-0'></td>
+                    <td class='ma-1'>
+                        <div class="order-img">
+                            <a href="{:url('Shop/detail',['id'=>$vo.id])}">
+                                <empty name="vo.thumbnail">
+                                    <img src="__TMPL__/public/assets/images/default-thumbnail_160x109.png" alt="">
+                                    <else/>
+                                    <img src="{:cmf_get_image_preview_url($vo.thumbnail)}" alt="">
+                                </empty>
+                            </a>
+                        </div>
+                        <div class="order-intro">
+                            <div class='order-trade-name'>
+                                <a href="{:url('Shop/detail',['id'=>$vo.id])}">{$vo.order_name}</a>
+                            </div>
+                            <div class='order-attributes'>
+                                <span>{$vo.order_desc}</span>
+                                <span>{$vo.coupon_id?='使用了优惠券'}</span>
+                            </div>
+                        </div>
+                    </td>
+                    <td class='ma-2'>{$vo.nums}</td>
+                    <td class='ma-3'>￥{$vo.product_amount}</td>
+                    <td class='ma-4'>
+                        ￥{$vo.order_amount}
+                        <br/><i class='small'>(含运费:0.00)</i></td>
+                    <td class='ma-5'>
+                        <div class="trading-status group-a">
+                            <sapn>{$statusV[$vo.status]}</sapn>
+                        </div>
+                    </td>
+                    <td class='ma-6'>
+                        <div class="order-state group-a">
+                            <a class='btn-style backg-red' href="{:url('Shop/detail',['id'=>$vo.id])}">订单详情</a>
+                            <a href="{:url('Shop/cancel',['id'=>$vo.id])}" class='backg-orange btn-style js-ajax-dialog-btn' data-msg="确定取消吗？">取消</a>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </foreach>
+    <!-- <table class='shops-order-tab'>
+        <tbody class='order-list'>
+            <tr class='order-list-tit'>
+                <td class=' ma-0'>
+                    <input type="checkbox">
+                </td>
+                <td class=' ma-1' colspan='5'>
+                    <span class="time">2018-01-10 09:40:22</span>
+                    <span class="order-goods">
+                        订单号：<a href="">201801100940222779</a>
+                    </span>
+                </td>
+                <td class=' ma-6'>待支付</td>
+            </tr>
+            <tr class='order-list-con'>
+                <td class='ma-0'></td>
+                <td class='ma-1'>
+                    <div class="order-img">
+                        <a href="">
+                            <img src="http://hcsinglyshop.wincomtech.cn/Public/upload/goods/thumb/45/goods_thumb_45_78_78.jpeg" alt="">
+                        </a>
+                    </div>
+                    <div class="order-intro">
+                        <div class='order-trade-name'>
+                            <a href="">华为 HUAWEI C199S 麦芒3S 电信4G智能手机FDD-LTE /TD-LTE/CDMA2000/GSM（麦芒）</a>
+                        </div>
+                        <div class='order-attributes'>
+                            <span>颜色分类：倍量加强版【苹果6电池】-送整套拆机工具+视频教程+质保3年</span>
+                        </div>
+                    </div>
+                </td>
+                <td class='ma-2'>￥1999.00</td>
+                <td class='ma-3'>1</td>
+                <td class='ma-4'>￥1500.00
+                    <br/><i class='small'>(含运费:0.00)</i></td>
+                <td class='ma-5'>
+                    <div class="trading-status group-a">
+                        <sapn>等待买家付款</sapn>
+                        <a href="">订单详情</a>
+                    </div>
+                </td>
+                <td class='ma-6'>
+                    <div class="order-state group-a">
+                        <a class='btn-style backg-red' href="{:url('detail')}">立即支付</a>
+                        <a class='backg-orange btn-style'>取消</a>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class='shops-order-tab'>
+        <tbody class='order-list'>
+            <tr class='order-list-tit'>
+                <td class=' ma-0'>
+                    <input type="checkbox">
+                </td>
+                <td class=' ma-1' colspan='5'>
+                    <span class="time">2018-01-10 09:40:22</span>
+                    <span class="order-goods">
+                        订单号：<a href="">201801100940222779</a>
+                    </span>
+                </td>
+                <td class=' ma-6'>待发货</td>
+            </tr>
+            <tr class='order-list-con'>
+                <td class='ma-0'></td>
+                <td class='ma-1'>
+                    <div class="order-img">
+                        <a href="">
+                            <img src="http://hcsinglyshop.wincomtech.cn/Public/upload/goods/thumb/45/goods_thumb_45_78_78.jpeg" alt="">
+                        </a>
+                    </div>
+                    <div class="order-intro">
+                        <div class='order-trade-name'>
+                            <a href="">华为 HUAWEI C199S 麦芒3S 电信4G智能手机FDD-LTE /TD-LTE/CDMA2000/GSM（麦芒）</a>
+                        </div>
+                        <div class='order-attributes'>
+                            <span>颜色分类：倍量加强版【苹果6电池】-送整套拆机工具+视频教程+质保3年</span>
+                        </div>
+                    </div>
+                </td>
+                <td class='ma-2'>￥1999.00</td>
+                <td class='ma-3'>1</td>
+                <td class='ma-4'>￥1500.00
+                    <br/><i class='small'>(含运费:0.00)</i></td>
+                <td class='ma-5'>
+                    <div class="trading-status group-a">
+                        <sapn>未发货</sapn>
+                        <a href="">订单详情</a>
+                        <a href="" class='orage-color'>查看物流</a>
+                    </div>
+                </td>
+                <td class='ma-6'>
+                    <div class="order-state group-a">
+                        <a href="" class=''>退货/退款</a>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class='shops-order-tab'>
+        <tbody class='order-list'>
+            <tr class='order-list-tit'>
+                <td class=' ma-0'>
+                    <input type="checkbox">
+                </td>
+                <td class=' ma-1' colspan='5'>
+                    <span class="time">2018-01-10 09:40:22</span>
+                    <span class="order-goods">
+                        订单号：<a href="">201801100940222779</a>
+                    </span>
+                </td>
+                <td class=' ma-6'>待收货</td>
+            </tr>
+            <tr class='order-list-con'>
+                <td class='ma-0'></td>
+                <td class='ma-1'>
+                    <div class="order-img">
+                        <a href="">
+                            <img src="http://hcsinglyshop.wincomtech.cn/Public/upload/goods/thumb/45/goods_thumb_45_78_78.jpeg" alt="">
+                        </a>
+                    </div>
+                    <div class="order-intro">
+                        <div class='order-trade-name'>
+                            <a href="">华为 HUAWEI C199S 麦芒3S 电信4G智能手机FDD-LTE /TD-LTE/CDMA2000/GSM（麦芒）</a>
+                        </div>
+                        <div class='order-attributes'>
+                            <span>颜色分类：倍量加强版【苹果6电池】-送整套拆机工具+视频教程+质保3年</span>
+                        </div>
+                    </div>
+                </td>
+                <td class='ma-2'>￥1999.00</td>
+                <td class='ma-3'>1</td>
+                <td class='ma-4'>￥1500.00
+                    <br/><i class='small'>(含运费:0.00)</i></td>
+                <td class='ma-5'>
+                    <div class="trading-status group-a">
+                        <sapn>物流运输中</sapn>
+                        <a href="">订单详情</a>
+                        <a href="" class='orage-color'>查看物流</a>
+                    </div>
+                </td>
+                <td class='ma-6'>
+                    <div class="order-state group-a">
+                        <a class='btn-style backg-blue'>确认收货</a>
+                        <a href="">退货/退款</a>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class='shops-order-tab'>
+        <tbody class='order-list'>
+            <tr class='order-list-tit'>
+                <td class=' ma-0'>
+                    <input type="checkbox">
+                </td>
+                <td class=' ma-1' colspan='5'>
+                    <span class="time">2018-01-10 09:40:22</span>
+                    <span class="order-goods">
+                        订单号：<a href="">201801100940222779</a>
+                    </span>
+                </td>
+                <td class=' ma-6'>待评价</td>
+            </tr>
+            <tr class='order-list-con'>
+                <td class='ma-0'></td>
+                <td class='ma-1'>
+                    <div class="order-img">
+                        <a href="">
+                            <img src="http://hcsinglyshop.wincomtech.cn/Public/upload/goods/thumb/45/goods_thumb_45_78_78.jpeg" alt="">
+                        </a>
+                    </div>
+                    <div class="order-intro">
+                        <div class='order-trade-name'>
+                            <a href="">华为 HUAWEI C199S 麦芒3S 电信4G智能手机FDD-LTE /TD-LTE/CDMA2000/GSM（麦芒）</a>
+                        </div>
+                        <div class='order-attributes'>
+                            <span>颜色分类：倍量加强版【苹果6电池】-送整套拆机工具+视频教程+质保3年</span>
+                        </div>
+                    </div>
+                </td>
+                <td class='ma-2'>￥1999.00</td>
+                <td class='ma-3'>1</td>
+                <td class='ma-4'>￥1500.00
+                    <br/><i class='small'>(含运费:0.00)</i></td>
+                <td class='ma-5'>
+                    <div class="trading-status group-a">
+                        <sapn>交易完成</sapn>
+                        <a href="">订单详情</a>
+                        <a href="" class='orage-color'>查看物流</a>
+                    </div>
+                </td>
+                <td class='ma-6'>
+                    <div class="order-state group-a">
+                        <a class='btn-style backg-border'>评价</a>
+                        <a href="">再次购买</a>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table> -->
+</div>

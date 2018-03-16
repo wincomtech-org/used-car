@@ -78,6 +78,7 @@ class HomeBaseController extends BaseController
         View::share('share_friendLink', $cbc['friendLink']);
         // View::share('share_goodscate', $cbc['goodscate']);
         View::share('share_goodscate', $goodscate);
+        // View::share('share_isMobile', cmf_is_mobile());
         // $this->assign('user',$this->user);
     }
 
