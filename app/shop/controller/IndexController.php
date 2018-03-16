@@ -31,7 +31,9 @@ class IndexController extends HomeBaseController
         return $this->fetch();
     }
 
-    function shop_map(){
+    // 用于手机端
+    function cate_map(){
+
         return $this->fetch();
     }
 

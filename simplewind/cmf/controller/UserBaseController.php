@@ -22,7 +22,15 @@ class UserBaseController extends HomeBaseController
         $usernav = $this->request->controller();
         $this->user = cmf_get_current_user();
 
+        // 处理面包屑
+        if (cmf_is_mobile() === true) {
+            $share_brash = url('user/Index/center');
+        } else {
+            $share_brash = url('user/Profile/center');
+        }
+
         $this->assign('usernav',$usernav);
+        $this->assign('share_brash',$share_brash);
         $this->assign('user',$this->user);
     }
 

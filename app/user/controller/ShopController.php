@@ -47,10 +47,15 @@ class ShopController extends UserBaseController
         if (empty($id)) {
             $this->error('非法');
         }
-        $order = Db::name('shop_order')->where('id',$id)->find();
+        $order = Db::name('shop_order')->alias('a')
+            ->field('a.*,b.address,b.username,b.telephone')
+            ->join('shop_shipping_address b','a.address_id=b.id')
+            ->where('a.id',$id)
+            ->find();
         $order_list = Db::name('shop_order_detail')->where('order_id',$id)->select();
 // dump($order);
 // dump($order_list);
+        // $order['status'] = 3;
         $this->assign('order',$order);
         $this->assign('list',$order_list);
         return $this->fetch();
@@ -67,18 +72,36 @@ class ShopController extends UserBaseController
     }
 
 
+/*积分兑换*/
+public function exchange()
+{
+    return $this->fetch();
+}
+
+
 
 /*订单处理*/
     // 确认收货
     public function receipt()
     {
-        return $this->fetch();
+        $id = $this->request->param('id/d', 0, 'intval');
+
+        Db::name('shop_order')->where('id',$id)->setField('status',4);
+        $this->success('确认成功');
     }
 
     // 评价
+    public function evaluateList()
+    {
+        $userId = cmf_get_current_user_id();
+        $list = Db::name('shop_evaluate')->where('user_id',$userId)->select();
+
+        $this->assign('list',$list);
+        return $this->fetch();
+    }
     public function evaluate()
     {
-        $id = $this->request->param('id', 0, 'intval');
+        $id = $this->request->param('id/d', 0, 'intval');
         if (empty($id)) {
             $this->error('非法请求');
         }
@@ -86,10 +109,10 @@ class ShopController extends UserBaseController
         // 是否有订单号、确认收货
         $goods = model('shop/ShopGoods')->getPost($id);
         // 评价表
-        $evaluate = '';
+        // $evaluate = '';
 
         $this->assign('goods', $goods);
-        $this->assign('evaluate', $evaluate);
+        // $this->assign('evaluate', $evaluate);
         return $this->fetch();
     }
     public function evaluatePost()
@@ -115,13 +138,30 @@ class ShopController extends UserBaseController
     // 物流信息
     public function logistics()
     {
+        $id = $this->request->param('id/d');
+        if (empty($id)) {
+            $this->error('该订单不存在');
+        }
+        // 
+        $logistics = [];
+        $this->assign('logistics',$logistics);
         return $this->fetch();
     }
 
     // 退换货
     public function returns()
     {
-        $list = Db::name('shop_order')->where('refund_status', 1)->select();
+        $id = $this->request->param('id/d',0,'intval');//订单的ID
+        $userId = cmf_get_current_user_id();
+
+        $where = [
+            'refund_status' => 1,
+            'buyer_uid' => $userId,
+        ];
+        if (!empty($id)) {
+            $where['id'] = $id;
+        }
+        $list = Db::name('shop_order')->where($where)->select();
 
         $this->assign('list', $list);
         return $this->fetch();
@@ -129,17 +169,43 @@ class ShopController extends UserBaseController
     // 退换货详情
     public function returns_detail()
     {
-        $id = $this->request->param('id', 0, 'intval');
+        $id = $this->request->param('id/d', 0, 'intval');//订单详情的ID
 
         $post = Db::name('shop_order')->where('id', $id)->find();
 
         $this->assign('post', $post);
         return $this->fetch();
     }
+    public function returns_detailPost()
+    {
+        $data = $this->request->param();
+        // $id = $this->request->param('id/d');
+        $post = [
+            'oid' => $id,
+            'type'=>$data['type'],
+            'reason'=>$data['reason'],
+            'description'=>$data['description'],
+            'amount'=>$data['amount'],
+        ];
+
+        if (!empty($data['photos'])) {
+            $post['more'] = '';
+        }
+
+        Db::name('shop_returns')->insert($post);
+        Db::name('shop_order')->where('id',$id)->setField('refund_status',1);
+    }
 
     // 消息管理
     public function news()
     {
+        $userId = cmf_get_current_user_id();
+
+        $where = [
+            'user_id' => $userId,
+        ];
+        $list = [];
+        $this->assign('list',$list);
         return $this->fetch();
     }
 

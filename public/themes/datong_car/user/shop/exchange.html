@@ -22,7 +22,7 @@
                 <include file="public@usernav" />
                 <ul class="brash">
                     <include file="shop/brash" />
-                    <li class="active"><a href="#">订单详情</a></li>
+                    <li class="active"><a href="#">积分兑换</a></li>
                 </ul>
             </div>
 
@@ -32,15 +32,6 @@
                 </div>
                 <div class="person_right_con">
                     <div class="shops">
-                        <div class="wddd-li">
-                            <ul>
-                                <li class="{$os===null?='wddd-red red'}"><a href="{:url('index','status=')}">全部</a></li>
-                                <li class="{$os=='0'?='wddd-red red'}"><a href="{:url('index','status=0')}">待兑换<em></em></a></li>
-                                <li class="{$os=='1'?='wddd-red red'}"><a href="{:url('index','status=1')}">待发货<em></em></a></li>
-                                <li class="{$os=='2'?='wddd-red red'}"><a href="{:url('index','status=2')}">待收货<em></em></a></li>
-                                <li class="{$os=='3'?='wddd-red red'}"><a href="{:url('index','status=3')}">待评价<em></em></a></li>
-                            </ul>
-                        </div>
                         <div class="shops_order">
                             <table class='shops-order-tab'>
                                 <thead>

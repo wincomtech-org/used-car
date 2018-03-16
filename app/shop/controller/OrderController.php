@@ -256,7 +256,7 @@ class OrderController extends UserBaseController
 
         } else {
             $order      = Db::name('shop_order')->field('*')->where('id', $orderId)->find();
-            $order_list = Db::name('shop_order_detail')->field('*')->where('order_id', $orderId)->select();
+            // $order_list = Db::name('shop_order_detail')->field('*')->where('order_id', $orderId)->select();
             // dump($order);
             // dump($order_list);
             // die;
