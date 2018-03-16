@@ -11,8 +11,10 @@ GIT源码：
     https://github.com/wincomtech-org/used_car
 DOAMIN：
     http://usedcar.wincomtech.cn/
-测试账号：super  111111
-          lothar  111111
+正式网址：http://www.datongchefu.cn/
+测试账号：lothar  111111
+        ###备用   super  111111
+服务商城测试：http://www.datongchefu.cn/shop/post/details/id/6.html
 模板路径：
     \public\themes\datong_car\  主目录
     \public\themes\datong_car\public\  共用文件 head、header、footer、nav、banner、morejs
