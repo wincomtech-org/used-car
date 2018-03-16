@@ -947,7 +947,8 @@ evaluation{margin:.5rem 0;}
     .amout-num span input{width:100%;text-align:center;border:none;}
     .item-editor .amoutNum{width:56%;}
     .item-editor .amout-num{width:70%;}
-    .item-editor .opeat-btn{width:30%;height:100%;display:flex;display:-webkit-box;display:-moz-box;display:-ms-box;display:-o-box;display:box;display:-webkit-flex;align-items:center;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;-webkit-box-align:center;-ms-flex-align:center;text-align:center;}
+    .item-editor .opeat-btn,.btn-remove-a{width:30%;height:100%;display:flex;display:-webkit-box;display:-moz-box;display:-ms-box;display:-o-box;display:box;display:-webkit-flex;align-items:center;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;-webkit-box-align:center;-ms-flex-align:center;text-align:center;}
+    .btn-remove-a{width:100%;color:#fff;}
     .item-editor .opeat-btn span{color:#fff;display:inline-block;}
 
     /* 手机购物车 */
