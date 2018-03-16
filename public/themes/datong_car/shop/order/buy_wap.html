@@ -1,7 +1,7 @@
 
 <div class="shops_order_m">
     <form action="{:url('shop/Order/pay')}" method="POST" class="js-ajax-form">
-        <dl class='order-dl'>
+        <dl class='order-dl clear'>
             <dt>收货地址：</dt>
             <!-- <dd class='addr_list'>
                 <empty name="address">
@@ -18,18 +18,19 @@
                 </empty>
             </dd> -->
             <dd class='addr_list'>
-                <div class="analogy addr">
+                <div class="haSel addr">
                     <empty name="address">
                         <p><a href="{:url('user/Shop/address')}">添加地址</a></p>
                     <else/>
-                        <p class="analogy_tit">
-                            <textarea value="{$addrFirst.addr|default=''}" readonly data-id="{$addrFirst.id|default=''}" /></textarea>
+                        <p class="haSel_tit">
+                            <span  data-id="{$addrFirst.id|default=''}" />{$addrFirst.addr|default=''}</span>
                             <input type='hidden' name="order[address_id]" value="1" readonly />
                         </p>
-                        <ul class="analogy_con" style="display: none;">
+                        <ul class="haSel_con" style="display: none;">
                             <foreach name="address" item="vo">
                             <li data-val="{$vo.id}">
-                                <input value="{$vo.address .' '. $vo.username .'收 '. $vo.telephone}" readonly />
+                                <span>{$vo.address .' '. $vo.username .'收 '. $vo.telephone}</span>
+                                <input type='hidden' value="{$vo.address .' '. $vo.username .'收 '. $vo.telephone}" readonly />
                             </li>
                             </foreach>
                         </ul>
@@ -94,7 +95,7 @@
         <dl class='o-total-price'>
             <div class='youhui'>
                 <span>优惠券：</span>
-                <select name="order[coupId]" class="placeholder form-control">
+                <select name="order[coupId]" class="placeholder form-control youhui_sel">
                     <option value="">--请选择--</option>
                     <foreach name="coupon" item="vo">
                     <option value="{$vo.id}">满{$vo.reduce} 减{$vo.coupon}</option>

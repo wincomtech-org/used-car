@@ -7,7 +7,7 @@ input[type=button],input[type=submit],input[type=file],input[type=text],input[ty
 .lf{float:left;}
 .rt{float:right;}
 .clear{clear:both;}
-.clearfix:after {content: " ";display: block;clear: both;height: 0;visibility: hidden;}
+.clearfix:after{content: " ";display: block;clear: both;height: 0;visibility: hidden;}
 a{text-decoration:none;cursor:pointer;}
 
 /* 除去number自带的样式我问题 */
@@ -333,12 +333,12 @@ nav{background-color:#000;}
 .regist_info_form_item span{font-size:16px;color:#666;width:80px;position:absolute;top:0;left:0;padding-left:8px;box-sizing:border-box;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;-ms-box-sizing:border-box;-o-box-sizing:border-box;text-align:left;}
 .regist_info_form_item.requre span:before{content:"*";display:block;color:#d00000;position:absolute;top:63%;-webkit-transform:translateY(-50%);transform:translateY(-50%);left:-11px;font-size:25px;}
 .regist_info_form_item .tel_err{color:#d00000;font-size:14px;margin-top:10px;display:block;line-height:20px;margin-bottom:-1px;}
-.analogy{border:1px solid #ddd;width:100%;height:35px;position:relative;box-sizing:border-box;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;-ms-box-sizing:border-box;-o-box-sizing:border-box;}
+.analogy,.haSel{border:1px solid #ddd;width:100%;height:35px;position:relative;box-sizing:border-box;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;-ms-box-sizing:border-box;-o-box-sizing:border-box;}
 .analogy>label{margin-left:22px!important;}
 .analogy p{font-size:16px;color:#999;position:absolute;top:0;left:0;width:100%;height:100%;padding:0 20px;box-sizing:border-box;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;-ms-box-sizing:border-box;-o-box-sizing:border-box;}
 .analogy p:after{content:"";display:block;position:absolute;width:0px;height:0;top:50%;-webkit-transform:translateY(-50%);transform:translateY(-50%);right:16px;border-top:9px solid #b5b5b5;border-left:6px solid transparent;border-right:6px solid transparent;}
 .analogy p input{padding:0;font-size:16px;color:#999;}
-.analogy .analogy_con{position:absolute;top:34px;left:-1px;width:100%;z-index:2;background-color:#fff;padding:10px 0;border:1px solid #ddd;max-height:140px;overflow-y:scroll;}
+.analogy .analogy_con,.haSel_con {position:absolute;left:-1px;width:100%;z-index:2;background-color:#fff;padding:10px 0;border:1px solid #ddd;max-height:140px;overflow-y:scroll;}
 .analogy .analogy_con li{height:30px;line-height:30px;color:#999;font-size:16px;padding:0 20px;box-sizing:border-box;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;-ms-box-sizing:border-box;-o-box-sizing:border-box;}
 .analogy .analogy_con li input{background-color:transparent;padding:0;color:#333;font-size:16px;}
 /* .analogy .analogy_con li:hover{padding-left:30px;-webkit-transition:.6s;transition:.6s;cursor:default;} */
@@ -350,7 +350,7 @@ nav{background-color:#000;}
 .analogy.no  .analogy_change{font-size:16px;line-height:35px;vertical-align:text-bottom;}
 .analogy.no  .kuang,.analogy.no  .analogy_change{display:inline-block;vertical-align:middle;}
 .analogy .btn_submi{background-color:#d00000;color:#fff;font-size:16px;width:100%;height:100%;display:block;text-align:center;}
-
+.analogy .analogy_con{top:34px;}
 
 
 .data_filling_list li.right select,.analogy li.right select{border:1px solid #ddd;height:40px;line-height:40px;font-size:14px;margin-bottom:5px;min-width:90px;}
