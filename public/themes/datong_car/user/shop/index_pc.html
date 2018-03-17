@@ -58,6 +58,7 @@
                     <td class='ma-5'>
                         <div class="trading-status group-a">
                             <sapn>{$statusV[$vo.status]}</sapn>
+                            <span>{$vo.refund_status?='退款中'}</span>
                             <a href="{:url('detail',['id'=>$vo.id])}">订单详情</a>
                             <in name="vo.status" value="3,4,10">
                             <a href="{:url('detail',['id'=>$vo.id])}#BBB" class='orage-color'>查看物流</a>

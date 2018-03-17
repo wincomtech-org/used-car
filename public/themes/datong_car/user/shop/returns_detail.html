@@ -67,7 +67,7 @@
                                             <dl>
                                                 <label class='hasLabel'>
                                                     <p class='hasLabelP'>
-                                                        <input type="radio" checked name='type' value='1'><span class='spc'></span>
+                                                        <input {$returns.type==1?='checked'} {$returns.type==''?='checked'} type="radio" name='type' value='1'><span class='spc'></span>
                                                     </p>
                                                     <p class='hasLabel_span'>仅退款</p>
                                                 </label>
@@ -75,7 +75,7 @@
                                             <dl>
                                                 <label class='hasLabel'>
                                                     <p class='hasLabelP'>
-                                                        <input type="radio" name='type' value='2'><span class='spc'></span>
+                                                        <input {$returns.type==2?='checked'} type="radio" name='type' value='2'><span class='spc'></span>
                                                     </p>
                                                     <p class='hasLabel_span'>退货退款</p>
                                                 </label>
@@ -83,7 +83,7 @@
                                             <dl>
                                                 <label class='hasLabel'>
                                                     <p class='hasLabelP'>
-                                                        <input type="radio" name='type' value='3'><span class='spc'></span>
+                                                        <input {$returns.type==3?='checked'} type="radio" name='type' value='3'><span class='spc'></span>
                                                     </p>
                                                     <p class='hasLabel_span'>换货</p>
                                                 </label>
@@ -97,15 +97,15 @@
                                         <select name="reason" class="">
                                             <option value="">请选择</option>
                                             <!-- <option value="1">7天无理由退换货</option> -->
-                                            <option value="2">退运费</option>
-                                            <option value="3">颜色/尺寸/参数不符</option>
-                                            <option value="4">商品瑕疵</option>
-                                            <option value="5">质量问题</option>
-                                            <option value="6">少发/漏发</option>
-                                            <option value="7">收到商品时有划痕或破损</option>
-                                            <option value="8">假冒品牌</option>
-                                            <option value="9">未按约定时间发货</option>
-                                            <option value="10">发票问题</option>
+                                            <option value="2" {$returns.reason==2?='selected'}>退运费</option>
+                                            <option value="3" {$returns.reason==3?='selected'}>颜色/尺寸/参数不符</option>
+                                            <option value="4" {$returns.reason==4?='selected'}>商品瑕疵</option>
+                                            <option value="5" {$returns.reason==5?='selected'}>质量问题</option>
+                                            <option value="6" {$returns.reason==6?='selected'}>少发/漏发</option>
+                                            <option value="7" {$returns.reason==7?='selected'}>收到商品时有划痕或破损</option>
+                                            <option value="8" {$returns.reason==8?='selected'}>假冒品牌</option>
+                                            <option value="9" {$returns.reason==9?='selected'}>未按约定时间发货</option>
+                                            <option value="10" {$returns.reason==10?='selected'}>发票问题</option>
                                         </select>
                                         <!-- <div class="analogy">
                                             <p class="analogy_tit">
@@ -131,7 +131,7 @@
                                     <div class="returns-gr-tit">退款金额<b class='red-color'>*</b></div>
                                     <div class="returns-gr-con">
                                         <div class="returns_input hasMoney">
-                                            <input type="text" name="amount" value="{$post.price}" class="placeholder border-box" readonly>
+                                            <input type="text" name="amount" value="{$returns.amount?$returns.amount:$post.price}" class="placeholder border-box" readonly>
                                         </div>
                                         <div class='return_dis'>最多￥{$post.price}，含发货邮费￥0.00</div>
                                     </div>
@@ -173,8 +173,8 @@
                                                     <img src="__TMPL__/public/assets/images/add.png" style="cursor: pointer;"/>
                                                 </a>
                                                 <ul id="identity_card" class="pic-list list-unstyled form-inline upload-img-div">
-                                                    <notempty name="verify.more.identity_card">
-                                                    <foreach name="verify.more.identity_card" item="vo">
+                                                    <notempty name="returns.more">
+                                                    <foreach name="returns.more" item="vo">
                                                         <li id="saved-identity_card{$key}">
                                                             <input id="identity_card-{$key}" type="hidden" name="photos[urls][]" value="{$vo.url}" />
                                                             <input id="identity_card-{$key}-name" type="text" name="photos[names][]" value="{$vo.name|default=''}" class="form-control" title="图片名称" />
@@ -195,8 +195,9 @@
                                 <div class="returns-gr">
                                     <div class="returns-gr-tit"></div>
                                     <div class="returns-gr-con">
-                                        <input type="hidden" name="id" value="{$post.id}">
-                                        <input type="hidden" name="order_id" value="{$post.order_id}">
+                                        <input type="hidden" name="id" value="{$post.id|default=''}">
+                                        <input type="hidden" name="order_id" value="{$post.order_id|default=''}">
+                                        <input type="hidden" name="rid" value="{$returns.id|default=''}">
                                         <button type='submit' class='backg-red btn-style font16'>提交</button>
                                     </div>
                                 </div>

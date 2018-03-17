@@ -9,7 +9,7 @@
                         订单号：<a>{$vo.order_sn}</a>
                     </span>
                     </dd>
-                    <dd class='states'></dd>
+                    <dd class='states'>{$statusV[$vo.status]}</dd>
                 </dl>
             </div>
             <div class='order-list-con'>
@@ -31,6 +31,7 @@
                             <div class='order-attributes'>
                                 <span>{$vo.order_desc}</span>
                                 <span>{$vo.coupon_id?='使用了优惠券'}</span>
+                                <!-- <span>{$vo.refund_status?='退款中'}</span> -->
                             </div>
                         </div>
                         <div class="item-pay">

@@ -1,0 +1,14 @@
+<div class="table-actions">
+   
+    <button class="btn btn-primary btn-sm js-ajax-submit" type="submit"
+            data-action="{:url('AdminAttr/changeStatus',['type'=>'status','value'=>1])}" data-subcheck="true">显示
+    </button>
+    <button class="btn btn-primary btn-sm js-ajax-submit" type="submit"
+            data-action="{:url('AdminAttr/changeStatus',['type'=>'status','value'=>0])}" data-subcheck="true">隐藏
+    </button>
+   
+    <button class="btn btn-danger btn-sm js-ajax-submit" type="submit"
+            data-action="{:url('AdminAttr/delete')}" data-subcheck="true" data-msg="您确定删除吗？">
+        {:lang('DELETE')}
+    </button>
+</div>

@@ -30,6 +30,7 @@ class ShopController extends UserBaseController
         $userId = cmf_get_current_user_id();
 
         $where = ['delete_time' => 0, 'buyer_uid' => $userId];
+        // $where['refund_status'] = 0;
         if ($os !== null) {
             $where['status'] = $os;
         }
@@ -112,6 +113,11 @@ class ShopController extends UserBaseController
 /*积分兑换*/
     public function score()
     {
+        $userId = cmf_get_current_user_id();
+        $where = ['buyer_uid'=>$userId];
+        $list = Db::name('shop_order_score')->where($where)->select();
+
+        $this->assign('list',$list);
         return $this->fetch();
     }
     public function scoreEdit()
@@ -190,17 +196,18 @@ class ShopController extends UserBaseController
     // 退换货
     public function returns()
     {
-        $id     = $this->request->param('id/d', 0, 'intval'); //订单的ID
+        // $id     = $this->request->param('id/d', 0, 'intval'); //订单的ID
         $userId = cmf_get_current_user_id();
 
         $where = [
-            'refund_status' => 1,
-            'buyer_uid'     => $userId,
+            'user_id'     => $userId,
         ];
-        if (!empty($id)) {
-            $where['id'] = $id;
-        }
-        $list = Db::name('shop_order')->where($where)->select();
+
+        $list = Db::name('shop_returns')->alias('a')
+            ->field('*')
+            ->join('shop_order_detail b','a.detail_id=b.id')
+            ->where($where)
+            ->select();
 
         $this->assign('list', $list);
         return $this->fetch();
@@ -209,15 +216,34 @@ class ShopController extends UserBaseController
     public function returns_detail()
     {
         $id = $this->request->param('id/d', 0, 'intval'); //订单详情的ID
+        $rid = $this->request->param('rid/d');// 申请退款的ID
 
+        $returns = [
+            'type'    => '',
+            'reason'  => '',
+            'amount'  => '',
+        ];
+        if (!empty($rid)) {
+            $returns = Db::name('shop_returns')->where('id',$rid)->find();
+            $id = isset($returns['detail_id'])?$returns['detail_id']:0;
+        }
+        
         $post = Db::name('shop_order_detail')->alias('a')
             ->field('a.*,b.spec_vars')
             ->join('shop_goods_spec b', 'a.spec_id=b.id', 'LEFT')
             ->where('a.id', $id)->find();
+
+        // 合并处理？？
+        // $post = Db::name('shop_returns')->alias('a')
+        //     ->field('a.*,b.*,c.spec_vars')
+        //     ->join('shop_order_detail b', 'a.detail_id=b.id')
+        //     ->join('shop_goods_spec c', 'a.spec_id=c.id', 'LEFT')
+        //     ->where('c.id', $id)->find();
 // dump($post);
 //         die;
 
         $this->assign('post', $post);
+        $this->assign('returns', $returns);
         return $this->fetch();
     }
     public function returns_detailEdit()
@@ -227,9 +253,12 @@ class ShopController extends UserBaseController
     public function returns_detailPost()
     {
         $data = $this->request->param();
-        // $id = $this->request->param('id/d');
+        $rid = $this->request->param('rid/d');// 申请退款的ID
+        $userId = cmf_get_current_user_id();
+
         // 数据验证 validate()
         $post = [
+            'user_id'     => $userId,
             'detail_id'   => $data['id'],
             'type'        => $data['type'],
             'reason'      => $data['reason'],
@@ -246,7 +275,11 @@ class ShopController extends UserBaseController
         $transStatus = true;
         Db::startTrans();
         try{
-            Db::name('shop_returns')->insert($post);
+            if (empty($rid)) {
+                Db::name('shop_returns')->insert($post);
+            } else {
+                Db::name('shop_returns')->where('id',$rid)->update($post);
+            }
             Db::name('shop_order')->where('id', $data['order_id'])->setField('refund_status', 1);
             Db::commit();
         } catch(\Exception $e) {
