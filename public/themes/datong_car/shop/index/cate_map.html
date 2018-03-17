@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>服务商城 - {$site_info.site_name|default=''}</title>
+    <meta name="keywords" content="{$site_info.site_seo_keywords|default=''}"/>
+    <meta name="description" content="{$site_info.site_seo_description|default=''}">
+
+    <include file="public@head"/>
+    <!-- 服务商城css -->
+    <!-- <link href='__TMPL__/public/assets/css/shop.css' type="text/css" rel="stylesheet"> -->
+    <hook name="before_head_end"/>
+</head>
+<body>
+     <!-- 头部 -->
+     <include file="public@header" />
+     <!-- 导航 -->
+     <include file="public@nav" />
+     
+    <div class="shop-menus border-box" >
+        <ul class="brash ">
+            <li>当前位置：</li>
+            <li class=""><a href="{:url('index')}">商城首页</a></li>
+            <li class="active"><a >分类地图</a></li>
+        </ul>
+        <div class="shop-menus-con ">
+            <!-- share_goodscate -->
+            <notempty name="share_goodscate">
+            <foreach name="share_goodscate" item="vo">
+            <dl>
+                <dt><a href="{:url('shop/Index/lists',['cate'=>$vo.id])}">{$vo.name}</a></dt>
+                <notempty name="vo.children">
+                <foreach name="vo.children" item="child">
+                <dd><a href="{:url('shop/Index/lists',['cate'=>$child.id])}">{$child.name}</a></dd>
+                </foreach>
+                </notempty>
+            </dl>
+            </foreach>
+            </notempty>
+        </div>
+    </div>
+    <!-- 底部 -->
+    <include file="public@footer" />
+    <include file="public@scripts"/>
+    <hook name="before_body_end"/>
+</body>
+
+<include file="public@morejs"/>
+
+</html>
