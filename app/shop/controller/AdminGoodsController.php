@@ -319,44 +319,43 @@ class AdminGoodsController extends AdminBaseController
         }
         // 要删除的
 
-
 // dump($goods_spec);
 // die;
 
 
         // 处理属性 shop_goods_item 
         // 事实上无论是 goods_id,attr_id 还是 goods_id,av_id 都已经组成了唯一条件
-        // $post['more']['attr'] = $data['attr'];
-        $attrs_old =  $data['goods_attrs'];
-        // $attrs_old = json_decode($attrs_old,true);
-        $attrs_old = unserialize($attrs_old);
         $attrs = $data['attr'];//所有属性
         $gav = [];
-        if (!is_array($attrs_old)) {
-            $this->error('属性数据非法');
-        }
-        if (empty($attrs_old)) {
-            foreach ($attrs as $key => $row) {
-                $gav[] = ['goods_id'=>$id,'attr_id'=>$key,'av_id'=>$row];
-            // dump($gav);die;
+        if (!empty($attrs)) {
+            // $post['more']['attr'] = $data['attr'];
+            $attrs_old =  $data['goods_attrs'];
+            // $attrs_old = json_decode($attrs_old,true);
+            $attrs_old = unserialize($attrs_old);
+            if (!is_array($attrs_old)) {
+                $this->error('属性数据非法');
             }
-        } else {
-            // $old_ids = array_keys($attrs_old);
-            // $attr_ids = array_keys($attrs);
-            $old_ids = array_values($attrs_old);
-            $attr_ids = array_values($attrs);
-            // 比较两个数组差集
-            $diff1 = array_diff($old_ids,$attr_ids);
-            $diff2 = array_diff($attr_ids,$old_ids);
-            // 增加的 
-            if (!empty($diff2)) {
-                foreach ($diff2 as $row) {
-                    $gav[] = ['goods_id'=>$id,'attr_id'=>array_search($row, $attrs),'av_id'=>$row];
+            if (empty($attrs_old)) {
+                foreach ($attrs as $key => $row) {
+                    $gav[] = ['goods_id'=>$id,'attr_id'=>$key,'av_id'=>$row];
+                // dump($gav);die;
                 }
             } else {
-                $gav = [];
+                $old_ids = array_values($attrs_old);
+                $attr_ids = array_values($attrs);
+                // 比较两个数组差集
+                $diff1 = array_diff($old_ids,$attr_ids);
+                $diff2 = array_diff($attr_ids,$old_ids);
+                // 增加的 
+                if (!empty($diff2)) {
+                    foreach ($diff2 as $row) {
+                        $gav[] = ['goods_id'=>$id,'attr_id'=>array_search($row, $attrs),'av_id'=>$row];
+                    }
+                } else {
+                    $gav = [];
+                }
+                // 减少的用 delete() 解决，不更新
             }
-            // 减少的用 delete() 解决，不更新
         }
 
         // 其它项

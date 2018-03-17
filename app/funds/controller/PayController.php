@@ -61,21 +61,28 @@ class PayController extends HomeBaseController
             $time = Time::today();
             $where['create_time'] = [['>= time', $time[0]], ['<= time', $time[1]]];
             $where2['user_id'] = $userId;
-            $where2['action'] = $paysign;
+            $where2['action'] = 'recharge';
             $find = Db::name('news')->where($where)->where($where2)->count();
             if ($find>0) {
                 echo "exist";exit();
             }
+        } elseif ($paysign=='shop') {
+            $where = ['user_id'=>$userId, 'status'=>0, 'action'=>'shop'];
+            $find = Db::name('news')->where($where)->count();
+            if ($find>0) {
+                echo "exist";exit();
+            }
+            Db::name('shop_order')->where('id',$orderId)->setField('status',1);
         }
 
         $log = model('usual/News')->newsObject($paysign,$orderId);
-        $status = lothar_put_news($log);
+        $result = lothar_put_news($log);
 
-        if (empty($status)) {
+        if (empty($result)) {
             echo 'error';exit();
         }
-        echo $status;exit();
-        // return $status;
+        echo $result;exit();
+        // return $result;
     }
 
     /*

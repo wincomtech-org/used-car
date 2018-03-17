@@ -8,6 +8,17 @@
     <!-- 服务商城css -->
     <link href='__TMPL__/public/assets/css/shop.css' type="text/css" rel="stylesheet">
     <include file="public@head" />
+    <!-- 图片上传 -->
+    <script type="text/html" id="identity_card-item-tpl">
+        <li id="saved-identity_card{id}">
+            <input id="identity_card-{id}" type="hidden" name="photos[urls][]" value="{filepath}">
+            <img id="identity_card-{id}-preview" src="{url}" style="height:35px;width:35px;display:block;margin:0 auto;" onclick="imagePreviewDialog(this.src);">
+            <a href="javascript:uploadOneImage('图片上传','#identity_card-{id}');">替换</a>
+            <a href="javascript:(function(){$('#saved-identity_card{id}').remove();})();">移除</a>
+            <!-- <input class="form-control" id="identity_card-{id}-name" type="text" name="photos[names][]" value="{name}"
+                   style="" title="图片名称"> -->
+        </li>
+    </script>
 </head>
 
 <body>
@@ -25,7 +36,7 @@
                     <ul class='order-ul'>
                         <li class='order-li'>填写退换货</li>
                     </ul>
-                    <form action="">
+                    <form action="{:url('returns_detailPost')}" method="POST">
                         <ul class="returns_detail">
                             <li>
                                 <div class="returns-gr">
@@ -33,12 +44,16 @@
                                     <div class="returns-gr-con">
                                         <div class="hasImgTxt">
                                             <div class="img">
-                                                <img src="http://hcsinglyshop.wincomtech.cn/Public/upload/goods/thumb/45/goods_thumb_45_78_78.jpeg" alt="">
+                                                <empty name="vo.thumbnail">
+                                                    <img src="__TMPL__/public/assets/images/default-thumbnail_160x109.png" alt="">
+                                                <else/>
+                                                    <img src="{:cmf_get_image_preview_url($post.thumbnail)}" alt="">
+                                                </empty>
                                             </div>
                                             <div class="txt">
-                                                <h6>汽车配件金属电镀车门拉手外门把金属改装N3铁外拉手</h6>
-                                                <p class='return_dis'>混合金属材质结实耐用</p>
-                                                <p class='red-color'>￥80.00元</p>
+                                                <h6>{$post.goods_name}</h6>
+                                                <p class='return_dis'>{$post.spec_vars}</p>
+                                                <p class='red-color'>￥{$post.price}</p>
                                             </div>
                                         </div>
                                     </div>
@@ -52,21 +67,24 @@
                                             <dl>
                                                 <label class='hasLabel'>
                                                     <p class='hasLabelP'>
-                                                        <input type="radio" checked name='service-style' value='0'><span class='spc'></span></p>
+                                                        <input type="radio" checked name='type' value='1'><span class='spc'></span>
+                                                    </p>
                                                     <p class='hasLabel_span'>仅退款</p>
                                                 </label>
                                             </dl>
                                             <dl>
                                                 <label class='hasLabel'>
                                                     <p class='hasLabelP'>
-                                                        <input type="radio" name='service-style' value='1'><span class='spc'></span></p>
+                                                        <input type="radio" name='type' value='2'><span class='spc'></span>
+                                                    </p>
                                                     <p class='hasLabel_span'>退货退款</p>
                                                 </label>
                                             </dl>
                                             <dl>
                                                 <label class='hasLabel'>
                                                     <p class='hasLabelP'>
-                                                        <input type="radio" name='service-style' value='2'><span class='spc'></span></p>
+                                                        <input type="radio" name='type' value='3'><span class='spc'></span>
+                                                    </p>
                                                     <p class='hasLabel_span'>换货</p>
                                                 </label>
                                             </dl>
@@ -76,7 +94,20 @@
                                 <div class="returns-gr w50">
                                     <div class="returns-gr-tit">退款原因<b class='red-color'>*</b></div>
                                     <div class="returns-gr-con">
-                                        <div class="analogy">
+                                        <select name="reason" class="">
+                                            <option value="">请选择</option>
+                                            <!-- <option value="1">7天无理由退换货</option> -->
+                                            <option value="2">退运费</option>
+                                            <option value="3">颜色/尺寸/参数不符</option>
+                                            <option value="4">商品瑕疵</option>
+                                            <option value="5">质量问题</option>
+                                            <option value="6">少发/漏发</option>
+                                            <option value="7">收到商品时有划痕或破损</option>
+                                            <option value="8">假冒品牌</option>
+                                            <option value="9">未按约定时间发货</option>
+                                            <option value="10">发票问题</option>
+                                        </select>
+                                        <!-- <div class="analogy">
                                             <p class="analogy_tit">
                                                 <input name='return_reason' type="text" placeholder="请选择" class="placeholder" readonly="" required>
                                             </p>
@@ -91,7 +122,7 @@
                                                     <input value="七天无理由退换货" readonly="">
                                                 </li>
                                             </ul>
-                                        </div>
+                                        </div> -->
                                     </div>
                                 </div>
                             </li>
@@ -100,27 +131,35 @@
                                     <div class="returns-gr-tit">退款金额<b class='red-color'>*</b></div>
                                     <div class="returns-gr-con">
                                         <div class="returns_input hasMoney">
-                                            <input name='return_money' type="text" value="80" class="placeholder border-box" readonly="">
+                                            <input type="text" name="amount" value="{$post.price}" class="placeholder border-box" readonly>
                                         </div>
-                                        <div class='return_dis'>最多￥80.00，含发货邮费￥0.00</div>
+                                        <div class='return_dis'>最多￥{$post.price}，含发货邮费￥0.00</div>
                                     </div>
                                 </div>
-                                <div class="returns-gr w50">
+                                <!-- <div class="returns-gr w50">
+                                    <div class="returns-gr-tit">货物状态<b class='red-color'>*</b></div>
+                                    <div class="returns-gr-con">
+                                        <select name="goods_status" class="">
+                                            <option value="">请选择</option>
+                                            <option value="1">未收到货</option>
+                                            <option value="2">已收到货</option>
+                                        </select>
+                                    </div>
+                                </div> -->
+                                <!-- <div class="returns-gr w50">
                                     <div class="returns-gr-tit">快递单号<b class='red-color'>*</b></div>
                                     <div class="returns-gr-con">
                                         <div class="returns_input ">
                                             <input name='express' type="text" class='border-box' required minlength='9'>
                                         </div>
                                     </div>
-                                </div>
+                                </div> -->
                             </li>
                             <li>
                                 <div class="returns-gr">
                                     <div class="returns-gr-tit">退款说明</div>
                                     <div class="returns-gr-con">
-                                        <div class="returnMoney_say">
-                                            <textarea name="" id=""></textarea>
-                                        </div>
+                                        <textarea class="returnMoney_say" name="description" required></textarea>
                                     </div>
                                 </div>
                             </li>
@@ -135,15 +174,15 @@
                                                 </a>
                                                 <ul id="identity_card" class="pic-list list-unstyled form-inline upload-img-div">
                                                     <notempty name="verify.more.identity_card">
-                                                        <foreach name="verify.more.identity_card" item="vo">
-                                                            <li id="saved-identity_card{$key}">
-                                                                <input id="identity_card-{$key}" type="hidden" name="identity_card[urls][]" value="{$vo.url}" />
-                                                                <input id="identity_card-{$key}-name" type="text" name="identity_card[names][]" value="{$vo.name|default=''}" class="form-control" title="图片名称" />
-                                                                <img id="identity_card-{$key}-preview" src="{:cmf_get_image_preview_url($vo['url'])}" style="height:120px;width: 200px;" onclick="parent.imagePreviewDialog(this.src);">
-                                                                <a href="javascript:uploadOneImage('图片上传','#identity_card-{$key}');">替换</a>
-                                                                <a href="javascript:(function(){$('#saved-identity_card{$key}').remove();})();">移除</a>
-                                                            </li>
-                                                        </foreach>
+                                                    <foreach name="verify.more.identity_card" item="vo">
+                                                        <li id="saved-identity_card{$key}">
+                                                            <input id="identity_card-{$key}" type="hidden" name="photos[urls][]" value="{$vo.url}" />
+                                                            <input id="identity_card-{$key}-name" type="text" name="photos[names][]" value="{$vo.name|default=''}" class="form-control" title="图片名称" />
+                                                            <img id="identity_card-{$key}-preview" src="{:cmf_get_image_preview_url($vo.url)}" style="height:120px;width:200px;" onclick="parent.imagePreviewDialog(this.src);">
+                                                            <a href="javascript:uploadOneImage('图片上传','#identity_card-{$key}');">替换</a>
+                                                            <a href="javascript:(function(){$('#saved-identity_card{$key}').remove();})();">移除</a>
+                                                        </li>
+                                                    </foreach>
                                                     </notempty>
                                                 </ul>
                                             </div>
@@ -156,6 +195,8 @@
                                 <div class="returns-gr">
                                     <div class="returns-gr-tit"></div>
                                     <div class="returns-gr-con">
+                                        <input type="hidden" name="id" value="{$post.id}">
+                                        <input type="hidden" name="order_id" value="{$post.order_id}">
                                         <button type='submit' class='backg-red btn-style font16'>提交</button>
                                     </div>
                                 </div>
@@ -169,28 +210,15 @@
     <!-- 底部 -->
     <include file="public@footer" />
     <include file="public@scripts" />
-    <!-- 图片上传 -->
-    <script type="text/html" id="identity_card-item-tpl">
-        <li id="saved-identity_card{id}">
-            <input id="identity_card-{id}" type="hidden" name="identity_card[urls][]" value="{filepath}">
-            <img id="identity_card-{id}-preview" src="{url}" style="height:35px;width:35px;display:block;margin:0 auto;" onclick="imagePreviewDialog(this.src);">
-            <a href="javascript:uploadOneImage('图片上传','#identity_card-{id}');">替换</a>
-            <a href="javascript:(function(){$('#saved-identity_card{id}').remove();})();">移除</a>
-            <!-- <input class="form-control" id="identity_card-{id}-name" type="text" name="identity_card[names][]" value="{name}"
-                   style="" title="图片名称"> -->
-        </li>
-    </script>
-    <script>
+
+    <script type="text/javascript">
     // 快递单号失去焦点
-    function isKuaidi(express) {
+    /*function isKuaidi(express) {
         var pattern = /^[0-9]{12}$ | ^[a-z-A-Z]{2}[0-9]{9}[a-z-A-Z]{2}$ | ^[a-z-A-Z-0-9]{10}$ | ^[0-9]{13}$ | ^[0-9]{14}$/;
         return pattern.test(express);
     }
     $('input[name="express"]').blur(function() {
-
-
         var express = $('input[name="express"]').val();
-
         if (isKuaidi(express) == false) {
             $('input[name="express"]').parent().append('<span class="red-color font12">快递单号请填写正确</span>');
             return false;
@@ -198,8 +226,7 @@
     })
     $('input[name="express"]').focus(function() {
         $('input[name="express"]').parent().children('.font12').remove();
-    })
+    })*/
     </script>
 </body>
-
 </html>

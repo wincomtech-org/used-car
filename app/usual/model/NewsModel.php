@@ -125,6 +125,7 @@ class NewsModel extends Model
             'register'  => '注册',
             'user'      => '用户中心',
             'funds'     => '资金管理',
+            'shop'      => '服务商城',
         ];
 
         if ($option===false) {

@@ -1,0 +1,96 @@
+
+<!-- 各种状态 {*$order.status*} -->
+<div class="order-details-top">
+<switch name="order.status">
+    <case value="0">
+        <!-- 待付款 -->
+        <p class='orders-state'>当前订单状态：宝贝已拍下，请在3天内付款；若未及时付款，系统将自动取消订单。</p>
+        <ul class='orders-supply'>
+            <li>点击这里<a href="{:url('shop/Order/pay',['orderId'=>$order.id])}" class="btn-small backg-red border-r">付款</a></li>
+            <li>如果不想购买，可以<a href="{:url('cancel',['id'=>$order.id])}" class='blue-color js-ajax-dialog-btn' data-msg="确定取消吗？（无退还）">取消订单</a></li>
+        </ul>
+    </case>
+    <case value="1">
+        <!-- 待核实 -->
+        <p class='orders-state'>当前订单状态：您已付款，请等待管理员核实。</p>
+        <ul class='orders-supply'>
+            <li>付款24小时后如果一直不发货，您可以联系我们：<span class='orage-color'><b><big>{$site_info.site_tel}</big></b></span></li>
+        </ul>
+    </case>
+    <case value="2">
+        <!-- 待发货 -->
+        <p class='orders-state'>当前订单状态：您已付款，等待卖家核实后发货。</p>
+        <ul class='orders-supply'>
+            <li>付款24小时后如果一直不发货，您可以联系我们：<span class='orage-color'><b><big>{$site_info.site_tel}</big></b></span></li>
+        </ul>
+    </case>
+    <case value="3">
+        <!-- 待收货 -->
+        <p class='orders-state'>当前订单状态：商家已发货，等待您的收货确认。</p>
+        <ul class='orders-supply'>
+            <li>
+                请在 <span class='orage-color'><b><big>2018年4月30日前</big></b></span> 来确认收货，超时订单自动确认收货
+            </li>
+            <li>如果没有收到货，或收到货后出现问题，您可以联系卖家协商解决</li>
+            <li>
+                你可以 
+                <a href="{:url('receipt',['id'=>$order.id])}" class='btn-small backg-orange'>确认收货</a>
+                <a href="#AAA" class='blue-color'>申请退款</a>
+            </li>
+        </ul>
+    </case>
+    <case value="4">
+        <!-- 待评价 -->
+        <p class='orders-state'>当前订单状态：交易已成功；</p>
+        <ul class='orders-supply'>
+            <li>
+                交易成功，请给卖家 <a href="#AAA" class='blue-color'>评价</a>
+            </li>
+        </ul>
+    </case>
+</switch>
+</div>
+
+<!-- 物流信息 -->
+<!-- <div class='logistics'>
+    <p class="logistics-p">物流信息</p>
+    <ul class="logistics-ul">
+        <li class='logistics-li'>
+            <span class="logistics-span-tit">物流状态：</span>
+            <span class='logistics-span-con'>--</span>
+        </li>
+        <li class='logistics-li'>
+            <span class="logistics-span-tit">物流公司</span>
+            <span class='logistics-span-con'>--</span>
+        </li>
+        <li class='logistics-li'>
+            <span class="logistics-span-tit">运单号码</span>
+            <span class='logistics-span-con'>--</span>
+        </li>
+    </ul>
+</div> -->
+
+<!-- 物流信息 -->
+<in name="order.status" value="3,4,10">
+<div class='logistics' id="BBB">
+    <p class="logistics-p">物流信息</p>
+    <ul class="logistics-ul">
+        <!-- <li class='logistics-li'>
+            <span class="logistics-span-tit">运输状态：</span>
+            <span class='logistics-span-con'>运输中</span>
+        </li> -->
+        <li class='logistics-li'>
+            <span class="logistics-span-tit">物流公司：</span>
+            <span class='logistics-span-con'>{$order.ename}</span>
+        </li>
+        <li class='logistics-li'>
+            <span class="logistics-span-tit">运单号码：</span>
+            <span class='logistics-span-con'>{$order.tracking_no}</span>
+        </li>
+        <li class='logistics-li'>
+            <span class="logistics-span-tit">物流信息：</span>
+            {$logistics}
+        </li>
+    </ul>
+</div>
+</in>

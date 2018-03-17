@@ -22,15 +22,8 @@
             </ul>
             <div class="order-details">
                 <div class="order-details-mess">
-                    <!-- 各种状态 {*$order.status*} -->
-                    <include file="shop/detail_status{$order.status}" /><!-- 不解析 -->
-                    <switch name="order.status">
-                        <case value="0"><include file="shop/detail_status0" /></case>
-                        <case value="1"><include file="shop/detail_status1" /></case>
-                        <case value="2"><include file="shop/detail_status2" /></case>
-                        <case value="3"><include file="shop/detail_status3" /></case>
-                        <case value="4"><include file="shop/detail_status4" /></case>
-                    </switch>
+                    <!-- 各种状态 -->
+                    <include file="shop/detail_status" />
 
                     <!-- 订单信息 -->
                     <div class="shop_orders">
@@ -38,7 +31,7 @@
                             <li class='order-li'>订单信息</li>
                         </ul>
                         <dl class='order-dl'>
-                            <dt>订单地址：</dt>
+                            <dt>收货地址：</dt>
                             <dd>{$order.address} {$order.username}收 {$order.telephone}</dd>
                         </dl>
                         <!-- 运送方式 -->
@@ -96,10 +89,11 @@
                                             </div>
                                             <div class="order-intro">
                                                 <div class='order-trade-name'>
-                                                    <a href="">{$vo.goods_name}</a>
+                                                    <a href="javascript:void(0);">{$vo.goods_name}</a>
                                                 </div>
                                                 <div class='order-attributes'>
-                                                    <span>规格：{$vo.more}</span>
+                                                    <span>规格：{$vo.more|default='--'}</span>
+                                                    <a href="{:url('shop/Post/details',['id'=>$vo.goods_id])}">再次购买</a>
                                                     <a href="{:url('returns_detail',['id'=>$vo.id])}">申请售后</a>
                                                 </div>
                                             </div>
@@ -126,6 +120,7 @@
 
                         <!-- 移动端 屏幕1024一下的样式 -->
                         <div class="shops_order_m">
+                            <foreach name="list" item="vo">
                             <div class='shops-order-m-div'>
                                 <div class='order-list'>
                                     <dl class='order-list-tit'>
@@ -141,28 +136,31 @@
                                 <div class='order-list-con'>
                                     <div class='order-mess'>
                                         <div class="order-img">
-                                            <a href="">
-                                                <img src="http://hcsinglyshop.wincomtech.cn/Public/upload/goods/thumb/45/goods_thumb_45_78_78.jpeg" alt="">
-                                            </a>
+                                            <empty name="vo.thumbnail">
+                                                <img src="__TMPL__/public/assets/images/default-thumbnail_160x109.png" alt="">
+                                            <else/>
+                                                <img src="{:cmf_get_image_preview_url($vo.thumbnail)}" alt="">
+                                            </empty>
                                         </div>
                                         <div class="order-intro">
                                             <div class='order-trade-name'>
-                                                <a href="">华为 HUAWEI C199S 麦芒3S 电信4G智能手机FDD-LTE /TD-LTE/CDMA2000/GSM（麦芒）</a>
+                                                <a href="javascript:void(0);">{$vo.goods_name}</a>
                                             </div>
                                             <div class='order-attributes'>
-                                                <span>颜色分类：倍量加强版【苹果6电池】-送整套拆机工具+视频教程+质保3年</span>
+                                                <span>规格：{$vo.more|default='--'}</span>
+                                                <a href="{:url('shop/Post/details',['id'=>$vo.goods_id])}">再次购买</a>
+                                                <a href="{:url('returns_detail',['id'=>$vo.id])}">申请售后</a>
+                                                <a href="{:url('evaluate',['id'=>$vo.goods_id])}">评价</a>
                                             </div>
                                         </div>
                                         <div class="item-pay">
-                                            <p class='price'>1500.00</p>
-                                            <p class='price'>
-                                                <del>1000000.00</del>
-                                            </p>
-                                            <p class='amount small'>1</p>
+                                            <p class='price'>￥{$vo.price}</p>
+                                            <p class='amount small'>{$vo.number}</p>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+                            </foreach>
                             <dl class='o-total-price'>
                                 <span>总数: <b>{$order.nums}</b>件</span>
                                 <span>合计: <b>￥{$order.order_amount}</b>元</span>

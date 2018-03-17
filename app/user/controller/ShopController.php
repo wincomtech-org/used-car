@@ -3,6 +3,7 @@ namespace app\user\controller;
 
 // use app\user\model\UserModel;
 use cmf\controller\UserBaseController;
+use express\WorkPlugin;
 use think\Db;
 
 // use think\Validate;
@@ -25,15 +26,15 @@ class ShopController extends UserBaseController
     // 我的订单
     public function index()
     {
-        $os = $this->request->param('status');
+        $os     = $this->request->param('status');
         $userId = cmf_get_current_user_id();
 
-        $where = [];
+        $where = ['delete_time' => 0, 'buyer_uid' => $userId];
         if ($os !== null) {
             $where['status'] = $os;
         }
         // config('shop_order_status');
-        $orders = Db::name('shop_order')->where(['delete_time'=>0,'buyer_uid'=>$userId])->select();
+        $orders = Db::name('shop_order')->where($where)->select();
 
         $this->assign('orders', $orders);
         $this->assign('os', $os);
@@ -48,16 +49,32 @@ class ShopController extends UserBaseController
             $this->error('非法');
         }
         $order = Db::name('shop_order')->alias('a')
-            ->field('a.*,b.address,b.username,b.telephone')
-            ->join('shop_shipping_address b','a.address_id=b.id')
-            ->where('a.id',$id)
+            ->field('a.*,b.address,b.username,b.telephone,c.name as ename,c.code')
+            ->join([
+                ['shop_shipping_address b', 'a.address_id=b.id', 'LEFT'],
+                ['shop_express c', 'a.shipping_id=c.id', 'LEFT'],
+            ])
+            ->where('a.id', $id)
             ->find();
-        $order_list = Db::name('shop_order_detail')->where('order_id',$id)->select();
+        if (empty($order)) {
+            $this->error('数据出错');
+        }
+        $order_list = Db::name('shop_order_detail')->where('order_id', $id)->select();
+
+        // 物流信息
+        $typeCom = 'youzhengguonei';
+        $typeNu  = '9891835741800';
+        $express = new WorkPlugin($typeCom, $typeNu);
+        // $express = new WorkPlugin($order['code'],$order['tracking_no']);
+        $logistics = $express->workOrder();
+
 // dump($order);
-// dump($order_list);
-        // $order['status'] = 3;
-        $this->assign('order',$order);
-        $this->assign('list',$order_list);
+        // dump($order_list);
+        // die;
+        $order['status'] = 3;
+        $this->assign('order', $order);
+        $this->assign('list', $order_list);
+        $this->assign('logistics', $logistics);
         return $this->fetch();
     }
     // 取消订单
@@ -67,18 +84,40 @@ class ShopController extends UserBaseController
         if (empty($id)) {
             $this->error('非法');
         }
-
+        Db::name('shop_order')->where('id', $id)->setField('status', -1);
         $this->success('取消成功');
     }
-
+    // 删除订单
+    public function delete()
+    {
+        $id = $this->request->param('id/d');
+        if (empty($id)) {
+            $this->error('非法');
+        }
+        $find = Db::name('shop_order')->field('id,order_sn')->where('id',$id)->find();
+        $data = [
+            'object_id'   => $find['id'],
+            'create_time' => time(),
+            'table_name'  => 'ShopOrder',
+            'name'        => $find['order_sn']
+        ];
+        // $result = Db::name('shop_order')->where(['id' => $id])->update(['delete_time' => time()]);
+        $result = Db::name('shop_order')->where('id', $id)->setField('delete_time', time());
+        if ($result) {
+            Db::name('recycleBin')->insert($data);
+        }
+        $this->success('删除成功！','');
+    }
 
 /*积分兑换*/
-public function exchange()
-{
-    return $this->fetch();
-}
-
-
+    public function score()
+    {
+        return $this->fetch();
+    }
+    public function scoreEdit()
+    {
+        // return $this->fetch();
+    }
 
 /*订单处理*/
     // 确认收货
@@ -86,7 +125,7 @@ public function exchange()
     {
         $id = $this->request->param('id/d', 0, 'intval');
 
-        Db::name('shop_order')->where('id',$id)->setField('status',4);
+        Db::name('shop_order')->where('id', $id)->setField('status', 4);
         $this->success('确认成功');
     }
 
@@ -94,9 +133,9 @@ public function exchange()
     public function evaluateList()
     {
         $userId = cmf_get_current_user_id();
-        $list = Db::name('shop_evaluate')->where('user_id',$userId)->select();
+        $list   = Db::name('shop_evaluate')->where('user_id', $userId)->select();
 
-        $this->assign('list',$list);
+        $this->assign('list', $list);
         return $this->fetch();
     }
     public function evaluate()
@@ -120,7 +159,7 @@ public function exchange()
         $data = $this->request->param();
         $post = $data['eval'];
 // dump($data);die;
-
+        // 数据验证 validate()
         if (!empty($data['evaluate_image'])) {
             $post['evaluate_image'] = model('usual/Com')->dealFiles($data['evaluate_image']);
             $post['evaluate_image'] = json_encode($post['evaluate_image']);
@@ -142,21 +181,21 @@ public function exchange()
         if (empty($id)) {
             $this->error('该订单不存在');
         }
-        // 
+        //
         $logistics = [];
-        $this->assign('logistics',$logistics);
+        $this->assign('logistics', $logistics);
         return $this->fetch();
     }
 
     // 退换货
     public function returns()
     {
-        $id = $this->request->param('id/d',0,'intval');//订单的ID
+        $id     = $this->request->param('id/d', 0, 'intval'); //订单的ID
         $userId = cmf_get_current_user_id();
 
         $where = [
             'refund_status' => 1,
-            'buyer_uid' => $userId,
+            'buyer_uid'     => $userId,
         ];
         if (!empty($id)) {
             $where['id'] = $id;
@@ -169,31 +208,55 @@ public function exchange()
     // 退换货详情
     public function returns_detail()
     {
-        $id = $this->request->param('id/d', 0, 'intval');//订单详情的ID
+        $id = $this->request->param('id/d', 0, 'intval'); //订单详情的ID
 
-        $post = Db::name('shop_order')->where('id', $id)->find();
+        $post = Db::name('shop_order_detail')->alias('a')
+            ->field('a.*,b.spec_vars')
+            ->join('shop_goods_spec b', 'a.spec_id=b.id', 'LEFT')
+            ->where('a.id', $id)->find();
+// dump($post);
+//         die;
 
         $this->assign('post', $post);
         return $this->fetch();
+    }
+    public function returns_detailEdit()
+    {
+        // return $this->fetch('returns_detail');
     }
     public function returns_detailPost()
     {
         $data = $this->request->param();
         // $id = $this->request->param('id/d');
+        // 数据验证 validate()
         $post = [
-            'oid' => $id,
-            'type'=>$data['type'],
-            'reason'=>$data['reason'],
-            'description'=>$data['description'],
-            'amount'=>$data['amount'],
+            'detail_id'   => $data['id'],
+            'type'        => $data['type'],
+            'reason'      => $data['reason'],
+            'description' => $data['description'],
+            'amount'      => $data['amount'],
         ];
 
         if (!empty($data['photos'])) {
-            $post['more'] = '';
+            $post['more'] = model('usual/Com')->dealFiles($data['photos']);
         }
-
-        Db::name('shop_returns')->insert($post);
-        Db::name('shop_order')->where('id',$id)->setField('refund_status',1);
+// dump($data);
+// dump($post);
+// die;
+        $transStatus = true;
+        Db::startTrans();
+        try{
+            Db::name('shop_returns')->insert($post);
+            Db::name('shop_order')->where('id', $data['order_id'])->setField('refund_status', 1);
+            Db::commit();
+        } catch(\Exception $e) {
+            Db::rollback();
+            $transStatus = false;
+        }
+        if ($transStatus===true) {
+            $this->success('提交成功');
+        }
+        $this->error('提交失败');
     }
 
     // 消息管理
@@ -204,12 +267,11 @@ public function exchange()
         $where = [
             'user_id' => $userId,
         ];
-        $list = [];
-        $this->assign('list',$list);
+        $field = 'from_uid,to_uid,obj_type,obj_id,obj_name,obj_thumb,create_time,ip,status';
+        $list = Db::name('shop_news')->where('to_uid',$userId)->select();
+        $this->assign('list', $list);
         return $this->fetch();
     }
-
-
 
 /*收货地址管理*/
     public function address()
@@ -237,7 +299,8 @@ public function exchange()
         $data    = $this->request->param();
         $id      = $this->request->param('id/d', 0, 'intval');
         $is_main = $this->request->param('is_main/d', 0, 'intval');
-        // 验证数据
+
+        // 数据验证 validate()
         // dump($data);die;
         $addrSql = Db::name('shop_shipping_address');
         if ($is_main == 1) {

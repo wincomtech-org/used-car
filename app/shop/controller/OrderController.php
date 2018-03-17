@@ -104,10 +104,11 @@ class OrderController extends UserBaseController
     public function score()
     {
         $data = $this->request->param();
+        // $buy_sign = 3;
 
         echo "暂未开放";die;
         dump($data);
-
+        // $this->assign('buy_sign',$buy_sign);
         // return $this->fetch();
     }
 
@@ -129,46 +130,47 @@ class OrderController extends UserBaseController
     public function pay()
     {
         // dump($GLOBALS);die;
-        // 防止非POST方式
-        if (!$this->request->isPost()) {
-            $this->redirect('shop/Index/index');
-        }
+            $orderId = $this->request->param('orderId');
 
-        // 由立即购买、购物车结算发起
-        $data = $this->request->param();
-        // 防止重复提交
-        if (empty($data)) {
-            $this->redirect('shop/Index/index');
-        }
-        // if ($data['timestamp'] == session('timestamp')) {
-        //     session('timestamp', null);
-        // } else {
-        //     $this->redirect('user/Shop/Index', ['status' => 0]);
-        // }
-        $orderId = $this->request->param('orderId');
-        $userId  = cmf_get_current_user_id();
-
-        // 判断是否为购物车传过来的
-        // 检查购物车里有没有 有则需要在提交订单成功后删除,没有就不用管
-        $ids      = $data['ids'];
-        $cart_ids = array_column($ids, 'cart_id');
-        if (empty($cart_ids)) {
-            $jumpurl = url('shop/Post/details', ['id' => $ids[0]['goods_id']]);
-            if (empty($ids[0]['spec_id'])) {
-                $goods = Db::name('shop_goods')->field('id as goods_id,name as goods_name,price,thumbnail')->where(['id' => $ids[0]['goods_id']])->select()->toArray();
-            } else {
-                $goods = model('shop/ShopGoodsSpec')->getGoodsBySpec(['a.id' => $ids[0]['spec_id']]);
+        if (empty($orderId)) {
+            // 防止非POST方式
+            if (!$this->request->isPost()) {
+                $this->redirect('shop/Index/index');
             }
-        } else {
-            $jumpurl = url('shop/Cart/cartList');
-            $goods   = model('shop/ShopCart')->getCartList(['a.id' => ['in', $cart_ids]]);
-        }
+
+            // 由立即购买、购物车结算发起
+            $data = $this->request->param();
+            // 防止重复提交
+            if (empty($data)) {
+                $this->redirect('shop/Index/index');
+            }
+            // if ($data['timestamp'] == session('timestamp')) {
+            //     session('timestamp', null);
+            // } else {
+            //     $this->redirect('user/Shop/Index', ['status' => 0]);
+            // }
+            $userId  = cmf_get_current_user_id();
+
+            // 判断是否为购物车传过来的
+            // 检查购物车里有没有 有则需要在提交订单成功后删除,没有就不用管
+            $ids      = $data['ids'];
+            $cart_ids = array_column($ids, 'cart_id');
+            if (empty($cart_ids)) {
+                $jumpurl = url('shop/Post/details', ['id' => $ids[0]['goods_id']]);
+                if (empty($ids[0]['spec_id'])) {
+                    $goods = Db::name('shop_goods')->field('id as goods_id,name as goods_name,price,thumbnail')->where(['id' => $ids[0]['goods_id']])->select()->toArray();
+                } else {
+                    $goods = model('shop/ShopGoodsSpec')->getGoodsBySpec(['a.id' => $ids[0]['spec_id']]);
+                }
+            } else {
+                $jumpurl = url('shop/Cart/cartList');
+                $goods   = model('shop/ShopCart')->getCartList(['a.id' => ['in', $cart_ids]]);
+            }
 // dump($goods);
 // dump($data);
 // dump($cart_ids);
 // die;
 
-        if (empty($orderId)) {
             // shop_order ： id 或 order_sn 决定，索引 buyer_uid,seller_uid
             // shop_order_detail ： id 或 goods_id,spec_id 决定，索引 order_id
             $post = $data['order'];
@@ -255,7 +257,7 @@ class OrderController extends UserBaseController
             // });
 
         } else {
-            $order      = Db::name('shop_order')->field('*')->where('id', $orderId)->find();
+            $order      = Db::name('shop_order')->field('order_sn,order_amount')->where('id', $orderId)->find();
             // $order_list = Db::name('shop_order_detail')->field('*')->where('order_id', $orderId)->select();
             // dump($order);
             // dump($order_list);

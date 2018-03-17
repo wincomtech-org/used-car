@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50540
 File Encoding         : 65001
 
-Date: 2018-03-16 11:04:18
+Date: 2018-03-17 15:13:24
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -52,20 +52,19 @@ DROP TABLE IF EXISTS `cmf_shop_cart`;
 CREATE TABLE `cmf_shop_cart` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '购物车：清空则删除',
   `user_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '用户ID',
-  `spec_id` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT '商品对应规格值 ID，用于唯一性检测。0表示没有规格',
   `goods_id` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT '商品ID',
+  `spec_id` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT '商品对应规格值 ID，用于唯一性检测。0表示没有规格',
   `spec_vars` varchar(255) NOT NULL DEFAULT '' COMMENT '所选规格',
   `number` smallint(3) unsigned NOT NULL DEFAULT '1' COMMENT '数量',
   `price` decimal(10,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '售价',
   `market_price` decimal(10,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '市场价',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Records of cmf_shop_cart
 -- ----------------------------
-INSERT INTO `cmf_shop_cart` VALUES ('6', '3', '0', '4', 'null', '1', '40.00', '12.00');
-INSERT INTO `cmf_shop_cart` VALUES ('3', '1', '2', '6', '黑色L号', '1', '47.00', '56.00');
+INSERT INTO `cmf_shop_cart` VALUES ('4', '3', '0', '0', 'null', '3', '0.00', '0.00');
 
 -- ----------------------------
 -- Table structure for cmf_shop_category_attr
@@ -129,7 +128,7 @@ CREATE TABLE `cmf_shop_evaluate` (
   `status` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT '状态：1显示 0隐藏',
   PRIMARY KEY (`id`),
   KEY `star` (`star`)
-) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Records of cmf_shop_evaluate
@@ -139,6 +138,22 @@ INSERT INTO `cmf_shop_evaluate` VALUES ('2', '6', '1', '-1', '一般般', null, 
 INSERT INTO `cmf_shop_evaluate` VALUES ('3', '6', '3', '-1', '道具卡发到你看', null, '1520819952', '1');
 INSERT INTO `cmf_shop_evaluate` VALUES ('4', '6', '3', '1', '好爱', null, '1520912934', '1');
 INSERT INTO `cmf_shop_evaluate` VALUES ('5', '6', '3', '0', '个热热', '[{\"url\":\"http:\\/\\/tx.car\\/upload\\/shop\\/20180310\\/aea761a589577d5254cdbd4aabb4041b.jpg\",\"name\":\"\"},{\"url\":\"http:\\/\\/tx.car\\/upload\\/shop\\/20180310\\/aea761a589577d5254cdbd4aabb4041b.jpg\",\"name\":\"\"}]', '1520913311', '1');
+
+-- ----------------------------
+-- Table structure for cmf_shop_express
+-- ----------------------------
+DROP TABLE IF EXISTS `cmf_shop_express`;
+CREATE TABLE `cmf_shop_express` (
+  `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(150) NOT NULL DEFAULT '' COMMENT '快递名称',
+  `code` varchar(100) NOT NULL DEFAULT '' COMMENT '物流公司标识符（快递100）',
+  `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '状态： 1开启 0关闭',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- ----------------------------
+-- Records of cmf_shop_express
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for cmf_shop_gav
@@ -345,12 +360,33 @@ INSERT INTO `cmf_shop_goods_spec` VALUES ('1', '6', '白色M号', '45.00', '36.0
 INSERT INTO `cmf_shop_goods_spec` VALUES ('2', '6', '黑色L号', '56.00', '47.00', '333', null);
 
 -- ----------------------------
+-- Table structure for cmf_shop_news
+-- ----------------------------
+DROP TABLE IF EXISTS `cmf_shop_news`;
+CREATE TABLE `cmf_shop_news` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '消息表',
+  `from_uid` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '消息来源ID',
+  `to_uid` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '消息接收ID',
+  `obj_type` varchar(10) NOT NULL DEFAULT '' COMMENT '操作类型：',
+  `obj_id` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT '对象ID',
+  `obj_name` varchar(255) NOT NULL DEFAULT '' COMMENT '对象名',
+  `obj_thumb` varchar(1000) NOT NULL DEFAULT '' COMMENT '对象缩略图',
+  `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
+  `ip` char(15) NOT NULL DEFAULT '' COMMENT '操作IP',
+  `status` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '状态：0未读 1已读 2已处理',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- ----------------------------
+-- Records of cmf_shop_news
+-- ----------------------------
+
+-- ----------------------------
 -- Table structure for cmf_shop_order
 -- ----------------------------
 DROP TABLE IF EXISTS `cmf_shop_order`;
 CREATE TABLE `cmf_shop_order` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '订单编号',
-  `goods_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '车子ID（只有一种商品时）',
   `deal_uid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '处理人ID',
   `buyer_uid` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '买家ID',
   `address_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '买家收货信息',
@@ -359,11 +395,12 @@ CREATE TABLE `cmf_shop_order` (
   `order_sn` varchar(30) NOT NULL DEFAULT '' COMMENT '订单号',
   `order_name` varchar(150) NOT NULL DEFAULT '' COMMENT '订单名称',
   `order_desc` varchar(255) NOT NULL DEFAULT '' COMMENT '商品简述：规格集合',
-  `nums` tinyint(3) unsigned NOT NULL DEFAULT '1' COMMENT '商品总数',
+  `nums` smallint(5) unsigned NOT NULL DEFAULT '1' COMMENT '商品件数',
   `bargain_money` decimal(10,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '订金、预约金',
   `product_amount` decimal(10,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '商品总额',
   `order_amount` decimal(10,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '实付款',
-  `shipping_id` varchar(50) NOT NULL DEFAULT '' COMMENT '快递标识',
+  `coupon_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '优惠券ID',
+  `shipping_id` smallint(6) unsigned NOT NULL DEFAULT '0' COMMENT '快递标识ID',
   `tracking_no` varchar(30) NOT NULL DEFAULT '' COMMENT '快递单号',
   `shipping_fee` decimal(10,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '快递费',
   `pay_id` varchar(30) NOT NULL DEFAULT '' COMMENT '支付标识：cash余额 alipay支付宝 wxpay微信',
@@ -378,14 +415,16 @@ CREATE TABLE `cmf_shop_order` (
   `pay_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '支付时间',
   `end_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '完成时间：确认收货后',
   `delete_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '删除时间',
-  `status` tinyint(3) NOT NULL DEFAULT '0' COMMENT '订单状态：-11过期,-2卖家取消,-1买家取消,0待付款,1待发货,2待收货,3待评价,10完成',
+  `status` tinyint(3) NOT NULL DEFAULT '0' COMMENT '订单状态：-11过期,-2卖家取消,-1买家取消,0待付款,1待审查,2待发货,3待收货,4待评价,10完成',
   `more` text COMMENT '拓展数据：',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='服务商城订单表';
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COMMENT='服务商城订单表';
 
 -- ----------------------------
 -- Records of cmf_shop_order
 -- ----------------------------
+INSERT INTO `cmf_shop_order` VALUES ('1', '0', '3', '1', '0', '', 'shop_2018031698545497', '', '', '2', '0.00', '76.00', '73.00', '2', '0', '', '0.00', '', '0.00', '', '0', '', '', '127.0.0.1', '1521171835', '0', '0', '0', '0', '0', null);
+INSERT INTO `cmf_shop_order` VALUES ('2', '0', '3', '1', '0', '', 'shop_2018031648515456', '', '', '1', '0.00', '94.00', '94.00', '0', '0', '', '0.00', '', '0.00', '', '0', '', '', '127.0.0.1', '1521178320', '0', '0', '0', '0', '0', null);
 
 -- ----------------------------
 -- Table structure for cmf_shop_order_detail
@@ -396,17 +435,70 @@ CREATE TABLE `cmf_shop_order_detail` (
   `order_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '订单编号',
   `spec_id` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT '规格ID，为0表示没有规格',
   `goods_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '对象编号，商品ID',
-  `goods_name` varchar(100) NOT NULL DEFAULT '' COMMENT '对象名称',
   `goods_type` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT '对象类型：1实物（physical），2虚拟（virtual）',
+  `goods_name` varchar(100) NOT NULL DEFAULT '' COMMENT '对象名称',
+  `thumbnail` varchar(1000) NOT NULL DEFAULT '' COMMENT '商品缩略图，主图',
   `number` smallint(6) unsigned NOT NULL DEFAULT '1' COMMENT '数量',
   `price` decimal(10,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '单价',
   `code_type` varchar(20) NOT NULL DEFAULT '' COMMENT '用于增值服务code记录',
   `more` text COMMENT '拓展属性',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='服务商城订单详情表';
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COMMENT='服务商城订单详情表';
 
 -- ----------------------------
 -- Records of cmf_shop_order_detail
+-- ----------------------------
+INSERT INTO `cmf_shop_order_detail` VALUES ('1', '1', '1', '6', '1', '邓禄普汽车轮胎SP T1 195/65R15 91H 本田思域适配包安装', '', '1', '36.00', '', null);
+INSERT INTO `cmf_shop_order_detail` VALUES ('2', '1', '0', '4', '1', '福田欧曼座椅汽车原厂配件 欧曼ETX气囊主座椅坐垫 海绵垫座垫', '', '1', '40.00', '', null);
+INSERT INTO `cmf_shop_order_detail` VALUES ('3', '2', '2', '6', '1', '邓禄普汽车轮胎SP T1 195/65R15 91H 本田思域适配包安装', '', '2', '47.00', '', null);
+
+-- ----------------------------
+-- Table structure for cmf_shop_order_score
+-- ----------------------------
+DROP TABLE IF EXISTS `cmf_shop_order_score`;
+CREATE TABLE `cmf_shop_order_score` (
+  `id` bigint(20) NOT NULL,
+  `buyer_uid` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '买家ID',
+  `address_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '收货地址ID',
+  `seller_uid` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '卖家ID',
+  `goods_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '商品ID',
+  `order_sn` varchar(30) DEFAULT '' COMMENT '订单号',
+  `order_name` varchar(150) NOT NULL DEFAULT '' COMMENT '订单名，商品名称',
+  `thumbnail` varchar(1000) NOT NULL DEFAULT '' COMMENT '缩略图',
+  `spec_vars` varchar(255) NOT NULL DEFAULT '' COMMENT '规格值集合',
+  `nums` smallint(5) unsigned NOT NULL DEFAULT '1' COMMENT '件数',
+  `score` decimal(10,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '使用的积分数',
+  `shipping_id` smallint(6) unsigned NOT NULL DEFAULT '0' COMMENT '快递标识ID',
+  `tracking_no` varchar(30) NOT NULL DEFAULT '' COMMENT '快递单号',
+  `ip` char(15) NOT NULL DEFAULT '' COMMENT '客户下单IP',
+  `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '下单时间',
+  `pay_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '支付时间',
+  `delete_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '删除时间',
+  `status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '兑换状态： 0未兑换  1已兑换',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- ----------------------------
+-- Records of cmf_shop_order_score
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for cmf_shop_returns
+-- ----------------------------
+DROP TABLE IF EXISTS `cmf_shop_returns`;
+CREATE TABLE `cmf_shop_returns` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '退款申请表',
+  `detail_id` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT '订单详情ID',
+  `type` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT '1仅退款 2退货退款 3换货',
+  `reason` tinyint(3) NOT NULL DEFAULT '0' COMMENT '退款原因',
+  `description` varchar(255) NOT NULL DEFAULT '' COMMENT '退款说明',
+  `amount` decimal(10,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '退款金额',
+  `more` text COMMENT '上传凭证',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='服务商城退款表';
+
+-- ----------------------------
+-- Records of cmf_shop_returns
 -- ----------------------------
 
 -- ----------------------------

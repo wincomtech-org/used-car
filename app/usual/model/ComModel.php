@@ -179,7 +179,8 @@ class ComModel extends Model
     public function dealFiles($files=['names'=>[],'urls'=>[]], $pk='')
     {
         $post = [];
-        $names = $files['names']; $urls = $files['urls'];
+        $names = isset($files['names'])?$files['names']:'';
+        $urls = $files['urls'];
         if (!empty($names) && !empty($urls)) {
             foreach ($urls as $key => $url) {
                 $relative_url = cmf_asset_relative_url($url);
