@@ -4,6 +4,11 @@
 ㈠㈡㈢㈣㈤
 *.
 
+3.17
+在banner.html里添加了懒加载的jq代码，懒加载的代码在通用的js下lazyload.js
+<img  class="image-item"  lazyload="true" data-original="地址" alt="">
+应该也可以给个默认图 src='默认图片'
+
 流程图：
     https://www.processon.com/view/link/59cc6eb9e4b06e9fd2f745d4
     密码：1234

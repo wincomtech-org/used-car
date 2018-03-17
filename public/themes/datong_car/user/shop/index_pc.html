@@ -3,13 +3,12 @@
     <table class='shops-order-tab'>
         <thead>
             <tr>
-                <th class='col-pro-img ma-0'></th>
-                <th class='col-pro ma-1'>商品</th>
-                <th class='col-pro ma-2'>数量</th>
-                <th class='col-pro ma-3'>总价</th>
-                <th class='col-pro ma-4'>实付款</th>
-                <th class='col-pro ma-5'>状态</th>
-                <th class='col-pro ma-6'>操作</th>
+                <th class='col-pro-img ma1-0'></th>
+                <th class='col-pro ma1-1'>商品</th>
+                <th class='col-pro ma1-2'>数量</th>
+                <th class='col-pro ma1-3'>总价</th>
+                <th class='col-pro ma1-4'>实付款</th>
+                <th class='col-pro ma1-5'>操作</th>
             </tr>
         </thead>
     </table>
@@ -17,20 +16,20 @@
         <table class='shops-order-tab'>
             <tbody class='order-list'>
                 <tr class='order-list-tit'>
-                    <td class='ma-0'>
+                    <td class='ma1-0'>
                         <input type="checkbox">
                     </td>
-                    <td class='ma-1' colspan='5'>
+                    <td class='ma1-1' colspan='5'>
                         <span class="time">{:date('Y-m-d H:i:s',$vo.create_time)}</span>
                         <span class="order-goods">
                         订单号：<a href="javascript:void(0);">{$vo.order_sn}</a>
                     </span>
                     </td>
-                    <td class='ma-6'></td>
+                    <td class='ma1-5'></td>
                 </tr>
                 <tr class='order-list-con'>
-                    <td class='ma-0'></td>
-                    <td class='ma-1'>
+                    <td class='ma1-0'></td>
+                    <td class='ma1-1'>
                         <div class="order-img">
                             <a href="{:url('Shop/detail',['id'=>$vo.id])}">
                                 <empty name="vo.thumbnail">
@@ -50,44 +49,50 @@
                             </div>
                         </div>
                     </td>
-                    <td class='ma-2'>{$vo.nums}</td>
-                    <td class='ma-3'>￥{$vo.product_amount}</td>
-                    <td class='ma-4'>
+                    <td class='ma1-2'>{$vo.nums}</td>
+                    <td class='ma1-3'>￥{$vo.product_amount}</td>
+                    <td class='ma1-4'>
                         ￥{$vo.order_amount}
                         <br/><i class='small'>(含运费:0.00)</i></td>
                     <td class='ma-5'>
-                        <div class="trading-status group-a">
-                            <sapn>{$statusV[$vo.status]}</sapn>
-                            <a href="{:url('detail',['id'=>$vo.id])}">订单详情</a>
-                            <in name="vo.status" value="3,4,10">
-                            <a href="{:url('detail',['id'=>$vo.id])}#BBB" class='orage-color'>查看物流</a>
-                            </in>
-                        </div>
+                        
                     </td>
-                    <td class='ma-6'>
-                        <div class="order-state group-a">
-                            <eq name="vo.status" value="0">
-                                <a class='btn-style backg-red' href="{:url('shop/Order/pay',['orderId'=>$vo.id])}">立即支付</a>
-                            </eq>
-                            <eq name="vo.status" value="4">
-                                <a href="{:url('detail',['id'=>$vo.id])}#AAA" class='btn-style backg-border'>评价</a>
-                            </eq>
-                            <if condition="in_array($vo['status'],[2,3,4,10]) && $vo['refund_status'] eq 0">
-                                <a href="{:url('detail',['id'=>$vo.id])}#AAA">退货/退款</a>
-                            </if>
-                            
-                            <in name="vo.status" value="0,1,2">
-                                <a href="{:url('cancel',['id'=>$vo.id])}" class='backg-orange btn-style js-ajax-dialog-btn' data-msg="确定取消吗？（无退还）">取消订单</a>
-                            </in>
-                            <in name="vo.status" value="3,4,10">
-                                <a href="{:url('delete',['id'=>$vo.id])}" class='backg-orange btn-style js-ajax-delete' data-msg="确定删除吗？">删除订单</a>
-                            </in>
-                            
-                        </div>
-                    </td>
+                    
                 </tr>
             </tbody>
         </table>
+        <div class="toal_table_foot clearfix">
+            <div class="trading-status group-a toal_table_foot_div">
+               <p>商品总价：<span class='red'>42000</span></p>
+               <p>商品总价：<span class='red'>42000</span></p>
+               <p>商品总价：<span class='red'>42000</span></p>
+               <p>商品总价：<span class='red'>42000</span></p>
+            </div>
+            <div class="order-state group-a toal_table_foot_div">
+                    <span>{$statusV[$vo.status]}</span>
+                    <a href="{:url('detail',['id'=>$vo.id])}">订单详情</a>
+                    <in name="vo.status" value="3,4,10">
+                    <a href="{:url('detail',['id'=>$vo.id])}#BBB" class='orage-color'>查看物流</a>
+                    </in>
+                <eq name="vo.status" value="0">
+                    <a class='btn-style backg-red' href="{:url('shop/Order/pay',['orderId'=>$vo.id])}">立即支付</a>
+                </eq>
+                <eq name="vo.status" value="4">
+                    <a href="{:url('detail',['id'=>$vo.id])}#AAA" class='btn-style backg-border'>评价</a>
+                </eq>
+                <if condition="in_array($vo['status'],[2,3,4,10]) && $vo['refund_status'] eq 0">
+                    <a href="{:url('detail',['id'=>$vo.id])}#AAA">退货/退款</a>
+                </if>
+                
+                <in name="vo.status" value="0,1,2">
+                    <a href="{:url('cancel',['id'=>$vo.id])}" class='backg-orange btn-style js-ajax-dialog-btn' data-msg="确定取消吗？（无退还）">取消订单</a>
+                </in>
+                <in name="vo.status" value="3,4,10">
+                    <a href="{:url('delete',['id'=>$vo.id])}" class='backg-orange btn-style js-ajax-delete' data-msg="确定删除吗？">删除订单</a>
+                </in>
+                
+            </div>
+        </div> 
     </foreach>
     
 </div>

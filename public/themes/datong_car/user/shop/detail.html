@@ -61,6 +61,7 @@
                                         <th class='col-pro ma-1'>商品</th>
                                         <th class='col-pro ma-2'>价格</th>
                                         <th class='col-pro ma-3'>数量</th>
+                                        <th class='col-pro ma-4'>操作</th>
                                     </tr>
                                 </thead>
                             </table>
@@ -69,13 +70,13 @@
                                 <tbody class='order-list'>
                                     <tr class='order-list-tit'>
                                         <td class='ma-0'></td>
-                                        <td class='ma-1' colspan='5'>
+                                        <td class='ma-1' colspan='3'>
                                             <!-- <span class="time">2018-01-10 09:40:22</span>
                                             <span class="order-goods">
                                                 订单号：<a href="">201801100940222779</a>
                                             </span> -->
                                         </td>
-                                        <td class='ma-6'></td>
+                                        <td class='ma-4'></td>
                                     </tr>
                                     <tr class='order-list-con'>
                                         <td class='ma-0'></td>
@@ -100,6 +101,12 @@
                                         </td>
                                         <td class='ma-2'>￥{$vo.price}</td>
                                         <td class='ma-3'>{$vo.number}</td>
+                                        <td class='ma-4'>
+                                            <div class="order-state group-a ">
+                                                <a href="">操作1</a>
+                                                <a href="" class='orage-color'>操作2</a>
+                                            </div>
+                                        </td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -134,7 +141,7 @@
                                     </dl>
                                 </div>
                                 <div class='order-list-con'>
-                                    <div class='order-mess'>
+                                    <div class='order-mess clearfix'>
                                         <div class="order-img">
                                             <empty name="vo.thumbnail">
                                                 <img src="__TMPL__/public/assets/images/default-thumbnail_160x109.png" alt="">
@@ -142,21 +149,31 @@
                                                 <img src="{:cmf_get_image_preview_url($vo.thumbnail)}" alt="">
                                             </empty>
                                         </div>
-                                        <div class="order-intro">
-                                            <div class='order-trade-name'>
-                                                <a href="javascript:void(0);">{$vo.goods_name}</a>
+                                        <div class='orderHasEdit'>
+                                            <div class="order-intro">
+                                                <div class='order-trade-name'>
+                                                    <a href="javascript:void(0);">{$vo.goods_name}</a>
+                                                </div>
+                                                <div class='order-attributes'>
+                                                    <span>规格：{$vo.more|default='--'}</span>
+                                                    <a href="{:url('shop/Post/details',['id'=>$vo.goods_id])}">再次购买</a>
+                                                    <a href="{:url('returns_detail',['id'=>$vo.id])}">申请售后</a>
+                                                    <a href="{:url('evaluate',['id'=>$vo.goods_id])}">评价</a>
+                                                </div>
                                             </div>
-                                            <div class='order-attributes'>
-                                                <span>规格：{$vo.more|default='--'}</span>
-                                                <a href="{:url('shop/Post/details',['id'=>$vo.goods_id])}">再次购买</a>
-                                                <a href="{:url('returns_detail',['id'=>$vo.id])}">申请售后</a>
-                                                <a href="{:url('evaluate',['id'=>$vo.goods_id])}">评价</a>
+                                            <div class="item-pay">
+                                                <p class='price'>￥{$vo.price}</p>
+                                                <p class='amount small'>{$vo.number}</p>
                                             </div>
                                         </div>
-                                        <div class="item-pay">
-                                            <p class='price'>￥{$vo.price}</p>
-                                            <p class='amount small'>{$vo.number}</p>
-                                        </div>
+                                    </div>
+                                    <div class='o-tab-btn'>
+                                           
+                                        <a href="" class='backg-border'>操作1</a>
+                                        <a href="" class='backg-border'>操作1</a>
+                                        <a href="" class='backg-border'>操作1</a>
+                                        <a href="" class='backg-border'>操作1</a>
+                                        <a href="" class='backg-border'>操作1</a>
                                     </div>
                                 </div>
                             </div>
