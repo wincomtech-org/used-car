@@ -13,7 +13,7 @@
                 </dl>
             </div>
             <div class='order-list-con'>
-                <div class='order-mess'>
+                <div class='order-mess clearfix'>
                     <div class="order-img">
                         <a href="{:url('Shop/detail',['id'=>$vo.id])}">
                             <empty name="vo.thumbnail">
@@ -43,7 +43,41 @@
                         </div>
                     </div>
                 </div>
+                <div class='order-mess'>
+                    <div class="order-img clearfix">
+                        <a href="{:url('Shop/detail',['id'=>$vo.id])}">
+                            <empty name="vo.thumbnail">
+                                <img src="__TMPL__/public/assets/images/default-thumbnail_160x109.png" alt="">
+                                <else/>
+                                <img src="{:cmf_get_image_preview_url($vo.thumbnail)}" alt="">
+                            </empty>
+                        </a>
+                    </div>
+                    <div class="orderHasEdit">
+                        <div class="order-intro">
+                            <div class='order-trade-name'>
+                                <a href="{:url('Shop/detail',['id'=>$vo.id])}">{$vo.order_name}</a>
+                            </div>
+                            <div class='order-attributes'>
+                                <span>{$vo.order_desc}</span>
+                                <span>{$vo.coupon_id?='使用了优惠券'}</span>
+                            </div>
+                        </div>
+                        <div class="item-pay">
+                            <p class='amount small'>{$vo.nums}</p>
+                            <p class='price'>{$vo.order_amount}</p>
+                            <p class='price'>
+                                <del>{$vo.product_amount}</del>
+                            </p>
+                        </div>
+                    </div>
+                </div>
 
+                <dl class="o-total-price">
+                    <span>总数: <b>2</b>件</span>
+                    <span>合计: <b>￥73.00</b>元</span>
+                    <span>含运费（<b>0.00</b>）</span>
+                </dl>
                 <div class='o-tab-btn'>
                     <eq name="vo.status" value="0">
                         <a href="{:url('shop/Order/pay',['orderId'=>$vo.id])}" class='backg-border'>立即支付</a>
@@ -67,6 +101,7 @@
                     <a href="{:url('detail',['id'=>$vo.id])}" class='backg-border'>订单详情</a>
                 </div>
             </div>
+            
         </div>
     </foreach>
 

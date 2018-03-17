@@ -28,23 +28,23 @@
     <!-- 公司简介 -->
     <section class="company_introduce">
         <div class="main">
-            <div class="logo"><a href="/about/19.html"><img src="__TMPL__/public/assets/images/logo_big.png" alt=""></a></div>
+            <div class="logo"><a href="/about/19.html"><img  class="image-item"  lazyload="true" data-original="__TMPL__/public/assets/images/logo_big.png" alt=""></a></div>
             <div class="introduce">大通车服是一家提供各种车险服务，二手车买卖，检车预约等车辆服务的公司，致力于为广大车友提供最便捷，最安全，最省心的服务。</div>
             <ul class="compay_icon">
                 <li class="company_item">
-                    <img src="__TMPL__/public/assets/images/example/icon_01.png" alt="">
+                    <img   class="image-item"  lazyload="true" data-original="__TMPL__/public/assets/images/example/icon_01.png" alt="" >
                     <p>专一的服务理念</p>
                 </li>
                 <li class="company_item">
-                    <img src="__TMPL__/public/assets/images/example/icon_02.png" alt="">
+                    <img  class="image-item"  lazyload="true" data-original="__TMPL__/public/assets/images/example/icon_02.png" alt="" >
                     <p>齐全的保险服务</p>
                 </li>
                 <li class="company_item">
-                    <img src="__TMPL__/public/assets/images/example/icon_03.png" alt="">
+                    <img  class="image-item"  lazyload="true" data-original="__TMPL__/public/assets/images/example/icon_03.png" alt="" >
                     <p>透明的交易流程</p>
                 </li>
                 <li class="company_item">
-                    <img src="__TMPL__/public/assets/images/example/icon_04.png" alt="">
+                    <img  class="image-item"  lazyload="true" data-original="__TMPL__/public/assets/images/example/icon_04.png" alt="" >
                     <p>放心的售后服务</p>
                 </li>
             </ul>
@@ -61,7 +61,7 @@
                     <foreach name="insurances" item="vo">
                     <li class="Insurance_recommendation_item">
                         <a href="{:cmf_url('insurance/Post/step1',['id'=>$vo.id])}">
-                            <div class="img"><img src="{:cmf_get_image_preview_url($vo.more.thumbnail)}" alt=""></div>
+                            <div class="img"><img class="image-item"  lazyload="true" data-original="{:cmf_get_image_preview_url($vo.more.thumbnail)}" alt="" ></div>
                             <div class="txt">
                                 <p><a >{$vo.description}</a></p>
                                 <span><a >{$vo.desc2}</a></span>
@@ -94,7 +94,7 @@
                             <foreach name="vo.children" item="child">
                             <li class="vehicle_con_detail_items">
                                 <div class="img"><a href="{:cmf_url('trade/Post/details',['id'=>$child.id])}">
-                                    <img src="{:url('thumbUrl',['img'=>urlencode($child.more.thumbnail),'w'=>283,'h'=>195])}" alt="">
+                                    <img class="image-item"  lazyload="true" data-original="{:url('thumbUrl',['img'=>urlencode($child.more.thumbnail),'w'=>283,'h'=>195])}" alt="" >
                                 </a></div>
                                 <div class="txt">
                                     <h6><a href="{:cmf_url('trade/Post/details',['id'=>$child.id])}">{$child.name}</a></h6>
@@ -118,7 +118,7 @@
                     <span>在线审批手续便捷</span>
                     <span>提供牌照省心省力</span>
                     <div class="img">
-                        <img src="__TMPL__/public/assets/images/example/icon_05.png" alt="">
+                        <img class="image-item"  lazyload="true" data-original="__TMPL__/public/assets/images/example/icon_05.png" alt="" >
                         <a href="{:cmf_url('trade/Index/index')}"> 立刻拥有 >> </a>
                     </div>
                 </div>
@@ -128,7 +128,7 @@
                     <span>在线审批手续便捷</span>
                     <span>提供牌照省心省力</span>
                     <div class="img">
-                        <img src="__TMPL__/public/assets/images/example/icon_06.png" alt="">
+                        <img class="image-item"  lazyload="true" data-original="__TMPL__/public/assets/images/example/icon_06.png" alt="" class='lazy'>
                         <a href="{:cmf_url('trade/Index/index')}"> 立刻拥有 >> </a>
                     </div>
                 </div>
@@ -153,7 +153,7 @@
                                 <foreach name="vo.children" item="child">
                                 <li class="vehicle_con_detail_items">
                                     <div class="img"><a href="{:url('trade/Post/details',['id'=>$child.id])}">
-                                        <img src="{:url('thumbUrl',['img'=>urlencode($child.more.thumbnail),'w'=>283,'h'=>195])}" alt="">
+                                        <img class="image-item"  lazyload="true" data-original="{:url('thumbUrl',['img'=>urlencode($child.more.thumbnail),'w'=>283,'h'=>195])}" alt="">
                                     </a></div>
                                     <div class="txt">
                                         <h6><a href="{:url('trade/Post/details',['id'=>$child.id])}">{$child.name}</a></h6>
@@ -194,7 +194,7 @@
                 <foreach name="article_flows" item="vo" key="key">
                     <li class="car_process_tit_item {$key==0?='active'}">
                         <div>
-                            <img src="{:cmf_get_image_preview_url($vo.more.thumbnail)}" alt="">
+                            <img class="image-item"  lazyload="true" data-original="{:cmf_get_image_preview_url($vo.more.thumbnail)}" alt="">
                             <p style="cursor:pointer;">{$vo.post_title}</p>
                         </div>
                     </li>
@@ -214,7 +214,7 @@
                         <div class="i_imglist">
                             <ul id="J_imgList">
                                 <foreach name="services" item="vo" >
-                                <li><a href="{:cmf_url('service/Index/step1',['id'=>$vo.id])}"><img src="{:cmf_get_image_preview_url($vo.more.thumbnail)}" alt="{$vo.name}" title="{$vo.name}" /></a></li>
+                                <li><a href="{:cmf_url('service/Index/step1',['id'=>$vo.id])}"><img class="image-item"  lazyload="true" data-original="{:cmf_get_image_preview_url($vo.more.thumbnail)}" alt="{$vo.name}" title="{$vo.name}" /></a></li>
                                 </foreach>
                             </ul>
                         </div><!--切换大图-->
@@ -295,5 +295,24 @@
      $(document).ready(function(){
         $('.flicker-example').flicker();
     });
+   
+    var num = document.getElementsByTagName('img').length;
+    var img = document.getElementsByTagName("img");
+    var n = 0; //存储图片加载到的位置，避免每次都从第一张图片开始遍历
+    lazyload(); //页面载入完毕加载可是区域内的图片
+    window.onscroll = lazyload;
+    function lazyload() { //监听页面滚动事件
+        var seeHeight = document.documentElement.clientHeight; //可见区域高度
+        var scrollTop = document.documentElement.scrollTop || document.body.scrollTop; //滚动条距离顶部高度
+        for (var i = n; i < num; i++) {
+            if (img[i].offsetTop < seeHeight + scrollTop) {
+                if (img[i].getAttribute("src") == "default.jpg") {
+                    img[i].src = img[i].getAttribute("data-src");
+                }
+                n = i + 1;
+            }
+        }
+    }
+
 </script>
 </html>

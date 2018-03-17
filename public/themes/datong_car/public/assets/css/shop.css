@@ -340,6 +340,9 @@
     .hasImgTxt .txt{width:100%;}
     .returns-gr-tit{font-size:14px;}
     .returns-gr  .analogy p input{font-size:14px;}
+
+    /* 订单详情物流 */
+    .srcoll_logis{overflow:scroll;width:100%;}
 }
 @media screen and (max-width:500px){
     .eval-le1{width:100%;padding:0;border-bottom:1px solid #ddd;}
@@ -414,8 +417,6 @@
 }
 @media screen and (max-width:375px){
     .logn_div:first-child{margin-bottom:10px;}
-}
-@media screen and (max-width:374px){
 }
 
 /* 列表内容 */
@@ -540,7 +541,7 @@
 .wddd-li{padding:18px 3px 30px;}
 .wddd-li ul li{float:left;margin:0 20px;font-size:14px;}
 .wddd-li ul li.red a{color:#d00000;}
-.shops-order-tab{width:100%;font-size:14px;margin-bottom:10px;border-collapse:collapse;}
+.shops-order-tab{width:100%;font-size:14px;border-collapse:collapse;}
 .shops-order-tab thead{background-color:#f5f5f5;}
 .shops-order-tab th{height:40px;font-weight:normal;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;-ms-box-sizing:border-box;-o-box-sizing:border-box;box-sizing:border-box;}
 .shops-order-tab td{vertical-align:middle;padding:15px 5px;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;-ms-box-sizing:border-box;-o-box-sizing:border-box;box-sizing:border-box;}
@@ -620,6 +621,7 @@
 .order-trade-name{
     height:35px;
     overflow:hidden;
+    padding-top:8px;
 }
 .order-trade-name a{
     line-height:1.4;
@@ -644,9 +646,10 @@
 }
 .shops-order-tab tbody{
     border:1px solid #daf3ff;
+    border-bottom:none;
 }
 .shops-order-m-div{
-    padding-bottom:10px;
+    padding-bottom:20px;
 }
 .order-list input{
     background-color:transparent;
@@ -828,7 +831,7 @@
 /* 订单详情订单信息 */
 .order-dd-list{padding-left:80px;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;-ms-box-sizing:border-box;-o-box-sizing:border-box;box-sizing:border-box;}
 .order-ul-mess:after{content:"";display:block;clear:both;}
-.order-li-mess{float:left;width:33.33%;margin:10px 0;text-align:center;line-height:1.6;}
+.order-li-mess{float:left;width:50%;margin:10px 0;text-align:center;line-height:1.6;}
 
 /* 确认收货 */
 .cofimReceipt-buc{border:1px solid #C60;padding:1rem 3rem 3rem;width:-webkit-calc(100% - 76px);width:-moz-calc(100% - 76px);width:-ms-calc(100% - 76px);width:-o-calc(100% - 76px);width:calc(100% - 76px);}
@@ -1008,4 +1011,40 @@ evaluation{margin:.5rem 0;}
     .order-img{width:63px;}
     .order-img img{width:60px;margin-right:3px;}
 }
+@media screen and (max-width:374px){
+    .order-trade-name a{font-size:12px;}
+}
+
 /*手机端*/
+
+
+/* 订单页面修改 */
+.toal_table_foot{
+    border:1px solid #daf3ff;
+    margin-bottom:10px;
+}
+.toal_table_foot_div{
+    font-size:14px;
+    color:#999;
+    padding:10px;
+}
+.toal_table_foot_div:first-child{
+    text-align:left;
+    float:left;
+}
+.toal_table_foot_div:first-child span{
+    display:inline-block;
+}
+.toal_table_foot_div:last-child{
+    text-align:right;
+    float:right;
+}
+.ma1-0{width:2%;}
+.ma1-1{width:44%;}
+.ma1-2{width:13%;}
+.ma1-3{width:14%;}
+.ma1-4{width:15%;}
+.ma1-5{width:12%;}
+.ma1-2,.ma1-3,.ma1-4{
+    text-align:center;
+}

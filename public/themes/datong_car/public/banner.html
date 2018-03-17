@@ -19,6 +19,11 @@
         });
     });
 
+
+    
+
+
+
    
 </script>
 <section>
@@ -26,12 +31,12 @@
         <div class="slick slick_1">
             <foreach name="slides" item="vo">
             <div>
-                <div class="banner_img">
+                <div class="banner_img " >
                     <a href="{$vo.url|default='#'}"></a>
                     <empty name="vo.image">
-                        <img src="__TMPL__/public/assets/images/example/banner.jpg" alt="{$vo.title|default=''}">
+                        <img src="__TMPL__/public/assets/images/example/banner.jpg" alt="{$vo.title|default=''}" >
                     <else/>
-                        <img src="{:cmf_get_image_url($vo.image)}" alt="{$vo.title|default=''}">
+                        <img src="{:cmf_get_image_url($vo.image)}" alt="{$vo.title|default=''}" >
                     </empty>
                 </div>
             </div>
