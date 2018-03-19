@@ -57,6 +57,10 @@ class AdminOrderController extends AdminBaseController
         return $this->fetch();
     }
 
+    public function add()
+    {
+        $this->error('暂未开放');
+    }
     public function edit()
     {
         $id = $this->request->param('id', 0, 'intval');

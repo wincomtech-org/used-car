@@ -4,10 +4,10 @@
 <body>
     <div class="wrap js-check-wrap">
         <ul class="nav nav-tabs">
-            <li class="active"><a href="javascript:void(0);">所有订单</a></li>
-            <li><a href="{:url('add')}">添加订单</a></li>
+            <li class="active"><a href="{:url('index')}">所有订单</a></li>
+            <li><a >添加订单</a></li>
             <li><a href="javascript:void(0);"> | </a></li>
-            <li><a href="{:url('returns')}">退换货</a></li>
+            <li class="active"><a href="javascript:void(0);">退换货</a></li>
         </ul>
         <div class="help-block">说明：订单删除后留存在回收站里。</div>
         <form class="well form-inline margin-top-20" method="post" action="{:url('AdminOrder/index')}">
@@ -42,7 +42,7 @@
                             </eq>
                         </td>
                         <td>
-                            <a href="{:url('AdminOrder/edit',['id'=>$vo.id])}">{:lang('EDIT')}</a> &nbsp; | &nbsp;
+                            <a href="{:url('AdminOrder/returnsEdit',['id'=>$vo.id])}">{:lang('EDIT')}</a> &nbsp; | &nbsp;
                             <a href="{:url('AdminOrder/delete',['id'=>$vo.id])}" class="js-ajax-delete">{:lang('DELETE')}</a>
                         </td>
                     </tr>
