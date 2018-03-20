@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
     <title>{$article.post_title}</title>
-    <meta name="keywords" content="{$site_info.site_seo_keywords|default=''}"/>
-    <meta name="description" content="{$site_info.site_seo_description|default=''}">
+    <meta name="keywords" content="{$article.post_keywords|default=''},{$site_info.site_seo_keywords|default=''}"/>
+    <meta name="description" content="{$article.post_excerpt|default=''},{$site_info.site_seo_description|default=''}">
 
     <taglib name="app\portal\taglib\Portal"/>
     <include file="public@function"/>

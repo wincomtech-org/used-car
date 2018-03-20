@@ -15,6 +15,7 @@
                 <a class="list-group-item" href="#SPEC_" data-toggle="tab">规格管理</a>
                 <a class="list-group-item" href="#ATTR_" data-toggle="tab">扩展属性</a>
                 <!-- <a class="list-group-item" href="#PIC_" data-toggle="tab">编辑图片</a> -->
+                <a class="list-group-item" href="#SEO_" data-toggle="tab">SEO设置</a>
             </div>
         </div>
         <form class="js-ajax-form" action="{:url('AdminGoods/addPost')}" method="post">
@@ -39,6 +40,28 @@
                 <div class="tab-pane" id="PIC_">
                     <include file="admin_goods/PIC_" />
                 </div>
+
+                <div class="tab-pane" id="SEO_">
+                    <div class="form-group">
+                        <label for="input-seo_title">SEO标题</label>
+                        <div>
+                            <input class="form-control" id="input-seo_title" type="text" name="post[seo_title]">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="input-seo_keywords">SEO关键字</label>
+                        <div>
+                            <input class="form-control" id="input-seo_keywords" type="text" name="post[seo_keywords]">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="input-seo_description">SEO描述</label>
+                        <div>
+                            <textarea class="form-control" id="input-seo_description" name="post[seo_description]"></textarea>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
         <div class="col-md-3">

@@ -32,17 +32,17 @@ class TestController extends HomeBaseController
 
     public function file()
     {
-        set_time_limit(6000);
+/*        set_time_limit(6000);
         // $ml = 'shop/ShopGoods';
         $ml = 'usual/UsualCar';
         // $ml = 'portal/';
 
-        $list = model($ml)->field('id,thumbnail,photos')->where('id','gt',1486)->where('id','elt',1700)->order('id ASC')->select()->toArray();
+        $list = model($ml)->field('id,thumbnail,photos')->where('id','gt',2200)->where('id','elt',3000)->order('id ASC')->select()->toArray();
         // $list = model($ml)->field('id,thumbnail,photos')->where('id',620)->order('id ASC')->select()->toArray();
 // dump($list);die;
         $style = config('thumbnail_size');
-
-        foreach ($list as $k=> $data) {
+        error_log(date('Y-m-d H:i:s')."\r\n",3,'data/log.txt');
+        foreach ($list as $data) {
             if (!empty($data['thumbnail'])) {
                 lothar_thumb_make($data['thumbnail'],$style);
             }
@@ -54,7 +54,7 @@ class TestController extends HomeBaseController
         }
 
         echo "ok";
-        die;
+        die;*/
     }
 
 

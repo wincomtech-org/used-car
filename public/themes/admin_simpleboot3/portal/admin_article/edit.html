@@ -60,6 +60,13 @@
                         </td>
                     </tr>
                     <tr>
+                        <th>文章来源</th>
+                        <td>
+                            <input class="form-control" type="text" name="post[post_source]"
+                                   value="{$post['post_source']}" placeholder="请输入文章来源">
+                        </td>
+                    </tr>
+                    <tr>
                         <th>关键词</th>
                         <td>
                             <input class="form-control" type="text" name="post[post_keywords]"
@@ -68,17 +75,10 @@
                         </td>
                     </tr>
                     <tr>
-                        <th>文章来源</th>
-                        <td>
-                            <input class="form-control" type="text" name="post[post_source]"
-                                   value="{$post['post_source']}" placeholder="请输入文章来源">
-                        </td>
-                    </tr>
-                    <tr>
                         <th>摘要</th>
                         <td>
                             <textarea class="form-control" name="post[post_excerpt]" style="height: 50px;"
-                                      placeholder="请填写摘要">{$post.post_excerpt}</textarea>
+                                      placeholder="请填写描述">{$post.post_excerpt}</textarea>
                         </td>
                     </tr>
                     <tr>

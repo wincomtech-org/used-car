@@ -49,14 +49,14 @@ class HomeBaseController extends BaseController
             // 用户数据
             // $this->user = cmf_get_current_user();
             // 服务商城分类树
-            // $goodscate = model('shop/ShopGoodsCategory')->getGoodsTreeArray();
+            $goodscate = model('shop/ShopGoodsCategory')->getGoodsTreeArray();
             // 购物车数据
 
             $cbc = cache('cbc',[
                 'navMenus'  => $navMenus,
                 'slides'    => $slides,
                 'friendLink'=> $friendLink,
-                // 'goodscate' => $goodscate,
+                'goodscate' => $goodscate,
             ],3600);
         }
 
@@ -68,16 +68,11 @@ class HomeBaseController extends BaseController
             session('user_cart', $cartModel->getCartList(['user_id'=>session('user.id')]));
         }
 
-        // 服务商城分类树
-        $goodscate = model('shop/ShopGoodsCategory')->getGoodsTreeArray();
-// dump($goodscate);die;
-
         View::share('site_info', $siteInfo);
         View::share('navMenus', $cbc['navMenus']);
         View::share('slides', $cbc['slides']);
         View::share('share_friendLink', $cbc['friendLink']);
-        // View::share('share_goodscate', $cbc['goodscate']);
-        View::share('share_goodscate', $goodscate);
+        View::share('share_goodscate', $cbc['goodscate']);
         // View::share('share_isMobile', cmf_is_mobile());
         // $this->assign('user',$this->user);
     }

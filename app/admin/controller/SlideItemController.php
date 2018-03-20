@@ -76,6 +76,10 @@ class SlideItemController extends AdminBaseController
     public function addPost()
     {
         $data = $this->request->param();
+        // if (!empty($data['post']['image'])) {
+        //     $style = [];
+        //     lothar_thumb_make($data['post']['image'],$style);
+        // }
         Db::name('slideItem')->insert($data['post']);
         $this->success("添加成功！", url("slideItem/index", ['slide_id' => $data['post']['slide_id']]));
     }
@@ -121,6 +125,10 @@ class SlideItemController extends AdminBaseController
         $data = $this->request->param();
 
         $data['post']['image'] = cmf_asset_relative_url($data['post']['image']);
+        // if (!empty($data['post']['image'])) {
+        //     $style = [];
+        //     lothar_thumb_make($data['post']['image'],$style);
+        // }
 
         Db::name('slideItem')->update($data['post']);
 
