@@ -111,10 +111,10 @@ class AdminOrderController extends AdminBaseController
             $orderModel = new InsuranceOrderModel();
             // 直接拿官版的
             if (!empty($data['identity_card'])) {
-                $post['more']['identity_card'] = $orderModel->dealFiles($data['identity_card']);
+                $post['more']['identity_card'] = lothar_dealFiles($data['identity_card']);
             }
             if (!empty($data['file'])) {
-                $post['more']['file'] = $orderModel->dealFiles($data['file']);
+                $post['more']['file'] = lothar_dealFiles($data['file']);
             }
 
             $orderModel->adminEditArticle($post);

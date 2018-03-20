@@ -175,21 +175,6 @@ class ComModel extends Model
 
 
 
-    // 后台 JS 插件 处理上传图片、文件
-    public function dealFiles($files=['names'=>[],'urls'=>[]], $pk='')
-    {
-        $post = [];
-        $names = isset($files['names'])?$files['names']:'';
-        $urls = $files['urls'];
-        if (!empty($names) && !empty($urls)) {
-            foreach ($urls as $key => $url) {
-                $relative_url = cmf_asset_relative_url($url);
-                array_push($post, ["url"=>$relative_url, "name"=>$names[$key]]);
-            }
-        }
-
-        return $post;
-    }
 
     /**
      * 缩略图生成

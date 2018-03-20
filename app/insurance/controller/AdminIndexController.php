@@ -46,7 +46,7 @@ class AdminIndexController extends AdminBaseController
         $optionModel = new InsuranceOptionModel();
         // 直接拿官版的
         if (!empty($data['file'])) {
-            $post['file'] = $optionModel->dealFiles($data['file']);
+            $post['file'] = lothar_dealFiles($data['file']);
         }
         // $optionModel->adminAddArticle($post);
         $post['id'] = 1;
@@ -60,7 +60,7 @@ class AdminIndexController extends AdminBaseController
         // $post['content'] = $this->ueditorBefore($post['content']);
         // // 直接拿官版的
         // if (!empty($data['file'])) {
-        //     $post['file'] = $optionModel->dealFiles($data['file']);
+        //     $post['file'] = lothar_dealFiles($data['file']);
         //     $post['file'] = json_encode($post['file']);
         // }
         // $result = Db::name('insurance_option')->where('id',1)->update($post);

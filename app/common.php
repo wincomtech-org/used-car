@@ -217,11 +217,126 @@ function lothar_popup($msg = '', $code = 1, $url = null, $data = '', $wait = 3)
 }
 
 
-
 /*
- * 缩略图生成
- * getcwd()
+ * 文件、图片处理
+ * cmf_get_asset_url()
+ * cmf_get_image_url()
+ * cmf_get_image_preview_url()
+ * cmf_get_file_download_url()
+ * cmf_get_content_images()
  */
+
+/**
+ * 后台 JS 插件 处理上传图片、文件
+ * 如何删除照片？？？
+ * $style = [[565,385],[283,195],[160,109]];
+ * 车详情图集 $style = [[580,384]]
+ */
+function lothar_dealFiles($files=['names'=>[],'urls'=>[]], $style=[])
+{
+    $post = [];
+    if (is_array($files)) {
+        $names = isset($files['names'])?$files['names']:'';
+        $urls = $files['urls'];
+        if (!empty($urls)) {
+            foreach ($urls as $key => $url) {
+                $relative_url = cmf_asset_relative_url($url);
+                if (!empty($style)) {
+                    $relative_url = lothar_thumb_make($relative_url,$style);
+                }
+                array_push($post, ["url"=>$relative_url, "name"=>$names[$key]]);
+            }
+        }
+    } elseif (is_string($files)) {
+        $relative_url = cmf_asset_relative_url($files);
+        if (!empty($style)) {
+            $post = lothar_thumb_make($relative_url,$style);
+        }
+    } else {
+        # code...
+    }
+
+    return $post;
+}
+// 不一样的结构
+function lothar_dealFiles2($files=[0=>['url'=>'','name'=>'']], $style=[])
+{
+    $post = [];
+    if (is_array($files)) {
+        foreach ($files as $row) {
+            $relative_url = cmf_asset_relative_url($row['url']);
+            if (!empty($style)) {
+                $relative_url = lothar_thumb_make($relative_url,$style);
+            }
+            array_push($post, ["url"=>$relative_url, "name"=>$row['name']]);
+        }
+    } elseif (is_string($files)) {
+        $relative_url = cmf_asset_relative_url($files);
+        if (!empty($style)) {
+            $post = lothar_thumb_make($relative_url,$style);
+        }
+    } else {
+        # code...
+    }
+
+    return $post;
+}
+
+/**
+ * [lothar_thumb_make 缩略图生成]
+ * getcwd()
+ * 车子、商品图： 565x385 283x195 160x109 
+ * 车子详情 580x384
+ * banner图：
+ * @param  string $imgpath [文件源:本地不带http，远程下载处理]
+ * @param  array $style   [[565,385],[283,195],[160,109]];
+ * @param  number $type   [图片处理方式]
+ * @return [type]          [description]
+ */
+function lothar_thumb_make($imgpath='http://hcfarm.wincomtech.cn/upload/admin/20180307/dfa2bfa304f350653f2f9389f3bb92f1.jpg', $style=[[600,480],[600,481],[601,481],[602,481]], $type=6)
+{
+    $fork = true;
+    // 如果是网络上的 当地址不是真实位置时，无法下载
+    if (strpos($imgpath, 'http') === 0) {
+        // $dirpath = request()->module().'/'.gmdate("Ymd").'/';
+        /*$dirpath = 'test/'.gmdate("Ymd").'/';
+        $savepath = $dirpath.time().cmf_random_string().'.jpg';
+        if (is_file($imgpath)) {
+            lothar_download($imgpath,$savepath);
+            $imgpath = $savepath;
+        } else {
+            $fork = false;
+        }*/
+        $fork = false;
+    } elseif (strpos($imgpath, '/') === 0) {
+        return cmf_get_domain() . $imgpath;
+    }
+
+    if (empty($fork)) {
+        $url = $imgpath;
+    } else {
+        // 预设
+        $orginpath = "./upload/" . $imgpath;
+        $savepath = '';
+
+        // 处理 is_file($savepath)
+        // $fileArr    = pathinfo($orginpath);
+        // $savepath   = $fileArr['dirname'] .'/'. $fileArr['filename'] .'_'. $width .'x'. $height .'.'. $fileArr['extension'];
+        if (is_file($orginpath)) {
+            foreach ($style as $set) {
+                $savepath = $orginpath .'_'. $set[0].'x'.$set[1] .'.jpg';
+                $avatarImg = Image::open($orginpath);//每次重新实例化
+                $avatarImg->thumb($set[0], $set[1], $type)->save($savepath);
+            }
+        }
+
+        // 原图，如果是远程则替换成下载到本地的原始图
+        $url = request()->domain() . $orginpath;
+    }
+
+    return $url;
+}
+
 function lothar_thumb_url($imgpath, $width = 135, $height = 135, $type=6)
 {
     if (strpos($imgpath,'http')===0) {
@@ -233,6 +348,7 @@ function lothar_thumb_url($imgpath, $width = 135, $height = 135, $type=6)
     $avatarPath = "./upload/" . $imgpath;
     $fileArr    = pathinfo($avatarPath);
     $filename   = $fileArr['dirname'] .'/'. $fileArr['filename'] .'_'. $width .'x'. $height .'.'. $fileArr['extension'];
+    // $filename = $avatarPath.$width.'x'.$height.'.jpg';
     if (is_file($filename)) {
         $url = $filename;
     } else {
@@ -244,6 +360,47 @@ function lothar_thumb_url($imgpath, $width = 135, $height = 135, $type=6)
 
     return $url;
 }
+
+/* 下载网络文件到本地 */
+function lothar_download($url, $path = 'test/1.jpg')
+{
+    // $ch = curl_init();
+    // curl_setopt($ch, CURLOPT_URL, $url);
+    // curl_setopt($ch, CURLOPT_POST, 0);
+    // curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    // curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
+    // $file = curl_exec($ch);
+    // curl_close($ch);
+
+    //$filename = pathinfo($url, PATHINFO_BASENAME);
+    $path = getcwd() .'/upload/'.$path;
+    // $path = './upload/'.$path;
+    $dirname = pathinfo($path,PATHINFO_DIRNAME);
+    if (!is_dir($dirname)) {
+        mkdir($dirname,0777,true);
+    }
+
+    // $resource = fopen($path, 'a');//a w
+    // fwrite($resource, $file);
+    // fclose($resource);
+
+    // set_time_limit(10);
+    $content = file_get_contents($url);
+    file_put_contents($path, $content);
+}
+
+/*function dlfile($file_url, $save_to)
+{
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_POST, 0); 
+    curl_setopt($ch,CURLOPT_URL,$file_url); 
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); 
+    $file_content = curl_exec($ch);
+    curl_close($ch);
+    $downloaded_file = fopen($save_to, 'w');
+    fwrite($downloaded_file, $file_content);
+    fclose($downloaded_file);
+}*/
 
 /* 过滤HTML得到纯文本 */
 function lothar_get_content($list,$len=100){
@@ -260,6 +417,8 @@ function lothar_get_content($list,$len=100){
     }
     return $tmp;
 }
+
+
 
 /*
  * JSON

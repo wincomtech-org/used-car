@@ -629,7 +629,6 @@ function cmf_get_image_url($file, $style = '')
     } else if (strpos($file, "/") === 0) {
         return cmf_get_domain() . $file;
     } else {
-
         $storage = Storage::instance();
         return $storage->getImageUrl($file, $style);
     }

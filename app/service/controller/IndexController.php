@@ -172,7 +172,7 @@ class IndexController extends HomeBaseController
 
         // 处理图片 直接拿官版的
         if (!empty($data['identity_card'])) {
-            $post['more']['identity_card'] = model('Service')->dealFiles($data['identity_card']);
+            $post['more']['identity_card'] = lothar_dealFiles($data['identity_card']);
         }
         // 处理服务点
         // if (!empty($post['service_point'])) {

@@ -107,10 +107,10 @@ class AdminCompanyController extends AdminBaseController
             }
 
             if (!empty($data['photos'])) {
-                $post['more']['photos'] = $this->UsualModel->dealFiles($data['photos']);
+                $post['more']['photos'] = lothar_dealFiles($data['photos']);
             }
             if (!empty($data['files'])) {
-                $post['more']['files'] = $this->UsualModel->dealFiles($data['files']);
+                $post['more']['files'] = lothar_dealFiles($data['files']);
             }
 
             // $post['user_id'] = cmf_get_current_admin_id();
@@ -179,10 +179,10 @@ class AdminCompanyController extends AdminBaseController
             }
 
             if (!empty($data['photos'])) {
-                $post['more']['photos'] = $this->UsualModel->dealFiles($data['photos']);
+                $post['more']['photos'] = lothar_dealFiles($data['photos']);
             }
             if (!empty($data['files'])) {
-                $post['more']['files'] = $this->UsualModel->dealFiles($data['files']);
+                $post['more']['files'] = lothar_dealFiles($data['files']);
             }
 
             $this->UsualModel->adminEditArticle($post);

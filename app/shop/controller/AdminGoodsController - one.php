@@ -151,14 +151,16 @@ class AdminGoodsController extends AdminBaseController
             $this->error($result);
         }
         // 处理文件图片
+        $style = [[565,385],[283,195],[160,109]];
         if (!empty($data['photo'])) {
-            $post['more']['photos'] = $this->scModel->dealFiles($data['photo']);
+            $post['more']['photos'] = lothar_dealFiles($data['photo'],$style);
         }
         if (!empty($data['file'])) {
-            $post['more']['files'] = $this->scModel->dealFiles($data['file']);
+            $post['more']['files'] = lothar_dealFiles($data['file']);
         }
         if (!empty($post['thumbnail'])) {
             $post['thumbnail'] = cmf_asset_relative_url($post['thumbnail']);
+            lothar_thumb_make($post['thumbnail'],$style);
         }
         if (!empty($cateId)) {
             $parent_id = Db::name('shop_goods_category')->where('id',$cateId)->value('parent_id');
@@ -279,14 +281,16 @@ class AdminGoodsController extends AdminBaseController
             $this->error($result);
         }
         // 处理文件图片
+        $style = [[565,385],[283,195],[160,109]];
         if (!empty($data['photo'])) {
-            $post['more']['photos'] = $this->scModel->dealFiles($data['photo']);
+            $post['more']['photos'] = lothar_dealFiles($data['photo'],$style);
         }
         if (!empty($data['file'])) {
-            $post['more']['files'] = $this->scModel->dealFiles($data['file']);
+            $post['more']['files'] = lothar_dealFiles($data['file']);
         }
         if (!empty($post['thumbnail'])) {
             $post['thumbnail'] = cmf_asset_relative_url($post['thumbnail']);
+            lothar_thumb_make($post['thumbnail'],$style);
         }
         // 处理分类
         if (!empty($cateId)) {

@@ -36,7 +36,7 @@ class AdminAssetController extends AdminBaseController
         $result = Db::name('asset')->field('a.*,u.user_login,u.user_nickname,u.user_email,u.mobile')
             ->alias('a')->join($join)
             ->order('create_time', 'DESC')
-            ->paginate(10);
+            ->paginate(19);
 
         $this->assign('assets', $result->items());
         $this->assign('pager', $result->render());

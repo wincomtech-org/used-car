@@ -30,6 +30,19 @@ class TestController extends HomeBaseController
         // $this->work = new \WorkPlugin(cmf_get_order_sn($table),0.01);//import引入
     }
 
+    public function file()
+    {
+        // $files = [
+        //     'names'=>['a','b'],
+        //     'urls'=>['usual/a.jpg','usual/b.jpg']
+        // ];
+        // lothar_dealFiles();
+
+
+        $url = lothar_thumb_make();
+        dump($url);
+    }
+
     // 对Test类的测试
     public function test()
     {

@@ -121,10 +121,10 @@ class AdminVerifyController extends AdminBaseController
             // }
 
             if (!empty($data['photo_names'])) {
-                 $post['more']['photos'] = $scModel->dealFiles(['names'=>$data['photo_names'],'urls'=>$data['photo_urls']]);
+                 $post['more']['photos'] = lothar_dealFiles(['names'=>$data['photo_names'],'urls'=>$data['photo_urls']]);
             }
             if (!empty($data['file_names'])) {
-                $post['more']['files'] = $scModel->dealFiles(['names'=>$data['file_names'],'urls'=>$data['file_urls']]);
+                $post['more']['files'] = lothar_dealFiles(['names'=>$data['file_names'],'urls'=>$data['file_urls']]);
             }
 
             $scModel->adminEditArticle($post);

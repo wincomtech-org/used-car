@@ -167,7 +167,7 @@ class ShopController extends UserBaseController
 // dump($data);die;
         // 数据验证 validate()
         if (!empty($data['evaluate_image'])) {
-            $post['evaluate_image'] = model('usual/Com')->dealFiles($data['evaluate_image']);
+            $post['evaluate_image'] = lothar_dealFiles($data['evaluate_image']);
             $post['evaluate_image'] = json_encode($post['evaluate_image']);
         }
         $post['user_id']     = cmf_get_current_user_id();
@@ -267,7 +267,7 @@ class ShopController extends UserBaseController
         ];
 
         if (!empty($data['photos'])) {
-            $post['more'] = model('usual/Com')->dealFiles($data['photos']);
+            $post['more'] = lothar_dealFiles($data['photos']);
         }
 // dump($data);
 // dump($post);

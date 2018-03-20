@@ -108,21 +108,22 @@ class AdminOrderController extends AdminBaseController
                 $this->error($result);
             }
 
-            $scModel = new TradeOrderModel();
-
+            $style = '';
             if (!empty($data['photo'])) {
-                $post['more']['photo'] = $scModel->dealFiles($data['photo']);
+                $post['more']['photo'] = lothar_dealFiles($data['photo'],$style);
             }
             if (!empty($data['file'])) {
-                $post['more']['files'] = $scModel->dealFiles($data['file']);
+                $post['more']['files'] = lothar_dealFiles($data['file'],$style);
             }
+
+            $scModel = new TradeOrderModel();
 
             $scModel->adminEditArticle($post);
 
             // 预约资料修改？
             // $verify = $data['verify'];
             // if (!empty($data['identity_card'])) {
-            //     $verify['more']['identity_card'] = $scModel->dealFiles($data['identity_card']);
+            //     $verify['more']['identity_card'] = lothar_dealFiles($data['identity_card']);
             // }
             // model('usual/Verify')->inVerify($verify,$post['buyer_uid']);
 

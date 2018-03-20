@@ -148,10 +148,10 @@ class AdminCarController extends AdminBaseController
             }
             // 处理文件图片
             if (!empty($data['photo'])) {
-                $post['more']['photos'] = $this->Model->dealFiles($data['photo']);
+                $post['more']['photos'] = lothar_dealFiles($data['photo']);
             }
             if (!empty($data['file'])) {
-                $post['more']['files'] = $this->Model->dealFiles($data['file']);
+                $post['more']['files'] = lothar_dealFiles($data['file']);
             }
             $post['report'] = $data['report'];
 
@@ -263,10 +263,10 @@ class AdminCarController extends AdminBaseController
             }
             // 处理文件图片
             if (!empty($data['photo'])) {
-                $post['more']['photos'] = $this->Model->dealFiles($data['photo']);
+                $post['more']['photos'] = lothar_dealFiles($data['photo']);
             }
             if (!empty($data['file'])) {
-                $post['more']['files'] = $this->Model->dealFiles($data['file']);
+                $post['more']['files'] = lothar_dealFiles($data['file']);
             }
             $post['report'] = $report;
 
@@ -274,7 +274,7 @@ class AdminCarController extends AdminBaseController
             $verify = $data['verify'];
             // 直接拿官版的
             if (!empty($data['identity_card'])) {
-                $verify['more']['identity_card'] = $this->Model->dealFiles($data['identity_card']);
+                $verify['more']['identity_card'] = lothar_dealFiles($data['identity_card']);
             }
             // 验证数据的完备性
             $result = $this->validate($verify,'usual/Verify.openshop');

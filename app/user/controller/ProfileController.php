@@ -62,7 +62,7 @@ class ProfileController extends UserBaseController
             $verifyModel = new VerifyModel();
             if (!empty($data['identity_card']) || !empty($data['verify']['more']['driving_license'])) {
                 // 直接拿官版的
-                $veri['more']['identity_card'] = $verifyModel->dealFiles($data['identity_card']);
+                $veri['more']['identity_card'] = lothar_dealFiles($data['identity_card']);
                 $veri['more']['driving_license'] = $data['verify']['more']['driving_license'];
                 $verify = lothar_verify($userId,'certification','all');
                 $reVerify = false;// 重新认证

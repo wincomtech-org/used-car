@@ -17,13 +17,12 @@
 
 // 调试模式开关
 // config.php中 APP_DEBUG 替换成 (defined('APP_DEBUG') && APP_DEBUG)
-define("APP_DEBUG", true);
-// define("APP_DEBUG", false);
+// define("APP_DEBUG", true);
+define("APP_DEBUG", false);
 // define("APP_TRACE", false);
 
 // URL
 // define('__HOST__', 'http://'.$_SERVER['HTTP_HOST']);
-
 
 // 定义CMF根目录,可更改此目录
 define('CMF_ROOT', __DIR__ . '/../');
@@ -38,8 +37,8 @@ define('CMF_PATH', CMF_ROOT . 'simplewind/cmf/');
 define('PLUGINS_PATH', __DIR__ . '/plugins/');
 
 // 定义扩展目录
-define('EXTEND_PATH', CMF_ROOT . 'simplewind/extend/');// 手动制作
-define('VENDOR_PATH', CMF_ROOT . 'simplewind/vendor/');// 通过composer
+define('EXTEND_PATH', CMF_ROOT . 'simplewind/extend/');
+define('VENDOR_PATH', CMF_ROOT . 'simplewind/vendor/');
 
 // 定义应用的运行时目录
 define('RUNTIME_PATH', CMF_ROOT . 'data/runtime/');

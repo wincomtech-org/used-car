@@ -112,7 +112,7 @@ class IndexController extends HomeBaseController
         $data['more'] = $map['more'];
         // 直接拿官版的
         if (!empty($map['identity_card'])) {
-            $data['more']['identity_card'] = model('usual/Usual')->dealFiles($map['identity_card']);
+            $data['more']['identity_card'] = lothar_dealFiles($map['identity_card']);
         }
 
         // 事务处理

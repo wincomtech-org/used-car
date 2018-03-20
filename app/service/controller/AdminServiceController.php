@@ -153,10 +153,10 @@ class AdminServiceController extends AdminBaseController
             }
 
             if (!empty($data['photo'])) {
-                $post['more']['photos'] = $serviceModel->dealFiles($data['photo']);
+                $post['more']['photos'] = lothar_dealFiles($data['photo']);
             }
             if (!empty($data['file'])) {
-                $post['more']['files'] = $serviceModel->dealFiles($data['file']);
+                $post['more']['files'] = lothar_dealFiles($data['file']);
             }
 
             $serviceModel->adminEditArticle($post);

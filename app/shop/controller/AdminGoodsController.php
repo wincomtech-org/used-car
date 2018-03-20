@@ -42,6 +42,29 @@ class AdminGoodsController extends AdminBaseController
      */
     public function index()
     {
+// $list = $this->scModel->field('thumbnail,more')->select()->toArray();
+// // dump($list);die;
+
+
+// $style = [[565,385],[283,195],[160,109]];
+
+// foreach ($list as $data) {
+//     if (!empty($data['more']['photos'])) {
+//         $post['more']['photos'] = lothar_dealFiles2($data['more']['photos'],$style);
+//     }
+//     if (!empty($data['thumbnail'])) {
+//         $data['thumbnail'] = cmf_asset_relative_url($data['thumbnail']);
+//         $post['thumbnail'] = lothar_thumb_make($data['thumbnail'],$style);
+//     }
+
+// }
+// dump($post);
+// die;
+
+
+
+
+
         $filter = $this->request->param();
 
         $list = $this->scModel->getLists($filter);
@@ -151,14 +174,22 @@ class AdminGoodsController extends AdminBaseController
             $this->error($result);
         }
         // 处理文件图片
+        $style = [[565,385],[283,195],[160,109]];
         if (!empty($data['photo'])) {
-            $post['more']['photos'] = $this->scModel->dealFiles($data['photo']);
+            $post['more']['photos'] = lothar_dealFiles($data['photo'],$style);
+        } else {
+            $post['more']['photos'] = [];
         }
         if (!empty($data['file'])) {
-            $post['more']['files'] = $this->scModel->dealFiles($data['file']);
+            $post['more']['files'] = lothar_dealFiles($data['file']);
+        } else {
+            $post['more']['files'] = [];
         }
         if (!empty($post['thumbnail'])) {
             $post['thumbnail'] = cmf_asset_relative_url($post['thumbnail']);
+            $post['thumbnail'] = lothar_thumb_make($post['thumbnail'],$style);
+        } else {
+            $post['thumbnail'] = '';
         }
         if (!empty($cateId)) {
             $parent_id = Db::name('shop_goods_category')->where('id',$cateId)->value('parent_id');
@@ -279,15 +310,24 @@ class AdminGoodsController extends AdminBaseController
         }
 
 /*数据处理*/
+        $style = [[565,385],[283,195],[160,109]];
+        // dump($data['photo']);die;
         // 处理文件图片
         if (!empty($data['photo'])) {
-            $post['more']['photos'] = $this->scModel->dealFiles($data['photo']);
+            $post['more']['photos'] = lothar_dealFiles($data['photo'],$style);
+        } else {
+            $post['more']['photos'] = [];
         }
         if (!empty($data['file'])) {
-            $post['more']['files'] = $this->scModel->dealFiles($data['file']);
+            $post['more']['files'] = lothar_dealFiles($data['file']);
+        } else {
+            $post['more']['files'] = [];
         }
         if (!empty($post['thumbnail'])) {
             $post['thumbnail'] = cmf_asset_relative_url($post['thumbnail']);
+            $post['thumbnail'] = lothar_thumb_make($post['thumbnail'],$style);
+        } else {
+            $post['thumbnail'] = '';
         }
 
         // 处理分类

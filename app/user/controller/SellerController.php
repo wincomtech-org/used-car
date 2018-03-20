@@ -243,12 +243,24 @@ class SellerController extends TradeController
             }
 
             /*处理图片*/
+            $style = [[565,385],[283,195],[160,109]];
             // 直接拿官版的
             if (!empty($data['photo'])) {
-                $post['more']['photos'] = $carModel->dealFiles($data['photo']);
+                $post['more']['photos'] = lothar_dealFiles($data['photo'],$style);
+            } else {
+                $post['more']['photos'] = [];
             }
             if (!empty($data['file'])) {
-                $post['more']['files'] = $carModel->dealFiles($data['file']);
+                $post['more']['files'] = lothar_dealFiles($data['file']);
+            } else {
+                $post['more']['files'] = [];
+            }
+            if (!empty($post['more']['thumbnail'])) {
+                $thumbnail = $post['more']['thumbnail'];
+                $thumbnail = cmf_asset_relative_url($thumbnail);
+                $post['more']['thumbnail'] = lothar_thumb_make($thumbnail,$style);
+            } else {
+                $post['more']['thumbnail'] = '';
             }
 
             if (empty($id)) {
@@ -310,7 +322,7 @@ class SellerController extends TradeController
 
         // 直接拿官版的
         if (!empty($data['identity_card'])) {
-            $post['more']['identity_card'] = model('usual/Usual')->dealFiles($data['identity_card']);
+            $post['more']['identity_card'] = lothar_dealFiles($data['identity_card']);
         }
         // 验证数据的完备性
         $result = $this->validate($post, 'usual/Verify.openshop');

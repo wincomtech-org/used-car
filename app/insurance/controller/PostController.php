@@ -312,7 +312,7 @@ class PostController extends HomeBaseController
             ],$vdata);
             // 直接拿官版的
             if (!empty($data['identity_card'])) {
-                $vdata['more']['identity_card'] = model('usual/Usual')->dealFiles($data['identity_card']);
+                $vdata['more']['identity_card'] = lothar_dealFiles($data['identity_card']);
             }
             // 验证数据的完备性
             $result = $this->validate($vdata,'usual/Verify.openshop');

@@ -77,10 +77,10 @@ class AdminConsignController extends AdminBaseController
             }
 
             if (!empty($data['photos'])) {
-                $post['more']['photos'] = $this->uModel->dealFiles($data['photos']);
+                $post['more']['photos'] = lothar_dealFiles($data['photos']);
             }
             if (!empty($data['files'])) {
-                $post['more']['files'] = $this->uModel->dealFiles($data['files']);
+                $post['more']['files'] = lothar_dealFiles($data['files']);
             }
 
             $this->uModel->adminAddArticle($post);
@@ -128,10 +128,10 @@ class AdminConsignController extends AdminBaseController
             }
 
             if (!empty($data['photos'])) {
-                $post['more']['photos'] = $this->uModel->dealFiles($data['photos']);
+                $post['more']['photos'] = lothar_dealFiles($data['photos']);
             }
             if (!empty($data['files'])) {
-                $post['more']['files'] = $this->uModel->dealFiles($data['files']);
+                $post['more']['files'] = lothar_dealFiles($data['files']);
             }
 
             $this->uModel->adminEditArticle($post);
