@@ -183,7 +183,7 @@ class UsualCarModel extends UsualModel
             }
 
             $cars = $this->alias('a')
-                  ->field('a.id,a.name,a.more,a.car_mileage,a.car_license_time,a.market_price,a.shop_price,a.price,b.name AS city_name')
+                  ->field('a.id,a.name,a.thumbnail,a.photos,a.market_price,a.shop_price,a.price,a.car_mileage,a.car_license_time,a.more,b.name AS city_name')
                   // ->join('district b','a.city_id=b.id','LEFT')
                   ->join('__DISTRICT__ b','a.city_id=b.id','LEFT')
                   ->where($where)

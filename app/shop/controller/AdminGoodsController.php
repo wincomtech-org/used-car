@@ -42,29 +42,6 @@ class AdminGoodsController extends AdminBaseController
      */
     public function index()
     {
-// $list = $this->scModel->field('thumbnail,more')->select()->toArray();
-// // dump($list);die;
-
-
-// $style = [[565,385],[283,195],[160,109]];
-
-// foreach ($list as $data) {
-//     if (!empty($data['more']['photos'])) {
-//         $post['more']['photos'] = lothar_dealFiles2($data['more']['photos'],$style);
-//     }
-//     if (!empty($data['thumbnail'])) {
-//         $data['thumbnail'] = cmf_asset_relative_url($data['thumbnail']);
-//         $post['thumbnail'] = lothar_thumb_make($data['thumbnail'],$style);
-//     }
-
-// }
-// dump($post);
-// die;
-
-
-
-
-
         $filter = $this->request->param();
 
         $list = $this->scModel->getLists($filter);
@@ -174,20 +151,20 @@ class AdminGoodsController extends AdminBaseController
             $this->error($result);
         }
         // 处理文件图片
-        $style = [[565,385],[283,195],[160,109]];
+        $style = config('thumbnail_size');
         if (!empty($data['photo'])) {
-            $post['more']['photos'] = lothar_dealFiles($data['photo'],$style);
+            $post['photos'] = lothar_dealFiles($data['photo'],$style);
         } else {
-            $post['more']['photos'] = [];
+            $post['photos'] = '';
         }
         if (!empty($data['file'])) {
-            $post['more']['files'] = lothar_dealFiles($data['file']);
+            $post['files'] = lothar_dealFiles($data['file']);
         } else {
-            $post['more']['files'] = [];
+            $post['files'] = '';
         }
         if (!empty($post['thumbnail'])) {
-            $post['thumbnail'] = cmf_asset_relative_url($post['thumbnail']);
-            $post['thumbnail'] = lothar_thumb_make($post['thumbnail'],$style);
+            $thumbnail = cmf_asset_relative_url($post['thumbnail']);
+            $post['thumbnail'] = lothar_thumb_make($thumbnail,$style);
         } else {
             $post['thumbnail'] = '';
         }
@@ -310,22 +287,22 @@ class AdminGoodsController extends AdminBaseController
         }
 
 /*数据处理*/
-        $style = [[565,385],[283,195],[160,109]];
+        $style = config('thumbnail_size');
         // dump($data['photo']);die;
         // 处理文件图片
         if (!empty($data['photo'])) {
-            $post['more']['photos'] = lothar_dealFiles($data['photo'],$style);
+            $post['photos'] = lothar_dealFiles($data['photo'],$style);
         } else {
-            $post['more']['photos'] = [];
+            $post['photos'] = '';
         }
         if (!empty($data['file'])) {
-            $post['more']['files'] = lothar_dealFiles($data['file']);
+            $post['files'] = lothar_dealFiles($data['file']);
         } else {
-            $post['more']['files'] = [];
+            $post['files'] = '';
         }
         if (!empty($post['thumbnail'])) {
-            $post['thumbnail'] = cmf_asset_relative_url($post['thumbnail']);
-            $post['thumbnail'] = lothar_thumb_make($post['thumbnail'],$style);
+            $thumbnail = cmf_asset_relative_url($post['thumbnail']);
+            $post['thumbnail'] = lothar_thumb_make($thumbnail,$style);
         } else {
             $post['thumbnail'] = '';
         }
@@ -365,7 +342,7 @@ class AdminGoodsController extends AdminBaseController
 
         // 处理属性 shop_goods_item 
         // 事实上无论是 goods_id,attr_id 还是 goods_id,av_id 都已经组成了唯一条件
-        $attrs = $data['attr'];//所有属性
+        $attrs = isset($data['attr'])?$data['attr']:[];//所有属性
         $gav = [];
         if (!empty($attrs)) {
             // $post['more']['attr'] = $data['attr'];

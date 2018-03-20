@@ -174,22 +174,22 @@ class AdminCarController extends AdminBaseController
             $this->error($result);
         }
 
-        $style = [[565,385],[283,195],[160,109]];
+        $style = config('thumbnail_size');
         // 处理文件图片
         if (!empty($data['photo'])) {
-            $post['more']['photos'] = lothar_dealFiles($data['photo'],$style);
+            $post['photos'] = lothar_dealFiles($data['photo'],$style);
         } else {
-            $post['more']['photos'] = [];
+            $post['photos'] = '';
         }
         if (!empty($data['file'])) {
-            $post['more']['files'] = lothar_dealFiles($data['file']);
+            $post['files'] = lothar_dealFiles($data['file']);
         } else {
-            $post['more']['files'] = [];
+            $post['files'] = '';
         }
-        if (!empty($post['more']['thumbnail'])) {
-            $thumbnail = $post['more']['thumbnail'];
+        if (!empty($post['thumbnail'])) {
+            $thumbnail = $post['thumbnail'];
             $thumbnail = cmf_asset_relative_url($thumbnail);
-            $post['more']['thumbnail'] = lothar_thumb_make($thumbnail,$style);
+            $post['thumbnail'] = lothar_thumb_make($thumbnail,$style);
         }
         // $post['report'] = $data['report'];
 

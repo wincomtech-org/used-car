@@ -26,15 +26,20 @@ $(function(){
     //     });
     // });
 
+    // 页面加载时
+    var data = {servId:'{$page.id}',provId: 10, cityId: 146};
+    coordJson(data);
+
+
     // 选省份时
     $('#input-province').change(function() {
         // var o = this = '#input-province';
-        var url = '{:url("usual/Ajax/getCitys")}';
+        var href = '{:url("usual/Ajax/getCitys")}';
         // 地区选择
-        select_province('',url);
+        select_province('',href);
         // 坐标获取
-        var pid = $(this).val();
-        var data = {servId:'{$page.id}',provId: pid};
+        var provId = $(this).val();
+        var data = {servId:'{$page.id}',provId: provId};
         coordJson(data);
     });
 

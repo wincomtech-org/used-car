@@ -228,8 +228,8 @@ function lothar_popup($msg = '', $code = 1, $url = null, $data = '', $wait = 3)
 
 /**
  * 后台 JS 插件 处理上传图片、文件
- * 如何删除照片？？？
- * $style = [[565,385],[283,195],[160,109]];
+ * 如何删除照片？在url('user/AdminAsset/index'),但缩略图仍在,可修改源码
+ * $style = config('thumbnail_size');
  * 车详情图集 $style = [[580,384]]
  */
 function lothar_dealFiles($files=['names'=>[],'urls'=>[]], $style=[])
@@ -265,11 +265,13 @@ function lothar_dealFiles2($files=[0=>['url'=>'','name'=>'']], $style=[])
     if (is_array($files)) {
         foreach ($files as $row) {
             $relative_url = cmf_asset_relative_url($row['url']);
+            // dump($relative_url);die;
             if (!empty($style)) {
                 $relative_url = lothar_thumb_make($relative_url,$style);
             }
             array_push($post, ["url"=>$relative_url, "name"=>$row['name']]);
         }
+        // dump($post);die;
     } elseif (is_string($files)) {
         $relative_url = cmf_asset_relative_url($files);
         if (!empty($style)) {
@@ -289,7 +291,7 @@ function lothar_dealFiles2($files=[0=>['url'=>'','name'=>'']], $style=[])
  * 车子详情 580x384
  * banner图：
  * @param  string $imgpath [文件源:本地不带http，远程下载处理]
- * @param  array $style   [[565,385],[283,195],[160,109]];
+ * @param  array $style   config('thumbnail_size');
  * @param  number $type   [图片处理方式]
  * @return [type]          [description]
  */
@@ -309,7 +311,8 @@ function lothar_thumb_make($imgpath='http://hcfarm.wincomtech.cn/upload/admin/20
         }*/
         $fork = false;
     } elseif (strpos($imgpath, '/') === 0) {
-        return cmf_get_domain() . $imgpath;
+        $url = cmf_get_domain() . $imgpath;
+        return $url;
     }
 
     if (empty($fork)) {
@@ -323,15 +326,16 @@ function lothar_thumb_make($imgpath='http://hcfarm.wincomtech.cn/upload/admin/20
         // $fileArr    = pathinfo($orginpath);
         // $savepath   = $fileArr['dirname'] .'/'. $fileArr['filename'] .'_'. $width .'x'. $height .'.'. $fileArr['extension'];
         if (is_file($orginpath)) {
-            foreach ($style as $set) {
-                $savepath = $orginpath .'_'. $set[0].'x'.$set[1] .'.jpg';
+            foreach ($style as $key=>$set) {
+                $savepath = $orginpath .'_'. $key .'.jpg';
                 $avatarImg = Image::open($orginpath);//每次重新实例化
                 $avatarImg->thumb($set[0], $set[1], $type)->save($savepath);
             }
         }
 
         // 原图，如果是远程则替换成下载到本地的原始图
-        $url = request()->domain() . $orginpath;
+        $url = $imgpath;
+        // $url = $orginpath;
     }
 
     return $url;

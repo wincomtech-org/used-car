@@ -207,6 +207,7 @@ return [
         8 => 'funds/AdminOpenshop/index',
         9 => 'funds/AdminRecharge/add',
         10 => 'shop/AdminOrder/index',
+        11 => 'service/AdminOrder/index',
     ],
     'shop_goods_status'        =>
     [
@@ -224,8 +225,11 @@ return [
         3   => '待收货',
         4   => '待评价',
     ],
-    'pagerset'                 =>
-    [
-        'size' => 12,
+    'shop_refund_status' => [
+        0 => '未申请',
+        1 => '退款中',
+        2 => '退款完成',
     ],
+    'thumbnail_size'=>[[565,385],[283,195],[160,109]],
+    'pagerset'=>['size' => 12,],
 ];

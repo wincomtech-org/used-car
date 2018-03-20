@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>车辆买卖详情 - {$site_info.site_name|default=''}</title>
-    <meta name="keywords" content="{$site_info.site_seo_keywords|default=''}" />
-    <meta name="description" content="{$site_info.site_seo_description|default=''}">
+    <title>{$car.seo_title|default='车辆买卖详情'} - {$site_info.site_name|default=''}</title>
+    <meta name="keywords" content="{$car.seo_keywords|default=''},{$site_info.site_seo_keywords|default=''}" />
+    <meta name="description" content="{$car.seo_description|default=''},{$site_info.site_seo_description|default=''}">
 
     <include file="public@head" />
     <hook name="before_head_end" />
@@ -49,7 +49,7 @@
                         <!-- 大图begin -->
                         <div id="preview" class="spec-preview">
                             <div class="jqzoom">
-                                <img jqimg="{:cmf_get_image_preview_url($car.more.thumbnail)}" src="{:cmf_get_image_preview_url($car.more.thumbnail)}"
+                                <img jqimg="{:cmf_get_image_preview_url($car.thumbnail)}" src="{:cmf_get_image_preview_url($car.thumbnail.'_0.jpg')}"
                                 />
                                 <a class="shoucang js-favorite-btn" href="{:url('Post/collect',['id'=>$car.id])}">
                                     <i></i>收藏</a>
@@ -62,10 +62,10 @@
                             <a class="next">&gt;</a>
                             <div class="items">
                                 <ul>
-                                    <notempty name="car.more.photos">
-                                    <foreach name="car.more.photos" item="vo">
+                                    <notempty name="car.photos">
+                                    <foreach name="car.photos" item="vo">
                                     <li>
-                                        <img bimg="{:cmf_get_image_preview_url($vo.url)}" src="{:cmf_get_image_preview_url($vo['url'])}" onmousemove="preview(this);">
+                                        <img bimg="{:cmf_get_image_preview_url($vo.url)}" src="{:cmf_get_image_preview_url($vo.url.'_2.jpg')}" onmousemove="preview(this);">
                                     </li>
                                     </foreach>
                                     </notempty>
@@ -353,12 +353,12 @@
                     <h4 class="car_message_con_tit">车辆实拍</h4>
                     <div class="car_realShot">
                         <ul class="car_realShot_list">
-                            <notempty name="car.more.photos">
-                            <foreach name="car.more.photos" item="vo">
+                            <notempty name="car.photos">
+                            <foreach name="car.photos" item="vo">
                             <li class="car_realShot_item">
                                 <a href="javascript:parent.imagePreviewDialog('{:cmf_get_image_preview_url($vo.url)}');">
                                     <i class="fa fa-photo fa-fw">
-                                        <img src="{:cmf_get_image_preview_url($vo.url)}" alt="">
+                                        <img src="{:cmf_get_image_preview_url($vo.url.'_0.jpg')}" alt="">
                                     </i>
                                 </a>
                             </li>
@@ -378,7 +378,7 @@
                                     <li class="vehicle_con_detail_items">
                                         <div class="img">
                                             <a href="{:cmf_url('details',['id'=>$vo.id])}">
-                                                <img src="{:cmf_get_image_preview_url($vo.more.thumbnail)}" alt="">
+                                                <img src="{:cmf_get_image_preview_url($vo.thumbnail.'_1.jpg')}" alt="">
                                             </a>
                                         </div>
                                         <div class="txt">

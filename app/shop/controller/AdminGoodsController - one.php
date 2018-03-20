@@ -151,7 +151,7 @@ class AdminGoodsController extends AdminBaseController
             $this->error($result);
         }
         // 处理文件图片
-        $style = [[565,385],[283,195],[160,109]];
+        $style = config('thumbnail_size');
         if (!empty($data['photo'])) {
             $post['more']['photos'] = lothar_dealFiles($data['photo'],$style);
         }
@@ -281,7 +281,7 @@ class AdminGoodsController extends AdminBaseController
             $this->error($result);
         }
         // 处理文件图片
-        $style = [[565,385],[283,195],[160,109]];
+        $style = config('thumbnail_size');
         if (!empty($data['photo'])) {
             $post['more']['photos'] = lothar_dealFiles($data['photo'],$style);
         }

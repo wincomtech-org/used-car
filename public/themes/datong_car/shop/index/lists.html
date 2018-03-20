@@ -148,7 +148,7 @@
                             <empty name="vo.thumbnail">
                                 <img src="__TMPL__/public/assets/images/default-thumbnail_160x109.png" alt="">
                             <else/>
-                                <img src="{:url('thumbUrl',['img'=>urlencode($vo.thumbnail),'w'=>160,'h'=>109])}" alt="">
+                                <img src="{:cmf_get_image_preview_url($vo.thumbnail.'_2.jpg')}" alt="">
                             </empty>
                         </a>
                     </div>

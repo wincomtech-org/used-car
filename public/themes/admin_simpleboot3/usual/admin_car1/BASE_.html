@@ -76,8 +76,8 @@
         <th>相册</th>
         <td>
             <ul id="photos" class="pic-list list-unstyled form-inline">
-                <notempty name="post.more.photos">
-                <foreach name="post.more.photos" item="vo">
+                <notempty name="post.photos">
+                <foreach name="post.photos" item="vo">
                     <li id="saved-image{$key}">
                         <input id="photo-{$key}" type="hidden"
                                name="photo[urls][]" value="{$vo.url}">

@@ -60,9 +60,11 @@ class IndexController extends HomeBaseController
             $new_data = $scModel->getDefineData($define_data,false);
             $this->assign('new_data',$new_data);
             if (in_array('service_point',$define_data)) {
-                $provinces = model('admin/District')->getDistricts(0,1);
+                $provinces = model('admin/District')->getDistricts(10,1);
+                $citys = model('admin/District')->getDistricts(146,10);
                 $servicePoint = model('usual/UsualCoordinate')->getCoordinates(0, ['sc_id'=>$servId], false);
                 $this->assign('provinces', $provinces);
+                $this->assign('citys', $citys);
                 $this->assign('servicePoint',$servicePoint);
                 $this->assign('servicePointJson',json_encode($servicePoint));
             }

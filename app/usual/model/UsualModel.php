@@ -14,11 +14,13 @@ class UsualModel extends ComModel
 {
     // 结合 ->toArray() 使用的，将json对象转维数组
     protected $type = [
-        'more' => 'array',
-        'identi' => 'array',
+        'more'        => 'array',
+        'photos'      => 'array',
+        'files'       => 'array',
+        'identi'      => 'array',
         'define_data' => 'array',
-        'file' => 'array',
-        'report' => 'array',
+        'file'        => 'array',
+        'report'      => 'array',
     ];
     // 开启自动写入时间戳字段
     protected $autoWriteTimestamp = true;

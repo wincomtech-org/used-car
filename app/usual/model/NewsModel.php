@@ -167,6 +167,7 @@ class NewsModel extends Model
      * @param  string $obj [对象类型] 
      * [seecar:seeCar,openshop:deposit,recharge:recharge,insurance:insurStep6,] 
      * [insurance:insurStep2,regCar:regCar,service:service,withdraw:withdraw] 
+     * [shop:shop,service:service_cash]
      * [register:doRegister]
      * @param  string $oid [订单ID] 
      * @return [array]      [返回数据集] 
@@ -225,6 +226,15 @@ class NewsModel extends Model
                     'content'   => '保单ID：'.$oid.'，客户ID：'.$uid,
                     'adminurl'  => 2,
                     'app'       => 'insurance',
+                ];
+                break;
+            case 'service_cash': 
+                $log = [
+                    'title'     => '车辆服务单：'. $extra['order_sn'],
+                    'object'    => 'service_order:'. $oid,
+                    'content'   => '订单ID：'.$oid.'，客户ID：'.$uid,
+                    'adminurl'  => 11,
+                    'app'       => 'service',
                 ];
                 break;
             case 'shop': 

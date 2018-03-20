@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <title>车辆买卖</title>
+    <title>{$goods.seo_title|default='服务商城'} - {$site_info.site_name|default=''}</title>
+    <meta name="keywords" content="{$goods.seo_keywords|default=''},{$site_info.site_seo_keywords|default=''}"/>
+    <meta name="description" content="{$goods.seo_description|default=''},{$site_info.site_seo_description|default=''}">
     <include file="public@head" />
     <!-- 服务商城css -->
     <!-- <link href='__TMPL__/public/assets/css/shop.css' type="text/css" rel="stylesheet"> -->
@@ -33,7 +33,7 @@
 								<empty name="goods.thumbnail">
                                     <img jqimg="__TMPL__/public/assets/images/default_picture.png" src="__TMPL__/public/assets/images/default_picture_565x385.png" />
 								<else/>
-                                    <img jqimg="{:cmf_get_image_preview_url($goods.thumbnail)}" src="{:url('thumbUrl',['img'=>urlencode($goods.thumbnail),'w'=>565,'h'=>385])}" height="385" />
+                                    <img jqimg="{:cmf_get_image_preview_url($goods.thumbnail)}" src="{:cmf_get_image_preview_url($goods.thumbnail.'_0.jpg')}" height="385" />
 								</empty>
                             </div>
                         </div>
@@ -43,9 +43,9 @@
                         	<a class="prev">&lt;</a> <a class="next">&gt;</a>
                             <div class="items">
                                 <ul>
-                                    <notempty name="goods.more.photos">
-                                    <foreach name="goods.more.photos" item="img">
-                                        <li><img bimg="{:cmf_get_image_preview_url($img.url)}" src="{:url('thumbUrl',['img'=>urlencode($img.url),'w'=>160,'h'=>109])}" onmousemove="preview(this);"></li>
+                                    <notempty name="goods.photos">
+                                    <foreach name="goods.photos" item="img">
+                                        <li><img bimg="{:cmf_get_image_preview_url($img.url)}" src="{:cmf_get_image_preview_url($img.url.'_2.jpg')}" onmousemove="preview(this);"></li>
                                     </foreach>
                                     </notempty>
                                 </ul>
@@ -189,7 +189,7 @@
                                         <empty name="rec.thumbnail">
 										  <img src="__TMPL__/public/assets/images/default-thumbnail_160x109.png" alt="">
                                         <else/>
-                                            <img src="{:url('thumbUrl',['img'=>urlencode($rec.thumbnail),'w'=>160,'h'=>109])}" alt="">
+                                            <img src="{:cmf_get_image_preview_url($rec.thumbnail.'_2.jpg')}" alt="">
                                         </empty>
 									</a>
                                 </div>

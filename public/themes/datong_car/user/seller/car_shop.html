@@ -53,12 +53,12 @@
         <span class="details_tit">主图</span>
         <!-- post[more][thumbnail] -->
         <div class="idetails_con" >
-            <input type="hidden" name="post[more][thumbnail]" id="thumbnail" value="{$post.more.thumbnail|default=''}">
+            <input type="hidden" name="post[thumbnail]" id="thumbnail" value="{$post.thumbnail|default=''}">
             <a href="javascript:uploadOneImage('图片上传','#thumbnail');">
-                <if condition="empty($post.more.thumbnail)">
+                <if condition="empty($post.thumbnail)">
                     <img src="__TMPL__/public/assets/images/default-thumbnail.png" id="thumbnail-preview" width="286" height="195" style="cursor:pointer" />
                 <else/>
-                    <img src="{:cmf_get_image_preview_url($post.more.thumbnail)}" id="thumbnail-preview" width="286" height="195" style="cursor:pointer" />
+                    <img src="{:cmf_get_image_preview_url($post.thumbnail)}" id="thumbnail-preview" width="286" height="195" style="cursor:pointer" />
                 </if>
             </a>
             <input type="button" class="btn btn-sm btn-cancel-thumbnail" value="取消图片">
@@ -66,11 +66,11 @@
     </li>
     <li class="details_item unauthorized" >
         <span class="details_tit">车辆照片</span>
-        <!-- post.more.photos -->
+        <!-- post.photos -->
         <div class="idetails_con">
             <ul id="photos" class="pic-list list-unstyled form-inline">
-                <notempty name="post.more.photos">
-                    <foreach name="post.more.photos" item="vo">
+                <notempty name="post.photos">
+                    <foreach name="post.photos" item="vo">
                         <li id="saved-image{$key}">
                             <input id="photo-{$key}" type="hidden"
                                    name="photo[urls][]" value="{$vo.url}">
