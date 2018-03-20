@@ -39,7 +39,7 @@
                                 <ul>
                                     <notempty name="car.photos">
                                     <foreach name="car.photos" item="vo">
-                                    <li><img bimg="{:cmf_get_image_preview_url($vo.url)}" src="{:cmf_get_image_preview_url($vo.url.'_2.jpg')}" onmousemove="preview(this);"></li>
+                                    <li><img orginImg="{:cmf_get_image_preview_url($vo.url)}" bimg="{:cmf_get_image_preview_url($vo.url.'_0.jpg')}" src="{:cmf_get_image_preview_url($vo.url.'_2.jpg')}" onmousemove="preview(this);"></li>
                                     </foreach>
                                     </notempty>
                                 </ul>
