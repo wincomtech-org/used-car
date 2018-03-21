@@ -194,7 +194,7 @@
                 <foreach name="article_flows" item="vo" key="key">
                     <li class="car_process_tit_item {$key==0?='active'}">
                         <div>
-                            <img class="image-item"  lazyload="true" data-original="{:cmf_get_image_preview_url($vo.more.thumbnail)}" alt="">
+                            <img class="image-item" lazyload="true" data-original="{:cmf_get_image_preview_url($vo.more.thumbnail)}" alt="">
                             <p style="cursor:pointer;">{$vo.post_title}</p>
                         </div>
                     </li>
@@ -213,8 +213,9 @@
                     <div class="i_box">
                         <div class="i_imglist">
                             <ul id="J_imgList">
+                                <!-- 轮播图懒加载失败？ -->
                                 <foreach name="services" item="vo" >
-                                <li><a href="{:cmf_url('service/Index/step1',['id'=>$vo.id])}"><img class="image-item"  lazyload="true" data-original="{:cmf_get_image_preview_url($vo.more.thumbnail)}" alt="{$vo.name}" title="{$vo.name}" /></a></li>
+                                <li><a href="{:cmf_url('service/Index/step1',['id'=>$vo.id])}"><img class="image-item" src="{:cmf_get_image_preview_url($vo.more.thumbnail)}" alt="{$vo.name}" title="{$vo.name}" /></a></li>
                                 </foreach>
                             </ul>
                         </div><!--切换大图-->
