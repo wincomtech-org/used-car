@@ -53,26 +53,30 @@ class ServiceController extends UserBaseController
         $id = $this->request->param('id/d');
         $mid = $this->request->param('mid/d');
 
-        $page = model('service/Service')->getPost($id);
-        if (empty($page)) {
+        $post = model('service/Service')->getPost($id);
+        if (empty($post)) {
             abort(404,'数据不存在！');
         }
-        $page['statusV'] = config('service_status')[$page['status']];
+        $post['statusV'] = config('service_status')[$post['status']];
+        $post['paystatusV'] = config('service_pay_status')[$post['pay_status']];
 
+        // 分类模型
         $serviceNav = cache('serviceNav');
         $scModel = new ServiceCategoryModel();
         $define_data = $scModel->getDefineData($mid,false);
+        $serviceCate = $scModel->field('name')->where('id',$post['model_id'])->find();
 
         // 处理服务点
-        $servicePoint = Db::name('usual_coordinate')->where('id',$page['service_point'])->value('name');
-        $servicePoints = model('usual/UsualCoordinate')->getCoordinates(0, ['id'=>$page['service_point']], false);
+        $servicePoint = Db::name('usual_coordinate')->where('id',$post['service_point'])->value('name');
+        $servicePoints = model('usual/UsualCoordinate')->getCoordinates(0, ['id'=>$post['service_point']], false);
 
         $this->assign('serviceNav',$serviceNav);
         $this->assign('define_data',$define_data);
+        $this->assign('service_cate',$serviceCate);
         $this->assign('servicePoint',$servicePoint);
         $this->assign('servicePointJson',json_encode($servicePoints));
         $this->assign('mid',$mid);
-        $this->assign("page",$page);
+        $this->assign("post",$post);
         return $this->fetch();
     }
 

@@ -36,18 +36,28 @@
                     <div class="form_details">
                         <ul>
                             <li>
-                                <php></php>
                                 <span class="icon">预&nbsp;&nbsp;约&nbsp;&nbsp;状&nbsp;&nbsp;态</span>
                                 <span class="txt 
-                                    <switch name='page.status'>
+                                    <switch name='post.status'>
                                         <case value='1|4|10'>succ</case>
                                         <case value='-1|-2|-3|-4|-5|-11'>err</case>
                                         <default />
                                     </switch>
-                                ">{$page.statusV}</span>
+                                ">{$post.statusV}</span>
                             </li>
 
                             <div class="mess">
+                                <li>
+                                    <span class="icon">支付状态</span>
+                                    <span class="txt">{$post.paystatusV}</span>
+                                    <eq name="post.pay_status" value="1">
+                                    <a style="margin-left:5px;font-size:0.6rem;color:#F00" href="{:url('service/Order/pay',['id'=>$post.id,'order_amount'=>$post.order_amount,'name'=>$service_cate.name])}">>>去支付</a>
+                                    </eq>
+                                </li>
+                                <li>
+                                    <span class="icon">付款金额</span>
+                                    <span class="txt">{$post.order_amount}</span>
+                                </li>
                                 <!-- <p>买家信息</p> -->
                                 <foreach name="define_data" item="vo">
                                 <li>

@@ -30,6 +30,13 @@ return [
         9   => '送回中……',
         10  => '完成',
     ],
+    'service_pay_status'    =>
+    [
+        -10 => '不需要支付',
+        0   => '未支付',
+        1   => '支付核实',
+        10  => '支付完成',
+    ],
     'service_define_data'      =>
     [
         'username'        => '车主名',
@@ -207,7 +214,7 @@ return [
         8 => 'funds/AdminOpenshop/index',
         9 => 'funds/AdminRecharge/add',
         10 => 'shop/AdminOrder/index',
-        11 => 'service/AdminOrder/index',
+        11 => 'service/AdminService/index',
     ],
     'shop_goods_status'        =>
     [

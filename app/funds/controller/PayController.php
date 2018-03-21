@@ -73,6 +73,17 @@ class PayController extends HomeBaseController
                 echo "exist";exit();
             }
             Db::name('shop_order')->where('id',$orderId)->setField('status',1);
+        } elseif ($paysign=='service_pay') {
+            $where = ['user_id'=>$userId, 'status'=>0, 'action'=>'service_pay'];
+            $find = Db::name('news')->where($where)->count();
+            if ($find>0) {
+                echo "exist";exit();
+            }
+            $find2 = Db::name('service')->where('id',$orderId)->value('pay_status');
+            if ($find2!=0) {
+                echo "pay";exit();
+            }
+            Db::name('service')->where('id',$orderId)->setField('pay_status',1);
         }
 
         $log = model('usual/News')->newsObject($paysign,$orderId);

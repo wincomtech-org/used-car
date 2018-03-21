@@ -77,6 +77,8 @@
                         $('.qr_msg').show().html('数据非法！');
                     } else if(msg=='exist') {
                         $('.qr_msg').show().html('已存在！');
+                    } else if(msg=='pay') {
+                        $('.qr_msg').show().html('已支付！');
                     } else {
                         if (paysign=='recharge') {
                             $('.qr_msg').show().html('提交成功，后台开始处理相关信息，届时通知您结果，请耐心等待。');

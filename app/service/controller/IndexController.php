@@ -99,11 +99,11 @@ class IndexController extends HomeBaseController
         $post['user_id'] = $userId;
         // $more = $data['more'];//省份、城市
 
-        $servCates = Db::name('service_category')->field('platform,name,define_data')->where('id',$post['model_id'])->find();
+        // 所属模型的数据
+        $servCates = Db::name('service_category')->field('platform,name,price,is_pay,define_data')->where('id',$post['model_id'])->find();
 
         // 防止重复提交
         if (!empty($post['plateNo'])) {
-            // $count = Db::name('service')->where('plateNo',$post['plateNo'])->count();
             $find = Db::name('service')->field('id,model_id,user_id')->where('plateNo',$post['plateNo'])->find();
             if (!empty($find)) {
                 if ($find['user_id']!=$userId) {
@@ -180,17 +180,19 @@ class IndexController extends HomeBaseController
         // if (!empty($post['service_point'])) {
         //     $coord = Db::name('usual_coordinate')->where('id',$post['service_point'])->find();
         // }
+        // 服务费
+        $post['order_amount'] = $servCates['price'];
 
-        // 提交
+        // 提交 事务处理
+        $extra = [
+            'service_point' => empty($post['service_point'])?'':$post['service_point'],
+            'name'          => $servCates['name']
+        ];
         Db::startTrans();
         $transStatus = true;
         try{
             $id = model('Service')->addAppoint($post);
             // 服务点ID service_point
-            $extra = [
-                'service_point' => empty($post['service_point'])?'':$post['service_point'],
-                'name'          => $servCates['name']
-            ];
             $log = model('usual/News')->newsObject('service',$id,$userId,$extra);
             lothar_put_news($log);
             Db::commit();
@@ -203,7 +205,13 @@ class IndexController extends HomeBaseController
             $this->error('提交失败');
         }
 
-        $this->success('提交成功，请等待工作人员回复',url('user/Service/index',['mid'=>$post['model_id']]));
+        // 在这里判断是否支付 是否生成订单号 order_sn ？ 
+        if ($servCates['is_pay']==1) {
+            $this->success('去支付……',url('service/Order/pay',['id'=>$id,'name'=>$servCates['name'],'order_amount'=>$servCates['price']]));
+        } else {
+            $this->success('提交成功，请等待工作人员回复',url('user/Service/index',['mid'=>$post['model_id']]));
+        }
+        
         // if ($servCates['platform']==1) {
         //     $this->success('提交成功，请等待工作人员回复',url('user/Service/index',['mid'=>$post['model_id']]));
         // } else {

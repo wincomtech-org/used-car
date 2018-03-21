@@ -47,17 +47,18 @@ class AdminServiceController extends AdminBaseController
 
     public function add()
     {
-        $scModel = new ServiceCategoryModel();
+        $scModel = new ServiceModel();
+        $cateModel = new ServiceCategoryModel();
         $compModel = new UsualCompanyModel();
 
         // $categoryTree = model('usual/UsualCategory')->adminCategoryTree(0,0,'service_category');
-        $categoryTree = $scModel->getOptions();
-        $compModel = new UsualCompanyModel();
+        $categoryTree = $cateModel->getOptions();
         $companyTree = $compModel->getCompanys();
 
         $this->assign('category_tree', $categoryTree);
         $this->assign('company_tree', $companyTree);
-        $this->assign('service_status', model('Service')->getServiceStatus());
+        $this->assign('service_status', $scModel->getServiceStatus());
+        $this->assign('service_pay_status', $scModel->getStatus('','service_pay_status'));
         return $this->fetch();
     }
     public function addPost()
@@ -67,12 +68,12 @@ class AdminServiceController extends AdminBaseController
             $post = $data['post'];
             $username = $this->request->param('username/s');
 
-            $serviceModel = new ServiceModel();
+            $scModel = new ServiceModel();
             // 判断用户
             if (empty($username)) {
                 $this->error('客户名不能为空');
             }
-            $userId = $serviceModel->getUid($username);
+            $userId = $scModel->getUid($username);
             if (empty($userId)) {
                 $this->error('系统未检测到该用户');
             }
@@ -90,9 +91,9 @@ class AdminServiceController extends AdminBaseController
                 $this->error($result);
             }
 
-            $serviceModel->adminAddArticle($post);
+            $scModel->adminAddArticle($post);
 
-            $this->success('添加成功!', url('AdminService/edit', ['id'=>$serviceModel->id]));
+            $this->success('添加成功!', url('AdminService/edit', ['id'=>$scModel->id]));
         }
     }
 
@@ -102,17 +103,18 @@ class AdminServiceController extends AdminBaseController
         $post = model('Service')->getPost($id);
         $post['coordinate'] = $post['ucs_x'].(empty($post['ucs_y'])?'':','.$post['ucs_y']);
 
-        $scModel = new ServiceCategoryModel();
+        $scModel = new ServiceModel;
+        $cateModel = new ServiceCategoryModel();
         $compModel = new UsualCompanyModel();
 
-        $categoryTree = $scModel->getOptions($post['model_id']);
+        $categoryTree = $cateModel->getOptions($post['model_id']);
         $companyTree = $compModel->getCompanys($post['company_id']);
         // 用户提交资料
         // 更多 more
         $define_data = [];
         if (!empty($post['more'])) {
             $postMore = array_keys($post['more']);
-            // $define_data = $scModel->getDefineData($post['model_id'],false);
+            // $define_data = $cateModel->getDefineData($post['model_id'],false);
             $defconf = config('service_define_data');
             $ddkey = array_keys($defconf);
             foreach ($postMore as $row) {
@@ -128,7 +130,8 @@ class AdminServiceController extends AdminBaseController
         $this->assign('category_tree', $categoryTree);
         $this->assign('company_tree', $companyTree);
         $this->assign('define_data', $define_data);
-        $this->assign('service_status', model('Service')->getServiceStatus($post['status']));
+        $this->assign('service_status', $scModel->getServiceStatus($post['status']));
+        $this->assign('service_pay_status', $scModel->getStatus($post['pay_status'],'service_pay_status'));
         $this->assign('post', $post);
         return $this->fetch();
     }
@@ -139,8 +142,8 @@ class AdminServiceController extends AdminBaseController
             $username = $this->request->param('username/s');
 
             // 验证
-            $serviceModel = new ServiceModel();
-            $userId = $serviceModel->getUid($username);
+            $scModel = new ServiceModel();
+            $userId = $scModel->getUid($username);
             if (empty($userId)) {
                 $this->error('系统未检测到该用户');
             }
@@ -159,7 +162,7 @@ class AdminServiceController extends AdminBaseController
                 $post['more']['files'] = lothar_dealFiles($data['file']);
             }
 
-            $serviceModel->adminEditArticle($post);
+            $scModel->adminEditArticle($post);
 
             $this->success('保存成功!');
         }

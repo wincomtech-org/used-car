@@ -164,6 +164,8 @@ class NewsModel extends Model
 
     /**
      * [newsObject 获取消息数组、组装] [参看 PayModel.php]
+     * $status = lothar_put_news($log);
+     * config('news_adminurl');
      * @param  string $obj [对象类型] 
      * [seecar:seeCar,openshop:deposit,recharge:recharge,insurance:insurStep6,] 
      * [insurance:insurStep2,regCar:regCar,service:service,withdraw:withdraw] 
@@ -171,8 +173,6 @@ class NewsModel extends Model
      * [register:doRegister]
      * @param  string $oid [订单ID] 
      * @return [array]      [返回数据集] 
-     * $status = lothar_put_news($log);
-     * config('news_adminurl');
      */
     public function newsObject($obj='', $oid='', $uid='',$extra=[])
     {
@@ -228,9 +228,9 @@ class NewsModel extends Model
                     'app'       => 'insurance',
                 ];
                 break;
-            case 'service_cash': 
+            case 'service_pay': 
                 $log = [
-                    'title'     => '车辆服务单：'. $extra['order_sn'],
+                    'title'     => '车辆业务支付',
                     'object'    => 'service_order:'. $oid,
                     'content'   => '订单ID：'.$oid.'，客户ID：'.$uid,
                     'adminurl'  => 11,
@@ -258,7 +258,7 @@ class NewsModel extends Model
                 break;
             case 'service': 
                 $log = [
-                    'title'     => '预约车辆服务：'. $extra['name'],
+                    'title'     => '预约车辆业务：'. $extra['name'],
                     'object'    => 'service:'. $oid,
                     'content'   => '服务点ID：'.$extra['service_point'].'，客户ID：'.$uid,
                     'adminurl'  => 3,
