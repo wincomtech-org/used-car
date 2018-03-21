@@ -53,7 +53,7 @@
                     <tr>
                         <th>客户名(车主)<span class="form-required">*</span></th>
                         <td>
-                            <input class="form-control" type="text" name="username" value="">
+                            <input class="form-control" type="text" name="username" value="" required>
                         </td>
                     </tr>
                     <tr>
@@ -127,17 +127,33 @@
                                    value="{:date('Y-m-d H:i:s',time())}">
                         </td>
                     </tr>
+                </table>
+
+                <table class="table table-bordered">
                     <tr>
-                        <th><b>状态</b></th>
-                    </tr>
-                    <tr>
+                        <th><b>置顶</b></th>
                         <td>
                             <div class="checkbox">
-                                <label><input type="checkbox" name="post[is_top]" value="1">置顶</label>
+                                <label><input type="radio" name="post[is_top]" value="1">是</label>
+                                <label><input checked type="radio" name="post[is_top]" value="0">否</label>
                             </div>
                         </td>
                     </tr>
                     <tr>
+                        <th><b>支付状态</b></th>
+                        <td>
+                            <div class="checkbox">
+                                <select class="form-control" name="post[pay_status]" style="width:140px;">
+                                    <option value="0">未支付</option>
+                                    <option value="1">已支付</option>
+                                    <option value="2">支付核实</option>
+                                    <option value="10">支付完成</option>
+                                </select>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th><b>业务状态</b></th>
                         <td>
                             <div class="checkbox">
                                 <select class="form-control" name="post[status]" style="width:140px;">

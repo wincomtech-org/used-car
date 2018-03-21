@@ -38,7 +38,7 @@
         <div class="row margin-top-20">
             <div class="col-md-1">
                 <div class="list-group">
-                    <a class="list-group-item" href="#BASE" data-toggle="tab">其它属性</a>
+                    <a class="list-group-item" href="#BASE" data-toggle="tab">基本属性</a>
                     <a class="list-group-item" href="#AUDIT" data-toggle="tab">客户资料</a>
                 </div>
             </div>
@@ -84,7 +84,7 @@
                             <tr>
                                 <th width="100">客户名(车主)<span class="form-required">*</span></th>
                                 <td>
-                                    <input class="form-control" type="text" name="username" value="{$post.buyer_username|default=''}">
+                                    <input class="form-control" type="text" name="username" value="{$post.buyer_username|default=''}" required>
                                 </td>
                             </tr>
                             <tr>
@@ -227,17 +227,33 @@
                                    value="{$post.end_time?=date('Y-m-d H:i',$post.end_time)}">
                         </td>
                     </tr>
+                </table>
+
+                <table class="table table-bordered">
                     <tr>
-                        <th><b>状态</b></th>
-                    </tr>
-                    <tr>
+                        <th><b>置顶</b></th>
                         <td>
                             <div class="checkbox">
-                                <label><input type="checkbox" name="post[is_top]" value="1" {$post.is_top?='checked'} >置顶</label>
+                                <label><input {$post.is_top==1?='checked'} type="radio" name="post[is_top]" value="1">是</label>
+                                <label><input {$post.is_top==0?='checked'} type="radio" name="post[is_top]" value="0">否</label>
                             </div>
                         </td>
                     </tr>
                     <tr>
+                        <th><b>支付状态</b></th>
+                        <td>
+                            <div class="checkbox">
+                                <select class="form-control" name="post[pay_status]" style="width:140px;">
+                                    <option value="0">未支付</option>
+                                    <option {$post.pay_status==1?='selected'} value="1">已支付</option>
+                                    <option {$post.pay_status==2?='selected'} value="2">支付核实</option>
+                                    <option {$post.pay_status==10?='selected'} value="10">支付完成</option>
+                                </select>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th><b>业务状态</b></th>
                         <td>
                             <div class="checkbox">
                                 <select class="form-control" name="post[status]" style="width:140px;">

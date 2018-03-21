@@ -150,22 +150,36 @@
                         <input class="form-control js-bootstrap-datetime" value="{:date('Y-m-d H:i:s',time())}">
                     </td>
                 </tr>
+            </table>
 
+            <table class="table table-bordered">
                 <tr>
-                    <th><b>置顶</b></th>
-                </tr>
-                <tr>
+                    <th><b>支付开关</b></th>
                     <td>
                         <div class="checkbox">
-                            <label><input type="radio" name="cate[is_top]" value="0" checked>否</label>
-                            <label><input type="radio" name="cate[is_top]" value="1">是</label>
+                            <label><input  type="radio" name="cate[is_pay]" value="1"> 开</label>
+                            <label><input checked type="radio" name="cate[is_pay]" value="0"> 关</label>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <th><b>服务费</b></th>
+                    <td>
+                        <input class="form-control" name="cate[price]" value="0.00">
+                    </td>
+                </tr>
+                
+                <tr>
+                    <th><b>置顶</b></th>
+                    <td>
+                        <div class="checkbox">
+                            <label><input checked type="radio" name="cate[is_top]" value="0"> 否</label>
+                            <label><input type="radio" name="cate[is_top]" value="1"> 是</label>
                         </div>
                     </td>
                 </tr>
                 <tr>
                     <th><b>状态</b></th>
-                </tr>
-                <tr>
                     <td>
                         <div class="checkbox">
                             <select class="form-control" name="cate[status]" style="width:140px;">

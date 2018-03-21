@@ -231,7 +231,7 @@
                     </tr>
                     <tr>
                         <td>
-                            <input readonly class="form-control" value="{$post.pay_time?=date('Y-m-d H:i',$post['pay_time'])}">
+                            <input class="form-control js-bootstrap-datetime" name="post[pay_time]" value="{$post.pay_time?=date('Y-m-d H:i',$post['pay_time'])}">
                         </td>
                     </tr>
                     <tr>
@@ -239,7 +239,8 @@
                     </tr>
                     <tr>
                         <td>
-                            <input class="form-control js-bootstrap-datetime" name="post[dead_time]" value="{$post.dead_time?=date('Y-m-d H:i',$post['dead_time'])}" {$post.status > 5?='disabled'}>
+                            <!-- 支付后才能操作？ $post.status > 5?='disabled' -->
+                            <input class="form-control js-bootstrap-datetime" name="post[dead_time]" value="{$post.dead_time?=date('Y-m-d H:i',$post['dead_time'])}">
                         </td>
                     </tr>
                     <tr>
