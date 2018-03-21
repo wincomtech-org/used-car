@@ -21,9 +21,9 @@ class ListController extends HomeBaseController
     {
         $param = $this->request->param();//接收筛选条件
         $id    = $this->request->param('id', 0, 'intval');
-        $childId = $this->request->param('sid', 5, 'intval');
+        $childId = $this->request->param('sid', 0, 'intval');
 
-        $curId = $childId ? $childId : $id;
+        $curId = $childId ? $childId : ($id?$id:5);
         $portalCategoryModel = new PortalCategoryModel();
 
         // 当前分类信息
