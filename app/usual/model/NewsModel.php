@@ -144,7 +144,7 @@ class NewsModel extends Model
     // 统计
     public function newsCounts($status='')
     {
-        if (empty($status)) {
+        if ($status=='') {
             $count[0] = Db::name('news')->where('status',0)->count();
             $count[1] = Db::name('news')->where('status',1)->count();
             $count[2] = Db::name('news')->where('status',2)->count();

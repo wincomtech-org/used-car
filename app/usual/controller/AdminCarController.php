@@ -87,7 +87,6 @@ class AdminCarController extends AdminBaseController
 
         // 用于前台车辆条件筛选且与属性表name同值的字段码
         $searchCode = model('UsualItem')->getItemSearch();
-        // dump($searchCode);die;
         // 从属性表里被推荐的
         $recItems = model('UsualItem')->getItemTable('is_rec',1);
         // 属性表里所有属性（不包含推荐的）
@@ -179,17 +178,19 @@ class AdminCarController extends AdminBaseController
         if (!empty($data['photo'])) {
             $post['photos'] = lothar_dealFiles($data['photo'],$style);
         } else {
-            $post['photos'] = '';
+            $post['photos'] = [];
         }
         if (!empty($data['file'])) {
             $post['files'] = lothar_dealFiles($data['file']);
         } else {
-            $post['files'] = '';
+            $post['files'] = [];
         }
         if (!empty($post['thumbnail'])) {
             $thumbnail = $post['thumbnail'];
             $thumbnail = cmf_asset_relative_url($thumbnail);
             $post['thumbnail'] = lothar_thumb_make($thumbnail,$style);
+        } else {
+            $post['thumbnail'] = '';
         }
         // $post['report'] = $data['report'];
 
@@ -213,7 +214,7 @@ class AdminCarController extends AdminBaseController
     {
         $id = $this->request->param('id', 0, 'intval');
         $post = $this->Model->getPost($id);
-// dump($post['report']);die;
+
         $Brands = model('UsualBrand')->getBrands($post['brand_id']);
         $Models = model('UsualModels')->getModels($post['model_id']);
         $Series = model('UsualSeries')->getSeries($post['serie_id']);
@@ -233,7 +234,7 @@ class AdminCarController extends AdminBaseController
         // 检测报告
         $reportModel = new TradeReportCateModel();
         $reportCateTree = $reportModel->getCateTree();
-// dump($post);die;
+
         // 开店资料审核 config('verify_define_data');
         // 个人审核资料
         $verifyinfo = lothar_verify($post['user_id'],'openshop','all');

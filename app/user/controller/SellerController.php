@@ -248,12 +248,12 @@ class SellerController extends TradeController
             if (!empty($data['photo'])) {
                 $post['photos'] = lothar_dealFiles($data['photo'],$style);
             } else {
-                $post['photos'] = '';
+                $post['photos'] = [];
             }
             if (!empty($data['file'])) {
                 $post['files'] = lothar_dealFiles($data['file']);
             } else {
-                $post['files'] = '';
+                $post['files'] = [];
             }
             if (!empty($post['thumbnail'])) {
                 $thumbnail = $post['thumbnail'];

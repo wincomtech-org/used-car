@@ -155,12 +155,12 @@ class AdminGoodsController extends AdminBaseController
         if (!empty($data['photo'])) {
             $post['photos'] = lothar_dealFiles($data['photo'],$style);
         } else {
-            $post['photos'] = '';
+            $post['photos'] = [];
         }
         if (!empty($data['file'])) {
             $post['files'] = lothar_dealFiles($data['file']);
         } else {
-            $post['files'] = '';
+            $post['files'] = [];
         }
         if (!empty($post['thumbnail'])) {
             $thumbnail = cmf_asset_relative_url($post['thumbnail']);
@@ -293,12 +293,12 @@ class AdminGoodsController extends AdminBaseController
         if (!empty($data['photo'])) {
             $post['photos'] = lothar_dealFiles($data['photo'],$style);
         } else {
-            $post['photos'] = '';
+            $post['photos'] = [];
         }
         if (!empty($data['file'])) {
             $post['files'] = lothar_dealFiles($data['file']);
         } else {
-            $post['files'] = '';
+            $post['files'] = [];
         }
         if (!empty($post['thumbnail'])) {
             $thumbnail = cmf_asset_relative_url($post['thumbnail']);
