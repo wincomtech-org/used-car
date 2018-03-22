@@ -13,6 +13,9 @@
         <li><a href="{:url('AdminCategory/index')}">业务模型管理</a></li>
         <li><a href="{:url('AdminCategory/add')}">添加业务模型</a></li>
         <li class="active"><a>编辑业务模型</a></li>
+        <li><a href="javascript:void(0);">|</a></li>
+        <li><a href="{:url('AdminCategory/defineSet')}">客户字段</a></li>
+        <li><a href="{:url('AdminCategory/add2')}">添加客户字段</a></li>
     </ul>
     <div class="row margin-top-20">
         <div class="col-md-1">
@@ -92,7 +95,7 @@
                     <div class="form-group">
                         <div class="define_head">自定义客户填写资料</div>
                         <div>
-                            {$define_data}
+                            {$defineData|default=''}
                         </div>
                     </div>
                 </div>

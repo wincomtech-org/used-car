@@ -2,7 +2,7 @@
 /*百度地图API功能*/
 
 // 初始化设置
-function setMapIni(default_point){
+function setMapIni(default_point,level=12){
 
     // 实例化 全局变量
     map = new BMap.Map("allmap", {minZoom:1,maxZoom:16});
@@ -10,7 +10,7 @@ function setMapIni(default_point){
     // 起始点
     var point = new BMap.Point(default_point[0], default_point[1]);
     // 中心点和缩放级别
-    map.centerAndZoom(point, 12);
+    map.centerAndZoom(point, level);
     // 启用滚轮放大缩小,默认禁用
     map.enableScrollWheelZoom();
     var searchInfoWindow = null;

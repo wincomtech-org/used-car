@@ -57,6 +57,16 @@ return [
         'appoint_time'    => '预约时间',
         'service_point'   => '服务点',
     ],
+    'service_define_type'   =>
+    [
+        'text'     => '文本类型',
+        'number'   => '数字型',
+        'hidden'   => '隐藏域',
+        'file'     => '文件',
+        'image'    => '单图',
+        'photos'   => '多图',
+        'date'     => '日期时间',
+    ],
     'trade_order_status'       =>
     [
         -11 => '过期',

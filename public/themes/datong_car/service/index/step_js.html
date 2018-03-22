@@ -30,9 +30,8 @@ $(function(){
     var data = {servId:'{$page.id}',provId: 10, cityId: 146};
     coordJson(data);
 
-
     // 选省份时
-    $('#input-province').change(function() {
+    $('#input-province').change(function(){
         // var o = this = '#input-province';
         var href = '{:url("usual/Ajax/getCitys")}';
         // 地区选择
@@ -42,12 +41,17 @@ $(function(){
         var data = {servId:'{$page.id}',provId: provId};
         coordJson(data);
     });
-
     // 选城市时
-    $('#input-city').change(function() {
+    $('#input-city').change(function(){
         var provId = $('#input-province').val(),cityId = $(this).val();
         var data = {servId:'{$page.id}',provId: provId, cityId: cityId};
         coordJson(data);
+    });
+    // 选坐标时
+    $('#input-coordinate').change(function(){
+        var coordId = $('#input-coordinate').val();
+        var data = {coordId: coordId};
+        coordSet(data);
     });
 
     function coordJson(data) {
@@ -57,13 +61,20 @@ $(function(){
             // console.log(coord)
             $('#input-coordinate').html(coord);
         });
+        coordSet(data);
+    }
+    function coordSet(data) {
         // 地图坐标
         $.getJSON("{:url('usual/Ajax/coords')}", data, function(result){
             // console.log(result[0]['ucs_x'],result[0]['ucs_y']);
+            // alert(result.length);
             var initialize = [];
-            initialize[0] = result[0]['ucs_x']
-            initialize[1] = result[0]['ucs_y']
-            setMapIni(initialize);
+            initialize[0] = result[0]['ucs_x'];
+            initialize[1] = result[0]['ucs_y'];
+            var level = 12;
+            if (result.length==1) { level = 16; }
+
+            setMapIni(initialize,level);
             createCoords(result);
         });
     }

@@ -3,8 +3,11 @@
 <body>
     <div class="wrap">
         <ul class="nav nav-tabs">
-            <li class="active"><a href="{:url('AdminCategory/index')}">业务模型管理</a></li>
+            <li class="active"><a>业务模型管理</a></li>
             <li><a href="{:url('AdminCategory/add')}">添加业务模型</a></li>
+            <li><a href="javascript:void(0);">|</a></li>
+            <li><a href="{:url('AdminCategory/defineSet')}">客户字段</a></li>
+            <li><a href="{:url('AdminCategory/add2')}">添加客户字段</a></li>
         </ul>
         <form class="well form-inline margin-top-20" method="post" action="{:url('AdminCategory/index')}">
             分类:
@@ -53,7 +56,7 @@
                             </notempty>
                         </td>
 
-                        <td>{$vo.is_pay?='开启':'关闭'}</td>
+                        <td>{$vo.is_pay==1?'开启':'关闭'}</td>
                         <td>{$vo.price|default='0.00'}</td>
                         <td>
                             <a href="{:url('AdminCategory/edit', ['id'=>$vo.id])}">编辑</a>&nbsp;&nbsp;

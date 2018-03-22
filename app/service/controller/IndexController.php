@@ -210,7 +210,8 @@ class IndexController extends HomeBaseController
             $payUrl = url('service/Order/pay',['id'=>$id,'modelId'=>$post['model_id'],'name'=>$servCates['name'],'order_amount'=>$servCates['price']]);
             $this->success('去支付……',$payUrl);
         } else {
-            $this->success('提交成功，请等待工作人员回复',url('user/Service/index',['mid'=>$post['model_id']]));
+            // $this->success('提交成功，请等待工作人员回复',url('user/Service/index',['mid'=>$post['model_id']]));
+            $this->success('提交成功，请等待工作人员回复',url('user/Service/details',['id'=>$id,'mid'=>$post['model_id']]));
         }
         
         // if ($servCates['platform']==1) {

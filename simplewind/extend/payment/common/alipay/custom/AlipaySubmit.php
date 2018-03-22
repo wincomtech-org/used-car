@@ -88,6 +88,9 @@ class AlipaySubmit
      */
     public function buildRequestForm($para_temp, $method='post', $button_name='', $auto=true, $target='_self')
     {
+        // 设置utf-8头
+        // header(string)
+        
         //待请求参数数组
         $para = $this->buildRequestPara($para_temp);
 

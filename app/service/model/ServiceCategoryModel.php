@@ -12,7 +12,7 @@ class ServiceCategoryModel extends UsualCategoryModel
     // 获取列表数据
     public function getLists($filter=[], $order='', $limit='',$extra=[])
     {
-        $field = 'id,name,code,type,platform,description,more,list_order';
+        $field = 'id,platform,name,code,type,description,more,list_order,is_pay,price';
         $where = [];
         if (!empty($filter['cateType'])) {
             $where['type'] = $filter['cateType'];

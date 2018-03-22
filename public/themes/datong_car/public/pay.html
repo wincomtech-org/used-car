@@ -84,7 +84,7 @@
                             $('.qr_msg').show().html('提交成功，后台开始处理相关信息，届时通知您结果，请耐心等待。');
                         } else if(paysign=='service_pay') {
                             $('.qr_msg').show();
-                            window.location.href = "{:url('user/Service/index',['mid'=>$order.modelId])}";
+                            window.location.href = "{:url('user/Service/details',['id'=>$orderId,'mid'=>$order.modelId])}";
                         } else {
                             $('.qr_msg').show();
                             // $('.qr_msg').show().html(msg);

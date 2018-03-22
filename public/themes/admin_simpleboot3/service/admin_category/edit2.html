@@ -1,0 +1,28 @@
+<include file="public@header"/>
+</head>
+<body>
+<div class="wrap js-check-wrap">
+    <ul class="nav nav-tabs">
+        <li><a href="{:url('AdminCategory/index')}">业务模型管理</a></li>
+        <li><a href="{:url('AdminCategory/add')}">添加业务模型</a></li>
+        <li><a href="javascript:void(0);">|</a></li>
+        <li><a href="{:url('AdminCategory/defineSet')}">客户字段</a></li>
+        <li><a href="{:url('AdminCategory/add2')}">添加客户字段</a></li>
+        <li class="active"><a>编辑客户字段</a></li>
+    </ul>
+    <form action="{:url('AdminCategory/opPost2')}" method="post" class="form-horizontal js-ajax-form margin-top-20">
+        <div class="row">
+            <include file="admin_category/add_edit2" />
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <input type="hidden" name="id" value="{$id}">
+                    <button type="submit" class="btn btn-primary js-ajax-submit" data-refresh="0">{:lang('SAVE')}</button>
+                    <a class="btn btn-default" href="javascript:history.back(-1);">{:lang('BACK')}</a>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<script type="text/javascript" src="__STATIC__/js/admin.js"></script>
+</body>
+</html>
