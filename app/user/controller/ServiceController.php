@@ -61,18 +61,25 @@ class ServiceController extends UserBaseController
         $post['paystatusV'] = config('service_pay_status')[$post['pay_status']];
 
         // 分类模型
+        $mid = $mid?$mid:$post['model_id'];
         $serviceNav = cache('serviceNav');
         $scModel = new ServiceCategoryModel();
         $define_data = $scModel->getDefineData($mid,false);
-        $serviceCate = $scModel->field('name')->where('id',$post['model_id'])->find();
+        $serviceCate = $scModel->field('name')->where('id',$mid)->find();
 
         // 处理服务点
         $servicePoint = Db::name('usual_coordinate')->where('id',$post['service_point'])->value('name');
         $servicePoints = model('usual/UsualCoordinate')->getCoordinates(0, ['id'=>$post['service_point']], false);
 
+        // 如果需要支付
+        $payUrl = '';
+        if ($post['order_amount']>0) {
+            $payUrl = url('service/Order/pay',['id'=>$id,'order_amount'=>$post['order_amount'],'modelId'=>$mid,'name'=>$serviceCate['name']]);
+        }
+
         $this->assign('serviceNav',$serviceNav);
         $this->assign('define_data',$define_data);
-        $this->assign('service_cate',$serviceCate);
+        $this->assign('payUrl',$payUrl);
         $this->assign('servicePoint',$servicePoint);
         $this->assign('servicePointJson',json_encode($servicePoints));
         $this->assign('mid',$mid);

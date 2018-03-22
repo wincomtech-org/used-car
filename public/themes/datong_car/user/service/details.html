@@ -51,7 +51,7 @@
                                     <span class="icon">支付状态</span>
                                     <span class="txt">{$post.paystatusV}</span>
                                     <eq name="post.pay_status" value="1">
-                                    <a style="margin-left:5px;font-size:0.6rem;color:#F00" href="{:url('service/Order/pay',['id'=>$post.id,'order_amount'=>$post.order_amount,'name'=>$service_cate.name])}">>>去支付</a>
+                                    <a style="margin-left:5px;font-size:0.6rem;color:#F00" href="{$payUrl|default=''}">>>去支付</a>
                                     </eq>
                                 </li>
                                 <li>

@@ -53,7 +53,7 @@
                             </notempty>
                         </td>
 
-                        <td>{$vo.is_pay?'开启':'关闭'}</td>
+                        <td>{$vo.is_pay?='开启':'关闭'}</td>
                         <td>{$vo.price|default='0.00'}</td>
                         <td>
                             <a href="{:url('AdminCategory/edit', ['id'=>$vo.id])}">编辑</a>&nbsp;&nbsp;

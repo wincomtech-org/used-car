@@ -15,13 +15,14 @@ class OrderController extends UserBaseController
     {
         // 模型 name,price
         $data = $this->request->param();
+        $id = $this->request->param('id',0,'intval');
         $user = cmf_get_current_user();
         $username = model('Service')->getUsername($user);
 
         $this->assign('order',$data);
         $this->assign('username',$username);
         $this->assign('paysign', 'service_pay');
-        $this->assign('orderId', $data['id']);
+        $this->assign('orderId', $id);
         return $this->fetch();
     }
 }

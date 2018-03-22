@@ -65,12 +65,12 @@
             // location.href = "{url('funds/Pay/temp',['paysign'=>$paysign,'orderId'=>$orderId])}";
 
             $.ajax({
-                url: "{:url('funds/Pay/temp')}",
+                url: "{:url('funds/Pay/qrPay')}",
                 data: {paysign: paysign,orderId: orderId},
                 type: "POST",
                 // dataType:'json',
                 success:function(msg) {
-                    // console.log(msg);
+                    console.log(msg);
                     if (msg=='error') {
                         $('.qr_msg').show().html('提交失败！');
                     } else if(msg=='illegal') {
@@ -82,6 +82,9 @@
                     } else {
                         if (paysign=='recharge') {
                             $('.qr_msg').show().html('提交成功，后台开始处理相关信息，届时通知您结果，请耐心等待。');
+                        } else if(paysign=='service_pay') {
+                            $('.qr_msg').show();
+                            window.location.href = "{:url('user/Service/index',['mid'=>$order.modelId])}";
                         } else {
                             $('.qr_msg').show();
                             // $('.qr_msg').show().html(msg);

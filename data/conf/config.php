@@ -214,7 +214,6 @@ return [
         8 => 'funds/AdminOpenshop/index',
         9 => 'funds/AdminRecharge/add',
         10 => 'shop/AdminOrder/index',
-        11 => 'service/AdminService/index',
     ],
     'shop_goods_status'        =>
     [

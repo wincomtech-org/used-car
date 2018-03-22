@@ -34,9 +34,13 @@ class PayController extends HomeBaseController
         return "支付中心 - 支付类型：".$type.'，应用模块：'.$action.'。（接口预留）';
         return $this->fetch();
     }
+    public function temp()
+    {
+        # code...
+    }
 
     /**
-     * [temp 临时测试区]
+     * [qrPay 扫支付二维码支付]
      * @param paysign 支付模块标识
      * @param paytype 支付方式
      * @param orderId 订单ID
@@ -44,7 +48,7 @@ class PayController extends HomeBaseController
      * @return [type] [description]
      * config('news_adminurl');
      */
-    public function temp()
+    public function qrPay()
     {
         // $data = $_REQUEST;
         $data = $this->request->param();
@@ -54,6 +58,7 @@ class PayController extends HomeBaseController
 
         if (empty($paysign) || empty($orderId)) {
             echo "illegal";exit();
+            // echo lothar_toJson(['code'=>'illegal','url'=>'']);exit();
         }
 
         // 查重？

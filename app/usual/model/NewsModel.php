@@ -119,13 +119,13 @@ class NewsModel extends Model
     {
         $data = $this->distinct(true)->field('app')->select()->toArray();
         $setName = [
-            'trade'     => '车辆买卖',
-            'insurance' => '保险模块',
-            'service'   => '车辆业务',
-            'register'  => '注册',
-            'user'      => '用户中心',
-            'funds'     => '资金管理',
-            'shop'      => '服务商城',
+            'trade'       => '车辆买卖',
+            'insurance'   => '保险模块',
+            'service'     => '车辆业务',
+            'register'    => '注册',
+            'user'        => '用户中心',
+            'funds'       => '资金管理',
+            'shop'        => '服务商城',
         ];
 
         if ($option===false) {
@@ -233,7 +233,7 @@ class NewsModel extends Model
                     'title'     => '车辆业务支付',
                     'object'    => 'service_order:'. $oid,
                     'content'   => '订单ID：'.$oid.'，客户ID：'.$uid,
-                    'adminurl'  => 11,
+                    'adminurl'  => 3,
                     'app'       => 'service',
                 ];
                 break;

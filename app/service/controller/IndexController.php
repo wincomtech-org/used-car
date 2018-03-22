@@ -207,7 +207,8 @@ class IndexController extends HomeBaseController
 
         // 在这里判断是否支付 是否生成订单号 order_sn ？ 
         if ($servCates['is_pay']==1) {
-            $this->success('去支付……',url('service/Order/pay',['id'=>$id,'name'=>$servCates['name'],'order_amount'=>$servCates['price']]));
+            $payUrl = url('service/Order/pay',['id'=>$id,'modelId'=>$post['model_id'],'name'=>$servCates['name'],'order_amount'=>$servCates['price']]);
+            $this->success('去支付……',$payUrl);
         } else {
             $this->success('提交成功，请等待工作人员回复',url('user/Service/index',['mid'=>$post['model_id']]));
         }
