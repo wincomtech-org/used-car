@@ -136,7 +136,7 @@ class UserModel extends Model
         if (empty($result)) {
             $user_pass = cmf_password($user['user_pass']);
             $data   = [
-                'user_login'      => '',
+                'user_login'      => $user['mobile'],
                 'user_email'      => '',
                 'mobile'          => $user['mobile'],
                 'user_nickname'   => '',
@@ -169,7 +169,7 @@ class UserModel extends Model
         if (empty($result)) {
             $user_pass = cmf_password($user['user_pass']);
             $data   = [
-                'user_login'      => '',
+                'user_login'      => $user['user_email'],
                 'user_email'      => $user['user_email'],
                 'mobile'          => '',
                 'user_nickname'   => '',

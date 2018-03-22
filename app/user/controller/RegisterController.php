@@ -104,13 +104,14 @@ class RegisterController extends HomeBaseController
                 // $log = $register->registerUname($user);
                 $log = 2;
             }
+            // 注册后处理
             $sessionLoginHttpReferer = session('login_http_referer');
             $redirect                = empty($sessionLoginHttpReferer) ? cmf_get_root() . '/' : $sessionLoginHttpReferer;
             switch ($log) {
                 case 0:
                     $userId = cmf_get_current_user_id();
                     $extra['username'] = $data['username'];
-                    $log = model('usual/News')->newsObject('register',$id,$userId,$extra);
+                    $log = model('usual/News')->newsObject('register',$userId,$userId,$extra);
                     $result = lothar_put_news($log);
                     if ($result) {
                         $this->success('注册成功', $redirect);
