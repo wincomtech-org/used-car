@@ -135,6 +135,8 @@ class IndexController extends HomeBaseController
             'reg_time|注册日期' => 'dateFormat:Y-m-d H:i|before:-1 day',
             'appoint_time|预约时间' => 'dateFormat:Y-m-d H:i|after:30 minute',
             'service_point' => 'require',
+            'car_mileage' => 'require',
+            'tire_size' => 'require',
         ];
         // 筛选需要验证的字段
         $filter_var = json_decode($servCates['define_data']);
@@ -167,6 +169,8 @@ class IndexController extends HomeBaseController
             'appoint_time.dateFormat' => '预约时间格式不正确',
             'appoint_time.after' => '预约时间也太早了吧？',
             'service_point.require' => '服务点未选择',
+            'car_mileage.require' => '请填写公里数',
+            'tire_size.require' => '请填写轮胎大小',
         ]);
         if (!$validate->check($post)) {
             $this->error($validate->getError());

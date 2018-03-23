@@ -192,6 +192,7 @@ class AdminCategoryController extends AdminBaseController
     // 自定义客户字段
     public function defineSet()
     {
+        $this->error('未开放');
         $list = Db::name('service_define')->paginate(16);
 
         $this->assign('list',$list);
@@ -201,12 +202,14 @@ class AdminCategoryController extends AdminBaseController
     }
     public function add2()
     {
+        $this->error('未开放');
         // config('service_define_type');
 
         return $this->fetch();
     }
     public function edit2()
     {
+        $this->error('未开放');
         $id = $this->request->param('id',0,'intval');
         $post = Db::name('service_define')->where('id',$id)->find();
         $this->assign($post);
