@@ -118,7 +118,8 @@ class IndexController extends HomeBaseController
                 // } else {
                 //     $this->error('您已提交过');
                 // }
-                $this->error('您已提交过');
+                
+                // $this->error('您已提交过');
             }
         }
 
