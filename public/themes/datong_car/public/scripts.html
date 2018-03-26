@@ -6,9 +6,10 @@
 <script src="__STATIC__/js/frontend.js"></script>
 <script>
 $(function(){
-	/*导航 不知道怎么样导航标签
-		<navigation ></navigation>
-	*/
+	/*
+	 * 导航 不知道怎么样导航标签
+	 * <navigation ></navigation>
+	 */
 	// $("#main-head li.dropdown").hover(function(){
 	// 	$(this).addClass("open");
 	// },function(){
@@ -22,9 +23,12 @@ $(function(){
 	// });
 
 
-
+	/*
+	 * 用户登录状态
+	 * 不知道为什么这样设计
+	 */
 	$.post("{:url('user/index/isLogin')}",{},function(data){
-	    // console.log(data);
+	    console.log(data);
 		if(data.code==1){
 			if(data.data.user.avatar){
 
@@ -39,8 +43,10 @@ $(function(){
 		}
 	});
 
-	
 
+	/*
+	 * 回到顶部
+	 */
 	// ;(function($){
 	// 	$.fn.totop=function(opt){
 	// 		var scrolling=false;
@@ -56,7 +62,6 @@ $(function(){
 	// 					}
 	// 				}
 	// 			});
-
 	// 			$this.click(function(){
 	// 				scrolling=true;
 	// 				$('html, body').animate({

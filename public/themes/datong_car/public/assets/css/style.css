@@ -1270,7 +1270,7 @@
 .person_right_tit{width:100%;background-color:#f0f0f0;margin-top:1.7rem;}
 .person_right_tit ul:after{content:"";display:block;clear:both;}
 .person_right_item{float:left;padding:14px 28px;font-size:16px;border-right:1px solid #fff;}
-.person_right_item.active{border-top:2px solid #d00000;background-color:#fff;}
+.person_right_item.active{border-top:2px solid #d00000;background-color:#fff;padding-top:12px;padding-bottom:12px}
 .person_right_item.active a{color:#d00000;}
 .person_right_con{width:100%;padding:1rem 2rem;margin:1rem 0;box-sizing:border-box;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;-ms-box-sizing:border-box;-o-box-sizing:border-box;}
 .person .info_tit{font-size:16px;padding:10px 0;border-bottom:1px solid #ddd;}
