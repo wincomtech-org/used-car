@@ -66,7 +66,7 @@ class AdminServiceController extends AdminBaseController
         if ($this->request->isPost()) {
             $data = $this->request->param();
             $post = $data['post'];
-            $username = $this->request->param('username/s');
+            $username = $this->request->param('buyer_username/s');
 
             $scModel = new ServiceModel();
             // 判断用户
@@ -139,7 +139,7 @@ class AdminServiceController extends AdminBaseController
     {
         if ($this->request->isPost()) {
             $data   = $this->request->param();
-            $username = $this->request->param('username/s');
+            $username = $this->request->param('buyer_username/s');
 
             // 验证
             $scModel = new ServiceModel();

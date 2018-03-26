@@ -77,14 +77,14 @@
                     </div>
                     <div class="tab-pane active" id="AUDIT">
                         <table class="table table-bordered">
-                            <!-- <tr>
-                                <th>卖家</th>
-                                <td><input class="form-control" type="text" name="post[seller_username]" value="{$post.seller_uid|default=''}"></td>
-                            </tr> -->
+                            <tr>
+                                <th>本站提交人</th>
+                                <td><input class="form-control" type="text" name="buyer_username" value="{$post.buyer_username|default='--'}" readonly></td>
+                            </tr>
                             <tr>
                                 <th width="100">客户名(车主)<span class="form-required">*</span></th>
                                 <td>
-                                    <input class="form-control" type="text" name="username" value="{$post.buyer_username|default='--'}" required>
+                                    <input class="form-control" type="text" name="post[username]" value="{$post.username|default='--'}" required>
                                 </td>
                             </tr>
                             <tr>
