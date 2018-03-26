@@ -1,6 +1,6 @@
 <switch name="vo.name">
     <case value="appoint_time|reg_time|birthday|seller_birthday">
-        <span class="txt">{:date('Y-m-d H:i',$post[$vo.name])}</span>
+        <span class="txt">{$post[$vo.name]?=date('Y-m-d H:i')}</span>
     </case>
     <case value="driving_license|qualified|loan_invoice">
         <span class="txt">
@@ -31,5 +31,5 @@
         {$servicePoint|default=''}
         <!-- <a style="color:red;font-size:14px;margin-left:10px;" href="#">>>查看地图<<</a> -->
     </case>
-    <default /><span class="txt">{$post[$vo.name]}</span>
+    <default /><span class="txt">{$post[$vo.name]|default=''}</span>
 </switch>

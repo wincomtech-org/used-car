@@ -84,39 +84,39 @@
                             <tr>
                                 <th width="100">客户名(车主)<span class="form-required">*</span></th>
                                 <td>
-                                    <input class="form-control" type="text" name="username" value="{$post.buyer_username|default=''}" required>
+                                    <input class="form-control" type="text" name="username" value="{$post.buyer_username|default='--'}" required>
                                 </td>
                             </tr>
                             <tr>
                                 <th>联系方式</th>
                                 <td>
-                                    <textarea class="form-control" name="post[contact]" style="height:50px;" placeholder="客户的联系方式">{$post.contact|default=''}</textarea>
+                                    <textarea class="form-control" name="post[contact]" style="height:50px;" placeholder="客户的联系方式">{$post.contact|default='--'}</textarea>
                                 </td>
                             </tr>
                             <tr>
                                 <th>客户地址</th>
                                 <td>
-                                    <textarea class="form-control" name="post[address]" style="height:50px;" placeholder="客户的地址">{$post.address|default=''}</textarea>
+                                    <textarea class="form-control" name="post[address]" style="height:50px;" placeholder="客户的地址">{$post.address|default='--'}</textarea>
                                 </td>
                             </tr>
                             <tr>
                                 <th>车架号</th>
-                                <td><input class="form-control" type="text" name="post[car_vin]" value="{$post.car_vin|default=''}"></td>
+                                <td><input class="form-control" type="text" name="post[car_vin]" value="{$post.car_vin|default='--'}"></td>
                             </tr>
                             <tr>
                                 <th>车牌号</th>
-                                <td><input class="form-control" type="text" name="post[plateNo]" value="{$post.plateNo|default=''}"></td>
+                                <td><input class="form-control" type="text" name="post[plateNo]" value="{$post.plateNo|default='--'}"></td>
                             </tr>
 
                             <tr>
                                 <th>服务点ID</th>
-                                <td><input class="form-control" type="text" name="post[service_point]" value="{$post.service_point|default=''}" placeholder="服务点坐标ID"></td>
+                                <td><input class="form-control" type="text" name="post[service_point]" value="{$post.service_point|default='--'}" placeholder="服务点坐标ID"></td>
                             </tr>
                             <tr>
                                 <th>服务点地址</th>
                                 <td>
                                     <notempty name="post.servicePoint">
-                                        <span class="form-control">{$post.servicePoint}</span>
+                                        <span class="form-control">{$post.servicePoint|default=''}</span>
                                     </notempty>
                                     <textarea class="form-control" name="post[service_address]" style="height:50px;" placeholder="服务点的详细地址">{$post.service_address|default=''}{//$post.addr|default=''}</textarea>
                                 </td>
@@ -132,9 +132,23 @@
                             <tr>
                                 <th>服务点所属公司</th>
                                 <td>
-                                    <span class="form-control">{$post.company_name}</span>
+                                    <span class="form-control">{$post.company_name|default='--'}</span>
                                 </td>
                             </tr>
+
+                            <tr>
+                                <th>公里数</th>
+                                <td>
+                                    <span class="form-control">{$post.car_mileage|default='--'}</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>轮胎大小</th>
+                                <td>
+                                    <span class="form-control">{$post.tire_size|default='--'}</span>
+                                </td>
+                            </tr>
+
                             <notempty name="define_data">
                             <foreach name="define_data" item="vo">
                             <tr>
@@ -165,6 +179,7 @@
                                         </empty>
                                         </span>
                                     </case>
+                                    <default/><span></span>
                                 </switch>
                                 </td>
                             </tr>

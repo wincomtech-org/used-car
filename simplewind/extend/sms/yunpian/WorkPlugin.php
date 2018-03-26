@@ -10,40 +10,137 @@ namespace sms\yunpian;
 class WorkPlugin
 {
     var $plugin_id = 'yunpian'; // 插件唯一ID
-    private $p_set = [];
-    private $notify_url = '';
-    private $return_url = '';
-    private $dir = '';// getcwd()
-    private $host = '';
 
-    public function __construct($typeCom='', $typeNu='')
-    {
-        $this->typeCom = $typeCom;//公司代码
-        $this->typeNu = $typeNu;//运单号
-        // $this->p_set = $set;
+    /**
+     * +----------------------------------------------------------
+     * 构造函数
+     * +----------------------------------------------------------
+     */
+    function __construct() {
+        $this->config = $this->p_set();
     }
 
-    public function work()
+    /**
+     * [work description]
+     * @param  [type] $mobile [对象手机号]
+     * @return [type]         [description]
+     */
+    public function work($mobile)
     {
         return '云片';
+
+
+        // 建立请求
+        $code = rand(1000,9999);
+        // $_SESSION['sms_code'] = $code;
+        session('sms_code',$code);
+
+        // require_once dirname(__FILE__) .'YunpianAutoload.php';
+        require_once 'YunpianAutoload.php';
+
+        // 发送单条短信
+        $smsOperator = new SmsOperator();
+        $data['mobile'] = trim($mobile);; //发送对象手机号 
+        // $text = $this->config['sign']."您的验证码是". $code ."。如非本人操作，请忽略本短信";
+        $data['text'] = $this->config['sign'].'您的验证码是'.$code;
+        $result = $smsOperator->single_send($data);
+
+        $result = (array)$result;
+        if ($result['success']) {
+            return true;
+        } else {
+            return false;
+        }
+
+        // var_dump($result);die;
+        /*// 原始数据
+        // 成功
+        object(Result)#26 (5) {
+          ["success"]=>
+          bool(true)
+          ["statusCode"]=>
+          int(200)
+          ["requestData"]=>
+          array(3) {
+            ["mobile"]=>
+            string(11) "18715511536"
+            ["text"]=>
+            string(49) "【微步大数据营销】您的验证码是3436"
+            ["apikey"]=>
+            string(32) "96984feab7ee7412c616fbe854245dbd"
+          }
+          ["responseData"]=>
+          array(7) {
+            ["code"]=>
+            int(0)
+            ["msg"]=>
+            string(12) "发送成功"
+            ["count"]=>
+            int(1)
+            ["fee"]=>
+            float(0.05)
+            ["unit"]=>
+            string(3) "RMB"
+            ["mobile"]=>
+            string(11) "18715511536"
+            ["sid"]=>
+            float(17550673356)
+          }
+          ["error"]=>
+          NULL
+        }
+
+        // 失败
+        object(Result)#26 (5) {
+          ["success"]=>
+          bool(false)
+          ["statusCode"]=>
+          int(400)
+          ["requestData"]=>
+          array(3) {
+            ["mobile"]=>
+            string(11) "18715511536"
+            ["text"]=>
+            string(49) "【微步大数据营销】您的验证码是5450"
+            ["apikey"]=>
+            string(32) "96984feab7ee7412c616fbe854245dbd"
+          }
+          ["responseData"]=>
+          array(4) {
+            ["http_status_code"]=>
+            int(400)
+            ["code"]=>
+            int(22)
+            ["msg"]=>
+            string(71) "验证码类短信1小时内同一手机号发送次数不能超过3次"
+            ["detail"]=>
+            string(71) "验证码类短信1小时内同一手机号发送次数不能超过3次"
+          }
+          ["error"]=>
+          NULL
+        }
+        */
     }
 
     /*配置信息*/
-    public function p_set() {
-
-        $set['AppKey'] = '82df35706dd02098';// 身份授权key
-        $set['Binding_domain'] = 'http://usedcar.wincomtech.cn';// 绑定的域名
-
-        // 返回类型：0返回json字符串，1返回xml对象，2返回html对象，3返回text文本。如果不填，默认返回json字符串。
-        $set['show'] = 2;
-
-        // 返回信息数量：0:只返回一行信息，1:返回多行完整的信息。不填默认返回多行。
-        $set['muti'] = 1;
-
-        // 排序：desc：按时间由新到旧排列，asc：按时间由旧到新排列。不填默认返回倒序（大小写不敏感）
-        $set['order'] = 'desc';
-
-        return $set;
+    public function pset() {
+        $set = config('sms_yunpian');
+        // 短信账号
+        $pset['account']  = $set['account'];
+        
+        // 签名
+        $pset['sign'] = $set['sign'];
+        
+        // 安全检验码，以数字和字母组成的32位字符
+        $pset['apikey']   = $set['apikey'];
+        
+        // 重发间隔，纯数字
+        $pset['retry_times']    = $set['retry_times'];
+        
+        // 字符编码
+        $pset['charset']    = $set['charset'];
+        
+        return $pset;
     }
 
     /*请求参数*/
@@ -51,9 +148,8 @@ class WorkPlugin
     {
         $set = $this->p_set();
 
-        $param['AppKey']    = $set['AppKey'];
-        $param['typeCom']   = $this->typeCom;
-        $param['typeNu']    = $this->typeNu;
+        // 字符编码格式 目前支持 gbk 或 utf-8
+        $param['_input_charset'] = trim(strtolower(strtolower('utf-8')));
 
         return $param;
     }

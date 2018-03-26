@@ -56,6 +56,8 @@ return [
         'loan_invoice'    => '贷款发票',
         'appoint_time'    => '预约时间',
         'service_point'   => '服务点',
+        'tire_size'       => '轮胎尺寸',
+        'car_mileage'     => '公里数',
     ],
     'service_define_type'   =>
     [

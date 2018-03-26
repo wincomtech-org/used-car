@@ -48,15 +48,15 @@ class AdminCategoryController extends AdminBaseController
         if (!isset($category['define_data'])) {
             $category['define_data'] = [];
         }
+        // 没有上级
+        $defineData = $scModel->getDefineData($category['define_data']);
+
+        // 获取自定义字段
         // if (!isset($category['define_data2'])) {
         //     $selectIds = [];
         // } else {
         //     $selectIds = json_decode($category['define_data2'],true);
         // }
-        
-        // 没有上级
-        $defineData = $scModel->getDefineData($category['define_data']);
-        // 获取自定义字段
         // $defineData2 = Db::name('service_define')->field('id,name')->select();
         // $tpl = '';
         // foreach ($defineData2 as $vo) {
@@ -71,7 +71,9 @@ class AdminCategoryController extends AdminBaseController
         $data   = $this->request->param();
         // $data   = $_POST;
         $cate = $data['cate'];
+
         $cate['define_data'] = empty($data['define_data']) ? [] : $data['define_data'];
+
         // $cate['define_data2'] = empty($data['define_data2']) ? [] : $data['define_data2'];
         // $cate['define_data2'] = json_encode($data['define_data2']);
 
@@ -79,7 +81,7 @@ class AdminCategoryController extends AdminBaseController
         if ($result !== true) {
             $this->error($result);
         }
-
+        return $cate;
     }
 
     public function edit()
@@ -190,6 +192,7 @@ class AdminCategoryController extends AdminBaseController
     // 自定义客户字段
     public function defineSet()
     {
+        $this->error('未开放');
         $list = Db::name('service_define')->paginate(16);
 
         $this->assign('list',$list);
@@ -199,12 +202,14 @@ class AdminCategoryController extends AdminBaseController
     }
     public function add2()
     {
+        $this->error('未开放');
         // config('service_define_type');
 
         return $this->fetch();
     }
     public function edit2()
     {
+        $this->error('未开放');
         $id = $this->request->param('id',0,'intval');
         $post = Db::name('service_define')->where('id',$id)->find();
         $this->assign($post);
