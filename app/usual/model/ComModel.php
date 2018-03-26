@@ -115,7 +115,7 @@ class ComModel extends Model
         return $uid;
     }
 
-    // 状态
+    // 状态 从config.php
     public function getStatus($status='',$config='trade_order_status')
     {
         if (is_array($config)) {
@@ -134,7 +134,7 @@ class ComModel extends Model
         return $options;
     }
 
-    // 选择框
+    // 选择框 从数据库
     public function createOptions($selectId=0, $option='', $data=[])
     {
         if ($option=='json') {

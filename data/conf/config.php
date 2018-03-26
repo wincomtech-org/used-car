@@ -63,8 +63,8 @@ return [
     [
         'text'     => '文本类型',
         'number'   => '数字型',
-        'hidden'   => '隐藏域',
-        'file'     => '文件',
+        'textarea' => '文本框',
+        'file'     => '附件',
         'image'    => '单图',
         'photos'   => '多图',
         'date'     => '日期时间',

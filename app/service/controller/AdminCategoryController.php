@@ -51,6 +51,9 @@ class AdminCategoryController extends AdminBaseController
         // 没有上级
         $defineData = $scModel->getDefineData($category['define_data']);
 
+        // 新的设计
+        // $defineData = $scModel->getStatus();
+
         // 获取自定义字段
         // if (!isset($category['define_data2'])) {
         //     $selectIds = [];
@@ -62,6 +65,7 @@ class AdminCategoryController extends AdminBaseController
         // foreach ($defineData2 as $vo) {
         //     $tpl .= '<label class="define_label"><input class="define_input" type="checkbox" name="define_data2[]" value="'.$vo['id'].'" '.(in_array($vo['id'],$selectIds)?'checked':'').'><span> &nbsp;'.$vo['name'].'</span></label>';
         // }
+
 
         $this->assign('defineData',$defineData);
         // $this->assign('defineData2',$tpl);
@@ -192,7 +196,7 @@ class AdminCategoryController extends AdminBaseController
     // 自定义客户字段
     public function defineSet()
     {
-        $this->error('未开放');
+        // $this->error('未开放');
         $list = Db::name('service_define')->paginate(16);
 
         $this->assign('list',$list);
@@ -202,17 +206,26 @@ class AdminCategoryController extends AdminBaseController
     }
     public function add2()
     {
-        $this->error('未开放');
+        // $this->error('未开放');
         // config('service_define_type');
 
+        $scModel = new ServiceCategoryModel;
+        $types = $scModel->getStatus('','service_define_type');
+
+        $this->assign('types',$types);
         return $this->fetch();
     }
     public function edit2()
     {
-        $this->error('未开放');
+        // $this->error('未开放');
         $id = $this->request->param('id',0,'intval');
         $post = Db::name('service_define')->where('id',$id)->find();
+
+        $scModel = new ServiceCategoryModel;
+        $types = $scModel->getStatus($post['type'],'service_define_type');
+
         $this->assign($post);
+        $this->assign('types',$types);
         return $this->fetch();
     }
     public function opPost2()

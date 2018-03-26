@@ -14,10 +14,11 @@
             </td>
         </tr>
         <tr>
-            <th>类型</th>
+            <th>类型</th><address></textarea>
             <td>
                 <select name="type" class="form-control" style="width:140px;">
-                    <option value="text">文本类型</option>
+                    {$types|default=''}
+                    <!-- 特殊的用code区分 -->
                 </select>
             </td>
         </tr>
