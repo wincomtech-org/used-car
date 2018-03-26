@@ -5,10 +5,12 @@
  * Date: 16/1/20
  * Time: 上午10:20
  */
-// require_once dirname(__FILE__) .'config.php';
-require_once 'config.php';
+require_once dirname(__FILE__) .'/config.php';
+// require_once 'config.php';
+
 function YAutoload($classname)
 {
+    dump($classname);
     $filename = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'lib/'. $classname . '.php';
     // echo $filename;
     if (is_readable($filename)) {

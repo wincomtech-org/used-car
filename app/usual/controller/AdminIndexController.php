@@ -2,9 +2,8 @@
 namespace app\usual\controller;
 
 use cmf\controller\AdminBaseController;
-use think\Db;
+
 // use think\Model;
-use app\usual\model\DistrictModel;
 
 /**
  * Class AdminIndexController
@@ -28,11 +27,13 @@ class AdminIndexController extends AdminBaseController
 
     public function config()
     {
-        $usualSettings    = cmf_get_option('usual_settings');
-        $alipaySettings    = cmf_get_option('alipay_settings');
-        $weixinSettings    = cmf_get_option('weixin_settings');
+        $usualSettings  = cmf_get_option('usual_settings');
+        $sms_yunpian    = cmf_get_option('sms_yunpian');
+        $alipaySettings = cmf_get_option('alipay_settings');
+        $weixinSettings = cmf_get_option('weixin_settings');
 
         $this->assign('usual', $usualSettings);
+        $this->assign('yunpian', $sms_yunpian);
         $this->assign('alipay', $alipaySettings);
         $this->assign('weixin', $weixinSettings);
 
@@ -48,6 +49,9 @@ class AdminIndexController extends AdminBaseController
             // 轮流保存
             $usual = $this->request->param('usual/a');
             cmf_set_option('usual_settings', $usual);
+
+            $yunpian = $this->request->param('yunpian/a');
+            cmf_set_option('sms_yunpian', $yunpian);
 
             $alipay = $this->request->param('alipay/a');
             cmf_set_option('alipay_settings', $alipay);

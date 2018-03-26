@@ -106,6 +106,10 @@ class LoginController extends HomeBaseController
     */
     public function findPassword()
     {
+        $set = cmf_get_option('sms_yunpian');
+        if (empty($set['switch'])) {
+            $this->error('此模块后台未开启');
+        }
         $data = $this->request->param();
         if (!empty($data['username'])) {
             if (!preg_match('/(^(13\d|15[^4\D]|17[013678]|18\d)\d{8})$/', $data['username'])) {
@@ -120,34 +124,46 @@ class LoginController extends HomeBaseController
 
         return $this->fetch('/find_password');
     }
-
+    // 短信验证
     public function findPassword2()
     {
         $data = $this->request->param();
         $user = session('findmypwd');
 
         if (!empty($data['verification_code'])) {
-            $errMsg = cmf_check_verification_code($user['username'], $data['verification_code']);
+            // $errMsg = cmf_check_verification_code($user['username'], $data['verification_code']);
             // if (!empty($errMsg)) {
             //     $this->error($errMsg,url('findPassword2'));
             // }
 
+            if ($data['verification_code']==session('sms_code')) {
+                session('sms_code',null);
+            } else {
+                $this->error('短信验证码错误');
+            }
             session('findmypwd',array_merge($user,$data));
             $this->success('进入下一项',url('user/Login/findPassword3'));
         }
 
-
         $this->assign($user);
         return $this->fetch('/find_password2');
     }
-
+    // 设置新密码
     public function findPassword3()
     {
         return $this->fetch('/find_password3');
     }
     public function findPassword3Post()
     {
+        $jumpurl = url('user/Login/findpassword');
+
         if ($this->request->isPost()) {
+            $data = $this->request->post();
+            $data = array_merge(session('findmypwd'),$data);
+            // echo "临时测试（不必在意）：<br>";
+            // dump($data);die;
+
+
             $validate = new Validate([
                 'captcha'           => 'require',
                 'verification_code' => 'require',
@@ -161,11 +177,6 @@ class LoginController extends HomeBaseController
                 'password.max'              => '密码不能超过32个字符',
                 'password.min'              => '密码不能小于6个字符',
             ]);
-
-            $data = $this->request->post();
-            $data = array_merge(session('findmypwd'),$data);
-            echo "临时测试（不必在意）：<br>";
-            dump($data);die;
             if (!$validate->check($data)) {
                 $this->error($validate->getError());
             }
@@ -184,19 +195,20 @@ class LoginController extends HomeBaseController
             }
             switch ($log) {
                 case 0:
-                    $this->success('密码重置成功', $this->request->root());
+                    $this->success('密码重置成功', cmf_get_root() . '/');
+                    session('findmypwd',null);
                     break;
                 case 1:
-                    $this->error("您的账户尚未注册");
+                    $this->error("您的账户尚未注册",$jumpurl);
                     break;
                 case 2:
-                    $this->error("您输入的账号格式错误");
+                    $this->error("您输入的账号格式错误",$jumpurl);
                     break;
                 default :
-                    $this->error('未受理的请求');
+                    $this->error('未受理的请求',$jumpurl);
             }
         } else {
-            $this->error("请求错误");
+            $this->error("请求错误",$jumpurl);
         }
     }
 

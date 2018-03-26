@@ -163,6 +163,10 @@ class AdminServiceController extends AdminBaseController
             }
 
             $scModel->adminEditArticle($post);
+            if ($post['status']==1) {
+                $tel = !empty($post['telephone']) ? $post['telephone'] : $post['contact'] ;
+                lothar_sms_send($tel,'恭喜，您的业务预约成功！');
+            }
 
             $this->success('保存成功!');
         }

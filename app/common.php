@@ -23,8 +23,9 @@ function lothar_admin_log($action = '', $type = 'goods')
 
 /* 系统日志 */
 // cmf_log()
-function lothar_log($str,$filename='test.log'){
-    error_log(date('Y-m-d H:i:s').$str."\r\n",3,'log/'.$filename);
+function lothar_log($str, $filename = 'test.log')
+{
+    error_log(date('Y-m-d H:i:s') . $str . "\r\n", 3, 'log/' . $filename);
 }
 
 /**
@@ -216,7 +217,6 @@ function lothar_popup($msg = '', $code = 1, $url = null, $data = '', $wait = 3)
     // return $ViewTemplate->fetch(Config::get('dispatch_success_tmpl'), $result);
 }
 
-
 /*
  * 文件、图片处理
  * cmf_get_asset_url()
@@ -232,25 +232,25 @@ function lothar_popup($msg = '', $code = 1, $url = null, $data = '', $wait = 3)
  * $style = config('thumbnail_size');
  * 车详情图集 $style = [[580,384]]
  */
-function lothar_dealFiles($files=['names'=>[],'urls'=>[]], $style=[])
+function lothar_dealFiles($files = ['names' => [], 'urls' => []], $style = [])
 {
     $post = [];
     if (is_array($files)) {
-        $names = isset($files['names'])?$files['names']:'';
-        $urls = $files['urls'];
+        $names = isset($files['names']) ? $files['names'] : '';
+        $urls  = $files['urls'];
         if (!empty($urls)) {
             foreach ($urls as $key => $url) {
                 $relative_url = cmf_asset_relative_url($url);
                 if (!empty($style)) {
-                    $relative_url = lothar_thumb_make($relative_url,$style);
+                    $relative_url = lothar_thumb_make($relative_url, $style);
                 }
-                array_push($post, ["url"=>$relative_url, "name"=>$names[$key]]);
+                array_push($post, ["url" => $relative_url, "name" => $names[$key]]);
             }
         }
     } elseif (is_string($files)) {
         $relative_url = cmf_asset_relative_url($files);
         if (!empty($style)) {
-            $post = lothar_thumb_make($relative_url,$style);
+            $post = lothar_thumb_make($relative_url, $style);
         }
     } else {
         # code...
@@ -259,7 +259,7 @@ function lothar_dealFiles($files=['names'=>[],'urls'=>[]], $style=[])
     return $post;
 }
 // 不一样的结构
-function lothar_dealFiles2($files=[0=>['url'=>'','name'=>'']], $style=[])
+function lothar_dealFiles2($files = [0 => ['url' => '', 'name' => '']], $style = [])
 {
     $post = [];
     if (is_array($files)) {
@@ -267,15 +267,15 @@ function lothar_dealFiles2($files=[0=>['url'=>'','name'=>'']], $style=[])
             $relative_url = cmf_asset_relative_url($row['url']);
             // dump($relative_url);die;
             if (!empty($style)) {
-                $relative_url = lothar_thumb_make($relative_url,$style);
+                $relative_url = lothar_thumb_make($relative_url, $style);
             }
-            array_push($post, ["url"=>$relative_url, "name"=>$row['name']]);
+            array_push($post, ["url" => $relative_url, "name" => $row['name']]);
         }
         // dump($post);die;
     } elseif (is_string($files)) {
         $relative_url = cmf_asset_relative_url($files);
         if (!empty($style)) {
-            $post = lothar_thumb_make($relative_url,$style);
+            $post = lothar_thumb_make($relative_url, $style);
         }
     } else {
         # code...
@@ -287,7 +287,7 @@ function lothar_dealFiles2($files=[0=>['url'=>'','name'=>'']], $style=[])
 /**
  * [lothar_thumb_make 缩略图生成]
  * getcwd()
- * 车子、商品图： 565x385 283x195 160x109 
+ * 车子、商品图： 565x385 283x195 160x109
  * 车子详情 580x384
  * banner图：
  * @param  string $imgpath [文件源:本地不带http，远程下载处理]
@@ -295,7 +295,7 @@ function lothar_dealFiles2($files=[0=>['url'=>'','name'=>'']], $style=[])
  * @param  number $type   [图片处理方式]
  * @return [type]          [description]
  */
-function lothar_thumb_make($imgpath='http://hcfarm.wincomtech.cn/upload/admin/20180307/dfa2bfa304f350653f2f9389f3bb92f1.jpg', $style=[[600,480],[600,481],[601,481],[602,481]], $type=6)
+function lothar_thumb_make($imgpath = 'http://hcfarm.wincomtech.cn/upload/admin/20180307/dfa2bfa304f350653f2f9389f3bb92f1.jpg', $style = [[600, 480], [600, 481], [601, 481], [602, 481]], $type = 6)
 {
     $fork = true;
     // 如果是网络上的 当地址不是真实位置时，无法下载
@@ -304,10 +304,10 @@ function lothar_thumb_make($imgpath='http://hcfarm.wincomtech.cn/upload/admin/20
         /*$dirpath = 'test/'.gmdate("Ymd").'/';
         $savepath = $dirpath.time().cmf_random_string().'.jpg';
         if (is_file($imgpath)) {
-            lothar_download($imgpath,$savepath);
-            $imgpath = $savepath;
+        lothar_download($imgpath,$savepath);
+        $imgpath = $savepath;
         } else {
-            $fork = false;
+        $fork = false;
         }*/
         $fork = false;
     } elseif (strpos($imgpath, '/') === 0) {
@@ -320,15 +320,15 @@ function lothar_thumb_make($imgpath='http://hcfarm.wincomtech.cn/upload/admin/20
     } else {
         // 预设
         $orginpath = "./upload/" . $imgpath;
-        $savepath = '';
+        $savepath  = '';
 
         // 处理 is_file($savepath)
         // $fileArr    = pathinfo($orginpath);
         // $savepath   = $fileArr['dirname'] .'/'. $fileArr['filename'] .'_'. $width .'x'. $height .'.'. $fileArr['extension'];
         if (is_file($orginpath)) {
-            foreach ($style as $key=>$set) {
-                $savepath = $orginpath .'_'. $key .'.jpg';
-                $avatarImg = Image::open($orginpath);//每次重新实例化
+            foreach ($style as $key => $set) {
+                $savepath  = $orginpath . '_' . $key . '.jpg';
+                $avatarImg = Image::open($orginpath); //每次重新实例化
                 $avatarImg->thumb($set[0], $set[1], $type)->save($savepath);
             }
         }
@@ -341,9 +341,9 @@ function lothar_thumb_make($imgpath='http://hcfarm.wincomtech.cn/upload/admin/20
     return $url;
 }
 
-function lothar_thumb_url($imgpath, $width = 135, $height = 135, $type=6)
+function lothar_thumb_url($imgpath, $width = 135, $height = 135, $type = 6)
 {
-    if (strpos($imgpath,'http')===0) {
+    if (strpos($imgpath, 'http') === 0) {
         return $imgpath;
     } else if (strpos($imgpath, "/") === 0) {
         return cmf_get_domain() . $imgpath;
@@ -351,7 +351,7 @@ function lothar_thumb_url($imgpath, $width = 135, $height = 135, $type=6)
 
     $avatarPath = "./upload/" . $imgpath;
     $fileArr    = pathinfo($avatarPath);
-    $filename   = $fileArr['dirname'] .'/'. $fileArr['filename'] .'_'. $width .'x'. $height .'.'. $fileArr['extension'];
+    $filename   = $fileArr['dirname'] . '/' . $fileArr['filename'] . '_' . $width . 'x' . $height . '.' . $fileArr['extension'];
     // $filename = $avatarPath.$width.'x'.$height.'.jpg';
     if (is_file($filename)) {
         $url = $filename;
@@ -377,11 +377,11 @@ function lothar_download($url, $path = 'test/1.jpg')
     // curl_close($ch);
 
     //$filename = pathinfo($url, PATHINFO_BASENAME);
-    $path = getcwd() .'/upload/'.$path;
+    $path = getcwd() . '/upload/' . $path;
     // $path = './upload/'.$path;
-    $dirname = pathinfo($path,PATHINFO_DIRNAME);
+    $dirname = pathinfo($path, PATHINFO_DIRNAME);
     if (!is_dir($dirname)) {
-        mkdir($dirname,0777,true);
+        mkdir($dirname, 0777, true);
     }
 
     // $resource = fopen($path, 'a');//a w
@@ -395,34 +395,87 @@ function lothar_download($url, $path = 'test/1.jpg')
 
 /*function dlfile($file_url, $save_to)
 {
-    $ch = curl_init();
-    curl_setopt($ch, CURLOPT_POST, 0); 
-    curl_setopt($ch,CURLOPT_URL,$file_url); 
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); 
-    $file_content = curl_exec($ch);
-    curl_close($ch);
-    $downloaded_file = fopen($save_to, 'w');
-    fwrite($downloaded_file, $file_content);
-    fclose($downloaded_file);
+$ch = curl_init();
+curl_setopt($ch, CURLOPT_POST, 0);
+curl_setopt($ch,CURLOPT_URL,$file_url);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+$file_content = curl_exec($ch);
+curl_close($ch);
+$downloaded_file = fopen($save_to, 'w');
+fwrite($downloaded_file, $file_content);
+fclose($downloaded_file);
 }*/
 
 /* 过滤HTML得到纯文本 */
-function lothar_get_content($list,$len=100){
+function lothar_get_content($list, $len = 100)
+{
     //过滤富文本
-    $tmp=[];
-    foreach ($list as $k=>$v){
-        $content_01 = $v["content"];//从数据库获取富文本content
-        $content_02 = htmlspecialchars_decode($content_01); //把一些预定义的 HTML 实体转换为字符
-        $content_03 = str_replace("&nbsp;","",$content_02);//将空格替换成空
-        $contents = strip_tags($content_03);//函数剥去字符串中的 HTML、XML 以及 PHP 的标签,获取纯文本内容
-        $con = mb_substr($contents, 0, $len,"utf-8");//返回字符串中的前100字符串长度的字符
-        $v['content']=$con.'...';
-        $tmp[]=$v;
+    $tmp = [];
+    foreach ($list as $k => $v) {
+        $content_01   = $v["content"]; //从数据库获取富文本content
+        $content_02   = htmlspecialchars_decode($content_01); //把一些预定义的 HTML 实体转换为字符
+        $content_03   = str_replace("&nbsp;", "", $content_02); //将空格替换成空
+        $contents     = strip_tags($content_03); //函数剥去字符串中的 HTML、XML 以及 PHP 的标签,获取纯文本内容
+        $con          = mb_substr($contents, 0, $len, "utf-8"); //返回字符串中的前100字符串长度的字符
+        $v['content'] = $con . '...';
+        $tmp[]        = $v;
     }
     return $tmp;
 }
 
+/*
+ * 发送短信
+ * yunpian
+ * 惯例
+// vendor('sms/yunpian/WorkPlugin');
+// import('SqlBack',EXTEND_PATH);
+// $yun = new \WorkPlugin();
+// $yun = new yunpian();
+// dump($yun->work('18715511536'));die;
+ * json
+// 成功时：{code:0,count:"1",fee:0.05,mobile:18715511536,msg:"发送成功",sid:"22712590140",unit:"RMB"}
+// 手机号为空：{code:2,detail:"参数 mobile 格式不正确，mobile不能为空",http_status_code:400,msg:"请求参数格式错误"}
+ */
+function lothar_sms_send($mobile = '18715511536', $text = '')
+{
+    header("Content-Type:text/html;charset=utf-8");
 
+    // 初始化
+    $set = cmf_get_option('sms_yunpian');
+    // $apikey = "8d5234d8f9302e69eb75c844fd40871f"; //修改为您的apikey(https://www.yunpian.com)登录官网后获取
+    $code = rand(1000, 9999);
+    // $_SESSION['sms_code'] = $code;
+    session('sms_code', $code);
+
+    // CURL操作
+    $ch = curl_init();
+    /* 设置验证方式 */
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array('Accept:text/plain;charset=utf-8', 'Content-Type:application/x-www-form-urlencoded', 'charset=utf-8'));
+    /* 设置返回结果为流 */
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    /* 设置超时时间*/
+    curl_setopt($ch, CURLOPT_TIMEOUT, 10);
+    /* 设置通信方式 */
+    curl_setopt($ch, CURLOPT_POST, 1);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+
+    // 数据集 组装
+    $text = '【' . $set['sign'] . "】您的验证码是" . $code . "。如非本人操作，请忽略本短信";
+    // $text = '【'. $set['sign'] .'】您的验证码是'. $code;
+    // $text = '【阳光国际派遣】您的验证码是' . $code;
+    $data = array(
+        'mobile' => trim($mobile), //发送对象手机号
+        'text'   => $text,
+        'apikey' => $set['apikey'],
+        // 'apikey' => $apikey,
+    );
+    curl_setopt($ch, CURLOPT_URL, 'https://sms.yunpian.com/v2/sms/single_send.json');
+    curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
+    $json_data = curl_exec($ch);
+    $result    = json_decode($json_data, true);
+
+    return $result;
+}
 
 /*
  * JSON
@@ -462,11 +515,12 @@ function lothar_num_format($value = '')
 }
 
 /* 为网址补加 http:// */
-function lothar_link($link){
+function lothar_link($link)
+{
     //处理网址，补加http://
-    $exp='/^(http|ftp|https):\/\/([\w.]+\/?)\S*/';
-    if(preg_match($exp, $link)==0){
-        $link='http://'.$link;
+    $exp = '/^(http|ftp|https):\/\/([\w.]+\/?)\S*/';
+    if (preg_match($exp, $link) == 0) {
+        $link = 'http://' . $link;
     }
     return $link;
 }

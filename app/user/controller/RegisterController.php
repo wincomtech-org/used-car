@@ -106,7 +106,8 @@ class RegisterController extends HomeBaseController
             }
             // 注册后处理
             $sessionLoginHttpReferer = session('login_http_referer');
-            $redirect                = empty($sessionLoginHttpReferer) ? cmf_get_root() . '/' : $sessionLoginHttpReferer;
+            // $redirect                = empty($sessionLoginHttpReferer) ? cmf_get_root() . '/' : $sessionLoginHttpReferer;
+            $redirect = cmf_get_root() . '/';
             switch ($log) {
                 case 0:
                     $userId = cmf_get_current_user_id();

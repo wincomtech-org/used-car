@@ -3,22 +3,23 @@
 <body>
     <div class="wrap js-check-wrap">
         <ul class="nav nav-tabs">
-            <li class="active"><a href="#A" data-toggle="tab">二手车统一配置</a></li>
-            <li><a href="#B" data-toggle="tab">支付宝支付</a></li>
-            <li><a href="#C" data-toggle="tab">微信支付</a></li>
-            <!-- <li><a href="#D" data-toggle="tab">网银在线</a></li> -->
+            <li class="active"><a href="#A1" data-toggle="tab">二手车统一配置</a></li>
+            <li><a href="#B1" data-toggle="tab">云片短信</a></li>
+            <li><a href="#C1" data-toggle="tab">支付宝支付</a></li>
+            <li><a href="#C2" data-toggle="tab">微信支付</a></li>
+            <!-- <li><a href="#C3" data-toggle="tab">网银在线</a></li> -->
         </ul>
         <form class="form-horizontal js-ajax-form margin-top-20" role="form" action="{:url('AdminIndex/configPost')}" method="post">
             <fieldset>
                 <div class="tabbable">
                     <div class="tab-content">
-                        <div class="tab-pane active" id="A">
+                        <div class="tab-pane active" id="A1">
                             <div class="form-group">
                                 <label class="col-sm-2 control-label" style="margin-left:-100px;">
                                     <big>带<span class="form-required">*</span>的为有效设置</big>
                                 </label>
                             </div>
-                            
+                            <!-- 站点设置 -->
                             <div class="form-group">
                                 <label for="thumbnail" class="col-sm-2 control-label">网站默认图片</label>
                                 <div class="col-md-6 col-sm-10">
@@ -33,7 +34,13 @@
                                     <input type="button" class="btn btn-sm btn-cancel-thumbnail" value="取消图片">
                                 </div>
                             </div>
-
+                            <div class="form-group">
+                                <label for="input-pagesize" class="col-sm-2 control-label">全局列表分页数<span class="form-required">*</span></label>
+                                <div class="col-md-6 col-sm-10">
+                                    <input type="number" class="form-control" id="input-pagesize" name="usual[pagesize]" value="{$usual.pagesize|default='12'}">
+                                </div>
+                            </div>
+                            <!-- 消息设置 -->
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">系统消息提醒<span class="form-required">*</span></label>
                                 <div class="col-md-6 col-sm-10">
@@ -41,7 +48,7 @@
                                     <input {$usual.news_switch!=1?='checked'} type="radio" name="usual[news_switch]" value="0"> 关 &nbsp; &nbsp;
                                 </div>
                             </div>
-
+                            <!-- 店铺相关 -->
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">店铺开关</label>
                                 <div class="col-md-6 col-sm-10">
@@ -55,7 +62,7 @@
                                     <input type="text" class="form-control" id="input-deposit" name="usual[deposit]" value="{$usual.deposit|default='10.00'}">
                                 </div>
                             </div>
-
+                            <!-- 提现相关 -->
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">提现开关<span class="form-required">*</span></label>
                                 <div class="col-md-6 col-sm-10">
@@ -75,24 +82,60 @@
                                     <textarea class="form-control" id="input-watering" name="usual[watering]">{$usual.watering|default=''}</textarea>
                                 </div>
                             </div>
+                        </div>
 
+
+
+                        <div class="tab-pane" id="B1">
                             <div class="form-group">
-                                <label for="input-pagesize" class="col-sm-2 control-label">全局列表分页数<span class="form-required">*</span></label>
+                                <label for="input-yunpian_account" class="col-sm-2 control-label">云片账号</label>
                                 <div class="col-md-6 col-sm-10">
-                                    <input type="number" class="form-control" id="input-pagesize" name="usual[pagesize]" value="{$usual.pagesize|default='12'}">
+                                    <input type="text" class="form-control" id="input-yunpian_account" name="yunpian[account]" value="{$yunpian.account|default=''}" autocomplete="off">
                                 </div>
                             </div>
-
                             <div class="form-group">
-                                <div class="col-sm-offset-2 col-sm-10">
-                                    <button type="submit" class="btn btn-primary js-ajax-submit" data-refresh="1">{:lang('SAVE')}</button>
+                                <label for="input-yunpian_pwd" class="col-sm-2 control-label">密码</label>
+                                <div class="col-md-6 col-sm-10">
+                                    <input type="password" class="form-control" id="input-yunpian_pwd" name="yunpian[pwd]" value="{$yunpian.pwd|default=''}" autocomplete="off">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="input-yunpian_apikey" class="col-sm-2 control-label">安全检验码（apikey）</label>
+                                <div class="col-md-6 col-sm-10">
+                                    <input type="text" class="form-control" id="input-yunpian_apikey" name="yunpian[apikey]" value="{$yunpian.apikey|default=''}" placeholder="">
+                                    <p class="help-block">参见：<a target="_blank" href="https://www.yunpian.com/dashboard/config/account#!/config/account/devAuth">https://www.yunpian.com/dashboard/config/account#!/config/account/devAuth</a></p>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="input-yunpian_sign" class="col-sm-2 control-label">签名（sign）</label>
+                                <div class="col-md-6 col-sm-10">
+                                    <input type="text" class="form-control" id="input-yunpian_sign" name="yunpian[sign]" value="{$yunpian.sign|default=''}" placeholder="【签名】">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="input-yunpian_retimes" class="col-sm-2 control-label">重发间隔</label>
+                                <div class="col-md-6 col-sm-10">
+                                    <input type="number" class="form-control" id="input-yunpian_retimes" name="yunpian[retry_times]" value="{$yunpian.retry_times|default='3'}" placeholder="默认3秒">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="input-yunpian_charset" class="col-sm-2 control-label">字符编码（charset）</label>
+                                <div class="col-md-6 col-sm-10">
+                                    <input type="text" class="form-control" id="input-yunpian_charset" name="yunpian[charset]" value="{$yunpian.charset|default='utf-8'}" placeholder="不需要改的">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">开关</label>
+                                <div class="col-md-6 col-sm-10">
+                                    <input {$yunpian.switch==1?='checked'} type="radio" name="yunpian[switch]" value="1"> 开 &nbsp; &nbsp;
+                                    <input {$yunpian.switch!=1?='checked'} type="radio" name="yunpian[switch]" value="0"> 关 &nbsp; &nbsp;
                                 </div>
                             </div>
                         </div>
 
 
 
-                        <div class="tab-pane" id="B">
+                        <div class="tab-pane" id="C1">
                             <div class="form-group">
                                 <label for="input-alipay_account" class="col-sm-2 control-label">支付宝账号</label>
                                 <div class="col-md-6 col-sm-10">
@@ -119,17 +162,9 @@
                                     <input {$alipay.switch!=1?='checked'} type="radio" name="alipay[switch]" value="0"> 关 &nbsp; &nbsp;
                                 </div>
                             </div>
-
-                            <div class="form-group">
-                                <div class="col-sm-offset-2 col-sm-10">
-                                    <button type="submit" class="btn btn-primary js-ajax-submit" data-refresh="0">{:lang('SAVE')}</button>
-                                </div>
-                            </div>
                         </div>
 
-
-
-                        <div class="tab-pane" id="C">
+                        <div class="tab-pane" id="C2">
                             <div class="form-group">
                                 <label for="input-weixin_appid" class="col-sm-2 control-label">AppID（应用ID）</label>
                                 <div class="col-md-6 col-sm-10">
@@ -162,19 +197,18 @@
                                     <input {$weixin.switch!=1?='checked'} type="radio" name="weixin[switch]" value="0"> 关 &nbsp; &nbsp;
                                 </div>
                             </div>
-
-                            <div class="form-group">
-                                <div class="col-sm-offset-2 col-sm-10">
-                                    <button type="submit" class="btn btn-primary js-ajax-submit" data-refresh="0">{:lang('SAVE')}</button>
-                                </div>
-                            </div>
                         </div>
 
-                        <div class="tab-pane" id="D">
+                        <div class="tab-pane" id="C3">
                             网银在线商户号:
                             网银在线密钥:
                         </div>
 
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <button type="submit" class="btn btn-primary js-ajax-submit" data-refresh="1">{:lang('SAVE')}</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </fieldset>

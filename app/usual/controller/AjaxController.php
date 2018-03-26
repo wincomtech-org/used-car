@@ -1,10 +1,12 @@
 <?php
 namespace app\usual\controller;
 
+use think\Db;
 use cmf\controller\BaseController;
 // use cmf\controller\HomeBaseController;
 use app\usual\model\UsualSeriesModel;
-use think\Db;
+// use sms\yunpian\WorkPlugin AS yunpian;
+// use sms\yunpian\WorkPlugin;
 
 /**
 * Ajax 集中营
@@ -17,10 +19,10 @@ use think\Db;
 */
 class AjaxController extends BaseController
 {
-    // public function _initialize()
-    // {
-    //     parent::_initialize();
-    // }
+    public function _initialize()
+    {
+        parent::_initialize();
+    }
 
     /*
     * 地区 获取城市数据 city
@@ -196,6 +198,43 @@ class AjaxController extends BaseController
         // $html = str_replace('__STATIC__', '/static', $html);
 
         echo $html;exit;
+    }
+
+    public function yunpian()
+    {
+        $mobile = $this->request->param('mobile','');
+        // $mobile = '';
+        if (!preg_match('/(^(13\d|15[^4\D]|17[013678]|18\d)\d{8})$/', $mobile)) {
+            $result = ['code'=>2,'msg'=>'手机格式不对'.$mobile];
+            echo json_encode($result);exit();
+        }
+        $result = lothar_sms_send($mobile);
+        // cmf_verification_code_log($mobile, session('sms_code'));
+
+        // $result = array(
+        //     'code'=>0,
+        //     'msg'=>'发送成功',
+        //     'count'=>'1',
+        //     'fee'=>0.05,
+        //     'unit'=>'RMB',
+        //     'mobile'=>18715511536,
+        //     'sid'=>'22712590140'
+        // );
+
+        // dump($result);die;
+        // if (!empty($result['code'])) {
+        //     $this->success($result['msg']);
+        // } else {
+        //     $this->success('验证码已经发送成功!');
+        // }
+
+
+        echo json_encode($result);exit();
+        // return $result;
+    }
+    public function codeCheck()
+    {
+        dump(session('sms_code'));
     }
 
 
