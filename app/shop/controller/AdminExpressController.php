@@ -11,6 +11,7 @@ class AdminExpressController extends AdminBaseController
 {
     public function index()
     {
+        return '暂未开放';
         return $this->fetch();
     }
 
