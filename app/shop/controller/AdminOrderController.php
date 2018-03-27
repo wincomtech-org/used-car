@@ -4,6 +4,7 @@ namespace app\shop\controller;
 use think\Db;
 use cmf\controller\AdminBaseController;
 use app\shop\model\ShopOrderModel;
+use app\shop\model\ShopNewsModel;
 use express\WorkPlugin;
 
 /**
@@ -48,8 +49,6 @@ class AdminOrderController extends AdminBaseController
         $list = $scModel->getLists($param);
 // dump($list->toArray());
 
-
-
         $this->assign('keyword',(isset($param['keyword'])?$param['keyword']:''));
         $this->assign('list',$list->items());
         $list->appends($param);
@@ -60,16 +59,32 @@ class AdminOrderController extends AdminBaseController
     public function add()
     {
         $this->error('暂未开放');
+        // 订单号自动生成
     }
     public function edit()
     {
         $id = $this->request->param('id', 0, 'intval');
 
         $scModel = new ShopOrderModel();
-        $post      = $scModel->where('id', $id)->find();
+        $join = [
+            ['shop_shipping_address b','a.address_id=b.id'],
+            ['express c','a.shipping_id=c.id','LEFT'],
+            ['shop_returns d','a.returns_id=d.id','LEFT'],
+        ];
+        $order = $scModel->alias('a')
+            ->field('a.*,b.username,b.telephone,b.address,c.name,c.code,d.amount re_amount,d.status re_status,d.more re_more')
+            ->join($join)
+            ->where('a.id', $id)
+            ->find();
 
-        $this->assign('post', $post);
+        $refundV = config('shop_refund_status');
+        $returnsV = $scModel->getStatus($order['re_status'],'shop_returns_status');
+        $statusV = $scModel->getStatus($order['status'],'shop_order_status');
 
+        $this->assign('order', $order);
+        $this->assign('refundV', $refundV);
+        $this->assign('returnsV', $returnsV);
+        $this->assign('statusV', $statusV);
         return $this->fetch();
     }
 
@@ -84,6 +99,24 @@ class AdminOrderController extends AdminBaseController
             // if ($result !== true) {
             //     $this->error($result);
             // }
+            if ($post['status']==3) {
+                $wh = [
+                    'to_uid'    => $post['buyer_uid'],
+                    'obj_type'  => 'order3',
+                    'obj_id'    => $post['id'],
+                ];
+                $find = Db::name('cmf_shop_news')->where($wh)->count();
+                if ($find==0) {
+                    $data = [
+                        'buyer_uid'  => $post['buyer_uid'],
+                        'obj_type'  => 'order3',
+                        'obj_id'  => $post['id'],
+                        'obj_name'  => '您的商品已发货。',
+                    ];
+                    $nModel = new ShopNewsModel;
+                    $nModel->addSN($data);
+                }
+            }
 
             $scModel = new ShopOrderModel();
             $scModel->editDataCom($post);

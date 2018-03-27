@@ -1,0 +1,20 @@
+<table class="table table-bordered">
+    <tr>
+        <th width="100">客户IP</th>
+        <td>
+            <p class="form-control">{$order.ip|default='--'}</p>
+        </td>
+    </tr>
+    <tr>
+        <th>下单时间</th>
+        <td><span class="form-control">{$order.create_time?=date('Y-m-d h:i',$order.create_time)}</span></td>
+    </tr>
+    <tr>
+        <th>交易状态</th>
+        <td>
+            <select name="post[status]" class="form-control">
+                {$statusV|default=''}
+            </select>
+        </td>
+    </tr>
+</table>

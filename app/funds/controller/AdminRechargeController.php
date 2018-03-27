@@ -132,7 +132,12 @@ class AdminRechargeController extends AdminBaseController
     // 发放优惠券
     public function listCoupon()
     {
-        $list = Db::name('user_coupons_log')->paginate();
+        $id = $this->request->param('id');
+        $where = [];
+        if (!empty($id)) {
+            $where['id'] = $id;
+        }
+        $list = Db::name('user_coupons_log')->where($where)->paginate();
         $this->assign('list', $list);
         $this->assign('pager', $list->render());
         return $this->fetch('listCoupon');

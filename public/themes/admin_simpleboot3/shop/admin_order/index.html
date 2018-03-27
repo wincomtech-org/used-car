@@ -22,6 +22,10 @@
                 <thead>
                     <include file="admin_order/table-th" />
                 </thead>
+                <php>
+                    $refundV = config('shop_refund_status');
+                    $statusV = config('shop_order_status');
+                </php>
                 <foreach name="list" item="vo">
                     <tr>
                         <td>
@@ -33,13 +37,12 @@
                         <td><span>{$vo.buyer_uid}</span></td>
                         <td><span>{$vo.order_amount}</span></td>
                         <td><span>{$vo.tracking_no}</span></td>
-                        <td><span>{$vo.refund_status}</span></td>
+
                         <td>
-                            <eq name="vo.status" value="1">
-                                <a data-toggle="tooltip" title="已发布"><i class="fa fa-check"></i></a>
-                                <else/>
-                                <a data-toggle="tooltip" title="未发布"><i class="fa fa-close"></i></a>
-                            </eq>
+                            <span>{$refundV[$vo.refund_status]}</span>
+                        </td>
+                        <td>
+                            {$statusV[$vo.status]}
                         </td>
                         <td>
                             <a href="{:url('AdminOrder/edit',['id'=>$vo.id])}">{:lang('EDIT')}</a> &nbsp; | &nbsp;

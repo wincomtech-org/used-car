@@ -1,63 +1,45 @@
-<include file="public@header" />
-</head>
+<include file="public@header"/>
+<include file="admin_goods/pic-list" />
 
+</head>
 <body>
-    <div class="wrap js-check-wrap">
-        <ul class="nav nav-tabs">
-            <li><a href="{:url('index')}">所有订单</a></li>
-            <li><a href="{:url('add')}">添加订单</a></li>
-            <li class="active"><a href="javascript:void(0);">编辑订单</a></li>
-            <li><a href="javascript:void(0);"> | </a></li>
-            <li><a href="{:url('returns')}">退换货</a></li>
-            <li><a href="{:url('returnsEdit')}">编辑退换货</a></li>
-        </ul>
-        <form action="{:url('editPost')}" method="post" class="form-horizontal js-ajax-form margin-top-20">
-            <div class="row">
-                <div class="col-md-9">
-                    <table class="table table-bordered">
-                        <tr>
-                            <th width="100">订单名<span class="form-required">*</span></th>
-                            <td>
-                                <input class="form-control" type="text" name="post[name]" required value="{$post.name}" placeholder="请输入名称" />
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>下下下</th>
-                            <td>
-                                <p class="form-control"></p>
-                                <p class="help-lock"></p>
-                            </td>
-                        </tr>
-                    </table>
-                </div>
-                <div class="col-md-3">
-                    <table class="table table-bordered">
-                        <tr>
-                            <th>状态</th>
-                        </tr>
-                        <tr>
-                            <td>
-                                <div class="checkbox">
-                                    <label>
-                                        <input type="radio" name="post[status]" value="1" {$post.status==1?='checked' }>显示</label>
-                                    <label>
-                                        <input type="radio" name="post[status]" value="0" {$post.status==0?='checked' }>隐藏</label>
-                                </div>
-                            </td>
-                        </tr>
-                    </table>
-                </div>
+<div class="wrap js-check-wrap">
+    <ul class="nav nav-tabs">
+        <li><a href="{:url('index')}">所有订单</a></li>
+        <li><a href="{:url('add')}">添加订单</a></li>
+        <li class="active"><a href="javascript:void(0);">编辑订单</a></li>
+        <li><a href="javascript:void(0);"> | </a></li>
+        <li><a href="{:url('returns')}">退换货</a></li>
+        <li><a href="{:url('returnsEdit')}">编辑退换货</a></li>
+    </ul>
+    <div class="row margin-top-20">
+        <div class="col-md-1">
+            <div class="list-group">
+                <a class="list-group-item" href="#A" data-toggle="tab">基本属性</a>
+                <a class="list-group-item" href="#B" data-toggle="tab">物流配置</a>
+                <a class="list-group-item" href="#C" data-toggle="tab">退换货</a>
             </div>
-            <div class="form-group">
-                <div class="col-sm-offset-2 col-sm-10">
-                    <input type="hidden" name="post[id]" value="{$post.id}">
-                    <button type="submit" class="btn btn-primary js-ajax-submit">{:lang('SAVE')}</button>
-                    <a class="btn btn-default" href="javascript:history.back(-1);">{:lang('BACK')}</a>
-                </div>
+        </div>
+        <form class="form-horizontal js-ajax-form" action="{:url('AdminGoods/editPost')}" method="post">
+        <div class="col-md-8">
+            <div class="tab-content">
+                <include file="admin_order/add_edit" />
             </div>
+        </div>
+        <div class="col-md-3">
+            <include file="admin_order/right" />
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <input type="hidden" name="post[id]" value="{$order.id}">
+                <button type="submit" class="btn btn-primary js-ajax-submit1">{:lang('SAVE')}</button>
+                <a class="btn btn-default" href="javascript:history.back(-1);">{:lang('BACK')}</a>
+            </div>
+        </div>
         </form>
     </div>
-    <script type="text/javascript" src="__STATIC__/js/admin.js"></script>
-</body>
+</div>
+<script type="text/javascript" src="__STATIC__/js/admin.js"></script>
 
+</body>
 </html>
