@@ -1,0 +1,57 @@
+
+<div class="shops_order_m">
+    <foreach name="list" item="vo">
+    <div class='shops-order-m-div'>
+        <div class='order-list'>
+            <dl class='order-list-tit'>
+                <dd class='mess'>
+                    <!-- <span class="time">2018-01-10 09:40:22</span> -->
+                    <span class="order-goods">
+                        <!-- 订单号：<a >shop_2018031648515456</a> -->
+                    </span>
+                </dd>
+                <dd class='states'></dd>
+            </dl>
+        </div>
+        <div class='order-list-con'>
+            <div class='order-mess clearfix'>
+                <div class="order-img">
+                    <empty name="vo.thumbnail">
+                        <img src="__TMPL__/public/assets/images/default-thumbnail_160x109.png" alt="">
+                    <else/>
+                        <img src="{:cmf_get_image_preview_url($vo.thumbnail)}" alt="">
+                    </empty>
+                </div>
+                <div class='orderHasEdit'>
+                    <div class="order-intro">
+                        <div class='order-trade-name'>
+                            <a href="javascript:void(0);">{$vo.goods_name}</a>
+                        </div>
+                        <div class='order-attributes'>
+                            <span>规格：{$vo.more|default='--'}</span>
+                        </div>
+                    </div>
+                    <div class="item-pay">
+                        <p class='price'>￥{$vo.price}</p>
+                        <p class='amount small'>{$vo.number}</p>
+                    </div>
+                </div>
+            </div>
+            <div class='o-tab-btn'>
+                <a href="{:url('shop/Post/details',['id'=>$vo.goods_id])}" class='backg-border'>再次购买</a>
+                <gt name="order.status" value="1">
+                <a href="{:url('returns_detail',['id'=>$vo.id])}" class='backg-border'>申请售后</a>
+                </gt>
+                <eq name="order.status" value="4">
+                    <a href="{:url('evaluate',['id'=>$vo.goods_id])}" class='backg-border'>评价</a>
+                </eq>
+            </div>
+        </div>
+    </div>
+    </foreach>
+    <dl class='o-total-price'>
+        <span>总数: <b>{$order.nums}</b>件</span>
+        <span>合计: <b>￥{$order.order_amount}</b>元</span>
+        <span>{$order.coupon_id?='（使用了优惠券）'}</span>
+    </dl>
+</div>

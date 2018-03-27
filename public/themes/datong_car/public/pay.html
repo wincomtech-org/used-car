@@ -50,7 +50,11 @@
         <!-- <p>提交成功，后台开始审核订单相关信息，将以消息形式通知您结果，请耐心等待。</p> -->
     </div>
 </section>
-
+<php>
+    $paysign = isset($paysign) ? $paysign : '';
+    $orderId = isset($orderId) ? $orderId : null;
+    $modelId = isset($order['modelId']) ? $order['modelId'] : null;
+</php>
 <script type="text/javascript">
     $('.qr_before').click(function(){
         if (confirm('你真的支付过了吗？')) {
@@ -58,8 +62,9 @@
             $('.qr_after').show();
             // $('.qr_msg').show();
 
-            var paysign = '{$paysign|default=''}';
-            var orderId = "{$orderId|default='null'}";
+            var paysign = '{$paysign}';
+            var orderId = "{$orderId}";
+            var modelId = "{$modelId}";
 
             // $formurl 需要转化， 所以采用一个新变量 $paysign 标识
             // location.href = "{url('funds/Pay/temp',['paysign'=>$paysign,'orderId'=>$orderId])}";
@@ -84,7 +89,7 @@
                             $('.qr_msg').show().html('提交成功，后台开始处理相关信息，届时通知您结果，请耐心等待。');
                         } else if(paysign=='service_pay') {
                             $('.qr_msg').show();
-                            window.location.href = "{:url('user/Service/details',['id'=>$orderId,'mid'=>$order.modelId])}";
+                            window.location.href = "{:url('user/Service/details',['id'=>$orderId,'mid'=>$modelId])}";
                         } else {
                             $('.qr_msg').show();
                             // $('.qr_msg').show().html(msg);

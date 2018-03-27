@@ -1,0 +1,74 @@
+
+<div class="shops_order">
+    <table class='shops-order-tab'>
+        <thead>
+            <tr>
+                <th class='col-pro-img ma-0'></th>
+                <th class='col-pro ma-1'>商品</th>
+                <th class='col-pro ma-2'>价格</th>
+                <th class='col-pro ma-3'>数量</th>
+                <th class='col-pro ma-4'>操作</th>
+            </tr>
+        </thead>
+    </table>
+    <foreach name="list" item="vo">
+    <table class='shops-order-tab'>
+        <tbody class='order-list'>
+            <tr class='order-list-tit'>
+                <td class='ma-0'></td>
+                <td class='ma-1' colspan='3'>
+                    <!-- <span class="time">2018-01-10 09:40:22</span>
+                    <span class="order-goods">
+                        订单号：<a href="">201801100940222779</a>
+                    </span> -->
+                </td>
+                <td class='ma-4'></td>
+            </tr>
+            <tr class='order-list-con'>
+                <td class='ma-0'></td>
+                <td class='ma-1'>
+                    <div class="order-img">
+                        <empty name="vo.thumbnail">
+                            <img src="__TMPL__/public/assets/images/default-thumbnail_160x109.png" alt="">
+                        <else/>
+                            <img src="{:cmf_get_image_preview_url($vo.thumbnail)}" alt="">
+                        </empty>
+                    </div>
+                    <div class="order-intro">
+                        <div class='order-trade-name'>
+                            <a href="javascript:void(0);">{$vo.goods_name}</a>
+                        </div>
+                        <div class='order-attributes'>
+                            <span>规格：{$vo.more|default='--'}</span>
+                        </div>
+                    </div>
+                </td>
+                <td class='ma-2'>￥{$vo.price}</td>
+                <td class='ma-3'>{$vo.number}</td>
+                <td class='ma-4'>
+                    <div class="order-state group-a ">
+                        <a href="{:url('shop/Post/details',['id'=>$vo.goods_id])}">再次购买</a>
+                        <gt name="order.status" value="1">
+                            <a href="{:url('returns_detail',['id'=>$vo.id])}" class='orage-color'>申请售后</a>
+                        </gt>
+                        <eq name="order.status" value="4">
+                            <a href="{:url('evaluate',['id'=>$vo.goods_id])}" class=''>评价</a>
+                        </eq>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    </foreach>
+    <div class="total-div">
+        <p>
+            <span>总数：</span>
+            <span><b class='orage-color'>{$order.nums}</b>件</span>
+        </p>
+        <p>
+            <span>订单金额：</span>
+            <span><b class='orage-color'>{$order.order_amount}</b>元</span>
+        </p>
+        <p><span>{$order.coupon_id?='（使用了优惠券）'}</span></p>
+    </div>
+</div>

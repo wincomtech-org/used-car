@@ -130,7 +130,7 @@ class OrderController extends UserBaseController
     public function pay()
     {
         // dump($GLOBALS);die;
-            $orderId = $this->request->param('orderId');
+        $orderId = $this->request->param('orderId');
 
         if (empty($orderId)) {
             // 防止非POST方式

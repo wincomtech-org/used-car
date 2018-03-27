@@ -1038,7 +1038,10 @@ evaluation{margin:.5rem 0;}
 .toal_table_foot_div:last-child{
     text-align:right;
     float:right;
+    width: 50%;
 }
+.shop_index_cat1{float: left;}
+.shop_index_cat2{float: right;}
 .ma1-0{width:2%;}
 .ma1-1{width:44%;}
 .ma1-2{width:13%;}

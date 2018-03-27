@@ -29,15 +29,26 @@ class ShopController extends UserBaseController
         $os     = $this->request->param('status');
         $userId = cmf_get_current_user_id();
 
-        $where = ['delete_time' => 0, 'buyer_uid' => $userId];
+        $where = ['b.delete_time' => 0, 'b.buyer_uid' => $userId];
         // $where['refund_status'] = 0;
         if ($os !== null) {
-            $where['status'] = $os;
+            $where['b.status'] = $os;
         }
         // config('shop_order_status');
-        $orders = Db::name('shop_order')->where($where)->select();
-
-        $this->assign('orders', $orders);
+        $orders = Db::name('shop_order')->alias('b')
+            ->field('id,order_name,order_desc,order_sn,coupon_id,nums,product_amount,order_amount,refund_status,status,create_time,ip')
+            ->where($where)->paginate(2);
+        $orderToArr = $orders->items();
+        foreach ($orderToArr as $key => $row) {
+            $orderToArr[$key]['det'] = Db::name('shop_order_detail')->alias('a')
+                ->field('spec_id,a.goods_id,goods_type,goods_name,thumbnail,number,a.price,spec_vars')
+                ->join('shop_goods_spec b','a.spec_id=b.id','LEFT')
+                ->where('order_id',$row['id'])
+                ->select()->toArray();
+        }
+// dump($orderToArr);die;
+        $this->assign('orders', $orderToArr);
+        $this->assign('pager', $orders->appends('status',$os)->render());
         $this->assign('os', $os);
         return $this->fetch();
     }
@@ -130,6 +141,7 @@ class ShopController extends UserBaseController
     public function receipt()
     {
         $id = $this->request->param('id/d', 0, 'intval');
+        // 检测状态
 
         Db::name('shop_order')->where('id', $id)->setField('status', 4);
         $this->success('确认成功');
@@ -146,7 +158,7 @@ class ShopController extends UserBaseController
     }
     public function evaluate()
     {
-        $id = $this->request->param('id/d', 0, 'intval');
+        $id = $this->request->param('id/d', 0, 'intval');//商品ID
         if (empty($id)) {
             $this->error('非法请求');
         }
