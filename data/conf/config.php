@@ -63,6 +63,7 @@ return [
     [
         'text'     => '文本类型',
         'number'   => '数字型',
+        'select'   => '选择框',
         'textarea' => '文本框',
         'file'     => '附件',
         'image'    => '单图',

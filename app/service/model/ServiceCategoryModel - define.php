@@ -1,7 +1,7 @@
 <?php
 namespace app\service\model;
 
-// use think\Db;
+use think\Db;
 // use think\Model;
 // use tree\Tree;
 use app\usual\model\UsualModel;
@@ -58,18 +58,19 @@ class ServiceCategoryModel extends UsualCategoryModel
 
     public function getDefineData($selectIds=[], $freestyle='checkbox', $default='请选择')
     {
-        $defconf = config('service_define_data');
+        // $defconf = config('service_define_data');
+        $defconf = Db::name('service_define')->where('status',1)->select();
         $tpl = '';
         if ($freestyle=='checkbox') {
-            foreach ((array)$defconf as $key => $vo) {
-                $tpl .= '<label class="define_label"><input class="define_input" type="checkbox" name="define_data[]" value="'.$key.'" '.(in_array($key,$selectIds)?'checked':'').'><span> &nbsp;'.$vo.'</span></label>';
+            foreach ($defconf as $vo) {
+                $tpl .= '<label class="define_label"><input class="define_input" type="checkbox" name="define_data[]" value="'.$vo['code'].'" '.(in_array($vo['code'],$selectIds)?'checked':'').'><span> &nbsp;'.$vo['name'].'</span></label>';
             }
         } elseif ($freestyle=='selectmulti') {
             // <select multiple="multiple" size="2"></select>
             $tpl = empty($default) ? '': '<option value="0">--'.$default.'--</option>';
             if (is_array($defconf)) {
-                foreach ($defconf as $key => $vo) {
-                    $tpl .= '<option value="'.$key.'" '.($selectIds==$key?'selected':'').' >'.$vo.'</option>';
+                foreach ($defconf as $vo) {
+                    $tpl .= '<option value="'.$vo['code'].'" '.(in_array($vo['code'],$selectIds)?'selected':'').' >'.$vo['name'].'</option>';
                 }
             }
             // $tpl = createOptions($selectId, $default, $data);
@@ -81,12 +82,12 @@ class ServiceCategoryModel extends UsualCategoryModel
             } else {
                 $define_data = $selectIds;
             }
+
             $new_data = [];
-            foreach ($define_data as $d) {
-                $new_data[] = [
-                    'title' => $defconf[$d],
-                    'name' => $d
-                ];
+            foreach ($defconf as $ng) {
+                if (in_array($ng['code'],$define_data)) {
+                    $new_data[] = $ng;
+                }
             }
             return $new_data;
         } else {

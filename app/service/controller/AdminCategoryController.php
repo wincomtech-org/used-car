@@ -26,7 +26,6 @@ class AdminCategoryController extends AdminBaseController
 
     public function add()
     {
-        // 没有上级
         $this->op();
         return $this->fetch();
     }
@@ -52,23 +51,9 @@ class AdminCategoryController extends AdminBaseController
         $defineData = $scModel->getDefineData($category['define_data']);
 
         // 新的设计
-        // $defineData = $scModel->getStatus();
-
-        // 获取自定义字段
-        // if (!isset($category['define_data2'])) {
-        //     $selectIds = [];
-        // } else {
-        //     $selectIds = json_decode($category['define_data2'],true);
-        // }
-        // $defineData2 = Db::name('service_define')->field('id,name')->select();
-        // $tpl = '';
-        // foreach ($defineData2 as $vo) {
-        //     $tpl .= '<label class="define_label"><input class="define_input" type="checkbox" name="define_data2[]" value="'.$vo['id'].'" '.(in_array($vo['id'],$selectIds)?'checked':'').'><span> &nbsp;'.$vo['name'].'</span></label>';
-        // }
-
+        // $defineData = [];
 
         $this->assign('defineData',$defineData);
-        // $this->assign('defineData2',$tpl);
     }
     public function opPost($valid='add')
     {
@@ -78,8 +63,8 @@ class AdminCategoryController extends AdminBaseController
 
         $cate['define_data'] = empty($data['define_data']) ? [] : $data['define_data'];
 
-        // $cate['define_data2'] = empty($data['define_data2']) ? [] : $data['define_data2'];
-        // $cate['define_data2'] = json_encode($data['define_data2']);
+        // 新的设计
+
 
         $result = $this->validate($cate, 'Category.'.$valid);
         if ($result !== true) {
@@ -92,46 +77,21 @@ class AdminCategoryController extends AdminBaseController
     {
         $id = $this->request->param('id', 0, 'intval');
         $scModel = new ServiceCategoryModel;
-        if ($id > 0) {
-            /*使用模型处理*/
-            $category = $scModel->getPost($id);
-
-            /*使用原生处理*/
-            // $category = Db::name('service_category')->where('id',$id)->find();
-            // // 富文本
-            // $category['content'] = $this->ueditorAfter($category['content']);
-            // // 自定义客户字段
-            // $category['define_data'] = json_decode($category['define_data'],true);
-
-        } else {
+        if ($id == 0) {
             $this->error('操作错误!');
         }
-
+        $category = $scModel->getPost($id);
+        // 富文本处理 ueditorAfter()
         $this->op($category);
-
         $this->assign($category);
         return $this->fetch();
     }
     public function editPost()
     {
         $cate = $this->opPost('edit');
-
         /*使用模型处理*/
         $result = model('ServiceCategory')->editCategory($cate);
-
-        /*使用原生处理*/
-        // $data = $_POST;
-        // $cate = $data['cate'];
-        // // 富文本
-        // $cate['content'] = $this->ueditorBefore($cate['content']);
-        // // 自定义客户字段
-        // $cate['define_data'] = empty($data['define_data']) ? '': json_encode($data['define_data']);
-        // $result = $this->validate($cate, 'Category.edit');
-        // if ($result !== true) {
-        //     $this->error($result);
-        // }
-        // $result = Db::name('service_category')->update($cate);
-
+        // 富文本处理 ueditorBefore()
         if ($result === false) {
             $this->error('保存失败!');
         }
@@ -196,8 +156,8 @@ class AdminCategoryController extends AdminBaseController
     // 自定义客户字段
     public function defineSet()
     {
-        // $this->error('未开放');
-        $list = Db::name('service_define')->paginate(16);
+        $this->error('未开放');
+        $list = Db::name('service_define')->order('id desc')->paginate(16);
 
         $this->assign('list',$list);
         // $list->appends();
@@ -206,7 +166,7 @@ class AdminCategoryController extends AdminBaseController
     }
     public function add2()
     {
-        // $this->error('未开放');
+        $this->error('未开放');
         // config('service_define_type');
 
         $scModel = new ServiceCategoryModel;
@@ -219,6 +179,9 @@ class AdminCategoryController extends AdminBaseController
     {
         // $this->error('未开放');
         $id = $this->request->param('id',0,'intval');
+        if ($id<18) {
+            $this->error('非法操作！');
+        }
         $post = Db::name('service_define')->where('id',$id)->find();
 
         $scModel = new ServiceCategoryModel;

@@ -460,9 +460,11 @@ function lothar_sms_send($mobile = '18715511536', $text = '')
     curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 
     // 数据集 组装
-    $text = '【' . $set['sign'] . "】您的验证码是" . $code . "。如非本人操作，请忽略本短信";
-    // $text = '【'. $set['sign'] .'】您的验证码是'. $code;
-    // $text = '【阳光国际派遣】您的验证码是' . $code;
+    if (empty($text)) {
+        $text = '【' . $set['sign'] . "】您的验证码是" . $code . "。如非本人操作，请忽略本短信";
+        // $text = '【'. $set['sign'] .'】您的验证码是'. $code;
+        // $text = '【阳光国际派遣】您的验证码是' . $code;
+    }
     $data = array(
         'mobile' => trim($mobile), //发送对象手机号
         'text'   => $text,

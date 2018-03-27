@@ -24,24 +24,27 @@
                         <th width="50">ID</th>
                         <th>字段名</th>
                         <th>字段码</th>
-                        <!-- <th>类型</th> -->
+                        <th>类型</th>
                         <th>状态</th>
                         <th width="180">操作</th>
                     </tr>
                 </thead>
                 <tbody>
+                    <php>$typeV = config('service_define_type');</php>
                     <foreach name="list" item="vo">
                     <tr>
                         <td>{$vo.id}</td>
                         <td><a>{$vo.name|default=''}</a></td>
 
                         <td>{$vo.code|default=''}</td>
-                        <!-- <td>{$vo.type|default=''}</td> -->
+                        <td>{$typeV[$vo.type]}</td>
 
                         <td>{$vo.status?'开':'关'}</td>
                         <td>
+                            <gt name="vo.id" value="17">
                             <a href="{:url('AdminCategory/edit2', ['id'=>$vo.id])}">编辑</a> &nbsp; &nbsp;
-                            <!-- <a class="js-ajax-delete" href="{:url('AdminCategory/delete', ['id'=>$vo.id])}">删除</a> -->
+                            <a class="js-ajax-delete" href="{:url('AdminCategory/delete', ['id'=>$vo.id])}">删除</a>
+                            </gt>
                         </td>
                     </tr>
                     </foreach>

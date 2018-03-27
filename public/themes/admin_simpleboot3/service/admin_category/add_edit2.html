@@ -9,8 +9,8 @@
         <tr>
             <th>字段码</th>
             <td>
-                <input class="form-control" type="text" name="code" required value="{$code|default=''}" />
-                <p class="help-block">用于后期提取，数据库</p>
+                <input class="form-control" type="text" name="code" required value="{$code|default=''}" {$code?='disabled'} />
+                <p class="help-block">用于后期提取，遵循数据库字段设计</p>
             </td>
         </tr>
         <tr>
