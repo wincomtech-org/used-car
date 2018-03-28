@@ -15,7 +15,7 @@ use app\admin\model\ThemeModel;
 use app\admin\model\NavMenuModel;
 use app\admin\service\ApiService;
 use app\admin\model\SlideItemModel;
-use app\shop\model\ShopCartModel;
+// use app\shop\model\ShopCartModel;
 use think\View;
 use think\Request;
 
@@ -61,11 +61,11 @@ class HomeBaseController extends BaseController
         }
 
         // session 服务器内存
-        session('user_cart',null);
+        // session('user_cart',null);
         if (session('?user_cart')===false) {
             // cmf_get_current_user_id() = session('user.id')
-            $cartModel = new ShopCartModel;
-            session('user_cart', $cartModel->getCartList(['user_id'=>session('user.id')]));
+            // $cartModel = new ShopCartModel;
+            session('user_cart', model('shop/ShopCart')->getCartList(['user_id'=>session('user.id')]));
         }
 
         View::share('site_info', $siteInfo);

@@ -241,6 +241,7 @@ class OrderController extends UserBaseController
                         ];
                     }
                     Db::name('shop_cart')->where('id', 'in', $cart_ids)->delete();
+                    session('user_cart',null);
                 }
                 // dump($details);die;
                 Db::name('shop_order_detail')->insertAll($details);

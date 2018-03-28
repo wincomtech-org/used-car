@@ -190,6 +190,12 @@ input输入框：
     //.js-get-mobile-code //短信验证码
     //.js-get-email-code //邮件验证码
 
+参数说明：
+    data-msg="确定删除它吗？" //提示信息
+    data-refresh="0" //0表单无刷新,1刷新
+    data-wait="1500" //1500等待1.5秒
+    data-action="" //你的提交地址2
+
 js-*系列示例：  没有bootstrap就自定义样式
     <form enctype="multipart/form-data">文件上传</form>
     <form action="你的提交地址" method="post" class="js-ajax-form">
@@ -598,7 +604,7 @@ js-*系列示例：  没有bootstrap就自定义样式
                 <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-10">
                         <input type="hidden" name="id" value="{$id}">
-                        <button type="submit" class="btn btn-primary js-ajax-submit" data-refresh="0">{:lang('SAVE')}</button>
+                        <button type="submit" class="btn btn-primary js-ajax-submit" data-refresh="1">{:lang('SAVE')}</button>
                         <a class="btn btn-default" href="javascript:history.back(-1);">{:lang('BACK')}</a>
                     </div>
                 </div>

@@ -26,11 +26,18 @@
                 <li class="active"><a>购物车</a></li>
             </ul>
 
-            <!-- 电脑端 -->
-            <include file="cart/cartList_pc" />
-
-            <!-- 手机端 -->
-            <include file="cart/cartList_wap" />
+            <notempty name="carts">
+                <!-- 电脑端 -->
+                <include file="cart/cartList_pc" />
+                <!-- 手机端 -->
+                <include file="cart/cartList_wap" />
+            <else/>
+                <div class="shops_order carts main">
+                    <div style="margin: 20px;">
+                        购物车空空如也，<a style="color: blue" href="{:url('shop/Index/index')}"> 去购物>></a>
+                    </div>
+                </div>
+            </notempty>
             
         </div>
     </section>

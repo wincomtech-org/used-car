@@ -7,13 +7,13 @@
             <li class="active"><a href="javascript:void(0);">所有订单</a></li>
             <li><a href="{:url('add')}">添加订单</a></li>
         </ul>
-        <div class="help-block">说明：订单删除后留存在回收站里。</div>
         <form class="well form-inline margin-top-20" method="post" action="{:url('AdminOrder/index')}">
             订单号:
             <input type="text" class="form-control" name="name" style="width:200px;" value="{$keyword}" placeholder="请输入订单号" autocomplete="off">
             <input type="submit" class="btn btn-primary" value="搜索" />
             <a class="btn btn-danger" href="{:url('AdminOrder/index')}">清空</a>
         </form>
+        <div class="help-block">说明：订单删除后留存在回收站里。</div>
         <form class="js-ajax-form" action="" method="post">
             <include file="admin_order/table-actions" />
             <table class="table table-hover table-bordered table-list">
@@ -32,16 +32,14 @@
                         <td><b>{$vo.id}</b></td>
                         <td><span>{$vo.order_sn}</span></td>
 
-                        <td><span>{$vo.buyer_uid}</span></td>
-                        <td><span>{$vo.order_amount}</span></td>
-                        <td><span>{$vo.tracking_no}</span></td>
+                        <td>{$vo.buyer_uid}</td>
+                        <td>￥<span>{$vo.order_amount}</span></td>
+                        <td>{$vo.create_time?=date('Y-m-d H:i',$vo.create_time)}</td>
 
-                        <td>
-                            <span>{$refundV[$vo.refund_status]}</span>
-                        </td>
-                        <td>
-                            {$statusV[$vo.status]}
-                        </td>
+                        <td>{$vo.tracking_no}</td>
+
+                        <td>{$refundV[$vo.refund_status]}</td>
+                        <td>{$statusV[$vo.status]}</td>
                         <td>
                             <a href="{:url('AdminOrder/edit',['id'=>$vo.id])}">{:lang('EDIT')}</a> &nbsp; | &nbsp;
                             <a href="{:url('AdminOrder/delete',['id'=>$vo.id])}" class="js-ajax-delete">{:lang('DELETE')}</a>

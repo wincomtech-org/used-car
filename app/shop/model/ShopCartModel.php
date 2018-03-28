@@ -14,7 +14,7 @@ class ShopCartModel extends Model
         // $field = 'a.id,a.user_id,a.spec_id,a.goods_id,a.spec_vars,a.number,a.price,a.market_price';
         $list = $this->alias('a')
             ->field('a.*,b.thumbnail,b.name as goods_name')
-            ->join('shop_goods b','a.goods_id=b.id')
+            ->join('shop_goods b','a.goods_id=b.id','LEFT')
             ->where($filter)
             ->order('id DESC')
             ->select()->toArray();

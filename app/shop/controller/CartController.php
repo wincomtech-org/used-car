@@ -14,17 +14,18 @@ class CartController extends HomeBaseController
     public function cartList()
     {
         // $userId = cmf_get_current_user_id();
-
         // $cartModel = new ShopCartModel;
         // $filter['a.user_id'] = $userId;
-        // $carts               = $cartModel->getCartList($filter);
-        $carts               = session('user_cart');
-// dump($carts);
-        // 购物车列表不分页
-        $this->assign('carts',$carts);
+        // $carts = $cartModel->getCartList($filter);
         // $this->assign('carts', $carts->items());
         // $carts->appends('');
         // $this->assign('pager', $carts->render());
+
+        $carts = session('user_cart');
+// dump($carts);
+
+        // 购物车列表不分页
+        $this->assign('carts',$carts);
         return $this->fetch();
     }
 
@@ -34,8 +35,11 @@ class CartController extends HomeBaseController
         $data      = $this->request->param();
         $userId    = cmf_get_current_user_id();
         $cartModel = new ShopCartModel;
-// echo "cart";
-        // dump($data);die;
+
+        if (empty($data['goods_id'])) {
+            $this->error('数据不合法');
+        }
+// dump($data);die;
 
         // 防止表单重复提交
         if ($data['timestamp'] == session('timestamp')) {
@@ -49,18 +53,23 @@ class CartController extends HomeBaseController
 
         // 检查已添加的， 没有规格时 spec_id=0
         $where = [
-            'user_id' => $userId,
-            'spec_id' => $data['spec_id'],
+            'user_id'  => $userId,
         ];
+        if (empty($data['spec_id'])) {
+            $where['goods_id'] = $data['goods_id'];
+        } else {
+            $where['spec_id'] = $data['spec_id'];
+        }
         
         $find = $cartModel->where($where)->value('id');
+// dump($find);die;
         if ($find > 0) {
             $result = $cartModel->where('id', $find)->setInc('number', $data['number']);
         } else {
             $post = [
                 'user_id'      => cmf_get_current_user_id(),
-                'spec_id'      => $data['spec_id'],
                 'goods_id'     => $data['goods_id'],
+                'spec_id'      => $data['spec_id'],
                 'spec_vars'    => $data['spec_vars'],
                 'number'       => $data['number'],
                 'price'        => $data['price'],

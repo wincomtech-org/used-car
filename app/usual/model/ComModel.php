@@ -125,10 +125,11 @@ class ComModel extends Model
         } else {
             $ufoconfig = config($config);
         }
-        // $status = intval($status);//非数值型？
+        //非数值型非小数？ 
+        $status = is_numeric($status)?intval($status):$status;
         $options = '';
         foreach ($ufoconfig as $key => $vo) {
-            $options .= '<option value="'.$key.'" '.(($status==$key)?'selected':'').'>'.$vo.'</option>';
+            $options .= '<option value="'.$key.'" '.(($status===$key)?'selected':'').'>'.$vo.'</option>';
         }
 
         return $options;

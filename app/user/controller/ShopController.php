@@ -37,7 +37,7 @@ class ShopController extends UserBaseController
         // config('shop_order_status');
         $orders = Db::name('shop_order')->alias('b')
             ->field('id,order_name,order_desc,order_sn,coupon_id,nums,product_amount,order_amount,refund_status,status,create_time,ip')
-            ->where($where)->paginate(2);
+            ->where($where)->order('id DESC')->paginate(8);
         $orderToArr = $orders->items();
         foreach ($orderToArr as $key => $row) {
             $orderToArr[$key]['det'] = Db::name('shop_order_detail')->alias('a')
@@ -79,10 +79,7 @@ class ShopController extends UserBaseController
             ->select();
 
         // 物流信息
-        $typeCom = 'youzhengguonei';
-        $typeNu  = '9891835741800';
-        $express = new WorkPlugin($typeCom, $typeNu);
-        // $express = new WorkPlugin($order['code'],$order['tracking_no']);
+        $express = new WorkPlugin($order['code'],$order['tracking_no']);
         $logistics = $express->workOrder();
 
 // dump($order);
@@ -332,12 +329,25 @@ class ShopController extends UserBaseController
         $userId = cmf_get_current_user_id();
 
         $where = [
-            'user_id' => $userId,
+            'to_uid' => $userId,
         ];
-        $field = 'from_uid,to_uid,obj_type,obj_id,obj_name,obj_thumb,create_time,ip,status';
-        $list = Db::name('shop_news')->where('to_uid',$userId)->select();
+        $field = 'id,from_uid,to_uid,obj_type,obj_id,obj_name,obj_thumb,create_time,ip,status';
+        $list = Db::name('shop_news')->where($where)->select();
+
         $this->assign('list', $list);
         return $this->fetch();
+    }
+    public function newsDel()
+    {
+        $id = $this->request->param('id');
+        if (empty($id)) {
+            $this->error('数据非法');
+        }
+        $result = Db::name('shop_news')->where('id',$id)->delete();
+        if (empty($result)) {
+            $this->error('删除失败');
+        }
+        $this->success('删除成功');
     }
 
 /*收货地址管理*/
@@ -345,7 +355,8 @@ class ShopController extends UserBaseController
     {
         $userId = cmf_get_current_user_id();
         $list   = Db::name('shop_shipping_address')->where('user_id', $userId)->order('is_main DESC')->select();
-// dump($list);die;
+// dump($list);
+// die;
         $this->assign('list', $list);
         return $this->fetch();
     }

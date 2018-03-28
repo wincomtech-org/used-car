@@ -36,7 +36,7 @@ class AdminSeriesController extends AdminBaseController
         $brandId = $this->request->param('brandId',0,'intval');
         $parent = $this->request->param('parent',0,'intval');
 
-        $list = $this->cateModel->getLists($param,'',30);
+        $list = $this->cateModel->getLists($param,'',300);
         $brands = model('UsualBrand')->getBrands($brandId);
         $cates = $this->cateModel->getFirstCate($parent);
 

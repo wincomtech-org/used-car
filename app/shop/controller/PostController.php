@@ -25,8 +25,8 @@ class PostController extends HomeBaseController
         $goods = model('ShopGoods')->alias('a')
             ->field('a.*,b.name as catename,c.name as brandname')
             ->join([
-                ['shop_goods_category b','a.cate_id=b.id'],
-                ['shop_brand c','a.brand_id=c.id'],
+                ['shop_goods_category b','a.cate_id=b.id','LEFT'],
+                ['shop_brand c','a.brand_id=c.id','LEFT'],
             ])
             ->where('a.id',$id)
             ->find();

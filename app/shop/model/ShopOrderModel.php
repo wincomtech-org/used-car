@@ -12,7 +12,7 @@ class ShopOrderModel extends UsualModel
     
     public function getLists($filter=[], $order='', $limit='', $extra=[])
     {
-        $field = '*';
+        $field = 'id,order_sn,buyer_uid,order_amount,tracking_no,refund_status,create_time,status';
         $where = ['delete_time' => 0];
 
         $keyword = empty($filter['keyword']) ? '' : $filter['keyword'] ;
@@ -20,12 +20,13 @@ class ShopOrderModel extends UsualModel
             $where['order_sn'] = ['like',"%$keyword%"];
         }
         
-        // 数据量
         $limit = $this->limitCom($limit);
+        $order = empty($order)?'update_time DESC':$order;
 
         $list = $this->field($field)
             ->order('id DESC')
             ->where($where)
+            ->order($order)
             ->paginate($limit);
 
         return $list;

@@ -67,21 +67,45 @@ class AdminOrderController extends AdminBaseController
 
         $scModel = new ShopOrderModel();
         $join = [
-            ['shop_shipping_address b','a.address_id=b.id'],
+            ['shop_shipping_address b','a.address_id=b.id','LEFT'],
             ['express c','a.shipping_id=c.id','LEFT'],
             ['shop_returns d','a.returns_id=d.id','LEFT'],
+            ['user e','a.buyer_uid=e.id','LEFT'],
         ];
         $order = $scModel->alias('a')
-            ->field('a.*,b.username,b.telephone,b.address,c.name,c.code,d.amount re_amount,d.status re_status,d.more re_more')
+            ->field('a.*,b.username,b.telephone,b.contact,b.address,c.name,c.code,d.amount re_amount,d.status re_status,d.more re_more,e.user_nickname,e.user_login,e.mobile')
             ->join($join)
             ->where('a.id', $id)
             ->find();
+        $xd = [
+            'user_nickname' => $order['user_nickname'],
+            'user_login'    => $order['user_login'],
+            'mobile'        => $order['mobile']
+        ];
+        $order['buyer_name'] = $scModel->getUsername($xd);
 
+        // 详情数据
+        $detail_list = Db::name('shop_order_detail')->alias('a')
+            ->field('a.*,b.spec_vars')
+            ->join('shop_goods_spec b','a.spec_id=b.id','LEFT')
+            ->where('order_id', $id)
+            ->select();
+
+        // 物流
+        $logistics = Db::name('shop_express')->field('id,name,code')->where('status',1)->order('list_order')->select();
+        // 退换货
         $refundV = config('shop_refund_status');
         $returnsV = $scModel->getStatus($order['re_status'],'shop_returns_status');
         $statusV = $scModel->getStatus($order['status'],'shop_order_status');
 
+// dump($detail_list);
+// dump($logistics);
+// die;
+
         $this->assign('order', $order);
+        $this->assign('list', $detail_list);
+
+        $this->assign('logistics', $logistics);
         $this->assign('refundV', $refundV);
         $this->assign('returnsV', $returnsV);
         $this->assign('statusV', $statusV);
@@ -100,28 +124,46 @@ class AdminOrderController extends AdminBaseController
             //     $this->error($result);
             // }
             if ($post['status']==3) {
+                $nModel = new ShopNewsModel();
                 $wh = [
                     'to_uid'    => $post['buyer_uid'],
                     'obj_type'  => 'order3',
                     'obj_id'    => $post['id'],
                 ];
-                $find = Db::name('cmf_shop_news')->where($wh)->count();
+                $find = Db::name('shop_news')->where($wh)->count();
                 if ($find==0) {
-                    $data = [
+                    $news = [
                         'buyer_uid'  => $post['buyer_uid'],
                         'obj_type'  => 'order3',
                         'obj_id'  => $post['id'],
                         'obj_name'  => '您的商品已发货。',
                     ];
-                    $nModel = new ShopNewsModel;
-                    $nModel->addSN($data);
                 }
             }
+// dump($find);
+// dump($post);
+// dump($news);
+// die;
 
             $scModel = new ShopOrderModel();
-            $scModel->editDataCom($post);
 
-            $this->success('保存成功!', url('index'));
+            $transStatus = true;
+            Db::startTrans();
+            try {
+                $scModel->editDataCom($post);
+                if (!empty($news)) {
+                    $nModel->addSN($news);
+                }
+                Db::commit();
+            } catch (\Exception $e) {
+                Db::rollback();
+                $transStatus = false;
+            }
+            
+            if ($transStatus==true) {
+                $this->success('保存成功！', url('index'));
+            }
+            $this->error('保存失败！');
         }
     }
 

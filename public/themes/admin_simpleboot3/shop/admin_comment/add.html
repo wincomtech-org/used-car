@@ -3,16 +3,16 @@
 <body>
 <div class="wrap js-check-wrap">
     <ul class="nav nav-tabs">
-        <li><a href="{:url('AdminExpress/index')}">快递管理</a></li>
-        <li class="active"><a href="{:url('AdminExpress/add')}">添加快递</a></li>
+        <li><a href="{:url('AdminComment/index')}">评价管理</a></li>
+        <li class="active"><a href="{:url('AdminComment/add')}">添加评价</a></li>
     </ul>
-    <form action="{:url('AdminExpress/addPost')}" method="post" class="form-horizontal js-ajax-form margin-top-20">
+    <form action="{:url('AdminComment/addPost')}" method="post" class="form-horizontal js-ajax-form margin-top-20">
         <div class="row">
-            <include file="admin_express/add_edit" />
+            <include file="admin_comment/add_edit" />
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">
                     <button type="submit" class="btn btn-primary js-ajax-submit">{:lang('ADD')}</button>
-                    <a class="btn btn-default" href="{:url('AdminExpress/index')}">{:lang('BACK')}</a>
+                    <a class="btn btn-default" href="{:url('AdminComment/index')}">{:lang('BACK')}</a>
                 </div>
             </div>
         </div>

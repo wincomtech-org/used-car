@@ -1,7 +1,6 @@
 <include file="public@header"/>
-<include file="admin_goods/pic-list" />
-
 </head>
+
 <body>
 <div class="wrap js-check-wrap">
     <ul class="nav nav-tabs">
@@ -17,7 +16,7 @@
                 <a class="list-group-item" href="#C" data-toggle="tab">退换货</a>
             </div>
         </div>
-        <form class="form-horizontal js-ajax-form" action="{:url('AdminGoods/editPost')}" method="post">
+        <form class="form-horizontal js-ajax-form" action="{:url('AdminOrder/editPost')}" method="post">
         <div class="col-md-8">
             <div class="tab-content">
                 <include file="admin_order/add_edit" />

@@ -65,6 +65,7 @@ class UsualSeriesModel extends UsualCategoryModel
                 ->join($join)
                 ->where($where)
                 ->order($order)
+                ->limit($limit)
                 ->select()
                 ->toArray();
                 // ->paginate($limit);
