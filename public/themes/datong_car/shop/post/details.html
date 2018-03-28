@@ -134,13 +134,14 @@
                             <input type="hidden" name="timestamp" value="{:session('timestamp')}">
 
 	                    	<notempty name="goods.score">
-	                    		<button type="submit" class="btn-style-auto btn yellow js-ajax-submit" data-action="{:url('shop/Order/score')}">积分兑换</button>
+                                <!-- <button type="submit" class="btn-style-auto btn yellow js-ajax-submit" data-action="{url('shop/Order/score')}">积分兑换</button> -->
+                                <a href="javascript:void(0);" class="btn-style-auto btn yellow" id="s_score" >积分兑换</a>
 	                    	</notempty>
 
-	                    	<!-- <button type="submit" class="btn-style-auto btn yellow js-ajax-submit" data-action="{:url('shop/Order/buy')}">立即购买</button> -->
+	                    	<!-- <button type="submit" class="btn-style-auto btn yellow js-ajax-submit" data-action="{url('shop/Order/buy')}">立即购买</button> -->
                             <a href="javascript:void(0);" class="btn-style-auto btn yellow" id="s_buy" >立即购买</a>
 
-	                    	<!-- <button type="submit" class="btn-style-auto btn buycar js-ajax-submit" data-action="{:url('Cart/cartAdd')}">加入购物车</button> -->
+	                    	<!-- <button type="submit" class="btn-style-auto btn buycar js-ajax-submit" data-action="{url('Cart/cartAdd')}">加入购物车</button> -->
                             <a href="javascript:void(0);" class="btn-style-auto btn buycar" id="s_cart">加入购物车</a>
 	                    </div>
                     </form>
@@ -163,6 +164,9 @@
             window.location.href = u;
         }
     });
+    $('#s_score').click(function () {
+        alert('暂未开放');
+    })
 
     function select_spec() {
         var vars = $("input[name='spec_vars']:hidden").val();
