@@ -47,6 +47,7 @@ class ShopController extends UserBaseController
                 ->select()->toArray();
         }
 // dump($orderToArr);die;
+
         $this->assign('orders', $orderToArr);
         $this->assign('pager', $orders->appends('status',$os)->render());
         $this->assign('os', $os);
@@ -71,7 +72,11 @@ class ShopController extends UserBaseController
         if (empty($order)) {
             $this->error('数据出错');
         }
-        $order_list = Db::name('shop_order_detail')->where('order_id', $id)->select();
+        $detail_list = Db::name('shop_order_detail')->alias('a')
+            ->field('a.*,b.spec_vars')
+            ->join('shop_goods_spec b','a.spec_id=b.id','LEFT')
+            ->where('order_id', $id)
+            ->select();
 
         // 物流信息
         $typeCom = 'youzhengguonei';
@@ -81,11 +86,12 @@ class ShopController extends UserBaseController
         $logistics = $express->workOrder();
 
 // dump($order);
-        // dump($order_list);
-        // die;
-        $order['status'] = 3;
+// dump($detail_list);
+// die;
+        // $order['status'] = 3;
+
         $this->assign('order', $order);
-        $this->assign('list', $order_list);
+        $this->assign('list', $detail_list);
         $this->assign('logistics', $logistics);
         return $this->fetch();
     }
@@ -158,18 +164,34 @@ class ShopController extends UserBaseController
     }
     public function evaluate()
     {
-        $id = $this->request->param('id/d', 0, 'intval');//商品ID
+        $id = $this->request->param('id/d', 0, 'intval');//订单详情ID
+        $eid = $this->request->param('eid/d', 0, 'intval');//商品评价ID
         if (empty($id)) {
             $this->error('非法请求');
         }
 
+        $goods = Db::name('shop_order_detail')->alias('a')
+            ->field('a.*,b.spec_vars')
+            ->join('shop_goods_spec b','a.spec_id=b.id','LEFT')
+            ->where('a.id', $id)
+            ->find();
+// dump($goods);die;
         // 是否有订单号、确认收货
-        $goods = model('shop/ShopGoods')->getPost($id);
-        // 评价表
-        // $evaluate = '';
+        $find = Db::name('shop_order')->where('id',$goods['order_id'])->value('status');
+        if ($find<4) {
+            $this->error('请确认收货,再来评价');
+        }
+
+        // 评价内容 评价表
+        $evaluate['star'] = 1;
+        if (!empty($eid)) {
+            $evaluate = Db::name('shop_evaluate')->where('id',$eid)->find();
+            $evaluate['evaluate_image'] = json_decode($evaluate['evaluate_image'],true);
+            // dump($evaluate);die;
+        }
 
         $this->assign('goods', $goods);
-        // $this->assign('evaluate', $evaluate);
+        $this->assign('evaluate', $evaluate);
         return $this->fetch();
     }
     public function evaluatePost()

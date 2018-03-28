@@ -28,7 +28,7 @@
                             <a href="javascript:void(0);">{$vo.goods_name}</a>
                         </div>
                         <div class='order-attributes'>
-                            <span>规格：{$vo.more|default='--'}</span>
+                            <span>规格：{$vo.spec_vars|default='--'}</span>
                         </div>
                     </div>
                     <div class="item-pay">
@@ -43,7 +43,7 @@
                 <a href="{:url('returns_detail',['id'=>$vo.id])}" class='backg-border'>申请售后</a>
                 </gt>
                 <eq name="order.status" value="4">
-                    <a href="{:url('evaluate',['id'=>$vo.goods_id])}" class='backg-border'>评价</a>
+                    <a href="{:url('evaluate',['id'=>$vo.id])}" class='backg-border'>评价</a>
                 </eq>
             </div>
         </div>

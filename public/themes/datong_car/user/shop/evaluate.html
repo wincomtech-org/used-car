@@ -31,13 +31,12 @@
             <div class="order-details">
                 <div class="evaluate-div">
                     <form action="{:url('evaluatePost')}" method='post'>
-                        <input type="hidden" name='' value='用户名等'>
                         <div class="shop_orders evaluate-box">
                             <ul class='order-ul'>
                                 <li class='order-li'>商品评价</li>
                             </ul>
                             <div class="evaluate-img">
-                                <a href="">
+                                <a href="{:url('shop/Post/details',['id'=>$goods.goods_id])}">
                                     <empty name="goods.thumbnail">
                                         <img src="__TMPL__/public/assets/images/default-thumbnail.png" alt="" class='eval-img'>
                                     <else/>
@@ -45,38 +44,39 @@
                                     </empty>
                                 </a>
                                 <div class="eval-item">
-                                    <a href="" class='blue-color'>{$goods.name|mb_substr=0,20,'utf-8'}</a>
+                                    <a href="javascript:void(0);" class='blue-color'>{$goods.goods_name|mb_substr=0,20,'utf-8'}</a>
                                     <p class="eval-item-prop">
-                                        颜色分类：倍量加强版【苹果6电池】-送整套拆机工具+视频教程+质保3年
+                                        规格：{$goods.spec_vars|default=''}
                                     </p>
                                 </div>
                             </div>
                             <div class="evaluate-con">
                                 <ul class="evaluate-star">
-                                    <li class='orage-color'>评价：</li>
-                                    <li class='good-eval active tab-sel'>
+                                    <li class="orage-color">评价：</li>
+                                    <li class="good-eval tab-sel {$evaluate.star==1?='active'}">
                                         <label>
                                             <span class=''>好评</span>
-                                            <input type="radio" name='eval[star]' value="1">
+                                            <input type="radio" name='eval[star]' value="1" {$evaluate.star==1?='checked'}>
                                         </label>
                                     </li>
-                                    <li class='middle-eval tab-sel'>
+                                    <li class="middle-eval tab-sel {$evaluate.star==0?='active'}">
                                         <label>
                                             <span class=''>中评</span>
-                                            <input type="radio" checked name='eval[star]' value="0">
+                                            <input type="radio" checked name='eval[star]' value="0" {$evaluate.star==0?='checked'}>
                                         </label>
                                     </li>
-                                    <li class='bad-eval tab-sel'>
+                                    <li class="bad-eval tab-sel {$evaluate.star==-1?='active'}">
                                         <label>
                                             <span class=''>差评</span>
-                                            <input type="radio" name='eval[star]' value="-1">
+                                            <input type="radio" name='eval[star]' value="-1" {$evaluate.star==-1?='checked'}>
                                         </label>
                                     </li>
                                 </ul>
-
+                                <div class="evaluation">
+                                    <textarea class='placehoder' cols="15" rows="5" placehoder='请填写评价内容' required name="eval[description]" >{$evaluate.description|default=''}</textarea>
+                                </div>
                                 <!-- 有图评价 -->
                                 <div class="evaluation">
-                                    <textarea cols="15" rows="5" class='placehoder' placehoder='请填写评价内容' name="eval[description]" required></textarea>
                                     <div class="show-eval-img">
                                         <a href="javascript:uploadMultiImage('图片上传','#lothar_photos','lothar_photos-item-tpl');" class="btn btn-default btn-sm demonstrate_pre upload-img-btn">
                                             <img src="__TMPL__/public/assets/images/add.png" style="cursor:pointer;background-color:#999"/>
@@ -87,7 +87,7 @@
                                                 <li id="saved-lothar_photos{$key}">
                                                     <input id="lothar_photos-{$key}" type="hidden" name="evaluate_image[urls][]" value="{$vo.url}" />
                                                     <input id="lothar_photos-{$key}-name" type="text" name="evaluate_image[names][]" value="{$vo.name|default=''}" class="form-control" title="图片名称" />
-                                                    <img id="lothar_photos-{$key}-preview" src="{:cmf_get_image_preview_url($vo['url'])}" style="height:120px;width: 200px;" onclick="parent.imagePreviewDialog(this.src);">
+                                                    <img id="lothar_photos-{$key}-preview" src="{:cmf_get_image_preview_url($vo.url)}" style="max-height:120px;max-width:200px;" onclick="parent.imagePreviewDialog(this.src);">
                                                     <a href="javascript:uploadOneImage('图片上传','#lothar_photos-{$key}');">替换</a>
                                                     <a href="javascript:(function(){$('#saved-lothar_photos{$key}').remove();})();">移除</a>
                                                 </li>
@@ -96,8 +96,12 @@
                                         </ul>
                                     </div>
                                 </div>
-                                <input type="hidden" name="eval[goods_id]" value="{$goods.id}">
-                                <button type="submit" class='btn-style backg-blue '>提交</button>
+                                <div>
+                                    <input type="hidden" name="eval[goods_id]" value="{$goods.goods_id}">
+                                    <empty name="evaluate">
+                                        <button type="submit" class='btn-style backg-blue '>提交</button>
+                                    </empty>
+                                </div>
                             </div>
                         </div>
                     </form>
@@ -114,5 +118,4 @@ $('.tab-sel').click(function() {
     $(this).addClass('active').siblings().removeClass('active');
 })
 </script>
-
 </html>
