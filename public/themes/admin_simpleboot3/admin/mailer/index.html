@@ -44,13 +44,14 @@
 			<div class="form-group">
 				<label for="input-login_name" class="col-sm-2 control-label"><span class="form-required">*</span>{:lang('SMTP_MAIL_ADDRESS')}</label>
 				<div class="col-md-6 col-sm-10">
-					<input type="text" class="form-control" id="input-login_name" name="username" value="{$username|default=''}">
+					<input type="text" class="form-control" id="input-login_name" name="username" value="{$username|default=''}" autocomplete="off">
 				</div>
 			</div>
 			<div class="form-group">
 				<label for="input-password" class="col-sm-2 control-label"><span class="form-required">*</span>{:lang('SMTP_MAIL_PASSWORD')}</label>
 				<div class="col-md-6 col-sm-10">
-					<input type="password" class="form-control" id="input-password" name="password" value="{$password|default=''}">
+					<input type="password" name="password" style="display:none"/>
+					<input type="password" class="form-control" id="input-password" name="password" value="{$password|default=''}" autocomplete="off">
 				</div>
 			</div>
 			<div class="form-group">
