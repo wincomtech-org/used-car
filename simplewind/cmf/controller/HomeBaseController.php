@@ -12,9 +12,9 @@ namespace cmf\controller;
 
 use think\Db;
 use app\admin\model\ThemeModel;
-use app\admin\model\NavMenuModel;
+// use app\admin\model\NavMenuModel;
+// use app\admin\model\SlideItemModel;
 use app\admin\service\ApiService;
-use app\admin\model\SlideItemModel;
 // use app\shop\model\ShopCartModel;
 use think\View;
 use think\Request;
@@ -38,11 +38,13 @@ class HomeBaseController extends BaseController
         $cbc = cache('cbc');
         if (empty($cbc)) {
             // 导航（手机端）
-            $navMenuModel = new NavMenuModel;
-            $navMenus = $navMenuModel->navMenusTreeArray(null,2);
+            // $navMenuModel = new NavMenuModel;
+            // $navMenus = $navMenuModel->navMenusTreeArray(null,2);
+            $navMenus = model('admin/NavMenu')->navMenusTreeArray(null,2);
             // 幻灯片
-            $slideModel = new SlideItemModel;
-            $slides = $slideModel->getLists(['cid'=>1]);
+            // $slideModel = new SlideItemModel;
+            // $slides = $slideModel->getLists(['cid'=>1]);
+            $slides = model('admin/SlideItem')->getLists(['cid'=>1]);
             // 友链
             $apiModel = new ApiService;
             $friendLink = $apiModel->links('url,name,target,description');

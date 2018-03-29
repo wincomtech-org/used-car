@@ -37,7 +37,7 @@ class PostController extends HomeBaseController
         $specs = Db::name('shop_goods_spec')->field('id,spec_vars')->where('goods_id',$id)->select()->toArray();
 
         // 商品属性
-        $attrs = Db::name('shop_goods_item')->alias('a')
+        $attrs = Db::name('shop_gav')->alias('a')
             ->field('b.name as attr,c.name as av')
             ->join('shop_goods_attr b','a.attr_id=b.id')
             ->join('shop_goods_av c','a.av_id=c.id')

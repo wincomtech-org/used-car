@@ -232,7 +232,7 @@ js-*系列示例：  没有bootstrap就自定义样式
 
 
 
-富文本
+【富文本】
 <script type="text/plain" id="content" name="post[content]">{$post.content|default=''}</script>
 <script type="text/javascript">
     //编辑器路径定义
@@ -268,7 +268,11 @@ js-*系列示例：  没有bootstrap就自定义样式
     })
 </script>
 
-图片上传示例：
+【弹窗】
+    <a class="btn btn-warning" href="javascript:parent.openIframeDialog('{:url('mailer/test')}','发送测试邮件',{width:'600px',height:'400px'});">测试邮件</a>
+
+
+【图片上传示例】：
 单图
     新增
     <div>
@@ -476,7 +480,7 @@ js-*系列示例：  没有bootstrap就自定义样式
         }
     </script>
 
-联动
+【联动】
 
 </body>
 </html>

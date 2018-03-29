@@ -228,7 +228,7 @@ class AdminGoodsController extends AdminBaseController
 
         // 属性
         $attrs = $cateModel->getAttrByCate($cateId,[]);// 所有属性以及值
-        $goods_attrs = Db::name('shop_goods_item')->field('attr_id,av_id')->where('goods_id',$id)->select();
+        $goods_attrs = Db::name('shop_gav')->field('attr_id,av_id')->where('goods_id',$id)->select();
         $goods_attrs2 = [];
         foreach ($goods_attrs as $row) {
             $goods_attrs2[$row['attr_id']] = $row['av_id'];
@@ -331,7 +331,7 @@ class AdminGoodsController extends AdminBaseController
         dump($spec_old_key);
         dump($goods_spec);die;
 
-        // 处理属性 shop_goods_item 
+        // 处理属性 shop_gav 
         // 事实上无论是 goods_id,attr_id 还是 goods_id,av_id 都已经组成了唯一条件
         // $post['more']['attr'] = $data['attr'];
         $attrs_old =  $data['goods_attrs'];
@@ -378,9 +378,9 @@ class AdminGoodsController extends AdminBaseController
             $this->scModel->isUpdate(true)->allowField(true)->save($post, ['id'=>$id]);
             if (!empty($gav)) {
                 if (isset($diff1)) {
-                    Db::name('shop_goods_item')->where(['goods_id'=>$id,'av_id'=>['in',$diff1]])->delete();
+                    Db::name('shop_gav')->where(['goods_id'=>$id,'av_id'=>['in',$diff1]])->delete();
                 }
-                Db::name('shop_goods_item')->insertAll($gav);
+                Db::name('shop_gav')->insertAll($gav);
             }
             if (isset($specNew)) {
                 Db::name('shop_goods_spec')->insertAll($specNew);

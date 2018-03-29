@@ -85,7 +85,7 @@ class OrderController extends UserBaseController
             $addr      = $address[0];
             $addrFirst = [
                 'id'   => $addr['id'],
-                'addr' => $addr['address'] . ' ' . $addr['username'] . '收 ' . $addr['telephone'],
+                'addr' => $addr['address'] .' '. $addr['username'] .'收 '. $addr['telephone'],
             ];
         }
 
@@ -103,11 +103,11 @@ class OrderController extends UserBaseController
     // 积分兑换 可用立即购买的 buy()
     public function score()
     {
+        $this->error('暂未开放');
         $data = $this->request->param();
         // $buy_sign = 3;
-
-        echo "暂未开放";die;
         dump($data);
+
         // $this->assign('buy_sign',$buy_sign);
         // return $this->fetch();
     }
@@ -115,7 +115,8 @@ class OrderController extends UserBaseController
     // PC端选地址
     public function pc_address()
     {
-        return '暂无';
+        $this->error('暂未开放');
+        return $this->fetch();
     }
     //手机端选择地址页
     public function wap_address()

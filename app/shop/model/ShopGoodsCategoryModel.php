@@ -140,7 +140,7 @@ class ShopGoodsCategoryModel extends UsualCategoryModel
 
 
 /*以下为具体方法*/
-    // 获取指定级别的上级ID
+    // 获取指定级别的顶部ID
     public function getTopid($cateId = 0, $level = 99)
     {
         $find = $this->where('id', $cateId)->value('parent_id');

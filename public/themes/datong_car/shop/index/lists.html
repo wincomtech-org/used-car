@@ -19,20 +19,74 @@
 
     <!-- 车辆买卖 -->
     <section class="vehiTrad" id="AAA">
-
         <div class="main">
-            <h3 class="index_tit">服务商城<span class="index_tit_supply">一体化的服务流程，为您带来便捷生活 </span></h3>
+            <h3 class="index_tit">
+                服务商城<span class="index_tit_supply">一体化的服务流程，为您带来便捷生活</span>
+            </h3>
+            
+            <!-- 筛选结果 -->
             <div class="fitte_div clearfix">
                 <span>你选择的是：</span>
                 <ul class='fitter_ul clearfix'>
-                    <li>分类：美容清洗<i>x</i></li>
-                    <li>品牌：威威<i>x</i></li>
-                    <li>价格：20-30<i>x</i></li>
-                    <li>属性：属性1<i>x</i></li>
-                    <li>属性2：属性2<i>x</i></li>
-
+                    <li class="li_filter">
+                        属性：<em>属性值</em><i d-u="{:url('shop/Index/lists',$jumpext.'&a=1')}">x</i>
+                    </li>
+                    <li class="li_filter">
+                        属性2：<em>属性值2</em><i d-u="{:url('shop/Index/lists',$jumpext.'&a=2')}">x</i>
+                    </li>
+                    <!-- <li>属性2：属性值2<i>x</i></li> -->
+                    <!-- <li>属性3：属性值3<i>X</i></li> -->
                 </ul>
+                {$filtrate|default=''}
             </div>
+
+
+<script type="text/javascript">
+$(function () {
+    
+    $('.li_filter').click(function() {
+        // console.log(this);
+        var du = $(this).children('i').attr('d-u');
+        // alert(du)
+        window.location.href = du;
+    });
+
+    // $('.li_filter').click(function() {
+    //     num = $(this).index()+1;
+    //     console.log(num);
+    // })
+
+
+
+});
+
+
+function filtrate() {
+    // var dk = $(this).attr('d-k');
+    // var dv = $(this).attr('d-v');
+    var du = $(this).attr('d-u');
+
+    // alert(dk)
+    // alert(dv)
+    alert(du)
+
+    // $.ajax({
+    //     url: "{:url('shop/Index/lists')}",
+    //     data: {dk: dk, dv: dv},
+    //     dataType: 'json',
+    //     type: 'post',
+    //     success: function (data) {
+    //         console.log(data);
+    //     },
+    //     error: function () {
+    //     },
+    //     complete: function () {
+    //     }
+    // });
+}
+</script>
+
+
             <!-- 车辆买卖条件筛选 -->
             <div class="vehiTrad_tit">
                 <!-- 热搜 -->

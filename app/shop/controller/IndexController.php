@@ -33,7 +33,6 @@ class IndexController extends HomeBaseController
 
     // 用于手机端
     function cate_map(){
-
         return $this->fetch();
     }
 
@@ -45,33 +44,28 @@ class IndexController extends HomeBaseController
     public function lists()
     {
 // 测试
-
         // $cateId =1;
         // $table = Db::getTable('shop_goods_category');
         // $sql = sprintf('SELECT `id`,`name` FROM `%s` WHERE `path` like concat((SELECT `path` FROM `%s` WHERE `id`=%u),\'-%%\') ORDER BY list_order',$table,$table,$cateId);
         // $categories = Db::query($sql);
-        $categories = model('ShopGoodsCategory')->getCateChildrens(1,[],'');
+        // $categories = model('ShopGoodsCategory')->getCateChildrens(1,[],'');
 
 // dump(model('ShopGoodsCategory')->getCateChildren(10));
 // dump(model('ShopGoodsCategory')->getSpecByCate(7));
 // dump(model('ShopGoodsCategory')->getAttrByCate());
-        // dump($categories);
-        // die;
+// dump($categories);
+// die;
 
 
 
-        // 实例化
-        $scModel   = new ShopGoodsModel;
-        $cateModel = new ShopGoodsCategoryModel();
-
-        // 获取请求 typeCast()$type=a/d/f/b/s/gettype()
+        // 获取请求 typeCast()$type=a|d|f|b|s|gettype()
         $data        = $this->request->param();
         $param_attr  = $this->request->param('oxnum'); //来自属性值表
         $param_cate  = $this->request->param('cate/d'); //分类
         $param_brand = $this->request->param('brand'); //商品品牌
         // $param_price = $this->request->param('priceMin.priceMax/d');//价格区间
-        $param_price1 = $this->request->param('priceMin/d'); //价格区间
-        $param_price2 = $this->request->param('priceMax/d'); //价格区间
+        $param_price1 = $this->request->param('priceMin/d'); //最小价格
+        $param_price2 = $this->request->param('priceMax/d'); //最大价格
         // $jumpext = $this->request->param('jumpext','','strval');
 
 // var_dump($param_attr);
@@ -79,6 +73,7 @@ class IndexController extends HomeBaseController
 // dump($param_price);
 // dump($data);
 // die;
+
         /*初始化*/
         // 预设
         $jumpext = '';
@@ -87,6 +82,10 @@ class IndexController extends HomeBaseController
         $order = '';
         $limit = '';
         $filter = $extra = [];
+
+        // 实例化
+        $scModel   = new ShopGoodsModel;
+        $cateModel = new ShopGoodsCategoryModel();
 
         // 获取相关数据
         // $categories = $cateModel->getGoodsTreeArray($param_cate);
@@ -112,7 +111,14 @@ class IndexController extends HomeBaseController
                 $extra['a.price'] = ['elt', $param_price2];
             }
         }
-        // 属性 cmf_shop_gav 依据属性值的ID查找对应商品数据
+        /*
+         * 属性值处理
+         * 相关表
+            cmf_shop_gav 依据属性值的ID查找对应商品数据
+            cmf_shop_goods_attr
+            cmf_shop_goods_av
+            cmf_shop_goods
+         */
         $oxnum = trim($param_attr);
         // $attr1 = str_split($oxnum,3);
         $attr1 = '';
@@ -135,25 +141,35 @@ class IndexController extends HomeBaseController
         //     cache('obcache3', $obcache);
         // }
 
-        /*URL 参数*/
+        /*
+         * URL 参数
+         * oxnum 被保留的属性id
+         */
         $jumpext = (empty($param_cate)?'':'&cate='.$param_cate)
+            // . (empty($param_attr)?'':'&oxnum='.$param_attr)
             . (empty($param_brand)?'':'&brand='.$param_brand)
             . (empty($param_price1)?'':'&priceMin='.$param_price1)
             . (empty($param_price2)?'':'&priceMax='.$param_price2);
 // dump($jumpext);die;
+
+
+
         /*商品数据集*/
-        // $goodslist = $scModel->getLists($filter,$order,$limit,$extra,$field);
-        $goodslist = $scModel->getLists([],$order,$limit,$extra,$field);
+        $goodslist = $scModel->getLists($filter,$order,$limit,$extra,$field);
+        // $goodslist = $scModel->getLists([],$order,$limit,$extra,$field);
 // dump($goodslist->toArray());die;
+
+
+
         /*模板赋值*/
         $this->assign('jumpext', $jumpext);
         $this->assign('oxnum', $param_attr);
 
+        $this->assign('cate', $param_cate);
+        $this->assign('brand', $param_brand);
         $this->assign('priceMin', $param_price1);
         $this->assign('priceMax', $param_price2);
-        $this->assign('cate', $param_cate);
         $this->assign('categories', $categories);
-        $this->assign('brand', $param_brand);
         $this->assign('brands', $brands);
         $this->assign('attrTree', $attrTree);
 
