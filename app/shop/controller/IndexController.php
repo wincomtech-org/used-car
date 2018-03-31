@@ -43,21 +43,21 @@ class IndexController extends HomeBaseController
     // public function list()//被占用
     public function lists()
     {
-// 测试
-        // $cateId =1;
-        // $table = Db::getTable('shop_goods_category');
-        // $sql = sprintf('SELECT `id`,`name` FROM `%s` WHERE `path` like concat((SELECT `path` FROM `%s` WHERE `id`=%u),\'-%%\') ORDER BY list_order',$table,$table,$cateId);
-        // $categories = Db::query($sql);
-        // $categories = model('ShopGoodsCategory')->getCateChildrens(1,[],'');
+        // $this->error('临时关闭');
+        // $it = "INSERT INTO `cmf_shop_goods` (`cate_id`,`brand_id`,`avids`,`price`) VALUES ";
+        // error_log(date('Y-m-d H:i:s') .'---'. $it . "\r\n", 3, 'data/log.txt');
 
-// dump(model('ShopGoodsCategory')->getCateChildren(10));
-// dump(model('ShopGoodsCategory')->getSpecByCate(7));
-// dump(model('ShopGoodsCategory')->getAttrByCate());
-// dump($categories);
-// die;
+        // for ($i=0; $i < 70000; $i++) { 
+        //     $it .= '('.rand(0,23).','.rand(0,8).','.rand(1,999).','.rand(0,1000).'),';
+        // }
+        // $it = substr($it,0,-1);
+        // // echo $it;die;
+        // error_log(date('Y-m-d H:i:s') .'---'. $i . "\r\n", 3, 'data/log.txt');
 
-
-
+        // $result = Db::query($it);
+        // error_log(date('Y-m-d H:i:s') . "\r\n\r\n", 3, 'data/log.txt');
+        // die;
+        
         // 获取请求 typeCast()$type=a|d|f|b|s|gettype()
         $data        = $this->request->param();
         $param_attr  = $this->request->param('oxnum'); //来自属性值表
@@ -67,12 +67,6 @@ class IndexController extends HomeBaseController
         $param_price1 = $this->request->param('priceMin/d'); //最小价格
         $param_price2 = $this->request->param('priceMax/d'); //最大价格
         // $jumpext = $this->request->param('jumpext','','strval');
-
-// var_dump($param_attr);
-// var_dump($param_cate);
-// dump($param_price);
-// dump($data);
-// die;
 
         /*初始化*/
         // 预设
@@ -93,10 +87,15 @@ class IndexController extends HomeBaseController
         $brands     = Db::name('shop_brand')->field('id,name')->where('status',1)->select()->toArray();
         $attrTree   = $cateModel->getAttrByCate($param_cate);
 
-// dump($categories);
-// dump($brands);
-// dump($attrTree);
-// die;
+        /*
+         * URL 参数
+         * oxnum 被保留的属性id
+         */
+        $jumpext = (empty($param_cate)?'':'&cate='.$param_cate)
+            . (empty($param_brand)?'':'&brand='.$param_brand)
+            . (empty($param_price1)?'':'&priceMin='.$param_price1)
+            . (empty($param_price2)?'':'&priceMax='.$param_price2)
+            . (empty($param_attr)?'':'&oxnum='.$param_attr);
 
         /*处理条件*/
         $filter['cateId'] = $param_cate;
@@ -111,59 +110,63 @@ class IndexController extends HomeBaseController
                 $extra['a.price'] = ['elt', $param_price2];
             }
         }
+
         /*
          * 属性值处理
          * 相关表
-            cmf_shop_gav 依据属性值的ID查找对应商品数据
-            cmf_shop_goods_attr
-            cmf_shop_goods_av
-            cmf_shop_goods
+            cmf_shop_gav 关联表，依据属性值的ID查找对应商品数据
+            cmf_shop_goods_attr  属性表
+            cmf_shop_goods_av  属性值表
+            cmf_shop_goods  商品表
          */
+        $filter['avIds'] = $param_attr;
         $oxnum = trim($param_attr);
-        // $attr1 = str_split($oxnum,3);
-        $attr1 = '';
+        $av_ids = explode('_',$oxnum);//获取当前参与筛选的属性值ID集合
+        // $attrTree = [];//当前分类所有属性及值的集合
+        
+        $show_tpl = ''; // 生成筛选html,URL中留下需要保留的 ids
+        $hide_ids = '';//页面中需要隐藏的属性ID： attr_id
+        // $goods_ids = '';// 需要从数据库中找出的商品ID： goods_id
+
         if (!empty($attrTree)) {
-            $attr_ids = array_keys($attrTree);
-            // dump($attr_ids);
+            // $attr_ids = array_keys($attrTree);// 获取当前分类所有属性id
+            foreach ($attrTree as $key1 => $vo1) {
+                // $attr_ids[] = $key1;// 获取当前分类所有属性id
+                foreach ($vo1['value'] as $key2 => $vo2) {
+                    if (in_array($vo2['id'],$av_ids)) {
+                        $hide_ids[] = $key1;//参与筛选的分类属性ID
+                        // 注意：这里 $key1=$vo1['id']
+                        // 
+                        $dd = implode('_',array_merge(array_diff($av_ids, [$vo2['id']])));
+                        $show_tpl .= '<li class="li_filter"><a href="'.url('shop/Index/lists',$jumpext.'&oxnum='.$dd).'">'.$vo1['name'].'：<em>'.$vo2['name'].'</em><i>x</i></a></li>';
+                    } else {
+                        
+                    }
+                }
+            }
         }
-        // dump($attrTree);die;
-
-
 
         // 数据总缓存
-        // $obcache = cache('obcache3');
+        // $obcache = cache('obshopIndexLists');
         // if (empty($obcache)) {
         //     $obcache = [
         //         'categories' => $categories,
         //         'brands'     => $brands,
         //         'attrTree'   => $attrTree,
         //     ];
-        //     cache('obcache3', $obcache);
+        //     cache('obshopIndexLists', $obcache);
         // }
-
-        /*
-         * URL 参数
-         * oxnum 被保留的属性id
-         */
-        $jumpext = (empty($param_cate)?'':'&cate='.$param_cate)
-            // . (empty($param_attr)?'':'&oxnum='.$param_attr)
-            . (empty($param_brand)?'':'&brand='.$param_brand)
-            . (empty($param_price1)?'':'&priceMin='.$param_price1)
-            . (empty($param_price2)?'':'&priceMax='.$param_price2);
-// dump($jumpext);die;
-
 
 
         /*商品数据集*/
         $goodslist = $scModel->getLists($filter,$order,$limit,$extra,$field);
-        // $goodslist = $scModel->getLists([],$order,$limit,$extra,$field);
-// dump($goodslist->toArray());die;
-
 
 
         /*模板赋值*/
         $this->assign('jumpext', $jumpext);
-        $this->assign('oxnum', $param_attr);
+        $this->assign('oxnum', (empty($oxnum)?'':$oxnum.'_'));
+        $this->assign('show_tpl',$show_tpl);
+        $this->assign('hide_ids',$hide_ids);
 
         $this->assign('cate', $param_cate);
         $this->assign('brand', $param_brand);

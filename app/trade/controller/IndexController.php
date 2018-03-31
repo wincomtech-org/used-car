@@ -133,7 +133,7 @@ class IndexController extends HomeBaseController
         $placeholder = '00000000000000000000000000000000000000000';// 预置
         $limit = 12;//每页数据量
         $jumpurl = $jumpext = '';
-        $filter = $extra = $where = $order = $carlist = [];
+        $filter = $extra = $order = $carlist = [];
         // 售卖条件
         $extra['a.parent_id'] = 0;
         $extra['a.status'] = 1;

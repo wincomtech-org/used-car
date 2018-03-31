@@ -23,19 +23,20 @@
             </tr>
         </thead>
         <tbody>
+            <notempty name="goods_spec">
             <foreach name="goods_spec" item="vo" key="gsKey">
                 <tr>
                     <td>
-                        <input type="text" name="spec[old][{$gsKey}][spec_vars]" value="{$vo.spec_vars}" required>
+                        <input type="text" name="spec[old][{$gsKey}][spec_vars]" value="{$vo.spec_vars|default='规格'.$gsKey}" required>
                     </td>
                     <td>
-                        <input type="text" name="spec[old][{$gsKey}][market_price]" value="{$vo.market_price}" pattern="^[0-9]+(.[0-9]{1,2})?$">
+                        <input type="text" name="spec[old][{$gsKey}][market_price]" value="{$vo.market_price|default='--'}" pattern="^[0-9]+(.[0-9]{1,2})?$">
                     </td>
                     <td>
-                        <input type="text" name="spec[old][{$gsKey}][price]" value="{$vo.price}" pattern="^[0-9]+(.[0-9]{1,2})?$">
+                        <input type="text" name="spec[old][{$gsKey}][price]" value="{$vo.price|default='--'}" pattern="^[0-9]+(.[0-9]{1,2})?$">
                     </td>
                     <td>
-                        <input required type="text" name="spec[old][{$gsKey}][stock]" value="{$vo.stock}" required>
+                        <input required type="text" name="spec[old][{$gsKey}][stock]" value="{$vo.stock|default='999'}" required>
                     </td>
                     <td>
                         <input type="button" name="" value="删除" class="btn btn-success btn-reduce" >
@@ -46,6 +47,7 @@
                     </td>
                 </tr>
             </foreach>
+            </notempty>
         </tbody>
     </table>
 
@@ -59,16 +61,16 @@ $('.addTab').click(function() {
 
     var x = '<tr>'
         + '<td>'
-        +       '<input type="text" name="spec[new]['+lastkey+'][spec_vars]" value="" required>'
+        +       '<input type="text" name="spec[new]['+lastkey+'][spec_vars]" value="规格'+lastkey+'" required>'
         + '</td>'
         + '<td>'
-        +       '<input type="text" name="spec[new]['+lastkey+'][market_price]" value="" pattern="^[0-9]+(.[0-9]{1,2})?$">'
+        +       '<input type="text" name="spec[new]['+lastkey+'][market_price]" value="--" pattern="^[0-9]+(.[0-9]{1,2})?$">'
         + '</td>'
         + '<td>'
-        +       '<input type="text" name="spec[new]['+lastkey+'][price]" value="" pattern="^[0-9]+(.[0-9]{1,2})?$">'
+        +       '<input type="text" name="spec[new]['+lastkey+'][price]" value="--" pattern="^[0-9]+(.[0-9]{1,2})?$">'
         + '</td>'
         + '<td>'
-        +       '<input type="number" name="spec[new]['+lastkey+'][stock]" value="" required>'
+        +       '<input type="number" name="spec[new]['+lastkey+'][stock]" value="999" required>'
         + '</td>'
         + '<td>'
         +       ' <input type="button" name="" value="删除" class="btn btn-success btn-reduce" >'

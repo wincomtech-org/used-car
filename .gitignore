@@ -9,6 +9,9 @@ composer.lock
 !/data/index.html
 !/data/conf/config.php
 /public/api
+/public/data/log.txt
 /public/upload/
 !/public/upload/index.html
 *.zip
+public/data/log.txt
+public/data/log.txt

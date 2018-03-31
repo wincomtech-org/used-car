@@ -42,8 +42,10 @@
                         <a href="#" target="_blank">{$vo.name}</a>
                     </td>
 
+                    <td>{$vo.cate_name}</td>
+                    <td>{$vo.brand_name}</td>
+
                     <td>{$vo.price}</td>
-                    <td>{$vo.brand_id}</td>
                     <td>
                         <notempty name="vo.thumbnail">
                             <a href="javascript:parent.imagePreviewDialog('{:cmf_get_image_preview_url($vo.thumbnail)}');">
@@ -67,12 +69,12 @@
                             <a data-toggle="tooltip" title="已推荐"><i class="fa fa-thumbs-up"></i></a>
                             <else/>
                             <a style="color:#F00" data-toggle="tooltip" title="未推荐"><i class="fa fa-thumbs-down"></i></a>
-                        </notempty>
+                        </notempty> &nbsp; &nbsp; &nbsp;
                         <notempty name="vo.is_hot">
                             <a data-toggle="tooltip" title="热卖中"><i class="fa fa-asterisk"></i></a>
                             <else/>
                             <a style="color:#F00" data-toggle="tooltip" title="非热卖"><i class="fa fa-asterisk"></i></a>
-                        </notempty>
+                        </notempty> &nbsp; &nbsp; &nbsp;
                         <notempty name="vo.status">
                             <a data-toggle="tooltip" title="已发布"><i class="fa fa-check"></i></a>
                             <else/>

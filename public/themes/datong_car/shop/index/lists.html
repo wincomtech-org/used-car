@@ -28,64 +28,11 @@
             <div class="fitte_div clearfix">
                 <span>你选择的是：</span>
                 <ul class='fitter_ul clearfix'>
-                    <li class="li_filter">
-                        属性：<em>属性值</em><i d-u="{:url('shop/Index/lists',$jumpext.'&a=1')}">x</i>
-                    </li>
-                    <li class="li_filter">
-                        属性2：<em>属性值2</em><i d-u="{:url('shop/Index/lists',$jumpext.'&a=2')}">x</i>
-                    </li>
+                    {$show_tpl|default=''}
+                    <!-- <li><a href="">属性2：属性值2<i>x</i></a></li> -->
                     <!-- <li>属性2：属性值2<i>x</i></li> -->
-                    <!-- <li>属性3：属性值3<i>X</i></li> -->
                 </ul>
-                {$filtrate|default=''}
             </div>
-
-
-<script type="text/javascript">
-$(function () {
-    
-    $('.li_filter').click(function() {
-        // console.log(this);
-        var du = $(this).children('i').attr('d-u');
-        // alert(du)
-        window.location.href = du;
-    });
-
-    // $('.li_filter').click(function() {
-    //     num = $(this).index()+1;
-    //     console.log(num);
-    // })
-
-
-
-});
-
-
-function filtrate() {
-    // var dk = $(this).attr('d-k');
-    // var dv = $(this).attr('d-v');
-    var du = $(this).attr('d-u');
-
-    // alert(dk)
-    // alert(dv)
-    alert(du)
-
-    // $.ajax({
-    //     url: "{:url('shop/Index/lists')}",
-    //     data: {dk: dk, dv: dv},
-    //     dataType: 'json',
-    //     type: 'post',
-    //     success: function (data) {
-    //         console.log(data);
-    //     },
-    //     error: function () {
-    //     },
-    //     complete: function () {
-    //     }
-    // });
-}
-</script>
-
 
             <!-- 车辆买卖条件筛选 -->
             <div class="vehiTrad_tit">
@@ -170,22 +117,23 @@ function filtrate() {
                             <ul style="display:none;">
                                 <li class="active"><a href="#AAA">属性值</a></li>
                                 <li><a href="#AAA">属性值2</a></li>
-                                <li><a href="#AAA">属性值3</a></li>
                             </ul>
                         </div> -->
 
                         <!-- 以下针对item -->
                         <foreach name="attrTree" item="vo">
-                        <div class="vehiTrad_tit_item_other_list">
-                            <p>{$vo.name|default=''}</p>
-                            <notempty name="vo.value">
-                            <ul style="display:none;">
-                                <foreach name="vo.value" item="v">
-                                <li><a href="{:url('shop/Index/lists', $jumpext.'&oxnum='.$oxnum.'_'.$v['id'])}#AAA">{$v.name}</a></li>
-                                </foreach>
-                            </ul>
-                            </notempty>
-                        </div>
+                            <notin name="vo.id" value="$hide_ids">
+                            <div class="vehiTrad_tit_item_other_list">
+                                <p>{$vo.id}-{$vo.name|default=''}</p>
+                                <notempty name="vo.value">
+                                <ul style="display:none;">
+                                    <foreach name="vo.value" item="v">
+                                    <li><a href="{:url('shop/Index/lists', $jumpext.'&oxnum='.$oxnum.$v.id)}#AAA">{$v.name}</a></li>
+                                    </foreach>
+                                </ul>
+                                </notempty>
+                            </div>
+                            </notin>
                         </foreach>
                     </div>
                 </notempty>

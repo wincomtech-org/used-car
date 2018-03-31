@@ -337,7 +337,7 @@ class ShopGoodsCategoryModel extends UsualCategoryModel
                 $attr_ids = array_column($attrs2, 'id');
                 $values = $mq4->field('id,name,attr_id')->where(['attr_id'=>['in',$attr_ids]])->select();
                 foreach ($values as $row) {
-                    $values2[$row['attr_id']][] = $row;
+                    $values2[$row['attr_id']][] = ['id'=>$row['id'],'name'=>$row['name']];
                 }
                 foreach ($attr_ids as $key) {
                     $attrs2[$key]['value'] = isset($values2[$key]) ? $values2[$key] : [];

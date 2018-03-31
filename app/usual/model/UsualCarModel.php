@@ -5,7 +5,7 @@ use app\usual\model\UsualModel;
 
 class UsualCarModel extends UsualModel
 {
-    public function getLists($filter=[], $order='', $limit='',$extra=[])
+    public function getLists($filter=[], $order=NULL, $limit='',$extra=[])
     {
         $field = 'a.*,b.name AS bname,c.name AS cname,d.name AS dname,e.name ename,f.user_nickname,f.user_login,f.user_email,f.mobile';
 
@@ -66,7 +66,7 @@ class UsualCarModel extends UsualModel
         }
 
         // 排序
-        $order = empty($order) ? 'a.is_top DESC,a.is_rec DESC,a.update_time DESC' : $order;
+        $order = ($order===NULL) ? 'a.is_top DESC,a.is_rec DESC,a.update_time DESC' : $order;
 
         // 数据量
         $limit = $this->limitCom($limit);
@@ -76,8 +76,9 @@ class UsualCarModel extends UsualModel
             ->join($join)
             ->where($where)
             ->order($order)
+            // ->fetchSql(true)->select();
             ->paginate($limit);
-
+// dump($series);die;
         return $series;
     }
 

@@ -10,7 +10,7 @@ use app\usual\model\UsualModel;
 class ShopGoodsModel extends UsualModel
 {
     // 获取列表数据
-    public function getLists($filter=[], $order='', $limit='', $extra=[], $field='*')
+    public function getLists($filter=[], $order='', $limit='', $extra=[], $field='')
     {
         // 筛选条件
         $where = [];
@@ -35,21 +35,33 @@ class ShopGoodsModel extends UsualModel
                 $where['a.create_time'] = ['<= time', $endTime];
             }
         }
+        // 属性处理
+        if (!empty($filter['avIds'])) {
+            $where['a.avids'] = $this->fixAttr($filter['avIds']);
+        }
         if (!empty($extra)) {
             $where = array_merge($where,$extra);
         }
         // 其它项
-        // $join = [];
+        $field = empty($field) ? 'a.*,b.name cate_name,c.name brand_name' : $field;
+        $join = [
+            ['shop_goods_category b','a.cate_id=b.id','LEFT'],
+            ['shop_brand c','a.brand_id=c.id','LEFT'],
+            // ['shop_gav d','a.id=d.goods_id','LEFT'],
+        ];
         $order = empty($order) ? 'a.id DESC' : $order;
         $limit = $this->limitCom($limit);
 
-        $series = $this->alias('a')->field($field)
-            // ->join($join)
+        $list = $this->alias('a')
+            // ->distinct('a.goods_id')
+            ->field($field)
+            ->join($join)
             ->where($where)
             ->order($order)
+            // ->fetchSql(true)->select();
             ->paginate($limit);
-
-        return $series;
+// dump($list);die;
+        return $list;
     }
 
     /**
@@ -59,6 +71,20 @@ class ShopGoodsModel extends UsualModel
     public function getGoodsStatus($status='')
     {
         return $this->getStatus($status,'shop_goods_status');
+    }
+
+    public function fixAttr($avs='')
+    {
+        if (is_string($avs)) {
+            $avids = explode('_',trim($avs));
+        } else {
+            $avids = (array)$avs;
+        }
+        sort($avids);
+        $avids = implode('',$avids);
+        $avids = (strlen($avids)>32)?md5($avids):$avids;
+
+        return $avids;
     }
 
 

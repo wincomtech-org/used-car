@@ -13,10 +13,10 @@ function lothar_admin_log($action = '', $type = 'goods')
 {
     $adminLog = [
         'user_id'     => cmf_get_current_admin_id(),
-        'create_time' => time(),
-        'ip'          => get_client_ip(),
         'type'        => $type,
         'action'      => $action,
+        'create_time' => time(),
+        'ip'          => get_client_ip(),
     ];
     Db::name('admin_log')->insert($adminLog);
 }

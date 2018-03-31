@@ -22,5 +22,5 @@
         </td>
     </tr>
     </foreach>
-    <input type="hidden" name="goods_attrs" value='{:serialize($goods_attrs)}'>
+    <input type="hidden" name="goods_attrs" value="{$goods_attrs?serialize($goods_attrs):''}">
 </table>
