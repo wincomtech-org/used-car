@@ -13,5 +13,3 @@ composer.lock
 /public/upload/
 !/public/upload/index.html
 *.zip
-public/data/log.txt
-public/data/log.txt
