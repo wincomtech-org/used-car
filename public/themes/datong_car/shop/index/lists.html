@@ -124,7 +124,7 @@
                         <foreach name="attrTree" item="vo">
                             <notin name="vo.id" value="$hide_ids">
                             <div class="vehiTrad_tit_item_other_list">
-                                <p>{$vo.id}-{$vo.name|default=''}</p>
+                                <p>{$vo.name|default=''}</p>
                                 <notempty name="vo.value">
                                 <ul style="display:none;">
                                     <foreach name="vo.value" item="v">
