@@ -17,8 +17,8 @@
 
 // 调试模式开关
 // config.php中 APP_DEBUG 替换成 (defined('APP_DEBUG') && APP_DEBUG)
-define("APP_DEBUG", true);
-// define("APP_DEBUG", false);
+// define("APP_DEBUG", true);
+define("APP_DEBUG", false);
 // define("APP_TRACE", false);
 
 // URL
