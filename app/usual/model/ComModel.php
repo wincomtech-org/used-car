@@ -104,7 +104,7 @@ class ComModel extends Model
     // 获取用户ID
     public function getUid($uname='')
     {
-        if (empty($uname)) return false;
+        if (empty($uname) || is_numeric($uname)) return false;
         $uid = intval($uname);
         if (empty($uid)) {
             $uid = Db::name('user')->whereOr(['user_nickname|user_login|user_email|mobile'=>$uname])->value('id');
