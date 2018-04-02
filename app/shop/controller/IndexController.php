@@ -1,10 +1,12 @@
 <?php
 namespace app\shop\controller;
 
+use think\Db;
+use cmf\controller\HomeBaseController;
 use app\shop\model\ShopGoodsCategoryModel;
 use app\shop\model\ShopGoodsModel;
-use cmf\controller\HomeBaseController;
-use think\Db;
+// use app\portal\service\ApiService;
+use app\portal\service\PostService;
 
 /**
  * 服务商城 独立模块
@@ -14,17 +16,19 @@ class IndexController extends HomeBaseController
     /*首页*/
     public function index()
     {
-        $scModel = new ShopGoodsModel;
 
         // 数据总缓存
         $obcache = cache('obshopIndex');
         if (empty($obcache)) {
+            $scModel = new ShopGoodsModel;
             // 本周热卖
             $hot_sales = $scModel->getGoodsHot();
             // 商品大循环
             $goodslist = $scModel->getGoodsByCate();
             // 底部文章
-            $articles = '';
+            // $apiModel = new ApiService;
+            $pModel = new PostService;
+            $articles = $pModel->vis_a_vis(12,5,'a.recommended desc','a.id,a.post_title');
 
             $obcache = [
                 'hot_sales' => $hot_sales,

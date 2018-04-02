@@ -128,6 +128,18 @@ class ApiService
     }
 
     /**
+     * 获取
+     * vis_a_vis()
+     * @param  integer $categoryId [description]
+     * @param  integer $limit      [description]
+     * @return [type]              [description]
+     */
+    public function allSubs_CA($categoryId=0,$limit=5)
+    {
+
+    }
+
+    /**
      * 获取指定分类以及子类的所有文章
      * 多分类需要去重
      * @param  integer $categoryId [description]

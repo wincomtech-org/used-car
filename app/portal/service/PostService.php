@@ -218,7 +218,7 @@ class PostService
 
 /*自定义的*/
     /**
-     * [获取指定分类以及子类的所有文章]
+     * [获取指定分类树以及子类的所有文章]
      * 多分类需要去重
      * @param  integer $categoryId [指定ID]
      * @param  string  $filter     [过滤ID]
@@ -228,13 +228,14 @@ class PostService
     {
         // $postM = new PortalPostModel;
         // $cateM = new PortalCategoryModel;
-        $apiM = new ApiService;
+        // $apiM = new ApiService;
         // 获取所有子类ID
-        $cateSubIds = $api->allSubCategories($categoryId,'key');
+        // $cateSubIds = $api->allSubCategories($categoryId,'key');
     }
 
     // 获取指定分类下的所有文章
-    public function fromCateList($categoryId=0, $limit=20)
+    // subCategories()
+    public function fromCateList($categoryId=0, $limit=20, $order='a.id desc', $field='a.id,a.post_title,a.post_keywords,a.post_excerpt,a.post_source,a.post_content')
     {
         $portalPostModel = new PortalPostModel();
 
@@ -248,10 +249,11 @@ class PostService
             'a.delete_time'     => 0,
             'relation.category_id' => $categoryId
         ];
-        $list = $portalPostModel->alias('a')->field('a.id,a.post_title,a.post_keywords,a.post_excerpt,a.post_source,a.post_content')
+        $list = $portalPostModel->alias('a')
+            ->field($field)
             ->join($join)
             ->where($where)
-            ->order('id','desc')
+            ->order($order)
             ->limit($limit)
             ->select()->toArray();
 
@@ -259,17 +261,24 @@ class PostService
     }
 
     // 获取同级的分类文章
-    public function vis_a_vis($cateId='',$limit=5)
+    public function vis_a_vis($cateId=12,$limit=5,$order='a.recommended desc',$field='a.id,a.post_title,a.post_keywords,a.post_excerpt,a.post_source,a.post_content')
     {
         if (empty($cateId)) return [];
 
-        $portalCategoryModel = new PortalCategoryModel();
-        $pid = $portalCategoryModel->where('id',$cateId)->value('parent_id');
-        // $peerIds = $portalCategoryModel->where('parent_id',$pid)->column('id');
-        $peers = $portalCategoryModel->field('id,name')->where('parent_id',$pid)->select();
+        $scModel = new PortalCategoryModel();
+        // 普通查询
+        $pid = $scModel->where('id',$cateId)->value('parent_id');
+        // $peerIds = $scModel->where('parent_id',$pid)->column('id');
+        $peers = $scModel->field('id,name')->where('parent_id',$pid)->select()->toArray();
+        // 使用子查询
+        // $subSql = $scModel->where('id',$cateId)->fetchSql(true)->value('parent_id');
+        // $subSql = $scModel->field('parent_id')->where('id',$cateId)->buildSql();
+        // $peers = $scModel->field('id,name')->where('parent_id','('.$subSql.')')->select()->toArray();
+        // $peers = $scModel->field('id,name')->where('parent_id','eq',$subSql)->fetchSql(true)->select();
+
         $visList = [];
         foreach ($peers as $vo) {
-            $vo['list'] = $this->fromCateList($vo['id'], $limit);
+            $vo['list'] = $this->fromCateList($vo['id'], $limit, $order, $field);
             $visList[] = $vo;
         }
 

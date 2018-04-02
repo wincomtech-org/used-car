@@ -67,8 +67,8 @@ class WorkPlugin
     /*配置信息*/
     public function p_set() {
 
-        $set['AppKey'] = '82df35706dd02098';// 身份授权key
-        $set['Binding_domain'] = 'http://usedcar.wincomtech.cn';// 绑定的域名
+        $set['AppKey'] = '055c0c6afc790e5e'; // 身份授权key
+        $set['Binding_domain'] = 'https://www.datongchefu.cn'; // 绑定的域名
 
         // 返回类型：0:返回json字符串，1:返回xml对象，2:返回html对象，3:返回text文本。如果不填，默认返回json字符串。
         $set['show'] = 2;
