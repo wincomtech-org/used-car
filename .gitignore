@@ -8,6 +8,7 @@ composer.lock
 /data/
 !/data/index.html
 !/data/conf/config.php
+/public/index.php
 /public/api
 /public/data/log.txt
 /public/upload/

@@ -16,18 +16,27 @@ class IndexController extends HomeBaseController
     {
         $scModel = new ShopGoodsModel;
 
-        // 本周热卖
-        $hot_sales = $scModel->getGoodsHot();
+        // 数据总缓存
+        $obcache = cache('obshopIndex');
+        if (empty($obcache)) {
+            // 本周热卖
+            $hot_sales = $scModel->getGoodsHot();
+            // 商品大循环
+            $goodslist = $scModel->getGoodsByCate();
+            // 底部文章
+            $articles = '';
 
-        // 商品大循环
-        $goodslist = $scModel->getGoodsByCate();
+            $obcache = [
+                'hot_sales' => $hot_sales,
+                'goodslist' => $goodslist,
+                'articles'  => $articles,
+            ];
+            cache('obshopIndex', $obcache);
+        }
 
-        // 底部文章
-        $articles = '';
-
-        $this->assign('hot_sales', $hot_sales);
-        $this->assign('goodslist', $goodslist);
-        $this->assign('articles', $articles);
+        $this->assign('hot_sales', $obcache['hot_sales']);
+        $this->assign('goodslist', $obcache['goodslist']);
+        $this->assign('articles', $obcache['articles']);
         return $this->fetch();
     }
 
@@ -58,6 +67,8 @@ class IndexController extends HomeBaseController
         // error_log(date('Y-m-d H:i:s') . "\r\n\r\n", 3, 'data/log.txt');
         // die;
         
+
+
         // 获取请求 typeCast()$type=a|d|f|b|s|gettype()
         $data        = $this->request->param();
         $param_attr  = $this->request->param('oxnum'); //来自属性值表
@@ -81,11 +92,21 @@ class IndexController extends HomeBaseController
         $scModel   = new ShopGoodsModel;
         $cateModel = new ShopGoodsCategoryModel();
 
-        // 获取相关数据
-        // $categories = $cateModel->getGoodsTreeArray($param_cate);
-        $categories = $cateModel->getCateChildrens($param_cate);
-        $brands     = Db::name('shop_brand')->field('id,name')->where('status',1)->select()->toArray();
-        $attrTree   = $cateModel->getAttrByCate($param_cate);
+        // 数据总缓存
+        $obcache = cache('obshopIndexLists');
+        if (empty($obcache)) {
+            // 获取相关数据
+            // $categories = $cateModel->getGoodsTreeArray($param_cate);
+            $categories = $cateModel->getCateChildrens($param_cate);
+            $brands     = Db::name('shop_brand')->field('id,name')->where('status',1)->select()->toArray();
+            $attrTree   = $cateModel->getAttrByCate($param_cate);
+            $obcache = [
+                'categories' => $categories,
+                'brands'     => $brands,
+                'attrTree'   => $attrTree,
+            ];
+            cache('obshopIndexLists', $obcache);
+        }
 
         /*
          * URL 参数
@@ -122,7 +143,7 @@ class IndexController extends HomeBaseController
         $filter['avIds'] = $param_attr;
         $oxnum = trim($param_attr);
         $av_ids = explode('_',$oxnum);//获取当前参与筛选的属性值ID集合
-        // $attrTree = [];//当前分类所有属性及值的集合
+        $attrTree = $obcache['attrTree'];//当前分类所有属性及值的集合
         
         $show_tpl = ''; // 生成筛选html,URL中留下需要保留的 ids
         $hide_ids = '';//页面中需要隐藏的属性ID： attr_id
@@ -146,17 +167,6 @@ class IndexController extends HomeBaseController
             }
         }
 
-        // 数据总缓存
-        // $obcache = cache('obshopIndexLists');
-        // if (empty($obcache)) {
-        //     $obcache = [
-        //         'categories' => $categories,
-        //         'brands'     => $brands,
-        //         'attrTree'   => $attrTree,
-        //     ];
-        //     cache('obshopIndexLists', $obcache);
-        // }
-
 
         /*商品数据集*/
         $goodslist = $scModel->getLists($filter,$order,$limit,$extra,$field);
@@ -172,8 +182,8 @@ class IndexController extends HomeBaseController
         $this->assign('brand', $param_brand);
         $this->assign('priceMin', $param_price1);
         $this->assign('priceMax', $param_price2);
-        $this->assign('categories', $categories);
-        $this->assign('brands', $brands);
+        $this->assign('categories', $obcache['categories']);
+        $this->assign('brands', $obcache['brands']);
         $this->assign('attrTree', $attrTree);
 
         // 数据分页
