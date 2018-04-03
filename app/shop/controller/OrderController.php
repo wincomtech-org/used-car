@@ -18,7 +18,7 @@ class OrderController extends UserBaseController
         if (empty($data)) {
             $this->redirect('Shop/Index/index');
         }
-// dump($data);die;
+
         $amount = bcmul($data['price'], $data['number']);
         // 附加项
         $this->buyop($amount);
@@ -63,11 +63,7 @@ class OrderController extends UserBaseController
 
         // 附加项
         $this->buyop($amount);
-// dump($data);
-        // dump($map);
-        // dump($carts);
-        // dump($amount);
-        // die;
+
         $this->assign('data', $carts);
         $this->assign('amount', $amount);
         return $this->fetch('buy');
@@ -101,7 +97,7 @@ class OrderController extends UserBaseController
     }
 
     // 积分兑换 可用立即购买的 buy()
-    public function score()
+    public function buyScore()
     {
         $this->error('暂未开放');
         $data = $this->request->param();
