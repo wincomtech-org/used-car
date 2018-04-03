@@ -173,6 +173,7 @@ class AdminServiceController extends AdminBaseController
     }
 
     // 删除 回收机制
+    // 是否同时删除对应消息？？？
     public function delete()
     {
         $param = $this->request->param();

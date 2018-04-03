@@ -102,13 +102,15 @@ class IndexController extends HomeBaseController
         // 所属模型的数据
         $servCates = Db::name('service_category')->field('platform,name,price,is_pay,define_data')->where('id',$post['model_id'])->find();
 
-        // 防止重复提交
+        // 防止重复提交 / 查重
         if (!empty($post['plateNo'])) {
             $find = Db::name('service')->field('id,model_id,user_id')->where('plateNo',$post['plateNo'])->find();
             if (!empty($find)) {
                 if ($find['user_id']!=$userId) {
                     $this->error('该车牌号已被其他用户占领：用户ID：'.$find['user_id'],null,'',5);
                 }
+                // 查重 依据 用户ID、车牌号、业务模型、业务状态、今日？
+                
                 // if ($servCates['platform']==1) {
                 //     if (empty($find['company_id'])) {
                 //         $this->error('去选公司',url('Index/step2',['id'=>$find['id']]));
@@ -118,14 +120,14 @@ class IndexController extends HomeBaseController
                 // } else {
                 //     $this->error('您已提交过');
                 // }
-                
                 // $this->error('您已提交过');
             }
         }
 
         // 数据验证
         $rule = [
-            'model_id' => 'require',
+            'model_id' => 'require|number',
+            'user_id' => 'integer',
             'username|姓名' => 'chsAlpha|max:32',
             'telephone' => 'require',
             'birthday|生日' => 'dateFormat:Y-m-d|after:-88 year|before:-1 day',
@@ -153,6 +155,8 @@ class IndexController extends HomeBaseController
         $validate->rule($rule);
         $validate->message([
             'model_id.require' => '模型数据丢失',
+            'model_id.number' => '模型数据非法',
+            'user_id.integer' => '您的数据不合法!',
             'username.chsDash' => '姓名只能是汉字、字母',
             'username.max' => '姓名最大长度为32个字符',
             'telephone.require' => '电话必填',
@@ -210,13 +214,13 @@ class IndexController extends HomeBaseController
             $this->error('提交失败');
         }
 
-        // 在这里判断是否支付 是否生成订单号 order_sn ？ 
+        // 在这里判断是否需要支付 是否生成订单号 order_sn ？ 
         if ($servCates['is_pay']==1) {
             $payUrl = url('service/Order/pay',['id'=>$id,'modelId'=>$post['model_id'],'name'=>$servCates['name'],'order_amount'=>$servCates['price']]);
             $this->success('去支付……',$payUrl);
         } else {
-            // $this->success('提交成功，请等待工作人员回复',url('user/Service/index',['mid'=>$post['model_id']]));
             $this->success('提交成功，请等待工作人员回复',url('user/Service/details',['id'=>$id,'mid'=>$post['model_id']]));
+            // $this->success('提交成功，请等待工作人员回复',url('user/Service/index',['mid'=>$post['model_id']]));
         }
         
         // if ($servCates['platform']==1) {
@@ -226,6 +230,10 @@ class IndexController extends HomeBaseController
         // }
     }
 
+
+
+
+/*选公司这段已废除，业务逻辑将根据服务点确定公司*/
     // 进入选公司
     public function step2()
     {
