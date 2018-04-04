@@ -9,12 +9,15 @@ use think\Url;
 use think\View;
 
 // 管理员操作日志
-function lothar_admin_log($action = '', $type = 'goods')
+function lothar_admin_log($table='', $obj='', $action='', $description='', $type='goods')
 {
     $adminLog = [
         'user_id'     => cmf_get_current_admin_id(),
         'type'        => $type,
+        'obj_table'   => $table,
+        'obj'         => $obj,
         'action'      => $action,
+        'description' => $description,
         'create_time' => time(),
         'ip'          => get_client_ip(),
     ];

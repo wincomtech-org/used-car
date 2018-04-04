@@ -123,7 +123,7 @@ class AdminGoodsController extends AdminBaseController
         $result = $this->opPost($data);
 
         if ($result['status'] === true) {
-            lothar_admin_log('添加商品-id:' . $result['post']['id'] .'-name:'. $result['post']['name']);
+            lothar_admin_log('shop_goods', 'id:'.$result['post']['id'], '添加商品', 'name:'.$result['post']['name']);
             $this->success('添加成功', url('index'));
         } else {
             $this->error('添加失败');
@@ -414,7 +414,7 @@ class AdminGoodsController extends AdminBaseController
         $name = $m->where('id', $id)->value('name');
         $row  = $m->where('id', $id)->delete();
         if ($row === 1) {
-            lothar_admin_log('删除商品-id:' . $id . '-name:' . $name);
+            lothar_admin_log('shop_goods', 'id:'.$id, '删除商品', 'name:'.$name);
             $this->success('删除成功');
         } else {
             $this->error('删除失败');
