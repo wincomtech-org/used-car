@@ -103,7 +103,7 @@ class IndexController extends HomeBaseController
         $servCates = Db::name('service_category')->field('platform,name,price,is_pay,define_data')->where('id',$post['model_id'])->find();
 
         // 防止重复提交 / 查重
-        if (!empty($post['plateNo'])) {
+        /*if (!empty($post['plateNo'])) {
             $find = Db::name('service')->field('id,model_id,user_id')->where('plateNo',$post['plateNo'])->find();
             if (!empty($find)) {
                 if ($find['user_id']!=$userId) {
@@ -122,7 +122,7 @@ class IndexController extends HomeBaseController
                 // }
                 // $this->error('您已提交过');
             }
-        }
+        }*/
 
         // 数据验证
         $rule = [
