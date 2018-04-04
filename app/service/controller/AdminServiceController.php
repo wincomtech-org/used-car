@@ -169,7 +169,9 @@ class AdminServiceController extends AdminBaseController
             // $scModel->adminEditArticle($post);
             if ($post['status']==1) {
                 $tel = !empty($post['telephone']) ? $post['telephone'] : $post['contact'] ;
-                $tel = 18715511536;
+                // if (is_numeric($tel)) {
+                //     # code...
+                // }
                 $model_name = Db::name('service_category')->where('id',$post['model_id'])->value('name');
                 $address = Db::name('usual_coordinate')->field('name,addr')->where('id',$post['service_point'])->find();
                 // $text = '恭喜，您的业务预约成功！';

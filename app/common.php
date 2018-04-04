@@ -449,7 +449,6 @@ function lothar_get_content($list, $len = 100)
     //     'sid'=>'22712590140'
     // );
 
-    // dump($result);die;
     // if (!empty($result['code'])) {
     //     $this->success($result['msg']);
     // } else {
@@ -483,7 +482,12 @@ function lothar_sms_send($mobile = '18715511536', $text = '')
     if (empty($text)) {
         // $text = '【'. $set['sign'] .'】您的验证码是'. $code;
         $text = '【' . $set['sign'] . '】您的验证码是' . $code . '。如非本人操作，请忽略本短信';
+    } else {
+        if (strpos($text, '【'.$set['sign'])===false) {
+            $text = '【'. $set['sign'] .'】'.$text;
+        }
     }
+
     $data = array(
         'mobile' => trim($mobile), //发送对象手机号
         'text'   => $text,
@@ -493,8 +497,9 @@ function lothar_sms_send($mobile = '18715511536', $text = '')
     curl_setopt($ch, CURLOPT_URL, 'https://sms.yunpian.com/v2/sms/single_send.json');
     curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
     $json_data = curl_exec($ch);
+    
     $result    = json_decode($json_data, true);
-
+    // dump($result);
     return $result;
 }
 
