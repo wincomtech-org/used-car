@@ -82,8 +82,12 @@
                     <td class='ma-2'>￥{$vo.market_price}</td>
                     <td class='ma-3'>{$vo.number}</td>
                     <td class='ma-4'>
-                        ￥{$vo.price}<br/>
-                        <!-- <i class='small'>(含运费:0.00)</i> -->
+                        <eq name="is_score" value="0">
+                            {$vo.price} {$flag}
+                        <else/>
+                            {$vo.score} {$flag}
+                        </eq>
+                        <!-- <br/><i class='small'>(含运费:0.00)</i> -->
                     </td>
                     <td class='ma-5'>
                         <div class="trading-status group-a">
@@ -103,6 +107,8 @@
 
         <!-- 统计 操作 -->
         <div class="total-div">
+            <notempty name="coupon_switch">
+            <eq name="is_score" value="0">
             <div class='youhui'>
                 <span>优惠券：</span>
                 <select name="order[coupId]" class="placeholder form-control youhui_sel">
@@ -111,19 +117,9 @@
                     <option value="{$vo.id}">满{$vo.reduce} 减{$vo.coupon}</option>
                     </foreach>
                 </select>
-                <!-- <div class="analogy ">
-                    <p class="analogy_tit">
-                        <input placeholder="请选择优惠券" class="placeholder" readonly data-id="" />
-                    </p>
-                    <ul class="analogy_con" style="display:none;">
-                        <foreach name="coupon" item="vo">
-                        <li data-val="{$vo.id}">
-                            <input value="满{$vo.reduce}减{$vo.coupon}" readonly />
-                        </li>
-                        </foreach>
-                    </ul>
-                </div> -->
             </div>
+            </eq>
+            </notempty>
 
             <p>
                 <span>总数：</span>
@@ -131,10 +127,13 @@
             </p>
             <p>
                 <span>实付款：</span>
-                <span><input name='order[order_amount]' value="{$amount|default='0.00'}" readonly class='orage-color tx-r fweight' style='width:48px;' /> 元</span>
+                <span>
+                    <input name='order[order_amount]' value="{$amount|default='0.00'}" readonly class='orage-color tx-r fweight' style='width:48px;' /> {$flag}
+                </span>
             </p>
             <p>
                 <!-- 这里放一些需要提交的数据 -->
+                <input type="hidden" name="order[is_score]" value="{$is_score|default='0'}">
 
                 <!-- 防止表单重复提交 -->
                 <input type="hidden" name="timestamp" value="{:session('timestamp')}" />

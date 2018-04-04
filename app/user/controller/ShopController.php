@@ -29,27 +29,18 @@ class ShopController extends UserBaseController
         $os     = $this->request->param('status');
         $userId = cmf_get_current_user_id();
 
-        $where = ['b.delete_time' => 0, 'b.buyer_uid' => $userId];
+        $where = [
+            'a.buyer_uid' => $userId,
+            'a.delete_time' => 0,
+            'a.is_score'    => 0
+        ];
         // $where['refund_status'] = 0;
         if ($os !== null) {
-            $where['b.status'] = $os;
+            $where['a.status'] = $os;
         }
-        // config('shop_order_status');
-        $orders = Db::name('shop_order')->alias('b')
-            ->field('id,order_name,order_desc,order_sn,coupon_id,nums,product_amount,order_amount,refund_status,status,create_time,ip')
-            ->where($where)->order('id DESC')->paginate(8);
-        $orderToArr = $orders->items();
-        foreach ($orderToArr as $key => $row) {
-            $orderToArr[$key]['det'] = Db::name('shop_order_detail')->alias('a')
-                ->field('spec_id,a.goods_id,goods_type,goods_name,thumbnail,number,a.price,spec_vars')
-                ->join('shop_goods_spec b','a.spec_id=b.id','LEFT')
-                ->where('order_id',$row['id'])
-                ->select()->toArray();
-        }
-// dump($orderToArr);die;
+        $param = ['status'=>$os];
+        $this->orderlist($where,$param);
 
-        $this->assign('orders', $orderToArr);
-        $this->assign('pager', $orders->appends('status',$os)->render());
         $this->assign('os', $os);
         return $this->fetch();
     }
@@ -124,14 +115,38 @@ class ShopController extends UserBaseController
         $this->success('删除成功！','');
     }
 
+    public function orderlist($where='',$param=[])
+    {
+        // config('shop_order_status');
+        $orders = Db::name('shop_order')->alias('a')
+            ->field('id,order_name,order_desc,order_sn,coupon_id,nums,product_amount,order_amount,refund_status,status,create_time,ip')
+            ->where($where)->order('id DESC')->paginate(8);
+        $orderToArr = $orders->items();
+        foreach ($orderToArr as $key => $row) {
+            $orderToArr[$key]['det'] = Db::name('shop_order_detail')->alias('b')
+                ->field('spec_id,b.goods_id,goods_type,goods_name,thumbnail,number,b.price,spec_vars')
+                ->join('shop_goods_spec c','b.spec_id=c.id','LEFT')
+                ->where('order_id',$row['id'])
+                ->select()->toArray();
+        }
+// dump($orderToArr);die;
+
+        $this->assign('orders', $orderToArr);
+        $this->assign('pager', $orders->appends($param)->render());
+    }
+
 /*积分兑换*/
     public function score()
     {
         $userId = cmf_get_current_user_id();
-        $where = ['buyer_uid'=>$userId];
-        $list = Db::name('shop_order_score')->where($where)->select();
+        $where = [
+            'a.buyer_uid' => $userId,
+            'a.delete_time' => 0,
+            'a.is_score'    => 1
 
-        $this->assign('list',$list);
+        ];
+        $this->orderlist($where);
+
         return $this->fetch();
     }
     public function scoreEdit()
@@ -145,9 +160,32 @@ class ShopController extends UserBaseController
     {
         $id = $this->request->param('id/d', 0, 'intval');
         // 检测状态
+        $order = Db::name('shop_order')->where('id',$id)->value('order_amount');
 
-        Db::name('shop_order')->where('id', $id)->setField('status', 4);
-        $this->success('确认成功');
+        if (!empty($order) && $order>0) {
+            $user = cmf_get_current_user();
+            $userId = $user['id'];
+            $amount = bcadd($user['score'], $order);
+            $user['score'] = $amount;
+        }
+
+        $transStatus = true;
+        Db::startTrans();
+        try {
+            Db::name('shop_order')->where('id', $id)->setField('status', 4);
+            if (!empty($amount)) {
+                Db::name('user')->where('id', $userId)->setField('score',$amount);
+                cmf_update_current_user($user);
+            }
+            Db::commit();
+        } catch (\Exception $e) {
+            Db::rollback();
+            $transStatus = false;
+        }
+        if ($transStatus===true) {
+            $this->success('确认成功',url('user/Shop/index',['status'=>3]));
+        }
+        $this->error('确认失败',url('user/Shop/index',['status'=>3]));
     }
 
     // 评价
@@ -204,8 +242,19 @@ class ShopController extends UserBaseController
         $post['user_id']     = cmf_get_current_user_id();
         $post['create_time'] = time();
 // dump($post);die;
-        $result = Db::name('shop_evaluate')->insertGetId($post);
-        if ($result > 0) {
+
+        $result = true;
+        Db::startTrans();
+        try {
+            Db::name('shop_evaluate')->insertGetId($post);
+            Db::name('shop_order')->where('id',$post['order_id'])->setField('status',10);
+            Db::commit();
+        } catch (Exception $e) {
+            Db::rollback();
+            $result = false;
+        }
+
+        if ($result === true) {
             $this->success('评价成功', url('index', ['status' => null]));
         }
         $this->error('评价失败', url('index', ['status' => 3]));
@@ -318,7 +367,7 @@ class ShopController extends UserBaseController
             $transStatus = false;
         }
         if ($transStatus===true) {
-            $this->success('提交成功');
+            $this->success('提交成功',url('user/Shop/index'));
         }
         $this->error('提交失败');
     }
@@ -347,7 +396,7 @@ class ShopController extends UserBaseController
         if (empty($result)) {
             $this->error('删除失败');
         }
-        $this->success('删除成功');
+        $this->success('删除成功',url('news'));
     }
 
 /*收货地址管理*/
@@ -430,6 +479,6 @@ class ShopController extends UserBaseController
             $this->error('数据非法');
         }
         Db::name('shop_shipping_address')->where('id', $id)->delete();
-        $this->success('删除成功');
+        $this->success('删除成功',url('address'));
     }
 }

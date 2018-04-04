@@ -69,7 +69,7 @@
                                 <dt class='tab-tit'>积 &nbsp; &nbsp;分</dt>
                                 <dd class='tab-con'>
                                 	<!-- ￥<span>{$goods.score}</span> -->
-                                    <input type="text" value='{$goods.score|default="暂不支持"}' readonly>
+                                    <input type="text" name="score" value='{$goods.score|default="暂不支持"}' readonly>
                                 </dd>
                             </dl>
                             <dl class="tab-line">
@@ -141,8 +141,10 @@
 	                    	<!-- <button type="submit" class="btn-style-auto btn yellow js-ajax-submit" data-action="{url('shop/Order/buy')}">立即购买</button> -->
                             <a href="javascript:void(0);" class="btn-style-auto btn yellow" id="s_buy" >立即购买</a>
 
-	                    	<!-- <button type="submit" class="btn-style-auto btn buycar js-ajax-submit" data-action="{url('Cart/cartAdd')}">加入购物车</button> -->
-                            <a href="javascript:void(0);" class="btn-style-auto btn buycar" id="s_cart">加入购物车</a>
+                            <if condition="$goods.price gt 0">
+                                <!-- <button type="submit" class="btn-style-auto btn buycar js-ajax-submit" data-action="{url('Cart/cartAdd')}">加入购物车</button> -->
+                                <a href="javascript:void(0);" class="btn-style-auto btn buycar" id="s_cart">加入购物车</a>
+                            </if>
 	                    </div>
                     </form>
                 </div>
@@ -165,7 +167,13 @@
         }
     });
     $('#s_score').click(function () {
-        alert('暂未开放');
+        // alert('暂未开放');
+        var res = select_spec();
+        if (res) {
+            var data = $('#shopForm').serialize();
+            var u = "{:url('shop/Order/buyScore')}?"+data;
+            window.location.href = u;
+        }
     })
 
     function select_spec() {

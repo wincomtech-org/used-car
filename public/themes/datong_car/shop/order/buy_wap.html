@@ -23,7 +23,7 @@
                         <p><a href="{:url('user/Shop/address')}">添加地址</a></p>
                     <else/>
                         <p class="haSel_tit">
-                            <span  data-id="{$addrFirst.id|default=''}" />{$addrFirst.addr|default=''}</span>
+                            <span data-id="{$addrFirst.id|default=''}" />{$addrFirst.addr|default=''}</span>
                             <input type='hidden' name="order[address_id]" value="1" readonly />
                         </p>
                         <ul class="haSel_con" style="display: none;">
@@ -79,7 +79,13 @@
                             </div>
                         </div>
                         <div class="item-pay">
-                            <p class='price'>￥{$vo.price}</p>
+                            <p class='price'>
+                                <eq name="is_score" value="0">
+                                    {$vo.price} {$flag}
+                                <else/>
+                                    {$vo.score} {$flag}
+                                </eq>
+                            </p>
                             <p class='price'>
                                 <del>￥{$vo.market_price}</del>
                             </p>
@@ -93,6 +99,8 @@
         </foreach>
 
         <dl class='o-total-price'>
+            <notempty name="coupon_switch">
+            <eq name="is_score" value="0">
             <div class='youhui'>
                 <span>优惠券：</span>
                 <select name="order[coupId]" class="placeholder form-control youhui_sel">
@@ -101,28 +109,19 @@
                     <option value="{$vo.id}">满{$vo.reduce} 减{$vo.coupon}</option>
                     </foreach>
                 </select>
-                <!-- <div class="analogy ">
-                    <p class="analogy_tit">
-                        <input placeholder="请选择优惠券" class="placeholder" readonly data-id="" />
-                    </p>
-                    <ul class="analogy_con" style="display:none;">
-                        <foreach name="coupon" item="vo">
-                            <li data-val="{$vo.id}">
-                                <input value="满{$vo.reduce}减{$vo.coupon}" />
-                            </li>
-                        </foreach>
-                    </ul>
-                </div> -->
             </div>
+            </eq>
+            </notempty>
         </dl>
 
         <dl class='o-total-price'>
             <span>总数：<input name='order[nums]' value="{:count($data)}" readonly class='orage-color tx-r fweight' style='width:20px;' /> 件 </span>
-            <span>实付款：<b><input name='order[order_amount]' value="{$amount|default='0.00'}" readonly class='orage-color tx-r fweight' style='width:48px;' /></b> 元</span>
+            <span>实付款：<b><input name='order[order_amount]' value="{$amount|default='0.00'}" readonly class='orage-color tx-r fweight' style='width:48px;' /></b> {$flag}</span>
             <!-- <span>（含运费：<b>0.00</b>）</span> -->
         </dl>
         <div class='o-tab-btn'>
             <!-- 这里放一些需要提交的数据 -->
+            <input type="hidden" name="order[is_score]" value="{$is_score|default='0'}">
 
             <!-- 防止表单重复提交 -->
             <input type="hidden" name="timestamp" value="{:session('timestamp')}" />

@@ -123,21 +123,52 @@ class AdminOrderController extends AdminBaseController
             // if ($result !== true) {
             //     $this->error($result);
             // }
+            $buyer_uid = intval($post['buyer_uid']);
+            if (empty($buyer_uid)) {
+                $this->error('用户数据丢失');
+            }
+
             if ($post['status']==3) {
                 $nModel = new ShopNewsModel();
                 $wh = [
-                    'to_uid'    => $post['buyer_uid'],
+                    'to_uid'    => $buyer_uid,
                     'obj_type'  => 'order3',
                     'obj_id'    => $post['id'],
                 ];
                 $find = Db::name('shop_news')->where($wh)->count();
                 if ($find==0) {
                     $news = [
-                        'buyer_uid'  => $post['buyer_uid'],
+                        'buyer_uid'  => $buyer_uid,
                         'obj_type'  => 'order3',
                         'obj_id'  => $post['id'],
                         'obj_name'  => '您的商品已发货。',
                     ];
+                }
+            } elseif ($post['status']==10) {
+                // 完成返积分
+                $fw = [
+                    'user_id'   => $buyer_uid,
+                    'action'    => 'shop_order',
+                    'obj_id'    => $post['id']
+                ];
+                $find = Db::name('user_score_log')->where($fw)->count();
+                if ($find==0) {
+                    $order = Db::name('shop_order')->where('id',$post['id'])->value('order_amount');
+                    $score = [
+                        'user_id'     => $buyer_uid,
+                        'action'      => 'shop_order',
+                        'obj_id'      => $post['id'],
+                        'score'       => $order,
+                        'create_time' => time(),
+                    ];
+
+                    $user = [];
+                    if ($order > 0) {
+                        $user['score'] = ['exp', 'score+' . $order];
+                    }
+                    if ($order < 0) {
+                        $user['score'] = ['exp', 'score-' . abs($order)];
+                    }
                 }
             }
 // dump($find);
@@ -153,6 +184,10 @@ class AdminOrderController extends AdminBaseController
                 $scModel->editDataCom($post);
                 if (!empty($news)) {
                     $nModel->addSN($news);
+                }
+                if (!empty($score)) {
+                    Db::name('user_score_log')->insert($score);
+                    Db::name('user')->where('id', $buyer_uid)->update($user);
                 }
                 Db::commit();
             } catch (\Exception $e) {

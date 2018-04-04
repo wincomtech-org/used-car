@@ -14,10 +14,10 @@ class OrderController extends UserBaseController
     public function buy()
     {
         $data = $this->request->param();
-        // $data['user_id'] = cmf_get_current_user_id();
         if (empty($data)) {
             $this->redirect('Shop/Index/index');
         }
+        // $data['user_id'] = cmf_get_current_user_id();
 
         $amount = bcmul($data['price'], $data['number']);
         // 附加项
@@ -25,6 +25,8 @@ class OrderController extends UserBaseController
 
         $this->assign('data', [$data]);
         $this->assign('amount', $amount);
+        $this->assign('is_score', 0);
+        $this->assign('flag', '元');
         return $this->fetch();
     }
     // 下单页 购物车结算
@@ -66,12 +68,17 @@ class OrderController extends UserBaseController
 
         $this->assign('data', $carts);
         $this->assign('amount', $amount);
+        $this->assign('is_score', 0);
+        $this->assign('flag', '元');
         return $this->fetch('buy');
     }
 
-    public function buyop($amount = 0)
+    public function buyop($amount = 0, $is_score=0)
     {
         $userId = cmf_get_current_user_id();
+        // 防止重复
+        session('timestamp',time());
+
         // 收货地址
         $address = Db::name('shop_shipping_address')->where('user_id', $userId)->order('is_main DESC')->select()->toArray();
 
@@ -85,27 +92,40 @@ class OrderController extends UserBaseController
             ];
         }
 
-        // 优惠券
-        $coupon = Db::name('user_coupons_log')->field('id,coupon,reduce')->where(['status' => 0, 'user_id' => $userId, 'reduce' => ['elt', $amount]])->select();
-
-        // 防止重复
-        session('timestamp',time());
+        if (empty($is_score)) {
+            // 优惠券
+            $coupon = Db::name('user_coupons_log')->field('id,coupon,reduce')->where(['status' => 0, 'user_id' => $userId, 'reduce' => ['elt', $amount]])->select();
+            $usualSettings  = cmf_get_option('usual_settings');
+            $this->assign('coupon_switch', $usualSettings['coupon_switch']);
+            $this->assign('coupon', $coupon);
+        }
 
         $this->assign('addrFirst', $addrFirst);
         $this->assign('address', $address);
-        $this->assign('coupon', $coupon);
     }
 
     // 积分兑换 可用立即购买的 buy()
     public function buyScore()
     {
-        $this->error('暂未开放');
-        $data = $this->request->param();
-        // $buy_sign = 3;
-        dump($data);
+        // $this->error('暂未开放');
 
-        // $this->assign('buy_sign',$buy_sign);
-        // return $this->fetch();
+        $data = $this->request->param();
+        if (empty($data)) {
+            $this->redirect('Shop/Index/index');
+        }
+        // $data['user_id'] = cmf_get_current_user_id();
+        // dump($data);die;
+
+        $amount = bcmul($data['score'], $data['number']);
+        // 附加项
+        $this->buyop($amount);
+
+        $this->assign('data', [$data]);
+        $this->assign('amount', $amount);
+        $this->assign('is_score', 1);
+        $this->assign('flag', '积分');
+        return $this->fetch('buy');
+
     }
 
     // PC端选地址
@@ -191,6 +211,7 @@ class OrderController extends UserBaseController
             $order_sn = cmf_get_order_sn('shop_');
             // 订单表
             $order = [
+                'is_score'     => $post['is_score'],
                 'buyer_uid'    => $userId,
                 'address_id'   => $post['address_id'],
                 // 'seller_uid'  => '',
