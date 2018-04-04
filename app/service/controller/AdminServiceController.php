@@ -166,10 +166,17 @@ class AdminServiceController extends AdminBaseController
                 $post['more']['files'] = [];
             }
 
-            $scModel->adminEditArticle($post);
+            // $scModel->adminEditArticle($post);
             if ($post['status']==1) {
                 $tel = !empty($post['telephone']) ? $post['telephone'] : $post['contact'] ;
-                lothar_sms_send($tel,'恭喜，您的业务预约成功！');
+                $tel = 18715511536;
+                $model_name = Db::name('service_category')->where('id',$post['model_id'])->value('name');
+                $address = Db::name('usual_coordinate')->field('name,addr')->where('id',$post['service_point'])->find();
+                // $text = '恭喜，您的业务预约成功！';
+                // $text = '尊敬的“车主”您好，您所办理的“预约检车”业务已经预约成功，预约时间为2018年4月4日上午9点30分，预约地点为唐山锦平机动车检测有限公司';
+                $text = '尊敬的“'.$post['username'].'”您好，您所办理的“'.$model_name.'”业务已经预约成功，预约时间为'.$post['appoint_time'].'，预约地点为'.$address['addr'].$address['name'];
+                // $text = '尊敬的“#username#”您好，您所办理的“#name#”业务已经预约成功，预约时间为#time#，预约地点为#address#';
+                lothar_sms_send($tel,$text);
             }
 
             $this->success('保存成功!');

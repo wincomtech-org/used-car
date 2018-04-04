@@ -211,24 +211,6 @@ class AjaxController extends BaseController
         $result = lothar_sms_send($mobile);
         // cmf_verification_code_log($mobile, session('sms_code'));
 
-        // $result = array(
-        //     'code'=>0,
-        //     'msg'=>'发送成功',
-        //     'count'=>'1',
-        //     'fee'=>0.05,
-        //     'unit'=>'RMB',
-        //     'mobile'=>18715511536,
-        //     'sid'=>'22712590140'
-        // );
-
-        // dump($result);die;
-        // if (!empty($result['code'])) {
-        //     $this->success($result['msg']);
-        // } else {
-        //     $this->success('验证码已经发送成功!');
-        // }
-
-
         echo json_encode($result);exit();
         // return $result;
     }

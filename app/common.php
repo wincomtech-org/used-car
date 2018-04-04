@@ -430,14 +430,31 @@ function lothar_get_content($list, $len = 100)
  * 发送短信
  * yunpian
  * 惯例
-// vendor('sms/yunpian/WorkPlugin');
-// import('SqlBack',EXTEND_PATH);
-// $yun = new \WorkPlugin();
-// $yun = new yunpian();
-// dump($yun->work('18715511536'));die;
- * json
-// 成功时：{code:0,count:"1",fee:0.05,mobile:18715511536,msg:"发送成功",sid:"22712590140",unit:"RMB"}
-// 手机号为空：{code:2,detail:"参数 mobile 格式不正确，mobile不能为空",http_status_code:400,msg:"请求参数格式错误"}
+    // vendor('sms/yunpian/WorkPlugin');
+    // import('SqlBack',EXTEND_PATH);
+    // $yun = new \WorkPlugin();
+    // $yun = new yunpian();
+    // dump($yun->work('18715511536'));die;
+     * json
+    // 成功时：{code:0,count:"1",fee:0.05,mobile:18715511536,msg:"发送成功",sid:"22712590140",unit:"RMB"}
+    // 手机号为空：{code:2,detail:"参数 mobile 格式不正确，mobile不能为空",http_status_code:400,msg:"请求参数格式错误"}
+ * 返回结果说明
+    // $result = array(
+    //     'code'=>0,
+    //     'msg'=>'发送成功',
+    //     'count'=>'1',
+    //     'fee'=>0.05,
+    //     'unit'=>'RMB',
+    //     'mobile'=>18715511536,
+    //     'sid'=>'22712590140'
+    // );
+
+    // dump($result);die;
+    // if (!empty($result['code'])) {
+    //     $this->success($result['msg']);
+    // } else {
+    //     $this->success('验证码已经发送成功!');
+    // }
  */
 function lothar_sms_send($mobile = '18715511536', $text = '')
 {
@@ -464,9 +481,8 @@ function lothar_sms_send($mobile = '18715511536', $text = '')
 
     // 数据集 组装
     if (empty($text)) {
-        $text = '【' . $set['sign'] . "】您的验证码是" . $code . "。如非本人操作，请忽略本短信";
         // $text = '【'. $set['sign'] .'】您的验证码是'. $code;
-        // $text = '【阳光国际派遣】您的验证码是' . $code;
+        $text = '【' . $set['sign'] . '】您的验证码是' . $code . '。如非本人操作，请忽略本短信';
     }
     $data = array(
         'mobile' => trim($mobile), //发送对象手机号

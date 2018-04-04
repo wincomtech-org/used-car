@@ -33,7 +33,7 @@
         <!-- <li><a href="{:url('AdminService/add')}">添加预约单</a></li> -->
         <li class="active"><a href="#">编辑预约单</a></li>
     </ul>
-    
+    <p class="help-block">在状态为“预约成功”的状态时提交，客户会收到短信通知。</p>
     <form action="{:url('AdminService/editPost')}" method="post" class="form-horizontal js-ajax-form">
         <div class="row margin-top-20">
             <div class="col-md-1">
@@ -280,7 +280,7 @@
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
                 <input type="hidden" name="post[id]" value="{$post.id}">
-                <button type="submit" class="btn btn-primary js-ajax-submit">{:lang('SAVE')}</button>
+                <button type="submit" class="btn btn-primary js-ajax-submit1">{:lang('SAVE')}</button>
                 <a class="btn btn-default" href="javascript:history.back(-1);">{:lang('BACK')}</a>
             </div>
         </div>
