@@ -7,6 +7,7 @@
 <script type="text/html" id="photos-item-tpl">
     <li id="saved-image{id}">
         <input id="photo-{id}" type="hidden" name="photo[urls][]" value="{filepath}">
+        <input id="photo-{id}-state" type="hidden" name="photo[states][]" value="1">
         <input class="form-control" id="photo-{id}-name" type="text" name="photo[names][]" value="{name}"
                style="width: 200px;" title="图片名称">
         <img id="photo-{id}-preview" src="{url}" style="height:36px;width:36px;"

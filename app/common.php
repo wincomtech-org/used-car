@@ -235,15 +235,17 @@ function lothar_popup($msg = '', $code = 1, $url = null, $data = '', $wait = 3)
  * $style = config('thumbnail_size');
  * 车详情图集 $style = [[580,384]]
  */
-function lothar_dealFiles($files = ['names' => [], 'urls' => []], $style = [])
+function lothar_dealFiles($files = ['names' => [], 'urls' => [], 'states' => []], $style = [])
 {
     $post = [];
     if (is_array($files)) {
         $names = isset($files['names']) ? $files['names'] : '';
         $urls  = $files['urls'];
+        $state = isset($files['states']) ? $files['states'] : '';
         if (!empty($urls)) {
             foreach ($urls as $key => $url) {
                 $relative_url = cmf_asset_relative_url($url);
+                // if (!empty($style) && isset($state) && $state[$key]) {
                 if (!empty($style)) {
                     $relative_url = lothar_thumb_make($relative_url, $style);
                 }

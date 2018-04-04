@@ -64,8 +64,8 @@
                 <notempty name="post.photos">
                 <foreach name="post.photos" item="vo">
                     <li id="saved-image{$key}">
-                        <input id="photo-{$key}" type="hidden"
-                               name="photo[urls][]" value="{$vo.url}">
+                        <input id="photo-{$key}" type="hidden" name="photo[urls][]" value="{$vo.url}">
+                        <input id="photo-{$key}-state" type="hidden" name="photo[states][]" value="0">
                         <input id="photo-{$key}-name" type="text"
                                name="photo[names][]" value="{$vo.name|default=''}"
                                class="form-control" style="width: 200px;" title="图片名称">

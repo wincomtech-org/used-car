@@ -169,7 +169,7 @@ class AdminGoodsController extends AdminBaseController
     {
         $post = $data['post'];
         $cateId = intval($post['cate_id']);
-
+// dump($data['photo']);die;
         // 验证
         $result = $this->validate($post, 'Goods.'.$valid);
         if ($result !== true) {
