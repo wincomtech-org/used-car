@@ -166,7 +166,7 @@ class AdminServiceController extends AdminBaseController
                 $post['more']['files'] = [];
             }
 
-            // $scModel->adminEditArticle($post);
+            $scModel->adminEditArticle($post);
             if ($post['status']==1) {
                 $tel = !empty($post['telephone']) ? $post['telephone'] : $post['contact'] ;
                 // if (is_numeric($tel)) {

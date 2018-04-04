@@ -14,7 +14,7 @@ class AdminCommentController extends AdminBaseController
      * 评价列表
      * @adminMenu(
      *     'name'   => '评价管理',
-     *     'parent' => 'shop/AdminExpress/default',
+     *     'parent' => 'shop/AdminIndex/default',
      *     'display'=> true,
      *     'hasView'=> true,
      *     'order'  => 10000,
@@ -76,6 +76,7 @@ class AdminCommentController extends AdminBaseController
      */
     public function add()
     {
+        $this->error('暂未开发');
         return $this->fetch();
     }
 
@@ -220,13 +221,6 @@ class AdminCommentController extends AdminBaseController
     public function delete()
     {
         $id = $this->request->param('id');
-        $scModel = new ShopBrandModel();
-        
-        //获取删除的内容
-        $find = Db::name('shop_order')->where('shipping_id', $id)->count();
-        if ($find>0) {
-            $this->error('此评价有关联的订单，无法删除!');
-        }
 
         $result = Db::name('shop_evaluate')->where('id', $id)->delete();
         if ($result) {
