@@ -82,7 +82,7 @@
                                     <dd>
                                         <label class='hasLabel'>
                                             <p class='hasLabelP'>
-                                                <input type="checkbox" name="is_main" value='1' {$is_main?='checked'}>
+                                                <input type="checkbox" {$is_main?='checked'} name="is_main" value='1'>
                                                 <span class='spc'></span>
                                             </p>
                                             <p class='hasLabel_span'>设置为默认收货地址</p>
@@ -93,7 +93,7 @@
                                     <dt></dt>
                                     <dd>
                                         <input type="hidden" name="id" value="{$id}">
-                                        <button type='submit' class='backg-red btn-style font16 js-ajax-submit1'>保存</button>
+                                        <button type='submit' class='backg-red btn-style font16 js-ajax-submit'>保存</button>
                                         <a class="btn btn-default" href="javascript:history.back(-1);">{:lang('BACK')}</a>
                                     </dd>
                                 </dl>

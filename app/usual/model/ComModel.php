@@ -98,20 +98,21 @@ class ComModel extends Model
     // 处理用户名 user_nickname|user_login|user_email|mobile
     public function getUsername($data=[])
     {
-        $username = empty($data['user_nickname']) ? (empty($data['user_login']) ? (empty($data['mobile']) ? (empty($data['user_email'])?'未知':$data['user_email']) : $data['mobile']) : $data['user_login']) : $data['user_nickname'];
+        $username = empty($data['user_nickname']) ? (empty($data['user_login']) ? (empty($data['mobile']) ? (empty($data['user_email'])?'--':$data['user_email']) : $data['mobile']) : $data['user_login']) : $data['user_nickname'];
         return $username;
     }
     // 获取用户ID
     public function getUid($uname='')
     {
-        if (empty($uname) || is_numeric($uname)) return false;
-        $uid = intval($uname);
-        if (empty($uid)) {
-            $uid = Db::name('user')->whereOr(['user_nickname|user_login|user_email|mobile'=>$uname])->value('id');
-            // $uid = Db::name('user')->whereOr(['user_nickname|user_login|user_email|mobile'=>['eq',$uname]])->value('id');
-            // $uid = Db::name('user')->whereOr(['user_nickname|user_login|user_email|mobile'=>['like', "%$uname%"]])->value('id');
-            $uid = intval($uid);
-        }
+        // 用户手机号为数字时
+        if (empty($uname)) return false;
+
+        $uid = Db::name('user')->whereOr(['user_nickname|user_login|user_email|mobile'=>$uname])->value('id');
+        // $uid = Db::name('user')->whereOr(['user_nickname|user_login|user_email|mobile'=>['eq',$uname]])->value('id');
+        // $uid = Db::name('user')->whereOr(['user_nickname|user_login|user_email|mobile'=>['like', "%$uname%"]])->value('id');
+        
+        if (empty($uid)) return false;
+        
         return $uid;
     }
 

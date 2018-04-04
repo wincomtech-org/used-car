@@ -84,7 +84,7 @@ class AdminServiceController extends AdminBaseController
 
             // 预处理数据
             $post['user_id'] = $userId;
-            $post['create_time'] = time();
+            // $post['create_time'] = time();
             // 验证
             $result = $this->validate($post,'Service.add');
             if ($result !== true) {
@@ -157,9 +157,13 @@ class AdminServiceController extends AdminBaseController
 
             if (!empty($data['photo'])) {
                 $post['more']['photos'] = lothar_dealFiles($data['photo']);
+            } else {
+                $post['more']['photos'] = [];
             }
             if (!empty($data['file'])) {
                 $post['more']['files'] = lothar_dealFiles($data['file']);
+            } else {
+                $post['more']['files'] = [];
             }
 
             $scModel->adminEditArticle($post);

@@ -368,6 +368,7 @@ class ShopController extends UserBaseController
         if (empty($post)) {
             $this->error('数据不存在了');
         }
+        // dump($post);die;
         $this->assign($post);
         return $this->fetch();
     }
@@ -377,12 +378,14 @@ class ShopController extends UserBaseController
         $data    = $this->request->param();
         $id      = $this->request->param('id/d', 0, 'intval');
         $is_main = $this->request->param('is_main/d', 0, 'intval');
+        $userId = cmf_get_current_user_id();
 
         // 数据验证 validate()
         // dump($data);die;
         $addrSql = Db::name('shop_shipping_address');
+        $find = 0;
         if ($is_main == 1) {
-            $find = $addrSql->where('is_main', 1)->value('id');
+            $find = $addrSql->where(['user_id'=>$userId,'is_main'=>1])->value('id');
         }
 
         $post = [
@@ -393,9 +396,10 @@ class ShopController extends UserBaseController
             'username'    => $data['username'],
             'telephone'   => $data['telephone'],
             'is_main'     => $is_main,
-            'user_id'     => cmf_get_current_user_id(),
+            'user_id'     => $userId,
         ];
 
+        $result = true;
         Db::startTrans();
         try {
             if ($id > 0) {
@@ -403,15 +407,20 @@ class ShopController extends UserBaseController
             } else {
                 $addrSql->insert($post);
             }
-            if ($find > 0) {
+            if ($find>0 && $find!=$id) {
                 $addrSql->where('id', $find)->setField('is_main', 0);
             }
             Db::commit();
         } catch (\Exception $e) {
             Db::rollback();
+            $result = false;
         }
 
-        $this->success('添加成功', url('address'));
+        if ($result===true) {
+            $this->success('提交成功', url('address'));
+        } else {
+            $this->success('提交失败');
+        }
     }
 
     public function addressDelete()
