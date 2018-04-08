@@ -146,12 +146,10 @@ class AdminCar1Controller extends AdminBaseController
         } else {
             $post['files'] = [];
         }
-        if (!empty($post['thumbnail'])) {
+        if (!empty($post['thumbnail']) && $data['thumbnail']['state']==1) {
             $thumbnail = $post['thumbnail'];
             $thumbnail = cmf_asset_relative_url($thumbnail);
             $post['thumbnail'] = lothar_thumb_make($thumbnail,$style);
-        } else {
-            $post['thumbnail'] = '';
         }
         // $post['report'] = $data['report'];
 

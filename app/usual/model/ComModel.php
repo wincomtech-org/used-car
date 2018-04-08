@@ -154,9 +154,9 @@ class ComModel extends Model
     }
 
     // Excel 处理
-    public function excelPort($title='', $head='', $field='*', $where=[], $dir='')
+    public function excelPort($title='', $head='', $field='*', $where=[], $dir='', $colWidth=[24,15,15,15,18,18,20])
     {
-        $dir = CMF_ROOT .'data/excel/'.$dir;//getcwd()使用当前工作空间
+        $dir = getcwd() .'/data/excel/'.$dir;//getcwd() 使用当前工作空间，CMF_ROOT网站根
         $excel = new Excel($dir);
 
         if (is_string($field)) {
@@ -172,7 +172,7 @@ class ComModel extends Model
             $data[] = array_values($row);
         }
 
-        $excel->exportExcel($title, $head, $data);
+        $excel->exportExcel($title, $head, $data, $colWidth);
     }
 
 

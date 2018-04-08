@@ -239,14 +239,14 @@ function lothar_dealFiles($files = ['names' => [], 'urls' => [], 'states' => []]
 {
     $post = [];
     if (is_array($files)) {
-        $names = isset($files['names']) ? $files['names'] : '';
         $urls  = $files['urls'];
-        $state = isset($files['states']) ? $files['states'] : '';
+        $names = isset($files['names']) ? $files['names'] : '';
+        $state = isset($files['states']) ? $files['states'] : 0;
         if (!empty($urls)) {
             foreach ($urls as $key => $url) {
                 $relative_url = cmf_asset_relative_url($url);
-                // if (!empty($style) && isset($state) && $state[$key]) {
-                if (!empty($style)) {
+                if (!empty($style) && $state[$key]==1) {
+                // if (!empty($style)) {
                     $relative_url = lothar_thumb_make($relative_url, $style);
                 }
                 array_push($post, ["url" => $relative_url, "name" => $names[$key]]);

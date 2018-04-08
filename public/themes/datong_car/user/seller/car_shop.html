@@ -54,6 +54,7 @@
         <!-- post[more][thumbnail] -->
         <div class="idetails_con" >
             <input type="hidden" name="post[thumbnail]" id="thumbnail" value="{$post.thumbnail|default=''}">
+            <input type="hidden" name="thumbnail[state]" id="thumbnail-state" value="0">
             <a href="javascript:uploadOneImage('图片上传','#thumbnail');">
                 <if condition="empty($post.thumbnail)">
                     <img src="__TMPL__/public/assets/images/default-thumbnail.png" id="thumbnail-preview" width="286" height="195" style="cursor:pointer" />
@@ -70,21 +71,23 @@
         <div class="idetails_con">
             <ul id="photos" class="pic-list list-unstyled form-inline">
                 <notempty name="post.photos">
-                    <foreach name="post.photos" item="vo">
-                        <li id="saved-image{$key}">
-                            <input id="photo-{$key}" type="hidden"
-                                   name="photo[urls][]" value="{$vo.url}">
-                            <input id="photo-{$key}-name" type="text"
-                                   name="photo[names][]" value="{$vo.name|default=''}"
-                                   class="form-control" style="width: 200px;" title="图片名称">
-                            <img id="photo-{$key}-preview"
-                                 src="{:cmf_get_image_preview_url($vo['url'])}"
-                                 style="height:36px;width: 36px;"
-                                 onclick="parent.imagePreviewDialog(this.src);">
-                            <a href="javascript:uploadOneImage('图片上传','#photo-{$key}');">替换</a>
-                            <a href="javascript:(function(){$('#saved-image{$key}').remove();})();">移除</a>
-                        </li>
-                    </foreach>
+                <foreach name="post.photos" item="vo">
+                    <li id="saved-image{$key}">
+                        <input id="photo-{$key}" type="hidden"
+                               name="photo[urls][]" value="{$vo.url}">
+                        <input id="photo-{$key}-state" type="hidden" 
+                               name="photo[states][]" value="0">
+                        <input id="photo-{$key}-name" type="text"
+                               name="photo[names][]" value="{$vo.name|default=''}"
+                               class="form-control" style="width: 200px;" title="图片名称">
+                        <img id="photo-{$key}-preview"
+                             src="{:cmf_get_image_preview_url($vo['url'])}"
+                             style="height:36px;width: 36px;"
+                             onclick="parent.imagePreviewDialog(this.src);">
+                        <a href="javascript:uploadOneImage('图片上传','#photo-{$key}');">替换</a>
+                        <a href="javascript:(function(){$('#saved-image{$key}').remove();})();">移除</a>
+                    </li>
+                </foreach>
                 </notempty>
             </ul>
             <a href="javascript:uploadMultiImage('图片上传','#photos','photos-item-tpl');"

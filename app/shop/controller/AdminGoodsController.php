@@ -1,9 +1,9 @@
 <?php
 namespace app\shop\controller;
 
+use cmf\controller\AdminBaseController;
 use app\shop\model\ShopGoodsCategoryModel;
 use app\shop\model\ShopGoodsModel;
-use cmf\controller\AdminBaseController;
 use think\Db;
 
 /**
@@ -169,7 +169,7 @@ class AdminGoodsController extends AdminBaseController
     {
         $post = $data['post'];
         $cateId = intval($post['cate_id']);
-// dump($data['photo']);die;
+
         // 验证
         $result = $this->validate($post, 'Goods.'.$valid);
         if ($result !== true) {
@@ -188,11 +188,9 @@ class AdminGoodsController extends AdminBaseController
         } else {
             $post['files'] = [];
         }
-        if (!empty($post['thumbnail'])) {
+        if (!empty($post['thumbnail']) && $data['thumbnail']['state']==1) {
             $thumbnail = cmf_asset_relative_url($post['thumbnail']);
             $post['thumbnail'] = lothar_thumb_make($thumbnail,$style);
-        } else {
-            $post['thumbnail'] = '';
         }
 
         // 处理分类

@@ -100,13 +100,15 @@ class AdminServiceController extends AdminBaseController
     public function edit()
     {
         $id = $this->request->param('id', 0, 'intval');
-        $post = model('Service')->getPost($id);
-        $post['coordinate'] = $post['ucs_x'].(empty($post['ucs_y'])?'':','.$post['ucs_y']);
 
         $scModel = new ServiceModel;
         $cateModel = new ServiceCategoryModel();
         $compModel = new UsualCompanyModel();
-
+        $post = model('Service')->getPost($id);
+        if (empty($post)) {
+            $this->error('数据获取失败');
+        }
+        $post['coordinate'] = $post['ucs_x'].(empty($post['ucs_y'])?'':','.$post['ucs_y']);
         $categoryTree = $cateModel->getOptions($post['model_id']);
         $companyTree = $compModel->getCompanys($post['company_id']);
         // 用户提交资料
@@ -190,14 +192,15 @@ class AdminServiceController extends AdminBaseController
     public function delete()
     {
         $param = $this->request->param();
+        $scModel = new ServiceModel;
 
         if (isset($param['id'])) {
             $id = $this->request->param('id', 0, 'intval');
             $transStatus = true;
             Db::startTrans();
             try{
-                model('Service')->where('id',$id)->update(['delete_time'=>time()]);
-                $find = model('Service')->where('id',$id)->find();
+                $scModel->where('id',$id)->update(['delete_time'=>time()]);
+                $find = $scModel->where('id',$id)->find();
                 $data = [
                     'object_id'   => $find['id'],
                     'create_time' => time(),
@@ -217,8 +220,8 @@ class AdminServiceController extends AdminBaseController
             $transStatus = true;
             Db::startTrans();
             try{
-                model('Service')->where(['id'=>['in',$ids]])->update(['delete_time'=>time()]);
-                $recycle = model('Service')->where(['id'=>['in',$ids]])->select();
+                $scModel->where(['id'=>['in',$ids]])->update(['delete_time'=>time()]);
+                $recycle = $scModel->where(['id'=>['in',$ids]])->select();
                 foreach ($recycle as $value) {
                     $data = [
                         'object_id'   => $value['id'],
@@ -244,47 +247,51 @@ class AdminServiceController extends AdminBaseController
     public function publish()
     {
         $param           = $this->request->param();
+        $scModel = new ServiceModel;
 
         if (isset($param['ids']) && isset($param["yes"])) {
             $ids = $this->request->param('ids/a');
-            model('Service')->where(['id' => ['in', $ids]])->update(['status' => 1, 'published_time' => time()]);
+            $scModel->where(['id' => ['in', $ids]])->update(['status' => 1, 'published_time' => time()]);
             $this->success("启用成功！", '');
         }
 
         if (isset($param['ids']) && isset($param["no"])) {
             $ids = $this->request->param('ids/a');
-            model('Service')->where(['id' => ['in', $ids]])->update(['status' => 0]);
+            $scModel->where(['id' => ['in', $ids]])->update(['status' => 0]);
             $this->success("禁用成功！", '');
         }
     }
     public function top()
     {
         $param           = $this->request->param();
+        $scModel = new ServiceModel;
+
         if (isset($param['ids']) && isset($param["yes"])) {
             $ids = $this->request->param('ids/a');
-            model('Service')->where(['id' => ['in', $ids]])->update(['is_top' => 1]);
+            $scModel->where(['id' => ['in', $ids]])->update(['is_top' => 1]);
             $this->success("置顶成功！", '');
 
         }
         if (isset($_POST['ids']) && isset($param["no"])) {
             $ids = $this->request->param('ids/a');
-            model('Service')->where(['id' => ['in', $ids]])->update(['is_top' => 0]);
+            $scModel->where(['id' => ['in', $ids]])->update(['is_top' => 0]);
             $this->success("取消置顶成功！", '');
         }
     }
     public function recommend()
     {
         $param           = $this->request->param();
+        $scModel = new ServiceModel;
 
         if (isset($param['ids']) && isset($param["yes"])) {
             $ids = $this->request->param('ids/a');
-            model('Service')->where(['id' => ['in', $ids]])->update(['is_rec' => 1]);
+            $scModel->where(['id' => ['in', $ids]])->update(['is_rec' => 1]);
             $this->success("推荐成功！", '');
 
         }
         if (isset($param['ids']) && isset($param["no"])) {
             $ids = $this->request->param('ids/a');
-            model('Service')->where(['id' => ['in', $ids]])->update(['is_rec' => 0]);
+            $scModel->where(['id' => ['in', $ids]])->update(['is_rec' => 0]);
             $this->success("取消推荐成功！", '');
 
         }
@@ -324,27 +331,48 @@ class AdminServiceController extends AdminBaseController
             $where = ['a.id'=>['in',$ids]];
         }
 
-        $title = '车辆业务';
-        $head = ['业务类型','车牌号','用户','联系方式','电话','预约时间'];
-        $field = 'b.name,a.plateNo,a.username,a.contact,a.telephone,a.appoint_time';
+        $colWidth = [24,12,12,20,15,20,28,28,28];
         $dir = 'service';
+        $title = '车辆业务';
+        $head = ['业务类型','车牌号','用户','联系方式','电话','预约时间','行车本','身份证','身份证2'];
+        $field = 'b.name,a.plateNo,a.username,a.contact,a.telephone,a.appoint_time,a.more';
 
-        $data = Db::name('service')->alias('a')
-              ->join('service_category b','a.model_id=b.id')
-              ->field($field)
-              ->where($where)
-              ->select()->toArray();
+        $scModel = new ServiceModel;
+        $data = $scModel->alias('a')
+            ->join('service_category b','a.model_id=b.id')
+            ->field($field)
+            ->where($where)
+            ->order('a.id DESC')
+            ->limit(199)
+            ->select()->toArray();
         if (empty($data)) {
             $this->error('数据为空！');
         }
 
         $new = [];
-        foreach ($data as $key => $value) {
-            $value['appoint_time'] = date('Y-m-d H:i',$value['appoint_time']);
-            $new[] = $value;
+        // 行驶证一张，身份证正反面
+        foreach ($data as $key => $val) {
+            $val['appoint_time'] = date('Y-m-d H:i',$val['appoint_time']);
+            if (!empty($val['more']['driving_license'])) {
+                $val['driving_license'] = $val['more']['driving_license'];
+            } else {
+                $val['driving_license'] = '';
+            }
+            if (!empty($val['more']['identity_card'])) {
+                // foreach ($val['more']['identity_card'] as $value) {
+                //     $val['identity_card'][] = $value['url'];
+                // }
+                $val['identity_card1'] = $val['more']['identity_card'][0]['url'];
+                $val['identity_card2'] = $val['more']['identity_card'][1]['url'];
+            } else {
+                $val['identity_card1'] = '';
+                $val['identity_card2'] = '';
+            }
+            unset($val['more']);
+            $new[] = $val;
         }
 
-        model('Service')->excelPort($title, $head, $new, $where, $dir);
+        $scModel->excelPort($title, $head, $new, $where, $dir, $colWidth);
     }
 
 
