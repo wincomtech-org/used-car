@@ -197,7 +197,7 @@ class OrderController extends UserBaseController
 
             $amount = $post['order_amount'];
             // 满减优惠券
-            $coupId = intval($post['coupId']);
+            $coupId = isset($post['coupId']) ? intval($post['coupId']) : 0;
             if ($coupId>0) {
                 $coupon = Db::name('user_coupons_log')->field('id,coupon,reduce,user_id,status')->where('id', $coupId)->find();
                 if (!empty($coupon)) {
@@ -263,7 +263,9 @@ class OrderController extends UserBaseController
                 }
                 // dump($details);die;
                 Db::name('shop_order_detail')->insertAll($details);
-                Db::name('user_coupons_log')->where('id',$coupId)->setField('status',1);
+                if (!empty($coupId)) {
+                    Db::name('user_coupons_log')->where('id',$coupId)->setField('status',1);
+                }
                 Db::commit();
             } catch (\Exception $e) {
                 Db::rollback();
