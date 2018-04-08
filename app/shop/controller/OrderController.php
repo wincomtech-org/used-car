@@ -196,6 +196,7 @@ class OrderController extends UserBaseController
             }
 
             $amount = $post['order_amount'];
+
             // 满减优惠券
             $coupId = isset($post['coupId']) ? intval($post['coupId']) : 0;
             if ($coupId>0) {
@@ -203,10 +204,22 @@ class OrderController extends UserBaseController
                 if (!empty($coupon)) {
                     $amount = (bccomp($coupon['reduce'], $amount) == -1) ? bcsub($amount, $coupon['coupon']) : $this->error('您的优惠券不符合满减', $jumpurl);
                 }
-            } 
+            }
+            // 是否为积分兑换
+            $is_score = isset($post['is_score']) ? intval($post['is_score']) : 0;
+            if ($is_score==1) {
+                $user = cmf_get_current_user();
+                if (bccomp($user['score'], $amount)==-1) {
+                    $this->error('你的积分不足',url('user/Funds/score'));
+                } else {
+                    $score = bcsub($user['score'], $amount);
+                    $user['score'] = $score;
+                }
+            }
 // dump($post);
 // dump($coupon);
 // dump($amount);
+// dump($is_score);
 // die;
             $order_sn = cmf_get_order_sn('shop_');
             // 订单表
@@ -232,8 +245,14 @@ class OrderController extends UserBaseController
             $details = [];
 
             // 启动事务
+            $tranStatus = true;
             Db::startTrans();
             try {
+                if ($is_score==1) {
+                    Db::name('user')->where('id',$userId)->setField('score',$score);
+                    $order['pay_time'] = time();
+                    $order['status'] = 2;
+                }
                 $orderId = Db::name('shop_order')->insertGetId($order);
                 if (empty($cart_ids)) {
                     $details = [
@@ -261,7 +280,6 @@ class OrderController extends UserBaseController
                     Db::name('shop_cart')->where('id', 'in', $cart_ids)->delete();
                     session('user_cart',null);
                 }
-                // dump($details);die;
                 Db::name('shop_order_detail')->insertAll($details);
                 if (!empty($coupId)) {
                     Db::name('user_coupons_log')->where('id',$coupId)->setField('status',1);
@@ -269,6 +287,7 @@ class OrderController extends UserBaseController
                 Db::commit();
             } catch (\Exception $e) {
                 Db::rollback();
+                $tranStatus = false;
             }
 
             // 不用try{}catch(){}，但是变量如何传入？
@@ -277,6 +296,19 @@ class OrderController extends UserBaseController
             //     Db::name('shop_order_detail')->insertAll($details);
             // });
 
+            if ($tranStatus==true) {
+                if ($is_score==1) {
+                    cmf_update_current_user($user);
+                    $this->success('积分扣除成功！',url('user/Shop/index',['status'=>2]));
+                }
+            } else {
+                if ($is_score==1) {
+                    $this->error('积分扣除失败');
+                } else {
+                    $this->error('数据错误，请检查');
+                }
+            }
+
         } else {
             $order      = Db::name('shop_order')->field('order_sn,order_amount')->where('id', $orderId)->find();
             // $order_list = Db::name('shop_order_detail')->field('*')->where('order_id', $orderId)->select();
@@ -284,11 +316,14 @@ class OrderController extends UserBaseController
             // dump($order_list);
             // die;
         }
+
+
 // dump($order);
 // dump($orderId);
         $this->assign('order', $order);
         $this->assign('paysign', 'shop');
         $this->assign('orderId', $orderId);
+        $this->assign('is_score', $is_score);
 
         return $this->fetch('pay');
     }
