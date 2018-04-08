@@ -80,8 +80,8 @@ class Excel
                         $objDrawing[$j] = new PHPExcel_Worksheet_Drawing();
                         $objDrawing[$j]->setPath('upload/'.$row);
                         // 设置宽度高度
-                        $objDrawing[$j]->setHeight(32);//照片高度
-                        $objDrawing[$j]->setWidth(32); //照片宽度
+                        $objDrawing[$j]->setWidth(44); //照片宽度
+                        $objDrawing[$j]->setHeight(44);//照片高度
                         // 设置图片要插入的单元格
                         $objDrawing[$j]->setCoordinates($colBox[$j].($i+2));
                         // 图片偏移距离
