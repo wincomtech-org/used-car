@@ -330,7 +330,7 @@ class OrderController extends UserBaseController
         $this->assign('order', $order);
         $this->assign('paysign', 'shop');
         $this->assign('orderId', $orderId);
-        $this->assign('is_score', $is_score);
+        // $this->assign('is_score', $is_score);//积分的话直接扣除跳转，无支付页
 
         return $this->fetch('pay');
     }

@@ -27,11 +27,7 @@
                     <li class="see_car_items">
                         <span class="icon">应付金额</span>
                         <div class="item_con">
-                            <empty name="is_score">
-                                <p class='text'>￥{$order.order_amount|default='0.00'}元</p>
-                            <else/>
-                                <p class='text'>{$order.order_amount|default='0.00'}积分</p>
-                            </empty>
+                            <p class='text'>￥{$order.order_amount|default='0.00'}元</p>
                         </div>
                     </li>
                     <!-- public@pay -->

@@ -131,7 +131,7 @@
             <!-- 防止表单重复提交 -->
             <input type="hidden" name="timestamp" value="{:session('timestamp')}" />
 
-            <button type="submit" class='btn-style backg-red f14 js-ajax-submit1'>提交订单</button>
+            <button type="submit" class="btn-style backg-red f14 js-ajax-submit{$is_score?'':'2'}">提交订单</button>
         </div>
     </form>
 </div>
