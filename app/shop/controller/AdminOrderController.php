@@ -161,7 +161,6 @@ class AdminOrderController extends AdminBaseController
                         'score'       => $order,
                         'create_time' => time(),
                     ];
-
                     $user = [];
                     if ($order > 0) {
                         $user['score'] = ['exp', 'score+' . $order];
