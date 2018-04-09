@@ -129,7 +129,7 @@
             <input type="hidden" name="order[is_score]" value="{$is_score|default='0'}">
 
             <!-- 防止表单重复提交 -->
-            <input type="hidden" name="timestamp" value="{:session('timestamp')}" />
+            <input type="hidden" name="timestamp_shop" value="{:session('timestamp_shop')}" />
 
             <button type="submit" class="btn-style backg-red f14 js-ajax-submit{$is_score?'':'2'}">提交订单</button>
         </div>

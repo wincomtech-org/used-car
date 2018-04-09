@@ -56,15 +56,14 @@
     $modelId = isset($order['modelId']) ? $order['modelId'] : null;
 </php>
 <script type="text/javascript">
+    var paysign = '{$paysign}';
+    var orderId = "{$orderId}";
+    var modelId = "{$modelId}";
     $('.qr_before').click(function(){
         if (confirm('你真的支付过了吗？')) {
             $('.qr_before').hide();
             $('.qr_after').show();
             // $('.qr_msg').show();
-
-            var paysign = '{$paysign}';
-            var orderId = "{$orderId}";
-            var modelId = "{$modelId}";
 
             // $formurl 需要转化， 所以采用一个新变量 $paysign 标识
             // location.href = "{url('funds/Pay/temp',['paysign'=>$paysign,'orderId'=>$orderId])}";
@@ -75,7 +74,7 @@
                 type: "POST",
                 // dataType:'json',
                 success:function(msg) {
-                    console.log(msg);
+                    // console.log(msg);
                     if (msg=='error') {
                         $('.qr_msg').show().html('提交失败！');
                     } else if(msg=='illegal') {
@@ -85,18 +84,41 @@
                     } else if(msg=='pay') {
                         $('.qr_msg').show().html('已支付！');
                     } else {
-                        if (paysign=='recharge') {
-                            $('.qr_msg').show().html('提交成功，后台开始处理相关信息，届时通知您结果，请耐心等待。');
-                        } else if(paysign=='service_pay') {
-                            $('.qr_msg').show();
-                            window.location.href = "{:url('user/Service/details',['id'=>$orderId,'mid'=>$modelId])}";
-                        } else {
-                            $('.qr_msg').show();
-                            // $('.qr_msg').show().html(msg);
-                        }
+                        qr_msg_rod(paysign);
                     }
                 }
             });
         }
     });
+
+    function qr_msg_rod(sign) {
+        switch(sign) {
+            case 'recharge':
+                $('.qr_msg').show().html('提交成功，后台开始处理相关信息，届时通知您结果，请耐心等待。');
+                break;
+            case 'service_pay':
+                $('.qr_msg').show();
+                setTimeout("window.location.href='{:url('user/Service/details',['id'=>$orderId,'mid'=>$modelId])}'",3000);
+                break;
+            case 'shop':
+                $('.qr_msg').show();
+                setTimeout("window.location.href='{:url('user/Shop/index')}'",3000);
+                break;
+            default:
+                $('.qr_msg').show();
+                // $('.qr_msg').show().html(msg);
+        }
+
+        /*if (paysign=='recharge') {
+            $('.qr_msg').show().html('提交成功，后台开始处理相关信息，届时通知您结果，请耐心等待。');
+        } else if(paysign=='service_pay') {
+            $('.qr_msg').show();
+            setTimeout("window.location.href='{:url('user/Service/details',['id'=>$orderId,'mid'=>$modelId])}'",3000);
+        } else if($paysign=='shop') {
+            $('.qr_msg').show();
+        } else {
+            $('.qr_msg').show();
+        }*/
+
+    }
 </script>

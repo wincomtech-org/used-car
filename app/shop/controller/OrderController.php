@@ -77,7 +77,7 @@ class OrderController extends UserBaseController
     {
         $userId = cmf_get_current_user_id();
         // 防止重复
-        session('timestamp', time());
+        session('timestamp_shop', time());
 
         // 收货地址
         $address = Db::name('shop_shipping_address')->where('user_id', $userId)->order('is_main DESC')->select()->toArray();
@@ -117,12 +117,13 @@ class OrderController extends UserBaseController
         // dump($data);die;
 
         $amount = bcmul($data['score'], $data['number']);
+        $is_score = 1;
         // 附加项
-        $this->buyop($amount);
+        $this->buyop($amount,$is_score);
 
         $this->assign('data', [$data]);
         $this->assign('amount', $amount);
-        $this->assign('is_score', 1);
+        $this->assign('is_score', $is_score);
         $this->assign('flag', '积分');
         return $this->fetch('buy');
 
@@ -152,18 +153,17 @@ class OrderController extends UserBaseController
             if (!$this->request->isPost()) {
                 $this->redirect('shop/Index/index');
             }
-
             // 由积分兑换、立即购买、购物车结算发起
             $data = $this->request->param();
             // 防止重复提交
             if (empty($data)) {
                 $this->redirect('shop/Index/index');
             }
-            // if ($data['timestamp'] == session('timestamp')) {
-            //     session('timestamp', null);
-            // } else {
-            //     $this->redirect('user/Shop/Index', ['status' => 0]);
-            // }
+            if ($data['timestamp_shop'] == session('timestamp_shop')) {
+                session('timestamp_shop', null);
+            } else {
+                $this->redirect('user/Shop/Index');
+            }
             $userId = cmf_get_current_user_id();
 
             // 判断是否为购物车传过来的
