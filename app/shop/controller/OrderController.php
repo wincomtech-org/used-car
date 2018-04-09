@@ -73,11 +73,11 @@ class OrderController extends UserBaseController
         return $this->fetch('buy');
     }
 
-    public function buyop($amount = 0, $is_score=0)
+    public function buyop($amount = 0, $is_score = 0)
     {
         $userId = cmf_get_current_user_id();
         // 防止重复
-        session('timestamp',time());
+        session('timestamp', time());
 
         // 收货地址
         $address = Db::name('shop_shipping_address')->where('user_id', $userId)->order('is_main DESC')->select()->toArray();
@@ -88,14 +88,14 @@ class OrderController extends UserBaseController
             $addr      = $address[0];
             $addrFirst = [
                 'id'   => $addr['id'],
-                'addr' => $addr['address'] .' '. $addr['username'] .'收 '. $addr['telephone'],
+                'addr' => $addr['address'] . ' ' . $addr['username'] . '收 ' . $addr['telephone'],
             ];
         }
 
         if (empty($is_score)) {
             // 优惠券
-            $coupon = Db::name('user_coupons_log')->field('id,coupon,reduce')->where(['status' => 0, 'user_id' => $userId, 'reduce' => ['elt', $amount]])->select();
-            $usualSettings  = cmf_get_option('usual_settings');
+            $coupon        = Db::name('user_coupons_log')->field('id,coupon,reduce')->where(['status' => 0, 'user_id' => $userId, 'reduce' => ['elt', $amount]])->select();
+            $usualSettings = cmf_get_option('usual_settings');
             $this->assign('coupon_switch', $usualSettings['coupon_switch']);
             $this->assign('coupon', $coupon);
         }
@@ -140,8 +140,6 @@ class OrderController extends UserBaseController
         return $this->fetch();
     }
 
-
-
 /*生成订单*/
     // 支付页
     public function pay()
@@ -155,7 +153,7 @@ class OrderController extends UserBaseController
                 $this->redirect('shop/Index/index');
             }
 
-            // 由立即购买、购物车结算发起
+            // 由积分兑换、立即购买、购物车结算发起
             $data = $this->request->param();
             // 防止重复提交
             if (empty($data)) {
@@ -166,7 +164,7 @@ class OrderController extends UserBaseController
             // } else {
             //     $this->redirect('user/Shop/Index', ['status' => 0]);
             // }
-            $userId  = cmf_get_current_user_id();
+            $userId = cmf_get_current_user_id();
 
             // 判断是否为购物车传过来的
             // 检查购物车里有没有 有则需要在提交订单成功后删除,没有就不用管
@@ -175,7 +173,7 @@ class OrderController extends UserBaseController
             if (empty($cart_ids)) {
                 $jumpurl = url('shop/Post/details', ['id' => $ids[0]['goods_id']]);
                 if (empty($ids[0]['spec_id'])) {
-                    $goods = Db::name('shop_goods')->field('id as goods_id,name as goods_name,price,thumbnail')->where(['id' => $ids[0]['goods_id']])->select()->toArray();
+                    $goods = Db::name('shop_goods')->field('id as goods_id,name as goods_name,thumbnail,price')->where('id', $ids[0]['goods_id'])->find();
                 } else {
                     $goods = model('shop/ShopGoodsSpec')->getGoodsBySpec(['a.id' => $ids[0]['spec_id']]);
                 }
@@ -184,9 +182,9 @@ class OrderController extends UserBaseController
                 $goods   = model('shop/ShopCart')->getCartList(['a.id' => ['in', $cart_ids]]);
             }
 // dump($goods);
-// dump($data);
-// dump($cart_ids);
-// die;
+            // dump($data);
+            // dump($cart_ids);
+            // die;
 
             // shop_order ： id 或 order_sn 决定，索引 buyer_uid,seller_uid
             // shop_order_detail ： id 或 goods_id,spec_id 决定，索引 order_id
@@ -197,9 +195,9 @@ class OrderController extends UserBaseController
 
             $amount = $post['order_amount'];
 
-            // 满减优惠券
+            // 满减优惠券 没有排除积分兑换的情况
             $coupId = isset($post['coupId']) ? intval($post['coupId']) : 0;
-            if ($coupId>0) {
+            if ($coupId > 0) {
                 $coupon = Db::name('user_coupons_log')->field('id,coupon,reduce,user_id,status')->where('id', $coupId)->find();
                 if (!empty($coupon)) {
                     $amount = (bccomp($coupon['reduce'], $amount) == -1) ? bcsub($amount, $coupon['coupon']) : $this->error('您的优惠券不符合满减', $jumpurl);
@@ -207,40 +205,51 @@ class OrderController extends UserBaseController
             }
             // 是否为积分兑换
             $is_score = isset($post['is_score']) ? intval($post['is_score']) : 0;
-            if ($is_score==1) {
+            if ($is_score == 1) {
                 $user = cmf_get_current_user();
-                if (bccomp($user['score'], $amount)==-1) {
-                    $this->error('你的积分不足',url('user/Funds/score'));
+                if (bccomp($user['score'], $amount) == -1) {
+                    $this->error('你的积分不足', url('user/Funds/score'));
                 } else {
-                    $score = bcsub($user['score'], $amount);
+                    $score         = bcsub($user['score'], $amount);
                     $user['score'] = $score;
                 }
             }
 // dump($post);
-// dump($coupon);
-// dump($amount);
-// dump($is_score);
-// die;
+            // dump($coupon);
+            // dump($amount);
+            // dump($is_score);
+            // die;
             $order_sn = cmf_get_order_sn('shop_');
             // 订单表
             $order = [
-                'is_score'     => $post['is_score'],
-                'buyer_uid'    => $userId,
-                'address_id'   => $post['address_id'],
+                'is_score'       => $post['is_score'],
+                'buyer_uid'      => $userId,
+                'address_id'     => $post['address_id'],
                 // 'seller_uid'  => '',
                 // 'seller_username'  => '',
-                'order_sn'     => $order_sn,
-                'nums'         => $post['nums'],
-                'product_amount'  => $post['order_amount'],
-                'order_amount' => $amount,
-                'coupon_id'    => $coupId,
+                'order_sn'       => $order_sn,
+                'nums'           => $post['nums'],
+                'product_amount' => $post['order_amount'],
+                'order_amount'   => $amount,
+                'coupon_id'      => $coupId,
                 // 'shipping_id'  => '',
                 // 'shipping_fee'  => '',
                 // 'description'  => '',//买家留言
-                'ip'           => get_client_ip(),
-                'create_time'  => $_SERVER['REQUEST_TIME'],
+                'ip'             => get_client_ip(),
+                'create_time'    => $_SERVER['REQUEST_TIME'],
             ];
-
+// dump($goods);
+            // dump($order);
+            // die;
+                    $log = [
+                        'user_id'     => $userId,
+                        'action'      => 'shop',
+                        'score'       => -$amount,
+                        'create_time' => time(),
+                    ];
+                    Db::name('user_score_log')->insert($log);
+                    dump($log);die;
+            
             // 订单详情表
             $details = [];
 
@@ -248,16 +257,17 @@ class OrderController extends UserBaseController
             $tranStatus = true;
             Db::startTrans();
             try {
-                if ($is_score==1) {
-                    Db::name('user')->where('id',$userId)->setField('score',$score);
+                if ($is_score == 1) {
+                    Db::name('user')->where('id', $userId)->setField('score', $score);
+
                     $order['pay_time'] = time();
-                    $order['status'] = 2;
+                    $order['status']   = 2;
                 }
                 $orderId = Db::name('shop_order')->insertGetId($order);
                 if (empty($cart_ids)) {
                     $details = [
                         'order_id'   => $orderId,
-                        'spec_id'    => (isset($goods['spec_id'])?$goods['spec_id']:0),
+                        'spec_id'    => (isset($goods['spec_id']) ? $goods['spec_id'] : 0),
                         'goods_id'   => $goods['goods_id'],
                         'goods_type' => '1',
                         'goods_name' => $goods['goods_name'],
@@ -269,7 +279,7 @@ class OrderController extends UserBaseController
                     foreach ($goods as $val) {
                         $details[] = [
                             'order_id'   => $orderId,
-                            'spec_id'    => (isset($val['spec_id'])?$val['spec_id']:0),
+                            'spec_id'    => (isset($val['spec_id']) ? $val['spec_id'] : 0),
                             'goods_id'   => $val['goods_id'],
                             'goods_name' => $val['goods_name'],
                             'thumbnail'  => $val['thumbnail'],
@@ -278,11 +288,11 @@ class OrderController extends UserBaseController
                         ];
                     }
                     Db::name('shop_cart')->where('id', 'in', $cart_ids)->delete();
-                    session('user_cart',null);
+                    session('user_cart', null);
                 }
                 Db::name('shop_order_detail')->insertAll($details);
                 if (!empty($coupId)) {
-                    Db::name('user_coupons_log')->where('id',$coupId)->setField('status',1);
+                    Db::name('user_coupons_log')->where('id', $coupId)->setField('status', 1);
                 }
                 Db::commit();
             } catch (\Exception $e) {
@@ -295,14 +305,14 @@ class OrderController extends UserBaseController
             //     Db::name('shop_order')->insertGetId($order);
             //     Db::name('shop_order_detail')->insertAll($details);
             // });
-
-            if ($tranStatus==true) {
-                if ($is_score==1) {
+            // die('END');
+            if ($tranStatus == true) {
+                if ($is_score == 1) {
                     cmf_update_current_user($user);
-                    $this->success('积分扣除成功！',url('user/Shop/index',['status'=>2]));
+                    $this->success('积分扣除成功！', url('user/Shop/score'));
                 }
             } else {
-                if ($is_score==1) {
+                if ($is_score == 1) {
                     $this->error('积分扣除失败');
                 } else {
                     $this->error('数据错误，请检查');
@@ -310,16 +320,14 @@ class OrderController extends UserBaseController
             }
 
         } else {
-            $order      = Db::name('shop_order')->field('order_sn,order_amount')->where('id', $orderId)->find();
+            $order = Db::name('shop_order')->field('order_sn,order_amount')->where('id', $orderId)->find();
             // $order_list = Db::name('shop_order_detail')->field('*')->where('order_id', $orderId)->select();
-            // dump($order);
             // dump($order_list);
             // die;
         }
 
-
 // dump($order);
-// dump($orderId);
+        // dump($orderId);
         $this->assign('order', $order);
         $this->assign('paysign', 'shop');
         $this->assign('orderId', $orderId);

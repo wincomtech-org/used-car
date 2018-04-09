@@ -129,7 +129,7 @@ class ShopController extends UserBaseController
                 ->where('order_id',$row['id'])
                 ->select()->toArray();
         }
-// dump($orderToArr);die;
+dump($orderToArr);die;
 
         $this->assign('orders', $orderToArr);
         $this->assign('pager', $orders->appends($param)->render());

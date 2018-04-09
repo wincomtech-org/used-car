@@ -792,9 +792,9 @@
 .youhui .youhui_sel {
     display: inline-block;
     vertical-align: middle;
-    width: 130px;
+    width: 98px;
     height:28px;
-    font-size:12px;
+    font-size:0.6rem;
     border:1px solid #ddd;
 }
 .youhui .youhui_sel option {
@@ -838,7 +838,7 @@
 .cofimReceipt-button-dl:after{content:"";display:block;clear:both;}
 .cofimReceipt-button-dl dt,
 .cofimReceipt-button-dl dd{display:inline-block;font-size:15px;vertical-align:top;}
-.cofimReceipt-button-dl dd input[type='text']{border:1px solid #ddd;height:30px;line-height:30px;margin-bottom:.7rem;}
+.cofimReceipt-button-dl dd input[type='text']{border:1px solid #ddd;height:30px;line-height:30px;margin-bottom:0.7rem;}
 .cofimReceipt-input{display:block;}
 
 /* 评价 */
@@ -946,9 +946,9 @@ evaluation{margin:.5rem 0;}
     .wddd-li ul{display:flex;display:-webkit-box;display:-moz-box;display:-ms-box;display:-o-box;display:box;display:-webkit-flex;justify-content:space-around;align-items:center;}
     .wddd-li ul li{margin:0;}
     .shops_order_m{font-size:14px;display:block;}
-    .o-total-price{text-align:right;padding:1rem 0;border-top:1px solid #ddd;border-bottom:1px solid #ddd;margin:10px 0;}
+    .o-total-price{text-align:right;padding:1rem 0;border-top:1px solid #ddd;border-bottom:1px solid #ddd;margin:5px 0;}
     .order-list-tit{padding:.5rem 10px;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;-ms-box-sizing:border-box;-o-box-sizing:border-box;box-sizing:border-box;}
-    .o-total-price span{display:inline-block;margin-left:0.3rem;font-size:13px;line-height:1.5;}
+    .o-total-price span{display:inline-block;margin-left:0.3rem;font-size:0.7rem;line-height:1.5;}
     .order-list-con{width:-webkit-calc(100% - 20px);width:-moz-calc(100% - 20px);width:-ms-calc(100% - 20px);width:-o-calc(100% - 20px);width:calc(100% - 20px);margin:0 auto;}
     .orderHasEdit{display:flex;display:-webkit-box;display:-moz-box;display:-ms-box;display:-o-box;display:box;display:-webkit-flex;justify-content:space-between;align-items:center;        /* 手机购物车 */position:relative;}
     .order-intro{margin-left:0;}

@@ -111,24 +111,28 @@
             <eq name="is_score" value="0">
             <div class='youhui'>
                 <span>优惠券：</span>
+                <empty name="coupon">
+                    <p class="placeholder" style="display:inline-block;width:98px;font-size:12px;">暂无……</p>
+                <else/>
                 <select name="order[coupId]" class="placeholder form-control youhui_sel">
                     <option value="">--请选择--</option>
                     <foreach name="coupon" item="vo">
                     <option value="{$vo.id}">满{$vo.reduce} 减{$vo.coupon}</option>
                     </foreach>
                 </select>
+                </empty>
             </div>
             </eq>
             </notempty>
 
             <p>
                 <span>总数：</span>
-                <span><input name='order[nums]' value="{:count($data)}" readonly class='orage-color tx-r fweight' style='width:20px;' /> 件</span>
+                <span><input name='order[nums]' value="{:count($data)}" readonly class='orage-color tx-r fweight' style='width:80px;' /> 件</span>
             </p>
             <p>
                 <span>实付款：</span>
                 <span>
-                    <input name='order[order_amount]' value="{$amount|default='0.00'}" readonly class='orage-color tx-r fweight' style='width:48px;' /> {$flag}
+                    <input name='order[order_amount]' value="{$amount|default='0.00'}" readonly class='orage-color tx-r fweight' style='width:80px;' /> {$flag}
                 </span>
             </p>
             <p>

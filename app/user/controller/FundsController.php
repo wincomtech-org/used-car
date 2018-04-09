@@ -52,7 +52,7 @@ class FundsController extends UserBaseController
         // $this->assign('categorys', $categorys);
         $this->assign('income', $income);
         $this->assign('expense', $expense);
-        $this->assign('type', $type);
+        // $this->assign('type', $type);
         $this->assign('list', $list->items());
         $list->appends($param);
         $this->assign('pager', $list->render());
@@ -66,7 +66,7 @@ class FundsController extends UserBaseController
         // $param = $this->request->param();
         $where['user_id'] = $this->user['id'];
 
-        $list = Db::name('user_score_log')->where($where)->paginate();
+        $list = Db::name('user_score_log')->where($where)->order('id DESC')->paginate();
         // 历史累计积分
         $where['score'] = ['lt',0];
         $score = Db::name('user_score_log')->where($where)->sum('score');
@@ -88,7 +88,7 @@ class FundsController extends UserBaseController
         // $param = $this->request->param();
         $where['user_id'] = $this->user['id'];
 
-        $list = Db::name('user_coupons_log')->where($where)->paginate();
+        $list = Db::name('user_coupons_log')->where($where)->order('create_time DESC')->paginate();
 
         // 历史累计
         // $this->user['coupon'];

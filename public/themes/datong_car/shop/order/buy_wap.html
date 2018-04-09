@@ -103,21 +103,26 @@
             <eq name="is_score" value="0">
             <div class='youhui'>
                 <span>优惠券：</span>
+                <empty name="coupon">
+                    <p class="placeholder" style="display:inline-block;font-size:0.8rem;">暂无……</p>
+                <else/>
                 <select name="order[coupId]" class="placeholder form-control youhui_sel">
                     <option value="">--请选择--</option>
                     <foreach name="coupon" item="vo">
                     <option value="{$vo.id}">满{$vo.reduce} 减{$vo.coupon}</option>
                     </foreach>
                 </select>
+                </empty>
             </div>
             </eq>
             </notempty>
         </dl>
 
         <dl class='o-total-price'>
-            <span>总数：<input name='order[nums]' value="{:count($data)}" readonly class='orage-color tx-r fweight' style='width:20px;' /> 件 </span>
-            <span>实付款：<b><input name='order[order_amount]' value="{$amount|default='0.00'}" readonly class='orage-color tx-r fweight' style='width:48px;' /></b> {$flag}</span>
-            <!-- <span>（含运费：<b>0.00</b>）</span> -->
+            <dt>总数：</dt>
+            <dd><span><input name='order[nums]' value="{:count($data)}" readonly class='orage-color tx-r fweight' style='width:27px;' /> 件 </span></dd>
+            <dt>实付款：</dt>
+            <dd><span><b><input name='order[order_amount]' value="{$amount|default='0.00'}" readonly class='orage-color tx-r fweight' style='width:54px;' /></b> {$flag}</span><!-- <span>（含运费：<b>0.00</b>）</span> --></dd>
         </dl>
         <div class='o-tab-btn'>
             <!-- 这里放一些需要提交的数据 -->
@@ -126,7 +131,7 @@
             <!-- 防止表单重复提交 -->
             <input type="hidden" name="timestamp" value="{:session('timestamp')}" />
 
-            <button type="submit" class='btn-style backg-red f14 js-ajax-submit'>提交订单</button>
+            <button type="submit" class='btn-style backg-red f14 js-ajax-submit1'>提交订单</button>
         </div>
     </form>
 </div>
