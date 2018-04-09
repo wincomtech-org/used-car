@@ -162,9 +162,9 @@
                                             <input type="checkbox">
                                         </td>
                                         <td class=' ma-1' colspan='5'>
-                                            <span class="time">2018-01-10 09:40:22</span>
+                                            <!-- <span class="time">2018-01-10 09:40:22</span> -->
                                             <span class="order-goods">
-                                                订单号：<a href="">201801100940222779</a>
+                                                订单号：<a href="javascript:void(0);">{$vo.order_sn}</a>
                                             </span>
                                         </td>
                                         <td class=' ma-6'></td>
@@ -173,31 +173,39 @@
                                         <td class='ma-0'></td>
                                         <td class='ma-1'>
                                             <div class="order-img">
-                                                <a href="">
-                                                    <img src="__TMPL__/public/assets/images/default-thumbnail_160x109.png" alt="无图">
+                                                <a href="#">
+                                                    <empty name="vo.thumbnail">
+                                                        <img src="__TMPL__/public/assets/images/default-thumbnail_160x109.png" alt="">
+                                                    <else/>
+                                                        <img src="{:cmf_get_image_preview_url($vo.thumbnail.'_2.jpg')}" alt="">
+                                                    </empty>
                                                 </a>
                                             </div>
                                             <div class="order-intro">
                                                 <div class='order-trade-name'>
-                                                    <a href="">华为 HUAWEI C199S 麦芒3S 电信4G智能手机FDD-LTE /TD-LTE/CDMA2000/GSM（麦芒）</a>
+                                                    <a href="#">{$vo.goods_name}</a>
                                                 </div>
                                                 <div class='order-attributes'>
-                                                    <span>颜色分类：倍量加强版【苹果6电池】-送整套拆机工具+视频教程+质保3年</span>
+                                                    <span>规格：{$vo.spec_vars}</span>
                                                 </div>
                                             </div>
                                         </td>
-                                        <td class='ma-2'>￥1999.00</td>
-                                        <td class='ma-3'>2018-01-29</td>
+                                        <td class='ma-2'>￥{$vo.amount}</td>
+                                        <td class='ma-3'>{$vo.create_time?=date('Y-m-d',$vo.create_time)}</td>
                                         <td class='ma-4'>退货</td>
                                         <td class='ma-5'>
                                             <div class="trading-status group-a">
-                                                <sapn>退货中</sapn>
+                                                <sapn>
+                                                    {$vo.status==-1?='失败'}
+                                                    {$vo.status==1?='退货中'}
+                                                    {$vo.status==10?='已完成'}
+                                                </sapn>
                                                 <a href="{:url('returns_detail',['rid'=>$vo.id])}" class='orage-color'>修改申请</a>
                                             </div>
                                         </td>
                                         <td class='ma-6'>
                                             <div class="order-state group-a">
-                                                <a class='backg-orange btn-style'>删除订单</a>
+                                                <a class='backg-orange btn-style'>删除申请</a>
                                             </div>
                                         </td>
                                     </tr>

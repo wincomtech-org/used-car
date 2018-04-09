@@ -36,7 +36,7 @@
                     <ul class='order-ul'>
                         <li class='order-li'>填写退换货</li>
                     </ul>
-                    <form action="{:url('returns_detailPost')}" method="POST">
+                    <form action="{:url('returns_detailPost')}" method="POST" class="js-ajax-form">
                         <ul class="returns_detail">
                             <li>
                                 <div class="returns-gr">
@@ -44,7 +44,7 @@
                                     <div class="returns-gr-con">
                                         <div class="hasImgTxt">
                                             <div class="img">
-                                                <empty name="vo.thumbnail">
+                                                <empty name="post.thumbnail">
                                                     <img src="__TMPL__/public/assets/images/default-thumbnail_160x109.png" alt="">
                                                 <else/>
                                                     <img src="{:cmf_get_image_preview_url($post.thumbnail)}" alt="">
@@ -159,7 +159,7 @@
                                 <div class="returns-gr">
                                     <div class="returns-gr-tit">退款说明</div>
                                     <div class="returns-gr-con">
-                                        <textarea class="returnMoney_say" name="description" required></textarea>
+                                        <textarea class="returnMoney_say" name="description" required>{$returns.description|default=''}</textarea>
                                     </div>
                                 </div>
                             </li>
@@ -198,7 +198,7 @@
                                         <input type="hidden" name="id" value="{$post.id|default=''}">
                                         <input type="hidden" name="order_id" value="{$post.order_id|default=''}">
                                         <input type="hidden" name="rid" value="{$returns.id|default=''}">
-                                        <button type='submit' class='backg-red btn-style font16'>提交</button>
+                                        <button type='submit' class='backg-red btn-style font16 js-ajax-submit'>提交</button>
                                     </div>
                                 </div>
                             </li>

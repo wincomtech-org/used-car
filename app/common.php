@@ -245,11 +245,14 @@ function lothar_dealFiles($files = ['names' => [], 'urls' => [], 'states' => []]
         if (!empty($urls)) {
             foreach ($urls as $key => $url) {
                 $relative_url = cmf_asset_relative_url($url);
-                if (!empty($style) && $state[$key]==1) {
+                if (!empty($style) && isset($state[$key]) && $state[$key]==1) {
                 // if (!empty($style)) {
                     $relative_url = lothar_thumb_make($relative_url, $style);
                 }
-                array_push($post, ["url" => $relative_url, "name" => $names[$key]]);
+                array_push($post, [
+                    'url' => $relative_url,
+                    'name' => (isset($names[$key])?$names[$key]:'')
+                ]);
             }
         }
     } elseif (is_string($files)) {
@@ -263,7 +266,7 @@ function lothar_dealFiles($files = ['names' => [], 'urls' => [], 'states' => []]
 
     return $post;
 }
-// 不一样的结构
+// 不一样的结构 数据转移用
 function lothar_dealFiles2($files = [0 => ['url' => '', 'name' => '']], $style = [])
 {
     $post = [];

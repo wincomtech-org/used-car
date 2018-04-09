@@ -292,11 +292,15 @@ class ShopController extends UserBaseController
         ];
 
         $list = Db::name('shop_returns')->alias('a')
-            ->field('*')
-            ->join('shop_order_detail b','a.detail_id=b.id')
+            ->field('a.id,a.user_id,a.type,a.reason,a.description,a.amount,a.create_time,a.status,b.goods_name,b.thumbnail,b.number,b.price,c.order_sn,d.spec_vars')
+            ->join([
+                ['shop_order_detail b','a.detail_id=b.id','LEFT'],
+                ['shop_order c','b.order_id=c.id','LEFT'],
+                ['shop_goods_spec d','b.spec_id=d.id','LEFT'],
+            ])
             ->where($where)
             ->select();
-
+// dump($list);die;
         $this->assign('list', $list);
         return $this->fetch();
     }
@@ -313,6 +317,7 @@ class ShopController extends UserBaseController
         ];
         if (!empty($rid)) {
             $returns = Db::name('shop_returns')->where('id',$rid)->find();
+            $returns['more'] = json_decode($returns['more'],true);
             $id = isset($returns['detail_id'])?$returns['detail_id']:0;
         }
         
@@ -327,8 +332,9 @@ class ShopController extends UserBaseController
         //     ->join('shop_order_detail b', 'a.detail_id=b.id')
         //     ->join('shop_goods_spec c', 'a.spec_id=c.id', 'LEFT')
         //     ->where('c.id', $id)->find();
+// dump($returns);
 // dump($post);
-//         die;
+// die;
 
         $this->assign('post', $post);
         $this->assign('returns', $returns);
@@ -356,6 +362,7 @@ class ShopController extends UserBaseController
 
         if (!empty($data['photos'])) {
             $post['more'] = lothar_dealFiles($data['photos']);
+            $post['more'] = json_encode($post['more']);
         }
 // dump($data);
 // dump($post);
@@ -364,8 +371,10 @@ class ShopController extends UserBaseController
         Db::startTrans();
         try{
             if (empty($rid)) {
+                $post['create_time'] = time();
                 Db::name('shop_returns')->insert($post);
             } else {
+                $post['update_time'] = time();
                 Db::name('shop_returns')->where('id',$rid)->update($post);
             }
             Db::name('shop_order')->where('id', $data['order_id'])->setField('refund_status', 1);
@@ -375,7 +384,7 @@ class ShopController extends UserBaseController
             $transStatus = false;
         }
         if ($transStatus===true) {
-            $this->success('提交成功',url('user/Shop/index'));
+            $this->success('提交成功',url('user/Shop/returns'));
         }
         $this->error('提交失败');
     }

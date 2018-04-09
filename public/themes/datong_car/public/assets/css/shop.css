@@ -196,7 +196,7 @@
 .hasMoney{padding-left:15px;position:relative;margin-bottom:10px;}
 .hasMoney.returns_input:before{content:"￥";position:absolute;top:50%;transform:translateY(-50%);left:5px;font-size:16px;color:#d00000;}
 .hasMoney.returns_input input{color:#d00000;}
-.returnMoney_say{border:1px solid #ddd;}
+.returnMoney_say{border:1px solid #ddd;width: 317px;height: 137px;padding: 5px;font-size:0.7rem;}
 .returnMoney_say textarea{padding:5px;}
 .font16{font-size:16px;}
 
