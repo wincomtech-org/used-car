@@ -39,9 +39,13 @@
             </div>
             <div class='o-tab-btn'>
                 <a href="{:url('shop/Post/details',['id'=>$vo.goods_id])}" class='backg-border'>再次购买</a>
+
+                <eq name="order.is_score" value="0">
                 <gt name="order.status" value="1">
                 <a href="{:url('returns_detail',['id'=>$vo.id])}" class='backg-border'>申请售后</a>
                 </gt>
+                </eq>
+
                 <eq name="order.status" value="4">
                     <a href="{:url('evaluate',['id'=>$vo.id])}" class='backg-border'>评价</a>
                 </eq>
@@ -51,7 +55,7 @@
     </foreach>
     <dl class='o-total-price'>
         <span>总数: <b>{$order.nums}</b>件</span>
-        <span>合计: <b>￥{$order.order_amount}</b>元</span>
+        <span>合计: <b>￥{$order.order_amount}</b>{$flag}</span>
         <span>{$order.coupon_id?='（使用了优惠券）'}</span>
     </dl>
 </div>

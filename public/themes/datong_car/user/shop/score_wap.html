@@ -1,0 +1,72 @@
+<div class="shops_order_m">
+    <foreach name="orders" item="vo">
+    <div class='shops-order-m-div'>
+        <div class='order-list'>
+            <dl class='order-list-tit'>
+                <dd class='mess'>
+                    <!-- <span class="time">{:date('Y-m-d H:i',$vo.create_time)}</span> -->
+                    <span class="order-goods">
+                        订单号：<a href="javascript:void(0);">{$vo.order_sn}</a>
+                    </span>
+                </dd>
+                <dd class='states'>待支付</dd>
+            </dl>
+        </div>
+
+        <notempty name="vo.det">
+        <foreach name="vo.det" item="u">
+        <div class='order-list-con'>
+            <div class='order-mess'>
+                <div class="order-img">
+                    <a href="{:url('Shop/detail',['id'=>$vo.id])}">
+                        <empty name="u.thumbnail">
+                            <img src="__TMPL__/public/assets/images/default-thumbnail_160x109.png" alt="">
+                        <else/>
+                            <img src="{:cmf_get_image_preview_url($u.thumbnail.'_2.jpg')}" alt="">
+                        </empty>
+                    </a>
+                </div>
+                <div class="orderHasEdit">
+                    <div class="order-intro">
+                        <div class='order-trade-name'>
+                            <a href="javascript:void(0);">{$u.goods_name}</a>
+                        </div>
+                        <div class='order-attributes'>
+                            <span>{$u.spec_vars}</span>
+                        </div>
+                    </div>
+                    <div class="item-pay">
+                        <p class='price'>{$u.price}</p>
+                        <p class='amount small'>{$u.number}</p>
+                    </div>
+                </div>
+            </div>
+            <dl class='o-total-price'>
+                <span>总数:<b>{$vo.nums}</b>件商品</span>
+                <span>合计:<b>{$vo.order_amount}</b>积分</span>
+            </dl>
+            <div class='o-tab-btn'>
+                <eq name="vo.status" value="0">
+                    <a href="{:url('user/Shop/scorepay',['orderId'=>$vo.id])}" class='backg-border'>立即支付</a>
+                </eq>
+                <eq name="vo.status" value="4">
+                    <a href="{:url('Shop/detail',['id'=>$vo.id])}#AAA" class='backg-border'>评价</a>
+                </eq>
+                
+                <in name="vo.status" value="0,1,2">
+                    <a href="{:url('cancel',['id'=>$vo.id])}" class='backg-border js-ajax-dialog-btn' data-msg="确定取消吗？（无退还）">取消</a>
+                </in>
+                <in name="vo.status" value="3,4,10">
+                    <a href="{:url('delete',['id'=>$vo.id])}" class='backg-border js-ajax-delete' data-msg="确定删除吗？">删除</a>
+                </in>
+                <in name="vo.status" value="3,4,10">
+                    <a href="{:url('detail',['id'=>$vo.id])}#BBB" class='backg-border'>查看物流</a>
+                </in>
+                <a href="{:url('detail',['id'=>$vo.id])}" class='backg-border'>订单详情</a>
+            </div>
+        </div>
+        </foreach>
+        </notempty>
+    </div>
+    </foreach>
+</div>

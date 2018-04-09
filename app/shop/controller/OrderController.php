@@ -241,6 +241,17 @@ class OrderController extends UserBaseController
 // dump($goods);
             // dump($order);
             // die;
+
+
+            // 订单详情表
+            $details = [];
+
+            // 启动事务 回滚原则？
+            $tranStatus = true;
+            Db::startTrans();
+            try {
+                if ($is_score == 1) {
+                    Db::name('user')->where('id', $userId)->setField('score', $score);
                     $log = [
                         'user_id'     => $userId,
                         'action'      => 'shop',
@@ -248,24 +259,12 @@ class OrderController extends UserBaseController
                         'create_time' => time(),
                     ];
                     Db::name('user_score_log')->insert($log);
-                    dump($log);die;
-            
-            // 订单详情表
-            $details = [];
-
-            // 启动事务
-            $tranStatus = true;
-            Db::startTrans();
-            try {
-                if ($is_score == 1) {
-                    Db::name('user')->where('id', $userId)->setField('score', $score);
-
                     $order['pay_time'] = time();
                     $order['status']   = 2;
                 }
                 $orderId = Db::name('shop_order')->insertGetId($order);
                 if (empty($cart_ids)) {
-                    $details = [
+                    $details[0] = [
                         'order_id'   => $orderId,
                         'spec_id'    => (isset($goods['spec_id']) ? $goods['spec_id'] : 0),
                         'goods_id'   => $goods['goods_id'],
@@ -305,6 +304,7 @@ class OrderController extends UserBaseController
             //     Db::name('shop_order')->insertGetId($order);
             //     Db::name('shop_order_detail')->insertAll($details);
             // });
+
             // die('END');
             if ($tranStatus == true) {
                 if ($is_score == 1) {
@@ -318,7 +318,6 @@ class OrderController extends UserBaseController
                     $this->error('数据错误，请检查');
                 }
             }
-
         } else {
             $order = Db::name('shop_order')->field('order_sn,order_amount')->where('id', $orderId)->find();
             // $order_list = Db::name('shop_order_detail')->field('*')->where('order_id', $orderId)->select();

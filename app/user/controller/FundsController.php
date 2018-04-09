@@ -99,7 +99,7 @@ class FundsController extends UserBaseController
         // $coupon = Db::name('user_coupons_log')->where($where)->where(function($query){
         //     $query->where('due_time',0)->whereOr('due_time','>= time',time());
         // })->fetchSql(true)->count();
-        // 使用原生的写
+        // 使用原生的写，可用 union all
         $coupon = Db::query('SELECT COUNT(*) AS tp_count FROM `cmf_user_coupons_log` WHERE `user_id`=? AND `status`=0 AND (`due_time`=0 OR `due_time`>=?) LIMIT 1',[$this->user['id'],time()]);
 
         // 已过期

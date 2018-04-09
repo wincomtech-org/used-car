@@ -45,7 +45,7 @@ class ShopController extends UserBaseController
         return $this->fetch();
     }
 
-    // 订单详情
+    // 订单详情 积分的处理？
     public function detail()
     {
         $id = $this->request->param('id/d');
@@ -63,6 +63,13 @@ class ShopController extends UserBaseController
         if (empty($order)) {
             $this->error('数据出错');
         }
+        if ($order['is_score']==1) {
+            $flag = '积分';
+        } else {
+            $flag = '元';
+        }
+
+        // 订单详情
         $detail_list = Db::name('shop_order_detail')->alias('a')
             ->field('a.*,b.spec_vars')
             ->join('shop_goods_spec b','a.spec_id=b.id','LEFT')
@@ -72,13 +79,13 @@ class ShopController extends UserBaseController
         // 物流信息
         $express = new WorkPlugin($order['code'],$order['tracking_no']);
         $logistics = $express->workOrder();
-
 // dump($order);
 // dump($detail_list);
 // die;
         // $order['status'] = 3;
 
         $this->assign('order', $order);
+        $this->assign('flag', $flag);
         $this->assign('list', $detail_list);
         $this->assign('logistics', $logistics);
         return $this->fetch();
@@ -129,7 +136,7 @@ class ShopController extends UserBaseController
                 ->where('order_id',$row['id'])
                 ->select()->toArray();
         }
-dump($orderToArr);die;
+// dump($orderToArr);die;
 
         $this->assign('orders', $orderToArr);
         $this->assign('pager', $orders->appends($param)->render());
@@ -149,8 +156,9 @@ dump($orderToArr);die;
 
         return $this->fetch();
     }
-    public function scoreEdit()
+    public function scorepay()
     {
+        $this->error('暂未开发');
         // return $this->fetch();
     }
 

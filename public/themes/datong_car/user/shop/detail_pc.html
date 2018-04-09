@@ -48,9 +48,13 @@
                 <td class='ma-4'>
                     <div class="order-state group-a ">
                         <a href="{:url('shop/Post/details',['id'=>$vo.goods_id])}">再次购买</a>
+
+                        <eq name="order.is_score" value="0">
                         <gt name="order.status" value="1">
                             <a href="{:url('returns_detail',['id'=>$vo.id])}" class='orage-color'>申请售后</a>
                         </gt>
+                        </eq>
+
                         <eq name="order.status" value="4">
                             <a href="{:url('evaluate',['id'=>$vo.id])}" class=''>评价</a>
                         </eq>
@@ -67,7 +71,7 @@
         </p>
         <p>
             <span>订单金额：</span>
-            <span><b class='orage-color'>{$order.order_amount}</b>元</span>
+            <span><b class='orage-color'>{$order.order_amount}</b>{$flag}</span>
         </p>
         <p><span>{$order.coupon_id?='（使用了优惠券）'}</span></p>
     </div>

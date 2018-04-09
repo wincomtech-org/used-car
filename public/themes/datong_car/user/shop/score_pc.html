@@ -1,0 +1,90 @@
+
+<div class="shops_order">
+    <table class='shops-order-tab'>
+        <thead>
+            <tr>
+                <th class='col-pro-img ma-0'></th>
+                <th class='col-pro ma-1'>商品</th>
+                <th class='col-pro ma-2'>价格</th>
+                <th class='col-pro ma-3'>数量</th>
+                <th class='col-pro ma-4'>积分</th>
+                <th class='col-pro ma-5'>状态</th>
+                <th class='col-pro ma-6'>操作</th>
+            </tr>
+        </thead>
+    </table>
+    <foreach name="orders" item="vo">
+    <table class='shops-order-tab'>
+        <tbody class='order-list'>
+            <tr class='order-list-tit'>
+                <td class='ma-0'>
+                    <input type="checkbox">
+                </td>
+                <td class='ma-1' colspan='5'>
+                    <span class="time">{:date('Y-m-d H:i',$vo.create_time)}</span>
+                    <span class="order-goods">
+                        订单号：<a href="javascript:void(0);">{$vo.order_sn}</a>
+                    </span>
+                </td>
+                <td class='ma-6'></td>
+            </tr>
+            <notempty name="vo.det">
+            <foreach name="vo.det" item="u">
+            <tr class='order-list-con'>
+                <td class='ma-0'></td>
+                <td class='ma-1'>
+                    <div class="order-img">
+                        <a href="{:url('Shop/detail',['id'=>$vo.id])}">
+                            <empty name="u.thumbnail">
+                                <img src="__TMPL__/public/assets/images/default-thumbnail_160x109.png" alt="">
+                            <else/>
+                                <img src="{:cmf_get_image_preview_url($u.thumbnail.'_2.jpg')}" alt="">
+                            </empty>
+                        </a>
+                    </div>
+                    <div class="order-intro">
+                        <div class='order-trade-name'>
+                            <a href="{:url('Shop/detail',['id'=>$vo.id])}">{$u.goods_name}</a>
+                        </div>
+                        <div class='order-attributes'>
+                            <span>{$u.spec_vars}</span>
+                        </div>
+                    </div>
+                </td>
+                <td class='ma-2'>￥{$u.price}</td>
+                <td class='ma-3'>{$u.number}</td>
+                <td class='ma-4'>{$vo.order_amount}积分</i></td>
+                <td class='ma-5'>
+                    <div class="trading-status group-a">
+                        <sapn class="red-color">{$statusV[$vo.status]}</sapn>
+                        <span>{$vo.refund_status?='退款中'}</span>
+                        <in name="vo.status" value="3,4,10">
+                            <a href="{:url('detail',['id'=>$vo.id])}#BBB" class='orage-color'>查看物流</a>
+                        </in>
+                    </div>
+                </td>
+                <td class='ma-6'>
+                    <div class="order-state group-a">
+                        <a class="btn-style backg-green" href="{:url('detail',['id'=>$vo.id])}">订单详情</a>
+                        <eq name="vo.status" value="0">
+                            <a class='btn-style backg-red' href="{:url('user/Shop/scorepay',['orderId'=>$vo.id])}">立即支付</a>
+                        </eq>
+                        <eq name="vo.status" value="4">
+                            <a href="{:url('detail',['id'=>$vo.id])}#AAA" class='btn-style backg-border' style="color:#666">评价</a>
+                        </eq>
+                    
+                        <in name="vo.status" value="0,1,2">
+                            <a href="{:url('cancel',['id'=>$vo.id])}" class='backg-orange btn-style js-ajax-dialog-btn' data-msg="确定取消吗？（无退还）">取消订单</a>
+                        </in>
+                        <in name="vo.status" value="3,4,10">
+                            <a href="{:url('delete',['id'=>$vo.id])}" class='backg-orange btn-style js-ajax-delete' data-msg="确定删除吗？">删除订单</a>
+                        </in>
+                    </div>
+                </td>
+            </tr>
+            </foreach>
+            </notempty>
+        </tbody>
+    </table>
+    </foreach>
+</div>

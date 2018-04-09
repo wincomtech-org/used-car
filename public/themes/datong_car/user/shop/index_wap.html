@@ -20,8 +20,8 @@
                         <a href="{:url('Shop/detail',['id'=>$vo.id])}">
                             <empty name="u.thumbnail">
                                 <img src="__TMPL__/public/assets/images/default-thumbnail_160x109.png" alt="">
-                                <else/>
-                                <img src="{:cmf_get_image_preview_url($u.thumbnail)}" alt="">
+                            <else/>
+                                <img src="{:cmf_get_image_preview_url($u.thumbnail.'_2.jpg')}" alt="">
                             </empty>
                         </a>
                     </div>
