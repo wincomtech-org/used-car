@@ -9,7 +9,7 @@ class SqlBack
 {
     private $header = 'Lothar';
     private $end = '';// 结束符: -- end_flag
-    private $eol = PHP_EOL;
+    private $eol = PHP_EOL;//不同系统不能混用
 
     function __construct()
     {
@@ -101,7 +101,7 @@ EOT;
             $file = $dir . $dbName . date('_Y-m-d_His') .'.sql';
         }
 // return $file;
-        // file_put_contents($file, '123');
+
         file_put_contents($file, $sqldump);
         // $fp = fopen($file,'wb');
         // if(!$fp){
