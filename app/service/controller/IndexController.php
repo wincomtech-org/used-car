@@ -137,6 +137,14 @@ class IndexController extends HomeBaseController
             'reg_time|注册日期' => 'dateFormat:Y-m-d H:i|before:-1 day',
             'appoint_time|预约时间' => 'dateFormat:Y-m-d H:i|after:30 minute',
             'service_point' => 'require',
+            'contact' => 'require',
+            'contact' => 'require',
+            'address' => 'require',
+            'seller_contact' => 'require',
+            'seller_birthday' => 'require',
+            'more.driving_license' => 'require',
+            'more.qualified' => 'require',
+            'more.loan_invoice' => 'require',
             'car_mileage' => 'require',
             'tire_size' => 'require',
         ];
@@ -173,6 +181,13 @@ class IndexController extends HomeBaseController
             'appoint_time.dateFormat' => '预约时间格式不正确',
             'appoint_time.after' => '预约时间也太早了吧？',
             'service_point.require' => '服务点未选择',
+            'contact' => '请填写联系方式',
+            'address' => '请填写详情地址',
+            'seller_contact' => '请填写联系方式',
+            'seller_birthday' => '请填写卖家生日',
+            'more.driving_license.require' => '请上传行驶证',
+            'more.qualified.require' => '请上传合格证',
+            'more.loan_invoice.require' => '请上传贷款发票',
             'car_mileage.require' => '请填写公里数',
             'tire_size.require' => '请填写轮胎大小',
         ]);
@@ -181,7 +196,7 @@ class IndexController extends HomeBaseController
             // $this->error($validate->getError(),url('Index/step1',['id'=>$post['model_id']]));
         }
 
-        // 处理图片 直接拿官版的
+        // 处理图片 直接拿官版的 如何检测用户未上传？
         if (!empty($data['identity_card'])) {
             $post['more']['identity_card'] = lothar_dealFiles($data['identity_card']);
         }

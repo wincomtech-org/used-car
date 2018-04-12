@@ -8,27 +8,37 @@ use think\Request;
 use think\Url;
 use think\View;
 
-// 管理员操作日志
-function lothar_admin_log($table='', $obj='', $action='', $description='', $type='goods')
-{
-    $adminLog = [
-        'user_id'     => cmf_get_current_admin_id(),
-        'type'        => $type,
-        'obj_table'   => $table,
-        'obj'         => $obj,
-        'action'      => $action,
-        'description' => $description,
-        'create_time' => time(),
-        'ip'          => get_client_ip(),
-    ];
-    Db::name('admin_log')->insert($adminLog);
-}
-
 /* 系统日志 */
 // cmf_log()
 function lothar_log($str, $filename = 'test.log')
 {
     error_log(date('Y-m-d H:i:s') . $str . "\r\n", 3, 'log/' . $filename);
+}
+
+// 管理员操作日志
+function lothar_admin_log($table='', $obj='', $description='', $action='')
+{
+    $request        = request();
+    $adminLog = [
+        'user_id'     => cmf_get_current_admin_id(),
+        'app'         => $request->module(),
+        'table'   => $table,
+        'obj'         => $obj,
+        'description' => $description,
+        'create_time' => time(),
+        'ip'          => get_client_ip(),
+    ];
+
+    if (empty($action)) {
+        $module         = $request->module();
+        $controller     = $request->controller();
+        $action         = $request->action();
+        $adminLog['action'] = strtolower($module . '/' . $controller . '/' . $action);
+    } else {
+        $adminLog['action'] = $action;
+    }
+
+    Db::name('admin_log')->insert($adminLog);
 }
 
 /**
