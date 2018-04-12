@@ -63,7 +63,6 @@
 
 
 <script type="text/javascript">
-
     var httpUrl = "{:cmf_get_asset_url('')}";
     function get_selected_files() {
         var files = [];
@@ -708,6 +707,14 @@
 
     })(jQuery);
 
+
+    // 向 type="file" 里加 capture="camera" accept="image/*" 属性
+    // $('.webuploader-element-invisible').attr({
+    //     'capture':'camera',
+    //     'accept':'image/*'
+    // });
+    
+    // $('.webuploader-element-invisible').attr("capture","camera").attr('accept','image/*');
 
 </script>
 </body>

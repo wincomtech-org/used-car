@@ -114,7 +114,7 @@ class JsApiPay
 			curl_setopt($ch,CURLOPT_PROXY, WxPayConfig::CURL_PROXY_HOST);
 			curl_setopt($ch,CURLOPT_PROXYPORT, WxPayConfig::CURL_PROXY_PORT);
 		}
-		//运行curl，结果以jason形式返回
+		//运行curl，结果以json形式返回
 		$res = curl_exec($ch);
 		curl_close($ch);
 		//取出openid

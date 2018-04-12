@@ -3670,6 +3670,8 @@
     
                 input.attr( 'type', 'file' );
                 input.attr( 'name', opts.name );
+                input.attr( 'capture', 'camera' );
+                input.attr( 'accept', 'image/*' );
                 input.addClass('webuploader-element-invisible');
     
                 lable.on( 'click', function() {

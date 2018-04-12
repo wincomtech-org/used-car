@@ -113,7 +113,12 @@ EOT;
         return true;
     }
 
-    //数据库还原 cmf_split_sql()
+    /**
+     * 数据库还原
+     * cmf_split_sql(); 切分SQL文件成多个可以单独执行的sql语句
+     * @param  string $fname [description]
+     * @return [type]        [description]
+     */
     public function restore($fname='')
     {
         if (is_file($fname)) {
