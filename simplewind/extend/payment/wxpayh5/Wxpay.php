@@ -137,7 +137,8 @@ class Wxpay
         </xml>";//拼接成XML 格式  
         $url = "https://api.mch.weixin.qq.com/pay/unifiedorder";//微信传参地址  
 
-        $dataxml = $this->http_post($url,$post_data); //后台POST微信传参地址  同时取得微信返回的参数  POST 方法我写下面了  
+        $dataxml = $this->http_post($url,$post_data); //后台POST微信传参地址同时取得微信返回的参数,POST方法我写下面了
+        var_dump($dataxml);die;
         $objectxml = (array)simplexml_load_string($dataxml, 'SimpleXMLElement', LIBXML_NOCDATA); //将微信返回的XML 转换成数组
         if (empty($objectxml)) {
             return false;

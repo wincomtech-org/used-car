@@ -102,6 +102,7 @@ class JsApiPay
 		//初始化curl
 		$ch = curl_init();
 		//设置超时
+		$this->curl_timeout =60;
 		curl_setopt($ch, CURLOPT_TIMEOUT, $this->curl_timeout);
 		curl_setopt($ch, CURLOPT_URL, $url);
 		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER,FALSE);
