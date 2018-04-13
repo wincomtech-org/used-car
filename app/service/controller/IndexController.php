@@ -155,9 +155,11 @@ class IndexController extends HomeBaseController
             if (!in_array($value,$filter_var)) {
                 // if (isset($rule[$value])) {
                     unset($rule[$value]);
+                    unset($rule['more.'.$value]);
                 // }
             }
         }
+
         // 开始验证
         $validate = new Validate();
         $validate->rule($rule);

@@ -231,5 +231,40 @@ class TestController extends HomeBaseController
         dump($result);
         exit;
     }
+
+    /**
+     * [sql description]
+     * query()读;execute()写;
+     * @return [type] [description]
+     */
+    public function sql()
+    {
+        // 执行
+        $sql = "DROP TABLE IF EXISTS `cmf_admin_log`;";
+        $sql2 = "CREATE TABLE `cmf_admin_log` (
+          `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+          `user_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '操作者ID',
+          `app` varchar(15) NOT NULL DEFAULT '' COMMENT '记录类型，应用层',
+          `action` varchar(50) NOT NULL DEFAULT '' COMMENT '动作',
+          `table` varchar(100) NOT NULL DEFAULT '' COMMENT '对象所使用的表',
+          `obj` varchar(150) NOT NULL DEFAULT '' COMMENT '对象数据',
+          `description` varchar(255) NOT NULL DEFAULT '' COMMENT '描述',
+          `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
+          `ip` char(15) NOT NULL DEFAULT '' COMMENT '操作者IP',
+          PRIMARY KEY (`id`)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='管理员操作记录';";
+        $sql3 = "INSERT INTO cmf_admin_log (app) VALUES ('shop'),('service'),('user');";
+        $result = Db::execute($sql);
+        $result2 = Db::execute($sql2);
+        $result3 = Db::execute($sql3);
+        dump($result);
+        dump($result2);
+        dump($result3);
+
+        // 查询
+        $sql = "SELECT * from `cmf_admin_log`";
+        $result = Db::query($sql);
+        dump($result);
+    }
 }
 ?>
