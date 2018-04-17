@@ -232,6 +232,85 @@ class TestController extends HomeBaseController
         exit;
     }
 
+    /*
+     * H5支付测试
+     * &nonce_str=$nonce_str¬ify_url=$notify_url
+     */
+    public function h5()
+    {
+        $result = $this->get_h5();
+
+        $wx_return = U('Pay/wxh5return',$order,true,true);
+        if (empty($result)) {
+            echo '<div style="text-align:center"><button type="button" disabled>未获得移动支付权限</button></div>';exit;
+        } else {
+            // $url = $result;//如果不写则返回到之前的页面
+            $url = $result . '&redirect_url='. $wx_return;//这个是指定用户操作后返回的页面
+            // echo '<a href="'. $url .'" class="box-flex btn-submit" type="button">微信支付</a>';exit;
+            $this->assign('wxh5Url',$url);
+            $this->display('Pay/wxh5');
+        }
+    }
+    public function get_h5()
+    { 
+        $appid = 'wxbf52fa26bb0c274f';//微信给的  
+        $mch_id = '1497891742';//微信官方的  
+        $key = 'EDWIJIijffirerfeOWERFI88ERFFVevF';//自己设置的微信商家key
+        $web_url = 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['SCRIPT_NAME'];
+
+        $out_trade_no     = 'wxh5_20180413'.rand(0,9999);//平台内部订单号  
+        $nonce_str        = MD5($out_trade_no);//随机字符串  
+        $body             = "公众号开通服务";//内容  
+        $total_fee        = 1; //金额  
+        $spbill_create_ip = get_client_ip(); //IP 
+        $notify_url       = U('Home/Pay/wxh5notify','',true,true);
+        $trade_type       = 'MWEB';
+        $scene_info       = '{"h5_info":{"type":"Wap","wap_url":"'.$web_url.'","wap_name":"公众号开通服务"}}';
+        $signA            = "appid=$appid&body=$body&mch_id=$mch_id&nonce_str=$nonce_str&notify_url=$notify_url&out_trade_no=$out_trade_no&scene_info=$scene_info&spbill_create_ip=$spbill_create_ip&total_fee=$total_fee&trade_type=$trade_type";  
+        $strSignTmp       = $signA."&key=$key";
+        $sign             = strtoupper(MD5($strSignTmp));
+        $post_data        = "<xml>  
+            <appid>$appid</appid>  
+            <body>$body</body>  
+            <mch_id>$mch_id</mch_id>  
+            <nonce_str>$nonce_str</nonce_str>  
+            <notify_url>$notify_url</notify_url>  
+            <out_trade_no>$out_trade_no</out_trade_no>  
+            <scene_info>$scene_info</scene_info>  
+            <spbill_create_ip>$spbill_create_ip</spbill_create_ip>  
+            <total_fee>$total_fee</total_fee>  
+            <trade_type>$trade_type</trade_type>  
+            <sign>$sign</sign>  
+        </xml>";
+
+        $url = "https://api.mch.weixin.qq.com/pay/unifiedorder";
+        // echo "<pre>"; 
+        // var_dump(htmlspecialchars($post_data));
+        // die;
+
+        $dataxml = $this->http_post($url,$post_data);//后台POST微信传参地址同时取得微信返回的参数,POST方法我写下面了
+        // var_dump($dataxml);die;
+        $objectxml = (array)simplexml_load_string($dataxml, 'SimpleXMLElement', LIBXML_NOCDATA); //将微信返回的XML 转换成数组
+        if (empty($objectxml)) {
+            return false;
+        } else {
+            return $objectxml['mweb_url'];
+        }
+    }
+
+    public function http_post($url, $data)
+    {
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_HEADER, 0);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+        $res = curl_exec($ch);
+        curl_close($ch);
+        return $res;
+    }
+
     /**
      * [sql description]
      * query()读;execute()写;

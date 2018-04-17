@@ -231,7 +231,7 @@ class NewsModel extends Model
             case 'service_pay': 
                 $log = [
                     'title'     => '车辆业务支付',
-                    'object'    => 'service_order:'. $oid,
+                    'object'    => 'service:'. $oid,
                     'content'   => '订单ID：'.$oid.'，客户ID：'.$uid,
                     'adminurl'  => 3,
                     'app'       => 'service',
