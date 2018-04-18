@@ -256,6 +256,7 @@ class LoginController extends HomeBaseController
             }
             switch ($log) {
                 case 0:
+                    session('user',null);
                     $this->success('密码重置成功', $this->request->root());
                     break;
                 case 1:

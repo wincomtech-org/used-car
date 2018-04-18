@@ -105,6 +105,8 @@ class PublicController extends AdminBaseController
                 $result['last_login_time'] = time();
                 $token                     = cmf_generate_user_token($result["id"], 'web');
                 if (!empty($token)) {
+                    //更新管理员登录session
+                    // $result['session'] = $token;
                     session('token', $token);
                 }
                 Db::name('user')->update($result);

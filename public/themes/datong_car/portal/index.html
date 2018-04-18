@@ -144,7 +144,6 @@
             <div class="vehicle_trading_detail">
                 <h3 class="index_tit">车辆买卖 <span class="index_tit_supply"> 日推爱车，为您提供便捷选择</span> <a href="{:cmf_url('trade/Index/index')}">查看更多>></a></h3>
                 <div class="vehicle">
-
                     <div class="vehicle_con">
                         <foreach name="cars" item="vo">
                         <div class="vehicle_ul">
@@ -194,7 +193,7 @@
                 <foreach name="article_flows" item="vo" key="key">
                     <li class="car_process_tit_item {$key==0?='active'}">
                         <div>
-                            <img class="image-item" lazyload="true" data-original="{:cmf_get_image_preview_url($vo.more.thumbnail)}" alt="">
+                            <img class="image-item" src="{:cmf_get_image_preview_url($vo.more.thumbnail)}" alt="">
                             <p style="cursor:pointer;">{$vo.post_title}</p>
                         </div>
                     </li>

@@ -32,7 +32,10 @@ class AdminBaseController extends BaseController
         $session_admin_id = session('ADMIN_ID');
         if (!empty($session_admin_id)) {
             $user = Db::name('user')->where(['id' => $session_admin_id])->find();
-
+            // if($user['session']!=session('token')){
+            //     session('ADMIN_ID', null);
+            //     $this->error("您的账号在其他电脑上登录，你下线了",url("admin/Index/index"));
+            // }
             if (!$this->checkAccess($session_admin_id)) {
                 $this->error("您没有访问权限！");
             }
