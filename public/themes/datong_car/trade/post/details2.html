@@ -87,13 +87,12 @@
                         <!-- <li >车辆所属：<span class="gray">大通车服 </span></li> -->
                     </ul>
                     <div class="down_payments">
-                        <a href="" class="down_payments_a">
-                            <span class="icon_img">
-                                <img src="__TMPL__/public/assets/images/example/down_price.png" alt="">
-                            </span>
-                            <span>首付
-                                <b> {$car.down_payment}万 </b>即刻拥有</span>
-                        </a>
+                        <neq name="car.down_payment" value="0.00">
+                            <a href="javascript:void(0);" class="down_payments_a">
+                                <span class="icon_img"><img src="__TMPL__/public/assets/images/example/down_price.png" alt=""></span>
+                                <span>首付<b> {$car.down_payment}3万 </b>即刻拥有</span>
+                            </a>
+                        </neq>
                     </div>
                     <div class="detail2">
                         <ul>

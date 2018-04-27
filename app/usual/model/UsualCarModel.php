@@ -20,17 +20,17 @@ class UsualCarModel extends UsualModel
         // 筛选条件
         $where = ['a.delete_time' => 0];
         // 更多
-        if (!empty($filter['uid'])) {
-            $where['a.user_id'] = intval($filter['uid']);
+        if (!empty($filter['typeId'])) {
+            $where['type'] = intval($filter['typeId']);
         }
         if (isset($filter['parent'])) {
             $where['a.parent_id'] = intval($filter['parent']);
         }
-        if (!empty($filter['plat'])) {
-            $where['a.platform'] = intval($filter['plat']);
-        }
         if (!empty($filter['sellStatus'])) {
             $where['a.sell_status'] = $filter['sellStatus'];
+        }
+        if (!empty($filter['plat'])) {
+            $where['a.platform'] = intval($filter['plat']);
         }
         if (!empty($filter['brandId'])) {
             $where['a.brand_id'] = intval($filter['brandId']);
@@ -40,6 +40,9 @@ class UsualCarModel extends UsualModel
         }
         if (!empty($filter['modelId'])) {
             $where['a.model_id'] = intval($filter['modelId']);
+        }
+        if (!empty($filter['uid'])) {
+            $where['a.user_id'] = intval($filter['uid']);
         }
         if (!empty($filter['cityId'])) {
             $where['a.city_id'] = intval($filter['cityId']);

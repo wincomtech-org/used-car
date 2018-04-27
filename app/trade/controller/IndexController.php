@@ -146,7 +146,7 @@ class IndexController extends HomeBaseController
         }
         // 类别
         if (is_numeric($typeId)) {
-            $filter['typeId'] = (int)$typeId;
+            $filter['typeId'] = $typeId;
         } elseif ($typeId=='new') {
             $order = ['a.published_time'=>'DESC'];
         } elseif ($typeId=='rec') {
@@ -229,6 +229,9 @@ class IndexController extends HomeBaseController
         // $Types['new'] = '最新上架';
         // $Types['rec'] = '新车推荐';
         $Types = ['new'=>'最新上架','rec'=>'新车推荐'] + $Types;
+        // if ($plat==2) {
+        //     unset($Types[1]);
+        // }
         // 品牌
         $Brands = model('usual/UsualBrand')->getBrands($brandId,0,false);
         // 系列
@@ -269,6 +272,7 @@ class IndexController extends HomeBaseController
         $jumpext = 'oxnum='.$string
                  . ($plat ? '&plat='.$plat : '')
                  . ($typeId ? '&typeId='.$typeId : '')
+                 . (empty($ageId) ? '' : '&ageId='.$ageId)
                  . (empty($priceId) ? '' : '&priceId='.$priceId);
 
 

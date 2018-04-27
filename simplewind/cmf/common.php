@@ -317,12 +317,13 @@ function cmf_set_dynamic_config($data)
 
 /**
  * 文件日志
+ * 原版 file_put_contents($file, $content, FILE_APPEND);
  * @param $content 要写入的内容
  * @param string $file 日志文件,在 web 入口目录
  */
 function cmf_log($content, $file = "log.txt")
 {
-    file_put_contents($file, $content, FILE_APPEND);
+    file_put_contents('log/'.$file, date('Y-m-d H:i:s').$content."\r\n", FILE_APPEND);
 }
 
 /**

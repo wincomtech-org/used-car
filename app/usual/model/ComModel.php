@@ -177,19 +177,6 @@ class ComModel extends Model
 
 
 
-
-    /**
-     * 缩略图生成
-     * @param  [type]  $img    [description]
-     * @param  integer $width  [description]
-     * @param  integer $height [description]
-     * @return [type]          [description]
-     */
-    public function thumb_url($img, $width = 350, $height = 350)
-    {
-        return lothar_thumb_url($img);
-    }
-
     /*
     * 图片上传处理
     * 控制器中使用

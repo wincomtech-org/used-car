@@ -358,7 +358,13 @@ function lothar_thumb_make($imgpath = 'http://hcfarm.wincomtech.cn/upload/admin/
 
     return $url;
 }
-
+/**
+ * 缩略图生成
+ * @param  [type]  $img    [description]
+ * @param  integer $width  [description]
+ * @param  integer $height [description]
+ * @return [type]          [description]
+ */
 function lothar_thumb_url($imgpath, $width = 135, $height = 135, $type = 6)
 {
     if (strpos($imgpath, 'http') === 0) {
