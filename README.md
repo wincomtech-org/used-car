@@ -1,13 +1,5 @@
 # used-car
-二手车交易 
-⊙●▽▉◎۞〓
-㈠㈡㈢㈣㈤
-*.
-
-3.17
-在banner.html里添加了懒加载的jq代码，懒加载的代码在通用的js下lazyload.js
-<img  class="image-item"  lazyload="true" data-original="地址" alt="">
-应该也可以给个默认图 src='默认图片'
+大通车服
 
 流程图：
     https://www.processon.com/view/link/59cc6eb9e4b06e9fd2f745d4
@@ -32,7 +24,8 @@ DOMEvent DOMDocumentWrapper phpQueryEvents phpQuery Callback JSONP
 
 
 
-
+大通车服二手车设计
+*.
 
 【修改日志】
 冀B
@@ -87,4 +80,8 @@ DOMEvent DOMDocumentWrapper phpQueryEvents phpQuery Callback JSONP
 ###4、业务可多次申请
 
 
-?>
+
+3.17
+在banner.html里添加了懒加载的jq代码，懒加载的代码在通用的js下lazyload.js
+<img  class="image-item"  lazyload="true" data-original="地址" alt="">
+应该也可以给个默认图 src='默认图片'
