@@ -31,17 +31,27 @@ class HomeBaseController extends BaseController
         hook('home_init');
         parent::_initialize();
 
-        // 微信授权登录
-        // 签名验证 checkSignature()
-        $openid = session('openid');
-        if (empty($openid)) {
-            $wx = new Weixin;
-            $openid = $wx->getOpenid();
-            $token = $wx->getToken();
-            $wx_userInfo = $wx->userInfo($openid,$token);
-            dump($wx_userInfo);die;
-        }
-
+        /*
+         * 微信授权登录
+         * 需要在 user表 添加 openid字段
+         */
+        // 判断是否为微信端
+        // if (cmf_is_wechat()) {
+        //     // 签名验证 checkSignature()
+        //     $openid = session('openid');
+        //     if (empty($openid)) {
+        //         $wx = new Weixin;
+        //         $openid = $wx->getOpenid();
+        //         $token = $wx->getToken();
+        //         $wx_userInfo = $wx->userInfo($openid,$token);
+        //         // dump($wx_userInfo);die;
+        //         Db::name('user')->where('openid',$openid)->update([]);
+        //     }
+        //     $userInfo = Db::name('user')->where('openid',$openid)->find();
+        //     if (!empty($userInfo)) {
+        //         cmf_update_current_user($userInfo);
+        //     }
+        // }
 
 
         $siteInfo = cmf_get_site_info();

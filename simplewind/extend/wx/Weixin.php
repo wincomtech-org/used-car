@@ -182,7 +182,7 @@ class Weixin
      * @param  string $openid [description]
      * @return [type]         [description]
      */
-    public function userInfo($openid = '', $token ='')
+    public function userInfo($openid = '', $token = '')
     {
         $url = 'https://api.weixin.qq.com/cgi-bin/user/info?';
 
@@ -193,9 +193,8 @@ class Weixin
             $openid = $this->getOpenid($back);
         }
         if (empty($token)) {
-            # code...
+            $token  = $this->getToken();
         }
-        $token  = $this->getToken();
 
         $param = 'access_token=' . $token . '&openid=' . $openid;
         $url .= $param;
