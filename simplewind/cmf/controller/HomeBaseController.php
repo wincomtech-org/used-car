@@ -18,6 +18,7 @@ use app\admin\service\ApiService;
 // use app\shop\model\ShopCartModel;
 use think\View;
 use think\Request;
+use wx\Weixin;
 
 class HomeBaseController extends BaseController
 {
@@ -29,6 +30,20 @@ class HomeBaseController extends BaseController
         // 监听home_init
         hook('home_init');
         parent::_initialize();
+
+        // 微信授权登录
+        // 签名验证 checkSignature()
+        $openid = session('openid');
+        if (empty($openid)) {
+            $wx = new Weixin;
+            $openid = $wx->getOpenid();
+            $token = $wx->getToken();
+            $wx_userInfo = $wx->userInfo($openid,$token);
+            dump($wx_userInfo);die;
+        }
+
+
+
         $siteInfo = cmf_get_site_info();
         if (isset($siteInfo['web_switch']) && $siteInfo['web_switch']=='0') {
             echo $siteInfo['web_switch_desc'];exit();
