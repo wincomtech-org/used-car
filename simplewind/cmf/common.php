@@ -40,7 +40,7 @@ function cmf_is_user_login()
  */
 function cmf_get_current_user_id()
 {
-    $sessionUserId = session('user.id');
+    $sessionUserId = session('?user.id')?session('user.id'):cookie('user')['id'];
     if (empty($sessionUserId)) {
         return 0;
     }
@@ -55,12 +55,13 @@ function cmf_get_current_user_id()
  */
 function cmf_get_current_user()
 {
-    $sessionUser = session('user');
-    if (!empty($sessionUser)) {
-        if (!empty($sessionUser['more']) && is_string($sessionUser['more'])) {
-            $sessionUser['more'] = json_decode($sessionUser['more'],true);
+    $users = session('?user')?session('user'):cookie('user');
+
+    if (!empty($users)) {
+        if (!empty($users['more']) && is_string($users['more'])) {
+            $users['more'] = json_decode($users['more'],true);
         }
-        return $sessionUser;
+        return $users;
     } else {
         return false;
     }
@@ -78,6 +79,7 @@ function cmf_update_current_user($user)
         $user['more'] = json_encode($user['more']);
     }
     session('user', $user);
+    cookie('user',$user);
 }
 
 /**

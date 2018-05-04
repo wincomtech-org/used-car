@@ -61,6 +61,7 @@ class IndexController extends HomeBaseController
     public function logout()
     {
         session("user", null);//只有前台用户退出
+        cookie('user',null);
         return redirect($this->request->root() . "/");
     }
 
