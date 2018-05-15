@@ -36,25 +36,41 @@ class HomeBaseController extends BaseController
          * 需要在 user表 添加 openid字段
          */
         // 判断是否为微信端
-        // if (cmf_is_wechat()) {
-        //     if (empty(cmf_get_current_user_id())) {
-        //         // 签名验证 checkSignature()
-        //         $openid = session('openid');
-        //         if (empty($openid)) {
-        //             $wx = new Weixin;
-        //             $openid = $wx->getOpenid();
-        //             $token = $wx->getToken();
-        //             $wx_userInfo = $wx->userInfo($openid,$token);
-        //             // dump($wx_userInfo);die;
-        //             Db::name('user')->where('openid',$openid)->update([]);
-        //         }
-        //         $userInfo = Db::name('user')->where('openid',$openid)->find();
-        //         if (!empty($userInfo)) {
-        //             cmf_update_current_user($userInfo);
-        //         }
-        //     }
-        // }
+        if (cmf_is_wechat()) {
+            if (empty(cmf_get_current_user_id())) {
+                // 签名验证 checkSignature()
+                // session('openid',null);
+                $openid = session('openid');
+                $wx = new Weixin;
+                if (empty($openid)) {
+                    $backUrl = url('','',true,true);
+                    $openid = $wx->getOpenid($backUrl);
+                    session('openid',$openid);
+                }
 
+                $userInfo = Db::name('user')->where('openid',$openid)->find();
+                if (empty($userInfo)) {
+                    $token = $wx->getToken();
+                    $wx_userInfo = $wx->userInfo($openid,$token);
+                    if (!empty($wx_userInfo['openid'])) {
+                        $map = [
+                            'openid'        => $openid,
+                            'user_login'    => $wx_userInfo['nickname'],
+                            'user_nickname' => $wx_userInfo['nickname'],
+                            'sex'           => $wx_userInfo['sex'],
+                            'avatar'        => $wx_userInfo['headimgurl']
+                        ];
+                        Db::name('user')->insert($map);
+                        $userInfo = Db::name('user')->where('openid',$openid)->find();
+                        cmf_update_current_user($userInfo);
+                    }
+                } else {
+                    cmf_update_current_user($userInfo);
+                    // Db::name('user')->where('openid',$openid)->update([]);
+                }
+            }
+        }
+// die;
 
         $siteInfo = cmf_get_site_info();
         if (isset($siteInfo['web_switch']) && $siteInfo['web_switch']=='0') {
