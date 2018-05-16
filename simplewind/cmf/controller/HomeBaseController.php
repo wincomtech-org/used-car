@@ -46,44 +46,39 @@ class HomeBaseController extends BaseController
          * http://www.datongchefu.cn/portal/index/index.html
          */
         // 判断是否为微信端
-        if (empty(cmf_get_current_user_id())) {
-            if (cmf_is_wechat()===true) {
-                // 签名验证 checkSignature()
-                // session('openid',null);
-                $openid = session('openid');
+        if (empty(cmf_get_current_user_id()) && cmf_is_wechat()===true) {
+            // 签名验证 checkSignature()
+            // session('openid',null);
+            $openid = session('openid');
+            $wx = new Weixin;
+            if (empty($openid)) {
+                $backUrl = url('','',true,true);
+                $openid = $wx->getOpenid($backUrl);
+                session('openid',$openid);
+            }
+            // echo $openid;die;
 
-                $wx = new Weixin;
-                if (empty($openid)) {
-                    $backUrl = url('','',true,true);
-                    $openid = $wx->getOpenid($backUrl);
-                    session('openid',$openid);
-                }
-                // echo $openid;die;
-
-                $userInfo = Db::name('user')->where('openid',$openid)->find();
-                // dump($userInfo);die;
-                if (empty($userInfo)) {
-                    $token = $wx->getToken();
-                    // echo $token;die;
-                    $wx_userInfo = $wx->userInfo($openid,$token);
-                    // dump($wx_userInfo);exit;
-                    if (!empty($wx_userInfo['openid'])) {
-                        $map = [
-                            'openid'        => $wx_userInfo['openid'],
-                            'user_login'    => $wx_userInfo['nickname'],
-                            'user_nickname' => $wx_userInfo['nickname'],
-                            'sex'           => $wx_userInfo['sex'],
-                            'avatar'        => $wx_userInfo['headimgurl']
-                        ];
-                        Db::name('user')->insert($map);
-                        $userInfo = Db::name('user')->where('openid',$openid)->find();
-                        cmf_update_current_user($userInfo);
-                    }
-                } else {
-                    cmf_update_current_user($userInfo);
-                    // Db::name('user')->where('openid',$openid)->update([]);
+            $userInfo = Db::name('user')->where('openid',$openid)->find();
+            // dump($userInfo);die;
+            if (empty($userInfo)) {
+                $token = $wx->getToken();
+                // echo $token;die;
+                $wx_userInfo = $wx->userInfo($openid,$token);
+                // dump($wx_userInfo);exit;
+                if (!empty($wx_userInfo['openid'])) {
+                    $map = [
+                        'openid'        => $wx_userInfo['openid'],
+                        'user_login'    => $wx_userInfo['nickname'],
+                        'user_nickname' => $wx_userInfo['nickname'],
+                        'sex'           => $wx_userInfo['sex'],
+                        'avatar'        => $wx_userInfo['headimgurl']
+                    ];
+                    Db::name('user')->insert($map);
+                    $userInfo = Db::name('user')->where('openid',$openid)->find();
                 }
             }
+            cmf_update_current_user($userInfo);
+            // Db::name('user')->where('openid',$openid)->update([]);
         }
 // die;
 
