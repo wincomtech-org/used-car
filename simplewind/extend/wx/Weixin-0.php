@@ -3,28 +3,14 @@ namespace wx;
 
 /**
  * Request对象是受保护的
- * 需要在微型公众号里进行配置的项
-    1、进入公众平台测试账号：登录公众账号=>“开发者中心”=>“公众平台测试账号”。
-    2、配置网页授权（配置域名）: 开发 => 接口权限 => 网页服务 => 网页账号（网页授权，网页授权获取用户基本信息，不带http,二级域名即可）
-        OAuth2.0网页授权    www.datongchefu.cn
-
-    
-    3、微信公众号接口必须以http://或https://开头，分别支持80端口和443端口。
-    4、接口配置信息
-        请填写接口配置信息，此信息需要你有自己的服务器资源，填写的URL需要正确响应微信发送的Token验证，请阅读消息接口使用指南。
-        URL      http://www.datongchefu.cn/token.php
-        Token    datong
-    5、JS接口安全域名
-        设置JS接口安全域后，通过关注该测试号，开发者即可在该域名下调用微信开放的JS接口，请阅读微信JSSDK开发文档。
-        域名     http://www.datongchefu.cn
  */
 class Weixin
 {
     public function __construct()
     {
         $this->set = array(
-            'appid'  => 'wx49d2b7814205f354', //第三方用户唯一凭证
-            'secret' => 'c7fc916c313f96a1ba23fca4509f14cf', //第三方用户唯一凭证密钥，即appsecret
+            'appid'  => 'wx5348b9553c149a00', //第三方用户唯一凭证
+            'secret' => '653934301b2facc44d400099d3dc63d6', //第三方用户唯一凭证密钥，即appsecret
         );
         $this->config = array(
             'curl_proxy_host' => '0.0.0.0', //106.14.74.155
@@ -47,36 +33,33 @@ class Weixin
      */
     public function getOpenid($backUrl = '')
     {
-        // $openid = session('openid');
-        // if (empty($openid)) {
-            $param = request()->param();
-            if (!isset($param['code'])) {
-                //触发微信返回code码
-                if (!empty($backUrl)) {
-                    $backUrl = urlencode($backUrl);
-                }
-                // 获得一个鉴权链接
-                $urlObj["appid"]         = $this->set['appid'];
-                $urlObj["redirect_uri"]  = $backUrl;
-                $urlObj["response_type"] = 'code';
-                //$scope='snsapi_userinfo';//需要授权
-                $urlObj["scope"] = "snsapi_base";
-                $urlObj["state"] = "STATE" . "#wechat_redirect";
-                // 拼接字符串
-                $buff = $this->ToUrlParams($urlObj);
-                // redirect_uri参数错误时，检查OAuth2.0网页授权的授权回调页面域名写对没。
-                $url = "https://open.weixin.qq.com/connect/oauth2/authorize?" . $buff;
-                Header("Location: $url"); // 跳转到微信授权页面，需要用户确认登录的页面
-                exit();
-            } else {
-                //获取code码，以获取openid
-                // $param = 'http://***?code=071SplLS0BpikX1bZYJS0G3lLS0SplLQ&state=STATE';
-                $code   = $param['code'];
-                $openid = $this->getOpenidFromMp($code);
-                // session('openid',$openid);
+        $param = request()->param();
+        if (!isset($param['code'])) {
+            //触发微信返回code码
+            if (!empty($backUrl)) {
+                $backUrl = urlencode($backUrl);
             }
-        // }
-        return $openid;
+            // 获得一个鉴权链接
+            $urlObj["appid"]         = $this->set['appid'];
+            $urlObj["redirect_uri"]  = $backUrl;
+            $urlObj["response_type"] = 'code';
+            //$scope='snsapi_userinfo';//需要授权
+            $urlObj["scope"] = "snsapi_base";
+            $urlObj["state"] = "STATE" . "#wechat_redirect";
+            // 拼接字符串
+            $buff = $this->ToUrlParams($urlObj);
+            // redirect_uri参数错误时，检查OAuth2.0网页授权的授权回调页面域名写对没。
+            $url = "https://open.weixin.qq.com/connect/oauth2/authorize?" . $buff;
+            Header("Location: $url"); // 跳转到微信授权页面，需要用户确认登录的页面
+            exit();
+        } else {
+            //获取code码，以获取openid
+            // $param = 'http://***?code=071SplLS0BpikX1bZYJS0G3lLS0SplLQ&state=STATE';
+            $code   = $param['code'];
+            $openid = $this->getOpenidFromMp($code);
+            session('openid',$openid);
+            return $openid;
+        }
     }
 
     /**
@@ -118,29 +101,6 @@ class Weixin
      */
     public function getToken($set = [])
     {
-        // cache('weixin',null);//测试时用
-        // 可以使用 session()为每个用户做标记,但没有过期设置
-        $wxcache = cache('weixin');
-        if (empty($wxcache['access_token'])) {
-            $url = 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential';
-            $set = $this->set;
-
-            $param = '&appid=' . $set['appid'] . '&secret=' . $set['secret'];
-            $url .= $param;
-
-            $output  = $this->http_post($url);
-            $wxcache = json_decode($output, true);
-            // var_dump($wxcache);die;
-            if (isset($wxcache['access_token'])) {
-                cache('weixin', $wxcache, $wxcache['expires_in']); //默认7200s失效
-            } else {
-                return null;
-            }
-        }
-        return $wxcache['access_token'];
-    }
-    public function getToken2($set = [])
-    {
         $wxcache = session('weixin');
         $reget = empty($wxcache['access_token']) && (time()-$wxcache['starttime']>7199);
         if ($reget) {
@@ -154,7 +114,7 @@ class Weixin
             $wxcache = json_decode($output, true);
             if (isset($wxcache['access_token'])) {
                 $wxcache['starttime'] = time();
-                session('weixin', $wxcache);
+                session('weixin', $wxcache); //默认7200s失效
             } else {
                 return null;
             }
@@ -240,8 +200,7 @@ class Weixin
         $url .= $param;
 
         $user_info = $this->http_post($url);
-
-        return json_decode($user_info,true);
+        return $user_info;
     }
 
     /**

@@ -27,71 +27,34 @@ class HomeBaseController extends BaseController
         // 显示除了E_NOTICE(提示)和E_WARNING(警告)外的所有错误
         // error_reporting(E_ALL ^ (E_NOTICE | E_WARNING));
 
-        // 测试
-        // $wx = new Weixin;
-        // $backUrl = url('','',true,true);
-        // $openid = $wx->getOpenid($backUrl);
-        // echo $openid.'<br>';
-        // die;
-        // $token = $wx->getToken();
-        // print_r($token);
-        // $wx_userInfo = $wx->userInfo($openid,$token);
-        // dump($wx_userInfo);exit();
+        // 监听home_init
+        hook('home_init');
+        parent::_initialize();
 
         /*
          * 微信授权登录
          * 需要在 user表 添加 openid字段
-         * openid： o5qfL0zXvxnuJzqD6v5odDkVtzHA
-         * access_token： 9_Hz4-pUlcSzi0AhPzOetSSYRqVmCuivTb2YISyVGXUjXD-OCFNbr4IeZa6997gqc458kDzYMIfpDpw1J3zxlJw7NygNb_EELuLA3_mD1q62_bWyZBHkxrGaWqzfAXEIbAIANUY
-         * http://www.datongchefu.cn/portal/index/index.html
          */
         // 判断是否为微信端
-        if (empty(cmf_get_current_user_id())) {
-            if (cmf_is_wechat()===true) {
-                // 签名验证 checkSignature()
-                // session('openid',null);
-                $openid = session('openid');
+        // if (cmf_is_wechat()) {
+        //     if (empty(cmf_get_current_user_id())) {
+        //         // 签名验证 checkSignature()
+        //         $openid = session('openid');
+        //         if (empty($openid)) {
+        //             $wx = new Weixin;
+        //             $openid = $wx->getOpenid();
+        //             $token = $wx->getToken();
+        //             $wx_userInfo = $wx->userInfo($openid,$token);
+        //             // dump($wx_userInfo);die;
+        //             Db::name('user')->where('openid',$openid)->update([]);
+        //         }
+        //         $userInfo = Db::name('user')->where('openid',$openid)->find();
+        //         if (!empty($userInfo)) {
+        //             cmf_update_current_user($userInfo);
+        //         }
+        //     }
+        // }
 
-                $wx = new Weixin;
-                if (empty($openid)) {
-                    $backUrl = url('','',true,true);
-                    $openid = $wx->getOpenid($backUrl);
-                    session('openid',$openid);
-                }
-                // echo $openid;die;
-
-                $userInfo = Db::name('user')->where('openid',$openid)->find();
-                // dump($userInfo);die;
-                if (empty($userInfo)) {
-                    $token = $wx->getToken();
-                    // echo $token;die;
-                    $wx_userInfo = $wx->userInfo($openid,$token);
-                    // dump($wx_userInfo);exit;
-                    if (!empty($wx_userInfo['openid'])) {
-                        $map = [
-                            'openid'        => $wx_userInfo['openid'],
-                            'user_login'    => $wx_userInfo['nickname'],
-                            'user_nickname' => $wx_userInfo['nickname'],
-                            'sex'           => $wx_userInfo['sex'],
-                            'avatar'        => $wx_userInfo['headimgurl']
-                        ];
-                        Db::name('user')->insert($map);
-                        $userInfo = Db::name('user')->where('openid',$openid)->find();
-                        cmf_update_current_user($userInfo);
-                    }
-                } else {
-                    cmf_update_current_user($userInfo);
-                    // Db::name('user')->where('openid',$openid)->update([]);
-                }
-            }
-        }
-// die;
-
-
-
-        // 监听home_init
-        hook('home_init');
-        parent::_initialize();
 
         $siteInfo = cmf_get_site_info();
         if (isset($siteInfo['web_switch']) && $siteInfo['web_switch']=='0') {
