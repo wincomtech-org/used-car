@@ -30,7 +30,7 @@ function cmf_get_current_admin_id()
  */
 function cmf_is_user_login()
 {
-    $sessionUser = session('user');
+    $sessionUser = session('?user')?session('user'):cookie('user');
     return !empty($sessionUser);
 }
 
