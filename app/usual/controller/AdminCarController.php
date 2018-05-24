@@ -19,6 +19,7 @@ class AdminCarController extends AdminBaseController
     {
         parent::_initialize();
         $this->Model = new UsualCarModel();
+        $this->albumOpts = ['车身外观','中控方向盘','车厢座椅','其它细节'];
     }
 
     /**
@@ -77,46 +78,23 @@ class AdminCarController extends AdminBaseController
      */
     public function add()
     {
-        $Brands = model('UsualBrand')->getBrands();
-        $Models = model('UsualModels')->getModels();
-        $Series = model('UsualSeries')->getSeries();
-        $provId = $this->request->param('provId',1,'intval');
-        $Provinces = model('admin/District')->getDistricts(0,$provId);
-        // 车源类别
-        $Types = $this->Model->getCarType();
-
-        // 用于前台车辆条件筛选且与属性表name同值的字段码
-        $searchCode = model('UsualItem')->getItemSearch();
-        // 从属性表里被推荐的
-        $recItems = model('UsualItem')->getItemTable('is_rec',1);
-        // 属性表里所有属性（不包含推荐的）
-        $allItems = model('UsualItem')->getItemTable(null,'',true);
-        // 检测报告
-        $reportModel = new TradeReportCateModel();
-        $reportCateTree = $reportModel->getCateTree();
+        $post = [
+            'brand_id' => 0,
+            'model_id' => 0,
+            'serie_id' => 0,
+            'province_id' => 0,
+            'city_id' => 0,
+            'type' => 0,
+            'sell_status' => 1,
+            'report' => 0
+        ];
+        $this->op($post);
 
         // 开店资料审核 config('verify_define_data');
         // 个人审核资料
         $verifyinfo = [];
-        // 售卖状态
-        $sell_status = $this->Model->getSellStatus();
-
-
-        $this->assign('Brands', $Brands);
-        $this->assign('Models', $Models);
-        $this->assign('Series', $Series);
-        $this->assign('Provinces', $Provinces);
-        $this->assign('Types', $Types);
-
-        $this->assign('searchCode', $searchCode);
-        $this->assign('recItems', $recItems);
-        $this->assign('allItems', $allItems);
-        $this->assign('reportCateTree', $reportCateTree);
-        $this->assign('reportIds',[]);
 
         $this->assign('verifyinfo',$verifyinfo);
-        $this->assign('sell_status', $sell_status);
-
         return $this->fetch();
     }
 
@@ -149,9 +127,45 @@ class AdminCarController extends AdminBaseController
         }
     }
 
-    public function op($data)
+    public function op($post=[])
     {
-        # code...
+        $Brands = model('UsualBrand')->getBrands($post['brand_id']);
+        $Models = model('UsualModels')->getModels($post['model_id']);
+        $Series = model('UsualSeries')->getSeries($post['serie_id']);
+        $provId = $this->request->param('provId',1,'intval');
+        $Provinces = model('admin/District')->getDistricts($post['province_id'],$provId);
+        // 车源类别
+        $Types = $this->Model->getCarType($post['type']);
+
+        // 用于前台车辆条件筛选且与属性表name同值的字段码
+        $searchCode = model('UsualItem')->getItemSearch();
+
+        // 从属性表里被推荐的
+        $recItems = model('UsualItem')->getItemTable('is_rec',1);
+        // 属性表里所有属性（不包含推荐的）
+        $allItems = model('UsualItem')->getItemTable(null,'',true);
+        // 检测报告
+        $reportModel = new TradeReportCateModel();
+        $reportCateTree = $reportModel->getCateTree();
+
+        // 售卖状态
+        $sell_status = $this->Model->getSellStatus($post['sell_status']);
+
+        $this->assign('Brands', $Brands);
+        $this->assign('Models', $Models);
+        $this->assign('Series', $Series);
+        $this->assign('Types', $Types);
+        $this->assign('Provinces', $Provinces);
+
+        $this->assign('searchCode', $searchCode);
+        $this->assign('recItems', $recItems);
+        $this->assign('allItems', $allItems);
+
+        $this->assign('reportCateTree', $reportCateTree);
+        $this->assign('reportIds',[]);
+
+        $this->assign('sell_status', $sell_status);
+        $this->assign('albumOpts', $this->albumOpts);
     }
     public function opPost($data,$valid='add')
     {
@@ -185,6 +199,16 @@ class AdminCarController extends AdminBaseController
         } else {
             $post['files'] = [];
         }
+
+        // 坑爹的图集
+        foreach ($this->albumOpts as $key => $oto) {
+            if (!empty($data['album'.$key])) {
+                $post['albums'] = lothar_dealFiles($data['album'.$key],$style);
+            } else {
+                $post['albums'] = [];
+            }
+        }
+
         if (!empty($post['thumbnail']) && $data['thumbnail']['state']==1) {
             $thumbnail = $post['thumbnail'];
             $thumbnail = cmf_asset_relative_url($thumbnail);
@@ -213,49 +237,17 @@ class AdminCarController extends AdminBaseController
         $id = $this->request->param('id', 0, 'intval');
         $post = $this->Model->getPost($id);
 
-        $Brands = model('UsualBrand')->getBrands($post['brand_id']);
-        $Models = model('UsualModels')->getModels($post['model_id']);
-        $Series = model('UsualSeries')->getSeries($post['serie_id']);
+        $this->op($post);
         $Series2 = model('UsualSeries')->getSeries($post['serie_id'],0,2);
-        $Provinces = model('admin/District')->getDistricts($post['province_id']);
         $Citys = model('admin/District')->getDistricts($post['city_id'],$post['province_id']);
-        // 车源类别
-        $Types = $this->Model->getCarType($post['type']);
-
-
-        // 用于前台车辆条件筛选且与属性表name同值的字段码
-        $searchCode = model('UsualItem')->getItemSearch();
-        // 从属性表里被推荐的
-        $recItems = model('UsualItem')->getItemTable('is_rec',1);
-        // 属性表里所有属性（不包含推荐的）
-        $allItems = model('UsualItem')->getItemTable(null,'',true);
-        // 检测报告
-        $reportModel = new TradeReportCateModel();
-        $reportCateTree = $reportModel->getCateTree();
 
         // 开店资料审核 config('verify_define_data');
         // 个人审核资料
         $verifyinfo = lothar_verify($post['user_id'],'openshop','all');
-        // 售卖状态
-        $sell_status = $this->Model->getSellStatus($post['sell_status']);
 
-
-        $this->assign('Brands', $Brands);
-        $this->assign('Models', $Models);
-        $this->assign('Series', $Series);
         $this->assign('Series2', $Series2);
-        $this->assign('Provinces', $Provinces);
         $this->assign('Citys', $Citys);
-        $this->assign('Types', $Types);
-
-        $this->assign('searchCode', $searchCode);
-        $this->assign('recItems', $recItems);
-        $this->assign('allItems', $allItems);
-        $this->assign('reportCateTree', $reportCateTree);
-        $this->assign('reportIds', $post['report']);
-
         $this->assign('verifyinfo',$verifyinfo);
-        $this->assign('sell_status', $sell_status);
         $this->assign('post', $post);
 
         return $this->fetch();

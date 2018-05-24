@@ -18,6 +18,7 @@ class PostController extends HomeBaseController
     {
         $id = $this->request->param('id',0,'intval');
         $userId = cmf_get_current_user_id();
+        $albumOpts = ['车身外观','中控方向盘','车厢座椅','其它细节'];
 
         $carModel = new UsualCarModel();
         // $car = $carModel->getPost($id);
@@ -164,6 +165,7 @@ class PostController extends HomeBaseController
         $this->assign('car',$car);
         $this->assign('seller',$sellerInfo);
         $this->assign('carTuis',$carTuis);
+        $this->assign('albumOpts',$albumOpts);
 
         return $this->fetch('details'.$plat);
     }

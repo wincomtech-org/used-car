@@ -365,6 +365,23 @@
                             </notempty>
                         </ul>
                     </div>
+                    <foreach name="albumOpts" item="oto" key="top">
+                        <php>$albums = isset($car['albums'.$top])?$car['albums'.$top]:'';</php>
+                        <h4 class="car_message_con_tit">{$oto}</h4>
+                        <div class="car_realShot">
+                            <ul class="car_realShot_list">
+                                <notempty name="albums">
+                                <foreach name="albums" item="vo">
+                                <li class="car_realShot_item">
+                                    <a href="javascript:parent.imagePreviewDialog('{:cmf_get_image_preview_url($vo.url)}');">
+                                        <i class="fa fa-photo fa-fw"><img src="{:cmf_get_image_preview_url($vo['url'].'_0.jpg')}" alt=""></i>
+                                    </a>
+                                </li>
+                                </foreach>
+                                </notempty>
+                            </ul>
+                        </div>
+                    </foreach>
                 </div>
                 
                 <!-- 推荐 -->

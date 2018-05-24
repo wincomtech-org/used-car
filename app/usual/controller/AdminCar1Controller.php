@@ -18,6 +18,7 @@ class AdminCar1Controller extends AdminBaseController
     {
         parent::_initialize();
         $this->Model = new UsualCarModel();
+        $this->albumOpts = ['车身外观','中控方向盘','车厢座椅','其它细节'];
     }
 
     /**
@@ -114,6 +115,7 @@ class AdminCar1Controller extends AdminBaseController
         $this->assign('allItems', $allItems);
 
         $this->assign('sell_status', $sell_status);
+        $this->assign('albumOpts', $this->albumOpts);
     }
     public function opPost($data,$valid='add1')
     {
@@ -146,6 +148,16 @@ class AdminCar1Controller extends AdminBaseController
         } else {
             $post['files'] = [];
         }
+
+        // 坑爹的图集
+        foreach ($this->albumOpts as $key => $oto) {
+            if (!empty($data['album'.$key])) {
+                $post['albums'] = lothar_dealFiles($data['album'.$key],$style);
+            } else {
+                $post['albums'] = [];
+            }
+        }
+
         if (!empty($post['thumbnail']) && $data['thumbnail']['state']==1) {
             $thumbnail = $post['thumbnail'];
             $thumbnail = cmf_asset_relative_url($thumbnail);

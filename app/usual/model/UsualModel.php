@@ -21,6 +21,7 @@ class UsualModel extends ComModel
         'define_data' => 'array',
         'file'        => 'array',
         'report'      => 'array',
+        'albums'      => 'array',
     ];
     // 开启自动写入时间戳字段
     protected $autoWriteTimestamp = true;
