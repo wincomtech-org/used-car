@@ -17,23 +17,29 @@
         <div class="col-md-8">
             <div class="tab-content">
                 <!-- 基本属性S -->
-                <div class="tab-pane " id="BASE_">
-                    <include file="admin_car/BASE_" />
+                <div class="tab-pane " id="_BASE">
+                    <include file="admin_car/_BASE" />
                 </div>
                 <!-- 基本属性E -->
 
+                <!-- 车辆图集S -->
+                <div class="tab-pane" id="_PHOTO">
+                    <include file="admin_car1/_PHOTO" />
+                </div>
+                <!-- 车辆图集E -->
+
                 <!-- 所有属性S -->
-                <div class="tab-pane " id="EXT_">
+                <div class="tab-pane " id="_EXT">
                     <table class="table table-bordered">
-                        <include file="admin_car/allItems" />
+                        <include file="admin_car/_EXT" />
                     </table>
                 </div>
                 <!-- 所有属性E -->
 
                 <!-- 优化属性S -->
-                <div class="tab-pane " id="REC_">
+                <div class="tab-pane " id="_REC">
                     <table class="table table-bordered">
-                        <include file="admin_car/REC_" />
+                        <include file="admin_car/_REC" />
                         <tr>
                             <th></th>
                             <td align="center"><big><b>以下仍作为前台筛选项</b></big></td>
@@ -44,7 +50,7 @@
                                 //echo $biz_compare;
                                 $biz = 'post['.$vo['code'].']';
                             </php>
-                            <include file="admin_car/recItems" />
+                            <include file="admin_car/_REC2" />
                         </foreach>
 
                         <tr>
@@ -57,33 +63,33 @@
                                 //echo $biz_compare;
                                 $biz = 'post[more]['.$vo['code'].']';
                             </php>
-                            <include file="admin_car/recItems" />
+                            <include file="admin_car/_REC2" />
                         </foreach>
                     </table>
                 </div>
                 <!-- 优化属性E -->
 
                 <!-- 检测项目报告S -->
-                <div class="tab-pane active" id="REPORT_">
-                    <include file="admin_car/reportItems" />
+                <div class="tab-pane active" id="_REPORT">
+                    <include file="admin_car/_REPORT" />
                 </div>
                 <!-- 检测项目报告E -->
 
                 <!-- 审核资料S -->
                 <!-- 开店资料审核 config('verify_define_data'); -->
-                <div class="tab-pane" id="AUDIT_">
+                <div class="tab-pane" id="_AUDIT">
                     <div>审核时必填项</div>
-                    <include file="admin_car/AUDIT_" />
+                    <include file="admin_car/_AUDIT" />
                 </div>
                 <!-- 审核资料E -->
                 
                 <!-- 店铺相关S -->
-                <div class="tab-pane" id="SHOP_">
-                    <include file="admin_car/SHOP_" />
+                <div class="tab-pane" id="_SHOP">
+                    <include file="admin_car/_SHOP" />
                 </div>
                 <!-- 店铺相关E -->
 
-                <div class="tab-pane" id="SEO_">
+                <div class="tab-pane" id="_SEO">
                     <div class="form-group">
                         <label for="input-seo_title">SEO标题</label>
                         <div>
