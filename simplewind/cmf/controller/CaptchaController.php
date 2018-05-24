@@ -82,7 +82,7 @@ class CaptchaController
             $config = array_merge($defaultCaptchaConfig, $config);
         }
 
-        ob_clean();
+        @ob_clean();// 清除输出缓存,解决验证码不显示问题
         $captcha = new Captcha($config);
         return $captcha->entry($id);
     }
