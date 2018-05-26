@@ -172,7 +172,7 @@ class ComModel extends Model
             $data[] = array_values($row);
         }
 
-        $excel->exportExcel($title, $head, $data, $colWidth);
+        $excel->export($title, $head, $data, $colWidth);
     }
 
 

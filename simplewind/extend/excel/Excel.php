@@ -31,7 +31,7 @@ class Excel
      * @throws \PHPExcel_Reader_Exception
      * +----------------------------------------------------------
     */
-    public function exportExcel($expTitle='', $expCellName=[], $expTableData=[], $prewidth=[24,12,12,12,15,15,20,20,20,20])
+    public function export($expTitle='', $expCellName=[], $expTableData=[], $prewidth=[24,12,12,12,15,15,20,20,20,20])
     {
         /*预设*/
         $xlsTitle = $this->transCoding($expTitle);//文件名称
@@ -116,7 +116,7 @@ class Excel
      * @param $data 数据标准单元格 td
      * +----------------------------------------------------------
     */
-    public function exportExcel2($title='', $head=[], $data=[])
+    public function export2($title='', $head=[], $data=[])
     {
         $xlsTitle = $this->transCoding($title);//文件名称
         $fileName = $xlsTitle . '_LIST_' . date('YmdHis') .'.xls';//or $xlsTitle 文件名称可根据自己情况设定
@@ -139,7 +139,7 @@ class Excel
         // $objActSheet->getColumnDimension()->setAutoSize(true);
         // $prewidth = [24,12,12,12,15,15,20];
         // foreach ($prewidth as $key => $var) {
-        //     $objActSheet->getColumnDimension($this->n_to_l($key))->setWidth($var);
+        //     $objActSheet->getColumnDimension($this->ntol($key))->setWidth($var);
         // }
         $objActSheet->getColumnDimension('A')->setWidth(24);
         $objActSheet->getColumnDimension('B')->setWidth(12);
@@ -151,19 +151,19 @@ class Excel
 
         $mergeNum = $cellNum>8 ? $cellNum : 8;
         // 设置表格标题文字
-        $objActSheet->mergeCells('A1:' . $this->n_to_l($mergeNum-1).'1');// 合并单元格，表格标题文字显示区域
+        $objActSheet->mergeCells('A1:' . $this->ntol($mergeNum-1).'1');// 合并单元格，表格标题文字显示区域
         $objActSheet->setCellValue('A1', $title);
 
         // 设置表格标题栏内容
         foreach ($head as $k => $value) {
-            // $objActSheet->getColumnDimension($this->n_to_l($k))->setWidth(strlen($value));// 无法统计最长的
-            $objActSheet->setCellValue($this->n_to_l($k) .'2', $value);
+            // $objActSheet->getColumnDimension($this->ntol($k))->setWidth(strlen($value));// 无法统计最长的
+            $objActSheet->setCellValue($this->ntol($k) .'2', $value);
         }
 
         // 生成列表
         foreach ($data as $index => $row) {
             foreach ($row as $k => $value) {
-                $objActSheet->setCellValue( $this->n_to_l($k).($index+3), $value );
+                $objActSheet->setCellValue( $this->ntol($k).($index+3), $value );
             }
         }
 
@@ -181,7 +181,7 @@ class Excel
      * @throws \PHPExcel_Reader_Exception
      * +----------------------------------------------------------
     */
-    public function importExcel($file='')
+    public function import($file='')
     {
         # code...
     }
@@ -234,7 +234,7 @@ class Excel
      * @param  integer $number [description]
      * @return [type]          [description]
      */
-    function n_to_l($number=0) {
+    function ntol($number=0) {
         $box = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
         return $box[$number];
     }
