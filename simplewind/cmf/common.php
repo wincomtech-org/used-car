@@ -587,7 +587,7 @@ function cmf_send_email($address, $subject, $message)
     $mail->Port = empty($port) ? "25" : $port;
     // 设置为"需要验证"
     $mail->SMTPAuth    = true;
-    $mail->SMTPAutoTLS = false;
+    // $mail->SMTPAutoTLS = false;// TLS方式，这里不注释则邮件发送不了
     $mail->Timeout     = 10;
     // 设置用户名和密码。
     $mail->Username = $smtpSetting['username'];

@@ -11,7 +11,7 @@
 		    分类:
 		    <select class="form-control" name="parent" style="width:140px;">
 		        {$categorys|default=''}
-		    </select> &nbsp;&nbsp;
+		    </select> &nbsp; &nbsp;
 		    关键字:
 		    <input type="text" class="form-control" name="keyword" style="width: 200px;"
 		           value="{$keyword|default=''}" placeholder="请输入关键字...">
@@ -61,7 +61,7 @@
                         </empty>
 					</td>
 					<td>
-						<a href="{:url('AdminItemCate/edit',['id'=>$vo.id])}">编辑</a>&nbsp;&nbsp;
+						<a href="{:url('AdminItemCate/edit',['id'=>$vo.id])}">编辑</a> &nbsp; &nbsp;
 						<empty name="vo.parent_id">
 							<a href="{:url('AdminItemCate/add',['parent'=>$vo.id])}">添加子分类</a> &nbsp; &nbsp;
 						</empty>
@@ -104,7 +104,7 @@
 	                        </empty>
 						</td>
 						<td>
-							<a href="{:url('AdminItemCate/edit',['id'=>$child.id])}">编辑</a>&nbsp;&nbsp;
+							<a href="{:url('AdminItemCate/edit',['id'=>$child.id])}">编辑</a> &nbsp; &nbsp;
 							<if condition="in_array($child['code_type'],['select','radio','checkbox'])">
 								<a style="color:#F00" href="{:url('AdminItem/index',['cateId'=>$child.id])}">查看属性值</a>
 							</if>

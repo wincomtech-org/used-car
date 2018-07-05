@@ -1,3 +1,4 @@
+<!-- 整体结构 -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,12 +17,8 @@
     <!-- banner -->
     <include file="public@banner" />
 
-
     <!-- 个人中心 -->
     <include file="public@usernav" />
-    <!-- <hook name="before_head_end"/> -->
-    <!-- <hook name="before_body_end" /> -->
-
 
     <!-- 主体 -->
     <section></section>
@@ -34,40 +31,30 @@
     <include file="public@footer" />
     <include file="public@scripts" />
     <hook name="before_body_end" />
+    <!-- 可选JS -->
+    <include file="public@morejs" />
+    <script type="text/javascript" src="__TMPL__/public/assets/js/laydate/laydate.js"></script>
+    <script src="__TMPL__/public/assets/js/Area.js" type="text/javascript"></script>
+    <script src="__TMPL__/public/assets/js/AreaData_min.js" type="text/javascript"></script>
+
+    public@head
+    public@header
+    public@nav
+    public@footer
+
+    <!-- 一些注意的地方 -->
+    <!-- 0和null，required对null有效 -->
+    <select required>
+        <option value="">--请选择--</option>
+        <option value="">为空</option>
+        <option value="0">为零</option>
+    </select>
 </body>
-<!-- 可选JS -->
-<include file="public@morejs" />
-<script type="text/javascript" src="__TMPL__/public/assets/js/laydate/laydate.js"></script>
-<script src="__TMPL__/public/assets/js/Area.js" type="text/javascript"></script>
-<script src="__TMPL__/public/assets/js/AreaData_min.js" type="text/javascript"></script>
-
-public@head
-
-public@header
-
-public@nav
-
-public@footer
-
-<!-- 一些注意的地方 -->
-<!-- 0和null，required对null有效 -->
-<select required>
-    <option>--请选择--</option>
-    <option value="0">--通用--</option>
-    <option value="0">为零</option>
-    <option value="">为空</option>
-</select>
-
-
 </html>
 
-
-
-<!DOCTYPE html>
-<html>
-<head>
-    <!-- 官版head -->
-    <title>系统自带</title>
+<!---------------------------------
+------------- Head部分 -------------
+-------------------------------------->
     <meta charset="utf-8">
     <meta name="author" content="Lothar">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -107,19 +94,87 @@ public@footer
     <!-- 对jq的补充，向前兼容 -->
     <script src="__TMPL__/public/assets/js/jquery-migrate-1.2.1.js"></script>
     <script src="__STATIC__/js/wind.js"></script>
+
+<!---------------------------------
+------- 前台官方版本 - 系统自带 --------
+-------------------------------------->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>官方版本 - 系统自带</title>
+    <meta name="keywords" content="" />
+    <meta name="description" content="">
+    <!-- public@head 开始 -->
+    <taglib name="app\portal\taglib\Portal"/>
+    <include file="public@function"/>
+    <meta name="author" content="ThinkCMF">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+    <!-- Set render engine for 360 browser -->
+    <meta name="renderer" content="webkit">
+
+    <!-- No Baidu Siteapp-->
+    <meta http-equiv="Cache-Control" content="no-siteapp"/>
+
+    <!-- HTML5 shim for IE8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <![endif]-->
+    <link rel="icon" href="__TMPL__/public/assets/images/favicon.png" type="image/png">
+    <link rel="shortcut icon" href="__TMPL__/public/assets/images/favicon.png" type="image/png">
+    <link href="__TMPL__/public/assets/simpleboot3/themes/simpleboot3/bootstrap.min.css" rel="stylesheet"><!-- bootstrap -->
+    <link href="__TMPL__/public/assets/simpleboot3/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"><!-- 字体图标 -->
+    <!--[if IE 7]>
+    <link rel="stylesheet" href="__TMPL__/public/assets/simpleboot3/font-awesome/4.4.0/css/font-awesome-ie7.min.css">
+    <![endif]-->
+    <link href="__TMPL__/public/assets/css/style.css" rel="stylesheet">
+    <style>
+        /*html{filter:progid:DXImageTransform.Microsoft.BasicImage(grayscale=1);-webkit-filter: grayscale(1);}*/
+        #backtotop{position:fixed;bottom:50px;right:20px;display:none;cursor:pointer;font-size:50px;z-index:9999;}
+        #backtotop:hover{color:#333}
+        #main-menu-user li.user{display:none}
+    </style>
+    <script type="text/javascript">
+        //全局变量
+        var GV = {
+            ROOT: "__ROOT__/",
+            WEB_ROOT: "__WEB_ROOT__/",
+            JS_ROOT: "static/js/"
+        };
+    </script>
+    <script src="__TMPL__/public/assets/js/jquery-1.10.2.min.js"></script>
+    <script src="__TMPL__/public/assets/js/jquery-migrate-1.2.1.js"></script>
+    <script src="__STATIC__/js/wind.js"></script>
+    <!-- public@head 结束 -->
 </head>
 <body>
+    
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+<!---------------------------------
+------------- 说明和例子 -------------
+-------------------------------------->
 前端：
 阻碍html的表单默认验证样式
     this.attr( "novalidate", "novalidate" );
-
-
 
 <!-- 必带JS -->
 <!-- 前台 引入位置： \public\themes\datong_car\public\scripts.html -->
 <script src="__STATIC__/js/frontend.js"></script>
 <!-- 后台 引入位置： 后台每个需要的文件中 -->
-<!-- <script type="text/javascript" src="__STATIC__/js/admin.js"></script> -->
+<script src="__STATIC__/js/admin.js"></script>
 
 <!-- 低版本检测 -->
 <script type="text/javascript">
@@ -131,8 +186,7 @@ public@footer
     });
 </script>
 
-
-
+<script type="text/javascript">
 Wind.js是一个异步加载js 和 css 的类库，核心是基于 head.js 的，phpwind 团队在 head.js 基础上封装了一些方法，可以更加方便的异步加载 js 和 css。
     异步加载js
     同时 Wind.js 支持任意多个 js 文件加载，只要不断地增加 use方法的参数就可以了。
@@ -189,12 +243,15 @@ input输入框：
     //.js-address-select //地址联动
     //.js-get-mobile-code //短信验证码
     //.js-get-email-code //邮件验证码
+    //.js-check-wrap  //复选框全选(支持多个，纵横双控全选)。
 
 参数说明：
     data-msg="确定删除它吗？" //提示信息
     data-refresh="0" //0表单无刷新,1刷新
     data-wait="1500" //1500等待1.5秒
     data-action="" //你的提交地址2
+
+</script>
 
 js-*系列示例：  没有bootstrap就自定义样式
     <form enctype="multipart/form-data">文件上传</form>
@@ -210,6 +267,7 @@ js-*系列示例：  没有bootstrap就自定义样式
     <form action="{:url('AdminArticle/editPost')}" method="post" class="form-horizontal margin-top-20 js-ajax-form">
         <button type="submit" class="btn btn-primary js-ajax-submit">{:lang('SAVE')}</button>
         <a class="btn btn-default" href="javascript:history.back(-1);">{:lang('BACK')}</a>
+        <a class="btn btn-default" href="javascript:history.go(-1);">{:lang('BACK')}</a>
     </form>
 
     <a href="javascript:" class=""></a>
@@ -230,10 +288,52 @@ js-*系列示例：  没有bootstrap就自定义样式
     <input type="text" name="datetime" class="js-datetime" id="input-datetime" placeholder="2013-01-04 09:20">
 
 
+图标应用，列表
+<empty name="vo.status">
+    <a data-toggle="tooltip" title="隐藏" style="color:#F00"><i class="fa fa-close"></i></a>
+<else/>
+    <a data-toggle="tooltip" title="显示"><i class="fa fa-check"></i></a>
+</empty>
+
+Font Awesome图标
+check 对号
+check-circle
+check-square
+close 错号，X号
+window-close
+times 小x
+sort 
+star
+star-half
+star-half-empty
+star-o
+list 列表
+plus 加号
+plus-circle
+plus-square
+toggle-dowm 向下
+toggle-on  开
+toggle-off 关
+level-up 
+level-down 
+minus-square 展开
+minus-square-o
+bell 铃铛
+flag-o 旗帜
+files-o 文章
+user-plus 用户数
+power-off 关机键
+info 提示
+info-circle
+trophy 奖杯
+lock 锁
+eye 眼睛，查看
+edit 编辑
 
 
 【富文本】
-然后后台模型层还要定义转化的字段
+提交后被框架处理，然后后台模型层还要定义转化的字段。可用$_POST获取原始数据，这样取出时也直接获取。
+源代码(HTML)不能被保存？？？
 <script type="text/plain" id="content" name="post[content]">{$post.content|default=''}</script>
 <script type="text/javascript">
     //编辑器路径定义
@@ -243,26 +343,35 @@ js-*系列示例：  没有bootstrap就自定义样式
 <script type="text/javascript" src="__STATIC__/js/ueditor/ueditor.all.min.js"></script>
 <script type="text/javascript">
     $(function () {
+        //最简模式
+        editorcontent = new baidu.editor.ui.Editor({toolbars: [['fontfamily','fontsize','emotion','spechars','simpleupload','insertimage','scrawl','map']],initialFrameHeight:150,elementPathEnabled:false,wordCount:false});
+        // 标准模式
         editorcontent = new baidu.editor.ui.Editor({
-            toolbars: [['source','undo','redo','bold','italic','strikethrough','superscript','subscript','|','fontfamily','fontsize','pasteplain','forecolor','backcolor','date','time'],['simpleupload','insertimage','music','insertvideo','attachment','emotion','spechars','snapscreen','scrawl','|','wordimage','map','inserttable','charts']]
-            ,initialFrameWidth:796          //初始化编辑器宽度,默认1000
-            ,initialFrameHeight:150         //初始化编辑器高度,默认320
-            ,autoHeightEnabled:true         //自动长高
-            ,elementPathEnabled:false       //是否启用元素路径，默认是显示
-            // ,iframeCssUrl: UEDITOR_HOME_URL+'themes/iframe.css'//自定义样式,UEDITOR_HOME_URL为最开始声明的
-            ,indentValue:'2em'              //首行缩进距离
-            ,wordCount:true                 //是否开启字数统计
-            ,maximumWords:5000              //允许的最大字符数
+            toolbars:[['source','undo','redo','bold','italic','strikethrough','superscript','subscript','|','fontfamily','fontsize','pasteplain','forecolor','backcolor','date','time'],['simpleupload','insertimage','music','insertvideo','attachment','emotion','spechars','snapscreen','scrawl','|','wordimage','map','inserttable','charts']],
+            initialFrameWidth:796,          //初始化编辑器宽度,默认1000
+            initialFrameHeight:150,         //初始化编辑器高度,默认320
+            autoHeightEnabled:true,         //自动长高
+            elementPathEnabled:false,       //是否启用元素路径，默认是显示
+            // iframeCssUrl: UEDITOR_HOME_URL+'themes/iframe.css',//自定义样式,UEDITOR_HOME_URL为最开始声明的
+            indentValue:'2em',              //首行缩进距离
+            wordCount:true,                 //是否开启字数统计
+            maximumWords:5000,              //允许的最大字符数
         });
-        // editorcontent = new baidu.editor.ui.Editor();
-        editorcontent.render('content');
-        try {
-            editorcontent.sync();
-        } catch (err) {
-        }
-    })
+        // 默认模式
+        editorcontent = new baidu.editor.ui.Editor();
 
-    // 多个富文本，提交到数据库备转译了？？
+        // 
+        editorcontent.render('content');
+        try { editorcontent.sync(); } catch (err) { }
+    });
+
+    // 多个富文本
+    $(function() {
+        editorcontent = new baidu.editor.ui.Editor({});
+        editorcontent.render('content');
+        editorcontent = new baidu.editor.ui.Editor({});//重定义，不然相互影响
+        editorcontent.render('information');
+    })
     $(function() {
         var ue = UE.getEditor('content');
         var ue = UE.getEditor('information');
@@ -270,7 +379,8 @@ js-*系列示例：  没有bootstrap就自定义样式
 </script>
 
 【弹窗】
-    <a class="btn btn-warning" href="javascript:parent.openIframeDialog('{:url('mailer/test')}','发送测试邮件',{width:'600px',height:'400px'});">测试邮件</a>
+    <a class="btn btn-warning" href="javascript:parent.openIframeDialog('{:url('mailer/test')}','发送测试邮件',{width:'600px',height:'400px'});">测试邮件</a> &nbsp; &nbsp;
+    <a href="javascript:parent.openIframeLayer('{:url('slideItem/index',['slide_id'=>$vo.id])}','管理 {$vo.name} 页面',{});">管理页面</a>
 
 
 【图片上传示例】：
@@ -306,6 +416,12 @@ js-*系列示例：  没有bootstrap就自定义样式
     </empty>
     <a href="javascript:uploadOneImage('图片上传','#driving_license');"> &nbsp;图片上传 &nbsp;</a>
     <input type="button" class="btn btn-sm btn-cancel-driving_license" value="取消图片">
+    列表预览
+   <notempty name="vo.more.thumbnail">
+        <a href="javascript:parent.imagePreviewDialog('{:cmf_get_image_preview_url($vo.more.thumbnail)}');">
+            <i class="fa fa-photo fa-fw"></i>
+        </a>
+    </notempty>
     展示
     <div>
         <if condition="empty($post.identi.driving_license)">
@@ -483,10 +599,12 @@ js-*系列示例：  没有bootstrap就自定义样式
 
 【联动】
 
-</body>
-</html>
 
 
+
+<!---------------------------------
+------------- 常用代码块 -------------
+-------------------------------------->
 <!DOCTYPE html>
 <html>
 <head>
