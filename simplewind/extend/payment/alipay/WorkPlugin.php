@@ -179,6 +179,7 @@ class WorkPlugin
 
     /*
     * 功能：订单查询
+    * verifyOrder
     */
     public function orderStatus($value='')
     {

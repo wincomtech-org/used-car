@@ -117,6 +117,7 @@ class AlipaySubmit
      */
     public function buildRequestURL($para_temp, $auto=true, $target='_self')
     {
+        ob_start();
         //待请求参数数组
         $para = $this->buildRequestPara($para_temp);
 
@@ -128,8 +129,13 @@ class AlipaySubmit
         if ($auto==true) {
             // URL跳转
             $url = str_replace('&amp','&',$sHtml);// 替换实体字符
+            ob_end_clean();
+            header('Location:'.$url);
+            // ob_flush();//可省略
+
             // echo '<script src="static/js/jquery.js"></script>';
-            echo '<script type="text/javascript">window.location.href="'.$url.'"</script>';exit;
+            // echo '<script type="text/javascript">window.location.href="'.$url.'"</script>';
+            exit;
         }
 
         // return urlencode($sHtml);// 不是所需的

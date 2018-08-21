@@ -94,6 +94,7 @@ class HomeBaseController extends BaseController
         }
 
         // cache 文件缓存
+        // cache(null);
         $cbc = cache('cbc');
         if (empty($cbc)) {
             // 导航（手机端）
@@ -113,12 +114,13 @@ class HomeBaseController extends BaseController
             $goodscate = model('shop/ShopGoodsCategory')->getGoodsTreeArray();
             // 购物车数据
 
-            $cbc = cache('cbc',[
+            $cbc = [
                 'navMenus'  => $navMenus,
                 'slides'    => $slides,
                 'friendLink'=> $friendLink,
                 'goodscate' => $goodscate,
-            ],3600);
+            ];
+            $cbc = cache('cbc',$cbc,3600);
         }
 
         // session 服务器内存
