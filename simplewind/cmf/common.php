@@ -307,11 +307,7 @@ function cmf_set_dynamic_config($data)
         $configs = [];
     }
     $configs = array_merge($configs, $data);
-
-    $configs = var_export($configs, true);
-    // $configs = str_replace(['array (','),',');'], ['[','],','];'], $configs);
-    $configs = str_replace(['array (',')'], ['[',']'], $configs);
-    $result  = file_put_contents($configFile, "<?php\t\r\nreturn ". $configs .';');
+    $result  = cmf_save_var($configFile, $configs, 1);
 
     cmf_clear_cache();
     return $result;
@@ -330,13 +326,25 @@ function cmf_log($content, $file = "log.txt")
 
 /**
  * 保存数组变量到php文件
- * @param string $path 保存路径
- * @param mixed $var 要保存的变量
+ * @param string $path   保存路径
+ * @param mixed $var     要保存的变量
+ * @param integer $style 格式风格
+ * @param integer $norm  规范化处理
  * @return boolean 保存成功返回true,否则false
  */
-function cmf_save_var($path, $var)
+function cmf_save_var($path, $var, $style=0, $norm='')
 {
-    $result = file_put_contents($path, "<?php\treturn " . var_export($var, true) . ";?>");
+    $var = var_export($var, true);
+    if ($style==1) {
+        // $var = str_replace(['array (','),',');'], ['[','],','];'], $var);
+        $var = str_replace(['array (', ')'], ['[', ']'], $var);
+    }
+    if (!empty($norm)) {
+        // $var = call_user_func($norm,$var);
+        $var = stripslashes($var);
+    }
+    /*\t=>\r\n,';'=>';?>''*/
+    $result = file_put_contents($path, "<?php\treturn " . $var . ';');
     return $result;
 }
 
