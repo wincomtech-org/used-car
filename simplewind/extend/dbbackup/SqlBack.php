@@ -24,7 +24,7 @@ class SqlBack
     }
 
     // 获取列表
-    public static function lists($dir='../data/')
+    public static function lists($dir='../update/')
     {
         // is_dir($dir)?'':mkdir($dir);
         $files = scandir($dir);
@@ -41,7 +41,7 @@ class SqlBack
     /**
      * 备份数据库
     */
-    public function backup($dir='../data/backup/', $tables=[])
+    public function backup($dir='../update/backup/', $tables=[])
     {
         // return getcwd();
         // 初始化

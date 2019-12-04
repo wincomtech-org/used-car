@@ -12,13 +12,13 @@ use dbbackup\SqlBack;
 */
 class DbBackupController extends AdminBaseController
 {
-    private $dir = '/backup/';
+    private $dir = 'update/backup/';
 
     public function _initialize()
     {
         parent::_initialize();
-        $this->dir = CMF_ROOT .'data'. $this->dir;//
         // $this->dir = getcwd() . $this->dir;// 使用当前工作空间
+        $this->dir = CMF_ROOT . $this->dir;
     }
 
     /**
