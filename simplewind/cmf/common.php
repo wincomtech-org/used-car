@@ -1633,23 +1633,16 @@ function cmf_get_admin_style()
 function cmf_user_action($action)
 {
     $userId = cmf_get_current_user_id();
-
-    if (empty($userId)) {
-        return;
-    }
+    if (empty($userId)) {return; }
 
     $findUserAction = Db::name('user_action')->where('action', $action)->find();
-
-    if (empty($findUserAction)) {
-        return;
-    }
+    if (empty($findUserAction)) {return; }
 
     $changeScore = false;
-
     if ($findUserAction['cycle_type'] == 0) {
         $changeScore = true;
     } elseif ($findUserAction['reward_number'] > 0) {
-        $findUserScoreLog = Db::name('user_score_log')->order('create_time DESC')->find();
+        $findUserScoreLog = Db::name('user_score_log')->where(['user_id'=>$userId])->order('create_time DESC')->find();
         if (!empty($findUserScoreLog)) {
             $cycleType = intval($findUserAction['cycle_type']);
             switch ($cycleType) {//1:按天;2:按小时;3:永久
@@ -1658,7 +1651,8 @@ function cmf_user_action($action)
                     $todayEndTime          = strtotime(date('Y-m-d', strtotime('+1 day')));
                     $findUserScoreLogCount = Db::name('user_score_log')->where([
                         'user_id'     => $userId,
-                        'create_time' => [['gt', $todayStartTime], ['lt', $todayEndTime]]
+                        'create_time' => [['gt', $todayStartTime], ['lt', $todayEndTime]],
+                        // 'create_time' => [['>= time', $todayStartTime], ['<= time', $todayEndTime]]
                     ])->count();
                     if ($findUserScoreLogCount < $findUserAction['reward_number']) {
                         $changeScore = true;
